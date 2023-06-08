@@ -1,0 +1,238 @@
+#add_category_content {
+    width: 50%;
+    min-width: 461px;
+    margin-top: 50px;
+    margin-left: 33.5%;
+    margin-right: 16.5%;
+}
+
+#category_back_nav {
+    position: absolute;
+    left: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+#category_back_nav svg {
+    width: 40px;
+    height: 40px;
+}
+
+#category_back_nav:hover svg circle {
+    fill: #F0F0F0;
+}
+
+#category_titles_block {
+    display: flex;
+    margin-bottom: 35px;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #DCE2DF;
+    position: sticky;
+    top: 50px;
+    background-color: #fafafa;
+    z-index: 10;
+}
+
+#add_category_titles {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #f1f1f1;
+    margin-left: 15px;
+    width: 100%;
+}
+
+.add_category_title {
+    height: 60px;
+    width: 33.3%;
+    box-sizing: border-box;
+}
+
+.add_category_title a {
+    height: inherit;
+    width: 100%;
+    color: #989393;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info_category_title {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    width: 33.3%;
+    display: flex;
+    justify-content: center;
+}
+
+.add_category_title svg {
+    height: 23px;
+    margin-right: 7px;
+}
+
+.active_expenseCategory {
+    border-bottom: 2px solid #6D73FF;
+}
+
+.active_expenseCategory a {
+    color: #F4395B;
+}
+
+.not_active_expenseCategory svg rect {
+    fill: url(#not_active);
+}
+
+.not_active_expenseCategory a:hover {
+    color: #F4395B;
+}
+
+.not_active_expenseCategory a:hover svg rect {
+    fill: url(#expense_active);
+}
+
+.active_incomeCategory {
+    border-bottom: 2px solid #6D73FF;
+}
+
+.active_incomeCategory a {
+    color: #6EBD0A;
+}
+
+.not_active_incomeCategory svg rect{
+    fill: url(#not_active);
+}
+
+.not_active_incomeCategory a:hover {
+    color: #6EBD0A;
+}
+
+.not_active_incomeCategory a:hover svg rect  {
+    fill: url(#income_active);
+}
+
+#add_category_form {
+    position: relative;;
+}
+
+.add_category_item {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    margin-bottom: 12px;
+    border: 1px solid #DCE2DF;
+    background-color: #fff;
+    filter: drop-shadow(0px 2px 5px #fafafa);
+    border-radius: 5px;
+    font-size: 14px;
+    color: #C4C4C4;
+}
+
+.add_category_item input {
+    width: 75%;
+    color: #000;
+    font-size: 16px;
+}
+
+.expense_active_item {
+    border: 1px solid #F4395B;
+    color: #F4395B;
+    box-shadow: 0px 4px 10px rgba(244, 57, 91, 0.1);
+}
+
+.income_active_item {
+    border: 1px solid #6EBD0A;
+    color: #6EBD0A;
+    box-shadow: 0px 4px 10px rgba(110, 189, 10, 0.1);
+}
+
+#colors_form, #icons_form {
+    width: 432px;
+    position: absolute;
+    z-index: 5;
+    padding: 10px;
+    border: 1px solid #DCE2DF;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+#colors_form {
+    top: 130px;
+    right: 0px;
+}
+
+#icons_form {
+    top: 200px;
+    right: 0px;
+    padding-bottom: 0px;
+}
+
+.selected_color {
+    cursor: pointer;
+}
+
+#colors_form svg, #icons_form svg {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+#colors_form_btns, #icons_form_btns {
+    display: flex;
+    padding-top: 10px;
+    justify-content: space-evenly;
+}
+
+#icons_form_btns {
+    position: sticky;
+    bottom: 0px;
+    padding-bottom: 10px;
+    background-color:  #fff;
+}
+
+#colors_form_btns button, #icons_form_btns button {
+    border: none;
+    border-radius: 10px;
+    width: 25%;
+    min-width: 70px;
+    height: 30px;
+    background-color: #eaeaea;
+}
+
+#colors_form_btns button:hover, #icons_form_btns button:hover {
+    background-color: #F3F3F3;
+}
+
+.select_btns {
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 20px;
+    color:#6D73FF;
+}
+
+.select_btns:hover {
+    color: #a57fff;
+}
+
+#icons_form {
+    overflow-y: auto;
+    height: 300px;
+}
+
+#icons_form::-webkit-scrollbar {
+    width: 5px;
+}
+
+#icons_form::-webkit-scrollbar-thumb {
+    background: linear-gradient(109.86deg, #D38BFF -2.35%, #6D73FF 81.35%); 
+    border-radius: 10px;
+}
+
+#icons_form svg path {
+    fill: #000;
+}
+

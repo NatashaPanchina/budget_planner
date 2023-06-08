@@ -1,0 +1,202 @@
+#categories_content {
+    margin-top: 50px;
+    margin-left: 22%;
+    margin-right: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#categories_more_info {
+    width: 20%;
+    height: 100vh;
+    margin-right: 20px;
+    position: fixed;
+}
+
+#categories_main_info {
+    margin-left: 30%;
+    width: 70%;
+}
+
+#categories_titles {
+    display: flex;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #DCE2DF;
+    position: sticky;
+    top: 50px;
+    z-index: 10;
+    background-color: #FAFAFA;
+}
+
+#categories_titles img {
+    margin-left: auto;
+}
+
+#categories_barChart {
+    width: 80%;
+    height: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#categories_bar_info {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#total_categories_count {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    color:#6D73FF;
+}
+
+.categories_bar_item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    width: 90%;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #FFFFFF;
+    border: 1px solid #F0F0F0;
+    box-shadow: 0px 4px 10px #F3F3F3;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.categories_bar_item img {
+    height: 25px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#expense_categories_count {
+    color: #F4395B;
+}
+
+#income_categories_count {
+    color: #6EBD0A;
+}
+
+#expense_categories_count, #income_categories_count {
+    font-size: 16px;
+}
+
+.categories_title {
+    height: 50px;
+    width: 20%;
+    font-size: 15px;
+}
+
+.categories_title a {
+    width: 100%;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #989393;
+}
+
+.categories_title a:hover {
+    color: #000;
+}
+
+.categories_title .active_categories_title {
+    color: #000;
+    border-bottom: 2px solid #6D73FF;
+}
+
+#add_category_btn {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#add_category_btn svg {
+    height: 18px;
+    margin-right: 5px;
+}
+
+#add_category_btn a {
+    display: flex;
+    height: inherit;
+    width: inherit;
+    align-items: center;
+    color: #6D73FF;
+}
+
+#add_category_btn a:hover {
+    color: #a57fff;
+}
+
+#add_category_btn a:hover svg path{
+    fill: #a57fff;
+}
+
+.category_item {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    background: #FFFFFF;
+    border: 1px solid #F0F0F0;
+    box-shadow: 0px 4px 10px #F3F3F3;
+    border-radius: 5px;
+    display: grid;
+    grid-template-areas: "desc"
+                         "notes";
+    grid-template-columns: 1fr;
+    gap: 10px 5%;
+    align-items: center;
+    position: relative;
+}
+
+.category_item svg {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.categories_description {
+    grid-area: desc;
+    display: flex;
+    align-items: center;
+}
+
+.category_edits {
+    position: absolute;
+    top: 17px;
+    right: 0px;
+}
+
+.category_edits svg {
+    height: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.category_edits svg:hover path {
+    fill: #989393;
+}
+
+.categories_notes {
+    grid-area: notes;
+    padding-left: 20px;
+    font-size: 14px;
+    color: #989393;
+    display: flex;
+    align-items: center;
+}
+
+.categories_notes .notes_icon {
+    height: 15px;
+    margin-right: 5px;
+}
+
+#categories_buttons_block {
+    display: flex;
+}

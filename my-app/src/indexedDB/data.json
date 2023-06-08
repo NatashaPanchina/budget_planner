@@ -1,0 +1,1311 @@
+{
+    "accounts": {
+        "fetching": false,
+        "accounts": [
+            {
+                "archived": false,
+                "type": "card",
+                "description": "Sberbank",
+                "balance": {
+                    "amount": 250000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "color": [
+                    "#07CC32",
+                    "#009B76"
+                ],
+                "date": "2023-06-14T18:00:00.000Z",
+                "notes": "",
+                "tags": [
+                    ""
+                ]
+            },
+            {
+                "archived": false,
+                "type": "cash",
+                "description": "Wallet",
+                "balance": {
+                    "amount": 90070,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "color": [
+                    "#FFB340",
+                    "#FF5353"
+                ],
+                "date": "2023-06-14T18:00:00.000Z",
+                "notes": "",
+                "tags": [
+                    ""
+                ]
+            }
+        ]
+    },
+    "categories": {
+        "fetching": false,
+        "categories": [
+            {
+                "archived": false,
+                "type": "income",
+                "description": "Salary",
+                "color": [
+                    "#CE66FF",
+                    "#6E3DFB"
+                ],
+                "icon": 91,
+                "date": "2023-06-14T18:00:00.000Z",
+                "notes": "",
+                "tags": [
+                    ""
+                ]
+            },
+            {
+                "archived": false,
+                "type": "income",
+                "description": "Gift",
+                "color": [
+                    "#45E9FF",
+                    "#4579FF"
+                ],
+                "icon": 35,
+                "date": "2023-06-14T18:00:00.000Z",
+                "notes": "",
+                "tags": [
+                    ""
+                ]
+            },
+            {
+                "archived": false,
+                "type": "expense",
+                "description": "Medicine",
+                "color": [
+                    "#FF9558",
+                    "#FF5353"
+                ],
+                "icon": 61,
+                "date": "2023-06-14T18:00:00.000Z",
+                "notes": "",
+                "tags": [
+                    ""
+                ]
+            },
+            {
+                "archived": false,
+                "type": "expense",
+                "description": "Utilities",
+                "color": [
+                    "#F9FE00",
+                    "#88FF11"
+                ],
+                "icon": 23,
+                "date": "2023-06-14T18:00:00.000Z",
+                "notes": "",
+                "tags": [
+                    ""
+                ]
+            },
+            {
+                "archived": false,
+                "type": "expense",
+                "description": "Gym",
+                "color": [
+                    "#F3BA26",
+                    "#DA630D"
+                ],
+                "icon": 33,
+                "date": "2023-06-14T18:00:00.000Z",
+                "notes": "",
+                "tags": [
+                    ""
+                ]
+            },
+            {
+                "archived": false,
+                "type": "expense",
+                "description": "Food",
+                "color": [
+                    "#2AF7C5",
+                    "#0EC2B4"
+                ],
+                "icon": 54,
+                "date": "2023-06-14T18:00:00.000Z",
+                "notes": "",
+                "tags": [
+                    ""
+                ]
+            },
+            {
+                "archived": false,
+                "type": "expense",
+                "description": "Education",
+                "color": [
+                    "#FF8FE9",
+                    "#ED3CCA"
+                ],
+                "icon": 80,
+                "date": "2023-06-14T18:00:00.000Z",
+                "notes": "",
+                "tags": [
+                    ""
+                ]
+            },
+            {
+                "archived": false,
+                "type": "expense",
+                "description": "Games",
+                "color": [
+                    "#ECFF14",
+                    "#FFD600"
+                ],
+                "icon": 34,
+                "date": "2023-06-14T18:00:00.000Z",
+                "notes": "",
+                "tags": [
+                    ""
+                ]
+            },
+            {
+                "archived": false,
+                "type": "expense",
+                "description": "Children",
+                "color": [
+                    "#FCFF54",
+                    "#34C924"
+                ],
+                "icon": 14,
+                "date": "2023-06-14T18:00:00.000Z",
+                "notes": "",
+                "tags": [
+                    ""
+                ]
+            }
+        ]
+    },
+    "transactions": {
+        "fetching": false,
+        "transactions": [
+            {
+                "id": 0,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Medicine",
+                    "color": [
+                        "#FF9558",
+                        "#FF5353"
+                    ],
+                    "icon": 61,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 15000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-05-31T18:00:00.000Z",
+                "notes": "L-carnitine, Collagen, Vitamins B, C"
+            },
+            {
+                "id": 1,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Medicine",
+                    "color": [
+                        "#FF9558",
+                        "#FF5353"
+                    ],
+                    "icon": 61,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "cash",
+                    "description": "Wallet",
+                    "balance": {
+                        "amount": 90070,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#FFB340",
+                        "#FF5353"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 25000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-14T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 2,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Medicine",
+                    "color": [
+                        "#FF9558",
+                        "#FF5353"
+                    ],
+                    "icon": 61,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 5000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-29T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 3,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Games",
+                    "color": [
+                        "#ECFF14",
+                        "#FFD600"
+                    ],
+                    "icon": 34,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 24000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-03T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 4,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Games",
+                    "color": [
+                        "#ECFF14",
+                        "#FFD600"
+                    ],
+                    "icon": 34,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 5000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-07T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 5,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Games",
+                    "color": [
+                        "#ECFF14",
+                        "#FFD600"
+                    ],
+                    "icon": 34,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 13000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-19T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 6,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Gym",
+                    "color": [
+                        "#F3BA26",
+                        "#DA630D"
+                    ],
+                    "icon": 33,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 20000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-13T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 7,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Food",
+                    "color": [
+                        "#2AF7C5",
+                        "#0EC2B4"
+                    ],
+                    "icon": 54,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "cash",
+                    "description": "Wallet",
+                    "balance": {
+                        "amount": 90070,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#FFB340",
+                        "#FF5353"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 25000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-01T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 8,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Food",
+                    "color": [
+                        "#2AF7C5",
+                        "#0EC2B4"
+                    ],
+                    "icon": 54,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 10000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-13T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 9,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Food",
+                    "color": [
+                        "#2AF7C5",
+                        "#0EC2B4"
+                    ],
+                    "icon": 54,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 42000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-20T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 10,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Food",
+                    "color": [
+                        "#2AF7C5",
+                        "#0EC2B4"
+                    ],
+                    "icon": 54,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 25000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-28T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 11,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Education",
+                    "color": [
+                        "#FF8FE9",
+                        "#ED3CCA"
+                    ],
+                    "icon": 80,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 30000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-01T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 12,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Education",
+                    "color": [
+                        "#FF8FE9",
+                        "#ED3CCA"
+                    ],
+                    "icon": 80,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 15000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-12T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 13,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Education",
+                    "color": [
+                        "#FF8FE9",
+                        "#ED3CCA"
+                    ],
+                    "icon": 80,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 40000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-20T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 14,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Education",
+                    "color": [
+                        "#FF8FE9",
+                        "#ED3CCA"
+                    ],
+                    "icon": 80,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 15000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-29T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 15,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Utilities",
+                    "color": [
+                        "#F9FE00",
+                        "#88FF11"
+                    ],
+                    "icon": 23,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 5000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-06T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 16,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Utilities",
+                    "color": [
+                        "#F9FE00",
+                        "#88FF11"
+                    ],
+                    "icon": 23,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 25000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-10T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 17,
+                "transactionType": "expense",
+                "category": {
+                    "archived": false,
+                    "type": "expense",
+                    "description": "Utilities",
+                    "color": [
+                        "#F9FE00",
+                        "#88FF11"
+                    ],
+                    "icon": 23,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 10000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-28T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 18,
+                "transactionType": "income",
+                "category": {
+                    "archived": false,
+                    "type": "income",
+                    "description": "Salary",
+                    "color": [
+                        "#CE66FF",
+                        "#6E3DFB"
+                    ],
+                    "icon": 91,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 300000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-13T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 19,
+                "transactionType": "income",
+                "category": {
+                    "archived": false,
+                    "type": "income",
+                    "description": "Salary",
+                    "color": [
+                        "#CE66FF",
+                        "#6E3DFB"
+                    ],
+                    "icon": 91,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "cash",
+                    "description": "Wallet",
+                    "balance": {
+                        "amount": 90070,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#FFB340",
+                        "#FF5353"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 50000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-21T18:00:00.000Z",
+                "notes": ""
+            },
+            {
+                "id": 20,
+                "transactionType": "income",
+                "category": {
+                    "archived": false,
+                    "type": "income",
+                    "description": "Gift",
+                    "color": [
+                        "#45E9FF",
+                        "#4579FF"
+                    ],
+                    "icon": 35,
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "account": {
+                    "archived": false,
+                    "type": "card",
+                    "description": "Sberbank",
+                    "balance": {
+                        "amount": 250000,
+                        "currency": {
+                            "code": "USD",
+                            "base": 10,
+                            "exponent": 2
+                        },
+                        "scale": 2
+                    },
+                    "color": [
+                        "#07CC32",
+                        "#009B76"
+                    ],
+                    "date": "2023-06-14T18:00:00.000Z",
+                    "notes": "",
+                    "tags": [
+                        ""
+                    ]
+                },
+                "amount": {
+                    "amount": 50000,
+                    "currency": {
+                        "code": "USD",
+                        "base": 10,
+                        "exponent": 2
+                    },
+                    "scale": 2
+                },
+                "date": "2023-06-20T18:00:00.000Z",
+                "notes": ""
+            }
+        ]
+    }
+}
