@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { NumericFormat } from "react-number-format";
 import { USD } from "@dinero.js/currencies";
 import { dinero, toDecimal, toSnapshot } from "dinero.js";
 
-import { colors } from "../../../data/colors";
+import { colors } from "../../../utils/constants/colors.js";
+import { fetchAccountsData, editAccount } from "../../../actions/Actions";
 import { dineroFromFloat, formatNumberOutput } from "../../../api";
 import {
   renderSelectedColor,
@@ -14,8 +16,8 @@ import {
 } from "../api";
 import { idbEditItem } from "../../../indexedDB/IndexedDB.js";
 
-import { ReactComponent as BackIcon } from "../images/backIcon.svg";
-import cardBackground from "../images/cardBackground.svg";
+import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
+import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
 
 import "../addAccount/AddAccount.css";
 
@@ -50,8 +52,9 @@ const doneEventHandler = (
   idbEditItem(clickedAccount, newAccount, "accounts");
 };
 
-export default function InfoAccount({
-  accounts: { fetching, accounts },
+function InfoAccount({
+  accounts: { status, accounts },
+  fetchAccountsData,
   editAccount,
 }) {
   const [activeItem, setActiveItem] = useState("");
@@ -69,19 +72,16 @@ export default function InfoAccount({
   const [notes, setNotes] = useState("");
   const [tags, setTags] = useState([""]);
   let cashType = createCashType(accountType);
-  //этот хук нужен так как получение данных из дб асинхронно.
-  //и не проверяя переменную fetching мы не узнаем когда
-  //данные подгрузились и доступны.
-  //хук срабатывает при изменении fetching только один раз.
-  //если бы он срабатывал несколько раз данные бы
-  //невозможно было отредактировать. т.к они бы постоянно
-  //перезаписывались. происходило бы большое количество
-  //рендерингов.
-  //теперь, когда fetching станет false значит данные
-  //загрузились в indexedDB. и мы можем получить даннные
-  //необходимого счета из этой бд.
+
+  //запрашиваем нужные данные для этого компонента
+  //один раз только при его монтировании
   useEffect(() => {
-    if (!fetching) {
+    fetchAccountsData();
+  }, [fetchAccountsData]);
+
+  //получаем данные нужного счета когда они подгрузились
+  useEffect(() => {
+    if (status === "succeeded") {
       let selectedAccount = accounts.find(
         (account) => account.description === clickedAccount
       );
@@ -92,9 +92,8 @@ export default function InfoAccount({
       setDate(new Date(selectedAccount.date));
       setNotes(selectedAccount.notes);
       setTags(selectedAccount.tags);
-      cashType = createCashType(accountType);
     }
-  }, [fetching]);
+  }, [status, accounts, clickedAccount]);
 
   return (
     <div id="add_account_content">
@@ -104,7 +103,9 @@ export default function InfoAccount({
         </Link>
         <div id="info_account_title">Account information</div>
       </div>
-      {!fetching ? (
+      {status === "loading" ? (
+        <div>Loading</div>
+      ) : (
         <React.Fragment>
           <div id="account_view">
             <div
@@ -258,9 +259,20 @@ export default function InfoAccount({
             </div>
           </div>
         </React.Fragment>
-      ) : (
-        <div>Loading</div>
       )}
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    accounts: state.accounts,
+  };
+};
+
+const mapDispatchToProps = {
+  fetchAccountsData,
+  editAccount,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(InfoAccount);

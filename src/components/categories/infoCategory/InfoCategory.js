@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
-import { colors } from "../../../data/colors";
-import { categoryIcons } from "../../../data/icons";
+import { colors } from "../../../utils/constants/colors.js";
+import { categoryIcons } from "../../../utils/constants/icons.js";
+import { fetchCategoriesData, editCategory } from "../../../actions/Actions";
 import { idbEditItem } from "../../../indexedDB/IndexedDB.js";
 import {
   renderColors,
@@ -11,7 +13,7 @@ import {
   toggleElement,
 } from "../api";
 
-import { ReactComponent as BackIcon } from "../images/backIcon.svg";
+import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
 
 import "../addCategory/AddCategory.css";
 
@@ -40,8 +42,9 @@ const doneEventHandler = (
   idbEditItem(selectedCategory, newCategory, "categories");
 };
 
-export default function InfoCategory({
-  categories: { fetching, categories },
+function InfoCategory({
+  categories: { status, categories },
+  fetchCategoriesData,
   editCategory,
 }) {
   const [activeItem, setActiveItem] = useState("");
@@ -59,7 +62,11 @@ export default function InfoCategory({
   const SelectedIcon = categoryIcons[icon];
 
   useEffect(() => {
-    if (!fetching) {
+    fetchCategoriesData();
+  }, [fetchCategoriesData]);
+
+  useEffect(() => {
+    if (status === "succeeded") {
       const infoCategory = categories.find(
         (category) => category.description === clickedCategory
       );
@@ -71,11 +78,13 @@ export default function InfoCategory({
       setNotes(infoCategory.notes);
       setTags(infoCategory.tags);
     }
-  }, [fetching]);
+  }, [status, categories, clickedCategory]);
 
   return (
     <div id="add_category_content">
-      {!fetching ? (
+      {status === "loading" ? (
+        <div>Loading</div>
+      ) : (
         <React.Fragment>
           <div id="category_titles_block">
             <Link id="category_back_nav" to={`/categories/${categoryType}s`}>
@@ -223,9 +232,20 @@ export default function InfoCategory({
             </div>
           </div>
         </React.Fragment>
-      ) : (
-        <div>Loading</div>
       )}
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    categories: state.categories,
+  };
+};
+
+const mapDispatchToProps = {
+  fetchCategoriesData,
+  editCategory,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(InfoCategory);

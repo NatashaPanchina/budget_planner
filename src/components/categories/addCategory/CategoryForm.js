@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { colors } from "../../../data/colors";
-import { categoryIcons } from "../../../data/icons";
+import { colors } from "../../../utils/constants/colors.js";
+import { categoryIcons } from "../../../utils/constants/icons.js";
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 import {
   renderColors,

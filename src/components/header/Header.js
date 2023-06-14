@@ -2,8 +2,8 @@ import React from "react";
 
 import "./Header.css";
 
-import searchIcon from "./images/searchIcon.svg";
-import logoutIcon from "./images/logoutIcon.svg";
+import searchIcon from "./images/search.svg";
+import logoutIcon from "./images/logOut.svg";
 
 export default function Header() {
   return (
@@ -11,13 +11,13 @@ export default function Header() {
       <div id="header_title">New Transaction</div>
       <div id="header_search">
         Search everything
-        <img src={searchIcon} height="20px" />
+        <img src={searchIcon} alt="search" height="20px" />
       </div>
       <div id="header_language">EN</div>
       <div id="header_currency">$</div>
       <div id="header_profile">Natasha</div>
       <div id="header_logout">
-        <img src={logoutIcon} />
+        <img src={logoutIcon} alt="logOut" />
       </div>
     </div>
   );

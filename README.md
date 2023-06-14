@@ -1,1 +1,1 @@
-example
+Budget planner app

@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 
+import {
+  fetchAccountsData,
+  archiveAccount,
+  deleteAccount,
+} from "../../actions/Actions.js";
 import CashList from "./list/CashList.js";
 import CashChart from "./pieChart/CashChart.js";
 
-import filterIcon from "./images/filterIcon.svg";
+import filterIcon from "../../assets/icons/shared/filter.svg";
 
 import "./Cash.css";
 
@@ -12,16 +18,22 @@ function isActive({ isActive }) {
   return isActive ? `accounts_title active_accounts_title` : `accounts_title`;
 }
 
-export default function Cash({
-  accounts: { fetching, accounts },
+function Cash({
+  accounts: { status, accounts },
+  fetchAccountsData,
   archiveAccount,
 }) {
   let notArchivedAccounts = accounts.filter(
     (account) => account.archived === false
   );
 
-  //чекаем загрузились ли accounts из indexedDB
-  return !fetching ? (
+  useEffect(() => {
+    fetchAccountsData();
+  }, [fetchAccountsData]);
+
+  return status === "loading" ? (
+    <div>Loading</div>
+  ) : (
     <div id="accounts_content">
       <div id="accounts_more_info">
         Total balance
@@ -41,7 +53,7 @@ export default function Cash({
           <NavLink to="/cash/transfers" className={isActive}>
             Transfers
           </NavLink>
-          <img src={filterIcon} />
+          <img src={filterIcon} alt="filter" />
         </div>
         <CashList
           notArchivedAccounts={notArchivedAccounts}
@@ -49,7 +61,19 @@ export default function Cash({
         />
       </div>
     </div>
-  ) : (
-    <div>Loading</div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    accounts: state.accounts,
+  };
+};
+
+const mapDispatchtoProps = {
+  fetchAccountsData,
+  archiveAccount,
+  deleteAccount,
+};
+
+export default connect(mapStateToProps, mapDispatchtoProps)(Cash);

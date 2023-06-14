@@ -5,7 +5,7 @@ import { NumericFormat } from "react-number-format";
 import { USD } from "@dinero.js/currencies";
 import { toSnapshot } from "dinero.js";
 
-import { colors } from "../../../data/colors";
+import { colors } from "../../../utils/constants/colors";
 import { dineroFromFloat, formatNumberOutput } from "../../../api";
 import {
   renderSelectedColor,
@@ -15,7 +15,7 @@ import {
 } from "../api";
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 
-import cardBackground from "../images/cardBackground.svg";
+import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
 
 const doneEventHandler = (
   accountType,

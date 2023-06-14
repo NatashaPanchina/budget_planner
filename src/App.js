@@ -8,16 +8,16 @@ import {
 
 import Header from "./components/header/Header";
 import Navigation from "./components/navigation/Navigation";
-import Transactions from "./containers/Transactions";
-import InfoTransaction from "./containers/InfoTransaction";
-import Cash from "./containers/Cash";
-import NewTransaction from "./containers/NewTransaction";
-import Categories from "./containers/Categories";
-import AddCategory from "./containers/AddCategory";
-import AddAccount from "./containers/AddAccount";
-import InfoAccount from "./containers/InfoAccount";
-import InfoCategory from "./containers/InfoCategory";
-import Analysis from "./containers/Analysis";
+import Transactions from "./components/transactions/Transactions";
+import InfoTransaction from "./components/transactions/infoTransaction/InfoTransaction";
+import Cash from "./components/cash/Cash";
+import NewTransaction from "./components/newTransaction/NewTransaction";
+import Categories from "./components/categories/Categories";
+import AddCategory from "./components/categories/addCategory/AddCategory";
+import AddAccount from "./components/cash/addAccount/AddAccount";
+import InfoAccount from "./components/cash/infoAccount/InfoAccount";
+import InfoCategory from "./components/categories/infoCategory/InfoCategory";
+import Analysis from "./components/analysis/Analysis";
 
 import "./App.css";
 

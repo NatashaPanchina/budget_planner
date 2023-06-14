@@ -2,20 +2,20 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
-import { categoryIcons } from "../../../data/icons";
+import { categoryIcons } from "../../../utils/constants/icons.js";
 
-import searchIcon from "../images/searchIcon.svg";
-import notesIcon from "../images/notesIcon.svg";
-import { ReactComponent as PlusIcon } from "../images/plusIcon.svg";
-import { ReactComponent as AddIcon } from "../images/addIcon.svg";
-import { ReactComponent as EditIcon } from "../images/editIcon.svg";
-import { ReactComponent as ArchiveIcon } from "../images/archiveIcon.svg";
+import searchIcon from "../../../assets/icons/shared/search.svg";
+import notesIcon from "../../../assets/icons/shared/notes.svg";
+import { ReactComponent as PlusIcon } from "../../../assets/icons/shared/plus.svg";
+import { ReactComponent as AddIcon } from "../../../assets/icons/shared/add.svg";
+import { ReactComponent as EditIcon } from "../../../assets/icons/shared/edit.svg";
+import { ReactComponent as ArchiveIcon } from "../../../assets/icons/shared/archive.svg";
 
 function renderNotes(notes) {
   if (notes) {
     return (
       <div className="categories_notes">
-        <img src={notesIcon} className="notes_icon" />
+        <img src={notesIcon} alt="notes" className="notes_icon" />
         {notes}
       </div>
     );
@@ -23,7 +23,7 @@ function renderNotes(notes) {
 }
 
 //для категории добавления нужно убрать s на конце
-function createFiltertype(filterType) {
+function createFilterType(filterType) {
   switch (filterType) {
     case "expenses":
       return "expense";
@@ -34,32 +34,36 @@ function createFiltertype(filterType) {
   }
 }
 
+function filterCategories(filterType, categories) {
+  return filterType === "all"
+    ? categories
+    : categories.filter((category) => category.type === filterType);
+}
+
 export default function CategoriesList({
   notArchivedCategories,
   archiveCategory,
   deleteCategory,
 }) {
-  const filterCategories = createFiltertype(useParams().filterType);
+  const filterType = createFilterType(useParams().filterType);
 
   return (
     <React.Fragment>
       <div id="search">
         <input type="text" placeholder="Search category"></input>
-        <img src={searchIcon} />
+        <img src={searchIcon} alt="search" />
       </div>
       <div id="add_category_btn">
         <Link
-          to={`/addCategory/${
-            filterCategories === "all" ? "expense" : filterCategories
-          }`}
+          to={`/addCategory/${filterType === "all" ? "expense" : filterType}`}
         >
           <PlusIcon />
           Add category
         </Link>
       </div>
-      {notArchivedCategories.map((category, index) => {
-        let Icon = categoryIcons[category.icon];
-        if (category.type === filterCategories || filterCategories === "all") {
+      {filterCategories(filterType, notArchivedCategories).map(
+        (category, index) => {
+          let Icon = categoryIcons[category.icon];
           return (
             <div key={index} className="category_item">
               <div className="categories_description">
@@ -112,7 +116,7 @@ export default function CategoriesList({
             </div>
           );
         }
-      })}
+      )}
     </React.Fragment>
   );
 }

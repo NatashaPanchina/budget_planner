@@ -6,10 +6,12 @@ import {
   ADD_NEW_ACCOUNT,
   DELETE_ACCOUNT,
   EDIT_ACCOUNT,
-  REQUEST_IDB,
-  RECEIVE_IDB_ACCOUNTS,
-  RECEIVE_IDB_CATEGORIES,
-  RECEIVE_IDB_TRANSACTIONS,
+  IDB_FETCH_ACCOUNTS_INIT,
+  IDB_FETCH_ACCOUNTS_SUCCESS,
+  IDB_FETCH_ACCOUNTS_FAILURE,
+  IDB_FETCH_CATEGORIES_INIT,
+  IDB_FETCH_CATEGORIES_SUCCESS,
+  IDB_FETCH_CATEGORIES_FAILURE,
   EDIT_TRANSACTION,
   DELETE_TRANSACTION,
   UPDATE_ACCOUNT_BALANCE,
@@ -103,24 +105,30 @@ export const updateAccountBalance = (description, balance) => (dispatch) => {
 };
 
 export const fetchAccountsData = () => {
-  return fetchData("accounts", RECEIVE_IDB_ACCOUNTS);
-};
-
-export const fetchTransactionsData = () => {
-  return fetchData("transactions", RECEIVE_IDB_TRANSACTIONS);
+  return fetchData("accounts", {
+    init: IDB_FETCH_ACCOUNTS_INIT,
+    success: IDB_FETCH_ACCOUNTS_SUCCESS,
+    failure: IDB_FETCH_ACCOUNTS_FAILURE,
+  });
 };
 
 export const fetchCategoriesData = () => {
-  return fetchData("categories", RECEIVE_IDB_CATEGORIES);
+  return fetchData("categories", {
+    init: IDB_FETCH_CATEGORIES_INIT,
+    success: IDB_FETCH_CATEGORIES_SUCCESS,
+    failure: IDB_FETCH_CATEGORIES_FAILURE,
+  });
 };
 
-//запрашиваем данные из indexedDB для инициализации redux store
-//здесь асинхронные экшены. для каждого подхранилища
-//свой экшн
-export function fetchData(nameObjectStore, actionType) {
+//позже изменю экшены на экшены для транзакций
+export const fetchTransactionsData = () => {
+  return fetchData("transactions", {});
+};
+
+export function fetchData(nameObjectStore, { init, success, failure }) {
   return (dispatch) => {
     dispatch({
-      type: REQUEST_IDB,
+      type: init,
     });
     idbOpen().then(
       (idb) => {
@@ -136,14 +144,14 @@ export function fetchData(nameObjectStore, actionType) {
           } else {
             //все данные из index DB получены
             dispatch({
-              type: actionType,
+              type: success,
               payload: resultData,
             });
             idb.close();
           }
         };
       },
-      (error) => console.log(error)
+      (error) => dispatch({ type: failure, payload: error })
     );
   };
 }

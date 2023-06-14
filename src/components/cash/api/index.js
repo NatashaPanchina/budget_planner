@@ -1,4 +1,4 @@
-import { ReactComponent as CheckMarkIcon } from "../images/checkMarkIcon.svg";
+import { ReactComponent as CheckMarkIcon } from "../../../assets/icons/shared/checkMark.svg";
 
 function showCheckMark(index) {
   const allMarks = document.querySelectorAll(".checkMarkIcon");

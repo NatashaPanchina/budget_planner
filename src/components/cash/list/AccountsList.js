@@ -5,13 +5,13 @@ import { dinero } from "dinero.js";
 import { formatDineroOutput } from "../../../api";
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 
-import { ReactComponent as PlusIcon } from "../images/plusIcon.svg";
-import { ReactComponent as EditIcon } from "../images/editIcon.svg";
-import { ReactComponent as TransferIcon } from "../images/transferIcon.svg";
-import { ReactComponent as ArchiveIcon } from "../images/archiveIcon.svg";
-import cardBackground from "../images/cardBackground.svg";
-import searchIcon from "../images/searchIcon.svg";
-import notesIcon from "../images/notesIcon.svg";
+import { ReactComponent as PlusIcon } from "../../../assets/icons/shared/plus.svg";
+import { ReactComponent as EditIcon } from "../../../assets/icons/shared/edit.svg";
+import { ReactComponent as TransferIcon } from "../../../assets/icons/shared/transfer.svg";
+import { ReactComponent as ArchiveIcon } from "../../../assets/icons/shared/archive.svg";
+import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
+import searchIcon from "../../../assets/icons/shared/search.svg";
+import notesIcon from "../../../assets/icons/shared/notes.svg";
 
 function archiveEventButton(account, archiveAccount) {
   const newAccount = Object.assign({}, account, {
@@ -25,7 +25,7 @@ function renderNotes(notes) {
   if (notes) {
     return (
       <div className="accounts_notes">
-        <img src={notesIcon} className="notes_icon" />
+        <img src={notesIcon} alt="notes" className="notes_icon" />
         {notes}
       </div>
     );
@@ -46,13 +46,19 @@ function createCashFilter(filterCash) {
   }
 }
 
+function filterAccounts(filterCash, accounts) {
+  return filterCash === "all"
+    ? accounts
+    : accounts.filter((account) => account.type === filterCash);
+}
+
 export default function AccountsList({ notArchivedAccounts, archiveAccount }) {
   const filterCash = createCashFilter(useParams().filterCash);
   return (
     <React.Fragment>
       <div id="search">
         <input type="text" placeholder={`Search ${filterCash}`}></input>
-        <img src={searchIcon} />
+        <img src={searchIcon} alt="search" />
       </div>
       <div id="add_account_btn">
         <Link to={`/addAccount/${filterCash === "all" ? "card" : filterCash}`}>
@@ -60,50 +66,46 @@ export default function AccountsList({ notArchivedAccounts, archiveAccount }) {
           Add {filterCash === "all" ? "cash" : filterCash}
         </Link>
       </div>
-      {notArchivedAccounts.map((account, index) => {
+      {filterAccounts(filterCash, notArchivedAccounts).map((account, index) => {
         const balance = dinero(account.balance);
-        if (account.type === filterCash || filterCash === "all") {
-          return (
-            <div className="account_item" key={index}>
-              <div className="account_info">
-                <div
-                  id={account.description}
-                  className="card"
-                  style={{
-                    background: `url(${cardBackground}) 0% 0% / cover no-repeat,
-                                                    linear-gradient(90deg, ${account.color[0]} 0%, ${account.color[1]} 100%)`,
-                    boxShadow: `0px 4px 10px #DCE2DF`,
-                  }}
-                >
-                  <div className="card_name">{account.description}</div>
-                  <div className="card_balance_info">
-                    <div className="card_balance">
-                      {formatDineroOutput(balance, "USD")}
-                    </div>
-                    <div className="card_balance_title">Current balance</div>
+        return (
+          <div className="account_item" key={index}>
+            <div className="account_info">
+              <div
+                id={account.description}
+                className="card"
+                style={{
+                  background: `url(${cardBackground}) 0% 0% / cover no-repeat,
+                                                  linear-gradient(90deg, ${account.color[0]} 0%, ${account.color[1]} 100%)`,
+                  boxShadow: `0px 4px 10px #DCE2DF`,
+                }}
+              >
+                <div className="card_name">{account.description}</div>
+                <div className="card_balance_info">
+                  <div className="card_balance">
+                    {formatDineroOutput(balance, "USD")}
                   </div>
+                  <div className="card_balance_title">Current balance</div>
                 </div>
-                {renderNotes(account.notes)}
               </div>
+              {renderNotes(account.notes)}
+            </div>
 
-              <div className="account_buttons">
-                <div>
-                  <Link to={`/infoAccount/${account.description}`}>
-                    <EditIcon /> Edit
-                  </Link>
-                </div>
-                <div>
-                  <TransferIcon /> New Transfer
-                </div>
-                <div
-                  onClick={() => archiveEventButton(account, archiveAccount)}
-                >
-                  <ArchiveIcon /> Archive
-                </div>
+            <div className="account_buttons">
+              <div>
+                <Link to={`/infoAccount/${account.description}`}>
+                  <EditIcon /> Edit
+                </Link>
+              </div>
+              <div>
+                <TransferIcon /> New Transfer
+              </div>
+              <div onClick={() => archiveEventButton(account, archiveAccount)}>
+                <ArchiveIcon /> Archive
               </div>
             </div>
-          );
-        }
+          </div>
+        );
       })}
     </React.Fragment>
   );

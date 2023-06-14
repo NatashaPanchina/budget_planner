@@ -1,4 +1,4 @@
-import { ReactComponent as CheckMarkIcon } from "../images/checkMarkIcon.svg";
+import { ReactComponent as CheckMarkIcon } from "../../../assets/icons/shared/checkMark.svg";
 
 export function renderSelectedColor(selectedColor, Icon) {
   return selectedColor ? (
@@ -44,6 +44,7 @@ export function renderColors(colors, setSelectedColor) {
   return colors.map((color, index) => {
     return (
       <svg
+        key={index}
         width="34"
         height="34"
         viewBox="0 0 34 34"

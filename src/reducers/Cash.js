@@ -1,20 +1,39 @@
 import {
+  IDB_FETCH_ACCOUNTS_INIT,
+  IDB_FETCH_ACCOUNTS_SUCCESS,
+  IDB_FETCH_ACCOUNTS_FAILURE,
   ADD_NEW_ACCOUNT,
   DELETE_ACCOUNT,
   EDIT_ACCOUNT,
-  RECEIVE_IDB_ACCOUNTS,
-  REQUEST_IDB,
   ARCHIVE_ACCOUNT,
   UPDATE_ACCOUNT_BALANCE,
 } from "../actions/ActionTypes";
 
 const initialState = {
-  fetching: false,
+  status: "idle",
+  error: null,
   accounts: [],
 };
 
-export default (state = initialState, { type, payload }) => {
+const accounts = (state = initialState, { type, payload }) => {
   switch (type) {
+    case IDB_FETCH_ACCOUNTS_INIT:
+      return {
+        ...state,
+        status: "loading",
+      };
+    case IDB_FETCH_ACCOUNTS_SUCCESS:
+      return {
+        ...state,
+        status: "succeeded",
+        accounts: payload,
+      };
+    case IDB_FETCH_ACCOUNTS_FAILURE:
+      return {
+        ...state,
+        status: "failed",
+        error: payload.message,
+      };
     case ADD_NEW_ACCOUNT:
       return Object.assign({}, state, {
         accounts: [payload, ...state.accounts],
@@ -49,11 +68,9 @@ export default (state = initialState, { type, payload }) => {
           (account) => account.description !== payload
         ),
       });
-    case REQUEST_IDB:
-      return Object.assign({}, state, { fetching: true });
-    case RECEIVE_IDB_ACCOUNTS:
-      return { fetching: false, accounts: payload };
     default:
       return state;
   }
 };
+
+export default accounts;
