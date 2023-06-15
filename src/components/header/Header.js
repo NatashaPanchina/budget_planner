@@ -2,8 +2,8 @@ import React from "react";
 
 import "./Header.css";
 
-import searchIcon from "./images/search.svg";
-import logoutIcon from "./images/logOut.svg";
+import searchIcon from "../../assets/icons/shared/globalSearch.svg";
+import logoutIcon from "../../assets/icons/shared/logOut.svg";
 
 export default function Header() {
   return (

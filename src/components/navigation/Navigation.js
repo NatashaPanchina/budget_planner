@@ -1,13 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import logoIcon from "./images/logo.svg";
-import { ReactComponent as TransactionsIcon } from "./images/transactions.svg";
-import { ReactComponent as CashIcon } from "./images/cash.svg";
-import { ReactComponent as NewTransactionIcon } from "./images/newTransaction.svg";
-import { ReactComponent as CategoriesIcon } from "./images/categories.svg";
-import { ReactComponent as AnalysisIcon } from "./images/analysis.svg";
-import { ReactComponent as MoreIcon } from "./images/more.svg";
+import logoIcon from "../../assets/icons/navigation/logo.svg";
+import { ReactComponent as TransactionsIcon } from "../../assets/icons/navigation/transactions.svg";
+import { ReactComponent as CashIcon } from "../../assets/icons/navigation/cash.svg";
+import { ReactComponent as NewTransactionIcon } from "../../assets/icons/navigation/newTransaction.svg";
+import { ReactComponent as CategoriesIcon } from "../../assets/icons/navigation/categories.svg";
+import { ReactComponent as AnalysisIcon } from "../../assets/icons/navigation/analysis.svg";
+import { ReactComponent as MoreIcon } from "../../assets/icons/navigation/more.svg";
 
 import "./Navigation.css";
 
