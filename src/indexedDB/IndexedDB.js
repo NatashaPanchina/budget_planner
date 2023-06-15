@@ -65,12 +65,15 @@ export const idbAddItem = (newItem, nameObjectStore) => {
 
 export const idbEditItem = (prevItemId, newItem, nameObjectStore) => {
   return new Promise((resolve, reject) => {
-    const deleteRequest = idbDeleteItem(prevItemId, nameObjectStore);
-    deleteRequest
-      .then(() => {
-        idbAddItem(newItem, nameObjectStore);
-      })
-      .catch(() => reject("idbEditItem"));
+    idbOpen().then((idb) => {
+      const transaction = idb.transaction(nameObjectStore, "readwrite");
+      const objectStore = transaction.objectStore(nameObjectStore);
+      const deleteRequest = objectStore.delete(prevItemId);
+      deleteRequest.onerror = () => reject("idbEditItem Delete Error");
+      const addRequest = objectStore.put(newItem);
+      addRequest.onerror = () => reject("idbEditItem Add Error");
+      transaction.oncomplete = () => resolve();
+    });
   });
 };
 
