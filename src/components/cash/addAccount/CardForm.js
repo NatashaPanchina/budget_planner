@@ -17,6 +17,7 @@ import {
   toggleElement,
   createCashType,
 } from "../utils";
+import { useOutsideClick, hideElement } from "../../../hooks/useOutsideClick";
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 
 import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
@@ -63,6 +64,8 @@ export default function CardForm({ accountType, addNewAccount }) {
   const [tags, setTags] = useState([""]);
 
   const cashType = createCashType(accountType);
+
+  const colorsRef = useOutsideClick(hideElement);
 
   return (
     <React.Fragment>
@@ -126,18 +129,24 @@ export default function CardForm({ accountType, addNewAccount }) {
           <div className="info_items">Color</div>
           <div
             id="account_selected_color"
-            onClick={() => toggleElement("account_colors_form")}
+            onClick={(event) => {
+              toggleElement("account_colors_form");
+              event.stopPropagation();
+            }}
           >
             {renderSelectedColor(selectedColor)}
           </div>
           <div
             className="select_btns"
-            onClick={() => toggleElement("account_colors_form")}
+            onClick={(event) => {
+              toggleElement("account_colors_form");
+              event.stopPropagation();
+            }}
           >
             Select
           </div>
         </div>
-        <div id="account_colors_form" className="none">
+        <div ref={colorsRef} id="account_colors_form" className="none">
           {renderColors(colors, setSelectedColor)}
           <div
             id="colors_form_btns"

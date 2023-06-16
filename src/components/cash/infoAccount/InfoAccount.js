@@ -18,6 +18,7 @@ import {
   toggleElement,
   createCashType,
 } from "../utils";
+import { useOutsideClick, hideElement } from "../../../hooks/useOutsideClick";
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 
 import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
@@ -78,7 +79,10 @@ function InfoAccount({
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
   const [tags, setTags] = useState([""]);
-  let cashType = createCashType(accountType);
+
+  const cashType = createCashType(accountType);
+
+  const colorsRef = useOutsideClick(hideElement);
 
   //запрашиваем нужные данные для этого компонента
   //один раз только при его монтировании
@@ -179,18 +183,24 @@ function InfoAccount({
               <div className="info_items">Color</div>
               <div
                 id="account_selected_color"
-                onClick={() => toggleElement("account_colors_form")}
+                onClick={(event) => {
+                  toggleElement("account_colors_form");
+                  event.stopPropagation();
+                }}
               >
                 {renderSelectedColor(selectedColor)}
               </div>
               <div
                 className="select_btns"
-                onClick={() => toggleElement("account_colors_form")}
+                onClick={(event) => {
+                  toggleElement("account_colors_form");
+                  event.stopPropagation();
+                }}
               >
                 Select
               </div>
             </div>
-            <div id="account_colors_form" className="none">
+            <div ref={colorsRef} id="account_colors_form" className="none">
               {renderColors(colors, setSelectedColor)}
               <div
                 id="colors_form_btns"

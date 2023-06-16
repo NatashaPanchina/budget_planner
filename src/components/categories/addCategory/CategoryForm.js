@@ -11,6 +11,10 @@ import {
   renderSelectedColor,
   toggleElement,
 } from "../utils";
+import {
+  hideElement,
+  useOutsideClick,
+} from "../../../hooks/useOutsideClick.js";
 
 import "./AddCategory.css";
 
@@ -51,6 +55,10 @@ export default function CategoryForm({ addNewCategory }) {
   const [tags, setTags] = useState([""]);
 
   const SelectedIcon = categoryIcons[icon];
+
+  const colorsRef = useOutsideClick(hideElement);
+  const iconsRef = useOutsideClick(hideElement);
+
   return (
     <div id="add_category_form">
       <div
@@ -75,18 +83,26 @@ export default function CategoryForm({ addNewCategory }) {
         <div className="info_items">Color</div>
         <div
           className="selected_color"
-          onClick={() => toggleElement("colors_form")}
+          onClick={(event) => {
+            toggleElement("colors_form");
+            iconsRef.current.classList.add("none");
+            event.stopPropagation();
+          }}
         >
           {renderSelectedColor(selectedColor)}
         </div>
         <div
           className="select_btns"
-          onClick={() => toggleElement("colors_form")}
+          onClick={(event) => {
+            toggleElement("colors_form");
+            iconsRef.current.classList.add("none");
+            event.stopPropagation();
+          }}
         >
           Select
         </div>
       </div>
-      <div id="colors_form" className="none">
+      <div ref={colorsRef} id="colors_form" className="none">
         {renderColors(colors, setSelectedColor)}
         <div id="colors_form_btns">
           <button onClick={() => toggleElement("colors_form")}>Ok</button>
@@ -101,18 +117,26 @@ export default function CategoryForm({ addNewCategory }) {
         <div className="info_items">Icon</div>
         <div
           className="selected_color"
-          onClick={() => toggleElement("icons_form")}
+          onClick={(event) => {
+            toggleElement("icons_form");
+            colorsRef.current.classList.add("none");
+            event.stopPropagation();
+          }}
         >
           {renderSelectedColor(selectedColor, SelectedIcon)}
         </div>
         <div
           className="select_btns"
-          onClick={() => toggleElement("icons_form")}
+          onClick={(event) => {
+            toggleElement("icons_form");
+            colorsRef.current.classList.add("none");
+            event.stopPropagation();
+          }}
         >
           Select
         </div>
       </div>
-      <div id="icons_form" className="none">
+      <div ref={iconsRef} id="icons_form" className="none">
         {renderIcons(categoryIcons, setIcon)}
         <div id="icons_form_btns">
           <button onClick={() => toggleElement("icons_form")}>Ok</button>
