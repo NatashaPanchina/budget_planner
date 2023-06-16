@@ -48,24 +48,24 @@ export const addNewCategory = (category) => (dispatch) => {
   });
 };
 
-export const editCategory = (description, newCategory) => (dispatch) => {
+export const editCategory = (id, newCategory) => (dispatch) => {
   dispatch({
     type: EDIT_CATEGORY,
-    payload: { description, newCategory },
+    payload: { id, newCategory },
   });
 };
 
-export const archiveCategory = (description) => (dispatch) => {
+export const archiveCategory = (id) => (dispatch) => {
   dispatch({
     type: ARCHIVE_CATEGORY,
-    payload: description,
+    payload: id,
   });
 };
 
-export const deleteCategory = (description) => (dispatch) => {
+export const deleteCategory = (id) => (dispatch) => {
   dispatch({
     type: DELETE_CATEGORY,
-    payload: description,
+    payload: id,
   });
 };
 
@@ -76,31 +76,31 @@ export const addNewAccount = (account) => (dispatch) => {
   });
 };
 
-export const editAccount = (description, newAccount) => (dispatch) => {
+export const editAccount = (id, newAccount) => (dispatch) => {
   dispatch({
     type: EDIT_ACCOUNT,
-    payload: { description, newAccount },
+    payload: { id, newAccount },
   });
 };
 
-export const archiveAccount = (description) => (dispatch) => {
+export const archiveAccount = (id) => (dispatch) => {
   dispatch({
     type: ARCHIVE_ACCOUNT,
-    payload: description,
+    payload: id,
   });
 };
 
-export const deleteAccount = (description) => (dispatch) => {
+export const deleteAccount = (id) => (dispatch) => {
   dispatch({
     type: DELETE_ACCOUNT,
-    payload: description,
+    payload: id,
   });
 };
 
-export const updateAccountBalance = (description, balance) => (dispatch) => {
+export const updateAccountBalance = (id, balance) => (dispatch) => {
   dispatch({
     type: UPDATE_ACCOUNT_BALANCE,
-    payload: { description, balance },
+    payload: { id, balance },
   });
 };
 

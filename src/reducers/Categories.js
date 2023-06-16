@@ -40,15 +40,13 @@ const categories = (state = initialState, { type, payload }) => {
     case EDIT_CATEGORY:
       return Object.assign({}, state, {
         categories: state.categories.map((category) =>
-          category.description === payload.description
-            ? payload.newCategory
-            : category
+          category.id === payload.id ? payload.newCategory : category
         ),
       });
     case ARCHIVE_CATEGORY:
       return Object.assign({}, state, {
         categories: state.categories.map((category) =>
-          category.description === payload
+          category.id === payload
             ? Object.assign({}, category, { archived: true })
             : category
         ),
@@ -56,7 +54,7 @@ const categories = (state = initialState, { type, payload }) => {
     case DELETE_CATEGORY:
       return Object.assign({}, state, {
         categories: state.categories.filter(
-          (category) => category.description !== payload
+          (category) => category.id !== payload
         ),
       });
     default:

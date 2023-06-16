@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link, NavLink, useParams } from "react-router-dom";
 
 import { addNewAccount } from "../../../actions/Actions";
-import { createCashType } from "../api";
+import { createCashType } from "../utils";
 import AccountForm from "./AccountForm.js";
 
 import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";

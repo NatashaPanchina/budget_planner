@@ -43,10 +43,7 @@ function App() {
           <Route path="/cash" element={<Navigate replace to="all" />} />
           <Route path="/cash/:filterCash" element={<Cash />} />
           <Route path="/addAccount/:accountType" element={<AddAccount />} />
-          <Route
-            path="/infoAccount/:accountDescription"
-            element={<InfoAccount />}
-          />
+          <Route path="/infoAccount/:accountId" element={<InfoAccount />} />
           <Route
             path="/newTransaction"
             element={<Navigate replace to="expense/all" />}
@@ -58,10 +55,7 @@ function App() {
           <Route path="/categories" element={<Navigate replace to="all" />} />
           <Route path="/categories/:filterType" element={<Categories />} />
           <Route path="/addCategory/:categoryType" element={<AddCategory />} />
-          <Route
-            path="/infoCategory/:categoryDescription"
-            element={<InfoCategory />}
-          />
+          <Route path="/infoCategory/:categoryId" element={<InfoCategory />} />
           <Route path="/analysis" element={<Analysis />} />
           <Route path="/" element={<Navigate replace to="/analysis" />} />
         </Routes>

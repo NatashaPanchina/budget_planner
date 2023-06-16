@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+
 import { NumericFormat } from "react-number-format";
 import { USD } from "@dinero.js/currencies";
 import { dinero, toDecimal, toSnapshot } from "dinero.js";
 
 import { colors } from "../../../utils/constants/colors.js";
 import { fetchAccountsData, editAccount } from "../../../actions/Actions";
-import { dineroFromFloat, formatNumberOutput } from "../../../api";
+import {
+  dineroFromFloat,
+  formatNumberOutput,
+} from "../../../utils/format/cash";
 import {
   renderSelectedColor,
   renderColors,
   toggleElement,
   createCashType,
-} from "../api";
-import { idbEditItem } from "../../../indexedDB/IndexedDB.js";
+} from "../utils";
+import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 
 import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
 import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
@@ -23,6 +27,7 @@ import "../addAccount/AddAccount.css";
 
 const doneEventHandler = (
   clickedAccount,
+  id,
   accountType,
   description,
   balance,
@@ -33,6 +38,7 @@ const doneEventHandler = (
   editAccount
 ) => {
   const newAccount = {
+    id,
     archived: false,
     type: accountType,
     description,
@@ -49,7 +55,7 @@ const doneEventHandler = (
     tags,
   };
   editAccount(clickedAccount, newAccount);
-  idbEditItem(clickedAccount, newAccount, "accounts");
+  idbAddItem(newAccount, "accounts");
 };
 
 function InfoAccount({
@@ -60,8 +66,9 @@ function InfoAccount({
   const [activeItem, setActiveItem] = useState("");
 
   //счет который пользователь хочет отредактировать (нажал на него на странице Cash)
-  const clickedAccount = useParams().accountDescription;
+  const clickedAccount = useParams().accountId;
 
+  const [id, setId] = useState("");
   const [accountType, setAccountType] = useState("");
   const [description, setDescription] = useState("");
   const [balance, setBalance] = useState(
@@ -83,8 +90,12 @@ function InfoAccount({
   useEffect(() => {
     if (status === "succeeded") {
       let selectedAccount = accounts.find(
-        (account) => account.description === clickedAccount
+        (account) => account.id === clickedAccount
       );
+      if (!selectedAccount) {
+        return;
+      }
+      setId(selectedAccount.id);
       setAccountType(selectedAccount.type);
       setDescription(selectedAccount.description);
       setBalance(toDecimal(dinero(selectedAccount.balance)));
@@ -236,6 +247,7 @@ function InfoAccount({
                     onClick={() =>
                       doneEventHandler(
                         clickedAccount,
+                        id,
                         accountType,
                         description,
                         balance,

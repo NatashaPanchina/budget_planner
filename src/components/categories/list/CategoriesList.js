@@ -65,7 +65,7 @@ export default function CategoriesList({
         (category, index) => {
           let Icon = categoryIcons[category.icon];
           return (
-            <div key={index} className="category_item">
+            <div key={category.id} className="category_item">
               <div className="categories_description">
                 <svg
                   width="34"
@@ -99,12 +99,12 @@ export default function CategoriesList({
               </div>
               <div className="category_edits">
                 <AddIcon />
-                <Link to={`/infoCategory/${category.description}`}>
+                <Link to={`/infoCategory/${category.id}`}>
                   <EditIcon />
                 </Link>
                 <ArchiveIcon
                   onClick={() => {
-                    archiveCategory(category.description);
+                    archiveCategory(category.id);
                     idbAddItem(
                       Object.assign({}, category, { archived: true }),
                       "categories"

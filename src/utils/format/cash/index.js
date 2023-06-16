@@ -9,6 +9,8 @@ export const formatDineroOutput = (dineroObject, currency) => {
           currency: currency,
         });
       });
+    default:
+      return "0.00";
   }
 };
 
@@ -19,6 +21,8 @@ export const formatNumberOutput = (number, currency) => {
         style: "currency",
         currency: currency,
       });
+    default:
+      return 0;
   }
 };
 

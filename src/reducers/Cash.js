@@ -41,15 +41,13 @@ const accounts = (state = initialState, { type, payload }) => {
     case EDIT_ACCOUNT:
       return Object.assign({}, state, {
         accounts: state.accounts.map((account) =>
-          account.description === payload.description
-            ? payload.newAccount
-            : account
+          account.description === payload.id ? payload.newAccount : account
         ),
       });
     case UPDATE_ACCOUNT_BALANCE:
       return Object.assign({}, state, {
         accounts: state.accounts.map((account) =>
-          account.description === payload.description
+          account.id === payload.id
             ? Object.assign({}, account, { balance: payload.balance })
             : account
         ),
@@ -57,16 +55,14 @@ const accounts = (state = initialState, { type, payload }) => {
     case ARCHIVE_ACCOUNT:
       return Object.assign({}, state, {
         accounts: state.accounts.map((account) =>
-          account.description === payload
+          account.id === payload
             ? Object.assign({}, account, { archived: true })
             : account
         ),
       });
     case DELETE_ACCOUNT:
       return Object.assign({}, state, {
-        accounts: state.accounts.filter(
-          (account) => account.description !== payload
-        ),
+        accounts: state.accounts.filter((account) => account.id !== payload),
       });
     default:
       return state;

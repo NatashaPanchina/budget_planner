@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 import { colors } from "../../../utils/constants/colors.js";
 import { categoryIcons } from "../../../utils/constants/icons.js";
@@ -9,7 +10,7 @@ import {
   renderIcons,
   renderSelectedColor,
   toggleElement,
-} from "../api";
+} from "../utils";
 
 import "./AddCategory.css";
 
@@ -24,6 +25,7 @@ const doneEventHandler = (
   addNewCategory
 ) => {
   const newCategory = {
+    id: uuidv4(),
     archived: false,
     type: categoryType,
     description: description,

@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { dinero } from "dinero.js";
 
-import { formatDineroOutput } from "../../../api";
+import { formatDineroOutput } from "../../../utils/format/cash";
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 
 import { ReactComponent as PlusIcon } from "../../../assets/icons/shared/plus.svg";
@@ -17,7 +17,7 @@ function archiveEventButton(account, archiveAccount) {
   const newAccount = Object.assign({}, account, {
     archived: true,
   });
-  archiveAccount(account.description);
+  archiveAccount(account.id);
   idbAddItem(newAccount, "accounts");
 }
 
@@ -66,10 +66,10 @@ export default function AccountsList({ notArchivedAccounts, archiveAccount }) {
           Add {filterCash === "all" ? "cash" : filterCash}
         </Link>
       </div>
-      {filterAccounts(filterCash, notArchivedAccounts).map((account, index) => {
+      {filterAccounts(filterCash, notArchivedAccounts).map((account) => {
         const balance = dinero(account.balance);
         return (
-          <div className="account_item" key={index}>
+          <div className="account_item" key={account.id}>
             <div className="account_info">
               <div
                 id={account.description}
@@ -93,7 +93,7 @@ export default function AccountsList({ notArchivedAccounts, archiveAccount }) {
 
             <div className="account_buttons">
               <div>
-                <Link to={`/infoAccount/${account.description}`}>
+                <Link to={`/infoAccount/${account.id}`}>
                   <EditIcon /> Edit
                 </Link>
               </div>

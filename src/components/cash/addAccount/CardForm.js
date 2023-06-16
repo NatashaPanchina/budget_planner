@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 import { NumericFormat } from "react-number-format";
 import { USD } from "@dinero.js/currencies";
 import { toSnapshot } from "dinero.js";
 
 import { colors } from "../../../utils/constants/colors";
-import { dineroFromFloat, formatNumberOutput } from "../../../api";
+import {
+  dineroFromFloat,
+  formatNumberOutput,
+} from "../../../utils/format/cash";
 import {
   renderSelectedColor,
   renderColors,
   toggleElement,
   createCashType,
-} from "../api";
+} from "../utils";
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 
 import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
@@ -28,6 +32,7 @@ const doneEventHandler = (
   addNewAccount
 ) => {
   const newAccount = {
+    id: uuidv4(),
     archived: false,
     type: accountType,
     description,

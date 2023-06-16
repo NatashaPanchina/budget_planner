@@ -5,13 +5,13 @@ import { Link, useParams } from "react-router-dom";
 import { colors } from "../../../utils/constants/colors.js";
 import { categoryIcons } from "../../../utils/constants/icons.js";
 import { fetchCategoriesData, editCategory } from "../../../actions/Actions";
-import { idbEditItem } from "../../../indexedDB/IndexedDB.js";
+import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 import {
   renderColors,
   renderIcons,
   renderSelectedColor,
   toggleElement,
-} from "../api";
+} from "../utils";
 
 import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
 
@@ -19,6 +19,7 @@ import "../addCategory/AddCategory.css";
 
 const doneEventHandler = (
   selectedCategory,
+  id,
   categoryType,
   description,
   selectedColor,
@@ -29,6 +30,7 @@ const doneEventHandler = (
   editCategory
 ) => {
   const newCategory = {
+    id,
     archived: false,
     type: categoryType,
     description: description,
@@ -39,7 +41,7 @@ const doneEventHandler = (
     tags,
   };
   editCategory(selectedCategory, newCategory);
-  idbEditItem(selectedCategory, newCategory, "categories");
+  idbAddItem(newCategory, "categories");
 };
 
 function InfoCategory({
@@ -49,8 +51,9 @@ function InfoCategory({
 }) {
   const [activeItem, setActiveItem] = useState("");
 
-  const clickedCategory = useParams().categoryDescription;
+  const clickedCategory = useParams().categoryId;
 
+  const [id, setId] = useState("");
   const [categoryType, setCategoryType] = useState("expense");
   const [description, setDescription] = useState();
   const [selectedColor, setSelectedColor] = useState([]);
@@ -68,8 +71,12 @@ function InfoCategory({
   useEffect(() => {
     if (status === "succeeded") {
       const infoCategory = categories.find(
-        (category) => category.description === clickedCategory
+        (category) => category.id === clickedCategory
       );
+      if (!infoCategory) {
+        return;
+      }
+      setId(infoCategory.id);
       setCategoryType(infoCategory.type);
       setDescription(infoCategory.description);
       setSelectedColor(infoCategory.color);
@@ -209,6 +216,7 @@ function InfoCategory({
                     onClick={() =>
                       doneEventHandler(
                         clickedCategory,
+                        id,
                         categoryType,
                         description,
                         selectedColor,
