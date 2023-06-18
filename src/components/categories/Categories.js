@@ -13,7 +13,9 @@ import CategoriesList from "./list/CategoriesList.js";
 
 import expenseIcon from "../../assets/icons/shared/expense.svg";
 import incomeIcon from "../../assets/icons/shared/income.svg";
-import filterIcon from "../../assets/icons/shared/filter.svg";
+import { ReactComponent as FilterIcon } from "../../assets/icons/shared/filter.svg";
+import { ReactComponent as ArchiveBasket } from "../../assets/icons/shared/archiveBasket.svg";
+import { ReactComponent as CalendarIcon } from "../../assets/icons/shared/calendar.svg";
 
 import "./Categories.css";
 
@@ -72,6 +74,20 @@ function Categories({
         </div>
       </div>
       <div id="categories_main_info">
+        <div id="categories_header">
+          <div id="categories_title">Categories</div>
+          <div className="filtered_field">
+            <FilterIcon />
+            By default
+          </div>
+          <div className="filtered_field">
+            <CalendarIcon />
+            All time
+          </div>
+          <div id="archived">
+            <ArchiveBasket />
+          </div>
+        </div>
         <div id="categories_titles">
           <div className="categories_title">
             <NavLink to="/categories/all" className={isActive}>
@@ -88,7 +104,6 @@ function Categories({
               Incomes
             </NavLink>
           </div>
-          <img src={filterIcon} alt="filter" />
         </div>
         <CategoriesList
           notArchivedCategories={notArchivedCategories}

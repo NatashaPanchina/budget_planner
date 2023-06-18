@@ -10,7 +10,9 @@ import {
 import CashList from "./list/CashList.js";
 import CashChart from "./pieChart/CashChart.js";
 
-import filterIcon from "../../assets/icons/shared/filter.svg";
+import { ReactComponent as FilterIcon } from "../../assets/icons/shared/filter.svg";
+import { ReactComponent as ArchiveBasket } from "../../assets/icons/shared/archiveBasket.svg";
+import { ReactComponent as CalendarIcon } from "../../assets/icons/shared/calendar.svg";
 
 import "./Cash.css";
 
@@ -40,6 +42,20 @@ function Cash({
         <CashChart data={notArchivedAccounts} />
       </div>
       <div id="accounts_main_info">
+        <div id="accounts_header">
+          <div id="accounts_title">Cash</div>
+          <div className="filtered_field">
+            <FilterIcon />
+            By default
+          </div>
+          <div className="filtered_field">
+            <CalendarIcon />
+            All time
+          </div>
+          <div id="archived">
+            <ArchiveBasket />
+          </div>
+        </div>
         <div id="accounts_titles">
           <NavLink to="/cash/all" className={isActive}>
             All
@@ -53,7 +69,6 @@ function Cash({
           <NavLink to="/cash/transfers" className={isActive}>
             Transfers
           </NavLink>
-          <img src={filterIcon} alt="filter" />
         </div>
         <CashList
           notArchivedAccounts={notArchivedAccounts}
