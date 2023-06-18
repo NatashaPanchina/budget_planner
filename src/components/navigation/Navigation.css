@@ -26,14 +26,12 @@
 #logo {
     display: flex;
     align-items: center;
-    height:  50px;
+    height:  56px;
     background: linear-gradient(109.86deg, #D38BFF -2.35%, #6D73FF 81.35%);
 }
 
-#logo img {
-    height: 23px;
-    margin-left: auto;
-    margin-right:  auto;
+#logo svg {
+    height: 45px; 
 }
 
 nav {
@@ -70,7 +68,7 @@ nav div svg {
 nav a{
     display: flex;
     color: #ADADAD;
-    height: inherit;
+    height: 45px;
     width: inherit;
     align-items: center;
 }

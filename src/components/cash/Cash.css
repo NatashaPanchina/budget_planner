@@ -1,5 +1,5 @@
 #accounts_content {
-    margin-top: 50px;
+    margin-top: 56px;
     margin-left: 22%;
     margin-right: 5%;
     display: flex;
@@ -73,7 +73,7 @@
     margin-bottom: 15px;
     border-bottom: 1px solid #DCE2DF;
     position: sticky;
-    top: 50px;
+    top: 56px;
     z-index: 10;
     background-color: #FAFAFA;
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import logoIcon from "../../assets/icons/navigation/logo.svg";
+import { ReactComponent as LogoIcon } from "../../assets/icons/navigation/logo.svg";
 import { ReactComponent as TransactionsIcon } from "../../assets/icons/navigation/transactions.svg";
 import { ReactComponent as CashIcon } from "../../assets/icons/navigation/cash.svg";
 import { ReactComponent as NewTransactionIcon } from "../../assets/icons/navigation/newTransaction.svg";
@@ -19,7 +19,7 @@ export default function Navigation() {
   return (
     <div id="navigation">
       <div id="logo">
-        <img src={logoIcon} alt="logo" />
+        <LogoIcon />
       </div>
       <nav>
         <div>

@@ -131,4 +131,6 @@ button {
 
 .input_items {
   width: calc(80% - 20px);
+  color: #000;
+  font-size: 16px;
 }
