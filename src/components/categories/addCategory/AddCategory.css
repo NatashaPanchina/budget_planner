@@ -1,7 +1,7 @@
 #add_category_content {
     width: 50%;
     min-width: 461px;
-    margin-top: 50px;
+    margin-top: 56px;
     margin-left: 33.5%;
     margin-right: 16.5%;
 }
@@ -30,7 +30,7 @@
     justify-content: center;
     border-bottom: 1px solid #DCE2DF;
     position: sticky;
-    top: 50px;
+    top: 56px;
     background-color: #fafafa;
     z-index: 10;
 }

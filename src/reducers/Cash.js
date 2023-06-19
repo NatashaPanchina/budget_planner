@@ -1,20 +1,39 @@
 import {
+  IDB_FETCH_ACCOUNTS_INIT,
+  IDB_FETCH_ACCOUNTS_SUCCESS,
+  IDB_FETCH_ACCOUNTS_FAILURE,
   ADD_NEW_ACCOUNT,
   DELETE_ACCOUNT,
   EDIT_ACCOUNT,
-  RECEIVE_IDB_ACCOUNTS,
-  REQUEST_IDB,
   ARCHIVE_ACCOUNT,
   UPDATE_ACCOUNT_BALANCE,
 } from "../actions/ActionTypes";
 
 const initialState = {
-  fetching: false,
+  status: "idle",
+  error: null,
   accounts: [],
 };
 
-export default (state = initialState, { type, payload }) => {
+const accounts = (state = initialState, { type, payload }) => {
   switch (type) {
+    case IDB_FETCH_ACCOUNTS_INIT:
+      return {
+        ...state,
+        status: "loading",
+      };
+    case IDB_FETCH_ACCOUNTS_SUCCESS:
+      return {
+        ...state,
+        status: "succeeded",
+        accounts: payload,
+      };
+    case IDB_FETCH_ACCOUNTS_FAILURE:
+      return {
+        ...state,
+        status: "failed",
+        error: payload.message,
+      };
     case ADD_NEW_ACCOUNT:
       return Object.assign({}, state, {
         accounts: [payload, ...state.accounts],
@@ -22,15 +41,13 @@ export default (state = initialState, { type, payload }) => {
     case EDIT_ACCOUNT:
       return Object.assign({}, state, {
         accounts: state.accounts.map((account) =>
-          account.description === payload.description
-            ? payload.newAccount
-            : account
+          account.description === payload.id ? payload.newAccount : account
         ),
       });
     case UPDATE_ACCOUNT_BALANCE:
       return Object.assign({}, state, {
         accounts: state.accounts.map((account) =>
-          account.description === payload.description
+          account.id === payload.id
             ? Object.assign({}, account, { balance: payload.balance })
             : account
         ),
@@ -38,22 +55,18 @@ export default (state = initialState, { type, payload }) => {
     case ARCHIVE_ACCOUNT:
       return Object.assign({}, state, {
         accounts: state.accounts.map((account) =>
-          account.description === payload
+          account.id === payload
             ? Object.assign({}, account, { archived: true })
             : account
         ),
       });
     case DELETE_ACCOUNT:
       return Object.assign({}, state, {
-        accounts: state.accounts.filter(
-          (account) => account.description !== payload
-        ),
+        accounts: state.accounts.filter((account) => account.id !== payload),
       });
-    case REQUEST_IDB:
-      return Object.assign({}, state, { fetching: true });
-    case RECEIVE_IDB_ACCOUNTS:
-      return { fetching: false, accounts: payload };
     default:
       return state;
   }
 };
+
+export default accounts;

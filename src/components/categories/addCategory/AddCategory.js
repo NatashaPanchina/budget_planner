@@ -1,11 +1,14 @@
 import React from "react";
 import { Link, NavLink, useParams } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { addNewCategory } from "../../../actions/Actions.js";
 
 import CategoryForm from "./CategoryForm.js";
 
-import { ReactComponent as BackIcon } from "../images/backIcon.svg";
-import { ReactComponent as ExpenseIcon } from "../images/expenseIcon.svg";
-import { ReactComponent as IncomeIcon } from "../images/incomeIcon.svg";
+import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
+import { ReactComponent as ExpenseIcon } from "../../../assets/icons/shared/expense.svg";
+import { ReactComponent as IncomeIcon } from "../../../assets/icons/shared/income.svg";
 
 import "./AddCategory.css";
 
@@ -15,7 +18,7 @@ function isActiveLink(isActive, categoryType) {
     : `not_active_${categoryType}Category`;
 }
 
-export default function AddCategory({ addNewCategory }) {
+function AddCategory({ addNewCategory }) {
   const { categoryType } = useParams();
 
   return (
@@ -47,3 +50,9 @@ export default function AddCategory({ addNewCategory }) {
     </div>
   );
 }
+
+const mapDispatchToProps = {
+  addNewCategory,
+};
+
+export default connect(null, mapDispatchToProps)(AddCategory);

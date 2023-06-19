@@ -3,6 +3,7 @@
         "fetching": false,
         "accounts": [
             {
+                "id": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
                 "archived": false,
                 "type": "card",
                 "description": "Sberbank",
@@ -26,6 +27,7 @@
                 ]
             },
             {
+                "id": "c3da7abe-3d29-4e8e-b350-ea13915a7d72",
                 "archived": false,
                 "type": "cash",
                 "description": "Wallet",
@@ -54,6 +56,7 @@
         "fetching": false,
         "categories": [
             {
+                "id": "656e20e0-72c6-494a-848b-e3ac9c0bf147",
                 "archived": false,
                 "type": "income",
                 "description": "Salary",
@@ -69,6 +72,7 @@
                 ]
             },
             {
+                "id": "8bad08aa-3cb0-42f1-bb4d-49622e7826b1",
                 "archived": false,
                 "type": "income",
                 "description": "Gift",
@@ -84,6 +88,7 @@
                 ]
             },
             {
+                "id": "d9361853-bfe4-4dbf-afb0-937ab2240a60",
                 "archived": false,
                 "type": "expense",
                 "description": "Medicine",
@@ -99,6 +104,7 @@
                 ]
             },
             {
+                "id": "9c62223b-fbdf-4ef6-bfd0-358c96ebf774",
                 "archived": false,
                 "type": "expense",
                 "description": "Utilities",
@@ -114,6 +120,7 @@
                 ]
             },
             {
+                "id": "fb2451f7-8f40-4a77-9fff-828e9a3dc58d",
                 "archived": false,
                 "type": "expense",
                 "description": "Gym",
@@ -129,6 +136,7 @@
                 ]
             },
             {
+                "id": "26ca0704-7530-4f15-bea8-e802cf0cecea",
                 "archived": false,
                 "type": "expense",
                 "description": "Food",
@@ -144,6 +152,7 @@
                 ]
             },
             {
+                "id": "fc1c9621-934f-40e4-a29b-8fca89a6e538",
                 "archived": false,
                 "type": "expense",
                 "description": "Education",
@@ -159,6 +168,7 @@
                 ]
             },
             {
+                "id": "8bd8eadc-2599-44f5-a155-e92d1ce2d523",
                 "archived": false,
                 "type": "expense",
                 "description": "Games",
@@ -174,6 +184,7 @@
                 ]
             },
             {
+                "id": "e4be4656-14e9-4691-b4eb-4713316d147f",
                 "archived": false,
                 "type": "expense",
                 "description": "Children",

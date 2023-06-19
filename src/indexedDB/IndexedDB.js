@@ -16,13 +16,13 @@ export function idbOpen() {
     openRequest.onupgradeneeded = () => {
       const idb = openRequest.result;
       const accounts = idb.createObjectStore("accounts", {
-        keyPath: "description",
+        keyPath: "id",
       });
       const transactions = idb.createObjectStore("transactions", {
         keyPath: "id",
       });
       const categories = idb.createObjectStore("categories", {
-        keyPath: "description",
+        keyPath: "id",
       });
 
       loadJSON().then((data) => {
@@ -60,17 +60,6 @@ export const idbAddItem = (newItem, nameObjectStore) => {
       };
       addRequest.onerror = () => reject("idbAddItem Error");
     });
-  });
-};
-
-export const idbEditItem = (prevItemId, newItem, nameObjectStore) => {
-  return new Promise((resolve, reject) => {
-    const deleteRequest = idbDeleteItem(prevItemId, nameObjectStore);
-    deleteRequest
-      .then(() => {
-        idbAddItem(newItem, nameObjectStore);
-      })
-      .catch(() => reject("idbEditItem"));
   });
 };
 

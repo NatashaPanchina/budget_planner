@@ -5,7 +5,10 @@ import { ResponsivePie } from "@nivo/pie";
 import { linearGradientDef } from "@nivo/core";
 
 import CashChartLegends from "./CashChartLegends.js";
-import { formatDineroOutput, formatNumberOutput } from "../../../api";
+import {
+  formatDineroOutput,
+  formatNumberOutput,
+} from "../../../utils/format/cash";
 
 export function renderTooltip(id, formattedValue) {
   return (

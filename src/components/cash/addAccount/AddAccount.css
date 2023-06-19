@@ -1,7 +1,7 @@
 #add_account_content {
     width: 50%;
     min-width: 461px;
-    margin-top: 50px;
+    margin-top: 56px;
     margin-left: 33.5%;
     margin-right: 16.5%;
 }
@@ -29,7 +29,7 @@
     align-items: center;
     justify-content: center;
     position: sticky;
-    top: 50px;
+    top: 56px;
     z-index: 10;
     border-bottom: 1px solid #DCE2DF;
     background-color: #fafafa;

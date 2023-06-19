@@ -1,13 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import logoIcon from "./images/logo.svg";
-import { ReactComponent as TransactionsIcon } from "./images/transactionsIcon.svg";
-import { ReactComponent as CashIcon } from "./images/cashIcon.svg";
-import { ReactComponent as NewTransactionIcon } from "./images/newTransactionIcon.svg";
-import { ReactComponent as CategoriesIcon } from "./images/categoriesIcon.svg";
-import { ReactComponent as AnalysisIcon } from "./images/analysisIcon.svg";
-import { ReactComponent as MoreIcon } from "./images/moreIcon.svg";
+import { ReactComponent as LogoIcon } from "../../assets/icons/navigation/logo.svg";
+import { ReactComponent as TransactionsIcon } from "../../assets/icons/navigation/transactions.svg";
+import { ReactComponent as CashIcon } from "../../assets/icons/navigation/cash.svg";
+import { ReactComponent as NewTransactionIcon } from "../../assets/icons/navigation/newTransaction.svg";
+import { ReactComponent as CategoriesIcon } from "../../assets/icons/navigation/categories.svg";
+import { ReactComponent as AnalysisIcon } from "../../assets/icons/navigation/analysis.svg";
+import { ReactComponent as MoreIcon } from "../../assets/icons/navigation/more.svg";
 
 import "./Navigation.css";
 
@@ -19,7 +19,7 @@ export default function Navigation() {
   return (
     <div id="navigation">
       <div id="logo">
-        <img src={logoIcon} />
+        <LogoIcon />
       </div>
       <nav>
         <div>

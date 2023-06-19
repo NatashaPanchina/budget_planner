@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
-import { colors } from "../../../data/colors";
-import { categoryIcons } from "../../../data/icons";
-import { idbEditItem } from "../../../indexedDB/IndexedDB.js";
+import { colors } from "../../../utils/constants/colors.js";
+import { categoryIcons } from "../../../utils/constants/icons.js";
+import { fetchCategoriesData, editCategory } from "../../../actions/Actions";
+import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 import {
   renderColors,
   renderIcons,
   renderSelectedColor,
   toggleElement,
-} from "../api";
+} from "../utils";
+import {
+  hideElement,
+  useOutsideClick,
+} from "../../../hooks/useOutsideClick.js";
 
-import { ReactComponent as BackIcon } from "../images/backIcon.svg";
+import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
 
 import "../addCategory/AddCategory.css";
 
 const doneEventHandler = (
   selectedCategory,
+  id,
   categoryType,
   description,
   selectedColor,
@@ -27,6 +34,7 @@ const doneEventHandler = (
   editCategory
 ) => {
   const newCategory = {
+    id,
     archived: false,
     type: categoryType,
     description: description,
@@ -37,17 +45,19 @@ const doneEventHandler = (
     tags,
   };
   editCategory(selectedCategory, newCategory);
-  idbEditItem(selectedCategory, newCategory, "categories");
+  idbAddItem(newCategory, "categories");
 };
 
-export default function InfoCategory({
-  categories: { fetching, categories },
+function InfoCategory({
+  categories: { status, categories },
+  fetchCategoriesData,
   editCategory,
 }) {
   const [activeItem, setActiveItem] = useState("");
 
-  const clickedCategory = useParams().categoryDescription;
+  const clickedCategory = useParams().categoryId;
 
+  const [id, setId] = useState("");
   const [categoryType, setCategoryType] = useState("expense");
   const [description, setDescription] = useState();
   const [selectedColor, setSelectedColor] = useState([]);
@@ -58,11 +68,22 @@ export default function InfoCategory({
 
   const SelectedIcon = categoryIcons[icon];
 
+  const colorsRef = useOutsideClick(hideElement);
+  const iconsRef = useOutsideClick(hideElement);
+
   useEffect(() => {
-    if (!fetching) {
+    fetchCategoriesData();
+  }, [fetchCategoriesData]);
+
+  useEffect(() => {
+    if (status === "succeeded") {
       const infoCategory = categories.find(
-        (category) => category.description === clickedCategory
+        (category) => category.id === clickedCategory
       );
+      if (!infoCategory) {
+        return;
+      }
+      setId(infoCategory.id);
       setCategoryType(infoCategory.type);
       setDescription(infoCategory.description);
       setSelectedColor(infoCategory.color);
@@ -71,11 +92,13 @@ export default function InfoCategory({
       setNotes(infoCategory.notes);
       setTags(infoCategory.tags);
     }
-  }, [fetching]);
+  }, [status, categories, clickedCategory]);
 
   return (
     <div id="add_category_content">
-      {!fetching ? (
+      {status === "loading" ? (
+        <div>Loading</div>
+      ) : (
         <React.Fragment>
           <div id="category_titles_block">
             <Link id="category_back_nav" to={`/categories/${categoryType}s`}>
@@ -106,18 +129,26 @@ export default function InfoCategory({
               <div className="info_items">Color</div>
               <div
                 className="selected_color"
-                onClick={() => toggleElement("colors_form")}
+                onClick={(event) => {
+                  toggleElement("colors_form");
+                  iconsRef.current.classList.add("none");
+                  event.stopPropagation();
+                }}
               >
                 {renderSelectedColor(selectedColor)}
               </div>
               <div
                 className="select_btns"
-                onClick={() => toggleElement("colors_form")}
+                onClick={(event) => {
+                  toggleElement("colors_form");
+                  iconsRef.current.classList.add("none");
+                  event.stopPropagation();
+                }}
               >
                 Select
               </div>
             </div>
-            <div id="colors_form" className="none">
+            <div ref={colorsRef} id="colors_form" className="none">
               {renderColors(colors, setSelectedColor)}
               <div
                 id="colors_form_btns"
@@ -135,18 +166,26 @@ export default function InfoCategory({
               <div className="info_items">Icon</div>
               <div
                 className="selected_color"
-                onClick={() => toggleElement("icons_form")}
+                onClick={(event) => {
+                  toggleElement("icons_form");
+                  colorsRef.current.classList.add("none");
+                  event.stopPropagation();
+                }}
               >
                 {renderSelectedColor(selectedColor, SelectedIcon)}
               </div>
               <div
                 className="select_btns"
-                onClick={() => toggleElement("icons_form")}
+                onClick={(event) => {
+                  toggleElement("icons_form");
+                  colorsRef.current.classList.add("none");
+                  event.stopPropagation();
+                }}
               >
                 Select
               </div>
             </div>
-            <div id="icons_form" className="none">
+            <div ref={iconsRef} id="icons_form" className="none">
               {renderIcons(categoryIcons, setIcon)}
               <div id="icons_form_btns">
                 <button onClick={() => toggleElement("icons_form")}>Ok</button>
@@ -200,6 +239,7 @@ export default function InfoCategory({
                     onClick={() =>
                       doneEventHandler(
                         clickedCategory,
+                        id,
                         categoryType,
                         description,
                         selectedColor,
@@ -223,9 +263,20 @@ export default function InfoCategory({
             </div>
           </div>
         </React.Fragment>
-      ) : (
-        <div>Loading</div>
       )}
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    categories: state.categories,
+  };
+};
+
+const mapDispatchToProps = {
+  fetchCategoriesData,
+  editCategory,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(InfoCategory);

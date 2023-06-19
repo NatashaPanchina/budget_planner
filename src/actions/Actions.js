@@ -6,10 +6,12 @@ import {
   ADD_NEW_ACCOUNT,
   DELETE_ACCOUNT,
   EDIT_ACCOUNT,
-  REQUEST_IDB,
-  RECEIVE_IDB_ACCOUNTS,
-  RECEIVE_IDB_CATEGORIES,
-  RECEIVE_IDB_TRANSACTIONS,
+  IDB_FETCH_ACCOUNTS_INIT,
+  IDB_FETCH_ACCOUNTS_SUCCESS,
+  IDB_FETCH_ACCOUNTS_FAILURE,
+  IDB_FETCH_CATEGORIES_INIT,
+  IDB_FETCH_CATEGORIES_SUCCESS,
+  IDB_FETCH_CATEGORIES_FAILURE,
   EDIT_TRANSACTION,
   DELETE_TRANSACTION,
   UPDATE_ACCOUNT_BALANCE,
@@ -46,24 +48,24 @@ export const addNewCategory = (category) => (dispatch) => {
   });
 };
 
-export const editCategory = (description, newCategory) => (dispatch) => {
+export const editCategory = (id, newCategory) => (dispatch) => {
   dispatch({
     type: EDIT_CATEGORY,
-    payload: { description, newCategory },
+    payload: { id, newCategory },
   });
 };
 
-export const archiveCategory = (description) => (dispatch) => {
+export const archiveCategory = (id) => (dispatch) => {
   dispatch({
     type: ARCHIVE_CATEGORY,
-    payload: description,
+    payload: id,
   });
 };
 
-export const deleteCategory = (description) => (dispatch) => {
+export const deleteCategory = (id) => (dispatch) => {
   dispatch({
     type: DELETE_CATEGORY,
-    payload: description,
+    payload: id,
   });
 };
 
@@ -74,53 +76,59 @@ export const addNewAccount = (account) => (dispatch) => {
   });
 };
 
-export const editAccount = (description, newAccount) => (dispatch) => {
+export const editAccount = (id, newAccount) => (dispatch) => {
   dispatch({
     type: EDIT_ACCOUNT,
-    payload: { description, newAccount },
+    payload: { id, newAccount },
   });
 };
 
-export const archiveAccount = (description) => (dispatch) => {
+export const archiveAccount = (id) => (dispatch) => {
   dispatch({
     type: ARCHIVE_ACCOUNT,
-    payload: description,
+    payload: id,
   });
 };
 
-export const deleteAccount = (description) => (dispatch) => {
+export const deleteAccount = (id) => (dispatch) => {
   dispatch({
     type: DELETE_ACCOUNT,
-    payload: description,
+    payload: id,
   });
 };
 
-export const updateAccountBalance = (description, balance) => (dispatch) => {
+export const updateAccountBalance = (id, balance) => (dispatch) => {
   dispatch({
     type: UPDATE_ACCOUNT_BALANCE,
-    payload: { description, balance },
+    payload: { id, balance },
   });
 };
 
 export const fetchAccountsData = () => {
-  return fetchData("accounts", RECEIVE_IDB_ACCOUNTS);
-};
-
-export const fetchTransactionsData = () => {
-  return fetchData("transactions", RECEIVE_IDB_TRANSACTIONS);
+  return fetchData("accounts", {
+    init: IDB_FETCH_ACCOUNTS_INIT,
+    success: IDB_FETCH_ACCOUNTS_SUCCESS,
+    failure: IDB_FETCH_ACCOUNTS_FAILURE,
+  });
 };
 
 export const fetchCategoriesData = () => {
-  return fetchData("categories", RECEIVE_IDB_CATEGORIES);
+  return fetchData("categories", {
+    init: IDB_FETCH_CATEGORIES_INIT,
+    success: IDB_FETCH_CATEGORIES_SUCCESS,
+    failure: IDB_FETCH_CATEGORIES_FAILURE,
+  });
 };
 
-//запрашиваем данные из indexedDB для инициализации redux store
-//здесь асинхронные экшены. для каждого подхранилища
-//свой экшн
-export function fetchData(nameObjectStore, actionType) {
+//позже изменю экшены на экшены для транзакций
+export const fetchTransactionsData = () => {
+  return fetchData("transactions", {});
+};
+
+export function fetchData(nameObjectStore, { init, success, failure }) {
   return (dispatch) => {
     dispatch({
-      type: REQUEST_IDB,
+      type: init,
     });
     idbOpen().then(
       (idb) => {
@@ -136,14 +144,14 @@ export function fetchData(nameObjectStore, actionType) {
           } else {
             //все данные из index DB получены
             dispatch({
-              type: actionType,
+              type: success,
               payload: resultData,
             });
             idb.close();
           }
         };
       },
-      (error) => console.log(error)
+      (error) => dispatch({ type: failure, payload: error })
     );
   };
 }

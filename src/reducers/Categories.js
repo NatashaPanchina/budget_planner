@@ -1,19 +1,38 @@
 import {
+  IDB_FETCH_CATEGORIES_INIT,
+  IDB_FETCH_CATEGORIES_SUCCESS,
+  IDB_FETCH_CATEGORIES_FAILURE,
   ADD_NEW_CATEGORY,
   ARCHIVE_CATEGORY,
   DELETE_CATEGORY,
   EDIT_CATEGORY,
-  RECEIVE_IDB_CATEGORIES,
-  REQUEST_IDB,
 } from "../actions/ActionTypes";
 
 const initialState = {
-  fetching: false,
+  status: "idle",
+  error: null,
   categories: [],
 };
 
-export default (state = initialState, { type, payload }) => {
+const categories = (state = initialState, { type, payload }) => {
   switch (type) {
+    case IDB_FETCH_CATEGORIES_INIT:
+      return {
+        ...state,
+        status: "loading",
+      };
+    case IDB_FETCH_CATEGORIES_SUCCESS:
+      return {
+        ...state,
+        status: "succeeded",
+        categories: payload,
+      };
+    case IDB_FETCH_CATEGORIES_FAILURE:
+      return {
+        ...state,
+        status: "failed",
+        error: payload.message,
+      };
     case ADD_NEW_CATEGORY:
       return Object.assign({}, state, {
         categories: [payload, ...state.categories],
@@ -21,15 +40,13 @@ export default (state = initialState, { type, payload }) => {
     case EDIT_CATEGORY:
       return Object.assign({}, state, {
         categories: state.categories.map((category) =>
-          category.description === payload.description
-            ? payload.newCategory
-            : category
+          category.id === payload.id ? payload.newCategory : category
         ),
       });
     case ARCHIVE_CATEGORY:
       return Object.assign({}, state, {
         categories: state.categories.map((category) =>
-          category.description === payload
+          category.id === payload
             ? Object.assign({}, category, { archived: true })
             : category
         ),
@@ -37,14 +54,12 @@ export default (state = initialState, { type, payload }) => {
     case DELETE_CATEGORY:
       return Object.assign({}, state, {
         categories: state.categories.filter(
-          (category) => category.description !== payload
+          (category) => category.id !== payload
         ),
       });
-    case REQUEST_IDB:
-      return Object.assign({}, state, { fetching: true });
-    case RECEIVE_IDB_CATEGORIES:
-      return { fetching: false, categories: payload };
     default:
       return state;
   }
 };
+
+export default categories;

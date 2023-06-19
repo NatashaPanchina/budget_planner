@@ -1,5 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 
-export default function Transactions() {
+function Transactions() {
   return <div>Transactions</div>;
 }
+
+export default connect()(Transactions);

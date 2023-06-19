@@ -1,10 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Link, NavLink, useParams } from "react-router-dom";
 
-import { createCashType } from "../api";
+import { addNewAccount } from "../../../actions/Actions";
+import { createCashType } from "../utils";
 import AccountForm from "./AccountForm.js";
 
-import { ReactComponent as BackIcon } from "../images/backIcon.svg";
+import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
 
 import "./AddAccount.css";
 
@@ -12,7 +14,7 @@ function isActive({ isActive }) {
   return isActive ? "active_account_type" : "";
 }
 
-export default function AddAccount({ addNewAccount }) {
+function AddAccount({ addNewAccount }) {
   const { accountType } = useParams();
 
   return (
@@ -42,3 +44,9 @@ export default function AddAccount({ addNewAccount }) {
     </div>
   );
 }
+
+const mapDispatchToProps = {
+  addNewAccount,
+};
+
+export default connect(null, mapDispatchToProps)(AddAccount);

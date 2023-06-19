@@ -1,21 +1,26 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 import { NumericFormat } from "react-number-format";
 import { USD } from "@dinero.js/currencies";
 import { toSnapshot } from "dinero.js";
 
-import { colors } from "../../../data/colors";
-import { dineroFromFloat, formatNumberOutput } from "../../../api";
+import { colors } from "../../../utils/constants/colors";
+import {
+  dineroFromFloat,
+  formatNumberOutput,
+} from "../../../utils/format/cash";
 import {
   renderSelectedColor,
   renderColors,
   toggleElement,
   createCashType,
-} from "../api";
+} from "../utils";
+import { useOutsideClick, hideElement } from "../../../hooks/useOutsideClick";
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 
-import cardBackground from "../images/cardBackground.svg";
+import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
 
 const doneEventHandler = (
   accountType,
@@ -28,6 +33,7 @@ const doneEventHandler = (
   addNewAccount
 ) => {
   const newAccount = {
+    id: uuidv4(),
     archived: false,
     type: accountType,
     description,
@@ -58,6 +64,8 @@ export default function CashForm({ accountType, addNewAccount }) {
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
   const [tags, setTags] = useState([""]);
+
+  const colorsRef = useOutsideClick(hideElement);
 
   return (
     <React.Fragment>
@@ -121,18 +129,24 @@ export default function CashForm({ accountType, addNewAccount }) {
           <div className="info_items">Color</div>
           <div
             id="account_selected_color"
-            onClick={() => toggleElement("account_colors_form")}
+            onClick={(event) => {
+              toggleElement("account_colors_form");
+              event.stopPropagation();
+            }}
           >
             {renderSelectedColor(selectedColor)}
           </div>
           <div
             className="select_btns"
-            onClick={() => toggleElement("account_colors_form")}
+            onClick={(event) => {
+              toggleElement("account_colors_form");
+              event.stopPropagation();
+            }}
           >
             Select
           </div>
         </div>
-        <div id="account_colors_form" className="none">
+        <div ref={colorsRef} id="account_colors_form" className="none">
           {renderColors(colors, setSelectedColor)}
           <div
             id="colors_form_btns"

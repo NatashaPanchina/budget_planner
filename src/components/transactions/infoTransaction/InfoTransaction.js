@@ -1,5 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 
-export default function InfoTransaction() {
+function InfoTransaction() {
   return <div>Info Transaction</div>;
 }
+
+export default connect()(InfoTransaction);

@@ -1,26 +1,34 @@
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+
 import { NumericFormat } from "react-number-format";
 import { USD } from "@dinero.js/currencies";
 import { dinero, toDecimal, toSnapshot } from "dinero.js";
 
-import { colors } from "../../../data/colors";
-import { dineroFromFloat, formatNumberOutput } from "../../../api";
+import { colors } from "../../../utils/constants/colors.js";
+import { fetchAccountsData, editAccount } from "../../../actions/Actions";
+import {
+  dineroFromFloat,
+  formatNumberOutput,
+} from "../../../utils/format/cash";
 import {
   renderSelectedColor,
   renderColors,
   toggleElement,
   createCashType,
-} from "../api";
-import { idbEditItem } from "../../../indexedDB/IndexedDB.js";
+} from "../utils";
+import { useOutsideClick, hideElement } from "../../../hooks/useOutsideClick";
+import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 
-import { ReactComponent as BackIcon } from "../images/backIcon.svg";
-import cardBackground from "../images/cardBackground.svg";
+import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
+import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
 
 import "../addAccount/AddAccount.css";
 
 const doneEventHandler = (
   clickedAccount,
+  id,
   accountType,
   description,
   balance,
@@ -31,6 +39,7 @@ const doneEventHandler = (
   editAccount
 ) => {
   const newAccount = {
+    id,
     archived: false,
     type: accountType,
     description,
@@ -47,18 +56,20 @@ const doneEventHandler = (
     tags,
   };
   editAccount(clickedAccount, newAccount);
-  idbEditItem(clickedAccount, newAccount, "accounts");
+  idbAddItem(newAccount, "accounts");
 };
 
-export default function InfoAccount({
-  accounts: { fetching, accounts },
+function InfoAccount({
+  accounts: { status, accounts },
+  fetchAccountsData,
   editAccount,
 }) {
   const [activeItem, setActiveItem] = useState("");
 
   //счет который пользователь хочет отредактировать (нажал на него на странице Cash)
-  const clickedAccount = useParams().accountDescription;
+  const clickedAccount = useParams().accountId;
 
+  const [id, setId] = useState("");
   const [accountType, setAccountType] = useState("");
   const [description, setDescription] = useState("");
   const [balance, setBalance] = useState(
@@ -68,23 +79,27 @@ export default function InfoAccount({
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
   const [tags, setTags] = useState([""]);
-  let cashType = createCashType(accountType);
-  //этот хук нужен так как получение данных из дб асинхронно.
-  //и не проверяя переменную fetching мы не узнаем когда
-  //данные подгрузились и доступны.
-  //хук срабатывает при изменении fetching только один раз.
-  //если бы он срабатывал несколько раз данные бы
-  //невозможно было отредактировать. т.к они бы постоянно
-  //перезаписывались. происходило бы большое количество
-  //рендерингов.
-  //теперь, когда fetching станет false значит данные
-  //загрузились в indexedDB. и мы можем получить даннные
-  //необходимого счета из этой бд.
+
+  const cashType = createCashType(accountType);
+
+  const colorsRef = useOutsideClick(hideElement);
+
+  //запрашиваем нужные данные для этого компонента
+  //один раз только при его монтировании
   useEffect(() => {
-    if (!fetching) {
+    fetchAccountsData();
+  }, [fetchAccountsData]);
+
+  //получаем данные нужного счета когда они подгрузились
+  useEffect(() => {
+    if (status === "succeeded") {
       let selectedAccount = accounts.find(
-        (account) => account.description === clickedAccount
+        (account) => account.id === clickedAccount
       );
+      if (!selectedAccount) {
+        return;
+      }
+      setId(selectedAccount.id);
       setAccountType(selectedAccount.type);
       setDescription(selectedAccount.description);
       setBalance(toDecimal(dinero(selectedAccount.balance)));
@@ -92,9 +107,8 @@ export default function InfoAccount({
       setDate(new Date(selectedAccount.date));
       setNotes(selectedAccount.notes);
       setTags(selectedAccount.tags);
-      cashType = createCashType(accountType);
     }
-  }, [fetching]);
+  }, [status, accounts, clickedAccount]);
 
   return (
     <div id="add_account_content">
@@ -104,7 +118,9 @@ export default function InfoAccount({
         </Link>
         <div id="info_account_title">Account information</div>
       </div>
-      {!fetching ? (
+      {status === "loading" ? (
+        <div>Loading</div>
+      ) : (
         <React.Fragment>
           <div id="account_view">
             <div
@@ -167,18 +183,24 @@ export default function InfoAccount({
               <div className="info_items">Color</div>
               <div
                 id="account_selected_color"
-                onClick={() => toggleElement("account_colors_form")}
+                onClick={(event) => {
+                  toggleElement("account_colors_form");
+                  event.stopPropagation();
+                }}
               >
                 {renderSelectedColor(selectedColor)}
               </div>
               <div
                 className="select_btns"
-                onClick={() => toggleElement("account_colors_form")}
+                onClick={(event) => {
+                  toggleElement("account_colors_form");
+                  event.stopPropagation();
+                }}
               >
                 Select
               </div>
             </div>
-            <div id="account_colors_form" className="none">
+            <div ref={colorsRef} id="account_colors_form" className="none">
               {renderColors(colors, setSelectedColor)}
               <div
                 id="colors_form_btns"
@@ -235,6 +257,7 @@ export default function InfoAccount({
                     onClick={() =>
                       doneEventHandler(
                         clickedAccount,
+                        id,
                         accountType,
                         description,
                         balance,
@@ -258,9 +281,20 @@ export default function InfoAccount({
             </div>
           </div>
         </React.Fragment>
-      ) : (
-        <div>Loading</div>
       )}
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    accounts: state.accounts,
+  };
+};
+
+const mapDispatchToProps = {
+  fetchAccountsData,
+  editAccount,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(InfoAccount);
