@@ -75,7 +75,7 @@ function InfoAccount({
   const [balance, setBalance] = useState(
     toDecimal(dinero({ amount: 0, currency: USD }))
   );
-  const [selectedColor, setSelectedColor] = useState(["#07CC32", "#009B76"]);
+  const [selectedColor, setSelectedColor] = useState(colors.green[800]);
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
   const [tags, setTags] = useState([""]);
@@ -111,20 +111,20 @@ function InfoAccount({
   }, [status, accounts, clickedAccount]);
 
   return (
-    <div id="add_account_content">
-      <div id="accounts_title_block">
-        <Link id="account_back_nav" to={`/cash/${cashType}`}>
+    <div className="add_account_content">
+      <div className="accounts_title_block">
+        <Link className="account_back_nav" to={`/cash/${cashType}`}>
           <BackIcon />
         </Link>
-        <div id="info_account_title">Account information</div>
+        <div className="info_account_title">Account information</div>
       </div>
       {status === "loading" ? (
         <div>Loading</div>
       ) : (
         <React.Fragment>
-          <div id="account_view">
+          <div className="account_view">
             <div
-              id="card_view"
+              className="card_view"
               style={{
                 background: `url(${cardBackground}) 0% 0% / cover no-repeat,
                                linear-gradient(90deg, ${selectedColor[0]} 0%, ${selectedColor[1]} 100%)`,
@@ -140,7 +140,7 @@ function InfoAccount({
               </div>
             </div>
           </div>
-          <div id="add_account_form">
+          <div className="add_account_form">
             <div
               className={`add_account_item ${
                 activeItem === "1" ? `account_active_item` : ""
@@ -182,9 +182,10 @@ function InfoAccount({
             >
               <div className="info_items">Color</div>
               <div
-                id="account_selected_color"
+                className="account_selected_color"
                 onClick={(event) => {
-                  toggleElement("account_colors_form");
+                  setActiveItem("3");
+                  toggleElement(".account_colors_form");
                   event.stopPropagation();
                 }}
               >
@@ -193,18 +194,21 @@ function InfoAccount({
               <div
                 className="select_btns"
                 onClick={(event) => {
-                  toggleElement("account_colors_form");
+                  setActiveItem("3");
+                  toggleElement(".account_colors_form");
                   event.stopPropagation();
                 }}
               >
                 Select
               </div>
             </div>
-            <div ref={colorsRef} id="account_colors_form" className="none">
-              {renderColors(colors, setSelectedColor)}
+            <div ref={colorsRef} className="account_colors_form none">
+              <div className="accounts_palette">
+                {renderColors(colors, setSelectedColor, selectedColor)}
+              </div>
               <div
-                id="colors_form_btns"
-                onClick={() => toggleElement("account_colors_form")}
+                className="colors_form_btns"
+                onClick={() => toggleElement(".account_colors_form")}
               >
                 <button>Ok</button>
               </div>
@@ -249,11 +253,11 @@ function InfoAccount({
                 placeholder="Click here to define some tags"
               ></input>
             </div>
-            <div id="account_buttons_block">
-              <div id="done_button_div">
+            <div className="account_buttons_block">
+              <div className="done_button_div">
                 <Link to={`/cash/${cashType}`}>
                   <button
-                    id="account_button"
+                    className="account_button"
                     onClick={() =>
                       doneEventHandler(
                         clickedAccount,
@@ -273,9 +277,9 @@ function InfoAccount({
                   </button>
                 </Link>
               </div>
-              <div id="cancel_button_div">
+              <div className="cancel_button_div">
                 <Link to={`/cash/${cashType}`}>
-                  <button id="account_cancel_button">Cancel</button>
+                  <button className="account_cancel_button">Cancel</button>
                 </Link>
               </div>
             </div>

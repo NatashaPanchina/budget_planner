@@ -45,8 +45,8 @@ function Categories({
   return status === "loading" ? (
     <div>Loading</div>
   ) : (
-    <div id="categories_content">
-      <div id="categories_more_info">
+    <div className="categories_content">
+      <div className="categories_more_info">
         <CategoriesBar
           data={[
             { all: allCount, type: "all", allColor: "#419FFF" },
@@ -54,28 +54,32 @@ function Categories({
             { income: incomeCount, type: "income", incomeColor: "#6EBD0A" },
           ]}
         />
-        <div id="categories_bar_info">
+        <div className="categories_bar_info">
           Total
-          <div id="total_categories_count">{allCount} categories</div>
+          <div className="total_categories_count">{allCount} categories</div>
           <div className="categories_bar_item">
             <img src={expenseIcon} alt="expenses" />
             <div>
               Expenses
-              <div id="expense_categories_count">{expenseCount} categories</div>
+              <div className="expense_categories_count">
+                {expenseCount} categories
+              </div>
             </div>
           </div>
           <div className="categories_bar_item">
             <img src={incomeIcon} alt="incomes" />
             <div>
               Incomes
-              <div id="income_categories_count">{incomeCount} categories</div>
+              <div className="income_categories_count">
+                {incomeCount} categories
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div id="categories_main_info">
-        <div id="categories_header">
-          <div id="categories_title">Categories</div>
+      <div className="categories_main_info">
+        <div className="categories_header">
+          <div className="filtered_title">Categories</div>
           <div className="filtered_field">
             <FilterIcon />
             By default
@@ -84,11 +88,11 @@ function Categories({
             <CalendarIcon />
             All time
           </div>
-          <div id="archived">
+          <div className="archived">
             <ArchiveBasket />
           </div>
         </div>
-        <div id="categories_titles">
+        <div className="categories_titles">
           <div className="categories_title">
             <NavLink to="/categories/all" className={isActive}>
               All

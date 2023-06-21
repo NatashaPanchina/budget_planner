@@ -7,16 +7,16 @@ import logoutIcon from "../../assets/icons/shared/logOut.svg";
 
 export default function Header() {
   return (
-    <div id="header">
-      <div id="header_title">New Transaction</div>
-      <div id="header_search">
+    <div className="header">
+      <div className="header_title">New Transaction</div>
+      <div className="header_search">
         Search everything
-        <img src={searchIcon} alt="search" height="20px" />
+        <img src={searchIcon} alt="search" />
       </div>
-      <div id="header_language">EN</div>
-      <div id="header_currency">$</div>
-      <div id="header_profile">Natasha</div>
-      <div id="header_logout">
+      <div className="header_language">EN</div>
+      <div className="header_currency">$</div>
+      <div className="header_profile">Natasha</div>
+      <div className="header_logout">
         <img src={logoutIcon} alt="logOut" />
       </div>
     </div>

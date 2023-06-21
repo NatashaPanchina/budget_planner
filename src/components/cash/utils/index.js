@@ -1,60 +1,71 @@
 import { ReactComponent as CheckMarkIcon } from "../../../assets/icons/shared/checkMark.svg";
 
-function showCheckMark(index) {
+function showCheckMark(key) {
   const allMarks = document.querySelectorAll(".checkMarkIcon");
   for (let mark of allMarks) {
     if (!mark.classList.contains("none")) {
       mark.classList.add("none");
     }
   }
-  document.getElementById(`colorRect${index}`).classList.toggle("none");
+  document.querySelector(`.${key}`).classList.toggle("none");
 }
 
-export function renderColors(colors, setSelectedColor) {
-  return colors.map((color, index) => {
-    return (
-      <svg
-        key={index}
-        width="34"
-        height="23"
-        viewBox="0 0 34 23"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        onClick={() => {
-          setSelectedColor(colors[index]);
-          showCheckMark(index);
-        }}
-      >
-        <rect
-          x="0"
-          y="0"
-          width="34"
-          height="23"
-          rx="5"
-          fill={`url(#${index})`}
-        ></rect>
-        <CheckMarkIcon
-          x="1.5"
-          y="-3.5"
-          id={`colorRect${index}`}
-          className="checkMarkIcon none"
-        />
-        <defs>
-          <linearGradient
-            id={index}
-            x1="0"
-            y1="0"
-            x2="34"
-            y2="11.5"
-            gradientUnits="userSpaceOnUse"
+export function renderColors(colors, setSelectedColor, initialColor) {
+  let result = [];
+
+  const isInitialColor = (color) => {
+    if (!initialColor) return false;
+    return initialColor[0] === color[0] && initialColor[1] === color[1];
+  };
+
+  for (let shade = 500; shade <= 900; shade += 100) {
+    for (let color in colors) {
+      result.push(
+        <div className="color_container">
+          <svg
+            key={`${color}${shade}`}
+            viewBox="0 0 34 23"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            onClick={() => {
+              setSelectedColor(colors[color][shade]);
+              showCheckMark(`${color}${shade}`);
+            }}
           >
-            <stop stopColor={color[0]} />
-            <stop offset="1" stopColor={color[1]} />
-          </linearGradient>
-        </defs>
-      </svg>
-    );
-  });
+            <rect
+              x="0"
+              y="0"
+              width="34"
+              height="23"
+              rx="5"
+              fill={`url(#${color}${shade})`}
+            ></rect>
+            <CheckMarkIcon
+              x="1.5"
+              y="-3.5"
+              className={`${color + shade} checkMarkIcon ${
+                isInitialColor(colors[color][shade]) ? "" : "none"
+              }`}
+            />
+            <defs>
+              <linearGradient
+                id={`${color}${shade}`}
+                x1="0"
+                y1="0"
+                x2="34"
+                y2="23"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stopColor={colors[color][shade][0]} />
+                <stop offset="1" stopColor={colors[color][shade][1]} />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+      );
+    }
+  }
+  return result;
 }
 
 export function renderSelectedColor(selectedColor) {
@@ -80,7 +91,7 @@ export function renderSelectedColor(selectedColor) {
           x1="0"
           y1="0"
           x2="34"
-          y2="11.5"
+          y2="23"
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor={selectedColor[0]} />
@@ -92,7 +103,7 @@ export function renderSelectedColor(selectedColor) {
 }
 
 export function toggleElement(name) {
-  document.getElementById(name).classList.toggle("none");
+  document.querySelector(name).classList.toggle("none");
 }
 
 export function createCashType(accountType) {

@@ -38,9 +38,61 @@ function renderTooltip(id, formattedValue) {
   );
 }
 
+function renderGradients() {
+  return [
+    linearGradientDef(
+      "allGradient",
+      [
+        { offset: 0, color: "#D38BFF" },
+        { offset: 100, color: "#6D73FF" },
+      ],
+      {
+        gradientTransform: "rotate(-45 0.5 0.5)",
+      }
+    ),
+    linearGradientDef(
+      "expenseGradient",
+      [
+        { offset: 0, color: "#F862A1" },
+        { offset: 100, color: "#F4395B" },
+      ],
+      {
+        gradientTransform: "rotate(-45 0.5 0.5)",
+      }
+    ),
+    linearGradientDef(
+      "incomeGradient",
+      [
+        { offset: 0, color: "#B3FF53" },
+        { offset: 100, color: "#6EBD0A" },
+      ],
+      {
+        gradientTransform: "rotate(-45 0.5 0.5)",
+      }
+    ),
+  ];
+}
+
+function renderMatchs() {
+  return [
+    {
+      match: { id: "all" },
+      id: "allGradient",
+    },
+    {
+      match: { id: "expense" },
+      id: "expenseGradient",
+    },
+    {
+      match: { id: "income" },
+      id: "incomeGradient",
+    },
+  ];
+}
+
 export default function CategoriesBar({ data }) {
   return (
-    <div id="categories_barChart">
+    <div className="categories_barChart">
       <ResponsiveBar
         margin={{
           top: 20,
@@ -53,52 +105,8 @@ export default function CategoriesBar({ data }) {
         indexBy="type"
         colors={({ id, data }) => String(data[`${id}Color`])}
         padding={0.2}
-        defs={[
-          linearGradientDef(
-            "allGradient",
-            [
-              { offset: 0, color: "#D38BFF" },
-              { offset: 100, color: "#6D73FF" },
-            ],
-            {
-              gradientTransform: "rotate(-45 0.5 0.5)",
-            }
-          ),
-          linearGradientDef(
-            "expenseGradient",
-            [
-              { offset: 0, color: "#F862A1" },
-              { offset: 100, color: "#F4395B" },
-            ],
-            {
-              gradientTransform: "rotate(-45 0.5 0.5)",
-            }
-          ),
-          linearGradientDef(
-            "incomeGradient",
-            [
-              { offset: 0, color: "#B3FF53" },
-              { offset: 100, color: "#6EBD0A" },
-            ],
-            {
-              gradientTransform: "rotate(-45 0.5 0.5)",
-            }
-          ),
-        ]}
-        fill={[
-          {
-            match: { id: "all" },
-            id: "allGradient",
-          },
-          {
-            match: { id: "expense" },
-            id: "expenseGradient",
-          },
-          {
-            match: { id: "income" },
-            id: "incomeGradient",
-          },
-        ]}
+        defs={renderGradients()}
+        fill={renderMatchs()}
         enableLabel={false}
         enableGridY={false}
         valueScale={{ type: "linear" }}

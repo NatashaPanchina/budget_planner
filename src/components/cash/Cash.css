@@ -1,4 +1,4 @@
-#accounts_content {
+.accounts_content {
     margin-top: 56px;
     margin-left: 22%;
     margin-right: 5%;
@@ -6,8 +6,9 @@
     justify-content: space-between;
 }
 
-#accounts_more_info {
+.accounts_more_info {
     width: 22%;
+    min-width: 200px;
     height: 80vh;
     padding-top: 10px;
     margin-top: 20px;
@@ -20,7 +21,7 @@
     box-shadow: 0px 4px 10px #F3F3F3;
 }
 
-#accounts_pieChart {
+.accounts_pieChart {
     width: 80%;
     height: 50%;
     margin-top: 10px;
@@ -28,7 +29,7 @@
     margin-right: auto;
 }
 
-#pie_legends_block {
+.pie_legends_block {
     display: grid;
     width: 100%;
     align-items: center;
@@ -37,45 +38,43 @@
     grid-row-gap: 1em;
 }
 
-#pie_legends_block svg {
+.pie_legends_block svg {
     align-self: center;
 }
 
 .legends_procent {
     justify-self: end;
-    font-size: 16px;
 }
 
-#legends_container {
+.legends_container {
     height: 70%;
     overflow-y: auto;
-    font-size: 14px;
+    font-size: 0.875rem;
     margin-top: 20px;
 }
 
-#legends_container::-webkit-scrollbar {
+.legends_container::-webkit-scrollbar {
     width: 5px;
 }
 
-#legends_container::-webkit-scrollbar-thumb {
+.legends_container::-webkit-scrollbar-thumb {
     background: rgba(196, 196, 196, 0.3);;
     border-radius: 10px;
 }
 
-
-#accounts_main_info {
+.accounts_main_info {
     margin-left: 35%;
     width: 75%;
 }
 
-#accounts_header {
+.accounts_header {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     height: 50px;
 }
 
-#accounts_title {
+.accounts_title {
     margin-right: auto;
 }
 
@@ -88,7 +87,7 @@
     height: fit-content;
     padding: 7px 10px;
     margin-right: 5%;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #989393;
 }
 
@@ -98,12 +97,12 @@
     margin: 0px 5px;
 }
 
-#archived svg {
+.archived svg {
     height: 35px;
     filter: drop-shadow(0px 4px 4px rgba(243, 243, 243, 1));
 }
 
-#accounts_titles {
+.accounts_titles {
     display: flex;
     margin-bottom: 15px;
     border-bottom: 1px solid #DCE2DF;
@@ -113,20 +112,20 @@
     background-color: #FAFAFA;
 }
 
-#info_account_title {
+.info_account_title {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 60px;
 }
 
-#accounts_titles img {
+.accounts_titles img {
     margin-left: auto;
 }
 
 .accounts_title {
     color: #989393;
-    font-size: 15px;
+    font-size: 0.9375rem;
     height: 50px;
     width: 25%;
     display: flex;
@@ -158,7 +157,7 @@
 }
 
 .card_name {
-    font-size: 14px;
+    font-size: 0.875rem;
     width: 100%;
     height: 10%;
     padding-top: 3%;
@@ -174,16 +173,16 @@
 }
 
 .card_balance {
-    font-size: 22px;
+    font-size: 1.375rem;
 }
 
 .card_balance_title {
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .accounts_notes {
     color: #989393;
-    font-size: 14px;
+    font-size: 0.75rem;
     display: flex;
     align-items: center;
     margin-top: 10px;
@@ -194,18 +193,18 @@
     margin-right: 5px;
 }
 
-#add_account_btn {
+.add_account_btn {
     height: 60px;
     width: 100%;
     display: flex;
     align-items: center;
 }
 
-#add_account_btn a:hover svg path{
+.add_account_btn a:hover svg path{
     fill: #a57fff;
 }
 
-#add_account_btn a {
+.add_account_btn a {
     display: flex;
     height: inherit;
     width: inherit;
@@ -213,18 +212,18 @@
     color: #6D73FF;
 }
 
-#add_account_btn a:hover {
+.add_account_btn a:hover {
     color: #a57fff;
 }
 
-.account_buttons svg, #add_account_btn svg {
+.account_buttons svg, .add_account_btn svg {
     height: 18px;
     width: 18px;
     margin-left: 30px;
     margin-right: 10px;
 }
 
-#add_account_btn svg {
+.add_account_btn svg {
     margin-left: 0px;
 }
 
@@ -251,6 +250,6 @@
     fill: #989393;
 }
 
-#account_buttons_block {
+.account_buttons_block {
     display: flex;
 }

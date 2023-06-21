@@ -1,4 +1,4 @@
-#add_category_content {
+.add_category_content {
     width: 50%;
     min-width: 461px;
     margin-top: 56px;
@@ -6,7 +6,7 @@
     margin-right: 16.5%;
 }
 
-#category_back_nav {
+.category_back_nav {
     position: absolute;
     left: 0;
     height: 60px;
@@ -14,16 +14,16 @@
     align-items: center;
 }
 
-#category_back_nav svg {
+.category_back_nav svg {
     width: 40px;
     height: 40px;
 }
 
-#category_back_nav:hover svg circle {
+.category_back_nav:hover svg circle {
     fill: #F0F0F0;
 }
 
-#category_titles_block {
+.category_titles_block {
     display: flex;
     margin-bottom: 35px;
     align-items: center;
@@ -35,7 +35,7 @@
     z-index: 10;
 }
 
-#add_category_titles {
+.add_category_titles {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -53,7 +53,6 @@
 .add_category_title a {
     height: inherit;
     width: 100%;
-    color: #989393;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,29 +74,27 @@
 
 .active_expenseCategory {
     border-bottom: 2px solid #6D73FF;
+    color: #F4395B;
 }
 
-.active_expenseCategory a {
-    color: #F4395B;
+.not_active_expenseCategory, .not_active_incomeCategory {
+    color: #989393;
 }
 
 .not_active_expenseCategory svg rect {
     fill: url(#not_active);
 }
 
-.not_active_expenseCategory a:hover {
+.not_active_expenseCategory:hover {
     color: #F4395B;
 }
 
-.not_active_expenseCategory a:hover svg rect {
+.not_active_expenseCategory:hover svg rect {
     fill: url(#expense_active);
 }
 
 .active_incomeCategory {
     border-bottom: 2px solid #6D73FF;
-}
-
-.active_incomeCategory a {
     color: #6EBD0A;
 }
 
@@ -105,15 +102,15 @@
     fill: url(#not_active);
 }
 
-.not_active_incomeCategory a:hover {
+.not_active_incomeCategory:hover {
     color: #6EBD0A;
 }
 
-.not_active_incomeCategory a:hover svg rect  {
+.not_active_incomeCategory:hover svg rect  {
     fill: url(#income_active);
 }
 
-#add_category_form {
+.add_category_form {
     position: relative;;
 }
 
@@ -126,14 +123,14 @@
     background-color: #fff;
     filter: drop-shadow(0px 2px 5px #fafafa);
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #C4C4C4;
 }
 
 .add_category_item input {
     width: 75%;
     color: #000;
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .expense_active_item {
@@ -148,8 +145,9 @@
     box-shadow: 0px 4px 10px rgba(110, 189, 10, 0.1);
 }
 
-#colors_form, #icons_form {
-    width: 432px;
+.colors_form, .icons_form {
+    width: 70%;
+    min-width: 365px;
     position: absolute;
     z-index: 5;
     padding: 10px;
@@ -158,43 +156,64 @@
     background-color: #fff;
 }
 
-#colors_form {
+.colors_form {
     top: 130px;
     right: 0px;
 }
 
-#icons_form {
+.icons_form {
     top: 200px;
     right: 0px;
     padding-bottom: 0px;
+}
+
+.categories_palette, .categories_icons {
+    display: grid;
+    grid-template-columns: repeat(9, 11.11%);
+}
+
+.color_container {
+    width: 100%;  
+}
+
+.icon_container {
+    width: 100%;
 }
 
 .selected_color {
     cursor: pointer;
 }
 
-#colors_form svg, #icons_form svg {
-    margin-left: 10px;
-    margin-right: 10px;
+.categories_palette svg, .categories_icons svg {
     margin-top: 5px;
     margin-bottom: 5px;
     cursor: pointer;
 }
 
-#colors_form_btns, #icons_form_btns {
+.categories_palette svg {
+    margin-left: 16%;
+    margin-right: 16%;
+}
+
+.categories_icons svg {
+    margin-left: 18%;
+    margin-right: 18%;
+}
+
+.colors_form_btns, .icons_form_btns {
     display: flex;
     padding-top: 10px;
     justify-content: space-evenly;
 }
 
-#icons_form_btns {
+.icons_form_btns {
     position: sticky;
     bottom: 0px;
     padding-bottom: 10px;
     background-color:  #fff;
 }
 
-#colors_form_btns button, #icons_form_btns button {
+.colors_form_btns button, .icons_form_btns button {
     border: none;
     border-radius: 10px;
     width: 25%;
@@ -203,7 +222,7 @@
     background-color: #eaeaea;
 }
 
-#colors_form_btns button:hover, #icons_form_btns button:hover {
+.colors_form_btns button:hover, .icons_form_btns button:hover {
     background-color: #F3F3F3;
 }
 
@@ -218,21 +237,21 @@
     color: #a57fff;
 }
 
-#icons_form {
+.icons_form {
     overflow-y: auto;
     height: 300px;
 }
 
-#icons_form::-webkit-scrollbar {
+.icons_form::-webkit-scrollbar {
     width: 5px;
 }
 
-#icons_form::-webkit-scrollbar-thumb {
+.icons_form::-webkit-scrollbar-thumb {
     background: linear-gradient(109.86deg, #D38BFF -2.35%, #6D73FF 81.35%); 
     border-radius: 10px;
 }
 
-#icons_form svg path {
+.icons_form svg path {
     fill: #000;
 }
 

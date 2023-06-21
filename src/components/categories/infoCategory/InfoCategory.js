@@ -60,7 +60,7 @@ function InfoCategory({
   const [id, setId] = useState("");
   const [categoryType, setCategoryType] = useState("expense");
   const [description, setDescription] = useState();
-  const [selectedColor, setSelectedColor] = useState([]);
+  const [selectedColor, setSelectedColor] = useState(colors.green[600]);
   const [icon, setIcon] = useState(0);
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
@@ -95,18 +95,21 @@ function InfoCategory({
   }, [status, categories, clickedCategory]);
 
   return (
-    <div id="add_category_content">
+    <div className="add_category_content">
       {status === "loading" ? (
         <div>Loading</div>
       ) : (
         <React.Fragment>
-          <div id="category_titles_block">
-            <Link id="category_back_nav" to={`/categories/${categoryType}s`}>
+          <div className="category_titles_block">
+            <Link
+              className="category_back_nav"
+              to={`/categories/${categoryType}s`}
+            >
               <BackIcon />
             </Link>
             <div className="info_category_title">Category Information</div>
           </div>
-          <div id="add_category_form">
+          <div className="add_category_form">
             <div
               className={`add_category_item ${
                 activeItem === "1" ? `${categoryType}_active_item` : ""
@@ -130,7 +133,8 @@ function InfoCategory({
               <div
                 className="selected_color"
                 onClick={(event) => {
-                  toggleElement("colors_form");
+                  setActiveItem("2");
+                  toggleElement(".colors_form");
                   iconsRef.current.classList.add("none");
                   event.stopPropagation();
                 }}
@@ -140,7 +144,8 @@ function InfoCategory({
               <div
                 className="select_btns"
                 onClick={(event) => {
-                  toggleElement("colors_form");
+                  setActiveItem("2");
+                  toggleElement(".colors_form");
                   iconsRef.current.classList.add("none");
                   event.stopPropagation();
                 }}
@@ -148,11 +153,13 @@ function InfoCategory({
                 Select
               </div>
             </div>
-            <div ref={colorsRef} id="colors_form" className="none">
-              {renderColors(colors, setSelectedColor)}
+            <div ref={colorsRef} className="colors_form none">
+              <div className="categories_palette">
+                {renderColors(colors, setSelectedColor, selectedColor)}
+              </div>
               <div
-                id="colors_form_btns"
-                onClick={() => toggleElement("colors_form")}
+                className="colors_form_btns"
+                onClick={() => toggleElement(".colors_form")}
               >
                 <button>Ok</button>
               </div>
@@ -167,7 +174,8 @@ function InfoCategory({
               <div
                 className="selected_color"
                 onClick={(event) => {
-                  toggleElement("icons_form");
+                  setActiveItem("3");
+                  toggleElement(".icons_form");
                   colorsRef.current.classList.add("none");
                   event.stopPropagation();
                 }}
@@ -177,7 +185,8 @@ function InfoCategory({
               <div
                 className="select_btns"
                 onClick={(event) => {
-                  toggleElement("icons_form");
+                  setActiveItem("3");
+                  toggleElement(".icons_form");
                   colorsRef.current.classList.add("none");
                   event.stopPropagation();
                 }}
@@ -185,10 +194,12 @@ function InfoCategory({
                 Select
               </div>
             </div>
-            <div ref={iconsRef} id="icons_form" className="none">
-              {renderIcons(categoryIcons, setIcon)}
-              <div id="icons_form_btns">
-                <button onClick={() => toggleElement("icons_form")}>Ok</button>
+            <div ref={iconsRef} className="icons_form none">
+              <div className="categories_icons">
+                {renderIcons(categoryIcons, setIcon)}
+              </div>
+              <div className="icons_form_btns">
+                <button onClick={() => toggleElement(".icons_form")}>Ok</button>
               </div>
             </div>
             <div
@@ -231,11 +242,11 @@ function InfoCategory({
                 placeholder="Click here to define some tags"
               ></input>
             </div>
-            <div id="categories_buttons_block">
-              <div id="done_button_div">
+            <div className="categories_buttons_block">
+              <div className="done_button_div">
                 <Link to={`/categories/${categoryType}s`}>
                   <button
-                    id={`${categoryType}_button`}
+                    className={`${categoryType}_button`}
                     onClick={() =>
                       doneEventHandler(
                         clickedCategory,
@@ -255,9 +266,9 @@ function InfoCategory({
                   </button>
                 </Link>
               </div>
-              <div id="cancel_button_div">
+              <div className="cancel_button_div">
                 <Link to={`/categories/${categoryType}s`}>
-                  <button id="category_cancel_button">Cancel</button>
+                  <button className="category_cancel_button">Cancel</button>
                 </Link>
               </div>
             </div>

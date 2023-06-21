@@ -10,7 +10,7 @@ import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.sv
 
 import "./AddAccount.css";
 
-function isActive({ isActive }) {
+function isActiveLink(isActive) {
   return isActive ? "active_account_type" : "";
 }
 
@@ -18,26 +18,31 @@ function AddAccount({ addNewAccount }) {
   const { accountType } = useParams();
 
   return (
-    <div id="add_account_content">
-      <div id="accounts_title_block">
-        <Link id="account_back_nav" to={`/cash/${createCashType(accountType)}`}>
+    <div className="add_account_content">
+      <div className="accounts_title_block">
+        <Link
+          className="account_back_nav"
+          to={`/cash/${createCashType(accountType)}`}
+        >
           <BackIcon />
         </Link>
-        <div id="add_account_titles">
-          <NavLink
-            to={`/addAccount/card`}
-            id="add_account_title"
-            className={isActive}
-          >
-            New Card
-          </NavLink>
-          <NavLink
-            to={`/addAccount/cash`}
-            id="add_account_title"
-            className={isActive}
-          >
-            New Cash
-          </NavLink>
+        <div className="add_account_titles">
+          <div className="add_account_title">
+            <NavLink
+              to={`/addAccount/card`}
+              className={({ isActive }) => `${isActiveLink(isActive)}`}
+            >
+              New Card
+            </NavLink>
+          </div>
+          <div className="add_account_title">
+            <NavLink
+              to={`/addAccount/cash`}
+              className={({ isActive }) => `${isActiveLink(isActive)}`}
+            >
+              New Cash
+            </NavLink>
+          </div>
         </div>
       </div>
       <AccountForm addNewAccount={addNewAccount} />

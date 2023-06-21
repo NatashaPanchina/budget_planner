@@ -61,8 +61,8 @@
                 "type": "income",
                 "description": "Salary",
                 "color": [
-                    "#CE66FF",
-                    "#6E3DFB"
+                    "#45E9FF",
+                    "#4579FF"
                 ],
                 "icon": 91,
                 "date": "2023-06-14T18:00:00.000Z",
@@ -77,8 +77,8 @@
                 "type": "income",
                 "description": "Gift",
                 "color": [
-                    "#45E9FF",
-                    "#4579FF"
+                    "#CE66FF",
+                    "#6E3DFB"
                 ],
                 "icon": 35,
                 "date": "2023-06-14T18:00:00.000Z",
@@ -93,8 +93,8 @@
                 "type": "expense",
                 "description": "Medicine",
                 "color": [
-                    "#FF9558",
-                    "#FF5353"
+                    "#FF9D0B",
+                    "#FF234B"
                 ],
                 "icon": 61,
                 "date": "2023-06-14T18:00:00.000Z",
@@ -109,8 +109,8 @@
                 "type": "expense",
                 "description": "Utilities",
                 "color": [
-                    "#F9FE00",
-                    "#88FF11"
+                    "#D0E917",
+                    "#91D607"
                 ],
                 "icon": 23,
                 "date": "2023-06-14T18:00:00.000Z",
@@ -125,7 +125,7 @@
                 "type": "expense",
                 "description": "Gym",
                 "color": [
-                    "#F3BA26",
+                    "#FFBB0E",
                     "#DA630D"
                 ],
                 "icon": 33,
@@ -141,8 +141,8 @@
                 "type": "expense",
                 "description": "Food",
                 "color": [
-                    "#2AF7C5",
-                    "#0EC2B4"
+                    "#3FDF93",
+                    "#0DBBC5"
                 ],
                 "icon": 54,
                 "date": "2023-06-14T18:00:00.000Z",
@@ -157,8 +157,8 @@
                 "type": "expense",
                 "description": "Education",
                 "color": [
-                    "#FF8FE9",
-                    "#ED3CCA"
+                    "#FF74B7",
+                    "#FF496C"
                 ],
                 "icon": 80,
                 "date": "2023-06-14T18:00:00.000Z",
@@ -173,8 +173,8 @@
                 "type": "expense",
                 "description": "Games",
                 "color": [
-                    "#ECFF14",
-                    "#FFD600"
+                    "#FFE920",
+                    "#FFC120"
                 ],
                 "icon": 34,
                 "date": "2023-06-14T18:00:00.000Z",
@@ -189,8 +189,8 @@
                 "type": "expense",
                 "description": "Children",
                 "color": [
-                    "#FCFF54",
-                    "#34C924"
+                    "#88FFC6",
+                    "#04C217"
                 ],
                 "icon": 14,
                 "date": "2023-06-14T18:00:00.000Z",

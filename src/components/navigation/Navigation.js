@@ -17,8 +17,8 @@ function isActive({ isActive }) {
 
 export default function Navigation() {
   return (
-    <div id="navigation">
-      <div id="logo">
+    <div className="navigation">
+      <div className="logo">
         <LogoIcon />
       </div>
       <nav>
@@ -36,7 +36,7 @@ export default function Navigation() {
         </div>
         <div>
           <NavLink to="/newTransaction" className={isActive}>
-            <NewTransactionIcon id="newTransactionIcon" />
+            <NewTransactionIcon className="newTransactionIcon" />
             New Transaction
           </NavLink>
         </div>
@@ -48,11 +48,11 @@ export default function Navigation() {
         </div>
         <div>
           <NavLink to="/analysis" className={isActive}>
-            <AnalysisIcon id="analysisIcon" />
+            <AnalysisIcon className="analysisIcon" />
             Analysis
           </NavLink>
         </div>
-        <div id="more_nav">
+        <div className="more_nav">
           <MoreIcon />
           more
         </div>

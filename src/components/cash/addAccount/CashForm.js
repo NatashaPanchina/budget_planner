@@ -60,7 +60,7 @@ export default function CashForm({ accountType, addNewAccount }) {
 
   const [description, setDescription] = useState("");
   const [balance, setBalance] = useState(0.0);
-  const [selectedColor, setSelectedColor] = useState(colors[26]);
+  const [selectedColor, setSelectedColor] = useState(colors.green[700]);
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
   const [tags, setTags] = useState([""]);
@@ -69,9 +69,9 @@ export default function CashForm({ accountType, addNewAccount }) {
 
   return (
     <React.Fragment>
-      <div id="account_view">
+      <div className="account_view">
         <div
-          id="card_view"
+          className="card_view"
           style={{
             background: `url(${cardBackground}) 0% 0% / cover no-repeat,
                               linear-gradient(90deg, ${selectedColor[0]} 0%, ${selectedColor[1]} 100%)`,
@@ -87,7 +87,7 @@ export default function CashForm({ accountType, addNewAccount }) {
           </div>
         </div>
       </div>
-      <div id="add_account_form">
+      <div className="add_account_form">
         <div
           className={`add_account_item ${
             activeItem === "1" ? `account_active_item` : ""
@@ -128,9 +128,10 @@ export default function CashForm({ accountType, addNewAccount }) {
         >
           <div className="info_items">Color</div>
           <div
-            id="account_selected_color"
+            className="account_selected_color"
             onClick={(event) => {
-              toggleElement("account_colors_form");
+              setActiveItem("3");
+              toggleElement(".account_colors_form");
               event.stopPropagation();
             }}
           >
@@ -139,18 +140,21 @@ export default function CashForm({ accountType, addNewAccount }) {
           <div
             className="select_btns"
             onClick={(event) => {
-              toggleElement("account_colors_form");
+              setActiveItem("3");
+              toggleElement(".account_colors_form");
               event.stopPropagation();
             }}
           >
             Select
           </div>
         </div>
-        <div ref={colorsRef} id="account_colors_form" className="none">
-          {renderColors(colors, setSelectedColor)}
+        <div ref={colorsRef} className="account_colors_form none">
+          <div className="accounts_palette">
+            {renderColors(colors, setSelectedColor, selectedColor)}
+          </div>
           <div
-            id="colors_form_btns"
-            onClick={() => toggleElement("account_colors_form")}
+            className="colors_form_btns"
+            onClick={() => toggleElement(".account_colors_form")}
           >
             <button>Ok</button>
           </div>
@@ -194,11 +198,11 @@ export default function CashForm({ accountType, addNewAccount }) {
             placeholder="Click here to define some tags"
           ></input>
         </div>
-        <div id="account_buttons_block">
-          <div id="done_button_div">
+        <div className="account_buttons_block">
+          <div className="done_button_div">
             <Link to={`/cash/${cashType}`}>
               <button
-                id="account_button"
+                className="account_button"
                 onClick={() =>
                   doneEventHandler(
                     cashType,
@@ -216,9 +220,9 @@ export default function CashForm({ accountType, addNewAccount }) {
               </button>
             </Link>
           </div>
-          <div id="cancel_button_div">
+          <div className="cancel_button_div">
             <Link to={`/cash/${cashType}`}>
-              <button id="account_cancel_button">Cancel</button>
+              <button className="account_cancel_button">Cancel</button>
             </Link>
           </div>
         </div>

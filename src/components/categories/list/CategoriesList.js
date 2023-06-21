@@ -49,11 +49,11 @@ export default function CategoriesList({
 
   return (
     <React.Fragment>
-      <div id="search">
+      <div className="search">
         <input type="text" placeholder="Search category"></input>
         <img src={searchIcon} alt="search" />
       </div>
-      <div id="add_category_btn">
+      <div className="add_category_btn">
         <Link
           to={`/addCategory/${filterType === "all" ? "expense" : filterType}`}
         >
@@ -86,8 +86,8 @@ export default function CategoriesList({
                       id={index}
                       x1="0"
                       y1="0"
-                      x2="17"
-                      y2="17"
+                      x2="34"
+                      y2="34"
                       gradientUnits="userSpaceOnUse"
                     >
                       <stop stopColor={category.color[0]} />

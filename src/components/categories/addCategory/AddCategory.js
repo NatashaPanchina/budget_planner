@@ -13,21 +13,26 @@ import { ReactComponent as IncomeIcon } from "../../../assets/icons/shared/incom
 import "./AddCategory.css";
 
 function isActiveLink(isActive, categoryType) {
-  return isActive
-    ? `active_${categoryType}Category`
-    : `not_active_${categoryType}Category`;
+  switch (categoryType) {
+    case "expense":
+      return isActive ? `active_expenseCategory` : `not_active_incomeCategory`;
+    case "income":
+      return isActive ? `active_incomeCategory` : `not_active_expenseCategory`;
+    default:
+      return "";
+  }
 }
 
 function AddCategory({ addNewCategory }) {
   const { categoryType } = useParams();
 
   return (
-    <div id="add_category_content">
-      <div id="category_titles_block">
-        <Link id="category_back_nav" to={`/categories/${categoryType}s`}>
+    <div className="add_category_content">
+      <div className="category_titles_block">
+        <Link className="category_back_nav" to={`/categories/${categoryType}s`}>
           <BackIcon />
         </Link>
-        <div id="add_category_titles">
+        <div className="add_category_titles">
           <div className="add_category_title">
             <NavLink
               to="/addCategory/expense"

@@ -7,11 +7,11 @@ import { ReactComponent as PlusIcon } from "../../../assets/icons/shared/plus.sv
 export default function TransferList({ transactions }) {
   return (
     <div>
-      <div id="search">
+      <div className="search">
         <input type="text" placeholder="Search transfer"></input>
         <img src={searchIcon} alt="search" />
       </div>
-      <div id="add_account_btn">
+      <div className="add_account_btn">
         <Link to={`/newTransaction/transfer/all`}>
           <PlusIcon />
           Add transfer

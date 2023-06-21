@@ -36,14 +36,14 @@ function Cash({
   return status === "loading" ? (
     <div>Loading</div>
   ) : (
-    <div id="accounts_content">
-      <div id="accounts_more_info">
+    <div className="accounts_content">
+      <div className="accounts_more_info">
         Total balance
         <CashChart data={notArchivedAccounts} />
       </div>
-      <div id="accounts_main_info">
-        <div id="accounts_header">
-          <div id="accounts_title">Cash</div>
+      <div className="accounts_main_info">
+        <div className="accounts_header">
+          <div className="filtered_title">Cash</div>
           <div className="filtered_field">
             <FilterIcon />
             By default
@@ -52,11 +52,11 @@ function Cash({
             <CalendarIcon />
             All time
           </div>
-          <div id="archived">
+          <div className="archived">
             <ArchiveBasket />
           </div>
         </div>
-        <div id="accounts_titles">
+        <div className="accounts_titles">
           <NavLink to="/cash/all" className={isActive}>
             All
           </NavLink>

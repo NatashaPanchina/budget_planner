@@ -56,11 +56,11 @@ export default function AccountsList({ notArchivedAccounts, archiveAccount }) {
   const filterCash = createCashFilter(useParams().filterCash);
   return (
     <React.Fragment>
-      <div id="search">
+      <div className="search">
         <input type="text" placeholder={`Search ${filterCash}`}></input>
         <img src={searchIcon} alt="search" />
       </div>
-      <div id="add_account_btn">
+      <div className="add_account_btn">
         <Link to={`/addAccount/${filterCash === "all" ? "card" : filterCash}`}>
           <PlusIcon />
           Add {filterCash === "all" ? "cash" : filterCash}
@@ -72,8 +72,7 @@ export default function AccountsList({ notArchivedAccounts, archiveAccount }) {
           <div className="account_item" key={account.id}>
             <div className="account_info">
               <div
-                id={account.description}
-                className="card"
+                className={`${account.description} card`}
                 style={{
                   background: `url(${cardBackground}) 0% 0% / cover no-repeat,
                                                   linear-gradient(90deg, ${account.color[0]} 0%, ${account.color[1]} 100%)`,
