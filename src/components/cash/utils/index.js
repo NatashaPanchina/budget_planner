@@ -21,9 +21,8 @@ export function renderColors(colors, setSelectedColor, initialColor) {
   for (let shade = 500; shade <= 900; shade += 100) {
     for (let color in colors) {
       result.push(
-        <div className="color_container">
+        <div className="color_container" key={`${color}${shade}`}>
           <svg
-            key={`${color}${shade}`}
             viewBox="0 0 34 23"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -114,5 +113,18 @@ export function createCashType(accountType) {
       return "cash";
     default:
       return "all";
+  }
+}
+
+export function createLocaleCashType(cashType) {
+  switch (cashType) {
+    case "card":
+      return "CARD";
+    case "cash":
+      return "CASH";
+    case "transfer":
+      return "TRANSFER";
+    default:
+      return "ALL";
   }
 }

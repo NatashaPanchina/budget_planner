@@ -1,4 +1,6 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
+
 import { ResponsiveBar } from "@nivo/bar";
 import { linearGradientDef } from "@nivo/core";
 
@@ -38,10 +40,12 @@ function renderTooltip(id, formattedValue) {
   );
 }
 
-function renderGradients() {
+function renderGradients(keys) {
+  if (!keys) return;
+
   return [
     linearGradientDef(
-      "allGradient",
+      `${keys[0]}Gradient`,
       [
         { offset: 0, color: "#D38BFF" },
         { offset: 100, color: "#6D73FF" },
@@ -51,7 +55,7 @@ function renderGradients() {
       }
     ),
     linearGradientDef(
-      "expenseGradient",
+      `${keys[1]}Gradient`,
       [
         { offset: 0, color: "#F862A1" },
         { offset: 100, color: "#F4395B" },
@@ -61,7 +65,7 @@ function renderGradients() {
       }
     ),
     linearGradientDef(
-      "incomeGradient",
+      `${keys[2]}Gradient`,
       [
         { offset: 0, color: "#B3FF53" },
         { offset: 100, color: "#6EBD0A" },
@@ -73,24 +77,34 @@ function renderGradients() {
   ];
 }
 
-function renderMatchs() {
+function renderMatchs(keys) {
+  if (!keys) return [];
+
   return [
     {
-      match: { id: "all" },
-      id: "allGradient",
+      match: { id: keys[0] },
+      id: `${keys[0]}Gradient`,
     },
     {
-      match: { id: "expense" },
-      id: "expenseGradient",
+      match: { id: keys[1] },
+      id: `${keys[1]}Gradient`,
     },
     {
-      match: { id: "income" },
-      id: "incomeGradient",
+      match: { id: keys[2] },
+      id: `${keys[2]}Gradient`,
     },
   ];
 }
 
 export default function CategoriesBar({ data }) {
+  const { t } = useTranslation();
+
+  const keys = [
+    t("CATEGORIES.ALL"),
+    t("CATEGORIES.EXPENSES"),
+    t("CATEGORIES.INCOMES"),
+  ];
+
   return (
     <div className="categories_barChart">
       <ResponsiveBar
@@ -101,12 +115,12 @@ export default function CategoriesBar({ data }) {
           left: 0,
         }}
         data={data}
-        keys={["all", "expense", "income"]}
+        keys={keys}
         indexBy="type"
         colors={({ id, data }) => String(data[`${id}Color`])}
         padding={0.2}
-        defs={renderGradients()}
-        fill={renderMatchs()}
+        defs={renderGradients(keys)}
+        fill={renderMatchs(keys)}
         enableLabel={false}
         enableGridY={false}
         valueScale={{ type: "linear" }}

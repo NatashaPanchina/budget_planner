@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link, NavLink, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { addNewAccount } from "../../../actions/Actions";
 import { createCashType } from "../utils";
@@ -15,6 +16,7 @@ function isActiveLink(isActive) {
 }
 
 function AddAccount({ addNewAccount }) {
+  const { t } = useTranslation();
   const { accountType } = useParams();
 
   return (
@@ -29,18 +31,18 @@ function AddAccount({ addNewAccount }) {
         <div className="add_account_titles">
           <div className="add_account_title">
             <NavLink
-              to={`/addAccount/card`}
+              to={`/cash/addAccount/card`}
               className={({ isActive }) => `${isActiveLink(isActive)}`}
             >
-              New Card
+              {t("ADD_ACCOUNT.CARD")}
             </NavLink>
           </div>
           <div className="add_account_title">
             <NavLink
-              to={`/addAccount/cash`}
+              to={`/cash/addAccount/cash`}
               className={({ isActive }) => `${isActiveLink(isActive)}`}
             >
-              New Cash
+              {t("ADD_ACCOUNT.CASH")}
             </NavLink>
           </div>
         </div>

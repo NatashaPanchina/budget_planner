@@ -1,13 +1,13 @@
 .accounts_content {
     margin-top: 56px;
-    margin-left: 22%;
+    margin-left: 20%;
     margin-right: 5%;
     display: flex;
     justify-content: space-between;
 }
 
 .accounts_more_info {
-    width: 22%;
+    width: 20%;
     min-width: 200px;
     height: 80vh;
     padding-top: 10px;
@@ -63,7 +63,7 @@
 }
 
 .accounts_main_info {
-    margin-left: 35%;
+    margin-left: 32%;
     width: 75%;
 }
 
@@ -108,7 +108,7 @@
     border-bottom: 1px solid #DCE2DF;
     position: sticky;
     top: 56px;
-    z-index: 10;
+    z-index: 9;
     background-color: #FAFAFA;
 }
 

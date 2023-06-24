@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+import { useTranslation } from "react-i18next";
 
+import { v4 as uuidv4 } from "uuid";
 import { NumericFormat } from "react-number-format";
 import { USD } from "@dinero.js/currencies";
 import { toSnapshot } from "dinero.js";
@@ -54,6 +55,8 @@ const doneEventHandler = (
 };
 
 export default function CardForm({ accountType, addNewAccount }) {
+  const { t } = useTranslation();
+
   const [activeItem, setActiveItem] = useState("");
 
   const [description, setDescription] = useState("");
@@ -83,7 +86,9 @@ export default function CardForm({ accountType, addNewAccount }) {
             <div className="card_balance">
               {formatNumberOutput(balance, "USD")}
             </div>
-            <div className="card_balance_title">Current balance</div>
+            <div className="card_balance_title">
+              {t("ADD_ACCOUNT.CURRENT_BALANCE")}
+            </div>
           </div>
         </div>
       </div>
@@ -94,11 +99,11 @@ export default function CardForm({ accountType, addNewAccount }) {
           }`}
           onClick={() => setActiveItem("1")}
         >
-          <div className="info_items">Description</div>
+          <div className="info_items">{t("ADD_ACCOUNT.DESCRIPTION")}</div>
           <input
             type="text"
             onChange={(event) => setDescription(event.target.value)}
-            placeholder="Click here to set the description"
+            placeholder={t("ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER")}
           ></input>
         </div>
         <div
@@ -107,7 +112,7 @@ export default function CardForm({ accountType, addNewAccount }) {
           }`}
           onClick={() => setActiveItem("2")}
         >
-          <div className="info_items">Balance</div>
+          <div className="info_items">{t("ADD_ACCOUNT.BALANCE")}</div>
           <div className="input_items">
             $
             <NumericFormat
@@ -126,7 +131,7 @@ export default function CardForm({ accountType, addNewAccount }) {
           }`}
           onClick={() => setActiveItem("3")}
         >
-          <div className="info_items">Color</div>
+          <div className="info_items">{t("ADD_ACCOUNT.COLOR")}</div>
           <div
             className="account_selected_color"
             onClick={(event) => {
@@ -145,7 +150,7 @@ export default function CardForm({ accountType, addNewAccount }) {
               event.stopPropagation();
             }}
           >
-            Select
+            {t("ADD_ACCOUNT.SELECT")}
           </div>
         </div>
         <div ref={colorsRef} className="account_colors_form none">
@@ -156,7 +161,7 @@ export default function CardForm({ accountType, addNewAccount }) {
             className="colors_form_btns"
             onClick={() => toggleElement(".account_colors_form")}
           >
-            <button>Ok</button>
+            <button>{t("ADD_ACCOUNT.OK")}</button>
           </div>
         </div>
         <div
@@ -165,7 +170,7 @@ export default function CardForm({ accountType, addNewAccount }) {
           }`}
           onClick={() => setActiveItem("4")}
         >
-          <div className="info_items">Date</div>
+          <div className="info_items">{t("ADD_ACCOUNT.DATE")}</div>
           <div className="input_items">
             <input
               type="date"
@@ -179,11 +184,11 @@ export default function CardForm({ accountType, addNewAccount }) {
           }`}
           onClick={() => setActiveItem("5")}
         >
-          <div className="info_items">Notes</div>
+          <div className="info_items">{t("ADD_ACCOUNT.NOTES")}</div>
           <input
             type="text"
             onChange={(event) => setNotes(event.target.value)}
-            placeholder="Click here to make some notes"
+            placeholder={t("ADD_ACCOUNT.NOTES_PLACEHOLDER")}
           ></input>
         </div>
         <div
@@ -192,10 +197,10 @@ export default function CardForm({ accountType, addNewAccount }) {
           }`}
           onClick={() => setActiveItem("6")}
         >
-          <div className="info_items">Tags</div>
+          <div className="info_items">{t("ADD_ACCOUNT.TAGS")}</div>
           <input
             type="text"
-            placeholder="Click here to define some tags"
+            placeholder={t("ADD_ACCOUNT.TAGS_PLACEHOLDER")}
           ></input>
         </div>
         <div className="account_buttons_block">
@@ -216,13 +221,15 @@ export default function CardForm({ accountType, addNewAccount }) {
                   )
                 }
               >
-                Done
+                {t("ADD_ACCOUNT.DONE")}
               </button>
             </Link>
           </div>
           <div className="cancel_button_div">
             <Link to={`/cash/${cashType}`}>
-              <button className="account_cancel_button">Cancel</button>
+              <button className="account_cancel_button">
+                {t("ADD_ACCOUNT.CANCEL")}
+              </button>
             </Link>
           </div>
         </div>

@@ -51,9 +51,8 @@ export function renderColors(colors, setSelectedColor, initialColor) {
   for (let shade = 500; shade <= 900; shade += 100) {
     for (let color in colors) {
       result.push(
-        <div className="color_container">
+        <div className="color_container" key={`${color}${shade}`}>
           <svg
-            key={`${color}${shade}`}
             viewBox="0 0 34 34"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -97,8 +96,8 @@ export function renderColors(colors, setSelectedColor, initialColor) {
 export function renderIcons(icons, setIcon) {
   return icons.map((Icon, index) => {
     return (
-      <div className="icon_container">
-        <Icon key={index} id={index} onClick={() => setIcon(index)} />
+      <div className="icon_container" key={index}>
+        <Icon id={index} onClick={() => setIcon(index)} />
       </div>
     );
   });

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { NumericFormat } from "react-number-format";
 import { USD } from "@dinero.js/currencies";
@@ -17,6 +18,7 @@ import {
   renderColors,
   toggleElement,
   createCashType,
+  createLocaleCashType,
 } from "../utils";
 import { useOutsideClick, hideElement } from "../../../hooks/useOutsideClick";
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
@@ -64,6 +66,8 @@ function InfoAccount({
   fetchAccountsData,
   editAccount,
 }) {
+  const { t } = useTranslation();
+
   const [activeItem, setActiveItem] = useState("");
 
   //счет который пользователь хочет отредактировать (нажал на него на странице Cash)
@@ -81,6 +85,7 @@ function InfoAccount({
   const [tags, setTags] = useState([""]);
 
   const cashType = createCashType(accountType);
+  const cashLocalType = createLocaleCashType(accountType);
 
   const colorsRef = useOutsideClick(hideElement);
 
@@ -116,7 +121,9 @@ function InfoAccount({
         <Link className="account_back_nav" to={`/cash/${cashType}`}>
           <BackIcon />
         </Link>
-        <div className="info_account_title">Account information</div>
+        <div className="info_account_title">
+          {t(`INFO_ACCOUNT.${cashLocalType}_INFORMATION`)}
+        </div>
       </div>
       {status === "loading" ? (
         <div>Loading</div>
@@ -136,7 +143,9 @@ function InfoAccount({
                 <div className="card_balance">
                   {formatNumberOutput(balance, "USD")}
                 </div>
-                <div className="card_balance_title">Current balance</div>
+                <div className="card_balance_title">
+                  {t("INFO_ACCOUNT.CURRENT_BALANCE")}
+                </div>
               </div>
             </div>
           </div>
@@ -147,7 +156,7 @@ function InfoAccount({
               }`}
               onClick={() => setActiveItem("1")}
             >
-              <div className="info_items">Description</div>
+              <div className="info_items">{t("INFO_ACCOUNT.DESCRIPTION")}</div>
               <input
                 type="text"
                 onChange={(event) => setDescription(event.target.value)}
@@ -160,7 +169,7 @@ function InfoAccount({
               }`}
               onClick={() => setActiveItem("2")}
             >
-              <div className="info_items">Balance</div>
+              <div className="info_items">{t("INFO_ACCOUNT.BALANCE")}</div>
               <div className="input_items">
                 $
                 <NumericFormat
@@ -180,7 +189,7 @@ function InfoAccount({
               }`}
               onClick={() => setActiveItem("3")}
             >
-              <div className="info_items">Color</div>
+              <div className="info_items">{t("INFO_ACCOUNT.COLOR")}</div>
               <div
                 className="account_selected_color"
                 onClick={(event) => {
@@ -199,7 +208,7 @@ function InfoAccount({
                   event.stopPropagation();
                 }}
               >
-                Select
+                {t("INFO_ACCOUNT.SELECT")}
               </div>
             </div>
             <div ref={colorsRef} className="account_colors_form none">
@@ -210,7 +219,7 @@ function InfoAccount({
                 className="colors_form_btns"
                 onClick={() => toggleElement(".account_colors_form")}
               >
-                <button>Ok</button>
+                <button>{t("INFO_ACCOUNT.OK")}</button>
               </div>
             </div>
             <div
@@ -219,7 +228,7 @@ function InfoAccount({
               }`}
               onClick={() => setActiveItem("4")}
             >
-              <div className="info_items">Date</div>
+              <div className="info_items">{t("INFO_ACCOUNT.DATE")}</div>
               <div className="input_items">
                 <input
                   type="date"
@@ -233,11 +242,10 @@ function InfoAccount({
               }`}
               onClick={() => setActiveItem("5")}
             >
-              <div className="info_items">Notes</div>
+              <div className="info_items">{t("INFO_ACCOUNT.NOTES")}</div>
               <input
                 type="text"
                 onChange={(event) => setNotes(event.target.value)}
-                placeholder="Click here to make some notes"
                 value={notes}
               ></input>
             </div>
@@ -247,11 +255,8 @@ function InfoAccount({
               }`}
               onClick={() => setActiveItem("6")}
             >
-              <div className="info_items">Tags</div>
-              <input
-                type="text"
-                placeholder="Click here to define some tags"
-              ></input>
+              <div className="info_items">{t("INFO_ACCOUNT.TAGS")}</div>
+              <input type="text"></input>
             </div>
             <div className="account_buttons_block">
               <div className="done_button_div">
@@ -273,13 +278,15 @@ function InfoAccount({
                       )
                     }
                   >
-                    Ok
+                    {t("INFO_ACCOUNT.DONE")}
                   </button>
                 </Link>
               </div>
               <div className="cancel_button_div">
                 <Link to={`/cash/${cashType}`}>
-                  <button className="account_cancel_button">Cancel</button>
+                  <button className="account_cancel_button">
+                    {t("INFO_ACCOUNT.CANCEL")}
+                  </button>
                 </Link>
               </div>
             </div>

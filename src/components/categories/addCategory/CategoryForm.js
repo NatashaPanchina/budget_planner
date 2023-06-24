@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 import { v4 as uuidv4 } from "uuid";
 
 import { colors } from "../../../utils/constants/colors.js";
@@ -44,6 +46,8 @@ const doneEventHandler = (
 };
 
 export default function CategoryForm({ addNewCategory }) {
+  const { t } = useTranslation();
+
   const [activeItem, setActiveItem] = useState("");
 
   const { categoryType } = useParams();
@@ -67,11 +71,11 @@ export default function CategoryForm({ addNewCategory }) {
         }`}
         onClick={() => setActiveItem("1")}
       >
-        <div className="info_items">Description</div>
+        <div className="info_items">{t("ADD_CATEGORY.DESCRIPTION")}</div>
         <input
           type="text"
           onChange={(event) => setDescription(event.target.value)}
-          placeholder="Click here to set the description"
+          placeholder={t("ADD_CATEGORY.DESCRIPTION_PLACEHOLDER")}
         ></input>
       </div>
       <div
@@ -80,7 +84,7 @@ export default function CategoryForm({ addNewCategory }) {
         }`}
         onClick={() => setActiveItem("2")}
       >
-        <div className="info_items">Color</div>
+        <div className="info_items">{t("ADD_CATEGORY.COLOR")}</div>
         <div
           className="selected_color"
           onClick={(event) => {
@@ -101,7 +105,7 @@ export default function CategoryForm({ addNewCategory }) {
             event.stopPropagation();
           }}
         >
-          Select
+          {t("ADD_CATEGORY.SELECT")}
         </div>
       </div>
       <div ref={colorsRef} className="colors_form none">
@@ -109,7 +113,9 @@ export default function CategoryForm({ addNewCategory }) {
           {renderColors(colors, setSelectedColor, selectedColor)}
         </div>
         <div className="colors_form_btns">
-          <button onClick={() => toggleElement(".colors_form")}>Ok</button>
+          <button onClick={() => toggleElement(".colors_form")}>
+            {t("ADD_CATEGORY.OK")}
+          </button>
         </div>
       </div>
       <div
@@ -118,7 +124,7 @@ export default function CategoryForm({ addNewCategory }) {
         }`}
         onClick={() => setActiveItem("3")}
       >
-        <div className="info_items">Icon</div>
+        <div className="info_items">{t("ADD_CATEGORY.ICON")}</div>
         <div
           className="selected_color"
           onClick={(event) => {
@@ -139,7 +145,7 @@ export default function CategoryForm({ addNewCategory }) {
             event.stopPropagation();
           }}
         >
-          Select
+          {t("ADD_CATEGORY.SELECT")}
         </div>
       </div>
       <div ref={iconsRef} className="icons_form none">
@@ -147,7 +153,9 @@ export default function CategoryForm({ addNewCategory }) {
           {renderIcons(categoryIcons, setIcon)}
         </div>
         <div className="icons_form_btns">
-          <button onClick={() => toggleElement(".icons_form")}>Ok</button>
+          <button onClick={() => toggleElement(".icons_form")}>
+            {t("ADD_CATEGORY.OK")}
+          </button>
         </div>
       </div>
       <div
@@ -156,7 +164,7 @@ export default function CategoryForm({ addNewCategory }) {
         }`}
         onClick={() => setActiveItem("4")}
       >
-        <div className="info_items">Date</div>
+        <div className="info_items">{t("ADD_CATEGORY.DATE")}</div>
         <div className="input_items">
           <input
             type="date"
@@ -170,11 +178,11 @@ export default function CategoryForm({ addNewCategory }) {
         }`}
         onClick={() => setActiveItem("5")}
       >
-        <div className="info_items">Notes</div>
+        <div className="info_items">{t("ADD_CATEGORY.NOTES")}</div>
         <input
           type="text"
           onChange={(event) => setNotes(event.target.value)}
-          placeholder="Click here to make some notes"
+          placeholder={t("ADD_CATEGORY.NOTES_PLACEHOLDER")}
         ></input>
       </div>
       <div
@@ -183,8 +191,11 @@ export default function CategoryForm({ addNewCategory }) {
         }`}
         onClick={() => setActiveItem("6")}
       >
-        <div className="info_items">Tags</div>
-        <input type="text" placeholder="Click here to define some tags"></input>
+        <div className="info_items">{t("ADD_CATEGORY.TAGS")}</div>
+        <input
+          type="text"
+          placeholder={t("ADD_CATEGORY.TAGS_PLACEHOLDER")}
+        ></input>
       </div>
       <div className="categories_buttons_block">
         <div className="done_button_div">
@@ -204,13 +215,15 @@ export default function CategoryForm({ addNewCategory }) {
                 )
               }
             >
-              Done
+              {t("ADD_CATEGORY.DONE")}
             </button>
           </Link>
         </div>
         <div className="cancel_button_div">
           <Link to={`/categories/${categoryType}s`}>
-            <button className="category_cancel_button">Cancel</button>
+            <button className="category_cancel_button">
+              {t("ADD_CATEGORY.CANCEL")}
+            </button>
           </Link>
         </div>
       </div>

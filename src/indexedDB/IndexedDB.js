@@ -15,6 +15,9 @@ export function idbOpen() {
     //инициализация бд из JSON
     openRequest.onupgradeneeded = () => {
       const idb = openRequest.result;
+      const profile = idb.createObjectStore("profile", {
+        keyPath: "id",
+      });
       const accounts = idb.createObjectStore("accounts", {
         keyPath: "id",
       });
@@ -26,6 +29,7 @@ export function idbOpen() {
       });
 
       loadJSON().then((data) => {
+        idbInitFromJson(profile, data.profile, "profile");
         idbInitFromJson(accounts, data.accounts.accounts);
         idbInitFromJson(transactions, data.transactions.transactions);
         idbInitFromJson(categories, data.categories.categories);
@@ -42,9 +46,13 @@ async function loadJSON() {
   return data;
 }
 
-function idbInitFromJson(objectStore, data) {
-  for (let key in data) {
-    objectStore.put(data[key]);
+function idbInitFromJson(objectStore, data, nameObjectStore) {
+  if (nameObjectStore === "profile") {
+    objectStore.put(data);
+  } else {
+    for (let key in data) {
+      objectStore.put(data[key]);
+    }
   }
 }
 

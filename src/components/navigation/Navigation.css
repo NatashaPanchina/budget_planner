@@ -1,6 +1,5 @@
 .navigation {
     width: 17%;
-    min-width: 181px;
     height: 100vh;
     position: fixed;
     top: 0;
@@ -21,7 +20,7 @@
 }
 
 nav {
-    width: 180px;
+    width: 90%;
     margin-top: 40px;
     margin-left: auto;
     margin-right: auto;

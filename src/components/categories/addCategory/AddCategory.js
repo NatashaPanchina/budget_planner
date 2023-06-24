@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, NavLink, useParams } from "react-router-dom";
 import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import { addNewCategory } from "../../../actions/Actions.js";
 
@@ -24,6 +25,8 @@ function isActiveLink(isActive, categoryType) {
 }
 
 function AddCategory({ addNewCategory }) {
+  const { t } = useTranslation();
+
   const { categoryType } = useParams();
 
   return (
@@ -35,18 +38,18 @@ function AddCategory({ addNewCategory }) {
         <div className="add_category_titles">
           <div className="add_category_title">
             <NavLink
-              to="/addCategory/expense"
+              to="/categories/addCategory/expense"
               className={({ isActive }) => isActiveLink(isActive, categoryType)}
             >
-              <ExpenseIcon /> Expense
+              <ExpenseIcon /> {t("ADD_CATEGORY.EXPENSE")}
             </NavLink>
           </div>
           <div className="add_category_title">
             <NavLink
-              to="/addCategory/income"
+              to="/categories/addCategory/income"
               className={({ isActive }) => isActiveLink(isActive, categoryType)}
             >
-              <IncomeIcon /> Income
+              <IncomeIcon /> {t("ADD_CATEGORY.INCOME")}
             </NavLink>
           </div>
         </div>

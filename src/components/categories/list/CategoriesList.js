@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 import { categoryIcons } from "../../../utils/constants/icons.js";
@@ -45,20 +46,27 @@ export default function CategoriesList({
   archiveCategory,
   deleteCategory,
 }) {
+  const { t } = useTranslation();
+
   const filterType = createFilterType(useParams().filterType);
 
   return (
     <React.Fragment>
       <div className="search">
-        <input type="text" placeholder="Search category"></input>
+        <input
+          type="text"
+          placeholder={t("CATEGORIES.SEARCH_CATEGORY")}
+        ></input>
         <img src={searchIcon} alt="search" />
       </div>
       <div className="add_category_btn">
         <Link
-          to={`/addCategory/${filterType === "all" ? "expense" : filterType}`}
+          to={`/categories/addCategory/${
+            filterType === "all" ? "expense" : filterType
+          }`}
         >
           <PlusIcon />
-          Add category
+          {t("CATEGORIES.ADD_CATEGORY")}
         </Link>
       </div>
       {filterCategories(filterType, notArchivedCategories).map(
@@ -99,7 +107,7 @@ export default function CategoriesList({
               </div>
               <div className="category_edits">
                 <AddIcon />
-                <Link to={`/infoCategory/${category.id}`}>
+                <Link to={`/categories/infoCategory/${category.id}`}>
                   <EditIcon />
                 </Link>
                 <ArchiveIcon

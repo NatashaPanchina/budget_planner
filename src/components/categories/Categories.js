@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import {
   fetchCategoriesData,
@@ -23,12 +24,44 @@ function isActive({ isActive }) {
   return isActive ? "active_categories_title" : "";
 }
 
+function createLocaleCategories(count) {
+  if (count === 1) {
+    return "CATEGORIES.CATEGORIES.ONE";
+  } else if (count < 5) {
+    return "CATEGORIES.CATEGORIES.LESS_THAN_FIVE";
+  } else if (count >= 5) {
+    return "CATEGORIES.CATEGORIES.MORE_THAN_FIVE";
+  } else {
+    return "CATEGORIES.CATEGORIES.MORE_THAN_FIVE";
+  }
+}
+
+function createBarData(keys, allCount, expenseCount, incomeCount) {
+  if (!keys) return [];
+
+  return [
+    { [keys[0]]: allCount, type: keys[0], [`${keys[0]}Color`]: "#419FFF" },
+    {
+      [keys[1]]: expenseCount,
+      type: keys[1],
+      [`${keys[1]}Color`]: "#F4395B",
+    },
+    {
+      [keys[2]]: incomeCount,
+      type: keys[2],
+      [`${keys[2]}Color`]: "#6EBD0A",
+    },
+  ];
+}
+
 function Categories({
   categories: { status, categories },
   fetchCategoriesData,
   archiveCategory,
   deleteCategory,
 }) {
+  const { t } = useTranslation();
+
   const notArchivedCategories = categories.filter(
     (category) => category.archived === false
   );
@@ -48,30 +81,37 @@ function Categories({
     <div className="categories_content">
       <div className="categories_more_info">
         <CategoriesBar
-          data={[
-            { all: allCount, type: "all", allColor: "#419FFF" },
-            { expense: expenseCount, type: "expense", expenseColor: "#F4395B" },
-            { income: incomeCount, type: "income", incomeColor: "#6EBD0A" },
-          ]}
+          data={createBarData(
+            [
+              t("CATEGORIES.ALL"),
+              t("CATEGORIES.EXPENSES"),
+              t("CATEGORIES.INCOMES"),
+            ],
+            allCount,
+            expenseCount,
+            incomeCount
+          )}
         />
         <div className="categories_bar_info">
-          Total
-          <div className="total_categories_count">{allCount} categories</div>
+          {t("CATEGORIES.TOTAL")}
+          <div className="total_categories_count">
+            {allCount} {t(createLocaleCategories(allCount))}
+          </div>
           <div className="categories_bar_item">
             <img src={expenseIcon} alt="expenses" />
             <div>
-              Expenses
+              {t("CATEGORIES.EXPENSES")}
               <div className="expense_categories_count">
-                {expenseCount} categories
+                {expenseCount} {t(createLocaleCategories(expenseCount))}
               </div>
             </div>
           </div>
           <div className="categories_bar_item">
             <img src={incomeIcon} alt="incomes" />
             <div>
-              Incomes
+              {t("CATEGORIES.INCOMES")}
               <div className="income_categories_count">
-                {incomeCount} categories
+                {incomeCount} {t(createLocaleCategories(incomeCount))}
               </div>
             </div>
           </div>
@@ -79,14 +119,16 @@ function Categories({
       </div>
       <div className="categories_main_info">
         <div className="categories_header">
-          <div className="filtered_title">Categories</div>
+          <div className="filtered_title">
+            {t("CATEGORIES.CATEGORIES_TITLE")}
+          </div>
           <div className="filtered_field">
             <FilterIcon />
-            By default
+            {t("CATEGORIES.FILTER_KEY")}
           </div>
           <div className="filtered_field">
             <CalendarIcon />
-            All time
+            {t("CATEGORIES.FILTER_DATE")}
           </div>
           <div className="archived">
             <ArchiveBasket />
@@ -95,17 +137,17 @@ function Categories({
         <div className="categories_titles">
           <div className="categories_title">
             <NavLink to="/categories/all" className={isActive}>
-              All
+              {t("CATEGORIES.ALL")}
             </NavLink>
           </div>
           <div className="categories_title">
             <NavLink to="/categories/expenses" className={isActive}>
-              Expenses
+              {t("CATEGORIES.EXPENSES")}
             </NavLink>
           </div>
           <div className="categories_title">
             <NavLink to="/categories/incomes" className={isActive}>
-              Incomes
+              {t("CATEGORIES.INCOMES")}
             </NavLink>
           </div>
         </div>

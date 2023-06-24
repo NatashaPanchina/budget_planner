@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { ReactComponent as LogoIcon } from "../../assets/icons/navigation/logo.svg";
 import { ReactComponent as TransactionsIcon } from "../../assets/icons/navigation/transactions.svg";
@@ -16,6 +17,7 @@ function isActive({ isActive }) {
 }
 
 export default function Navigation() {
+  const { t } = useTranslation();
   return (
     <div className="navigation">
       <div className="logo">
@@ -25,36 +27,36 @@ export default function Navigation() {
         <div>
           <NavLink to="/transactions" className={isActive}>
             <TransactionsIcon />
-            Transactions
+            {t("NAVIGATION.TRANSACTIONS")}
           </NavLink>
         </div>
         <div>
           <NavLink to="/cash" className={isActive}>
             <CashIcon />
-            Cash
+            {t("NAVIGATION.CASH")}
           </NavLink>
         </div>
         <div>
           <NavLink to="/newTransaction" className={isActive}>
             <NewTransactionIcon className="newTransactionIcon" />
-            New Transaction
+            {t("NAVIGATION.NEW_TRANSACTION")}
           </NavLink>
         </div>
         <div>
           <NavLink to="/categories" className={isActive}>
             <CategoriesIcon />
-            Categories
+            {t("NAVIGATION.CATEGORIES")}
           </NavLink>
         </div>
         <div>
           <NavLink to="/analysis" className={isActive}>
             <AnalysisIcon className="analysisIcon" />
-            Analysis
+            {t("NAVIGATION.ANALYSIS")}
           </NavLink>
         </div>
         <div className="more_nav">
           <MoreIcon />
-          more
+          {t("NAVIGATION.MORE")}
         </div>
       </nav>
     </div>
