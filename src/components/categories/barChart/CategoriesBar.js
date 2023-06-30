@@ -1,4 +1,6 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
+
 import { ResponsiveBar } from "@nivo/bar";
 import { linearGradientDef } from "@nivo/core";
 
@@ -38,9 +40,73 @@ function renderTooltip(id, formattedValue) {
   );
 }
 
+function renderGradients(keys) {
+  if (!keys) return;
+
+  return [
+    linearGradientDef(
+      `${keys[0]}Gradient`,
+      [
+        { offset: 0, color: "#D38BFF" },
+        { offset: 100, color: "#6D73FF" },
+      ],
+      {
+        gradientTransform: "rotate(-45 0.5 0.5)",
+      }
+    ),
+    linearGradientDef(
+      `${keys[1]}Gradient`,
+      [
+        { offset: 0, color: "#F862A1" },
+        { offset: 100, color: "#F4395B" },
+      ],
+      {
+        gradientTransform: "rotate(-45 0.5 0.5)",
+      }
+    ),
+    linearGradientDef(
+      `${keys[2]}Gradient`,
+      [
+        { offset: 0, color: "#B3FF53" },
+        { offset: 100, color: "#6EBD0A" },
+      ],
+      {
+        gradientTransform: "rotate(-45 0.5 0.5)",
+      }
+    ),
+  ];
+}
+
+function renderMatchs(keys) {
+  if (!keys) return [];
+
+  return [
+    {
+      match: { id: keys[0] },
+      id: `${keys[0]}Gradient`,
+    },
+    {
+      match: { id: keys[1] },
+      id: `${keys[1]}Gradient`,
+    },
+    {
+      match: { id: keys[2] },
+      id: `${keys[2]}Gradient`,
+    },
+  ];
+}
+
 export default function CategoriesBar({ data }) {
+  const { t } = useTranslation();
+
+  const keys = [
+    t("CATEGORIES.ALL"),
+    t("CATEGORIES.EXPENSES"),
+    t("CATEGORIES.INCOMES"),
+  ];
+
   return (
-    <div id="categories_barChart">
+    <div className="categories_barChart">
       <ResponsiveBar
         margin={{
           top: 20,
@@ -49,56 +115,12 @@ export default function CategoriesBar({ data }) {
           left: 0,
         }}
         data={data}
-        keys={["all", "expense", "income"]}
+        keys={keys}
         indexBy="type"
         colors={({ id, data }) => String(data[`${id}Color`])}
         padding={0.2}
-        defs={[
-          linearGradientDef(
-            "allGradient",
-            [
-              { offset: 0, color: "#D38BFF" },
-              { offset: 100, color: "#6D73FF" },
-            ],
-            {
-              gradientTransform: "rotate(-45 0.5 0.5)",
-            }
-          ),
-          linearGradientDef(
-            "expenseGradient",
-            [
-              { offset: 0, color: "#F862A1" },
-              { offset: 100, color: "#F4395B" },
-            ],
-            {
-              gradientTransform: "rotate(-45 0.5 0.5)",
-            }
-          ),
-          linearGradientDef(
-            "incomeGradient",
-            [
-              { offset: 0, color: "#B3FF53" },
-              { offset: 100, color: "#6EBD0A" },
-            ],
-            {
-              gradientTransform: "rotate(-45 0.5 0.5)",
-            }
-          ),
-        ]}
-        fill={[
-          {
-            match: { id: "all" },
-            id: "allGradient",
-          },
-          {
-            match: { id: "expense" },
-            id: "expenseGradient",
-          },
-          {
-            match: { id: "income" },
-            id: "incomeGradient",
-          },
-        ]}
+        defs={renderGradients(keys)}
+        fill={renderMatchs(keys)}
         enableLabel={false}
         enableGridY={false}
         valueScale={{ type: "linear" }}

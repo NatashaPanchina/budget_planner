@@ -17,8 +17,19 @@ import {
   UPDATE_ACCOUNT_BALANCE,
   ARCHIVE_CATEGORY,
   ARCHIVE_ACCOUNT,
+  IDB_FETCH_PROFILE_INIT,
+  IDB_FETCH_PROFILE_SUCCESS,
+  IDB_FETCH_PROFILE_FAILURE,
+  CHANGE_LANGUAGE,
 } from "./ActionTypes";
 import { idbOpen } from "../indexedDB/IndexedDB";
+
+export const changeLanguage = (language) => (dispatch) => {
+  dispatch({
+    type: CHANGE_LANGUAGE,
+    payload: language,
+  });
+};
 
 export const addNewTransaction = (transaction) => (dispatch) => {
   dispatch({
@@ -101,6 +112,14 @@ export const updateAccountBalance = (id, balance) => (dispatch) => {
   dispatch({
     type: UPDATE_ACCOUNT_BALANCE,
     payload: { id, balance },
+  });
+};
+
+export const fetchProfileData = () => {
+  return fetchData("profile", {
+    init: IDB_FETCH_PROFILE_INIT,
+    success: IDB_FETCH_PROFILE_SUCCESS,
+    failure: IDB_FETCH_PROFILE_FAILURE,
   });
 };
 

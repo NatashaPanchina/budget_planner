@@ -102,7 +102,7 @@ export default function CashChart({ data }) {
   );
 
   return (
-    <div id="accounts_pieChart">
+    <div className="accounts_pieChart">
       <ResponsivePie
         data={accounts}
         colors={{ datum: "data.color[0]" }}
@@ -135,7 +135,7 @@ export default function CashChart({ data }) {
           CenteredMetric(totalBalance),
         ]}
       />
-      <div id="legends_container">
+      <div className="legends_container">
         <CashChartLegends
           data={accounts}
           totalBalance={toDecimal(totalBalance)}

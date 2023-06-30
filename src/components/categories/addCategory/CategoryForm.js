@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 import { v4 as uuidv4 } from "uuid";
 
 import { colors } from "../../../utils/constants/colors.js";
@@ -44,11 +46,13 @@ const doneEventHandler = (
 };
 
 export default function CategoryForm({ addNewCategory }) {
+  const { t } = useTranslation();
+
   const [activeItem, setActiveItem] = useState("");
 
   const { categoryType } = useParams();
   const [description, setDescription] = useState("");
-  const [selectedColor, setSelectedColor] = useState(colors[9]);
+  const [selectedColor, setSelectedColor] = useState(colors.green[600]);
   const [icon, setIcon] = useState(0);
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
@@ -60,18 +64,18 @@ export default function CategoryForm({ addNewCategory }) {
   const iconsRef = useOutsideClick(hideElement);
 
   return (
-    <div id="add_category_form">
+    <div className="add_category_form">
       <div
         className={`add_category_item ${
           activeItem === "1" ? `${categoryType}_active_item` : ""
         }`}
         onClick={() => setActiveItem("1")}
       >
-        <div className="info_items">Description</div>
+        <div className="info_items">{t("ADD_CATEGORY.DESCRIPTION")}</div>
         <input
           type="text"
           onChange={(event) => setDescription(event.target.value)}
-          placeholder="Click here to set the description"
+          placeholder={t("ADD_CATEGORY.DESCRIPTION_PLACEHOLDER")}
         ></input>
       </div>
       <div
@@ -80,11 +84,12 @@ export default function CategoryForm({ addNewCategory }) {
         }`}
         onClick={() => setActiveItem("2")}
       >
-        <div className="info_items">Color</div>
+        <div className="info_items">{t("ADD_CATEGORY.COLOR")}</div>
         <div
           className="selected_color"
           onClick={(event) => {
-            toggleElement("colors_form");
+            setActiveItem("2");
+            toggleElement(".colors_form");
             iconsRef.current.classList.add("none");
             event.stopPropagation();
           }}
@@ -94,18 +99,23 @@ export default function CategoryForm({ addNewCategory }) {
         <div
           className="select_btns"
           onClick={(event) => {
-            toggleElement("colors_form");
+            setActiveItem("2");
+            toggleElement(".colors_form");
             iconsRef.current.classList.add("none");
             event.stopPropagation();
           }}
         >
-          Select
+          {t("ADD_CATEGORY.SELECT")}
         </div>
       </div>
-      <div ref={colorsRef} id="colors_form" className="none">
-        {renderColors(colors, setSelectedColor)}
-        <div id="colors_form_btns">
-          <button onClick={() => toggleElement("colors_form")}>Ok</button>
+      <div ref={colorsRef} className="colors_form none">
+        <div className="categories_palette">
+          {renderColors(colors, setSelectedColor, selectedColor)}
+        </div>
+        <div className="colors_form_btns">
+          <button onClick={() => toggleElement(".colors_form")}>
+            {t("ADD_CATEGORY.OK")}
+          </button>
         </div>
       </div>
       <div
@@ -114,11 +124,12 @@ export default function CategoryForm({ addNewCategory }) {
         }`}
         onClick={() => setActiveItem("3")}
       >
-        <div className="info_items">Icon</div>
+        <div className="info_items">{t("ADD_CATEGORY.ICON")}</div>
         <div
           className="selected_color"
           onClick={(event) => {
-            toggleElement("icons_form");
+            setActiveItem("3");
+            toggleElement(".icons_form");
             colorsRef.current.classList.add("none");
             event.stopPropagation();
           }}
@@ -128,18 +139,23 @@ export default function CategoryForm({ addNewCategory }) {
         <div
           className="select_btns"
           onClick={(event) => {
-            toggleElement("icons_form");
+            setActiveItem("3");
+            toggleElement(".icons_form");
             colorsRef.current.classList.add("none");
             event.stopPropagation();
           }}
         >
-          Select
+          {t("ADD_CATEGORY.SELECT")}
         </div>
       </div>
-      <div ref={iconsRef} id="icons_form" className="none">
-        {renderIcons(categoryIcons, setIcon)}
-        <div id="icons_form_btns">
-          <button onClick={() => toggleElement("icons_form")}>Ok</button>
+      <div ref={iconsRef} className="icons_form none">
+        <div className="categories_icons">
+          {renderIcons(categoryIcons, setIcon)}
+        </div>
+        <div className="icons_form_btns">
+          <button onClick={() => toggleElement(".icons_form")}>
+            {t("ADD_CATEGORY.OK")}
+          </button>
         </div>
       </div>
       <div
@@ -148,7 +164,7 @@ export default function CategoryForm({ addNewCategory }) {
         }`}
         onClick={() => setActiveItem("4")}
       >
-        <div className="info_items">Date</div>
+        <div className="info_items">{t("ADD_CATEGORY.DATE")}</div>
         <div className="input_items">
           <input
             type="date"
@@ -162,11 +178,11 @@ export default function CategoryForm({ addNewCategory }) {
         }`}
         onClick={() => setActiveItem("5")}
       >
-        <div className="info_items">Notes</div>
+        <div className="info_items">{t("ADD_CATEGORY.NOTES")}</div>
         <input
           type="text"
           onChange={(event) => setNotes(event.target.value)}
-          placeholder="Click here to make some notes"
+          placeholder={t("ADD_CATEGORY.NOTES_PLACEHOLDER")}
         ></input>
       </div>
       <div
@@ -175,14 +191,17 @@ export default function CategoryForm({ addNewCategory }) {
         }`}
         onClick={() => setActiveItem("6")}
       >
-        <div className="info_items">Tags</div>
-        <input type="text" placeholder="Click here to define some tags"></input>
+        <div className="info_items">{t("ADD_CATEGORY.TAGS")}</div>
+        <input
+          type="text"
+          placeholder={t("ADD_CATEGORY.TAGS_PLACEHOLDER")}
+        ></input>
       </div>
-      <div id="categories_buttons_block">
-        <div id="done_button_div">
+      <div className="categories_buttons_block">
+        <div className="done_button_div">
           <Link to={`/categories/${categoryType}s`}>
             <button
-              id={`${categoryType}_button`}
+              className={`${categoryType}_button`}
               onClick={() =>
                 doneEventHandler(
                   categoryType,
@@ -196,13 +215,15 @@ export default function CategoryForm({ addNewCategory }) {
                 )
               }
             >
-              Done
+              {t("ADD_CATEGORY.DONE")}
             </button>
           </Link>
         </div>
-        <div id="cancel_button_div">
+        <div className="cancel_button_div">
           <Link to={`/categories/${categoryType}s`}>
-            <button id="category_cancel_button">Cancel</button>
+            <button className="category_cancel_button">
+              {t("ADD_CATEGORY.CANCEL")}
+            </button>
           </Link>
         </div>
       </div>

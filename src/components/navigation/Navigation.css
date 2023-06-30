@@ -1,20 +1,5 @@
-.activeLink {
-    color: #6D73FF;
-    background-color: #F3F3F3;
-    border-radius: 5px;
-}
-
-.activeLink svg path {
-    fill:#6D73FF;
-}
-
-.activeLink #newTransactionIcon path {
-    fill: #fff;
-}
-
-#navigation {
+.navigation {
     width: 17%;
-    min-width: 181px;
     height: 100vh;
     position: fixed;
     top: 0;
@@ -23,19 +8,19 @@
     background-color: #fff;
 }
 
-#logo {
+.logo {
     display: flex;
     align-items: center;
     height:  56px;
     background: linear-gradient(109.86deg, #D38BFF -2.35%, #6D73FF 81.35%);
 }
 
-#logo svg {
+.logo svg {
     height: 45px; 
 }
 
 nav {
-    width: 180px;
+    width: 90%;
     margin-top: 40px;
     margin-left: auto;
     margin-right: auto;
@@ -58,7 +43,7 @@ nav div svg {
     margin-left: 15px;
 }
 
-#newTransactionIcon {
+.newTransactionIcon {
     width: 33px;
     margin-left: 10px;
     margin-right: 10px;
@@ -79,15 +64,29 @@ nav a:hover {
     border-radius: 5px;
 }
 
+.activeLink {
+    color: #6D73FF;
+    background-color: #F3F3F3;
+    border-radius: 5px;
+}
+
+.activeLink svg path {
+    fill:#6D73FF;
+}
+
+.activeLink .newTransactionIcon path {
+    fill: #fff;
+}
+
 nav a:hover svg path {
     fill:#6D73FF;
 }
 
-nav a:hover #newTransactionIcon path {
+nav a:hover .newTransactionIcon path {
     fill: #fff;
 }
 
-#more_nav {
+.more_nav {
     display: flex;
     color: #ADADAD;
     align-items: center;

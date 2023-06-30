@@ -1,4 +1,4 @@
-#add_account_content {
+.add_account_content {
     width: 50%;
     min-width: 461px;
     margin-top: 56px;
@@ -6,7 +6,7 @@
     margin-right: 16.5%;
 }
 
-#account_back_nav {
+.account_back_nav {
     position: absolute;
     left: 0;
     height: 60px;
@@ -14,28 +14,28 @@
     align-items: center;
 }
 
-#account_back_nav svg {
+.account_back_nav svg {
     width: 40px;
     height: 40px;
 }
 
-#account_back_nav:hover svg circle {
+.account_back_nav:hover svg circle {
     fill: #F0F0F0;
 }
 
-#accounts_title_block {
+.accounts_title_block {
     display: flex;
     margin-bottom: 35px;
     align-items: center;
     justify-content: center;
     position: sticky;
     top: 56px;
-    z-index: 10;
+    z-index: 9;
     border-bottom: 1px solid #DCE2DF;
     background-color: #fafafa;
 }
 
-#add_account_titles {
+.add_account_titles {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -44,18 +44,23 @@
     width: 100%;
 }
 
-#add_account_title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.add_account_title {
     height: 60px;
     width: 33.3%;
     box-sizing: border-box;
+}
+
+.add_account_title a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: inherit;
+    width: 100%;
     text-decoration: none;
     color: #989393;
 }
 
-#add_account_title:hover, #add_account_titles .active_account_type {
+.add_account_title a:hover, .add_account_titles .active_account_type {
     color:#6D73FF;
 }
 
@@ -63,11 +68,11 @@
     border-bottom: 2px solid #6D73FF;
 }
 
-#account_view {
+.account_view {
     margin-bottom: 35px;
 }
 
-#card_view {
+.card_view {
     height: 173px;
     width: 272px;
     border-radius: 10px;
@@ -76,7 +81,7 @@
     margin-right: auto;
 }
 
-#add_account_form {
+.add_account_form {
     position: relative;
 }
 
@@ -89,22 +94,23 @@
     background-color: #fff;
     filter: drop-shadow(0px 2px 5px #fafafa);
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #C4C4C4;
 }
 
 .add_account_item input {
     width: 75%;
     color: #000;
-    font-size: 16px;
+    font-size: 1rem;
 }
 
-#account_selected_color {
+.account_selected_color {
     cursor: pointer;
 }
 
-#account_colors_form {
-    width: 432px;
+.account_colors_form {
+    width: 70%;
+    min-width: 365px;
     position: absolute;
     top: 200px;
     right: 0px;
@@ -115,20 +121,25 @@
     background-color: #fff;
 }
 
-#account_colors_form svg{
-    margin-left: 10px;
-    margin-right: 10px;
+.accounts_palette {
+    display: grid;
+    grid-template-columns: repeat(9, 11.11%);
+}
+
+.account_colors_form svg {
+    margin-left: 18%;
+    margin-right: 18%;
     margin-top: 5px;
     margin-bottom: 5px;
     cursor: pointer;
 }
 
-#account_button {
+.account_button {
     background-color: #6D73FF;
     box-shadow: 0px 4px 10px rgba(65, 159, 255, 0.5);
 }
 
-#account_button:hover {
+.account_button:hover {
     background-color: #a57fff;
     box-shadow: 0px 4px 10px rgb(174, 139, 255, 0.5);
 }

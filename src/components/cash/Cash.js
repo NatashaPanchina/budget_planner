@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import {
   fetchAccountsData,
@@ -25,6 +26,7 @@ function Cash({
   fetchAccountsData,
   archiveAccount,
 }) {
+  const { t } = useTranslation();
   let notArchivedAccounts = accounts.filter(
     (account) => account.archived === false
   );
@@ -36,38 +38,38 @@ function Cash({
   return status === "loading" ? (
     <div>Loading</div>
   ) : (
-    <div id="accounts_content">
-      <div id="accounts_more_info">
-        Total balance
+    <div className="accounts_content">
+      <div className="accounts_more_info">
+        {t("CASH.TOTAL_BALANCE")}
         <CashChart data={notArchivedAccounts} />
       </div>
-      <div id="accounts_main_info">
-        <div id="accounts_header">
-          <div id="accounts_title">Cash</div>
+      <div className="accounts_main_info">
+        <div className="accounts_header">
+          <div className="filtered_title">{t("CASH.CASH_TITLE")}</div>
           <div className="filtered_field">
             <FilterIcon />
-            By default
+            {t("CASH.FILTER_KEY")}
           </div>
           <div className="filtered_field">
             <CalendarIcon />
-            All time
+            {t("CASH.FILTER_DATE")}
           </div>
-          <div id="archived">
+          <div className="archived">
             <ArchiveBasket />
           </div>
         </div>
-        <div id="accounts_titles">
+        <div className="accounts_titles">
           <NavLink to="/cash/all" className={isActive}>
-            All
+            {t("CASH.FILTER_ALL")}
           </NavLink>
           <NavLink to="/cash/cards" className={isActive}>
-            Cards
+            {t("CASH.FILTER_CARDS")}
           </NavLink>
           <NavLink to="/cash/cash" className={isActive}>
-            Cash
+            {t("CASH.FILTER_CASH")}
           </NavLink>
           <NavLink to="/cash/transfers" className={isActive}>
-            Transfers
+            {t("CASH.FILTER_TRANSFERS")}
           </NavLink>
         </div>
         <CashList

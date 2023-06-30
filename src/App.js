@@ -6,6 +6,8 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import "./locales";
+
 import Header from "./components/header/Header";
 import Navigation from "./components/navigation/Navigation";
 import Transactions from "./components/transactions/Transactions";
@@ -24,8 +26,8 @@ import "./App.css";
 function App() {
   return (
     <div>
-      <Header />
       <Router>
+        <Header />
         <Navigation />
         <Routes>
           <Route
@@ -42,8 +44,14 @@ function App() {
           />
           <Route path="/cash" element={<Navigate replace to="all" />} />
           <Route path="/cash/:filterCash" element={<Cash />} />
-          <Route path="/addAccount/:accountType" element={<AddAccount />} />
-          <Route path="/infoAccount/:accountId" element={<InfoAccount />} />
+          <Route
+            path="/cash/addAccount/:accountType"
+            element={<AddAccount />}
+          />
+          <Route
+            path="/cash/infoAccount/:accountId"
+            element={<InfoAccount />}
+          />
           <Route
             path="/newTransaction"
             element={<Navigate replace to="expense/all" />}
@@ -54,8 +62,14 @@ function App() {
           />
           <Route path="/categories" element={<Navigate replace to="all" />} />
           <Route path="/categories/:filterType" element={<Categories />} />
-          <Route path="/addCategory/:categoryType" element={<AddCategory />} />
-          <Route path="/infoCategory/:categoryId" element={<InfoCategory />} />
+          <Route
+            path="/categories/addCategory/:categoryType"
+            element={<AddCategory />}
+          />
+          <Route
+            path="/categories/infoCategory/:categoryId"
+            element={<InfoCategory />}
+          />
           <Route path="/analysis" element={<Analysis />} />
           <Route path="/" element={<Navigate replace to="/analysis" />} />
         </Routes>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { colors } from "../../../utils/constants/colors.js";
 import { categoryIcons } from "../../../utils/constants/icons.js";
@@ -53,6 +54,8 @@ function InfoCategory({
   fetchCategoriesData,
   editCategory,
 }) {
+  const { t } = useTranslation();
+
   const [activeItem, setActiveItem] = useState("");
 
   const clickedCategory = useParams().categoryId;
@@ -60,7 +63,7 @@ function InfoCategory({
   const [id, setId] = useState("");
   const [categoryType, setCategoryType] = useState("expense");
   const [description, setDescription] = useState();
-  const [selectedColor, setSelectedColor] = useState([]);
+  const [selectedColor, setSelectedColor] = useState(colors.green[600]);
   const [icon, setIcon] = useState(0);
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
@@ -95,25 +98,30 @@ function InfoCategory({
   }, [status, categories, clickedCategory]);
 
   return (
-    <div id="add_category_content">
+    <div className="add_category_content">
       {status === "loading" ? (
         <div>Loading</div>
       ) : (
         <React.Fragment>
-          <div id="category_titles_block">
-            <Link id="category_back_nav" to={`/categories/${categoryType}s`}>
+          <div className="category_titles_block">
+            <Link
+              className="category_back_nav"
+              to={`/categories/${categoryType}s`}
+            >
               <BackIcon />
             </Link>
-            <div className="info_category_title">Category Information</div>
+            <div className="info_category_title">
+              {t("INFO_CATEGORY.CATEGORY_INFORMATION")}
+            </div>
           </div>
-          <div id="add_category_form">
+          <div className="add_category_form">
             <div
               className={`add_category_item ${
                 activeItem === "1" ? `${categoryType}_active_item` : ""
               }`}
               onClick={() => setActiveItem("1")}
             >
-              <div className="info_items">Description</div>
+              <div className="info_items">{t("INFO_CATEGORY.DESCRIPTION")}</div>
               <input
                 type="text"
                 onChange={(event) => setDescription(event.target.value)}
@@ -126,11 +134,12 @@ function InfoCategory({
               }`}
               onClick={() => setActiveItem("2")}
             >
-              <div className="info_items">Color</div>
+              <div className="info_items">{t("INFO_CATEGORY.COLOR")}</div>
               <div
                 className="selected_color"
                 onClick={(event) => {
-                  toggleElement("colors_form");
+                  setActiveItem("2");
+                  toggleElement(".colors_form");
                   iconsRef.current.classList.add("none");
                   event.stopPropagation();
                 }}
@@ -140,21 +149,24 @@ function InfoCategory({
               <div
                 className="select_btns"
                 onClick={(event) => {
-                  toggleElement("colors_form");
+                  setActiveItem("2");
+                  toggleElement(".colors_form");
                   iconsRef.current.classList.add("none");
                   event.stopPropagation();
                 }}
               >
-                Select
+                {t("INFO_CATEGORY.SELECT")}
               </div>
             </div>
-            <div ref={colorsRef} id="colors_form" className="none">
-              {renderColors(colors, setSelectedColor)}
+            <div ref={colorsRef} className="colors_form none">
+              <div className="categories_palette">
+                {renderColors(colors, setSelectedColor, selectedColor)}
+              </div>
               <div
-                id="colors_form_btns"
-                onClick={() => toggleElement("colors_form")}
+                className="colors_form_btns"
+                onClick={() => toggleElement(".colors_form")}
               >
-                <button>Ok</button>
+                <button>{t("INFO_CATEGORY.OK")}</button>
               </div>
             </div>
             <div
@@ -163,11 +175,12 @@ function InfoCategory({
               }`}
               onClick={() => setActiveItem("3")}
             >
-              <div className="info_items">Icon</div>
+              <div className="info_items">{t("INFO_CATEGORY.ICON")}</div>
               <div
                 className="selected_color"
                 onClick={(event) => {
-                  toggleElement("icons_form");
+                  setActiveItem("3");
+                  toggleElement(".icons_form");
                   colorsRef.current.classList.add("none");
                   event.stopPropagation();
                 }}
@@ -177,18 +190,23 @@ function InfoCategory({
               <div
                 className="select_btns"
                 onClick={(event) => {
-                  toggleElement("icons_form");
+                  setActiveItem("3");
+                  toggleElement(".icons_form");
                   colorsRef.current.classList.add("none");
                   event.stopPropagation();
                 }}
               >
-                Select
+                {t("INFO_CATEGORY.SELECT")}
               </div>
             </div>
-            <div ref={iconsRef} id="icons_form" className="none">
-              {renderIcons(categoryIcons, setIcon)}
-              <div id="icons_form_btns">
-                <button onClick={() => toggleElement("icons_form")}>Ok</button>
+            <div ref={iconsRef} className="icons_form none">
+              <div className="categories_icons">
+                {renderIcons(categoryIcons, setIcon)}
+              </div>
+              <div className="icons_form_btns">
+                <button onClick={() => toggleElement(".icons_form")}>
+                  {t("INFO_CATEGORY.OK")}
+                </button>
               </div>
             </div>
             <div
@@ -197,7 +215,7 @@ function InfoCategory({
               }`}
               onClick={() => setActiveItem("4")}
             >
-              <div className="info_items">Date</div>
+              <div className="info_items">{t("INFO_CATEGORY.DATE")}</div>
               <div className="input_items">
                 <input
                   type="date"
@@ -211,11 +229,10 @@ function InfoCategory({
               }`}
               onClick={() => setActiveItem("5")}
             >
-              <div className="info_items">Notes</div>
+              <div className="info_items">{t("INFO_CATEGORY.NOTES")}</div>
               <input
                 type="text"
                 onChange={(event) => setNotes(event.target.value)}
-                placeholder="Click here to make some notes"
                 value={notes}
               ></input>
             </div>
@@ -225,17 +242,14 @@ function InfoCategory({
               }`}
               onClick={() => setActiveItem("6")}
             >
-              <div className="info_items">Tags</div>
-              <input
-                type="text"
-                placeholder="Click here to define some tags"
-              ></input>
+              <div className="info_items">{t("INFO_CATEGORY.TAGS")}</div>
+              <input type="text"></input>
             </div>
-            <div id="categories_buttons_block">
-              <div id="done_button_div">
+            <div className="categories_buttons_block">
+              <div className="done_button_div">
                 <Link to={`/categories/${categoryType}s`}>
                   <button
-                    id={`${categoryType}_button`}
+                    className={`${categoryType}_button`}
                     onClick={() =>
                       doneEventHandler(
                         clickedCategory,
@@ -251,13 +265,15 @@ function InfoCategory({
                       )
                     }
                   >
-                    Ok
+                    {t("INFO_CATEGORY.DONE")}
                   </button>
                 </Link>
               </div>
-              <div id="cancel_button_div">
+              <div className="cancel_button_div">
                 <Link to={`/categories/${categoryType}s`}>
-                  <button id="category_cancel_button">Cancel</button>
+                  <button className="category_cancel_button">
+                    {t("INFO_CATEGORY.CANCEL")}
+                  </button>
                 </Link>
               </div>
             </div>

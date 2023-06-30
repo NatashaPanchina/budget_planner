@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link, NavLink, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { addNewAccount } from "../../../actions/Actions";
 import { createCashType } from "../utils";
@@ -10,34 +11,40 @@ import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.sv
 
 import "./AddAccount.css";
 
-function isActive({ isActive }) {
+function isActiveLink(isActive) {
   return isActive ? "active_account_type" : "";
 }
 
 function AddAccount({ addNewAccount }) {
+  const { t } = useTranslation();
   const { accountType } = useParams();
 
   return (
-    <div id="add_account_content">
-      <div id="accounts_title_block">
-        <Link id="account_back_nav" to={`/cash/${createCashType(accountType)}`}>
+    <div className="add_account_content">
+      <div className="accounts_title_block">
+        <Link
+          className="account_back_nav"
+          to={`/cash/${createCashType(accountType)}`}
+        >
           <BackIcon />
         </Link>
-        <div id="add_account_titles">
-          <NavLink
-            to={`/addAccount/card`}
-            id="add_account_title"
-            className={isActive}
-          >
-            New Card
-          </NavLink>
-          <NavLink
-            to={`/addAccount/cash`}
-            id="add_account_title"
-            className={isActive}
-          >
-            New Cash
-          </NavLink>
+        <div className="add_account_titles">
+          <div className="add_account_title">
+            <NavLink
+              to={`/cash/addAccount/card`}
+              className={({ isActive }) => `${isActiveLink(isActive)}`}
+            >
+              {t("ADD_ACCOUNT.CARD")}
+            </NavLink>
+          </div>
+          <div className="add_account_title">
+            <NavLink
+              to={`/cash/addAccount/cash`}
+              className={({ isActive }) => `${isActiveLink(isActive)}`}
+            >
+              {t("ADD_ACCOUNT.CASH")}
+            </NavLink>
+          </div>
         </div>
       </div>
       <AccountForm addNewAccount={addNewAccount} />

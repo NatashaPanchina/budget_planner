@@ -4,7 +4,7 @@ export default function CashChartLegends({ data, totalBalance }) {
   const sortedData = data.slice().sort((a, b) => b.balance - a.balance);
 
   return (
-    <div id="pie_legends_block">
+    <div className="pie_legends_block">
       {sortedData.map((value, index) => {
         return (
           <React.Fragment key={index}>

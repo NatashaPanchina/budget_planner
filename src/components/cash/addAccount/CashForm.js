@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+import { useTranslation } from "react-i18next";
 
+import { v4 as uuidv4 } from "uuid";
 import { NumericFormat } from "react-number-format";
 import { USD } from "@dinero.js/currencies";
 import { toSnapshot } from "dinero.js";
@@ -54,13 +55,15 @@ const doneEventHandler = (
 };
 
 export default function CashForm({ accountType, addNewAccount }) {
+  const { t } = useTranslation();
+
   const cashType = createCashType(accountType);
 
   const [activeItem, setActiveItem] = useState("");
 
   const [description, setDescription] = useState("");
   const [balance, setBalance] = useState(0.0);
-  const [selectedColor, setSelectedColor] = useState(colors[26]);
+  const [selectedColor, setSelectedColor] = useState(colors.green[700]);
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
   const [tags, setTags] = useState([""]);
@@ -69,9 +72,9 @@ export default function CashForm({ accountType, addNewAccount }) {
 
   return (
     <React.Fragment>
-      <div id="account_view">
+      <div className="account_view">
         <div
-          id="card_view"
+          className="card_view"
           style={{
             background: `url(${cardBackground}) 0% 0% / cover no-repeat,
                               linear-gradient(90deg, ${selectedColor[0]} 0%, ${selectedColor[1]} 100%)`,
@@ -83,22 +86,24 @@ export default function CashForm({ accountType, addNewAccount }) {
             <div className="card_balance">
               {formatNumberOutput(balance, "USD")}
             </div>
-            <div className="card_balance_title">Current balance</div>
+            <div className="card_balance_title">
+              {t("ADD_ACCOUNT.CURRENT_BALANCE")}
+            </div>
           </div>
         </div>
       </div>
-      <div id="add_account_form">
+      <div className="add_account_form">
         <div
           className={`add_account_item ${
             activeItem === "1" ? `account_active_item` : ""
           }`}
           onClick={() => setActiveItem("1")}
         >
-          <div className="info_items">Description</div>
+          <div className="info_items">{t("ADD_ACCOUNT.DESCRIPTION")}</div>
           <input
             type="text"
             onChange={(event) => setDescription(event.target.value)}
-            placeholder="Click here to set the description"
+            placeholder={t("ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER")}
           ></input>
         </div>
         <div
@@ -107,7 +112,7 @@ export default function CashForm({ accountType, addNewAccount }) {
           }`}
           onClick={() => setActiveItem("2")}
         >
-          <div className="info_items">Balance</div>
+          <div className="info_items">{t("ADD_ACCOUNT.BALANCE")}</div>
           <div className="input_items">
             $
             <NumericFormat
@@ -126,11 +131,12 @@ export default function CashForm({ accountType, addNewAccount }) {
           }`}
           onClick={() => setActiveItem("3")}
         >
-          <div className="info_items">Color</div>
+          <div className="info_items">{t("ADD_ACCOUNT.COLOR")}</div>
           <div
-            id="account_selected_color"
+            className="account_selected_color"
             onClick={(event) => {
-              toggleElement("account_colors_form");
+              setActiveItem("3");
+              toggleElement(".account_colors_form");
               event.stopPropagation();
             }}
           >
@@ -139,20 +145,23 @@ export default function CashForm({ accountType, addNewAccount }) {
           <div
             className="select_btns"
             onClick={(event) => {
-              toggleElement("account_colors_form");
+              setActiveItem("3");
+              toggleElement(".account_colors_form");
               event.stopPropagation();
             }}
           >
-            Select
+            {t("ADD_ACCOUNT.SELECT")}
           </div>
         </div>
-        <div ref={colorsRef} id="account_colors_form" className="none">
-          {renderColors(colors, setSelectedColor)}
+        <div ref={colorsRef} className="account_colors_form none">
+          <div className="accounts_palette">
+            {renderColors(colors, setSelectedColor, selectedColor)}
+          </div>
           <div
-            id="colors_form_btns"
-            onClick={() => toggleElement("account_colors_form")}
+            className="colors_form_btns"
+            onClick={() => toggleElement(".account_colors_form")}
           >
-            <button>Ok</button>
+            <button>{t("ADD_ACCOUNT.OK")}</button>
           </div>
         </div>
         <div
@@ -161,7 +170,7 @@ export default function CashForm({ accountType, addNewAccount }) {
           }`}
           onClick={() => setActiveItem("4")}
         >
-          <div className="info_items">Date</div>
+          <div className="info_items">{t("ADD_ACCOUNT.DATE")}</div>
           <div className="input_items">
             <input
               type="date"
@@ -175,11 +184,11 @@ export default function CashForm({ accountType, addNewAccount }) {
           }`}
           onClick={() => setActiveItem("5")}
         >
-          <div className="info_items">Notes</div>
+          <div className="info_items">{t("ADD_ACCOUNT.NOTES")}</div>
           <input
             type="text"
             onChange={(event) => setNotes(event.target.value)}
-            placeholder="Click here to make some notes"
+            placeholder={t("ADD_ACCOUNT.NOTES_PLACEHOLDER")}
           ></input>
         </div>
         <div
@@ -188,17 +197,17 @@ export default function CashForm({ accountType, addNewAccount }) {
           }`}
           onClick={() => setActiveItem("6")}
         >
-          <div className="info_items">Tags</div>
+          <div className="info_items">{t("ADD_ACCOUNT.TAGS")}</div>
           <input
             type="text"
-            placeholder="Click here to define some tags"
+            placeholder={t("ADD_ACCOUNT.TAGS_PLACEHOLDER")}
           ></input>
         </div>
-        <div id="account_buttons_block">
-          <div id="done_button_div">
+        <div className="account_buttons_block">
+          <div className="done_button_div">
             <Link to={`/cash/${cashType}`}>
               <button
-                id="account_button"
+                className="account_button"
                 onClick={() =>
                   doneEventHandler(
                     cashType,
@@ -212,13 +221,15 @@ export default function CashForm({ accountType, addNewAccount }) {
                   )
                 }
               >
-                Done
+                {t("ADD_ACCOUNT.DONE")}
               </button>
             </Link>
           </div>
-          <div id="cancel_button_div">
+          <div className="cancel_button_div">
             <Link to={`/cash/${cashType}`}>
-              <button id="account_cancel_button">Cancel</button>
+              <button className="account_cancel_button">
+                {t("ADD_ACCOUNT.CANCEL")}
+              </button>
             </Link>
           </div>
         </div>
