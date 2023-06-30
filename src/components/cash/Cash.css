@@ -97,11 +97,6 @@
     margin: 0px 5px;
 }
 
-.archived svg {
-    height: 35px;
-    filter: drop-shadow(0px 4px 4px rgba(243, 243, 243, 1));
-}
-
 .accounts_titles {
     display: flex;
     margin-bottom: 15px;

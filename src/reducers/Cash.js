@@ -6,7 +6,7 @@ import {
   DELETE_ACCOUNT,
   EDIT_ACCOUNT,
   ARCHIVE_ACCOUNT,
-  UPDATE_ACCOUNT_BALANCE,
+  RESTORE_ACCOUNT,
 } from "../actions/ActionTypes";
 
 const initialState = {
@@ -35,35 +35,36 @@ const accounts = (state = initialState, { type, payload }) => {
         error: payload.message,
       };
     case ADD_NEW_ACCOUNT:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         accounts: [payload, ...state.accounts],
-      });
+      };
     case EDIT_ACCOUNT:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         accounts: state.accounts.map((account) =>
-          account.description === payload.id ? payload.newAccount : account
+          account.id === payload.id ? payload.newAccount : account
         ),
-      });
-    case UPDATE_ACCOUNT_BALANCE:
-      return Object.assign({}, state, {
-        accounts: state.accounts.map((account) =>
-          account.id === payload.id
-            ? Object.assign({}, account, { balance: payload.balance })
-            : account
-        ),
-      });
+      };
     case ARCHIVE_ACCOUNT:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         accounts: state.accounts.map((account) =>
-          account.id === payload
-            ? Object.assign({}, account, { archived: true })
-            : account
+          account.id === payload ? { ...account, archived: true } : account
         ),
-      });
+      };
+    case RESTORE_ACCOUNT:
+      return {
+        ...state,
+        accounts: state.accounts.map((account) =>
+          account.id === payload ? { ...account, archived: false } : account
+        ),
+      };
     case DELETE_ACCOUNT:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         accounts: state.accounts.filter((account) => account.id !== payload),
-      });
+      };
     default:
       return state;
   }

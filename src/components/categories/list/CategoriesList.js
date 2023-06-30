@@ -4,47 +4,21 @@ import { useTranslation } from "react-i18next";
 
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 import { categoryIcons } from "../../../utils/constants/icons.js";
+import {
+  renderNotes,
+  createFilterType,
+  filterCategories,
+} from "../utils/index.js";
 
 import searchIcon from "../../../assets/icons/shared/search.svg";
-import notesIcon from "../../../assets/icons/shared/notes.svg";
 import { ReactComponent as PlusIcon } from "../../../assets/icons/shared/plus.svg";
 import { ReactComponent as AddIcon } from "../../../assets/icons/shared/add.svg";
 import { ReactComponent as EditIcon } from "../../../assets/icons/shared/edit.svg";
 import { ReactComponent as ArchiveIcon } from "../../../assets/icons/shared/archive.svg";
 
-function renderNotes(notes) {
-  if (notes) {
-    return (
-      <div className="categories_notes">
-        <img src={notesIcon} alt="notes" className="notes_icon" />
-        {notes}
-      </div>
-    );
-  }
-}
-
-//для категории добавления нужно убрать s на конце
-function createFilterType(filterType) {
-  switch (filterType) {
-    case "expenses":
-      return "expense";
-    case "incomes":
-      return "income";
-    default:
-      return "all";
-  }
-}
-
-function filterCategories(filterType, categories) {
-  return filterType === "all"
-    ? categories
-    : categories.filter((category) => category.type === filterType);
-}
-
 export default function CategoriesList({
   notArchivedCategories,
   archiveCategory,
-  deleteCategory,
 }) {
   const { t } = useTranslation();
 
@@ -113,10 +87,7 @@ export default function CategoriesList({
                 <ArchiveIcon
                   onClick={() => {
                     archiveCategory(category.id);
-                    idbAddItem(
-                      Object.assign({}, category, { archived: true }),
-                      "categories"
-                    );
+                    idbAddItem({ ...category, archived: true }, "categories");
                   }}
                 />
               </div>

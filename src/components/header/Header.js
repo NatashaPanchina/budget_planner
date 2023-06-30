@@ -39,7 +39,7 @@ function Header({
   const languageRef = useOutsideClick(hideElement);
 
   const titles = renderHeaderTitles(t);
-  const path = location.pathname.match(/\/(\w)+/)[0];
+  const path = location.pathname.match(/\/(\w)*/)[0];
 
   useEffect(() => {
     fetchProfileData();

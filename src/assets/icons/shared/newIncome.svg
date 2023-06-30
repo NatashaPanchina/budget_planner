@@ -1,0 +1,25 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="32" height="32" rx="3" fill="url(#not_active)"/>
+<g clip-path="url(#clip0_1580_7)">
+<path d="M22.3403 7.33337V9.11115H23.9655L17.4448 15.6319L14.5559 12.743L5.26074 22.0381L6.51781 23.2952L14.5559 15.2571L17.4448 18.146L25.2226 10.3682V11.9935H27.0004V7.33337H22.3403Z" fill="white"/>
+</g>
+<defs>
+<linearGradient id="income_active" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+<stop stop-color="#6EBD0A"/>
+<stop offset="0.9999" stop-color="#C6FF7C"/>
+<stop offset="1" stop-color="#B3FF53"/>
+</linearGradient>
+<clipPath id="clip0_1580_7">
+<rect width="22" height="22" fill="white" transform="translate(5 6)"/>
+</clipPath>
+</defs>
+<defs>
+<linearGradient id="not_active" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+<stop stop-color="#ADADAD"/>
+<stop offset="1" stop-color="#F0F0F0"/>
+</linearGradient>
+<clipPath id="clip0_1580_7">
+<rect width="22" height="22" fill="white" transform="translate(5 6)"/>
+</clipPath>
+</defs>
+</svg>

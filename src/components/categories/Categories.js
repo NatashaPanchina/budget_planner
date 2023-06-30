@@ -8,32 +8,20 @@ import {
   archiveCategory,
   deleteCategory,
 } from "../../actions/Actions.js";
-
+import { createLocaleCategories } from "./utils/index.js";
 import CategoriesBar from "./barChart/CategoriesBar.js";
 import CategoriesList from "./list/CategoriesList.js";
 
 import expenseIcon from "../../assets/icons/shared/expense.svg";
 import incomeIcon from "../../assets/icons/shared/income.svg";
 import { ReactComponent as FilterIcon } from "../../assets/icons/shared/filter.svg";
-import { ReactComponent as ArchiveBasket } from "../../assets/icons/shared/archiveBasket.svg";
+import { ReactComponent as Trash } from "../../assets/icons/shared/trash.svg";
 import { ReactComponent as CalendarIcon } from "../../assets/icons/shared/calendar.svg";
 
 import "./Categories.css";
 
 function isActive({ isActive }) {
   return isActive ? "active_categories_title" : "";
-}
-
-function createLocaleCategories(count) {
-  if (count === 1) {
-    return "CATEGORIES.CATEGORIES.ONE";
-  } else if (count < 5) {
-    return "CATEGORIES.CATEGORIES.LESS_THAN_FIVE";
-  } else if (count >= 5) {
-    return "CATEGORIES.CATEGORIES.MORE_THAN_FIVE";
-  } else {
-    return "CATEGORIES.CATEGORIES.MORE_THAN_FIVE";
-  }
 }
 
 function createBarData(keys, allCount, expenseCount, incomeCount) {
@@ -65,6 +53,7 @@ function Categories({
   const notArchivedCategories = categories.filter(
     (category) => category.archived === false
   );
+  const archivedCategories = categories.filter((category) => category.archived);
   const allCount = notArchivedCategories.length;
   const expenseCount = notArchivedCategories.filter(
     (category) => category.type === "expense"
@@ -95,14 +84,15 @@ function Categories({
         <div className="categories_bar_info">
           {t("CATEGORIES.TOTAL")}
           <div className="total_categories_count">
-            {allCount} {t(createLocaleCategories(allCount))}
+            {allCount} {t(createLocaleCategories("CATEGORIES", allCount))}
           </div>
           <div className="categories_bar_item">
             <img src={expenseIcon} alt="expenses" />
             <div>
               {t("CATEGORIES.EXPENSES")}
               <div className="expense_categories_count">
-                {expenseCount} {t(createLocaleCategories(expenseCount))}
+                {expenseCount}{" "}
+                {t(createLocaleCategories("CATEGORIES", expenseCount))}
               </div>
             </div>
           </div>
@@ -111,7 +101,8 @@ function Categories({
             <div>
               {t("CATEGORIES.INCOMES")}
               <div className="income_categories_count">
-                {incomeCount} {t(createLocaleCategories(incomeCount))}
+                {incomeCount}{" "}
+                {t(createLocaleCategories("CATEGORIES", incomeCount))}
               </div>
             </div>
           </div>
@@ -131,7 +122,10 @@ function Categories({
             {t("CATEGORIES.FILTER_DATE")}
           </div>
           <div className="archived">
-            <ArchiveBasket />
+            <NavLink to="/categories/trash">
+              <Trash />
+              <div className="trash_count">{archivedCategories.length}</div>
+            </NavLink>
           </div>
         </div>
         <div className="categories_titles">

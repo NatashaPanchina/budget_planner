@@ -4,6 +4,7 @@ import {
   DELETE_CATEGORY,
   EDIT_CATEGORY,
   ADD_NEW_ACCOUNT,
+  RESTORE_ACCOUNT,
   DELETE_ACCOUNT,
   EDIT_ACCOUNT,
   IDB_FETCH_ACCOUNTS_INIT,
@@ -14,13 +15,15 @@ import {
   IDB_FETCH_CATEGORIES_FAILURE,
   EDIT_TRANSACTION,
   DELETE_TRANSACTION,
-  UPDATE_ACCOUNT_BALANCE,
   ARCHIVE_CATEGORY,
+  RESTORE_CATEGORY,
   ARCHIVE_ACCOUNT,
   IDB_FETCH_PROFILE_INIT,
   IDB_FETCH_PROFILE_SUCCESS,
   IDB_FETCH_PROFILE_FAILURE,
   CHANGE_LANGUAGE,
+  IDB_FETCH_TRANSACTIONS_INIT,
+  IDB_FETCH_TRANSACTIONS_SUCCESS,
 } from "./ActionTypes";
 import { idbOpen } from "../indexedDB/IndexedDB";
 
@@ -73,6 +76,13 @@ export const archiveCategory = (id) => (dispatch) => {
   });
 };
 
+export const restoreCategory = (id) => (dispatch) => {
+  dispatch({
+    type: RESTORE_CATEGORY,
+    payload: id,
+  });
+};
+
 export const deleteCategory = (id) => (dispatch) => {
   dispatch({
     type: DELETE_CATEGORY,
@@ -101,17 +111,17 @@ export const archiveAccount = (id) => (dispatch) => {
   });
 };
 
-export const deleteAccount = (id) => (dispatch) => {
+export const restoreAccount = (id) => (dispatch) => {
   dispatch({
-    type: DELETE_ACCOUNT,
+    type: RESTORE_ACCOUNT,
     payload: id,
   });
 };
 
-export const updateAccountBalance = (id, balance) => (dispatch) => {
+export const deleteAccount = (id) => (dispatch) => {
   dispatch({
-    type: UPDATE_ACCOUNT_BALANCE,
-    payload: { id, balance },
+    type: DELETE_ACCOUNT,
+    payload: id,
   });
 };
 
@@ -139,9 +149,12 @@ export const fetchCategoriesData = () => {
   });
 };
 
-//позже изменю экшены на экшены для транзакций
 export const fetchTransactionsData = () => {
-  return fetchData("transactions", {});
+  return fetchData("transactions", {
+    init: IDB_FETCH_TRANSACTIONS_INIT,
+    success: IDB_FETCH_TRANSACTIONS_SUCCESS,
+    failure: IDB_FETCH_CATEGORIES_FAILURE,
+  });
 };
 
 export function fetchData(nameObjectStore, { init, success, failure }) {

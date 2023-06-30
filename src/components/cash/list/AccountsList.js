@@ -6,7 +6,12 @@ import { dinero } from "dinero.js";
 
 import { formatDineroOutput } from "../../../utils/format/cash";
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
-import { createLocaleCashType } from "../utils";
+import {
+  createCashFilter,
+  filterAccounts,
+  renderNotes,
+  createLocaleCashType,
+} from "../utils";
 
 import { ReactComponent as PlusIcon } from "../../../assets/icons/shared/plus.svg";
 import { ReactComponent as EditIcon } from "../../../assets/icons/shared/edit.svg";
@@ -14,45 +19,10 @@ import { ReactComponent as TransferIcon } from "../../../assets/icons/shared/tra
 import { ReactComponent as ArchiveIcon } from "../../../assets/icons/shared/archive.svg";
 import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
 import searchIcon from "../../../assets/icons/shared/search.svg";
-import notesIcon from "../../../assets/icons/shared/notes.svg";
 
 function archiveEventButton(account, archiveAccount) {
-  const newAccount = Object.assign({}, account, {
-    archived: true,
-  });
   archiveAccount(account.id);
-  idbAddItem(newAccount, "accounts");
-}
-
-function renderNotes(notes) {
-  if (notes) {
-    return (
-      <div className="accounts_notes">
-        <img src={notesIcon} alt="notes" className="notes_icon" />
-        {notes}
-      </div>
-    );
-  }
-}
-
-//для денег нужно убрать s на конце
-function createCashFilter(filterCash) {
-  switch (filterCash) {
-    case "cards":
-      return "card";
-    case "cash":
-      return "cash";
-    case "transfers":
-      return "transfer";
-    default:
-      return "all";
-  }
-}
-
-function filterAccounts(filterCash, accounts) {
-  return filterCash === "all"
-    ? accounts
-    : accounts.filter((account) => account.type === filterCash);
+  idbAddItem({ ...account, archived: true }, "accounts");
 }
 
 export default function AccountsList({ notArchivedAccounts, archiveAccount }) {

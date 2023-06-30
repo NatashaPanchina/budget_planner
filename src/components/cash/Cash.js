@@ -12,7 +12,7 @@ import CashList from "./list/CashList.js";
 import CashChart from "./pieChart/CashChart.js";
 
 import { ReactComponent as FilterIcon } from "../../assets/icons/shared/filter.svg";
-import { ReactComponent as ArchiveBasket } from "../../assets/icons/shared/archiveBasket.svg";
+import { ReactComponent as Trash } from "../../assets/icons/shared/trash.svg";
 import { ReactComponent as CalendarIcon } from "../../assets/icons/shared/calendar.svg";
 
 import "./Cash.css";
@@ -27,9 +27,10 @@ function Cash({
   archiveAccount,
 }) {
   const { t } = useTranslation();
-  let notArchivedAccounts = accounts.filter(
+  const notArchivedAccounts = accounts.filter(
     (account) => account.archived === false
   );
+  const archivedAccounts = accounts.filter((account) => account.archived);
 
   useEffect(() => {
     fetchAccountsData();
@@ -55,7 +56,10 @@ function Cash({
             {t("CASH.FILTER_DATE")}
           </div>
           <div className="archived">
-            <ArchiveBasket />
+            <NavLink to="/cash/trash/all">
+              <Trash />
+              <div className="trash_count">{archivedAccounts.length}</div>
+            </NavLink>
           </div>
         </div>
         <div className="accounts_titles">

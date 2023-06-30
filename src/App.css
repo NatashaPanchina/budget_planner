@@ -125,12 +125,34 @@ button {
 }
 
 .info_items {
-  width: 20%;
+  width: calc(20% - 30px);
+  min-width: 70px;
   padding-left: 20px;
+  padding-right: 10px;
 }
 
 .input_items {
   width: calc(80% - 20px);
   color: #000;
   font-size: 1rem;
+}
+
+.archived {
+  position: relative;
+}
+
+.archived svg {
+  height: 35px;
+  filter: drop-shadow(0px 4px 4px rgba(243, 243, 243, 1));
+}
+
+.trash_count {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 0.625rem;
+  color: #fff;
+  background-color: #a57fff;
+  border-radius: 50%;
+  padding: 5% 10%;
 }

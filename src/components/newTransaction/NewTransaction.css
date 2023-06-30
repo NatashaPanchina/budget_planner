@@ -1,0 +1,327 @@
+.main_content {
+    width: 50%;
+    min-width: 461px;
+    margin-top: 50px;
+    margin-left: 33.5%;
+    margin-right: 16.5%;
+    position: relative;
+}
+
+.main_content button {
+    color: #fff;
+    border: none;
+    height: 40px;
+}
+
+.content_title {
+    display: flex;
+    margin-bottom: 35px;
+    border-bottom: 1px solid #f1f1f1;
+    position: sticky;
+    top: 56px;
+    z-index: 9;
+    background-color: #fafafa;
+}
+
+.transaction_title_block {
+    margin-bottom: 35px;
+    border-bottom: 1px solid #DCE2DF;
+    position: sticky;
+    top: 56px;
+    z-index: 9;
+    background-color: #FAFAFA;
+}
+
+.info_transaction_title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 60px;
+}
+
+.transaction_back_nav {
+    position: absolute;
+    left: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.transaction_back_nav svg {
+    height: 40px;
+    width: 40px;
+}
+
+.transaction_back_nav:hover svg circle {
+    fill: #F0F0F0;
+}
+
+.transactions_button_block {
+    display: flex;
+}
+
+.title_item {
+    height: 60px;
+    width: 33.3%;
+}
+
+.title_item a {
+    color: #989393;
+    height: inherit;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title_item a svg {
+    height: 23px;
+    margin-right: 7px;
+}
+
+.transfer_cards {
+    width: 100%;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.transfer_cards svg {
+    width: 250px;
+}
+
+.title_cards {
+    display: flex;
+    justify-content: space-between;
+    color:#C4C4C4;
+    font-size: 0.875rem;;
+}
+
+.arrow_icon {
+    align-self: center;
+}
+
+.transaction_item {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    margin-bottom: 12px;
+    border: 1px solid #DCE2DF;
+    background-color: #fff;
+    filter: drop-shadow(0px 2px 5px #fafafa);
+    border-radius: 5px;
+    font-size: 0.875rem;
+    color: #C4C4C4;
+}
+
+.expense_active_item {
+    border: 1px solid #F4395B;
+    color: #F4395B;
+    box-shadow: 0px 4px 10px rgba(244, 57, 91, 0.1);
+}
+
+.income_active_item {
+    border: 1px solid #6EBD0A;
+    color: #6EBD0A;
+    box-shadow: 0px 4px 10px rgba(110, 189, 10, 0.1);
+}
+
+.transfer_active_item {
+    border: 1px solid #0DC3B4;;
+    color: #0DC3B4;;
+    box-shadow: 0px 4px 10px rgba(13, 195, 180, 0.1);
+}
+
+.transaction_item input {
+    width: 75%;
+}
+
+.transaction_item input[type="date"] {
+    width: fit-content;
+}
+
+.info_items {
+    width: 20%;
+    padding-left: 20px;
+}
+
+.input_items,.input_items input {
+    color: #000;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.input_items {
+    width: calc(80% - 20px);
+}
+
+.title_item .active_expense {
+    border-bottom: 2px solid #6D73FF;
+    color: #F4395B;
+}
+
+.title_item .not_active_expense:hover {
+    color: #F4395B;
+}
+
+.title_item .not_active_expense:hover svg rect {
+    fill: url(#expense_active);
+}
+
+.title_item .active_income {
+    border-bottom: 2px solid #6D73FF;
+    color: #6EBD0A;
+}
+
+.not_active_income:hover {
+    color: #6EBD0A;
+}
+
+.not_active_income:hover svg rect {
+    fill: url(#income_active);
+}
+
+.title_item .active_transfer {
+    border-bottom: 2px solid #6D73FF;
+    color: #0DC3B4;
+}
+
+.not_active_transfer:hover {
+    color: #0DC3B4;
+}
+
+.not_active_transfer:hover svg rect {
+    fill: url(#transfer_active);
+}
+
+.transfer_button {
+    width: inherit;
+    border-radius: 10px;
+    background: #0DC3B4;
+    box-shadow: 0px 4px 10px rgba(13, 195, 180, 0.5);
+}
+
+.transfer_button:hover {
+    background: #24d5c6;
+}
+
+.active_expense svg rect {
+    fill: url(#expense_active);
+}
+
+.active_income svg rect {
+    fill: url(#income_active);
+}
+
+.active_transfer svg rect {
+    fill: url(#transfer_active);
+}
+
+.categories_list, .accounts_list {
+    position: absolute;
+    z-index: 1;
+    background-color: #fff;
+    width: 80%;
+    max-height: 350px;
+    overflow-y: auto;
+    border: 1px solid #DCE2DF;
+    border-radius: 5px;
+    padding-bottom: 15px;
+}
+
+.categories_list {
+    top: 159px;
+    right: 0px;
+}
+
+.accounts_list {
+    top: 232px;
+    right: 0px;
+}
+
+.categories_list::-webkit-scrollbar, .accounts_list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.categories_list::-webkit-scrollbar-thumb, .accounts_list::-webkit-scrollbar-thumb {
+    background: #C4C4C4;
+    border-radius: 10px;
+}
+
+.transaction_not_found {
+    font-size: 0.875rem;
+    color: #d9d9d9;
+    font-style: italic;
+    cursor: pointer;
+}
+
+.categories_list a svg {
+    margin-left: 20px;
+}
+
+
+.categories_list .add_category_btn, .accounts_list .add_category_btn {
+    height: 45px;
+    font-size: 0.875rem;
+}
+
+.categories_list .add_category_btn svg, .accounts_list .add_category_btn svg {
+    height: 15px;
+}
+
+.categories_list .search, .accounts_list .search {
+    margin: 10px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    width: calc(100% - 20px);
+}
+
+.accounts_list .add_category_btn {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
+
+.categories_list_item {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.accounts_list .card {
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.categories_list_item:hover {
+    background-color: #f7f7f7;
+}
+
+.categories_list_item svg {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.selected_category, .selected_account {
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.selected_category svg, .selected_account svg {
+    margin-right: 20px;
+}
+
+.transactions_buttons_block {
+    display: flex;
+}

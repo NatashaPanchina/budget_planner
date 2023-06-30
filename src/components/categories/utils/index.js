@@ -1,4 +1,5 @@
 import { ReactComponent as CheckMarkIcon } from "../../../assets/icons/shared/checkMark.svg";
+import notesIcon from "../../../assets/icons/shared/notes.svg";
 
 export function renderSelectedColor(selectedColor, Icon) {
   return selectedColor ? (
@@ -105,4 +106,46 @@ export function renderIcons(icons, setIcon) {
 
 export function toggleElement(name) {
   document.querySelector(name).classList.toggle("none");
+}
+
+export function createFilterType(filterType) {
+  switch (filterType) {
+    case "expenses":
+      return "expense";
+    case "incomes":
+      return "income";
+    default:
+      return "all";
+  }
+}
+
+export function filterCategories(filterType, categories) {
+  return filterType === "all"
+    ? categories
+    : categories.filter((category) => category.type === filterType);
+}
+
+export function renderNotes(notes) {
+  if (notes) {
+    return (
+      <div className="categories_notes">
+        <img src={notesIcon} alt="notes" className="notes_icon" />
+        {notes}
+      </div>
+    );
+  }
+}
+
+export function createLocaleCategories(NAME, count) {
+  if (count === 0) {
+    return `${NAME}.CATEGORIES.MORE_THAN_FIVE`;
+  } else if (count === 1) {
+    return `${NAME}.CATEGORIES.ONE`;
+  } else if (count < 5) {
+    return `${NAME}.CATEGORIES.LESS_THAN_FIVE`;
+  } else if (count >= 5) {
+    return `${NAME}.CATEGORIES.MORE_THAN_FIVE`;
+  } else {
+    return `${NAME}.CATEGORIES.MORE_THAN_FIVE`;
+  }
 }

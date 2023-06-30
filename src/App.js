@@ -15,6 +15,7 @@ import InfoTransaction from "./components/transactions/infoTransaction/InfoTrans
 import Cash from "./components/cash/Cash";
 import NewTransaction from "./components/newTransaction/NewTransaction";
 import Categories from "./components/categories/Categories";
+import CategoriesTrash from "./components/categories/trash/CategoriesTrash";
 import AddCategory from "./components/categories/addCategory/AddCategory";
 import AddAccount from "./components/cash/addAccount/AddAccount";
 import InfoAccount from "./components/cash/infoAccount/InfoAccount";
@@ -22,6 +23,7 @@ import InfoCategory from "./components/categories/infoCategory/InfoCategory";
 import Analysis from "./components/analysis/Analysis";
 
 import "./App.css";
+import AccountsTrash from "./components/cash/trash/AccountsTrash";
 
 function App() {
   return (
@@ -39,11 +41,13 @@ function App() {
             element={<Transactions />}
           />
           <Route
-            path="/infoTransaction/:transactionId"
+            path="/transactions/infoTransaction/:transactionId"
             element={<InfoTransaction />}
           />
           <Route path="/cash" element={<Navigate replace to="all" />} />
           <Route path="/cash/:filterCash" element={<Cash />} />
+          <Route path="/cash/trash" element={<Navigate replace to="all" />} />
+          <Route path="/cash/trash/:filterType" element={<AccountsTrash />} />
           <Route
             path="/cash/addAccount/:accountType"
             element={<AddAccount />}
@@ -62,6 +66,14 @@ function App() {
           />
           <Route path="/categories" element={<Navigate replace to="all" />} />
           <Route path="/categories/:filterType" element={<Categories />} />
+          <Route
+            path="/categories/trash"
+            element={<Navigate replace to="all" />}
+          />
+          <Route
+            path="/categories/trash/:filterType"
+            element={<CategoriesTrash />}
+          />
           <Route
             path="/categories/addCategory/:categoryType"
             element={<AddCategory />}

@@ -1,4 +1,5 @@
 import { ReactComponent as CheckMarkIcon } from "../../../assets/icons/shared/checkMark.svg";
+import notesIcon from "../../../assets/icons/shared/notes.svg";
 
 function showCheckMark(key) {
   const allMarks = document.querySelectorAll(".checkMarkIcon");
@@ -105,6 +106,19 @@ export function toggleElement(name) {
   document.querySelector(name).classList.toggle("none");
 }
 
+export function createCashFilter(filterCash) {
+  switch (filterCash) {
+    case "cards":
+      return "card";
+    case "cash":
+      return "cash";
+    case "transfers":
+      return "transfer";
+    default:
+      return "all";
+  }
+}
+
 export function createCashType(accountType) {
   switch (accountType) {
     case "card":
@@ -126,5 +140,36 @@ export function createLocaleCashType(cashType) {
       return "TRANSFER";
     default:
       return "ALL";
+  }
+}
+
+export function createLocaleCash(NAME, count) {
+  if (count === 0) {
+    return `${NAME}.CASH.MORE_THAN_FIVE`;
+  } else if (count === 1) {
+    return `${NAME}.CASH.ONE`;
+  } else if (count < 5) {
+    return `${NAME}.CASH.LESS_THAN_FIVE`;
+  } else if (count >= 5) {
+    return `${NAME}.CASH.MORE_THAN_FIVE`;
+  } else {
+    return `${NAME}.CATEGORIES.MORE_THAN_FIVE`;
+  }
+}
+
+export function filterAccounts(filterCash, accounts) {
+  return filterCash === "all"
+    ? accounts
+    : accounts.filter((account) => account.type === filterCash);
+}
+
+export function renderNotes(notes) {
+  if (notes) {
+    return (
+      <div className="accounts_notes">
+        <img src={notesIcon} alt="notes" className="notes_icon" />
+        {notes}
+      </div>
+    );
   }
 }
