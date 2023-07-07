@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { NumericFormat } from "react-number-format";
 
@@ -111,7 +111,8 @@ const doneEventHandler = (
   prevTransaction,
   editTransaction,
   editAccount,
-  accounts
+  accounts,
+  dispatch
 ) => {
   const newAmount = dineroFromFloat({ amount, currency: USD, scale: 2 });
   const newTransaction = {
@@ -124,7 +125,7 @@ const doneEventHandler = (
     notes,
     tags,
   };
-  editTransaction(clickedTransaction, newTransaction);
+  dispatch(editTransaction(clickedTransaction, newTransaction));
   idbAddItem(newTransaction, "transactions");
 
   const balance = createNewBalance(prevTransaction, newTransaction, accounts);
@@ -132,10 +133,12 @@ const doneEventHandler = (
   const prevTransactionAccount = accounts.find(
     (account) => account.id === prevTransaction.account
   );
-  editAccount({
-    ...prevTransactionAccount,
-    balance: balance.prevAccountBalance,
-  });
+  dispatch(
+    editAccount({
+      ...prevTransactionAccount,
+      balance: balance.prevAccountBalance,
+    })
+  );
   idbAddItem(
     { ...prevTransactionAccount, balance: balance.prevAccountBalance },
     "accounts"
@@ -144,23 +147,24 @@ const doneEventHandler = (
   const newTransactionAccount = accounts.find(
     (account) => account.id === newTransaction.account
   );
-  editAccount({ ...newTransactionAccount, balance: balance.newAccountBalance });
+  dispatch(
+    editAccount({
+      ...newTransactionAccount,
+      balance: balance.newAccountBalance,
+    })
+  );
   idbAddItem(
     { ...newTransactionAccount, balance: balance.newAccountBalance },
     "accounts"
   );
 };
 
-function InfoTransaction({
-  categories,
-  accounts,
-  transactions,
-  fetchCategoriesData,
-  fetchAccountsData,
-  fetchTransactionsData,
-  editTransaction,
-  editAccount,
-}) {
+export default function InfoTransaction() {
+  const transactions = useSelector((state) => state.transactions);
+  const accounts = useSelector((state) => state.accounts);
+  const categories = useSelector((state) => state.categories);
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
   const [activeItem, setActiveItem] = useState("");
 
@@ -198,10 +202,10 @@ function InfoTransaction({
   const accountsRef = useOutsideClick(hideElement);
 
   useEffect(() => {
-    fetchCategoriesData();
-    fetchAccountsData();
-    fetchTransactionsData();
-  }, [fetchCategoriesData, fetchAccountsData, fetchTransactionsData]);
+    dispatch(fetchCategoriesData());
+    dispatch(fetchAccountsData());
+    dispatch(fetchTransactionsData());
+  }, [dispatch]);
 
   useEffect(() => {
     if (transactions.status === "succeeded") {
@@ -400,7 +404,8 @@ function InfoTransaction({
                   infoTransaction,
                   editTransaction,
                   editAccount,
-                  accountsData
+                  accountsData,
+                  dispatch
                 )
               }
             >
@@ -419,21 +424,3 @@ function InfoTransaction({
     </div>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    categories: state.categories,
-    accounts: state.accounts,
-    transactions: state.transactions,
-  };
-};
-
-const mapDispatchToProps = {
-  fetchCategoriesData,
-  fetchAccountsData,
-  fetchTransactionsData,
-  editTransaction,
-  editAccount,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(InfoTransaction);

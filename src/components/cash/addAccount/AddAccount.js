@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { Link, NavLink, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -15,7 +14,7 @@ function isActiveLink(isActive) {
   return isActive ? "active_account_type" : "";
 }
 
-function AddAccount({ addNewAccount }) {
+export default function AddAccount() {
   const { t } = useTranslation();
   const { accountType } = useParams();
 
@@ -51,9 +50,3 @@ function AddAccount({ addNewAccount }) {
     </div>
   );
 }
-
-const mapDispatchToProps = {
-  addNewAccount,
-};
-
-export default connect(null, mapDispatchToProps)(AddAccount);

@@ -3,7 +3,8 @@
         "id": "7bd41b93-5361-45f7-8161-5fc8fc939042",
         "username": "Natasha",
         "currency": "$",
-        "language": "EN"
+        "language": "EN",
+        "mode": "light"
     },
     "accounts": {
         "fetching": false,

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -31,7 +32,8 @@ const doneEventHandler = (
   date,
   notes,
   tags,
-  addNewAccount
+  addNewAccount,
+  dispatch
 ) => {
   const newAccount = {
     id: uuidv4(),
@@ -50,11 +52,13 @@ const doneEventHandler = (
     notes,
     tags,
   };
-  addNewAccount(newAccount);
+  dispatch(addNewAccount(newAccount));
   idbAddItem(newAccount, "accounts");
 };
 
 export default function CashForm({ accountType, addNewAccount }) {
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
 
   const cashType = createCashType(accountType);
@@ -217,7 +221,8 @@ export default function CashForm({ accountType, addNewAccount }) {
                     date.toISOString(),
                     notes,
                     tags,
-                    addNewAccount
+                    addNewAccount,
+                    dispatch
                   )
                 }
               >

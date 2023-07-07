@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -36,6 +36,7 @@ function renderAccounts(
   restoreAccount,
   deleteAccount,
   deleteTransaction,
+  dispatch,
   t
 ) {
   return (
@@ -68,7 +69,7 @@ function renderAccounts(
             <div className="account_buttons">
               <div
                 onClick={() => {
-                  restoreAccount(account.id);
+                  dispatch(restoreAccount(account.id));
                   idbAddItem({ ...account, archived: false }, "accounts");
                 }}
               >
@@ -78,11 +79,11 @@ function renderAccounts(
                 onClick={() => {
                   transactions.forEach((transaction) => {
                     if (transaction.account === account.id) {
-                      deleteTransaction(transaction.id);
+                      dispatch(deleteTransaction(transaction.id));
                       idbDeleteItem(transaction.id, "transactions");
                     }
                   });
-                  deleteAccount(account.id);
+                  dispatch(deleteAccount(account.id));
                   idbDeleteItem(account.id, "accounts");
                 }}
               >
@@ -99,15 +100,11 @@ function renderAccounts(
 function isActive({ isActive }) {
   return isActive ? `accounts_title active_accounts_title` : `accounts_title`;
 }
-function AccountsTrash({
-  accounts,
-  transactions,
-  fetchTransactionsData,
-  fetchAccountsData,
-  restoreAccount,
-  deleteAccount,
-  deleteTransaction,
-}) {
+export default function AccountsTrash() {
+  const accounts = useSelector((state) => state.accounts);
+  const transactions = useSelector((state) => state.transactions);
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
   const filterType = createCashFilter(useParams().filterType);
   const archivedAccounts = accounts.accounts.filter(
@@ -115,9 +112,9 @@ function AccountsTrash({
   );
 
   useEffect(() => {
-    fetchAccountsData();
-    fetchTransactionsData();
-  }, [fetchAccountsData, fetchTransactionsData]);
+    dispatch(fetchAccountsData());
+    dispatch(fetchTransactionsData());
+  }, [dispatch]);
 
   return accounts.status === "loading" || transactions.status === "loading" ? (
     <div>Loading</div>
@@ -158,25 +155,9 @@ function AccountsTrash({
         restoreAccount,
         deleteAccount,
         deleteTransaction,
+        dispatch,
         t
       )}
     </div>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    accounts: state.accounts,
-    transactions: state.transactions,
-  };
-};
-
-const mapDispatchToProps = {
-  fetchAccountsData,
-  fetchTransactionsData,
-  restoreAccount,
-  deleteAccount,
-  deleteTransaction,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AccountsTrash);

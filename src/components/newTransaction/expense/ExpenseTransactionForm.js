@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { NumericFormat } from "react-number-format";
 import { v4 as uuidv4 } from "uuid";
@@ -30,6 +30,8 @@ export default function ExpenseTransactionForm({
   addNewTransaction,
   editAccount,
 }) {
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
   const [activeItem, setActiveItem] = useState("");
   const [filteredCategories, setFilteredCategories] = useState([]);
@@ -217,7 +219,7 @@ export default function ExpenseTransactionForm({
                   notes,
                   tags,
                 };
-                addNewTransaction(newTransaction);
+                dispatch(addNewTransaction(newTransaction));
                 idbAddItem(newTransaction, "transactions");
                 const transactionAccount = filteredAccounts.find(
                   (filteredAccount) => filteredAccount.id === account
@@ -229,10 +231,12 @@ export default function ExpenseTransactionForm({
                     dineroFromFloat({ amount, currency: USD, scale: 2 })
                   )
                 );
-                editAccount(transactionAccount.id, {
-                  ...transactionAccount,
-                  balance: newBalance,
-                });
+                dispatch(
+                  editAccount(transactionAccount.id, {
+                    ...transactionAccount,
+                    balance: newBalance,
+                  })
+                );
                 idbAddItem(
                   { ...transactionAccount, balance: newBalance },
                   "accounts"

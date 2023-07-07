@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import { NavLink, Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -25,7 +25,112 @@ import { ReactComponent as RestoreIcon } from "../../../assets/icons/shared/rest
 import { ReactComponent as DeleteIcon } from "../../../assets/icons/shared/delete.svg";
 import searchIcon from "../../../assets/icons/shared/search.svg";
 
-import "./CategoriesTrash.css";
+import { styled } from "styled-components";
+import {
+  ArchivedTrash,
+  BackLink,
+  Search,
+  SearchImg,
+  SearchInput,
+  Trash,
+  TrashCount,
+} from "../../../theme/global";
+
+const TrashContainer = styled.div(() => ({
+  marginTop: "56px",
+  marginLeft: "30%",
+  marginRight: "13%",
+}));
+
+const Header = styled.div(() => ({
+  position: "relative",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "60px",
+}));
+
+const CategoriesTitleContainer = styled.div((props) => ({
+  display: "flex",
+  marginBottom: "15px",
+  borderBottom: `1px solid ${props.theme.colors.border.title}`,
+  position: "sticky",
+  top: "56px",
+  zIndex: "9",
+  backgroundColor: props.theme.colors.background.body,
+}));
+
+const CategoriesTitleLink = styled(NavLink)((props) => ({
+  height: "50px",
+  width: "25%",
+  fontSize: "0.9375rem",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  color: props.theme.colors.text.darker,
+  "&:hover": {
+    color: props.theme.colors.text.primary,
+  },
+  "&.active": {
+    color: props.theme.colors.text.primary,
+    borderBottom: `2px solid ${props.theme.colors.main.violet}`,
+  },
+}));
+
+const ArchivedCount = styled.div((props) => ({
+  fontSize: "0.875rem",
+  color: props.theme.colors.main.violet,
+  height: "40px",
+  display: "flex",
+  alignItems: "center",
+}));
+
+const CategoriesListItem = styled.div((props) => ({
+  width: "100%",
+  paddingTop: "10px",
+  paddingBottom: "10px",
+  marginBottom: "15px",
+  background: props.theme.colors.background.primary,
+  border: `1px solid ${props.theme.colors.border.item}`,
+  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
+  borderRadius: "5px",
+  display: "grid",
+  gridTemplateAreas: '"desc" "notes"',
+  gridTemplateColumns: "1fr",
+  gap: "10px 5%",
+  alignItems: "center",
+  position: "relative",
+}));
+
+const CategoriesDescription = styled.div(() => ({
+  gridArea: "desc",
+  display: "flex",
+  alignItems: "center",
+}));
+
+const CategoriesSvg = styled.svg(() => ({
+  marginLeft: "20px",
+  marginRight: "20px",
+}));
+
+const EditButtons = styled.div(() => ({
+  position: "absolute",
+  top: "17px",
+  right: "0px",
+}));
+
+const EditButtonSvg = styled.svg((props) => ({
+  height: "15px",
+  marginLeft: "10px",
+  marginRight: "10px",
+  cursor: "pointer",
+  "& path": {
+    fill: props.theme.colors.svg.pending,
+  },
+  "&:hover path": {
+    fill: props.theme.colors.svg.hover,
+  },
+}));
 
 function renderCategories(
   categories,
@@ -33,85 +138,80 @@ function renderCategories(
   restoreCategory,
   deleteCategory,
   deleteTransaction,
+  dispatch,
   t
 ) {
   return (
     <React.Fragment>
-      <div className="archived_count">
+      <ArchivedCount>
         {categories.length}{" "}
         {t(createLocaleCategories("CATEGORIES_TRASH", categories.length))}
-      </div>
+      </ArchivedCount>
       {categories.map((category, index) => {
         let Icon = categoryIcons[category.icon];
         return (
-          <div key={category.id} className="category_item">
-            <div className="categories_description">
-              <svg
-                width="34"
-                height="34"
-                viewBox="0 0 34 34"
+          <CategoriesListItem key={category.id}>
+            <CategoriesDescription>
+              <CategoriesSvg
+                width="38"
+                height="38"
+                viewBox="0 0 38 38"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <circle cx="17" cy="17" r="17" fill={`url(#${index})`}></circle>
-                <Icon height="20" width="20" x="7" y="7" />
+                <circle cx="19" cy="19" r="19" fill={`url(#${index})`}></circle>
+                <Icon height="24" width="24" x="7" y="7" />
                 <defs>
                   <linearGradient
                     id={index}
                     x1="0"
                     y1="0"
-                    x2="34"
-                    y2="34"
+                    x2="38"
+                    y2="38"
                     gradientUnits="userSpaceOnUse"
                   >
                     <stop stopColor={category.color[0]} />
                     <stop offset="1" stopColor={category.color[1]} />
                   </linearGradient>
                 </defs>
-              </svg>
+              </CategoriesSvg>
               {category.description}
-            </div>
-            <div className="category_edits">
-              <RestoreIcon
+            </CategoriesDescription>
+            <EditButtons>
+              <EditButtonSvg
+                as={RestoreIcon}
                 onClick={() => {
-                  restoreCategory(category.id);
+                  dispatch(restoreCategory(category.id));
                   idbAddItem({ ...category, archived: false }, "categories");
                 }}
               />
-              <DeleteIcon
+              <EditButtonSvg
+                as={DeleteIcon}
                 onClick={() => {
                   transactions.forEach((transaction) => {
                     if (transaction.category === category.id) {
-                      deleteTransaction(transaction.id);
+                      dispatch(deleteTransaction(transaction.id));
                       idbDeleteItem(transaction.id, "transactions");
                     }
                   });
-                  deleteCategory(category.id);
+                  dispatch(deleteCategory(category.id));
                   idbDeleteItem(category.id, "categories");
                 }}
               />
-            </div>
+            </EditButtons>
             {renderNotes(category.notes)}
-          </div>
+          </CategoriesListItem>
         );
       })}
     </React.Fragment>
   );
 }
 
-function isActive({ isActive }) {
-  return isActive ? "active_categories_title" : "";
-}
+export default function CategoriesTrash() {
+  const categories = useSelector((state) => state.categories);
+  const transactions = useSelector((state) => state.transactions);
+  const dispatch = useDispatch();
 
-function CategoriesTrash({
-  categories,
-  transactions,
-  fetchCategoriesData,
-  fetchTransactionsData,
-  restoreCategory,
-  deleteCategory,
-  deleteTransaction,
-}) {
   const { t } = useTranslation();
   const filterType = createFilterType(useParams().filterType);
   const archivedCategories = categories.categories.filter(
@@ -119,71 +219,52 @@ function CategoriesTrash({
   );
 
   useEffect(() => {
-    fetchCategoriesData();
-    fetchTransactionsData();
-  }, [fetchCategoriesData, fetchTransactionsData]);
+    dispatch(fetchCategoriesData());
+    dispatch(fetchTransactionsData());
+  }, [dispatch]);
 
   return categories.status === "loading" ||
     transactions.status === "loading" ? (
     <div>Loading</div>
   ) : (
-    <div className="categories_trash_content">
-      <div className="trash_header">
-        <Link className="category_back_nav" to={`/categories/all`}>
+    <TrashContainer>
+      <Header>
+        <BackLink to={`/categories/all`}>
           <BackIcon />
-        </Link>
+        </BackLink>
         {t("CATEGORIES_TRASH.ARCHIVED_CATEGORIES")}
-        <div className="trash_icon">
-          <TrashIcon />
-          <div className="trash_count">{archivedCategories.length}</div>
-        </div>
-      </div>
-      <div className="categories_titles">
-        <div className="categories_title">
-          <NavLink to="/categories/trash/all" className={isActive}>
-            {t("CATEGORIES_TRASH.ALL")}
-          </NavLink>
-        </div>
-        <div className="categories_title">
-          <NavLink to="/categories/trash/expenses" className={isActive}>
-            {t("CATEGORIES_TRASH.EXPENSES")}
-          </NavLink>
-        </div>
-        <div className="categories_title">
-          <NavLink to="/categories/trash/incomes" className={isActive}>
-            {t("CATEGORIES_TRASH.INCOMES")}
-          </NavLink>
-        </div>
-      </div>
-      <div className="search">
-        <input type="text" placeholder={t("CATEGORIES_TRASH.SEARCH")}></input>
-        <img src={searchIcon} alt="search" />
-      </div>
+        <ArchivedTrash>
+          <Trash as={TrashIcon} />
+          <TrashCount>{archivedCategories.length}</TrashCount>
+        </ArchivedTrash>
+      </Header>
+      <CategoriesTitleContainer>
+        <CategoriesTitleLink to="/categories/trash/all">
+          {t("CATEGORIES_TRASH.ALL")}
+        </CategoriesTitleLink>
+        <CategoriesTitleLink to="/categories/trash/expenses">
+          {t("CATEGORIES_TRASH.EXPENSES")}
+        </CategoriesTitleLink>
+        <CategoriesTitleLink to="/categories/trash/incomes">
+          {t("CATEGORIES_TRASH.INCOMES")}
+        </CategoriesTitleLink>
+      </CategoriesTitleContainer>
+      <Search>
+        <SearchInput
+          type="text"
+          placeholder={t("CATEGORIES_TRASH.SEARCH")}
+        ></SearchInput>
+        <SearchImg src={searchIcon} alt="search" />
+      </Search>
       {renderCategories(
         filterCategories(filterType, archivedCategories),
         transactions.transactions,
         restoreCategory,
         deleteCategory,
         deleteTransaction,
+        dispatch,
         t
       )}
-    </div>
+    </TrashContainer>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    categories: state.categories,
-    transactions: state.transactions,
-  };
-};
-
-const mapDispatchToProps = {
-  fetchCategoriesData,
-  fetchTransactionsData,
-  restoreCategory,
-  deleteCategory,
-  deleteTransaction,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CategoriesTrash);

@@ -24,105 +24,113 @@ import {
   CHANGE_LANGUAGE,
   IDB_FETCH_TRANSACTIONS_INIT,
   IDB_FETCH_TRANSACTIONS_SUCCESS,
+  CHANGE_MODE,
 } from "./ActionTypes";
 import { idbOpen } from "../indexedDB/IndexedDB";
 
-export const changeLanguage = (language) => (dispatch) => {
-  dispatch({
+export const changeLanguage = (language) => {
+  return {
     type: CHANGE_LANGUAGE,
     payload: language,
-  });
+  };
 };
 
-export const addNewTransaction = (transaction) => (dispatch) => {
-  dispatch({
+export const changeMode = (mode) => {
+  return {
+    type: CHANGE_MODE,
+    payload: mode,
+  };
+};
+
+export const addNewTransaction = (transaction) => {
+  return {
     type: ADD_NEW_TRANSACTION,
     payload: transaction,
-  });
+  };
 };
 
-export const editTransaction = (id, newTransaction) => (dispatch) => {
-  dispatch({
+export const editTransaction = (id, newTransaction) => {
+  return {
     type: EDIT_TRANSACTION,
     payload: { id, newTransaction },
-  });
+  };
 };
 
-export const deleteTransaction = (id) => (dispatch) => {
-  dispatch({
+export const deleteTransaction = (id) => {
+  return {
     type: DELETE_TRANSACTION,
     payload: id,
-  });
+  };
 };
 
-export const addNewCategory = (category) => (dispatch) => {
-  dispatch({
+export const addNewCategory = (category) => {
+  return {
     type: ADD_NEW_CATEGORY,
     payload: category,
-  });
+  };
 };
 
-export const editCategory = (id, newCategory) => (dispatch) => {
-  dispatch({
+export const editCategory = (id, newCategory) => {
+  return {
     type: EDIT_CATEGORY,
     payload: { id, newCategory },
-  });
+  };
 };
 
-export const archiveCategory = (id) => (dispatch) => {
-  dispatch({
+export const archiveCategory = (id) => {
+  return {
     type: ARCHIVE_CATEGORY,
     payload: id,
-  });
+  };
 };
 
-export const restoreCategory = (id) => (dispatch) => {
-  dispatch({
+export const restoreCategory = (id) => {
+  return {
     type: RESTORE_CATEGORY,
     payload: id,
-  });
+  };
 };
 
-export const deleteCategory = (id) => (dispatch) => {
-  dispatch({
+export const deleteCategory = (id) => {
+  return {
     type: DELETE_CATEGORY,
     payload: id,
-  });
+  };
 };
 
-export const addNewAccount = (account) => (dispatch) => {
-  dispatch({
+export const addNewAccount = (account) => {
+  return {
     type: ADD_NEW_ACCOUNT,
     payload: account,
-  });
+  };
 };
 
-export const editAccount = (id, newAccount) => (dispatch) => {
-  dispatch({
+export const editAccount = (id, newAccount) => {
+  return {
     type: EDIT_ACCOUNT,
     payload: { id, newAccount },
-  });
+  };
 };
 
-export const archiveAccount = (id) => (dispatch) => {
-  dispatch({
+export const archiveAccount = (id) => {
+  return {
     type: ARCHIVE_ACCOUNT,
     payload: id,
-  });
+  };
 };
 
-export const restoreAccount = (id) => (dispatch) => {
-  dispatch({
+export const restoreAccount = (id) => {
+  return {
     type: RESTORE_ACCOUNT,
     payload: id,
-  });
+  };
 };
 
-export const deleteAccount = (id) => (dispatch) => {
-  dispatch({
+export const deleteAccount = (id) => {
+  return {
     type: DELETE_ACCOUNT,
     payload: id,
-  });
+  };
 };
 
 export const fetchProfileData = () => {

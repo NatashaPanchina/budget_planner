@@ -4,26 +4,43 @@ import { useTranslation } from "react-i18next";
 import { ResponsiveBar } from "@nivo/bar";
 import { linearGradientDef } from "@nivo/core";
 
+import { styled } from "styled-components";
+
+const BarChartContainer = styled.div(() => ({
+  width: "80%",
+  height: "40%",
+  marginLeft: "auto",
+  marginRight: "auto",
+}));
+
+const Tooltip = styled.div((props) => ({
+  padding: 12,
+  display: "flex",
+  alignItems: "center",
+  background: props.theme.colors.background.primary,
+  border: `1px solid ${props.theme.colors.border.item}`,
+  borderRadius: "5px",
+  fontSize: "14px",
+}));
+
+const TooltipSvg = styled.svg(() => ({
+  marginRight: "5px",
+}));
+
+const TooltipValue = styled.span(() => ({
+  fontWeight: 700,
+  marginLeft: "5px",
+}));
+
 function renderTooltip(id, formattedValue) {
   return (
-    <div
-      style={{
-        padding: 12,
-        display: "flex",
-        alignItems: "center",
-        background: "#fff",
-        border: "1px solid #F0F0F0",
-        borderRadius: "5px",
-        fontSize: "14px",
-      }}
-    >
-      <svg
+    <Tooltip>
+      <TooltipSvg
         width="20"
         height="20"
         viewBox="0 0 20 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ marginRight: "5px" }}
       >
         <circle
           cx="10"
@@ -31,12 +48,9 @@ function renderTooltip(id, formattedValue) {
           r="10"
           fill={`url(#${id.replaceAll(" ", "_")}Gradient)`}
         ></circle>
-      </svg>
-      {id}:
-      <span style={{ fontWeight: 700, marginLeft: "5px" }}>
-        {formattedValue}
-      </span>
-    </div>
+      </TooltipSvg>
+      {id}:<TooltipValue>{formattedValue}</TooltipValue>
+    </Tooltip>
   );
 }
 
@@ -106,7 +120,7 @@ export default function CategoriesBar({ data }) {
   ];
 
   return (
-    <div className="categories_barChart">
+    <BarChartContainer>
       <ResponsiveBar
         margin={{
           top: 20,
@@ -129,6 +143,6 @@ export default function CategoriesBar({ data }) {
         axisLeft={null}
         tooltip={({ id, value, color }) => renderTooltip(id, value, color)}
       />
-    </div>
+    </BarChartContainer>
   );
 }

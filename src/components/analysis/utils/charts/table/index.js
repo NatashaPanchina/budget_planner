@@ -16,6 +16,8 @@ export function createTableData({
       return [];
     case "accounts":
       return [];
+    default:
+      return [];
   }
 }
 

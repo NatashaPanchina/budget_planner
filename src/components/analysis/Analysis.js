@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   fetchAccountsData,
@@ -8,23 +8,21 @@ import {
 } from "../../actions/Actions";
 import TransactionsAnalysis from "./transactions/TransactionsAnalysis";
 
-function Analysis({
-  categories,
-  accounts,
-  transactions,
-  fetchAccountsData,
-  fetchCategoriesData,
-  fetchTransactionsData,
-}) {
+export default function Analysis() {
+  const categories = useSelector((state) => state.categories);
+  const accounts = useSelector((state) => state.accounts);
+  const transactions = useSelector((state) => state.transactions);
+  const dispatch = useDispatch();
+
   const [categoriesData, setCategoriesData] = useState([]);
   const [accountsData, setAccountsData] = useState([]);
   const [transactionsData, setTransactionsData] = useState([]);
 
   useEffect(() => {
-    fetchCategoriesData();
-    fetchAccountsData();
-    fetchTransactionsData();
-  }, [fetchCategoriesData, fetchAccountsData, fetchTransactionsData]);
+    dispatch(fetchCategoriesData());
+    dispatch(fetchAccountsData());
+    dispatch(fetchTransactionsData());
+  }, [dispatch]);
 
   useEffect(() => {
     if (categories.status === "succeeded")
@@ -53,19 +51,3 @@ function Analysis({
     />
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    categories: state.categories,
-    accounts: state.accounts,
-    transactions: state.transactions,
-  };
-};
-
-const mapDispatchToProps = {
-  fetchCategoriesData,
-  fetchAccountsData,
-  fetchTransactionsData,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Analysis);

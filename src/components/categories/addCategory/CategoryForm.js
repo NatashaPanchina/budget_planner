@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { v4 as uuidv4 } from "uuid";
@@ -18,7 +19,22 @@ import {
   useOutsideClick,
 } from "../../../hooks/useOutsideClick.js";
 
-import "./AddCategory.css";
+import {
+  AddFormButtonsContainer,
+  CancelButton,
+  CategoriesIcons,
+  ColorsContainer,
+  ColorsPalette,
+  ColorsPaletteButton,
+  DoneButton,
+  FieldDescription,
+  FormField,
+  FormFieldsContainer,
+  IconsButton,
+  IconsContainer,
+  SelectButton,
+  SelectedColor,
+} from "../../../theme/global.js";
 
 const doneEventHandler = (
   categoryType,
@@ -28,7 +44,8 @@ const doneEventHandler = (
   date,
   notes,
   tags,
-  addNewCategory
+  addNewCategory,
+  dispatch
 ) => {
   const newCategory = {
     id: uuidv4(),
@@ -41,11 +58,13 @@ const doneEventHandler = (
     notes,
     tags,
   };
-  addNewCategory(newCategory);
+  dispatch(addNewCategory(newCategory));
   idbAddItem(newCategory, "categories");
 };
 
 export default function CategoryForm({ addNewCategory }) {
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
 
   const [activeItem, setActiveItem] = useState("");
@@ -64,169 +83,149 @@ export default function CategoryForm({ addNewCategory }) {
   const iconsRef = useOutsideClick(hideElement);
 
   return (
-    <div className="add_category_form">
-      <div
-        className={`add_category_item ${
-          activeItem === "1" ? `${categoryType}_active_item` : ""
-        }`}
+    <FormFieldsContainer>
+      <FormField
+        $isActive={activeItem === "1"}
+        $formType={categoryType}
         onClick={() => setActiveItem("1")}
       >
-        <div className="info_items">{t("ADD_CATEGORY.DESCRIPTION")}</div>
+        <FieldDescription>{t("ADD_CATEGORY.DESCRIPTION")}</FieldDescription>
         <input
           type="text"
           onChange={(event) => setDescription(event.target.value)}
           placeholder={t("ADD_CATEGORY.DESCRIPTION_PLACEHOLDER")}
         ></input>
-      </div>
-      <div
-        className={`add_category_item ${
-          activeItem === "2" ? `${categoryType}_active_item` : ""
-        }`}
+      </FormField>
+      <FormField
+        $isActive={activeItem === "2"}
+        $formType={categoryType}
         onClick={() => setActiveItem("2")}
       >
-        <div className="info_items">{t("ADD_CATEGORY.COLOR")}</div>
-        <div
-          className="selected_color"
+        <FieldDescription>{t("ADD_CATEGORY.COLOR")}</FieldDescription>
+        <SelectedColor
           onClick={(event) => {
             setActiveItem("2");
-            toggleElement(".colors_form");
+            toggleElement(colorsRef);
             iconsRef.current.classList.add("none");
             event.stopPropagation();
           }}
         >
           {renderSelectedColor(selectedColor)}
-        </div>
-        <div
-          className="select_btns"
+        </SelectedColor>
+        <SelectButton
           onClick={(event) => {
             setActiveItem("2");
-            toggleElement(".colors_form");
+            toggleElement(colorsRef);
             iconsRef.current.classList.add("none");
             event.stopPropagation();
           }}
         >
           {t("ADD_CATEGORY.SELECT")}
-        </div>
-      </div>
-      <div ref={colorsRef} className="colors_form none">
-        <div className="categories_palette">
+        </SelectButton>
+      </FormField>
+      <ColorsContainer ref={colorsRef} className="none">
+        <ColorsPalette>
           {renderColors(colors, setSelectedColor, selectedColor)}
-        </div>
-        <div className="colors_form_btns">
-          <button onClick={() => toggleElement(".colors_form")}>
+        </ColorsPalette>
+        <ColorsPaletteButton>
+          <button onClick={() => toggleElement(colorsRef)}>
             {t("ADD_CATEGORY.OK")}
           </button>
-        </div>
-      </div>
-      <div
-        className={`add_category_item ${
-          activeItem === "3" ? `${categoryType}_active_item` : ""
-        }`}
+        </ColorsPaletteButton>
+      </ColorsContainer>
+      <FormField
+        $isActive={activeItem === "3"}
+        $formType={categoryType}
         onClick={() => setActiveItem("3")}
       >
-        <div className="info_items">{t("ADD_CATEGORY.ICON")}</div>
-        <div
-          className="selected_color"
+        <FieldDescription>{t("ADD_CATEGORY.ICON")}</FieldDescription>
+        <SelectedColor
           onClick={(event) => {
             setActiveItem("3");
-            toggleElement(".icons_form");
+            toggleElement(iconsRef);
             colorsRef.current.classList.add("none");
             event.stopPropagation();
           }}
         >
           {renderSelectedColor(selectedColor, SelectedIcon)}
-        </div>
-        <div
-          className="select_btns"
+        </SelectedColor>
+        <SelectButton
           onClick={(event) => {
             setActiveItem("3");
-            toggleElement(".icons_form");
+            toggleElement(iconsRef);
             colorsRef.current.classList.add("none");
             event.stopPropagation();
           }}
         >
           {t("ADD_CATEGORY.SELECT")}
-        </div>
-      </div>
-      <div ref={iconsRef} className="icons_form none">
-        <div className="categories_icons">
-          {renderIcons(categoryIcons, setIcon)}
-        </div>
-        <div className="icons_form_btns">
-          <button onClick={() => toggleElement(".icons_form")}>
+        </SelectButton>
+      </FormField>
+      <IconsContainer ref={iconsRef} className="none">
+        <CategoriesIcons>{renderIcons(categoryIcons, setIcon)}</CategoriesIcons>
+        <IconsButton>
+          <button onClick={() => toggleElement(iconsRef)}>
             {t("ADD_CATEGORY.OK")}
           </button>
-        </div>
-      </div>
-      <div
-        className={`add_category_item ${
-          activeItem === "4" ? `${categoryType}_active_item` : ""
-        }`}
+        </IconsButton>
+      </IconsContainer>
+      <FormField
+        $isActive={activeItem === "4"}
+        $formType={categoryType}
         onClick={() => setActiveItem("4")}
       >
-        <div className="info_items">{t("ADD_CATEGORY.DATE")}</div>
-        <div className="input_items">
-          <input
-            type="date"
-            onChange={(event) => setDate(new Date(event.target.value))}
-          ></input>
-        </div>
-      </div>
-      <div
-        className={`add_category_item ${
-          activeItem === "5" ? `${categoryType}_active_item` : ""
-        }`}
+        <FieldDescription>{t("ADD_CATEGORY.DATE")}</FieldDescription>
+        <input
+          type="date"
+          onChange={(event) => setDate(new Date(event.target.value))}
+        ></input>
+      </FormField>
+      <FormField
+        $isActive={activeItem === "5"}
+        $formType={categoryType}
         onClick={() => setActiveItem("5")}
       >
-        <div className="info_items">{t("ADD_CATEGORY.NOTES")}</div>
+        <FieldDescription>{t("ADD_CATEGORY.NOTES")}</FieldDescription>
         <input
           type="text"
           onChange={(event) => setNotes(event.target.value)}
           placeholder={t("ADD_CATEGORY.NOTES_PLACEHOLDER")}
         ></input>
-      </div>
-      <div
-        className={`add_category_item ${
-          activeItem === "6" ? `${categoryType}_active_item` : ""
-        }`}
+      </FormField>
+      <FormField
+        $isActive={activeItem === "6"}
+        $formType={categoryType}
         onClick={() => setActiveItem("6")}
       >
-        <div className="info_items">{t("ADD_CATEGORY.TAGS")}</div>
+        <FieldDescription>{t("ADD_CATEGORY.TAGS")}</FieldDescription>
         <input
           type="text"
           placeholder={t("ADD_CATEGORY.TAGS_PLACEHOLDER")}
         ></input>
-      </div>
-      <div className="categories_buttons_block">
-        <div className="done_button_div">
-          <Link to={`/categories/${categoryType}s`}>
-            <button
-              className={`${categoryType}_button`}
-              onClick={() =>
-                doneEventHandler(
-                  categoryType,
-                  description,
-                  selectedColor,
-                  icon,
-                  date.toISOString(),
-                  notes,
-                  tags,
-                  addNewCategory
-                )
-              }
-            >
-              {t("ADD_CATEGORY.DONE")}
-            </button>
-          </Link>
-        </div>
-        <div className="cancel_button_div">
-          <Link to={`/categories/${categoryType}s`}>
-            <button className="category_cancel_button">
-              {t("ADD_CATEGORY.CANCEL")}
-            </button>
-          </Link>
-        </div>
-      </div>
-    </div>
+      </FormField>
+      <AddFormButtonsContainer>
+        <DoneButton
+          to={`/categories/${categoryType}s`}
+          $buttonType={categoryType}
+          onClick={() =>
+            doneEventHandler(
+              categoryType,
+              description,
+              selectedColor,
+              icon,
+              date.toISOString(),
+              notes,
+              tags,
+              addNewCategory,
+              dispatch
+            )
+          }
+        >
+          {t("ADD_CATEGORY.DONE")}
+        </DoneButton>
+        <CancelButton to={`/categories/${categoryType}s`}>
+          {t("ADD_CATEGORY.CANCEL")}
+        </CancelButton>
+      </AddFormButtonsContainer>
+    </FormFieldsContainer>
   );
 }

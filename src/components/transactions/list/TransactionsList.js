@@ -16,6 +16,7 @@ import { ReactComponent as EditIcon } from "../../../assets/icons/shared/editTra
 import { ReactComponent as DeleteIcon } from "../../../assets/icons/shared/deleteTransaction.svg";
 
 import "./TransactionsList.css";
+import { useDispatch } from "react-redux";
 
 function isActive({ isActive }) {
   return isActive ? "active_transactions_title" : "";
@@ -96,6 +97,8 @@ export default function TransactionsList({
   deleteTransaction,
   editAccount,
 }) {
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
   const { filterAccount, filterType } = useParams();
   const transactionType = createFiltertype(filterType);
@@ -256,15 +259,17 @@ export default function TransactionsList({
                 <DeleteIcon
                   onClick={() => {
                     const newBalance = createNewBalance(transaction, accounts);
-                    editAccount(transactionAccount.id, {
-                      ...transactionAccount,
-                      balance: newBalance,
-                    });
+                    dispatch(
+                      editAccount(transactionAccount.id, {
+                        ...transactionAccount,
+                        balance: newBalance,
+                      })
+                    );
                     idbAddItem(
                       { ...transactionAccount, balance: newBalance },
                       "accounts"
                     );
-                    deleteTransaction(transaction.id);
+                    dispatch(deleteTransaction(transaction.id));
                     idbDeleteItem(transaction.id, "transactions");
                   }}
                 />

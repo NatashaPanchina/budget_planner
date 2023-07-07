@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 import AccountsSlider from "./slider/AccountsSlider.js";
@@ -8,8 +8,6 @@ import {
   fetchTransactionsData,
   fetchAccountsData,
   fetchCategoriesData,
-  addNewTransaction,
-  editTransaction,
   deleteTransaction,
   editAccount,
 } from "../../actions/Actions";
@@ -19,18 +17,12 @@ import { ReactComponent as CalendarIcon } from "../../assets/icons/shared/calend
 
 import "./Transactions.css";
 
-function Transactions({
-  fetchTransactionsData,
-  fetchAccountsData,
-  fetchCategoriesData,
-  transactions,
-  accounts,
-  categories,
-  addNewTransaction,
-  editTransaction,
-  deleteTransaction,
-  editAccount,
-}) {
+export default function Transactions() {
+  const transactions = useSelector((state) => state.transactions);
+  const accounts = useSelector((state) => state.accounts);
+  const categories = useSelector((state) => state.categories);
+  const dispatch = useDispatch();
+
   const [accountsData, setAccountsData] = useState([]);
   const [categoriesData, setCategoriesData] = useState([]);
   const [transactionsData, setTransactionsData] = useState([]);
@@ -38,10 +30,10 @@ function Transactions({
   const { t } = useTranslation();
 
   useEffect(() => {
-    fetchAccountsData();
-    fetchCategoriesData();
-    fetchTransactionsData();
-  }, [fetchAccountsData, fetchCategoriesData, fetchTransactionsData]);
+    dispatch(fetchAccountsData());
+    dispatch(fetchCategoriesData());
+    dispatch(fetchTransactionsData());
+  }, [dispatch]);
 
   useEffect(() => {
     if (accounts.status === "succeeded") {
@@ -94,23 +86,3 @@ function Transactions({
     </div>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    transactions: state.transactions,
-    accounts: state.accounts,
-    categories: state.categories,
-  };
-};
-
-const mapDispatchToProps = {
-  fetchTransactionsData,
-  fetchAccountsData,
-  fetchCategoriesData,
-  addNewTransaction,
-  editTransaction,
-  deleteTransaction,
-  editAccount,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

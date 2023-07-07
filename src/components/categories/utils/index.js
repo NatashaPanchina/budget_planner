@@ -1,5 +1,28 @@
 import { ReactComponent as CheckMarkIcon } from "../../../assets/icons/shared/checkMark.svg";
 import notesIcon from "../../../assets/icons/shared/notes.svg";
+import { styled } from "styled-components";
+
+const CategoriesNotes = styled.div((props) => ({
+  gridArea: "notes",
+  paddingLeft: "20px",
+  fontSize: "0.875rem",
+  color: props.theme.colors.text.darker,
+  display: "flex",
+  alignItems: "center",
+}));
+
+const NotesImg = styled.img(() => ({
+  height: "15px",
+  marginRight: "5px",
+}));
+
+const ColorContainer = styled.div(() => ({
+  width: "100%",
+}));
+
+const IconContainer = styled.div(() => ({
+  width: "100%",
+}));
 
 export function renderSelectedColor(selectedColor, Icon) {
   return selectedColor ? (
@@ -52,7 +75,7 @@ export function renderColors(colors, setSelectedColor, initialColor) {
   for (let shade = 500; shade <= 900; shade += 100) {
     for (let color in colors) {
       result.push(
-        <div className="color_container" key={`${color}${shade}`}>
+        <ColorContainer key={`${color}${shade}`}>
           <svg
             viewBox="0 0 34 34"
             fill="none"
@@ -87,7 +110,7 @@ export function renderColors(colors, setSelectedColor, initialColor) {
               </linearGradient>
             </defs>
           </svg>
-        </div>
+        </ColorContainer>
       );
     }
   }
@@ -97,15 +120,15 @@ export function renderColors(colors, setSelectedColor, initialColor) {
 export function renderIcons(icons, setIcon) {
   return icons.map((Icon, index) => {
     return (
-      <div className="icon_container" key={index}>
+      <IconContainer key={index}>
         <Icon id={index} onClick={() => setIcon(index)} />
-      </div>
+      </IconContainer>
     );
   });
 }
 
-export function toggleElement(name) {
-  document.querySelector(name).classList.toggle("none");
+export function toggleElement(ref) {
+  ref.current.classList.toggle("none");
 }
 
 export function createFilterType(filterType) {
@@ -128,10 +151,10 @@ export function filterCategories(filterType, categories) {
 export function renderNotes(notes) {
   if (notes) {
     return (
-      <div className="categories_notes">
-        <img src={notesIcon} alt="notes" className="notes_icon" />
+      <CategoriesNotes>
+        <NotesImg src={notesIcon} alt="notes" />
         {notes}
-      </div>
+      </CategoriesNotes>
     );
   }
 }

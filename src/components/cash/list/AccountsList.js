@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -20,12 +21,14 @@ import { ReactComponent as ArchiveIcon } from "../../../assets/icons/shared/arch
 import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
 import searchIcon from "../../../assets/icons/shared/search.svg";
 
-function archiveEventButton(account, archiveAccount) {
-  archiveAccount(account.id);
+function archiveEventButton(account, archiveAccount, dispatch) {
+  dispatch(archiveAccount(account.id));
   idbAddItem({ ...account, archived: true }, "accounts");
 }
 
 export default function AccountsList({ notArchivedAccounts, archiveAccount }) {
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
 
   const filterCash = createCashFilter(useParams().filterCash);
@@ -83,7 +86,11 @@ export default function AccountsList({ notArchivedAccounts, archiveAccount }) {
               <div>
                 <TransferIcon /> {t("CASH.NEW_TRANSFER")}
               </div>
-              <div onClick={() => archiveEventButton(account, archiveAccount)}>
+              <div
+                onClick={() =>
+                  archiveEventButton(account, archiveAccount, dispatch)
+                }
+              >
                 <ArchiveIcon /> {t("CASH.ARCHIVE")}
               </div>
             </div>

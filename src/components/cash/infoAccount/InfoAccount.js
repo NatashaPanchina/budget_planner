@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -38,7 +38,8 @@ const doneEventHandler = (
   date,
   notes,
   tags,
-  editAccount
+  editAccount,
+  dispatch
 ) => {
   const newAccount = {
     id,
@@ -57,15 +58,14 @@ const doneEventHandler = (
     notes,
     tags,
   };
-  editAccount(clickedAccount, newAccount);
+  dispatch(editAccount(clickedAccount, newAccount));
   idbAddItem(newAccount, "accounts");
 };
 
-function InfoAccount({
-  accounts: { status, accounts },
-  fetchAccountsData,
-  editAccount,
-}) {
+export default function InfoAccount() {
+  const { status, accounts } = useSelector((state) => state.accounts);
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
 
   const [activeItem, setActiveItem] = useState("");
@@ -92,8 +92,8 @@ function InfoAccount({
   //запрашиваем нужные данные для этого компонента
   //один раз только при его монтировании
   useEffect(() => {
-    fetchAccountsData();
-  }, [fetchAccountsData]);
+    dispatch(fetchAccountsData());
+  }, [dispatch]);
 
   //получаем данные нужного счета когда они подгрузились
   useEffect(() => {
@@ -274,7 +274,8 @@ function InfoAccount({
                         date.toISOString(),
                         notes,
                         tags,
-                        editAccount
+                        editAccount,
+                        dispatch
                       )
                     }
                   >
@@ -296,16 +297,3 @@ function InfoAccount({
     </div>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    accounts: state.accounts,
-  };
-};
-
-const mapDispatchToProps = {
-  fetchAccountsData,
-  editAccount,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(InfoAccount);

@@ -1,13 +1,9 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import {
-  fetchAccountsData,
-  archiveAccount,
-  deleteAccount,
-} from "../../actions/Actions.js";
+import { fetchAccountsData, archiveAccount } from "../../actions/Actions.js";
 import CashList from "./list/CashList.js";
 import CashChart from "./pieChart/CashChart.js";
 
@@ -21,11 +17,10 @@ function isActive({ isActive }) {
   return isActive ? `accounts_title active_accounts_title` : `accounts_title`;
 }
 
-function Cash({
-  accounts: { status, accounts },
-  fetchAccountsData,
-  archiveAccount,
-}) {
+export default function Cash() {
+  const { status, accounts } = useSelector((state) => state.accounts);
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
   const notArchivedAccounts = accounts.filter(
     (account) => account.archived === false
@@ -33,8 +28,8 @@ function Cash({
   const archivedAccounts = accounts.filter((account) => account.archived);
 
   useEffect(() => {
-    fetchAccountsData();
-  }, [fetchAccountsData]);
+    dispatch(fetchAccountsData());
+  }, [dispatch]);
 
   return status === "loading" ? (
     <div>Loading</div>
@@ -84,17 +79,3 @@ function Cash({
     </div>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    accounts: state.accounts,
-  };
-};
-
-const mapDispatchtoProps = {
-  fetchAccountsData,
-  archiveAccount,
-  deleteAccount,
-};
-
-export default connect(mapStateToProps, mapDispatchtoProps)(Cash);

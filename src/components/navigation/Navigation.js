@@ -10,55 +10,140 @@ import { ReactComponent as CategoriesIcon } from "../../assets/icons/navigation/
 import { ReactComponent as AnalysisIcon } from "../../assets/icons/navigation/analysis.svg";
 import { ReactComponent as MoreIcon } from "../../assets/icons/navigation/more.svg";
 
-import "./Navigation.css";
+import { styled } from "styled-components";
 
-function isActive({ isActive }) {
-  return isActive ? "activeLink" : "";
-}
+const NavigationContainer = styled.div((props) => ({
+  width: "17%",
+  height: "100vh",
+  position: "fixed",
+  top: "0",
+  zIndex: "20",
+  borderRight: `1px solid ${props.theme.colors.border.ordinary}`,
+  backgroundColor: props.theme.colors.background.primary,
+}));
+
+const LogoContainer = styled.div((props) => ({
+  display: "flex",
+  alignItems: "center",
+  height: "56px",
+  background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
+}));
+
+const Logo = styled.svg(() => ({
+  height: "45px",
+}));
+
+const Nav = styled.nav(() => ({
+  width: "90%",
+  marginTop: "40px",
+  marginLeft: "auto",
+  marginRight: "auto",
+  fontSize: "0.9375rem",
+  "& div:nth-child(3) a:hover svg path": {
+    fill: "#fff",
+  },
+  "& div:nth-child(3) a.active svg path": {
+    fill: "#fff",
+  },
+}));
+
+const LinkContainer = styled.div(() => ({
+  height: "50px",
+}));
+
+const Svg = styled.svg(() => ({
+  width: "23px",
+  height: "23px",
+  marginRight: "15px",
+  marginLeft: "15px",
+}));
+
+const NewTransactionSvg = styled.svg(() => ({
+  width: "33px",
+  marginLeft: "10px",
+  marginRight: "10px",
+  filter: "drop-shadow(0px 2px 4px rgba(109, 115, 255, 0.5))",
+  "& path": {
+    fill: "#fff",
+  },
+  "&:hover g path": {
+    fill: "#fff",
+  },
+}));
+
+const Link = styled(NavLink)((props) => ({
+  display: "flex",
+  color: props.theme.colors.text.darker,
+  height: "45px",
+  width: "inherit",
+  alignItems: "center",
+  "&:hover": {
+    color: props.theme.colors.main.violet,
+    backgroundColor: props.theme.colors.background.navigation,
+    borderRadius: "5px",
+  },
+  "&:hover svg path": {
+    fill: props.theme.colors.main.violet,
+  },
+  "&.active": {
+    color: props.theme.colors.main.violet,
+    backgroundColor: props.theme.colors.background.navigation,
+    borderRadius: "5px",
+  },
+  "&.active svg path": {
+    fill: props.theme.colors.main.violet,
+  },
+}));
+
+const MoreContainer = styled.div((props) => ({
+  display: "flex",
+  color: props.theme.colors.text.darker,
+  alignItems: "center",
+}));
 
 export default function Navigation() {
   const { t } = useTranslation();
   return (
-    <div className="navigation">
-      <div className="logo">
-        <LogoIcon />
-      </div>
-      <nav>
-        <div>
-          <NavLink to="/transactions" className={isActive}>
-            <TransactionsIcon />
+    <NavigationContainer>
+      <LogoContainer>
+        <Logo as={LogoIcon} />
+      </LogoContainer>
+      <Nav>
+        <LinkContainer>
+          <Link to="/transactions">
+            <Svg as={TransactionsIcon} />
             {t("NAVIGATION.TRANSACTIONS")}
-          </NavLink>
-        </div>
-        <div>
-          <NavLink to="/cash" className={isActive}>
-            <CashIcon />
+          </Link>
+        </LinkContainer>
+        <LinkContainer>
+          <Link to="/cash">
+            <Svg as={CashIcon} />
             {t("NAVIGATION.CASH")}
-          </NavLink>
-        </div>
-        <div>
-          <NavLink to="/newTransaction" className={isActive}>
-            <NewTransactionIcon className="newTransactionIcon" />
+          </Link>
+        </LinkContainer>
+        <LinkContainer>
+          <Link to="/newTransaction">
+            <NewTransactionSvg as={NewTransactionIcon} />
             {t("NAVIGATION.NEW_TRANSACTION")}
-          </NavLink>
-        </div>
-        <div>
-          <NavLink to="/categories" className={isActive}>
-            <CategoriesIcon />
+          </Link>
+        </LinkContainer>
+        <LinkContainer>
+          <Link to="/categories">
+            <Svg as={CategoriesIcon} />
             {t("NAVIGATION.CATEGORIES")}
-          </NavLink>
-        </div>
-        <div>
-          <NavLink to="/analysis" className={isActive}>
-            <AnalysisIcon className="analysisIcon" />
+          </Link>
+        </LinkContainer>
+        <LinkContainer>
+          <Link to="/analysis">
+            <Svg as={AnalysisIcon} />
             {t("NAVIGATION.ANALYSIS")}
-          </NavLink>
-        </div>
-        <div className="more_nav">
-          <MoreIcon />
+          </Link>
+        </LinkContainer>
+        <MoreContainer>
+          <Svg as={MoreIcon} />
           {t("NAVIGATION.MORE")}
-        </div>
-      </nav>
-    </div>
+        </MoreContainer>
+      </Nav>
+    </NavigationContainer>
   );
 }

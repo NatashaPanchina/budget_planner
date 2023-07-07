@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -59,23 +59,20 @@ function renderTransactionForm(
   }
 }
 
-function NewTransaction({
-  categories,
-  accounts,
-  fetchCategoriesData,
-  fetchAccountsData,
-  addNewTransaction,
-  editAccount,
-}) {
+export default function NewTransaction() {
+  const categories = useSelector((state) => state.categories);
+  const accounts = useSelector((state) => state.accounts);
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
   const { transactionType, transactionAccount } = useParams();
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [filteredAccounts, setFilteredAccounts] = useState([]);
 
   useEffect(() => {
-    fetchCategoriesData();
-    fetchAccountsData();
-  }, [fetchCategoriesData, fetchAccountsData]);
+    dispatch(fetchCategoriesData());
+    dispatch(fetchAccountsData());
+  }, [dispatch]);
 
   useEffect(() => {
     if (categories.status === "succeeded") {
@@ -147,20 +144,3 @@ function NewTransaction({
     </div>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    categories: state.categories,
-    accounts: state.accounts,
-    transactions: state.transactions,
-  };
-};
-
-const mapDispatchToProps = {
-  fetchCategoriesData,
-  fetchAccountsData,
-  addNewTransaction,
-  editAccount,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(NewTransaction);

@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
   Navigate,
+  RouterProvider,
+  createBrowserRouter,
 } from "react-router-dom";
-
+import { ThemeProvider } from "styled-components";
 import "./locales";
 
-import Header from "./components/header/Header";
-import Navigation from "./components/navigation/Navigation";
+import { darkTheme, lightTheme } from "./theme";
+import { GlobalStyles } from "./theme/global";
+import Root from "./components/root/Root";
 import Transactions from "./components/transactions/Transactions";
 import InfoTransaction from "./components/transactions/infoTransaction/InfoTransaction";
 import Cash from "./components/cash/Cash";
@@ -21,73 +22,107 @@ import AddAccount from "./components/cash/addAccount/AddAccount";
 import InfoAccount from "./components/cash/infoAccount/InfoAccount";
 import InfoCategory from "./components/categories/infoCategory/InfoCategory";
 import Analysis from "./components/analysis/Analysis";
-
-import "./App.css";
 import AccountsTrash from "./components/cash/trash/AccountsTrash";
 
+import "./App.css";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    children: [
+      {
+        path: "transactions",
+        element: <Navigate replace to="all/all" />,
+      },
+      {
+        path: "transactions/:filterType/:filterAccount",
+        element: <Transactions />,
+      },
+      {
+        path: "transactions/infoTransaction/:transactionId",
+        element: <InfoTransaction />,
+      },
+      {
+        path: "cash",
+        element: <Navigate replace to="all" />,
+      },
+      {
+        path: "cash/:filterCash",
+        element: <Cash />,
+      },
+      {
+        path: "cash/trash",
+        element: <Navigate replace to="all" />,
+      },
+      {
+        path: "cash/trash/:filterType",
+        element: <AccountsTrash />,
+      },
+      {
+        path: "cash/addAccount/:accountType",
+        element: <AddAccount />,
+      },
+      {
+        path: "cash/infoAccount/:accountId",
+        element: <InfoAccount />,
+      },
+      {
+        path: "newTransaction",
+        element: <Navigate replace to="expense/all" />,
+      },
+      {
+        path: "newTransaction/:transactionType/:transactionAccount",
+        element: <NewTransaction />,
+      },
+      {
+        path: "categories",
+        element: <Navigate replace to="all" />,
+      },
+      {
+        path: "categories/:filterType",
+        element: <Categories />,
+      },
+      {
+        path: "categories/trash",
+        element: <Navigate replace to="all" />,
+      },
+      {
+        path: "categories/trash/:filterType",
+        element: <CategoriesTrash />,
+      },
+      {
+        path: "categories/addCategory/:categoryType",
+        element: <AddCategory />,
+      },
+      {
+        path: "categories/infoCategory/:categoryId",
+        element: <InfoCategory />,
+      },
+      {
+        path: "analysis",
+        element: <Analysis />,
+      },
+    ],
+  },
+]);
+
 function App() {
+  const header = useSelector((state) => state.header);
+  const [mode, setMode] = useState("light");
+
+  useEffect(() => {
+    if (header.status === "succeeded") {
+      if (!header.profile) return;
+      setMode(header.profile.mode);
+    }
+  }, [header.profile, header.status]);
+
   return (
-    <div>
-      <Router>
-        <Header />
-        <Navigation />
-        <Routes>
-          <Route
-            path="/transactions"
-            element={<Navigate replace to="all/all" />}
-          />
-          <Route
-            path="/transactions/:filterType/:filterAccount"
-            element={<Transactions />}
-          />
-          <Route
-            path="/transactions/infoTransaction/:transactionId"
-            element={<InfoTransaction />}
-          />
-          <Route path="/cash" element={<Navigate replace to="all" />} />
-          <Route path="/cash/:filterCash" element={<Cash />} />
-          <Route path="/cash/trash" element={<Navigate replace to="all" />} />
-          <Route path="/cash/trash/:filterType" element={<AccountsTrash />} />
-          <Route
-            path="/cash/addAccount/:accountType"
-            element={<AddAccount />}
-          />
-          <Route
-            path="/cash/infoAccount/:accountId"
-            element={<InfoAccount />}
-          />
-          <Route
-            path="/newTransaction"
-            element={<Navigate replace to="expense/all" />}
-          />
-          <Route
-            path="/newTransaction/:transactionType/:transactionAccount"
-            element={<NewTransaction />}
-          />
-          <Route path="/categories" element={<Navigate replace to="all" />} />
-          <Route path="/categories/:filterType" element={<Categories />} />
-          <Route
-            path="/categories/trash"
-            element={<Navigate replace to="all" />}
-          />
-          <Route
-            path="/categories/trash/:filterType"
-            element={<CategoriesTrash />}
-          />
-          <Route
-            path="/categories/addCategory/:categoryType"
-            element={<AddCategory />}
-          />
-          <Route
-            path="/categories/infoCategory/:categoryId"
-            element={<InfoCategory />}
-          />
-          <Route path="/analysis" element={<Analysis />} />
-          <Route path="/" element={<Navigate replace to="/analysis" />} />
-        </Routes>
-      </Router>
-      <footer></footer>
-    </div>
+    <ThemeProvider theme={mode === "light" ? lightTheme : darkTheme}>
+      <GlobalStyles />
+      <RouterProvider router={router} />
+    </ThemeProvider>
   );
 }
 
