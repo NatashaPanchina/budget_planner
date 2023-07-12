@@ -32,6 +32,7 @@ import { ReactComponent as PlusIcon } from "../../../assets/icons/shared/plus.sv
 import searchIcon from "../../../assets/icons/shared/search.svg";
 
 import "../../newTransaction/NewTransaction.css";
+import { pages } from "../../../utils/constants/pages.js";
 
 function createNewBalance(prevTransaction, newTransaction, accounts) {
   const prevAccount = accounts.find(
@@ -249,7 +250,7 @@ export default function InfoTransaction() {
       <div className="transaction_title_block">
         <Link
           className="transaction_back_nav"
-          to={`/transactions/${transactionType}s/${account}`}
+          to={`${pages.transactions[`${transactionType}s`]}/${account}`}
         >
           <BackIcon />
         </Link>
@@ -287,7 +288,7 @@ export default function InfoTransaction() {
           <img src={searchIcon} alt="search" />
         </div>
         <div className="add_category_btn">
-          <Link to={`/categories/addCategory/${transactionType}`}>
+          <Link to={pages.categories.add[transactionType]}>
             <PlusIcon />
             {t("INFO_TRANSACTION.ADD_CATEGORY")}
           </Link>
@@ -322,7 +323,7 @@ export default function InfoTransaction() {
           <img src={searchIcon} alt="search" />
         </div>
         <div className="add_category_btn">
-          <Link to="/cash/addAccount/card">
+          <Link to={pages.cash.add.card}>
             <PlusIcon />
             {t("INFO_TRANSACTION.ADD_CASH")}
           </Link>
@@ -387,7 +388,7 @@ export default function InfoTransaction() {
       </div>
       <div className="transactions_button_block">
         <div className="done_button_div">
-          <Link to={`/transactions/${transactionType}s/${account}`}>
+          <Link to={`${pages.transactions[`${transactionType}s`]}/${account}`}>
             <button
               className={`${transactionType}_button`}
               onClick={() =>
@@ -414,7 +415,7 @@ export default function InfoTransaction() {
           </Link>
         </div>
         <div className="cancel_button_div">
-          <Link to={`/transactions/${transactionType}s/${account}`}>
+          <Link to={`${pages.transactions[`${transactionType}s`]}/${account}`}>
             <button className="account_cancel_button">
               {t("INFO_TRANSACTION.CANCEL")}
             </button>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { NumericFormat } from "react-number-format";
@@ -26,7 +26,34 @@ import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
 import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
 
-import "../addAccount/AddAccount.css";
+import {
+  AddFormButtonsContainer,
+  AddFormContainer,
+  AddFormHeader,
+  BackLink,
+  BackLinkSvg,
+  CancelButton,
+  ColorsPalette,
+  ColorsPaletteButton,
+  ColorsPaletteButtonContainer,
+  DoneButton,
+  FieldDescription,
+  FieldInput,
+  FormField,
+  FormFieldsContainer,
+  SelectButton,
+  SelectedColor,
+} from "../../../theme/global.js";
+import {
+  CardView,
+  CardBalance,
+  CardBalanceContainer,
+  CardName,
+  CurrentBalance,
+  CashColorsContainer,
+  NumericInput,
+} from "../Cash.styled.js";
+import { pages } from "../../../utils/constants/pages.js";
 
 const doneEventHandler = (
   clickedAccount,
@@ -116,63 +143,56 @@ export default function InfoAccount() {
   }, [status, accounts, clickedAccount]);
 
   return (
-    <div className="add_account_content">
-      <div className="accounts_title_block">
-        <Link className="account_back_nav" to={`/cash/${cashType}`}>
-          <BackIcon />
-        </Link>
-        <div className="info_account_title">
-          {t(`INFO_ACCOUNT.${cashLocalType}_INFORMATION`)}
-        </div>
-      </div>
+    <AddFormContainer>
+      <AddFormHeader>
+        <BackLink to={pages.cash[cashType]}>
+          <BackLinkSvg as={BackIcon} />
+        </BackLink>
+        {t(`INFO_ACCOUNT.${cashLocalType}_INFORMATION`)}
+      </AddFormHeader>
       {status === "loading" ? (
         <div>Loading</div>
       ) : (
         <React.Fragment>
-          <div className="account_view">
-            <div
-              className="card_view"
-              style={{
-                background: `url(${cardBackground}) 0% 0% / cover no-repeat,
-                               linear-gradient(90deg, ${selectedColor[0]} 0%, ${selectedColor[1]} 100%)`,
-                boxShadow: `0px 4px 10px #DCE2DF`,
-              }}
-            >
-              <div className="card_name">{description}</div>
-              <div className="card_balance_info">
-                <div className="card_balance">
-                  {formatNumberOutput(balance, "USD")}
-                </div>
-                <div className="card_balance_title">
-                  {t("INFO_ACCOUNT.CURRENT_BALANCE")}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="add_account_form">
-            <div
-              className={`add_account_item ${
-                activeItem === "1" ? `account_active_item` : ""
-              }`}
+          <CardView
+            $cardBackground={cardBackground}
+            $from={selectedColor[0]}
+            $to={selectedColor[1]}
+          >
+            <CardName>{description}</CardName>
+            <CardBalanceContainer>
+              <CardBalance>{formatNumberOutput(balance, "USD")}</CardBalance>
+              <CurrentBalance>
+                {t("INFO_ACCOUNT.CURRENT_BALANCE")}
+              </CurrentBalance>
+            </CardBalanceContainer>
+          </CardView>
+          <FormFieldsContainer>
+            <FormField
+              $isActive={activeItem === "1"}
+              $formType="cash"
               onClick={() => setActiveItem("1")}
             >
-              <div className="info_items">{t("INFO_ACCOUNT.DESCRIPTION")}</div>
-              <input
+              <FieldDescription>
+                {t("INFO_ACCOUNT.DESCRIPTION")}
+              </FieldDescription>
+              <FieldInput
                 type="text"
                 onChange={(event) => setDescription(event.target.value)}
                 defaultValue={description}
-              ></input>
-            </div>
-            <div
-              className={`add_account_item ${
-                activeItem === "2" ? `account_active_item` : ""
-              }`}
+                placeholder={t("ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER")}
+              ></FieldInput>
+            </FormField>
+            <FormField
+              $isActive={activeItem === "2"}
+              $formType="cash"
               onClick={() => setActiveItem("2")}
             >
-              <div className="info_items">{t("INFO_ACCOUNT.BALANCE")}</div>
-              <div className="input_items">
+              <FieldDescription>{t("INFO_ACCOUNT.BALANCE")}</FieldDescription>
+              <div>
                 $
                 <NumericFormat
+                  customInput={NumericInput}
                   thousandSeparator=","
                   decimalSeparator="."
                   decimalScale={2}
@@ -182,118 +202,102 @@ export default function InfoAccount() {
                   value={balance}
                 />
               </div>
-            </div>
-            <div
-              className={`add_account_item ${
-                activeItem === "3" ? `account_active_item` : ""
-              }`}
+            </FormField>
+            <FormField
+              $isActive={activeItem === "3"}
+              $formType="cash"
               onClick={() => setActiveItem("3")}
             >
-              <div className="info_items">{t("INFO_ACCOUNT.COLOR")}</div>
-              <div
-                className="account_selected_color"
+              <FieldDescription>{t("INFO_ACCOUNT.COLOR")}</FieldDescription>
+              <SelectedColor
                 onClick={(event) => {
                   setActiveItem("3");
-                  toggleElement(".account_colors_form");
+                  toggleElement(colorsRef);
                   event.stopPropagation();
                 }}
               >
                 {renderSelectedColor(selectedColor)}
-              </div>
-              <div
-                className="select_btns"
+              </SelectedColor>
+              <SelectButton
                 onClick={(event) => {
                   setActiveItem("3");
-                  toggleElement(".account_colors_form");
+                  toggleElement(colorsRef);
                   event.stopPropagation();
                 }}
               >
                 {t("INFO_ACCOUNT.SELECT")}
-              </div>
-            </div>
-            <div ref={colorsRef} className="account_colors_form none">
-              <div className="accounts_palette">
+              </SelectButton>
+            </FormField>
+            <CashColorsContainer ref={colorsRef} className="none">
+              <ColorsPalette>
                 {renderColors(colors, setSelectedColor, selectedColor)}
-              </div>
-              <div
-                className="colors_form_btns"
-                onClick={() => toggleElement(".account_colors_form")}
-              >
-                <button>{t("INFO_ACCOUNT.OK")}</button>
-              </div>
-            </div>
-            <div
-              className={`add_account_item ${
-                activeItem === "4" ? `account_active_item` : ""
-              }`}
+              </ColorsPalette>
+              <ColorsPaletteButtonContainer>
+                <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
+                  {t("INFO_ACCOUNT.OK")}
+                </ColorsPaletteButton>
+              </ColorsPaletteButtonContainer>
+            </CashColorsContainer>
+            <FormField
+              $isActive={activeItem === "4"}
+              $formType="cash"
               onClick={() => setActiveItem("4")}
             >
-              <div className="info_items">{t("INFO_ACCOUNT.DATE")}</div>
-              <div className="input_items">
-                <input
-                  type="date"
-                  onChange={(event) => setDate(new Date(event.target.value))}
-                ></input>
-              </div>
-            </div>
-            <div
-              className={`add_account_item ${
-                activeItem === "5" ? `account_active_item` : ""
-              }`}
+              <FieldDescription>{t("INFO_ACCOUNT.DATE")}</FieldDescription>
+              <FieldInput
+                type="date"
+                onChange={(event) => setDate(new Date(event.target.value))}
+              ></FieldInput>
+            </FormField>
+            <FormField
+              $isActive={activeItem === "5"}
+              $formType="cash"
               onClick={() => setActiveItem("5")}
             >
-              <div className="info_items">{t("INFO_ACCOUNT.NOTES")}</div>
-              <input
+              <FieldDescription>{t("INFO_ACCOUNT.NOTES")}</FieldDescription>
+              <FieldInput
                 type="text"
                 onChange={(event) => setNotes(event.target.value)}
                 value={notes}
-              ></input>
-            </div>
-            <div
-              className={`add_account_item ${
-                activeItem === "6" ? `account_active_item` : ""
-              }`}
+              ></FieldInput>
+            </FormField>
+            <FormField
+              $isActive={activeItem === "6"}
+              $formType="cash"
               onClick={() => setActiveItem("6")}
             >
-              <div className="info_items">{t("INFO_ACCOUNT.TAGS")}</div>
-              <input type="text"></input>
-            </div>
-            <div className="account_buttons_block">
-              <div className="done_button_div">
-                <Link to={`/cash/${cashType}`}>
-                  <button
-                    className="account_button"
-                    onClick={() =>
-                      doneEventHandler(
-                        clickedAccount,
-                        id,
-                        accountType,
-                        description,
-                        balance,
-                        selectedColor,
-                        date.toISOString(),
-                        notes,
-                        tags,
-                        editAccount,
-                        dispatch
-                      )
-                    }
-                  >
-                    {t("INFO_ACCOUNT.DONE")}
-                  </button>
-                </Link>
-              </div>
-              <div className="cancel_button_div">
-                <Link to={`/cash/${cashType}`}>
-                  <button className="account_cancel_button">
-                    {t("INFO_ACCOUNT.CANCEL")}
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
+              <FieldDescription>{t("INFO_ACCOUNT.TAGS")}</FieldDescription>
+              <FieldInput></FieldInput>
+            </FormField>
+            <AddFormButtonsContainer>
+              <DoneButton
+                to={pages.cash[cashType]}
+                $buttonType="cash"
+                onClick={() =>
+                  doneEventHandler(
+                    clickedAccount,
+                    id,
+                    accountType,
+                    description,
+                    balance,
+                    selectedColor,
+                    date.toISOString(),
+                    notes,
+                    tags,
+                    editAccount,
+                    dispatch
+                  )
+                }
+              >
+                {t("INFO_ACCOUNT.DONE")}
+              </DoneButton>
+              <CancelButton to={pages.cash[cashType]}>
+                {t("INFO_ACCOUNT.CANCEL")}
+              </CancelButton>
+            </AddFormButtonsContainer>
+          </FormFieldsContainer>
         </React.Fragment>
       )}
-    </div>
+    </AddFormContainer>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { dinero } from "dinero.js";
@@ -28,11 +28,62 @@ import { ReactComponent as DeleteIcon } from "../../../assets/icons/shared/delet
 import searchIcon from "../../../assets/icons/shared/search.svg";
 import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
 
-import "./AccountsTrash.css";
+import { styled } from "styled-components";
+import {
+  ArchivedTrash,
+  TrashCount,
+  BackLink,
+  Search,
+  SearchImg,
+  SearchInput,
+  Trash,
+  BackLinkSvg,
+} from "../../../theme/global";
+import {
+  Card,
+  CardName,
+  CardBalanceContainer,
+  CardBalance,
+  CurrentBalance,
+  CashTitleContainer,
+  CashTitleLink,
+  CardButton,
+  CardButtonSvg,
+} from "../Cash.styled";
+import { pages } from "../../../utils/constants/pages";
+
+const CashContainer = styled.div((props) => ({
+  marginTop: props.theme.spacing(14),
+  marginLeft: "30%",
+  marginRight: "13%",
+}));
+
+const Header = styled.div(() => ({
+  position: "relative",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  height: 60,
+}));
+
+const CashListItem = styled.div((props) => ({
+  display: "flex",
+  alignItems: "center",
+  marginBottom: props.theme.spacing(10),
+}));
+
+const ArchivedCount = styled.div((props) => ({
+  fontSize: "0.875rem",
+  color: props.theme.colors.main.violet,
+  height: 40,
+  display: "flex",
+  alignItems: "center",
+}));
 
 function renderAccounts(
   accounts,
   transactions,
+  filterType,
   restoreAccount,
   deleteAccount,
   deleteTransaction,
@@ -41,41 +92,42 @@ function renderAccounts(
 ) {
   return (
     <React.Fragment>
+      <ArchivedCount>
+        {t(`ACCOUNTS_TRASH.${createLocaleCashType(filterType)}_COUNT`)}
+        {accounts.length}
+      </ArchivedCount>
       {accounts.map((account) => {
         const balance = dinero(account.balance);
         return (
-          <div className="account_item" key={account.id}>
-            <div className="account_info">
-              <div
-                className={`${account.description} card`}
-                style={{
-                  background: `url(${cardBackground}) 0% 0% / cover no-repeat,
-                                                  linear-gradient(90deg, ${account.color[0]} 0%, ${account.color[1]} 100%)`,
-                  boxShadow: `0px 4px 10px #DCE2DF`,
-                }}
+          <CashListItem key={account.id}>
+            <div>
+              <Card
+                $cardBackground={cardBackground}
+                $from={account.color[0]}
+                $to={account.color[1]}
               >
-                <div className="card_name">{account.description}</div>
-                <div className="card_balance_info">
-                  <div className="card_balance">
+                <CardName>{account.description}</CardName>
+                <CardBalanceContainer>
+                  <CardBalance>
                     {formatDineroOutput(balance, "USD")}
-                  </div>
-                  <div className="card_balance_title">
+                  </CardBalance>
+                  <CurrentBalance>
                     {t("ACCOUNTS_TRASH.CURRENT_BALANCE")}
-                  </div>
-                </div>
-              </div>
+                  </CurrentBalance>
+                </CardBalanceContainer>
+              </Card>
               {renderNotes(account.notes)}
             </div>
-            <div className="account_buttons">
-              <div
+            <div>
+              <CardButton
                 onClick={() => {
                   dispatch(restoreAccount(account.id));
                   idbAddItem({ ...account, archived: false }, "accounts");
                 }}
               >
-                <RestoreIcon /> {t("ACCOUNTS_TRASH.RESTORE")}
-              </div>
-              <div
+                <CardButtonSvg as={RestoreIcon} /> {t("ACCOUNTS_TRASH.RESTORE")}
+              </CardButton>
+              <CardButton
                 onClick={() => {
                   transactions.forEach((transaction) => {
                     if (transaction.account === account.id) {
@@ -87,19 +139,16 @@ function renderAccounts(
                   idbDeleteItem(account.id, "accounts");
                 }}
               >
-                <DeleteIcon /> {t("ACCOUNTS_TRASH.DELETE")}
-              </div>
+                <CardButtonSvg as={DeleteIcon} /> {t("ACCOUNTS_TRASH.DELETE")}
+              </CardButton>
             </div>
-          </div>
+          </CashListItem>
         );
       })}
     </React.Fragment>
   );
 }
 
-function isActive({ isActive }) {
-  return isActive ? `accounts_title active_accounts_title` : `accounts_title`;
-}
 export default function AccountsTrash() {
   const accounts = useSelector((state) => state.accounts);
   const transactions = useSelector((state) => state.transactions);
@@ -119,45 +168,45 @@ export default function AccountsTrash() {
   return accounts.status === "loading" || transactions.status === "loading" ? (
     <div>Loading</div>
   ) : (
-    <div className="accounts_trash_content">
-      <div className="trash_header">
-        <Link className="account_back_nav" to={`/cash/all`}>
-          <BackIcon />
-        </Link>
+    <CashContainer>
+      <Header>
+        <BackLink to={pages.cash.all}>
+          <BackLinkSvg as={BackIcon} />
+        </BackLink>
         {t("ACCOUNTS_TRASH.ARCHIVED_CASH")}
-        <div className="trash_icon">
-          <TrashIcon />
-          <div className="trash_count">{archivedAccounts.length}</div>
-        </div>
-      </div>
-      <div className="accounts_titles">
-        <NavLink to="/cash/trash/all" className={isActive}>
+        <ArchivedTrash>
+          <Trash as={TrashIcon} />
+          <TrashCount>{archivedAccounts.length}</TrashCount>
+        </ArchivedTrash>
+      </Header>
+      <CashTitleContainer>
+        <CashTitleLink to={pages.cash.trash.all}>
           {t("ACCOUNTS_TRASH.ALL")}
-        </NavLink>
-        <NavLink to="/cash/trash/cards" className={isActive}>
+        </CashTitleLink>
+        <CashTitleLink to={pages.cash.trash.cards}>
           {t("ACCOUNTS_TRASH.CARDS")}
-        </NavLink>
-        <NavLink to="/cash/trash/cash" className={isActive}>
+        </CashTitleLink>
+        <CashTitleLink to={pages.cash.trash.cash}>
           {t("ACCOUNTS_TRASH.CASH")}
-        </NavLink>
-      </div>
-      <div className="search">
-        <input type="text" placeholder={t("ACCOUNTS_TRASH.SEARCH")}></input>
-        <img src={searchIcon} alt="search" />
-      </div>
-      <div className="archived_count">
-        {t(`ACCOUNTS_TRASH.${createLocaleCashType(filterType)}_COUNT`)}
-        {archivedAccounts.length}
-      </div>
+        </CashTitleLink>
+      </CashTitleContainer>
+      <Search>
+        <SearchInput
+          type="text"
+          placeholder={t("ACCOUNTS_TRASH.SEARCH")}
+        ></SearchInput>
+        <SearchImg src={searchIcon} alt="search" />
+      </Search>
       {renderAccounts(
         filterAccounts(filterType, archivedAccounts),
         transactions.transactions,
+        filterType,
         restoreAccount,
         deleteAccount,
         deleteTransaction,
         dispatch,
         t
       )}
-    </div>
+    </CashContainer>
   );
 }

@@ -1,9 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import "./Legends.css";
 import { createDataLegends } from "../utils/legends";
 
-export default function Legends({ data, chartType, keys, chartFilter }) {
+function Legends({ data, chartType, keys, chartFilter }) {
   let legendsData = createDataLegends(data, chartType, keys, chartFilter);
 
   return (
@@ -45,3 +46,12 @@ export default function Legends({ data, chartType, keys, chartFilter }) {
     </div>
   );
 }
+
+Legends.propTypes = {
+  data: PropTypes.array, 
+  chartType: PropTypes.string, 
+  keys: PropTypes.array, 
+  chartFilter: PropTypes.string,
+};
+
+export default Legends;

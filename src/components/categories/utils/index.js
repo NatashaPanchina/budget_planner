@@ -1,19 +1,20 @@
+import React from "react";
 import { ReactComponent as CheckMarkIcon } from "../../../assets/icons/shared/checkMark.svg";
 import notesIcon from "../../../assets/icons/shared/notes.svg";
 import { styled } from "styled-components";
 
 const CategoriesNotes = styled.div((props) => ({
   gridArea: "notes",
-  paddingLeft: "20px",
+  paddingLeft: props.theme.spacing(5),
   fontSize: "0.875rem",
   color: props.theme.colors.text.darker,
   display: "flex",
   alignItems: "center",
 }));
 
-const NotesImg = styled.img(() => ({
-  height: "15px",
-  marginRight: "5px",
+const NotesImg = styled.img((props) => ({
+  height: 15,
+  marginRight: props.theme.spacing(1),
 }));
 
 const ColorContainer = styled.div(() => ({
@@ -22,6 +23,14 @@ const ColorContainer = styled.div(() => ({
 
 const IconContainer = styled.div(() => ({
   width: "100%",
+}));
+
+const IconSvg = styled.svg((props) => ({
+  margin: props.theme.spacing(1.5),
+  cursor: "pointer",
+  "& path": {
+    fill: props.theme.colors.text.primary,
+  },
 }));
 
 export function renderSelectedColor(selectedColor, Icon) {
@@ -121,7 +130,7 @@ export function renderIcons(icons, setIcon) {
   return icons.map((Icon, index) => {
     return (
       <IconContainer key={index}>
-        <Icon id={index} onClick={() => setIcon(index)} />
+        <IconSvg as={Icon} id={index} onClick={() => setIcon(index)} />
       </IconContainer>
     );
   });

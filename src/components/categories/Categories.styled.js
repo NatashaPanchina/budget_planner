@@ -1,30 +1,32 @@
 import { styled } from "styled-components";
 import { NavLink } from "react-router-dom";
+import { ColorsContainer } from "../../theme/global";
 
-export const CategoroiesContainer = styled.div(() => ({
-  marginTop: "56px",
+export const CategoroiesContainer = styled.div((props) => ({
+  marginTop: props.theme.spacing(14),
   marginLeft: "22%",
   marginRight: "5%",
   display: "flex",
   justifyContent: "space-between",
 }));
 
-export const MoreInformationContainer = styled.div(() => ({
+export const MoreInformationContainer = styled.div((props) => ({
   width: "20%",
-  minWidth: "170px",
+  minWidth: 170,
   height: "100vh",
-  marginRight: "20px",
+  marginRight: props.theme.spacing(5),
   position: "fixed",
+  zIndex: 10,
 }));
 
-export const BarChartInfo = styled.div(() => ({
-  marginTop: "20px",
+export const BarChartInfo = styled.div((props) => ({
+  marginTop: props.theme.spacing(5),
   textAlign: "center",
 }));
 
 export const TotalCategoriesCount = styled.div((props) => ({
-  marginTop: "10px",
-  marginBottom: "15px",
+  marginTop: props.theme.spacing(2),
+  marginBottom: props.theme.spacing(3),
   color: props.theme.colors.main.violet,
 }));
 
@@ -32,23 +34,23 @@ export const BarChartInfoItem = styled.div((props) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  height: "80px",
+  height: 80,
   width: "90%",
-  marginBottom: "15px",
+  marginBottom: props.theme.spacing(3),
   marginLeft: "auto",
   marginRight: "auto",
   background: props.theme.colors.background.primary,
   border: `1px solid ${props.theme.colors.border.item}`,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
-  borderRadius: "10px",
+  borderRadius: props.theme.borderRadius,
   textAlign: "left",
   fontSize: "0.875rem",
 }));
 
-export const Img = styled.img(() => ({
-  height: "30px",
-  marginLeft: "10px",
-  marginRight: "10px",
+export const Img = styled.img((props) => ({
+  height: 30,
+  marginLeft: props.theme.spacing(2),
+  marginRight: props.theme.spacing(2),
 }));
 
 export const ExpensesCategoriesCount = styled.div((props) => ({
@@ -71,44 +73,25 @@ export const Header = styled.div(() => ({
   position: "relative",
   alignItems: "center",
   justifyContent: "flex-end",
-  height: "50px",
+  height: 50,
 }));
 
 export const HeaderTitle = styled.div(() => ({
   marginRight: "auto",
 }));
 
-export const Filter = styled.div((props) => ({
-  display: "flex",
-  alignItems: "center",
-  backgroundColor: props.theme.colors.background.primary,
-  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
-  borderRadius: "15px",
-  height: "fit-content",
-  padding: "7px 10px",
-  marginRight: "10%",
-  fontSize: "0.875rem",
-  color: props.theme.colors.text.darker,
-}));
-
-export const Svg = styled.svg(() => ({
-  height: "18px",
-  width: "18px",
-  margin: "0px 5px",
-}));
-
 export const CategoriesTitleContainer = styled.div((props) => ({
   display: "flex",
-  marginBottom: "15px",
+  marginBottom: props.theme.spacing(4),
   borderBottom: `1px solid ${props.theme.colors.border.title}`,
   position: "sticky",
-  top: "56px",
-  zIndex: "9",
+  top: 56,
+  zIndex: 9,
   backgroundColor: props.theme.colors.background.body,
 }));
 
 export const CategoriesTitleLink = styled(NavLink)((props) => ({
-  height: "50px",
+  height: 50,
   width: "25%",
   fontSize: "0.9375rem",
   display: "flex",
@@ -120,6 +103,62 @@ export const CategoriesTitleLink = styled(NavLink)((props) => ({
   },
   "&.active": {
     color: props.theme.colors.text.primary,
-    borderBottom: "2px solid #6d73ff",
+    borderBottom: `2px solid ${props.theme.colors.main.violet}`,
+  },
+}));
+
+export const CategoryColorsContainer = styled(ColorsContainer)(() => ({
+  top: 130,
+  right: 0,
+}));
+
+export const IconsContainer = styled.div((props) => ({
+  overflowY: "auto",
+  height: 300,
+  width: "70%",
+  minWidth: 364,
+  position: "absolute",
+  zIndex: 5,
+  padding: props.theme.spacing(2),
+  border: `1px solid ${props.theme.colors.border.item}`,
+  borderRadius: props.theme.borderRadius,
+  backgroundColor: props.theme.colors.background.primary,
+  top: 200,
+  right: 0,
+  paddingBottom: 0,
+  "&::-webkit-scrollbar": {
+    width: 5,
+  },
+  "&::-webkit-scrollbar-thumb": {
+    background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
+    borderRadius: props.theme.borderRadius * 2,
+  },
+}));
+
+export const CategoriesIcons = styled.div(() => ({
+  display: "grid",
+  gridTemplateColumns: "repeat(9, 11.11%)",
+}));
+
+export const IconsButtonContainer = styled.div((props) => ({
+  display: "flex",
+  paddingTop: props.theme.spacing(2),
+  justifyContent: "space-evenly",
+  position: "sticky",
+  bottom: 0,
+  paddingBottom: props.theme.spacing(2),
+  backgroundColor: props.theme.colors.background.primary,
+}));
+
+export const IconsButton = styled.button((props) => ({
+  color: props.theme.colors.text.primary,
+  border: "none",
+  borderRadius: props.theme.borderRadius,
+  width: "25%",
+  minWidth: 70,
+  height: 30,
+  backgroundColor: props.theme.colors.button.pending,
+  "&:hover": {
+    backgroundColor: props.theme.colors.button.hover,
   },
 }));

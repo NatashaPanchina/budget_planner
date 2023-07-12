@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -9,6 +10,7 @@ import { dinero, toSnapshot, toDecimal, subtract } from "dinero.js";
 import { USD } from "@dinero.js/currencies";
 
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
+import { pages } from "../../../utils/constants/pages";
 import { dineroFromFloat } from "../../../utils/format/cash";
 import {
   renderSelectedCategory,
@@ -24,7 +26,7 @@ import {
 import { ReactComponent as PlusIcon } from "../../../assets/icons/shared/plus.svg";
 import searchIcon from "../../../assets/icons/shared/search.svg";
 
-export default function ExpenseTransactionForm({
+function ExpenseTransactionForm({
   categories,
   accounts,
   addNewTransaction,
@@ -45,7 +47,7 @@ export default function ExpenseTransactionForm({
   );
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
-  const [tags, setTags] = useState([]);
+  const [tags] = useState([]);
 
   const categoriesRef = useOutsideClick(hideElement);
   const accountsRef = useOutsideClick(hideElement);
@@ -79,7 +81,7 @@ export default function ExpenseTransactionForm({
             {category ? (
               renderSelectedCategory(category, filteredCategories)
             ) : (
-              <Link to={`/categories/addCategory/${transactionType}`}>
+              <Link to={pages.categories.add[transactionType]}>
                 <PlusIcon />
                 {t("NEW_TRANSACTION.ADD_CATEGORY")}
               </Link>
@@ -96,7 +98,7 @@ export default function ExpenseTransactionForm({
           <img src={searchIcon} alt="search" />
         </div>
         <div className="add_category_btn">
-          <Link to={`/categories/addCategory/${transactionType}`}>
+          <Link to={pages.categories.add[transactionType]}>
             <PlusIcon />
             {t("NEW_TRANSACTION.ADD_CATEGORY")}
           </Link>
@@ -122,7 +124,7 @@ export default function ExpenseTransactionForm({
           {account ? (
             renderSelectedAccount(account, filteredAccounts)
           ) : (
-            <Link to="/cash/addAccount/card">
+            <Link to={pages.cash.add.card}>
               <PlusIcon />
               {t("NEW_TRANSACTION.ADD_CASH")}
             </Link>
@@ -138,7 +140,7 @@ export default function ExpenseTransactionForm({
           <img src={searchIcon} alt="search" />
         </div>
         <div className="add_category_btn">
-          <Link to="/cash/addAccount/card">
+          <Link to={pages.cash.add.card}>
             <PlusIcon />
             {t("NEW_TRANSACTION.ADD_CASH")}
           </Link>
@@ -203,7 +205,7 @@ export default function ExpenseTransactionForm({
       </div>
       <div className="transactions_button_block">
         <div className="done_button_div">
-          <Link to={`/transactions/${transactionType}s/${account}`}>
+          <Link to={`${pages.transactions[`${transactionType}s`]}/${account}`}>
             <button
               className={`${transactionType}_button`}
               onClick={() => {
@@ -248,7 +250,7 @@ export default function ExpenseTransactionForm({
           </Link>
         </div>
         <div className="cancel_button_div">
-          <Link to={`/transactions/${transactionType}s/${account}`}>
+          <Link to={`${pages.transactions[`${transactionType}s`]}/${account}`}>
             <button className="account_cancel_button">
               {t("NEW_TRANSACTION.CANCEL")}
             </button>
@@ -258,3 +260,12 @@ export default function ExpenseTransactionForm({
     </React.Fragment>
   );
 }
+
+ExpenseTransactionForm.propTypes = {
+  categories: PropTypes.array,
+  accounts: PropTypes.array,
+  addNewTransaction: PropTypes.func,
+  editAccount: PropTypes.func,
+}
+
+export default  ExpenseTransactionForm;

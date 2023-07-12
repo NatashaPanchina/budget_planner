@@ -15,46 +15,52 @@ import { ReactComponent as CurrencyDollarIcon } from "../../assets/icons/shared/
 import { ReactComponent as LightModeIcon } from "../../assets/icons/shared/lightMode.svg";
 import { ReactComponent as DarkModeIcon } from "../../assets/icons/shared/darkMode.svg";
 import searchIcon from "../../assets/icons/shared/globalSearch.svg";
-import logoutIcon from "../../assets/icons/shared/logOut.svg";
+import { ReactComponent as LogoutIcon } from "../../assets/icons/shared/logOut.svg";
 
 import { styled } from "styled-components";
 
 const HeaderContainer = styled.div((props) => ({
   width: "83%",
-  height: "56px",
+  height: 56,
   marginLeft: "17%",
   display: "flex",
   position: "fixed",
-  zIndex: "10",
-  top: "0",
+  zIndex: 10,
+  top: 0,
   alignItems: "center",
   backgroundColor: props.theme.colors.background.primary,
   borderBottom: `1px solid ${props.theme.colors.border.ordinary}`,
 }));
 
 const Title = styled.div(() => ({
-  fontWeight: "400",
+  fontWeight: 400,
   fontSize: "1.25rem",
   paddingLeft: "5%",
   width: "30%",
 }));
 
 const GlobalSearch = styled.div((props) => ({
-  height: " 30px",
-  paddingLeft: "5px",
+  height: 30,
+  paddingLeft: props.theme.spacing(1),
   width: "25%",
-  backgroundColor: props.theme.colors.grey[700],
-  borderRadius: "5px",
+  backgroundColor: props.theme.colors.background.body,
+  borderRadius: props.theme.borderRadius,
   display: "flex",
   alignItems: "center",
-  color: "#C4C4C4",
   fontSize: "0.875rem",
-  "& img": {
-    paddingLeft: "5px",
-    paddingRight: "5px",
-    marginLeft: "auto",
-    height: "20px",
-  },
+}));
+
+const GlobalSearchInput = styled.input((props) => ({
+  backgroundColor: props.theme.colors.background.body,
+  color: props.theme.colors.text.primary,
+  width: "calc(100% - 20px)",
+}));
+
+const GlobalSearchImg = styled.img((props) => ({
+  paddingLeft: props.theme.spacing(1),
+  paddingRight: props.theme.spacing(1),
+  marginLeft: "auto",
+  height: 20,
 }));
 
 const Container = styled.div((props) => ({
@@ -74,24 +80,24 @@ const CurrentLng = styled.div((props) => ({
 
 const LanguagesMenu = styled.div((props) => ({
   position: "absolute",
-  top: "56px",
-  zIndex: "10",
+  top: 56,
+  zIndex: 10,
   backgroundColor: props.theme.colors.background.primary,
-  padding: "10px",
+  padding: props.theme.spacing(2),
   border: `1px solid ${props.theme.colors.border.ordinary}`,
   cursor: "pointer",
 }));
 
 const LanguagesMenuItem = styled.div((props) => ({
-  padding: "10px",
+  padding: props.theme.spacing(2),
   "&:hover": {
     color: props.theme.colors.text.primary,
   },
 }));
 
 const Svg = styled.svg(() => ({
-  height: "30px",
-  width: "30px",
+  height: 30,
+  width: 30,
 }));
 
 const SvgMode = styled(Svg)((props) => ({
@@ -108,9 +114,6 @@ const Profile = styled.div(() => ({
 
 const LogOut = styled(Container)(() => ({
   width: "8%",
-  "& img": {
-    height: "30px",
-  },
 }));
 
 //lookup map
@@ -124,6 +127,10 @@ function renderHeaderTitles(t) {
   };
 }
 
+function initialMode() {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
 export default function Header() {
   const { status, profile } = useSelector((state) => state.header);
   const dispatch = useDispatch();
@@ -133,7 +140,7 @@ export default function Header() {
   const [username, setUsername] = useState("User");
   const [language, setLanguage] = useState("EN");
   const [currency, setCurrency] = useState("$");
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState(initialMode());
 
   const { t, i18n } = useTranslation();
   const location = useLocation();
@@ -169,8 +176,11 @@ export default function Header() {
     <HeaderContainer>
       <Title>{headerTitle}</Title>
       <GlobalSearch>
-        {t("HEADER.SEARCH_EVERYTHING")}
-        <img src={searchIcon} alt="search" />
+        <GlobalSearchInput
+          type="text"
+          placeholder={t("HEADER.SEARCH_EVERYTHING")}
+        ></GlobalSearchInput>
+        <GlobalSearchImg src={searchIcon} alt="search" />
       </GlobalSearch>
       <Container
         onClick={(event) => {
@@ -227,7 +237,7 @@ export default function Header() {
       </Container>
       <Profile>{username}</Profile>
       <LogOut>
-        <img src={logoutIcon} alt="logOut" />
+        <Svg as={LogoutIcon} />
       </LogOut>
     </HeaderContainer>
   );

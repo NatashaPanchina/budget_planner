@@ -8,14 +8,26 @@ import CashList from "./list/CashList.js";
 import CashChart from "./pieChart/CashChart.js";
 
 import { ReactComponent as FilterIcon } from "../../assets/icons/shared/filter.svg";
-import { ReactComponent as Trash } from "../../assets/icons/shared/trash.svg";
+import { ReactComponent as TrashIcon } from "../../assets/icons/shared/trash.svg";
 import { ReactComponent as CalendarIcon } from "../../assets/icons/shared/calendar.svg";
 
-import "./Cash.css";
-
-function isActive({ isActive }) {
-  return isActive ? `accounts_title active_accounts_title` : `accounts_title`;
-}
+import {
+  CashContainer,
+  MoreInformationContainer,
+  MainInformationContainer,
+  Header,
+  HeaderTitle,
+  CashTitleContainer,
+  CashTitleLink,
+} from "./Cash.styled.js";
+import {
+  ArchivedTrash,
+  TrashCount,
+  Trash,
+  Filter,
+  FilterSvg,
+} from "../../theme/global.js";
+import { pages } from "../../utils/constants/pages.js";
 
 export default function Cash() {
   const { status, accounts } = useSelector((state) => state.accounts);
@@ -34,48 +46,48 @@ export default function Cash() {
   return status === "loading" ? (
     <div>Loading</div>
   ) : (
-    <div className="accounts_content">
-      <div className="accounts_more_info">
+    <CashContainer>
+      <MoreInformationContainer>
         {t("CASH.TOTAL_BALANCE")}
         <CashChart data={notArchivedAccounts} />
-      </div>
-      <div className="accounts_main_info">
-        <div className="accounts_header">
-          <div className="filtered_title">{t("CASH.CASH_TITLE")}</div>
-          <div className="filtered_field">
-            <FilterIcon />
+      </MoreInformationContainer>
+      <MainInformationContainer>
+        <Header>
+          <HeaderTitle>{t("CASH.CASH_TITLE")}</HeaderTitle>
+          <Filter>
+            <FilterSvg as={FilterIcon} />
             {t("CASH.FILTER_KEY")}
-          </div>
-          <div className="filtered_field">
-            <CalendarIcon />
+          </Filter>
+          <Filter>
+            <FilterSvg as={CalendarIcon} />
             {t("CASH.FILTER_DATE")}
-          </div>
-          <div className="archived">
-            <NavLink to="/cash/trash/all">
-              <Trash />
-              <div className="trash_count">{archivedAccounts.length}</div>
+          </Filter>
+          <ArchivedTrash>
+            <NavLink to={pages.cash.trash.main}>
+              <Trash as={TrashIcon} />
+              <TrashCount>{archivedAccounts.length}</TrashCount>
             </NavLink>
-          </div>
-        </div>
-        <div className="accounts_titles">
-          <NavLink to="/cash/all" className={isActive}>
+          </ArchivedTrash>
+        </Header>
+        <CashTitleContainer>
+          <CashTitleLink to={pages.cash.all}>
             {t("CASH.FILTER_ALL")}
-          </NavLink>
-          <NavLink to="/cash/cards" className={isActive}>
+          </CashTitleLink>
+          <CashTitleLink to={pages.cash.cards}>
             {t("CASH.FILTER_CARDS")}
-          </NavLink>
-          <NavLink to="/cash/cash" className={isActive}>
+          </CashTitleLink>
+          <CashTitleLink to={pages.cash.cash}>
             {t("CASH.FILTER_CASH")}
-          </NavLink>
-          <NavLink to="/cash/transfers" className={isActive}>
+          </CashTitleLink>
+          <CashTitleLink to={pages.cash.transfers}>
             {t("CASH.FILTER_TRANSFERS")}
-          </NavLink>
-        </div>
+          </CashTitleLink>
+        </CashTitleContainer>
         <CashList
           notArchivedAccounts={notArchivedAccounts}
           archiveAccount={archiveAccount}
         />
-      </div>
-    </div>
+      </MainInformationContainer>
+    </CashContainer>
   );
 }

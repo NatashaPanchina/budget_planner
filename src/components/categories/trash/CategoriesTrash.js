@@ -29,15 +29,17 @@ import { styled } from "styled-components";
 import {
   ArchivedTrash,
   BackLink,
+  BackLinkSvg,
   Search,
   SearchImg,
   SearchInput,
   Trash,
   TrashCount,
 } from "../../../theme/global";
+import { pages } from "../../../utils/constants/pages";
 
-const TrashContainer = styled.div(() => ({
-  marginTop: "56px",
+const TrashContainer = styled.div((props) => ({
+  marginTop: props.theme.spacing(14),
   marginLeft: "30%",
   marginRight: "13%",
 }));
@@ -47,21 +49,21 @@ const Header = styled.div(() => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  height: "60px",
+  height: 60,
 }));
 
 const CategoriesTitleContainer = styled.div((props) => ({
   display: "flex",
-  marginBottom: "15px",
+  marginBottom: props.theme.spacing(4),
   borderBottom: `1px solid ${props.theme.colors.border.title}`,
   position: "sticky",
-  top: "56px",
-  zIndex: "9",
+  top: 56,
+  zIndex: 9,
   backgroundColor: props.theme.colors.background.body,
 }));
 
 const CategoriesTitleLink = styled(NavLink)((props) => ({
-  height: "50px",
+  height: 50,
   width: "25%",
   fontSize: "0.9375rem",
   display: "flex",
@@ -80,20 +82,20 @@ const CategoriesTitleLink = styled(NavLink)((props) => ({
 const ArchivedCount = styled.div((props) => ({
   fontSize: "0.875rem",
   color: props.theme.colors.main.violet,
-  height: "40px",
+  height: 40,
   display: "flex",
   alignItems: "center",
 }));
 
 const CategoriesListItem = styled.div((props) => ({
   width: "100%",
-  paddingTop: "10px",
-  paddingBottom: "10px",
-  marginBottom: "15px",
+  paddingTop: props.theme.spacing(2),
+  paddingBottom: props.theme.spacing(2),
+  marginBottom: props.theme.spacing(4),
   background: props.theme.colors.background.primary,
   border: `1px solid ${props.theme.colors.border.item}`,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
-  borderRadius: "5px",
+  borderRadius: props.theme.borderRadius,
   display: "grid",
   gridTemplateAreas: '"desc" "notes"',
   gridTemplateColumns: "1fr",
@@ -108,21 +110,21 @@ const CategoriesDescription = styled.div(() => ({
   alignItems: "center",
 }));
 
-const CategoriesSvg = styled.svg(() => ({
-  marginLeft: "20px",
-  marginRight: "20px",
+const CategoriesSvg = styled.svg((props) => ({
+  marginLeft: props.theme.spacing(5),
+  marginRight: props.theme.spacing(5),
 }));
 
 const EditButtons = styled.div(() => ({
   position: "absolute",
-  top: "17px",
-  right: "0px",
+  top: 16,
+  right: 0,
 }));
 
 const EditButtonSvg = styled.svg((props) => ({
-  height: "15px",
-  marginLeft: "10px",
-  marginRight: "10px",
+  height: 15,
+  marginLeft: props.theme.spacing(2),
+  marginRight: props.theme.spacing(2),
   cursor: "pointer",
   "& path": {
     fill: props.theme.colors.svg.pending,
@@ -229,8 +231,8 @@ export default function CategoriesTrash() {
   ) : (
     <TrashContainer>
       <Header>
-        <BackLink to={`/categories/all`}>
-          <BackIcon />
+        <BackLink to={pages.categories.all}>
+          <BackLinkSvg as={BackIcon} />
         </BackLink>
         {t("CATEGORIES_TRASH.ARCHIVED_CATEGORIES")}
         <ArchivedTrash>
@@ -239,13 +241,13 @@ export default function CategoriesTrash() {
         </ArchivedTrash>
       </Header>
       <CategoriesTitleContainer>
-        <CategoriesTitleLink to="/categories/trash/all">
+        <CategoriesTitleLink to={pages.categories.trash.all}>
           {t("CATEGORIES_TRASH.ALL")}
         </CategoriesTitleLink>
-        <CategoriesTitleLink to="/categories/trash/expenses">
+        <CategoriesTitleLink to={pages.categories.trash.expenses}>
           {t("CATEGORIES_TRASH.EXPENSES")}
         </CategoriesTitleLink>
-        <CategoriesTitleLink to="/categories/trash/incomes">
+        <CategoriesTitleLink to={pages.categories.trash.incomes}>
           {t("CATEGORIES_TRASH.INCOMES")}
         </CategoriesTitleLink>
       </CategoriesTitleContainer>

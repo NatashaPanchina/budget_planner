@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -11,7 +12,7 @@ import transfersIcon from "../../../assets/icons/shared/transfers.svg";
 
 import "./AccountsSlider.css";
 
-export default function AccountsSlider({ transactions, accounts }) {
+function AccountsSlider({ transactions, accounts }) {
   const { t } = useTranslation();
 
   const notArchivedAccounts = accounts.filter(
@@ -88,3 +89,10 @@ export default function AccountsSlider({ transactions, accounts }) {
     </div>
   );
 }
+
+AccountsSlider.propTypes = {
+  transactions: PropTypes.array, 
+  accounts: PropTypes.array,
+}
+
+export default AccountsSlider;

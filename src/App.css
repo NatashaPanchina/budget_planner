@@ -115,9 +115,6 @@ button {
   width: 100%;
 }
 
-.search input::placeholder {
-  color: #ADADAD;
-}
 
 .search img {
   height: 20px;

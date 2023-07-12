@@ -15,21 +15,24 @@ import {
   AddFormHeader,
   AddFormHeaderTitles,
   BackLink,
+  BackLinkSvg,
 } from "../../../theme/global.js";
 import { css, styled } from "styled-components";
+import { pages } from "../../../utils/constants/pages.js";
 
 const TitleLink = styled(NavLink)((props) => ({
-  height: "60px",
+  height: 60,
   width: "33.3%",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   boxSizing: "border-box",
   color: props.theme.colors.text.darker,
-  "& svg": {
-    height: "23px",
-    marginRight: "7px",
-  },
+}));
+
+const TitleLinkSvg = styled.svg((props) => ({
+  height: 23,
+  marginRight: props.theme.spacing(1.5),
 }));
 
 const AddCategoryTitle = styled(TitleLink)((props) => {
@@ -102,21 +105,21 @@ export default function AddCategory() {
   return (
     <AddFormContainer>
       <AddFormHeader>
-        <BackLink to={`/categories/${categoryType}s`}>
-          <BackIcon />
+        <BackLink to={pages.categories[`${categoryType}s`]}>
+          <BackLinkSvg as={BackIcon} />
         </BackLink>
         <AddFormHeaderTitles>
           <AddCategoryTitle
-            to="/categories/addCategory/expense"
+            to={pages.categories.add.expense}
             $titleType="expense"
           >
-            <ExpenseIcon /> {t("ADD_CATEGORY.EXPENSE")}
+            <TitleLinkSvg as={ExpenseIcon} /> {t("ADD_CATEGORY.EXPENSE")}
           </AddCategoryTitle>
           <AddCategoryTitle
-            to="/categories/addCategory/income"
+            to={pages.categories.add.income}
             $titleType="income"
           >
-            <IncomeIcon /> {t("ADD_CATEGORY.INCOME")}
+            <TitleLinkSvg as={IncomeIcon} /> {t("ADD_CATEGORY.INCOME")}
           </AddCategoryTitle>
         </AddFormHeaderTitles>
       </AddFormHeader>

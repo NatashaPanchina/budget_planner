@@ -1,23 +1,34 @@
+import React from "react";
+import { styled } from "styled-components";
+
+const Tooltip = styled.div((props) => ({
+  padding: 12,
+  display: "flex",
+  alignItems: "center",
+  background: props.theme.colors.background.primary,
+  border: `1px solid ${props.theme.colors.border.item}`,
+  borderRadius: props.theme.borderRadius,
+  fontSize: "0.875rem",
+}));
+
+const TooltipSvg = styled.svg(() => ({
+  marginRight: 6,
+}));
+
+const TooltipValue = styled.span(() => ({
+  fontWeight: 700,
+  marginLeft: 6,
+}));
+
 export function renderTooltip(id, formattedValue) {
   return (
-    <div
-      style={{
-        padding: 12,
-        display: "flex",
-        alignItems: "center",
-        background: "#fff",
-        border: "1px solid #F0F0F0",
-        borderRadius: "5px",
-        fontSize: "14px",
-      }}
-    >
-      <svg
+    <Tooltip>
+      <TooltipSvg
         width="20"
         height="20"
         viewBox="0 0 20 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ marginRight: "5px" }}
       >
         <circle
           cx="10"
@@ -25,11 +36,8 @@ export function renderTooltip(id, formattedValue) {
           r="10"
           fill={`url(#${id.replaceAll(" ", "_")})`}
         ></circle>
-      </svg>
-      {id}:
-      <span style={{ fontWeight: 700, marginLeft: "5px" }}>
-        {formattedValue}
-      </span>
-    </div>
+      </TooltipSvg>
+      {id}:<TooltipValue>{formattedValue}</TooltipValue>
+    </Tooltip>
   );
 }

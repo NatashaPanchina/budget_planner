@@ -18,6 +18,7 @@ import { ReactComponent as TransferIcon } from "../../assets/icons/shared/newTra
 
 import "./NewTransaction.css";
 import TransferTransactionForm from "./transfer/TransferTransactionForm";
+import { pages } from "../../utils/constants/pages";
 
 function renderTransactionForm(
   transactionType,
@@ -98,7 +99,7 @@ export default function NewTransaction() {
       <div className="content_title">
         <div className="title_item">
           <NavLink
-            to={`/newTransaction/expense/${transactionAccount}`}
+            to={`${pages.newTransaction.expense}/${transactionAccount}`}
             className={({ isActive }) =>
               isActive ? "active_expense" : `not_active_expense`
             }
@@ -109,7 +110,7 @@ export default function NewTransaction() {
         </div>
         <div className="title_item">
           <NavLink
-            to={`/newTransaction/income/${transactionAccount}`}
+            to={`${pages.newTransaction.income}/${transactionAccount}`}
             className={({ isActive }) =>
               isActive ? "active_income" : `not_active_income`
             }
@@ -120,7 +121,7 @@ export default function NewTransaction() {
         </div>
         <div className="title_item">
           <NavLink
-            to={`/newTransaction/transfer/${transactionAccount}`}
+            to={`${pages.newTransaction.transfer}/${transactionAccount}`}
             className={({ isActive }) =>
               isActive ? "active_transfer" : `not_active_transfer`
             }

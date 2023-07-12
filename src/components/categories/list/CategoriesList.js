@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -25,16 +26,17 @@ import {
   SearchImg,
   SearchInput,
 } from "../../../theme/global.js";
+import { pages } from "../../../utils/constants/pages.js";
 
 const CategoriesListItem = styled.div((props) => ({
   width: "100%",
-  paddingTop: "10px",
-  paddingBottom: "10px",
-  marginBottom: "15px",
+  paddingTop: props.theme.spacing(2),
+  paddingBottom: props.theme.spacing(2),
+  marginBottom: props.theme.spacing(4),
   background: props.theme.colors.background.primary,
   border: `1px solid ${props.theme.colors.border.item}`,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
-  borderRadius: "5px",
+  borderRadius: props.theme.borderRadius,
   display: "grid",
   gridTemplateAreas: '"desc" "notes"',
   gridTemplateColumns: "1fr",
@@ -49,21 +51,21 @@ const CategoriesDescription = styled.div(() => ({
   alignItems: "center",
 }));
 
-const CategoriesSvg = styled.svg(() => ({
-  marginLeft: "20px",
-  marginRight: "20px",
+const CategoriesSvg = styled.svg((props) => ({
+  marginLeft: props.theme.spacing(5),
+  marginRight: props.theme.spacing(5),
 }));
 
 const EditButtons = styled.div(() => ({
   position: "absolute",
-  top: "17px",
-  right: "0px",
+  top: 16,
+  right: 0,
 }));
 
 const EditButtonSvg = styled.svg((props) => ({
-  height: "15px",
-  marginLeft: "10px",
-  marginRight: "10px",
+  height: 15,
+  marginLeft: props.theme.spacing(2),
+  marginRight: props.theme.spacing(2),
   cursor: "pointer",
   "& path": {
     fill: props.theme.colors.svg.pending,
@@ -73,7 +75,7 @@ const EditButtonSvg = styled.svg((props) => ({
   },
 }));
 
-export default function CategoriesList({
+function CategoriesList({
   notArchivedCategories,
   archiveCategory,
 }) {
@@ -94,9 +96,7 @@ export default function CategoriesList({
       </Search>
 
       <AddButton
-        to={`/categories/addCategory/${
-          filterType === "all" ? "expense" : filterType
-        }`}
+        to={pages.categories.add[filterType === "all" ? "expense" : filterType]}
       >
         <AddButtonSvg as={PlusIcon} />
         {t("CATEGORIES.ADD_CATEGORY")}
@@ -140,7 +140,7 @@ export default function CategoriesList({
               </CategoriesDescription>
               <EditButtons>
                 <EditButtonSvg as={AddIcon} />
-                <Link to={`/categories/infoCategory/${category.id}`}>
+                <Link to={`${pages.categories.info.main}/${category.id}`}>
                   <EditButtonSvg as={EditIcon} />
                 </Link>
                 <EditButtonSvg
@@ -159,3 +159,10 @@ export default function CategoriesList({
     </React.Fragment>
   );
 }
+
+CategoriesList.propTypes = {
+  notArchivedCategories: PropTypes.array,
+  archiveCategory: PropTypes.func,
+}
+
+export default CategoriesList;

@@ -26,12 +26,17 @@ import {
   MainInformationContainer,
   Header,
   HeaderTitle,
-  Filter,
-  Svg,
   CategoriesTitleContainer,
   CategoriesTitleLink,
 } from "./Categories.styled.js";
-import { ArchivedTrash, Trash, TrashCount } from "../../theme/global.js";
+import {
+  ArchivedTrash,
+  FilterSvg,
+  Trash,
+  TrashCount,
+  Filter,
+} from "../../theme/global.js";
+import { pages } from "../../utils/constants/pages.js";
 
 function createBarData(keys, allCount, expenseCount, incomeCount) {
   if (!keys) return [];
@@ -119,28 +124,28 @@ export default function Categories() {
         <Header>
           <HeaderTitle>{t("CATEGORIES.CATEGORIES_TITLE")}</HeaderTitle>
           <Filter>
-            <Svg as={FilterIcon} />
+            <FilterSvg as={FilterIcon} />
             {t("CATEGORIES.FILTER_KEY")}
           </Filter>
           <Filter>
-            <Svg as={CalendarIcon} />
+            <FilterSvg as={CalendarIcon} />
             {t("CATEGORIES.FILTER_DATE")}
           </Filter>
           <ArchivedTrash>
-            <NavLink to="/categories/trash">
+            <NavLink to={pages.categories.trash.main}>
               <Trash as={TrashIcon} />
               <TrashCount>{archivedCategories.length}</TrashCount>
             </NavLink>
           </ArchivedTrash>
         </Header>
         <CategoriesTitleContainer>
-          <CategoriesTitleLink to="/categories/all">
+          <CategoriesTitleLink to={pages.categories.all}>
             {t("CATEGORIES.ALL")}
           </CategoriesTitleLink>
-          <CategoriesTitleLink to="/categories/expenses">
+          <CategoriesTitleLink to={pages.categories.expenses}>
             {t("CATEGORIES.EXPENSES")}
           </CategoriesTitleLink>
-          <CategoriesTitleLink to="/categories/incomes">
+          <CategoriesTitleLink to={pages.categories.incomes}>
             {t("CATEGORIES.INCOMES")}
           </CategoriesTitleLink>
         </CategoriesTitleContainer>

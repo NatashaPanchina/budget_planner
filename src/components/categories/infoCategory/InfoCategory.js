@@ -25,20 +25,27 @@ import {
   AddFormContainer,
   AddFormHeader,
   BackLink,
+  BackLinkSvg,
   CancelButton,
-  CategoriesIcons,
-  ColorsContainer,
   ColorsPalette,
+  ColorsPaletteButtonContainer,
   ColorsPaletteButton,
   DoneButton,
   FieldDescription,
+  FieldInput,
   FormField,
   FormFieldsContainer,
-  IconsButton,
-  IconsContainer,
   SelectButton,
   SelectedColor,
 } from "../../../theme/global.js";
+import {
+  CategoryColorsContainer,
+  IconsButton,
+  IconsContainer,
+  CategoriesIcons,
+  IconsButtonContainer,
+} from "../Categories.styled.js";
+import { pages } from "../../../utils/constants/pages.js";
 
 const doneEventHandler = (
   selectedCategory,
@@ -122,8 +129,8 @@ export default function InfoCategory() {
       ) : (
         <React.Fragment>
           <AddFormHeader>
-            <BackLink to={`/categories/${categoryType}s`}>
-              <BackIcon />
+            <BackLink to={pages.categories[`${categoryType}s`]}>
+              <BackLinkSvg as={BackIcon} />
             </BackLink>
             {t("INFO_CATEGORY.CATEGORY_INFORMATION")}
           </AddFormHeader>
@@ -136,12 +143,12 @@ export default function InfoCategory() {
               <FieldDescription>
                 {t("ADD_CATEGORY.DESCRIPTION")}
               </FieldDescription>
-              <input
+              <FieldInput
                 type="text"
                 onChange={(event) => setDescription(event.target.value)}
                 defaultValue={description}
                 placeholder={t("ADD_CATEGORY.DESCRIPTION_PLACEHOLDER")}
-              ></input>
+              ></FieldInput>
             </FormField>
             <FormField
               $isActive={activeItem === "2"}
@@ -170,16 +177,16 @@ export default function InfoCategory() {
                 {t("ADD_CATEGORY.SELECT")}
               </SelectButton>
             </FormField>
-            <ColorsContainer ref={colorsRef} className="none">
+            <CategoryColorsContainer ref={colorsRef} className="none">
               <ColorsPalette>
                 {renderColors(colors, setSelectedColor, selectedColor)}
               </ColorsPalette>
-              <ColorsPaletteButton>
-                <button onClick={() => toggleElement(colorsRef)}>
+              <ColorsPaletteButtonContainer>
+                <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
                   {t("ADD_CATEGORY.OK")}
-                </button>
-              </ColorsPaletteButton>
-            </ColorsContainer>
+                </ColorsPaletteButton>
+              </ColorsPaletteButtonContainer>
+            </CategoryColorsContainer>
             <FormField
               $isActive={activeItem === "3"}
               $formType={categoryType}
@@ -211,11 +218,11 @@ export default function InfoCategory() {
               <CategoriesIcons>
                 {renderIcons(categoryIcons, setIcon)}
               </CategoriesIcons>
-              <IconsButton>
-                <button onClick={() => toggleElement(iconsRef)}>
+              <IconsButtonContainer>
+                <IconsButton onClick={() => toggleElement(iconsRef)}>
                   {t("ADD_CATEGORY.OK")}
-                </button>
-              </IconsButton>
+                </IconsButton>
+              </IconsButtonContainer>
             </IconsContainer>
             <FormField
               $isActive={activeItem === "4"}
@@ -223,10 +230,10 @@ export default function InfoCategory() {
               onClick={() => setActiveItem("4")}
             >
               <FieldDescription>{t("ADD_CATEGORY.DATE")}</FieldDescription>
-              <input
+              <FieldInput
                 type="date"
                 onChange={(event) => setDate(new Date(event.target.value))}
-              ></input>
+              ></FieldInput>
             </FormField>
             <FormField
               $isActive={activeItem === "5"}
@@ -234,12 +241,12 @@ export default function InfoCategory() {
               onClick={() => setActiveItem("5")}
             >
               <FieldDescription>{t("ADD_CATEGORY.NOTES")}</FieldDescription>
-              <input
+              <FieldInput
                 type="text"
                 onChange={(event) => setNotes(event.target.value)}
                 value={notes}
                 placeholder={t("ADD_CATEGORY.NOTES_PLACEHOLDER")}
-              ></input>
+              ></FieldInput>
             </FormField>
             <FormField
               $isActive={activeItem === "6"}
@@ -247,14 +254,14 @@ export default function InfoCategory() {
               onClick={() => setActiveItem("6")}
             >
               <FieldDescription>{t("ADD_CATEGORY.TAGS")}</FieldDescription>
-              <input
+              <FieldInput
                 type="text"
                 placeholder={t("ADD_CATEGORY.TAGS_PLACEHOLDER")}
-              ></input>
+              ></FieldInput>
             </FormField>
             <AddFormButtonsContainer>
               <DoneButton
-                to={`/categories/${categoryType}s`}
+                to={pages.categories[`${categoryType}s`]}
                 $buttonType={categoryType}
                 onClick={() =>
                   doneEventHandler(
@@ -274,7 +281,7 @@ export default function InfoCategory() {
               >
                 {t("ADD_CATEGORY.DONE")}
               </DoneButton>
-              <CancelButton to={`/categories/${categoryType}s`}>
+              <CancelButton to={pages.categories[`${categoryType}s`]}>
                 {t("ADD_CATEGORY.CANCEL")}
               </CancelButton>
             </AddFormButtonsContainer>

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
 import { ResponsiveBar } from "@nivo/bar";
@@ -19,17 +20,17 @@ const Tooltip = styled.div((props) => ({
   alignItems: "center",
   background: props.theme.colors.background.primary,
   border: `1px solid ${props.theme.colors.border.item}`,
-  borderRadius: "5px",
-  fontSize: "14px",
+  borderRadius: props.theme.borderRadius,
+  fontSize: "0.875rem",
 }));
 
-const TooltipSvg = styled.svg(() => ({
-  marginRight: "5px",
+const TooltipSvg = styled.svg((props) => ({
+  marginRight: props.theme.spacing(1),
 }));
 
-const TooltipValue = styled.span(() => ({
+const TooltipValue = styled.span((props) => ({
   fontWeight: 700,
-  marginLeft: "5px",
+  marginLeft: props.theme.spacing(1),
 }));
 
 function renderTooltip(id, formattedValue) {
@@ -110,7 +111,7 @@ function renderMatchs(keys) {
   ];
 }
 
-export default function CategoriesBar({ data }) {
+function CategoriesBar({ data }) {
   const { t } = useTranslation();
 
   const keys = [
@@ -146,3 +147,9 @@ export default function CategoriesBar({ data }) {
     </BarChartContainer>
   );
 }
+
+CategoriesBar.propTypes = {
+  data: PropTypes.array,
+};
+
+export default CategoriesBar;

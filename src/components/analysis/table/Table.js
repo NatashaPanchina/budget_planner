@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { dinero, toDecimal, add } from "dinero.js";
 import { USD } from "@dinero.js/currencies";
@@ -75,7 +76,7 @@ function renderTable(t, data, tableFilter) {
   );
 }
 
-export default function Table({ transactions, categories, tableFilter, date }) {
+function Table({ transactions, categories, tableFilter, date }) {
   const { t } = useTranslation();
 
   let data = createData(
@@ -87,3 +88,12 @@ export default function Table({ transactions, categories, tableFilter, date }) {
     <div className="table_container">{renderTable(t, data, tableFilter)}</div>
   );
 }
+
+Table.propTypes = {
+  transactions: PropTypes.array,
+  categories: PropTypes.array,
+  tableFilter: PropTypes.string,
+  date: PropTypes.object,
+};
+
+export default Table;

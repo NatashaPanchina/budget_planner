@@ -11,7 +11,7 @@ export function createPeriod(date) {
   }
 }
 
-function weekPeriod(date) {
+function weekPeriod() {
   return [];
 }
 

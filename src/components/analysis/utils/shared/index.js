@@ -1,3 +1,4 @@
+import React from "react";
 import { add, dinero, toDecimal } from "dinero.js";
 import { USD } from "@dinero.js/currencies";
 
@@ -114,8 +115,7 @@ export function filterArchivedAccounts(accounts) {
 export function createAverageAmount(date, sum) {
   switch (date.during) {
     case "month":
-      const amount = (Number(toDecimal(sum)) / 4).toFixed(2);
-      return formatNumberOutput(amount, "USD");
+      return formatNumberOutput((Number(toDecimal(sum)) / 4).toFixed(2), "USD");
     default:
       return formatNumberOutput(0, "USD");
   }

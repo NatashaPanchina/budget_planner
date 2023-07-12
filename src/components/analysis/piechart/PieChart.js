@@ -1,3 +1,5 @@
+import React from "react";
+import PropTypes from "prop-types";
 import { ResponsivePie } from "@nivo/pie";
 
 import {
@@ -10,7 +12,7 @@ import { createData } from "../utils/charts";
 import Legends from "../legends/Legends";
 import { renderTooltip } from "../utils/tooltip";
 
-export default function PieChart({
+function PieChart({
   transactions,
   categories,
   chartFilter,
@@ -58,3 +60,12 @@ export default function PieChart({
     </div>
   );
 }
+
+PieChart.propTypes = {
+  transactions: PropTypes.array,
+  categories: PropTypes.array,
+  chartFilter: PropTypes.string,
+  date: PropTypes.object,
+};
+
+export default PieChart;

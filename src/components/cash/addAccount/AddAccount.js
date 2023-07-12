@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { addNewAccount } from "../../../actions/Actions";
@@ -8,45 +8,53 @@ import AccountForm from "./AccountForm.js";
 
 import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
 
-import "./AddAccount.css";
+import {
+  AddFormContainer,
+  AddFormHeader,
+  AddFormHeaderTitles,
+  BackLink,
+  BackLinkSvg,
+} from "../../../theme/global";
+import { styled } from "styled-components";
+import { pages } from "../../../utils/constants/pages";
 
-function isActiveLink(isActive) {
-  return isActive ? "active_account_type" : "";
-}
+const TitleLink = styled(NavLink)((props) => ({
+  height: 60,
+  width: "33.3%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  boxSizing: "border-box",
+  color: props.theme.colors.text.darker,
+  "&:hover": {
+    color: props.theme.colors.main.violet,
+  },
+  "&.active": {
+    color: props.theme.colors.main.violet,
+    borderBottom: `2px solid ${props.theme.colors.main.violet}`,
+  },
+}));
 
 export default function AddAccount() {
   const { t } = useTranslation();
   const { accountType } = useParams();
 
   return (
-    <div className="add_account_content">
-      <div className="accounts_title_block">
-        <Link
-          className="account_back_nav"
-          to={`/cash/${createCashType(accountType)}`}
-        >
-          <BackIcon />
-        </Link>
-        <div className="add_account_titles">
-          <div className="add_account_title">
-            <NavLink
-              to={`/cash/addAccount/card`}
-              className={({ isActive }) => `${isActiveLink(isActive)}`}
-            >
-              {t("ADD_ACCOUNT.CARD")}
-            </NavLink>
-          </div>
-          <div className="add_account_title">
-            <NavLink
-              to={`/cash/addAccount/cash`}
-              className={({ isActive }) => `${isActiveLink(isActive)}`}
-            >
-              {t("ADD_ACCOUNT.CASH")}
-            </NavLink>
-          </div>
-        </div>
-      </div>
+    <AddFormContainer>
+      <AddFormHeader>
+        <BackLink to={pages.cash[createCashType(accountType)]}>
+          <BackLinkSvg as={BackIcon} />
+        </BackLink>
+        <AddFormHeaderTitles>
+          <TitleLink to={pages.cash.add.card}>
+            {t("ADD_ACCOUNT.CARD")}
+          </TitleLink>
+          <TitleLink to={pages.cash.add.cash}>
+            {t("ADD_ACCOUNT.CASH")}
+          </TitleLink>
+        </AddFormHeaderTitles>
+      </AddFormHeader>
       <AccountForm addNewAccount={addNewAccount} />
-    </div>
+    </AddFormContainer>
   );
 }

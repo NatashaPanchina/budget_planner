@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 import { add, dinero } from "dinero.js";
@@ -10,6 +11,7 @@ import { ReactComponent as ArrowRight } from "../../../assets/icons/shared/arrow
 import { ReactComponent as ArrowLeft } from "../../../assets/icons/shared/arrowLeft.svg";
 import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
 import { useTranslation } from "react-i18next";
+import { pages } from "../../../utils/constants/pages";
 
 function previousSlide(slide, setCurrentSlide) {
   if (slide === 1) return;
@@ -33,7 +35,7 @@ function nextSlide(countSlides, slide, setCurrentSlide) {
   setCurrentSlide(slide + 1);
 }
 
-export default function Slider({ filterType, notArchivedAccounts }) {
+function Slider({ filterType, notArchivedAccounts }) {
   const { t } = useTranslation();
   const [currentSlide, setCurrentSlide] = useState(1);
   const countSlides = notArchivedAccounts.length + 1;
@@ -55,7 +57,7 @@ export default function Slider({ filterType, notArchivedAccounts }) {
       <div className="accounts_slides_container">
         <div className="accounts_slide">
           <Link
-            to={`/transactions/${filterType}/all`}
+            to={`${pages.transactions[filterType]}/all`}
             className="account_card"
             style={{
               background: `url(${cardBackground}) 0% 0% / cover no-repeat,
@@ -78,7 +80,7 @@ export default function Slider({ filterType, notArchivedAccounts }) {
           return (
             <div key={account.id} className="accounts_slide">
               <Link
-                to={`/transactions/${filterType}/${account.id}`}
+                to={`${pages.transactions[filterType]}/${account.id}`}
                 className="account_card"
                 style={{
                   background: `url(${cardBackground}) 0% 0% / cover no-repeat,
@@ -103,3 +105,10 @@ export default function Slider({ filterType, notArchivedAccounts }) {
     </div>
   );
 }
+
+Slider.propTypes = {
+  filterType: PropTypes.string, 
+  notArchivedAccounts: PropTypes.array,
+}
+
+export default Slider;

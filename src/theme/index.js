@@ -9,6 +9,7 @@ export const lightTheme = {
       darker: "#989393",
       ordinary: "#ADADAD",
     },
+    placeholder: "#D1D1D1",
     background: {
       body: "#FAFAFA",
       navigation: "#F3F3F3",
@@ -17,7 +18,7 @@ export const lightTheme = {
     },
     boxShadow: "#F3F3F3",
     svg: {
-      pending: "#D3D3D3",
+      pending: "#B8B7B7",
       hover: "#989393",
     },
     button: {
@@ -34,12 +35,14 @@ export const lightTheme = {
     expense: "#F4395B",
     income: "#6EBD0A",
     transfer: "#0DC3B4",
+    saldo: "#419FFF",
     border: {
       ordinary: "#DCE2DF",
       title: "#DCE2DF",
       item: "#F0F0F0",
     },
   },
+  borderRadius: 8,
   spacing: (multiple) => multiple * 4,
 };
 
@@ -54,6 +57,7 @@ export const darkTheme = {
       darker: "#C4C4C4",
       ordinary: "#989393",
     },
+    placeholder: "#7A7777",
     background: {
       body: "#383838",
       navigation: "#383838",
@@ -78,11 +82,13 @@ export const darkTheme = {
     expense: "#FF3358",
     income: "#8FFF00",
     transfer: "#0DC3B4",
+    saldo: "#419FFF",
     border: {
       ordinary: "#434343",
       title: "#656565",
       item: "#656565",
     },
   },
+  borderRadius: 8,
   spacing: (multiple) => multiple * 4,
 };

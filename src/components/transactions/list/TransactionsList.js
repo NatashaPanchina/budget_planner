@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link, NavLink, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -17,6 +18,7 @@ import { ReactComponent as DeleteIcon } from "../../../assets/icons/shared/delet
 
 import "./TransactionsList.css";
 import { useDispatch } from "react-redux";
+import { pages } from "../../../utils/constants/pages";
 
 function isActive({ isActive }) {
   return isActive ? "active_transactions_title" : "";
@@ -90,7 +92,7 @@ function filterByAccounts(transactions, filterAccount) {
       );
 }
 
-export default function TransactionsList({
+function TransactionsList({
   transactions,
   accounts,
   categories,
@@ -113,7 +115,7 @@ export default function TransactionsList({
       <div className="transactions_titles">
         <div className="transactions_title">
           <NavLink
-            to={`/transactions/all/${filterAccount}`}
+            to={`${pages.transactions.all}/${filterAccount}`}
             className={isActive}
           >
             {t("TRANSACTIONS.ALL")}
@@ -121,7 +123,7 @@ export default function TransactionsList({
         </div>
         <div className="transactions_title">
           <NavLink
-            to={`/transactions/expenses/${filterAccount}`}
+            to={`${pages.transactions.expenses}/${filterAccount}`}
             className={isActive}
           >
             {t("TRANSACTIONS.FILTER_EXPENSES")}
@@ -129,7 +131,7 @@ export default function TransactionsList({
         </div>
         <div className="transactions_title">
           <NavLink
-            to={`/transactions/incomes/${filterAccount}`}
+            to={`${pages.transactions.incomes}/${filterAccount}`}
             className={isActive}
           >
             {t("TRANSACTIONS.FILTER_INCOMES")}
@@ -137,7 +139,7 @@ export default function TransactionsList({
         </div>
         <div className="transactions_title">
           <NavLink
-            to={`/transactions/transfers/${filterAccount}`}
+            to={`${pages.transactions.transfers}/${filterAccount}`}
             className={isActive}
           >
             {t("TRANSACTIONS.FILTER_TRANSFERS")}
@@ -149,7 +151,9 @@ export default function TransactionsList({
         <img src={searchIcon} alt="search" />
       </div>
       <div className="new_transaction_btn">
-        <Link to={`/newTransaction/${transactionType}/${transactionAccount}`}>
+        <Link
+          to={`${pages.newTransaction[transactionType]}/${transactionAccount}`}
+        >
           <PlusIcon />
           {t("TRANSACTIONS.NEW_TRANSACTION")}
         </Link>
@@ -253,7 +257,7 @@ export default function TransactionsList({
               </div>
               {renderNotes(transaction.notes)}
               <div className="transaction_item_buttons">
-                <Link to={`/transactions/infoTransaction/${transaction.id}`}>
+                <Link to={`${pages.transactions.info.main}/${transaction.id}`}>
                   <EditIcon />
                 </Link>
                 <DeleteIcon
@@ -283,3 +287,13 @@ export default function TransactionsList({
     </React.Fragment>
   );
 }
+
+TransactionsList.propTypes = {
+  transactions: PropTypes.array,
+  accounts: PropTypes.array,
+  categories: PropTypes.array,
+  deleteTransaction: PropTypes.func,
+  editAccount: PropTypes.func,
+}
+
+export default  TransactionsList;

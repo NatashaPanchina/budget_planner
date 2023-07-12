@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { v4 as uuidv4 } from "uuid";
@@ -23,6 +23,31 @@ import { useOutsideClick, hideElement } from "../../../hooks/useOutsideClick";
 import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
 
 import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
+
+import {
+  CardBalance,
+  CardBalanceContainer,
+  CardName,
+  CardView,
+  CashColorsContainer,
+  CurrentBalance,
+  NumericInput,
+} from "../Cash.styled";
+import {
+  AddFormButtonsContainer,
+  CancelButton,
+  ColorsPalette,
+  ColorsPaletteButton,
+  ColorsPaletteButtonContainer,
+  DoneButton,
+  FieldDescription,
+  FieldInput,
+  FormField,
+  FormFieldsContainer,
+  SelectButton,
+  SelectedColor,
+} from "../../../theme/global";
+import { pages } from "../../../utils/constants/pages";
 
 const doneEventHandler = (
   accountType,
@@ -56,7 +81,7 @@ const doneEventHandler = (
   idbAddItem(newAccount, "accounts");
 };
 
-export default function CashForm({ accountType, addNewAccount }) {
+function CashForm({ accountType, addNewAccount }) {
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
@@ -70,175 +95,154 @@ export default function CashForm({ accountType, addNewAccount }) {
   const [selectedColor, setSelectedColor] = useState(colors.green[700]);
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
-  const [tags, setTags] = useState([""]);
+  const [tags] = useState([""]);
 
   const colorsRef = useOutsideClick(hideElement);
 
   return (
     <React.Fragment>
-      <div className="account_view">
-        <div
-          className="card_view"
-          style={{
-            background: `url(${cardBackground}) 0% 0% / cover no-repeat,
-                              linear-gradient(90deg, ${selectedColor[0]} 0%, ${selectedColor[1]} 100%)`,
-            boxShadow: `0px 4px 10px #DCE2DF`,
-          }}
-        >
-          <div className="card_name">{description}</div>
-          <div className="card_balance_info">
-            <div className="card_balance">
-              {formatNumberOutput(balance, "USD")}
-            </div>
-            <div className="card_balance_title">
-              {t("ADD_ACCOUNT.CURRENT_BALANCE")}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="add_account_form">
-        <div
-          className={`add_account_item ${
-            activeItem === "1" ? `account_active_item` : ""
-          }`}
+      <CardView
+        $cardBackground={cardBackground}
+        $from={selectedColor[0]}
+        $to={selectedColor[1]}
+      >
+        <CardName>{description}</CardName>
+        <CardBalanceContainer>
+          <CardBalance>{formatNumberOutput(balance, "USD")}</CardBalance>
+          <CurrentBalance>{t("ADD_ACCOUNT.CURRENT_BALANCE")}</CurrentBalance>
+        </CardBalanceContainer>
+      </CardView>
+      <FormFieldsContainer>
+        <FormField
+          $isActive={activeItem === "1"}
+          $formType="cash"
           onClick={() => setActiveItem("1")}
         >
-          <div className="info_items">{t("ADD_ACCOUNT.DESCRIPTION")}</div>
-          <input
+          <FieldDescription>{t("ADD_ACCOUNT.DESCRIPTION")}</FieldDescription>
+          <FieldInput
             type="text"
             onChange={(event) => setDescription(event.target.value)}
             placeholder={t("ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER")}
-          ></input>
-        </div>
-        <div
-          className={`add_account_item ${
-            activeItem === "2" ? `account_active_item` : ""
-          }`}
+          ></FieldInput>
+        </FormField>
+        <FormField
+          $isActive={activeItem === "2"}
+          $formType="cash"
           onClick={() => setActiveItem("2")}
         >
-          <div className="info_items">{t("ADD_ACCOUNT.BALANCE")}</div>
-          <div className="input_items">
-            $
-            <NumericFormat
-              thousandSeparator=","
-              decimalSeparator="."
-              decimalScale={2}
-              allowNegative={false}
-              placeholder="0.00"
-              onValueChange={(values) => setBalance(values.floatValue)}
-            />
-          </div>
-        </div>
-        <div
-          className={`add_account_item ${
-            activeItem === "3" ? `account_active_item` : ""
-          }`}
+          <FieldDescription>{t("ADD_ACCOUNT.BALANCE")}</FieldDescription>
+          $
+          <NumericFormat
+            customInput={NumericInput}
+            thousandSeparator=","
+            decimalSeparator="."
+            decimalScale={2}
+            allowNegative={false}
+            placeholder="0.00"
+            onValueChange={(values) => setBalance(values.floatValue)}
+          />
+        </FormField>
+        <FormField
+          $isActive={activeItem === "3"}
+          $formType="cash"
           onClick={() => setActiveItem("3")}
         >
-          <div className="info_items">{t("ADD_ACCOUNT.COLOR")}</div>
-          <div
-            className="account_selected_color"
+          <FieldDescription>{t("ADD_ACCOUNT.COLOR")}</FieldDescription>
+          <SelectedColor
             onClick={(event) => {
               setActiveItem("3");
-              toggleElement(".account_colors_form");
+              toggleElement(colorsRef);
               event.stopPropagation();
             }}
           >
             {renderSelectedColor(selectedColor)}
-          </div>
-          <div
-            className="select_btns"
+          </SelectedColor>
+          <SelectButton
             onClick={(event) => {
               setActiveItem("3");
-              toggleElement(".account_colors_form");
+              toggleElement(colorsRef);
               event.stopPropagation();
             }}
           >
             {t("ADD_ACCOUNT.SELECT")}
-          </div>
-        </div>
-        <div ref={colorsRef} className="account_colors_form none">
-          <div className="accounts_palette">
+          </SelectButton>
+        </FormField>
+        <CashColorsContainer ref={colorsRef} className="none">
+          <ColorsPalette>
             {renderColors(colors, setSelectedColor, selectedColor)}
-          </div>
-          <div
-            className="colors_form_btns"
-            onClick={() => toggleElement(".account_colors_form")}
-          >
-            <button>{t("ADD_ACCOUNT.OK")}</button>
-          </div>
-        </div>
-        <div
-          className={`add_account_item ${
-            activeItem === "4" ? `account_active_item` : ""
-          }`}
+          </ColorsPalette>
+          <ColorsPaletteButtonContainer>
+            <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
+              {t("ADD_ACCOUNT.OK")}
+            </ColorsPaletteButton>
+          </ColorsPaletteButtonContainer>
+        </CashColorsContainer>
+        <FormField
+          $isActive={activeItem === "4"}
+          $formType="cash"
           onClick={() => setActiveItem("4")}
         >
-          <div className="info_items">{t("ADD_ACCOUNT.DATE")}</div>
-          <div className="input_items">
-            <input
-              type="date"
-              onChange={(event) => setDate(new Date(event.target.value))}
-            ></input>
-          </div>
-        </div>
-        <div
-          className={`add_account_item ${
-            activeItem === "5" ? `account_active_item` : ""
-          }`}
+          <FieldDescription>{t("ADD_ACCOUNT.DATE")}</FieldDescription>
+          <FieldInput
+            type="date"
+            onChange={(event) => setDate(new Date(event.target.value))}
+          ></FieldInput>
+        </FormField>
+        <FormField
+          $isActive={activeItem === "5"}
+          $formType="cash"
           onClick={() => setActiveItem("5")}
         >
-          <div className="info_items">{t("ADD_ACCOUNT.NOTES")}</div>
-          <input
+          <FieldDescription>{t("ADD_ACCOUNT.NOTES")}</FieldDescription>
+          <FieldInput
             type="text"
             onChange={(event) => setNotes(event.target.value)}
             placeholder={t("ADD_ACCOUNT.NOTES_PLACEHOLDER")}
-          ></input>
-        </div>
-        <div
-          className={`add_account_item ${
-            activeItem === "6" ? `account_active_item` : ""
-          }`}
+          ></FieldInput>
+        </FormField>
+        <FormField
+          $isActive={activeItem === "6"}
+          $formType="cash"
           onClick={() => setActiveItem("6")}
         >
-          <div className="info_items">{t("ADD_ACCOUNT.TAGS")}</div>
-          <input
+          <FieldDescription>{t("ADD_ACCOUNT.TAGS")}</FieldDescription>
+          <FieldInput
             type="text"
             placeholder={t("ADD_ACCOUNT.TAGS_PLACEHOLDER")}
-          ></input>
-        </div>
-        <div className="account_buttons_block">
-          <div className="done_button_div">
-            <Link to={`/cash/${cashType}`}>
-              <button
-                className="account_button"
-                onClick={() =>
-                  doneEventHandler(
-                    cashType,
-                    description,
-                    balance,
-                    selectedColor,
-                    date.toISOString(),
-                    notes,
-                    tags,
-                    addNewAccount,
-                    dispatch
-                  )
-                }
-              >
-                {t("ADD_ACCOUNT.DONE")}
-              </button>
-            </Link>
-          </div>
-          <div className="cancel_button_div">
-            <Link to={`/cash/${cashType}`}>
-              <button className="account_cancel_button">
-                {t("ADD_ACCOUNT.CANCEL")}
-              </button>
-            </Link>
-          </div>
-        </div>
-      </div>
+          ></FieldInput>
+        </FormField>
+        <AddFormButtonsContainer>
+          <DoneButton
+            to={pages.cash[cashType]}
+            $buttonType="cash"
+            onClick={() =>
+              doneEventHandler(
+                accountType,
+                description,
+                balance,
+                selectedColor,
+                date.toISOString(),
+                notes,
+                tags,
+                addNewAccount,
+                dispatch
+              )
+            }
+          >
+            {t("ADD_ACCOUNT.DONE")}
+          </DoneButton>
+          <CancelButton to={pages.cash[cashType]}>
+            {t("ADD_ACCOUNT.CANCEL")}
+          </CancelButton>
+        </AddFormButtonsContainer>
+      </FormFieldsContainer>
     </React.Fragment>
   );
 }
+
+CashForm.propTypes = {
+  accountType: PropTypes.string, 
+  addNewAccount: PropTypes.func,
+}
+
+export default CashForm;

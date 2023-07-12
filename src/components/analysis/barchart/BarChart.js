@@ -1,3 +1,5 @@
+import React from "react";
+import PropTypes from "prop-types";
 import { ResponsiveBar } from "@nivo/bar";
 
 import {
@@ -56,7 +58,7 @@ function renderKeys(chartFilter, isDetailed, transactions, categories, date) {
   }
 }
 
-export default function BarChart({
+function BarChart({
   transactions,
   categories,
   chartFilter,
@@ -123,3 +125,13 @@ export default function BarChart({
     </div>
   );
 }
+
+BarChart.propTypes = {
+  transactions: PropTypes.array,
+  categories: PropTypes.array,
+  chartFilter: PropTypes.string,
+  isDetailed: PropTypes.bool,
+  date: PropTypes.object,
+}
+
+export default BarChart;
