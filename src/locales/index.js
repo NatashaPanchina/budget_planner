@@ -1,8 +1,8 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
 
-import enTranslation from "./en.json";
-import ruTranslation from "./ru.json";
+import enTranslation from './en.json';
+import ruTranslation from './ru.json';
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -13,6 +13,6 @@ i18n.use(initReactI18next).init({
       translation: ruTranslation,
     },
   },
-  lng: "EN",
-  fallbackLng: "EN",
+  lng: 'EN',
+  fallbackLng: 'EN',
 });

@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
-import AccountsSlider from "./slider/AccountsSlider.js";
-import TransactionsList from "./list/TransactionsList.js";
+import AccountsSlider from './slider/AccountsSlider.js';
+import TransactionsList from './list/TransactionsList.js';
 import {
   fetchTransactionsData,
   fetchAccountsData,
   fetchCategoriesData,
   deleteTransaction,
   editAccount,
-} from "../../actions/Actions";
+} from '../../actions/Actions';
 
-import filterIcon from "../../assets/icons/shared/filter.svg";
-import { ReactComponent as CalendarIcon } from "../../assets/icons/shared/calendar.svg";
+import filterIcon from '../../assets/icons/shared/filter.svg';
+import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 
-import "./Transactions.css";
+import './Transactions.css';
 
 export default function Transactions() {
   const transactions = useSelector((state) => state.transactions);
@@ -36,13 +36,13 @@ export default function Transactions() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (accounts.status === "succeeded") {
+    if (accounts.status === 'succeeded') {
       setAccountsData(accounts.accounts);
     }
-    if (categories.status === "succeeded") {
+    if (categories.status === 'succeeded') {
       setCategoriesData(categories.categories);
     }
-    if (transactions.status === "succeeded") {
+    if (transactions.status === 'succeeded') {
       setTransactionsData(transactions.transactions);
     }
   }, [
@@ -54,9 +54,9 @@ export default function Transactions() {
     transactions.transactions,
   ]);
 
-  return accounts.status === "loading" ||
-    categories.status === "loading" ||
-    transactions.status === "loading" ? (
+  return accounts.status === 'loading' ||
+    categories.status === 'loading' ||
+    transactions.status === 'loading' ? (
     <div>Loading</div>
   ) : (
     <div className="transactions_content">
@@ -64,15 +64,15 @@ export default function Transactions() {
       <div className="transactions_main_info">
         <div className="transactions_main_header">
           <div className="filtered_title">
-            {t("TRANSACTIONS.TRANSACTIONS_HEADER")}
+            {t('TRANSACTIONS.TRANSACTIONS_HEADER')}
           </div>
           <div className="filtered_field">
             <img src={filterIcon} alt="filter" />
-            {t("TRANSACTIONS.FILTER_KEY")}
+            {t('TRANSACTIONS.FILTER_KEY')}
           </div>
           <div className="filtered_field">
             <CalendarIcon />
-            {t("TRANSACTIONS.FILTER_DATE")}
+            {t('TRANSACTIONS.FILTER_DATE')}
           </div>
         </div>
         <TransactionsList

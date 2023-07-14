@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   fetchAccountsData,
   fetchCategoriesData,
   fetchTransactionsData,
-} from "../../actions/Actions";
-import TransactionsAnalysis from "./transactions/TransactionsAnalysis";
+} from '../../actions/Actions';
+import TransactionsAnalysis from './transactions/TransactionsAnalysis';
 
 export default function Analysis() {
   const categories = useSelector((state) => state.categories);
@@ -25,10 +25,10 @@ export default function Analysis() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (categories.status === "succeeded")
+    if (categories.status === 'succeeded')
       setCategoriesData(categories.categories);
-    if (accounts.status === "succeeded") setAccountsData(accounts.accounts);
-    if (transactions.status === "succeeded")
+    if (accounts.status === 'succeeded') setAccountsData(accounts.accounts);
+    if (transactions.status === 'succeeded')
       setTransactionsData(transactions.transactions);
   }, [
     categories.status,
@@ -39,9 +39,9 @@ export default function Analysis() {
     transactions.transactions,
   ]);
 
-  return categories.status === "loading" ||
-    accounts.status === "loading" ||
-    transactions.status === "loading" ? (
+  return categories.status === 'loading' ||
+    accounts.status === 'loading' ||
+    transactions.status === 'loading' ? (
     <div>Loading</div>
   ) : (
     <TransactionsAnalysis

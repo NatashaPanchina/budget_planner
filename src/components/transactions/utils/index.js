@@ -1,10 +1,10 @@
-import React from "react";
-import { dinero } from "dinero.js";
+import React from 'react';
+import { dinero } from 'dinero.js';
 
-import { categoryIcons } from "../../../utils/constants/icons";
-import { formatDineroOutput } from "../../../utils/format/cash";
+import { categoryIcons } from '../../../utils/constants/icons';
+import { formatDineroOutput } from '../../../utils/format/cash';
 
-import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
+import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 
 export function createLocaleTransactions(NAME, count) {
   const lastNumber = Number(String(count).match(/\d$/g)[0]);
@@ -23,7 +23,7 @@ export function createLocaleTransactions(NAME, count) {
 
 export function renderSelectedCategory(categoryId, categoriesData) {
   const category = categoriesData.find(
-    (category) => category.id === categoryId
+    (category) => category.id === categoryId,
   );
   if (!category) return;
   const Icon = category ? categoryIcons[category.icon] : null;
@@ -40,7 +40,7 @@ export function renderSelectedCategory(categoryId, categoriesData) {
         <Icon height="20" width="20" x="7" y="7" />
         <defs>
           <linearGradient
-            id={"selectedCategory"}
+            id="selectedCategory"
             x1="0"
             y1="0"
             x2="34"
@@ -65,7 +65,7 @@ export function renderCategories(categories, setCategory) {
         className="categories_list_item"
         onClick={() => {
           setCategory(category.id);
-          document.querySelector(".categories_list").classList.add("none");
+          document.querySelector('.categories_list').classList.add('none');
         }}
         key={category.id}
       >
@@ -146,7 +146,7 @@ export function renderAccounts(accounts, setAccount) {
           className={`${account.description} card`}
           onClick={() => {
             setAccount(account.id);
-            document.querySelector(".accounts_list").classList.add("none");
+            document.querySelector('.accounts_list').classList.add('none');
           }}
           style={{
             background: `url(${cardBackground}) 0% 0% / cover no-repeat,
@@ -157,7 +157,7 @@ export function renderAccounts(accounts, setAccount) {
           <div className="card_name">{account.description}</div>
           <div className="card_balance_info">
             <div className="card_balance">
-              {formatDineroOutput(balance, "USD")}
+              {formatDineroOutput(balance, 'USD')}
             </div>
             <div className="card_balance_title">Current balance</div>
           </div>

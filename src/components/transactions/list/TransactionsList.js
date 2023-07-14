@@ -1,41 +1,41 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link, NavLink, useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link, NavLink, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import { add, dinero, subtract, toSnapshot } from "dinero.js";
+import { add, dinero, subtract, toSnapshot } from 'dinero.js';
 
-import { formatDineroOutput } from "../../../utils/format/cash";
-import { idbAddItem, idbDeleteItem } from "../../../indexedDB/IndexedDB";
-import { dateFormatter } from "../../../utils/format/date";
+import { formatDineroOutput } from '../../../utils/format/cash';
+import { idbAddItem, idbDeleteItem } from '../../../indexedDB/IndexedDB';
+import { dateFormatter } from '../../../utils/format/date';
 
-import { categoryIcons } from "../../../utils/constants/icons";
-import notesIcon from "../../../assets/icons/shared/notes.svg";
-import searchIcon from "../../../assets/icons/shared/search.svg";
-import { ReactComponent as PlusIcon } from "../../../assets/icons/shared/plus.svg";
-import { ReactComponent as EditIcon } from "../../../assets/icons/shared/editTransaction.svg";
-import { ReactComponent as DeleteIcon } from "../../../assets/icons/shared/deleteTransaction.svg";
+import { categoryIcons } from '../../../utils/constants/icons';
+import notesIcon from '../../../assets/icons/shared/notes.svg';
+import searchIcon from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
+import { ReactComponent as EditIcon } from '../../../assets/icons/shared/editTransaction.svg';
+import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/deleteTransaction.svg';
 
-import "./TransactionsList.css";
-import { useDispatch } from "react-redux";
-import { pages } from "../../../utils/constants/pages";
+import './TransactionsList.css';
+import { useDispatch } from 'react-redux';
+import { pages } from '../../../utils/constants/pages';
 
 function isActive({ isActive }) {
-  return isActive ? "active_transactions_title" : "";
+  return isActive ? 'active_transactions_title' : '';
 }
 
 function createNewBalance(transaction, accounts) {
   const account = accounts.find(
-    (account) => account.id === transaction.account
+    (account) => account.id === transaction.account,
   );
   switch (transaction.transactionType) {
-    case "income":
+    case 'income':
       return toSnapshot(
-        subtract(dinero(account.balance), dinero(transaction.amount))
+        subtract(dinero(account.balance), dinero(transaction.amount)),
       );
-    case "expense":
+    case 'expense':
       return toSnapshot(
-        add(dinero(account.balance), dinero(transaction.amount))
+        add(dinero(account.balance), dinero(transaction.amount)),
       );
     default:
       return account.balance;
@@ -57,38 +57,38 @@ function renderNotes(notes) {
 // all сделать по умолчанию expense
 function createFiltertype(filterType) {
   switch (filterType) {
-    case "expenses":
-      return "expense";
-    case "incomes":
-      return "income";
-    case "transfers":
-      return "transfer";
+    case 'expenses':
+      return 'expense';
+    case 'incomes':
+      return 'income';
+    case 'transfers':
+      return 'transfer';
     default:
-      return "expense";
+      return 'expense';
   }
 }
 
 function createFilterAccount(accounts, filterAccount) {
-  if (!accounts.length) return "";
-  return filterAccount === "all"
+  if (!accounts.length) return '';
+  return filterAccount === 'all'
     ? accounts[0].id
     : accounts.find((account) => account.id === filterAccount).id;
 }
 
 function filterByType(transactions, filterType) {
   const transactionType = createFiltertype(filterType);
-  return filterType === "all"
+  return filterType === 'all'
     ? transactions
     : transactions.filter(
-        (transaction) => transaction.transactionType === transactionType
+        (transaction) => transaction.transactionType === transactionType,
       );
 }
 
 function filterByAccounts(transactions, filterAccount) {
-  return filterAccount === "all"
+  return filterAccount === 'all'
     ? transactions
     : transactions.filter(
-        (transaction) => transaction.account === filterAccount
+        (transaction) => transaction.account === filterAccount,
       );
 }
 
@@ -107,7 +107,7 @@ function TransactionsList({
   const transactionAccount = createFilterAccount(accounts, filterAccount);
   const filteredTransactions = filterByType(
     filterByAccounts(transactions, filterAccount),
-    filterType
+    filterType,
   );
 
   return (
@@ -118,7 +118,7 @@ function TransactionsList({
             to={`${pages.transactions.all}/${filterAccount}`}
             className={isActive}
           >
-            {t("TRANSACTIONS.ALL")}
+            {t('TRANSACTIONS.ALL')}
           </NavLink>
         </div>
         <div className="transactions_title">
@@ -126,7 +126,7 @@ function TransactionsList({
             to={`${pages.transactions.expenses}/${filterAccount}`}
             className={isActive}
           >
-            {t("TRANSACTIONS.FILTER_EXPENSES")}
+            {t('TRANSACTIONS.FILTER_EXPENSES')}
           </NavLink>
         </div>
         <div className="transactions_title">
@@ -134,7 +134,7 @@ function TransactionsList({
             to={`${pages.transactions.incomes}/${filterAccount}`}
             className={isActive}
           >
-            {t("TRANSACTIONS.FILTER_INCOMES")}
+            {t('TRANSACTIONS.FILTER_INCOMES')}
           </NavLink>
         </div>
         <div className="transactions_title">
@@ -142,12 +142,12 @@ function TransactionsList({
             to={`${pages.transactions.transfers}/${filterAccount}`}
             className={isActive}
           >
-            {t("TRANSACTIONS.FILTER_TRANSFERS")}
+            {t('TRANSACTIONS.FILTER_TRANSFERS')}
           </NavLink>
         </div>
       </div>
       <div className="search">
-        <input type="text" placeholder={t("TRANSACTIONS.SEARCH")}></input>
+        <input type="text" placeholder={t('TRANSACTIONS.SEARCH')}></input>
         <img src={searchIcon} alt="search" />
       </div>
       <div className="new_transaction_btn">
@@ -155,22 +155,22 @@ function TransactionsList({
           to={`${pages.newTransaction[transactionType]}/${transactionAccount}`}
         >
           <PlusIcon />
-          {t("TRANSACTIONS.NEW_TRANSACTION")}
+          {t('TRANSACTIONS.NEW_TRANSACTION')}
         </Link>
       </div>
       <div className="transactions_description">
-        <span>{t("TRANSACTIONS.CATEGORY")}</span>
-        <span>{t("TRANSACTIONS.CASH")}</span>
-        <span>{t("TRANSACTIONS.AMOUNT")}</span>
-        <span>{t("TRANSACTIONS.DATE")}</span>
+        <span>{t('TRANSACTIONS.CATEGORY')}</span>
+        <span>{t('TRANSACTIONS.CASH')}</span>
+        <span>{t('TRANSACTIONS.AMOUNT')}</span>
+        <span>{t('TRANSACTIONS.DATE')}</span>
       </div>
       {filteredTransactions ? (
         filteredTransactions.map((transaction, index) => {
           const transactionCategory = categories.find(
-            (category) => category.id === transaction.category
+            (category) => category.id === transaction.category,
           );
           const transactionAccount = accounts.find(
-            (account) => account.id === transaction.account
+            (account) => account.id === transaction.account,
           );
           const Icon = categoryIcons[transactionCategory.icon];
           return (
@@ -224,13 +224,13 @@ function TransactionsList({
                     height="23"
                     rx="5"
                     fill={`url(#${transactionAccount.description.replaceAll(
-                      " ",
-                      "_"
+                      ' ',
+                      '_',
                     )})`}
                   ></rect>
                   <defs>
                     <linearGradient
-                      id={transactionAccount.description.replaceAll(" ", "_")}
+                      id={transactionAccount.description.replaceAll(' ', '_')}
                       x1="0"
                       y1="0"
                       x2="34"
@@ -250,7 +250,7 @@ function TransactionsList({
               <div
                 className={`transaction_${transaction.transactionType}_amount`}
               >
-                {formatDineroOutput(dinero(transaction.amount), "USD")}
+                {formatDineroOutput(dinero(transaction.amount), 'USD')}
               </div>
               <div className="transaction_date">
                 {dateFormatter.format(new Date(transaction.date))}
@@ -267,14 +267,14 @@ function TransactionsList({
                       editAccount(transactionAccount.id, {
                         ...transactionAccount,
                         balance: newBalance,
-                      })
+                      }),
                     );
                     idbAddItem(
                       { ...transactionAccount, balance: newBalance },
-                      "accounts"
+                      'accounts',
                     );
                     dispatch(deleteTransaction(transaction.id));
-                    idbDeleteItem(transaction.id, "transactions");
+                    idbDeleteItem(transaction.id, 'transactions');
                   }}
                 />
               </div>
@@ -282,7 +282,7 @@ function TransactionsList({
           );
         })
       ) : (
-        <div>{t("TRANSACTIONS.NO_TRANSACTIONS")}</div>
+        <div>{t('TRANSACTIONS.NO_TRANSACTIONS')}</div>
       )}
     </React.Fragment>
   );
@@ -294,6 +294,6 @@ TransactionsList.propTypes = {
   categories: PropTypes.array,
   deleteTransaction: PropTypes.func,
   editAccount: PropTypes.func,
-}
+};
 
-export default  TransactionsList;
+export default TransactionsList;

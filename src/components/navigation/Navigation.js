@@ -1,23 +1,23 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import { pages } from "../../utils/constants/pages";
+import { pages } from '../../utils/constants/pages';
 
-import { ReactComponent as LogoIcon } from "../../assets/icons/navigation/logo.svg";
-import { ReactComponent as TransactionsIcon } from "../../assets/icons/navigation/transactions.svg";
-import { ReactComponent as CashIcon } from "../../assets/icons/navigation/cash.svg";
-import { ReactComponent as NewTransactionIcon } from "../../assets/icons/navigation/newTransaction.svg";
-import { ReactComponent as CategoriesIcon } from "../../assets/icons/navigation/categories.svg";
-import { ReactComponent as AnalysisIcon } from "../../assets/icons/navigation/analysis.svg";
-import { ReactComponent as MoreIcon } from "../../assets/icons/navigation/more.svg";
+import { ReactComponent as LogoIcon } from '../../assets/icons/navigation/logo.svg';
+import { ReactComponent as TransactionsIcon } from '../../assets/icons/navigation/transactions.svg';
+import { ReactComponent as CashIcon } from '../../assets/icons/navigation/cash.svg';
+import { ReactComponent as NewTransactionIcon } from '../../assets/icons/navigation/newTransaction.svg';
+import { ReactComponent as CategoriesIcon } from '../../assets/icons/navigation/categories.svg';
+import { ReactComponent as AnalysisIcon } from '../../assets/icons/navigation/analysis.svg';
+import { ReactComponent as MoreIcon } from '../../assets/icons/navigation/more.svg';
 
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
 const NavigationContainer = styled.div((props) => ({
-  width: "17%",
-  height: "100vh",
-  position: "fixed",
+  width: '17%',
+  height: '100vh',
+  position: 'fixed',
   top: 0,
   zIndex: 10,
   borderRight: `1px solid ${props.theme.colors.border.ordinary}`,
@@ -25,8 +25,8 @@ const NavigationContainer = styled.div((props) => ({
 }));
 
 const LogoContainer = styled.div((props) => ({
-  display: "flex",
-  alignItems: "center",
+  display: 'flex',
+  alignItems: 'center',
   height: 56,
   background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
 }));
@@ -36,15 +36,15 @@ const Logo = styled.svg(() => ({
 }));
 
 const Nav = styled.nav((props) => ({
-  width: "90%",
+  width: '90%',
   marginTop: props.theme.spacing(10),
-  marginLeft: "auto",
-  marginRight: "auto",
-  fontSize: "0.9375rem",
-  "& div:nth-child(3) a:hover svg path": {
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  fontSize: '0.9375rem',
+  '& div:nth-child(3) a:hover svg path': {
     fill: props.theme.colors.white,
   },
-  "& div:nth-child(3) a.active svg path": {
+  '& div:nth-child(3) a.active svg path': {
     fill: props.theme.colors.white,
   },
 }));
@@ -58,9 +58,9 @@ const Svg = styled.svg((props) => ({
   height: 23,
   marginRight: props.theme.spacing(3),
   marginLeft: props.theme.spacing(3),
-  fill: "inherit",
-  "& path": {
-    fill: "inherit",
+  fill: 'inherit',
+  '& path': {
+    fill: 'inherit',
   },
 }));
 
@@ -68,29 +68,29 @@ const NewTransactionSvg = styled.svg((props) => ({
   width: 33,
   marginLeft: props.theme.spacing(2),
   marginRight: props.theme.spacing(2),
-  filter: "drop-shadow(0px 2px 4px rgba(109, 115, 255, 0.5))",
-  "& path": {
+  filter: 'drop-shadow(0px 2px 4px rgba(109, 115, 255, 0.5))',
+  '& path': {
     fill: props.theme.colors.white,
   },
-  "&:hover g path": {
+  '&:hover g path': {
     fill: props.theme.colors.white,
   },
 }));
 
 const Link = styled(NavLink)((props) => ({
-  display: "flex",
+  display: 'flex',
   color: props.theme.colors.text.darker,
   fill: props.theme.colors.text.darker,
   height: 45,
-  width: "inherit",
-  alignItems: "center",
-  "&:hover": {
+  width: 'inherit',
+  alignItems: 'center',
+  '&:hover': {
     color: props.theme.colors.main.violet,
     fill: props.theme.colors.main.violet,
     backgroundColor: props.theme.colors.background.navigation,
     borderRadius: props.theme.borderRadius,
   },
-  "&.active": {
+  '&.active': {
     color: props.theme.colors.main.violet,
     fill: props.theme.colors.main.violet,
     backgroundColor: props.theme.colors.background.navigation,
@@ -99,9 +99,9 @@ const Link = styled(NavLink)((props) => ({
 }));
 
 const MoreContainer = styled.div((props) => ({
-  display: "flex",
+  display: 'flex',
   color: props.theme.colors.text.darker,
-  alignItems: "center",
+  alignItems: 'center',
 }));
 
 export default function Navigation() {
@@ -117,36 +117,36 @@ export default function Navigation() {
         <LinkContainer>
           <Link to={pages.transactions.main}>
             <Svg as={TransactionsIcon} />
-            {t("NAVIGATION.TRANSACTIONS")}
+            {t('NAVIGATION.TRANSACTIONS')}
           </Link>
         </LinkContainer>
         <LinkContainer>
           <Link to={pages.cash.main}>
             <Svg as={CashIcon} />
-            {t("NAVIGATION.CASH")}
+            {t('NAVIGATION.CASH')}
           </Link>
         </LinkContainer>
         <LinkContainer>
           <Link to={pages.newTransaction.main}>
             <NewTransactionSvg as={NewTransactionIcon} />
-            {t("NAVIGATION.NEW_TRANSACTION")}
+            {t('NAVIGATION.NEW_TRANSACTION')}
           </Link>
         </LinkContainer>
         <LinkContainer>
           <Link to={pages.categories.main}>
             <Svg as={CategoriesIcon} />
-            {t("NAVIGATION.CATEGORIES")}
+            {t('NAVIGATION.CATEGORIES')}
           </Link>
         </LinkContainer>
         <LinkContainer>
           <Link to={pages.analysis.main}>
             <Svg as={AnalysisIcon} />
-            {t("NAVIGATION.ANALYSIS")}
+            {t('NAVIGATION.ANALYSIS')}
           </Link>
         </LinkContainer>
         <MoreContainer>
           <Svg as={MoreIcon} />
-          {t("NAVIGATION.MORE")}
+          {t('NAVIGATION.MORE')}
         </MoreContainer>
       </Nav>
     </NavigationContainer>

@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect } from 'react';
 
 export const useOutsideClick = (callback) => {
   const ref = useRef();
@@ -10,10 +10,10 @@ export const useOutsideClick = (callback) => {
       }
     };
 
-    document.addEventListener("click", handleClick);
+    document.addEventListener('click', handleClick);
 
     return () => {
-      document.removeEventListener("click", handleClick);
+      document.removeEventListener('click', handleClick);
     };
   }, [ref, callback]);
 
@@ -21,5 +21,5 @@ export const useOutsideClick = (callback) => {
 };
 
 export const hideElement = (element) => {
-  element.classList.add("none");
+  element.classList.add('none');
 };

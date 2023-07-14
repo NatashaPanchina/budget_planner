@@ -1,27 +1,27 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
-import { ResponsiveBar } from "@nivo/bar";
-import { linearGradientDef } from "@nivo/core";
+import { ResponsiveBar } from '@nivo/bar';
+import { linearGradientDef } from '@nivo/core';
 
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
 const BarChartContainer = styled.div(() => ({
-  width: "80%",
-  height: "40%",
-  marginLeft: "auto",
-  marginRight: "auto",
+  width: '80%',
+  height: '40%',
+  marginLeft: 'auto',
+  marginRight: 'auto',
 }));
 
 const Tooltip = styled.div((props) => ({
   padding: 12,
-  display: "flex",
-  alignItems: "center",
+  display: 'flex',
+  alignItems: 'center',
   background: props.theme.colors.background.primary,
   border: `1px solid ${props.theme.colors.border.item}`,
   borderRadius: props.theme.borderRadius,
-  fontSize: "0.875rem",
+  fontSize: '0.875rem',
 }));
 
 const TooltipSvg = styled.svg((props) => ({
@@ -47,7 +47,7 @@ function renderTooltip(id, formattedValue) {
           cx="10"
           cy="10"
           r="10"
-          fill={`url(#${id.replaceAll(" ", "_")}Gradient)`}
+          fill={`url(#${id.replaceAll(' ', '_')}Gradient)`}
         ></circle>
       </TooltipSvg>
       {id}:<TooltipValue>{formattedValue}</TooltipValue>
@@ -62,32 +62,32 @@ function renderGradients(keys) {
     linearGradientDef(
       `${keys[0]}Gradient`,
       [
-        { offset: 0, color: "#D38BFF" },
-        { offset: 100, color: "#6D73FF" },
+        { offset: 0, color: '#D38BFF' },
+        { offset: 100, color: '#6D73FF' },
       ],
       {
-        gradientTransform: "rotate(-45 0.5 0.5)",
-      }
+        gradientTransform: 'rotate(-45 0.5 0.5)',
+      },
     ),
     linearGradientDef(
       `${keys[1]}Gradient`,
       [
-        { offset: 0, color: "#F862A1" },
-        { offset: 100, color: "#F4395B" },
+        { offset: 0, color: '#F862A1' },
+        { offset: 100, color: '#F4395B' },
       ],
       {
-        gradientTransform: "rotate(-45 0.5 0.5)",
-      }
+        gradientTransform: 'rotate(-45 0.5 0.5)',
+      },
     ),
     linearGradientDef(
       `${keys[2]}Gradient`,
       [
-        { offset: 0, color: "#B3FF53" },
-        { offset: 100, color: "#6EBD0A" },
+        { offset: 0, color: '#B3FF53' },
+        { offset: 100, color: '#6EBD0A' },
       ],
       {
-        gradientTransform: "rotate(-45 0.5 0.5)",
-      }
+        gradientTransform: 'rotate(-45 0.5 0.5)',
+      },
     ),
   ];
 }
@@ -115,9 +115,9 @@ function CategoriesBar({ data }) {
   const { t } = useTranslation();
 
   const keys = [
-    t("CATEGORIES.ALL"),
-    t("CATEGORIES.EXPENSES"),
-    t("CATEGORIES.INCOMES"),
+    t('CATEGORIES.ALL'),
+    t('CATEGORIES.EXPENSES'),
+    t('CATEGORIES.INCOMES'),
   ];
 
   return (
@@ -138,8 +138,8 @@ function CategoriesBar({ data }) {
         fill={renderMatchs(keys)}
         enableLabel={false}
         enableGridY={false}
-        valueScale={{ type: "linear" }}
-        indexScale={{ type: "band", round: true }}
+        valueScale={{ type: 'linear' }}
+        indexScale={{ type: 'band', round: true }}
         axisBottom={null}
         axisLeft={null}
         tooltip={({ id, value, color }) => renderTooltip(id, value, color)}

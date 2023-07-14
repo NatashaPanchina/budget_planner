@@ -1,15 +1,15 @@
-import React from "react";
-import { ReactComponent as CheckMarkIcon } from "../../../assets/icons/shared/checkMark.svg";
-import notesIcon from "../../../assets/icons/shared/notes.svg";
-import { styled } from "styled-components";
+import React from 'react';
+import { ReactComponent as CheckMarkIcon } from '../../../assets/icons/shared/checkMark.svg';
+import notesIcon from '../../../assets/icons/shared/notes.svg';
+import { styled } from 'styled-components';
 
 const CategoriesNotes = styled.div((props) => ({
-  gridArea: "notes",
+  gridArea: 'notes',
   paddingLeft: props.theme.spacing(5),
-  fontSize: "0.875rem",
+  fontSize: '0.875rem',
   color: props.theme.colors.text.darker,
-  display: "flex",
-  alignItems: "center",
+  display: 'flex',
+  alignItems: 'center',
 }));
 
 const NotesImg = styled.img((props) => ({
@@ -18,17 +18,17 @@ const NotesImg = styled.img((props) => ({
 }));
 
 const ColorContainer = styled.div(() => ({
-  width: "100%",
+  width: '100%',
 }));
 
 const IconContainer = styled.div(() => ({
-  width: "100%",
+  width: '100%',
 }));
 
 const IconSvg = styled.svg((props) => ({
   margin: props.theme.spacing(1.5),
-  cursor: "pointer",
-  "& path": {
+  cursor: 'pointer',
+  '& path': {
     fill: props.theme.colors.text.primary,
   },
 }));
@@ -43,7 +43,7 @@ export function renderSelectedColor(selectedColor, Icon) {
       xmlns="http://www.w3.org/2000/svg"
     >
       <circle cx="17" cy="17" r="17" fill={`url(#selectedColor)`}></circle>
-      {Icon ? <Icon height="20" width="20" x="7" y="7" /> : ""}
+      {Icon ? <Icon height="20" width="20" x="7" y="7" /> : ''}
       <defs>
         <linearGradient
           id="selectedColor"
@@ -64,13 +64,13 @@ export function renderSelectedColor(selectedColor, Icon) {
 }
 
 function showCheckMark(key) {
-  const allMarks = document.querySelectorAll(".checkMarkIcon");
+  const allMarks = document.querySelectorAll('.checkMarkIcon');
   for (let mark of allMarks) {
-    if (!mark.classList.contains("none")) {
-      mark.classList.add("none");
+    if (!mark.classList.contains('none')) {
+      mark.classList.add('none');
     }
   }
-  document.querySelector(`.${key}`).classList.toggle("none");
+  document.querySelector(`.${key}`).classList.toggle('none');
 }
 
 export function renderColors(colors, setSelectedColor, initialColor) {
@@ -102,7 +102,7 @@ export function renderColors(colors, setSelectedColor, initialColor) {
             ></circle>
             <CheckMarkIcon
               className={`${color + shade} checkMarkIcon ${
-                isInitialColor(colors[color][shade]) ? "" : "none"
+                isInitialColor(colors[color][shade]) ? '' : 'none'
               }`}
             />
             <defs>
@@ -119,7 +119,7 @@ export function renderColors(colors, setSelectedColor, initialColor) {
               </linearGradient>
             </defs>
           </svg>
-        </ColorContainer>
+        </ColorContainer>,
       );
     }
   }
@@ -137,22 +137,22 @@ export function renderIcons(icons, setIcon) {
 }
 
 export function toggleElement(ref) {
-  ref.current.classList.toggle("none");
+  ref.current.classList.toggle('none');
 }
 
 export function createFilterType(filterType) {
   switch (filterType) {
-    case "expenses":
-      return "expense";
-    case "incomes":
-      return "income";
+    case 'expenses':
+      return 'expense';
+    case 'incomes':
+      return 'income';
     default:
-      return "all";
+      return 'all';
   }
 }
 
 export function filterCategories(filterType, categories) {
-  return filterType === "all"
+  return filterType === 'all'
     ? categories
     : categories.filter((category) => category.type === filterType);
 }

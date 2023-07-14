@@ -25,8 +25,8 @@ import {
   IDB_FETCH_TRANSACTIONS_INIT,
   IDB_FETCH_TRANSACTIONS_SUCCESS,
   CHANGE_MODE,
-} from "./ActionTypes";
-import { idbOpen } from "../indexedDB/IndexedDB";
+} from './ActionTypes';
+import { idbOpen } from '../indexedDB/IndexedDB';
 
 export const changeLanguage = (language) => {
   return {
@@ -134,7 +134,7 @@ export const deleteAccount = (id) => {
 };
 
 export const fetchProfileData = () => {
-  return fetchData("profile", {
+  return fetchData('profile', {
     init: IDB_FETCH_PROFILE_INIT,
     success: IDB_FETCH_PROFILE_SUCCESS,
     failure: IDB_FETCH_PROFILE_FAILURE,
@@ -142,7 +142,7 @@ export const fetchProfileData = () => {
 };
 
 export const fetchAccountsData = () => {
-  return fetchData("accounts", {
+  return fetchData('accounts', {
     init: IDB_FETCH_ACCOUNTS_INIT,
     success: IDB_FETCH_ACCOUNTS_SUCCESS,
     failure: IDB_FETCH_ACCOUNTS_FAILURE,
@@ -150,7 +150,7 @@ export const fetchAccountsData = () => {
 };
 
 export const fetchCategoriesData = () => {
-  return fetchData("categories", {
+  return fetchData('categories', {
     init: IDB_FETCH_CATEGORIES_INIT,
     success: IDB_FETCH_CATEGORIES_SUCCESS,
     failure: IDB_FETCH_CATEGORIES_FAILURE,
@@ -158,7 +158,7 @@ export const fetchCategoriesData = () => {
 };
 
 export const fetchTransactionsData = () => {
-  return fetchData("transactions", {
+  return fetchData('transactions', {
     init: IDB_FETCH_TRANSACTIONS_INIT,
     success: IDB_FETCH_TRANSACTIONS_SUCCESS,
     failure: IDB_FETCH_CATEGORIES_FAILURE,
@@ -173,7 +173,7 @@ export function fetchData(nameObjectStore, { init, success, failure }) {
     idbOpen().then(
       (idb) => {
         const objectStore = idb
-          .transaction(nameObjectStore, "readonly")
+          .transaction(nameObjectStore, 'readonly')
           .objectStore(nameObjectStore);
         const resultData = [];
         objectStore.openCursor().onsuccess = (event) => {
@@ -191,7 +191,7 @@ export function fetchData(nameObjectStore, { init, success, failure }) {
           }
         };
       },
-      (error) => dispatch({ type: failure, payload: error })
+      (error) => dispatch({ type: failure, payload: error }),
     );
   };
 }

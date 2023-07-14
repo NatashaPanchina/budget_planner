@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import "./Legends.css";
-import { createDataLegends } from "../utils/legends";
+import './Legends.css';
+import { createDataLegends } from '../utils/legends';
 
 function Legends({ data, chartType, keys, chartFilter }) {
   let legendsData = createDataLegends(data, chartType, keys, chartFilter);
@@ -48,9 +48,9 @@ function Legends({ data, chartType, keys, chartFilter }) {
 }
 
 Legends.propTypes = {
-  data: PropTypes.array, 
-  chartType: PropTypes.string, 
-  keys: PropTypes.array, 
+  data: PropTypes.array,
+  chartType: PropTypes.string,
+  keys: PropTypes.array,
   chartFilter: PropTypes.string,
 };
 

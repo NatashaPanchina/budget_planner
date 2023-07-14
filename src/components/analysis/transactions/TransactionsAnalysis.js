@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { subtract, dinero, lessThan } from "dinero.js";
-import { USD } from "@dinero.js/currencies";
-import { useTranslation } from "react-i18next";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { subtract, dinero, lessThan } from 'dinero.js';
+import { USD } from '@dinero.js/currencies';
+import { useTranslation } from 'react-i18next';
 
-import { formatDineroOutput } from "../../../utils/format/cash";
+import { formatDineroOutput } from '../../../utils/format/cash';
 import {
   renderAccounts,
   filterTransactions,
@@ -13,23 +13,23 @@ import {
   filterArchivedAccounts,
   createAverageAmount,
   createLocaleTransactions,
-} from "../utils/shared";
-import { dateFormatter } from "../../../utils/format/date";
-import LineChart from "../linechart/LineChart";
-import BarChart from "../barchart/BarChart";
-import PieChart from "../piechart/PieChart";
-import Table from "../table/Table";
+} from '../utils/shared';
+import { dateFormatter } from '../../../utils/format/date';
+import LineChart from '../linechart/LineChart';
+import BarChart from '../barchart/BarChart';
+import PieChart from '../piechart/PieChart';
+import Table from '../table/Table';
 
-import { ReactComponent as FilterIcon } from "../../../assets/icons/shared/filter.svg";
-import { ReactComponent as ExpenseIcon } from "../../../assets/icons/shared/expense.svg";
-import { ReactComponent as IncomeIcon } from "../../../assets/icons/shared/income.svg";
-import { ReactComponent as PositiveBalanceIcon } from "../../../assets/icons/shared/positiveBalance.svg";
-import { ReactComponent as NegativeBalanceIcon } from "../../../assets/icons/shared/negativeBalance.svg";
-import lineChartIcon from "../../../assets/icons/shared/lineChart.svg";
-import barChartIcon from "../../../assets/icons/shared/barChart.svg";
-import pieChartIcon from "../../../assets/icons/shared/pieChart.svg";
-import tableIcon from "../../../assets/icons/shared/table.svg";
-import { ReactComponent as CalendarIcon } from "../../../assets/icons/shared/calendar.svg";
+import { ReactComponent as FilterIcon } from '../../../assets/icons/shared/filter.svg';
+import { ReactComponent as ExpenseIcon } from '../../../assets/icons/shared/expense.svg';
+import { ReactComponent as IncomeIcon } from '../../../assets/icons/shared/income.svg';
+import { ReactComponent as PositiveBalanceIcon } from '../../../assets/icons/shared/positiveBalance.svg';
+import { ReactComponent as NegativeBalanceIcon } from '../../../assets/icons/shared/negativeBalance.svg';
+import lineChartIcon from '../../../assets/icons/shared/lineChart.svg';
+import barChartIcon from '../../../assets/icons/shared/barChart.svg';
+import pieChartIcon from '../../../assets/icons/shared/pieChart.svg';
+import tableIcon from '../../../assets/icons/shared/table.svg';
+import { ReactComponent as CalendarIcon } from '../../../assets/icons/shared/calendar.svg';
 
 import {
   AnalysisContainer,
@@ -49,37 +49,33 @@ import {
   HeaderTitle,
   ToggleButtonsContainer,
   ToggleChartButton,
-} from "./TransactionsAnalysis.styled.js";
-import "../Analysis.css";
+} from './TransactionsAnalysis.styled.js';
+import '../Analysis.css';
 
-function TransactionsAnalysis({
-  transactions,
-  categories,
-  accounts,
-}) {
+function TransactionsAnalysis({ transactions, categories, accounts }) {
   const { t } = useTranslation();
 
   const [date] = useState({
-    from: new Date("6/1/2023"),
-    to: new Date("6/30/2023"),
-    during: "month",
+    from: new Date('6/1/2023'),
+    to: new Date('6/30/2023'),
+    during: 'month',
   });
-  const [accountFilter, setAccountFilter] = useState("All cash");
-  const [lineChartFilter, setLineChartFilter] = useState("expensesToIncomes");
+  const [accountFilter, setAccountFilter] = useState('All cash');
+  const [lineChartFilter, setLineChartFilter] = useState('expensesToIncomes');
   const [isLineChartDetailed, setIsLineChartDetailed] = useState(false);
-  const [barChartFilter, setBarChartFilter] = useState("expensesToIncomes");
+  const [barChartFilter, setBarChartFilter] = useState('expensesToIncomes');
   const [isBarChartDetailed, setIsBarChartDetailed] = useState(false);
-  const [pieChartFilter, setPieChartFilter] = useState("expenses");
-  const [tableFilter, setTableFilter] = useState("expenses");
+  const [pieChartFilter, setPieChartFilter] = useState('expenses');
+  const [tableFilter, setTableFilter] = useState('expenses');
   const notArchivedAccounts = filterArchivedAccounts(accounts);
   const filteredTransactions = filterTransactions(
     transactions,
     notArchivedAccounts,
     date,
-    accountFilter
+    accountFilter,
   );
-  const expenses = filterByType(filteredTransactions, "expense");
-  const incomes = filterByType(filteredTransactions, "income");
+  const expenses = filterByType(filteredTransactions, 'expense');
+  const incomes = filterByType(filteredTransactions, 'income');
   const expensesSum = createSum(expenses);
   const incomesSum = createSum(incomes);
   const saldo = subtract(incomesSum, expensesSum);
@@ -89,22 +85,22 @@ function TransactionsAnalysis({
   return (
     <React.Fragment>
       <AnalysisHeader>
-        <HeaderTitle>{t("ANALYSIS.TRANSACTIONS_ANALYSIS")}</HeaderTitle>
+        <HeaderTitle>{t('ANALYSIS.TRANSACTIONS_ANALYSIS')}</HeaderTitle>
         <Filter
           onClick={() =>
-            document.querySelector(".accounts_filter").classList.toggle("none")
+            document.querySelector('.accounts_filter').classList.toggle('none')
           }
         >
           <FilterSvg as={FilterIcon} />
-          {accountFilter === "All cash"
-            ? t("ANALYSIS.ALL_CASH")
+          {accountFilter === 'All cash'
+            ? t('ANALYSIS.ALL_CASH')
             : accountFilter}
           {renderAccounts(t, notArchivedAccounts, setAccountFilter)}
         </Filter>
         <Filter>
           <FilterSvg as={CalendarIcon} />
           {`${dateFormatter.format(date.from)} - ${dateFormatter.format(
-            date.to
+            date.to,
           )}`}
         </Filter>
       </AnalysisHeader>
@@ -115,14 +111,14 @@ function TransactionsAnalysis({
               <CommonInfoSvg as={ExpenseIcon} />
               <div>
                 <CommonInfoTitle>
-                  {t("ANALYSIS.TOTAL_EXPENSES")}:
+                  {t('ANALYSIS.TOTAL_EXPENSES')}:
                 </CommonInfoTitle>
                 <CommonInfoAmount $amountType="expense">
-                  {formatDineroOutput(expensesSum, "USD")}
+                  {formatDineroOutput(expensesSum, 'USD')}
                 </CommonInfoAmount>
                 <CommonInfoCount>
-                  {expenses.length}{" "}
-                  {t(createLocaleTransactions("ANALYSIS", expenses.length))}
+                  {expenses.length}{' '}
+                  {t(createLocaleTransactions('ANALYSIS', expenses.length))}
                 </CommonInfoCount>
               </div>
             </CommonInfoItem>
@@ -130,14 +126,14 @@ function TransactionsAnalysis({
               <CommonInfoSvg as={IncomeIcon} />
               <div>
                 <CommonInfoTitle>
-                  {t("ANALYSIS.TOTAL_INCOMES")}:
+                  {t('ANALYSIS.TOTAL_INCOMES')}:
                 </CommonInfoTitle>
                 <CommonInfoAmount $amountType="income">
-                  {formatDineroOutput(incomesSum, "USD")}
+                  {formatDineroOutput(incomesSum, 'USD')}
                 </CommonInfoAmount>
                 <CommonInfoCount>
-                  {incomes.length}{" "}
-                  {t(createLocaleTransactions("ANALYSIS", incomes.length))}
+                  {incomes.length}{' '}
+                  {t(createLocaleTransactions('ANALYSIS', incomes.length))}
                 </CommonInfoCount>
               </div>
             </CommonInfoItem>
@@ -148,15 +144,15 @@ function TransactionsAnalysis({
                 <CommonInfoSvg as={PositiveBalanceIcon} />
               )}
               <div>
-                <CommonInfoTitle>{t("ANALYSIS.SALDO")}:</CommonInfoTitle>
+                <CommonInfoTitle>{t('ANALYSIS.SALDO')}:</CommonInfoTitle>
                 <CommonInfoAmount $amountType="saldo">
-                  {formatDineroOutput(saldo, "USD")}
+                  {formatDineroOutput(saldo, 'USD')}
                 </CommonInfoAmount>
               </div>
             </CommonInfoItem>
             <CommonCalcItem>
               <CommonInfoTitle>
-                {t("ANALYSIS.TOTAL_TRANSACTIONS")}:
+                {t('ANALYSIS.TOTAL_TRANSACTIONS')}:
               </CommonInfoTitle>
               <CommonInfoAmount $amountType="all">
                 {filteredTransactions.length}
@@ -164,7 +160,7 @@ function TransactionsAnalysis({
             </CommonCalcItem>
             <CommonCalcItem>
               <CommonInfoTitle>
-                {t("ANALYSIS.AVERAGE_WEEKLY_EXPENSE")}:
+                {t('ANALYSIS.AVERAGE_WEEKLY_EXPENSE')}:
               </CommonInfoTitle>
               <CommonInfoAmount $amountType="expense">
                 {averageExpense}
@@ -172,7 +168,7 @@ function TransactionsAnalysis({
             </CommonCalcItem>
             <CommonCalcItem>
               <CommonInfoTitle>
-                {t("ANALYSIS.AVERAGE_WEEKLY_INCOME")}:
+                {t('ANALYSIS.AVERAGE_WEEKLY_INCOME')}:
               </CommonInfoTitle>
               <CommonInfoAmount $amountType="income">
                 {averageIncome}
@@ -184,47 +180,47 @@ function TransactionsAnalysis({
             <ChartButtonsContainer>
               <ChartButton
                 className={
-                  lineChartFilter === "expensesToIncomes" ? "active_filter" : ""
+                  lineChartFilter === 'expensesToIncomes' ? 'active_filter' : ''
                 }
-                onClick={() => setLineChartFilter("expensesToIncomes")}
+                onClick={() => setLineChartFilter('expensesToIncomes')}
               >
-                {t("ANALYSIS.EXPENSES_TO_INCOMES")}
+                {t('ANALYSIS.EXPENSES_TO_INCOMES')}
               </ChartButton>
               <ChartButton
                 className={
-                  lineChartFilter === "expenses" ? "active_filter" : ""
+                  lineChartFilter === 'expenses' ? 'active_filter' : ''
                 }
-                onClick={() => setLineChartFilter("expenses")}
+                onClick={() => setLineChartFilter('expenses')}
               >
-                {t("ANALYSIS.EXPENSES")}
+                {t('ANALYSIS.EXPENSES')}
               </ChartButton>
               <ChartButton
-                className={lineChartFilter === "incomes" ? "active_filter" : ""}
-                onClick={() => setLineChartFilter("incomes")}
+                className={lineChartFilter === 'incomes' ? 'active_filter' : ''}
+                onClick={() => setLineChartFilter('incomes')}
               >
-                {t("ANALYSIS.INCOMES")}
+                {t('ANALYSIS.INCOMES')}
               </ChartButton>
               <ChartButton
                 className={
-                  lineChartFilter === "transfers" ? "active_filter" : ""
+                  lineChartFilter === 'transfers' ? 'active_filter' : ''
                 }
-                onClick={() => setLineChartFilter("transfers")}
+                onClick={() => setLineChartFilter('transfers')}
               >
-                {t("ANALYSIS.TRANSFERS")}
+                {t('ANALYSIS.TRANSFERS')}
               </ChartButton>
             </ChartButtonsContainer>
             <ToggleButtonsContainer>
               <ToggleChartButton
-                className={isLineChartDetailed ? "" : "active_more_btn"}
+                className={isLineChartDetailed ? '' : 'active_more_btn'}
                 onClick={() => setIsLineChartDetailed(false)}
               >
-                {t("ANALYSIS.TOTAL")}
+                {t('ANALYSIS.TOTAL')}
               </ToggleChartButton>
               <ToggleChartButton
-                className={isLineChartDetailed ? "active_more_btn" : ""}
+                className={isLineChartDetailed ? 'active_more_btn' : ''}
                 onClick={() => setIsLineChartDetailed(true)}
               >
-                {t("ANALYSIS.BY_CATEGORIES")}
+                {t('ANALYSIS.BY_CATEGORIES')}
               </ToggleChartButton>
             </ToggleButtonsContainer>
             <LineChart
@@ -240,45 +236,45 @@ function TransactionsAnalysis({
             <ChartButtonsContainer>
               <ChartButton
                 className={
-                  barChartFilter === "expensesToIncomes" ? "active_filter" : ""
+                  barChartFilter === 'expensesToIncomes' ? 'active_filter' : ''
                 }
-                onClick={() => setBarChartFilter("expensesToIncomes")}
+                onClick={() => setBarChartFilter('expensesToIncomes')}
               >
-                {t("ANALYSIS.EXPENSES_TO_INCOMES")}
+                {t('ANALYSIS.EXPENSES_TO_INCOMES')}
               </ChartButton>
               <ChartButton
-                className={barChartFilter === "expenses" ? "active_filter" : ""}
-                onClick={() => setBarChartFilter("expenses")}
+                className={barChartFilter === 'expenses' ? 'active_filter' : ''}
+                onClick={() => setBarChartFilter('expenses')}
               >
-                {t("ANALYSIS.EXPENSES")}
+                {t('ANALYSIS.EXPENSES')}
               </ChartButton>
               <ChartButton
-                className={barChartFilter === "incomes" ? "active_filter" : ""}
-                onClick={() => setBarChartFilter("incomes")}
+                className={barChartFilter === 'incomes' ? 'active_filter' : ''}
+                onClick={() => setBarChartFilter('incomes')}
               >
-                {t("ANALYSIS.INCOMES")}
+                {t('ANALYSIS.INCOMES')}
               </ChartButton>
               <ChartButton
                 className={
-                  barChartFilter === "transfers" ? "active_filter" : ""
+                  barChartFilter === 'transfers' ? 'active_filter' : ''
                 }
-                onClick={() => setBarChartFilter("transfers")}
+                onClick={() => setBarChartFilter('transfers')}
               >
-                {t("ANALYSIS.TRANSFERS")}
+                {t('ANALYSIS.TRANSFERS')}
               </ChartButton>
             </ChartButtonsContainer>
             <ToggleButtonsContainer>
               <ToggleChartButton
-                className={isBarChartDetailed ? "" : "active_more_btn"}
+                className={isBarChartDetailed ? '' : 'active_more_btn'}
                 onClick={() => setIsBarChartDetailed(false)}
               >
-                {t("ANALYSIS.TOTAL")}
+                {t('ANALYSIS.TOTAL')}
               </ToggleChartButton>
               <ToggleChartButton
-                className={isBarChartDetailed ? "active_more_btn" : ""}
+                className={isBarChartDetailed ? 'active_more_btn' : ''}
                 onClick={() => setIsBarChartDetailed(true)}
               >
-                {t("ANALYSIS.BY_CATEGORIES")}
+                {t('ANALYSIS.BY_CATEGORIES')}
               </ToggleChartButton>
             </ToggleButtonsContainer>
             <BarChart
@@ -293,24 +289,24 @@ function TransactionsAnalysis({
             <img src={pieChartIcon} className="chart_icon" alt="piechart" />
             <ChartButtonsContainer>
               <ChartButton
-                className={pieChartFilter === "expenses" ? "active_filter" : ""}
-                onClick={() => setPieChartFilter("expenses")}
+                className={pieChartFilter === 'expenses' ? 'active_filter' : ''}
+                onClick={() => setPieChartFilter('expenses')}
               >
-                {t("ANALYSIS.EXPENSES")}
+                {t('ANALYSIS.EXPENSES')}
               </ChartButton>
               <ChartButton
-                className={pieChartFilter === "incomes" ? "active_filter" : ""}
-                onClick={() => setPieChartFilter("incomes")}
+                className={pieChartFilter === 'incomes' ? 'active_filter' : ''}
+                onClick={() => setPieChartFilter('incomes')}
               >
-                {t("ANALYSIS.INCOMES")}
+                {t('ANALYSIS.INCOMES')}
               </ChartButton>
               <ChartButton
                 className={
-                  pieChartFilter === "transfers" ? "active_filter" : ""
+                  pieChartFilter === 'transfers' ? 'active_filter' : ''
                 }
-                onClick={() => setPieChartFilter("transfers")}
+                onClick={() => setPieChartFilter('transfers')}
               >
-                {t("ANALYSIS.TRANSFERS")}
+                {t('ANALYSIS.TRANSFERS')}
               </ChartButton>
             </ChartButtonsContainer>
             <PieChart
@@ -324,22 +320,22 @@ function TransactionsAnalysis({
             <img src={tableIcon} className="chart_icon" alt="table" />
             <ChartButtonsContainer>
               <ChartButton
-                className={tableFilter === "expenses" ? "active_filter" : ""}
-                onClick={() => setTableFilter("expenses")}
+                className={tableFilter === 'expenses' ? 'active_filter' : ''}
+                onClick={() => setTableFilter('expenses')}
               >
-                {t("ANALYSIS.EXPENSES")}
+                {t('ANALYSIS.EXPENSES')}
               </ChartButton>
               <ChartButton
-                className={tableFilter === "incomes" ? "active_filter" : ""}
-                onClick={() => setTableFilter("incomes")}
+                className={tableFilter === 'incomes' ? 'active_filter' : ''}
+                onClick={() => setTableFilter('incomes')}
               >
-                {t("ANALYSIS.INCOMES")}
+                {t('ANALYSIS.INCOMES')}
               </ChartButton>
               <ChartButton
-                className={tableFilter === "transfers" ? "active_filter" : ""}
-                onClick={() => setTableFilter("transfers")}
+                className={tableFilter === 'transfers' ? 'active_filter' : ''}
+                onClick={() => setTableFilter('transfers')}
               >
-                {t("ANALYSIS.TRANSFERS")}
+                {t('ANALYSIS.TRANSFERS')}
               </ChartButton>
             </ChartButtonsContainer>
             <Table

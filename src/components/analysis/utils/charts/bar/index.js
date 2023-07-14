@@ -1,7 +1,7 @@
-import { dinero, add, toDecimal } from "dinero.js";
-import { USD } from "@dinero.js/currencies";
+import { dinero, add, toDecimal } from 'dinero.js';
+import { USD } from '@dinero.js/currencies';
 
-import { createPeriod } from "../../period";
+import { createPeriod } from '../../period';
 
 export function createBarData({
   transactions,
@@ -11,32 +11,32 @@ export function createBarData({
   date,
 }) {
   let period = createPeriod(date);
-  let dateFormatter = new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
+  let dateFormatter = new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
   });
   switch (chartFilter) {
-    case "expensesToIncomes":
+    case 'expensesToIncomes':
       return createExpensesToIncomesData(transactions, period, dateFormatter);
-    case "expenses":
+    case 'expenses':
       return createData(
         isDetailed,
         categories,
         transactions,
         period,
         dateFormatter,
-        "expense"
+        'expense',
       );
-    case "incomes":
+    case 'incomes':
       return createData(
         isDetailed,
         categories,
         transactions,
         period,
         dateFormatter,
-        "income"
+        'income',
       );
-    case "transfers":
+    case 'transfers':
       return [];
     default:
       return [];
@@ -49,7 +49,7 @@ function createData(
   transactions,
   period,
   dateFormatter,
-  transactionFilter
+  transactionFilter,
 ) {
   if (isDetailed)
     return createDetailedData(
@@ -57,13 +57,13 @@ function createData(
       transactions,
       period,
       dateFormatter,
-      transactionFilter
+      transactionFilter,
     );
   return createSimpleData(
     transactions,
     period,
     dateFormatter,
-    transactionFilter
+    transactionFilter,
   );
 }
 
@@ -71,12 +71,12 @@ function createSimpleData(
   transactions,
   period,
   dateFormatter,
-  transactionFilter
+  transactionFilter,
 ) {
   let color =
-    transactionFilter === "expense"
-      ? ["#FF599F", "#F4395B"]
-      : ["#B3FF53", "#6EBD0A"];
+    transactionFilter === 'expense'
+      ? ['#FF599F', '#F4395B']
+      : ['#B3FF53', '#6EBD0A'];
   return period.map((date) => {
     return {
       [`${transactionFilter}sColor`]: color,
@@ -93,8 +93,8 @@ function createSimpleData(
           })
           .reduce(
             (sum, transaction) => add(sum, dinero(transaction.amount)),
-            dinero({ amount: 0, currency: USD })
-          )
+            dinero({ amount: 0, currency: USD }),
+          ),
       ),
     };
   });
@@ -105,10 +105,10 @@ function createDetailedData(
   transactions,
   period,
   dateFormatter,
-  transactionFilter
+  transactionFilter,
 ) {
   let filterCategories = categories.filter(
-    (category) => category.type === transactionFilter
+    (category) => category.type === transactionFilter,
   );
   let resultData = [];
   resultData = period.map((date) => {
@@ -118,7 +118,7 @@ function createDetailedData(
       },
       ...filterCategories.map((category) => {
         let filteredTransactions = transactions.filter(
-          (transaction) => transaction.category === category.id
+          (transaction) => transaction.category === category.id,
         );
         if (filteredTransactions.length) {
           return {
@@ -135,12 +135,12 @@ function createDetailedData(
                 })
                 .reduce(
                   (sum, transaction) => add(sum, dinero(transaction.amount)),
-                  dinero({ amount: 0, currency: USD })
-                )
+                  dinero({ amount: 0, currency: USD }),
+                ),
             ),
           };
         }
-      })
+      }),
     );
   });
   return resultData;
@@ -149,37 +149,37 @@ function createDetailedData(
 function createExpensesToIncomesData(transactions, period, dateFormatter) {
   return period.map((date) => {
     return {
-      incomesColor: ["#B3FF53", "#6EBD0A"],
+      incomesColor: ['#B3FF53', '#6EBD0A'],
       incomes: toDecimal(
         transactions
           .filter((transaction) => {
             const transactionDate = new Date(transaction.date);
             return (
-              transaction.transactionType === "income" &&
+              transaction.transactionType === 'income' &&
               transactionDate >= date.from &&
               transactionDate <= date.to
             );
           })
           .reduce(
             (sum, transaction) => add(sum, dinero(transaction.amount)),
-            dinero({ amount: 0, currency: USD })
-          )
+            dinero({ amount: 0, currency: USD }),
+          ),
       ),
-      expensesColor: ["#FF599F", "#F4395B"],
+      expensesColor: ['#FF599F', '#F4395B'],
       expenses: toDecimal(
         transactions
           .filter((transaction) => {
             const transactionDate = new Date(transaction.date);
             return (
-              transaction.transactionType === "expense" &&
+              transaction.transactionType === 'expense' &&
               transactionDate >= date.from &&
               transactionDate <= date.to
             );
           })
           .reduce(
             (sum, transaction) => add(sum, dinero(transaction.amount)),
-            dinero({ amount: 0, currency: USD })
-          )
+            dinero({ amount: 0, currency: USD }),
+          ),
       ),
       date: dateFormatter.format(date.to),
     };

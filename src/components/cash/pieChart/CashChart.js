@@ -1,23 +1,23 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { dinero, toDecimal, add } from "dinero.js";
-import { USD } from "@dinero.js/currencies";
-import { ResponsivePie } from "@nivo/pie";
-import { linearGradientDef } from "@nivo/core";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { dinero, toDecimal, add } from 'dinero.js';
+import { USD } from '@dinero.js/currencies';
+import { ResponsivePie } from '@nivo/pie';
+import { linearGradientDef } from '@nivo/core';
 
-import CashChartLegends from "./CashChartLegends.js";
+import CashChartLegends from './CashChartLegends.js';
 import {
   formatDineroOutput,
   formatNumberOutput,
-} from "../../../utils/format/cash";
-import { styled } from "styled-components";
+} from '../../../utils/format/cash';
+import { styled } from 'styled-components';
 
 const PieChartContainer = styled.div((props) => ({
-  width: "80%",
-  height: "50%",
+  width: '80%',
+  height: '50%',
   marginTop: props.theme.spacing(2),
-  marginLeft: "auto",
-  marginRight: "auto",
+  marginLeft: 'auto',
+  marginRight: 'auto',
 }));
 
 const CenterText = styled.text((props) => ({
@@ -26,13 +26,13 @@ const CenterText = styled.text((props) => ({
 
 const Tooltip = styled.div((props) => ({
   padding: props.theme.spacing(3),
-  display: "flex",
-  alignItems: "center",
+  display: 'flex',
+  alignItems: 'center',
   zIndex: 10,
   background: props.theme.colors.background.primary,
   border: `1px solid ${props.theme.colors.border.item}`,
   borderRadius: props.theme.borderRadius,
-  fontSize: "0.875rem",
+  fontSize: '0.875rem',
 }));
 
 const TooltipSvg = styled.svg((props) => ({
@@ -45,15 +45,15 @@ const TooltipValue = styled.span((props) => ({
 }));
 
 const LegendsContainer = styled.div((props) => ({
-  height: "70%",
-  overflowY: "auto",
-  fontSize: "0.875rem",
+  height: '70%',
+  overflowY: 'auto',
+  fontSize: '0.875rem',
   marginTop: props.theme.spacing(5),
-  "&::-webkit-scrollbar": {
+  '&::-webkit-scrollbar': {
     width: 5,
   },
-  "&::-webkit-scrollbar-thumb": {
-    background: "rgba(196, 196, 196, 0.3)",
+  '&::-webkit-scrollbar-thumb': {
+    background: 'rgba(196, 196, 196, 0.3)',
     borderRadius: props.theme.borderRadius,
   },
 }));
@@ -72,7 +72,7 @@ export function renderTooltip(id, formattedValue) {
           cx="10"
           cy="10"
           r="10"
-          fill={`url(#${id.replaceAll(" ", "_")})`}
+          fill={`url(#${id.replaceAll(' ', '_')})`}
         ></circle>
       </TooltipSvg>
       {id}:<TooltipValue>{formattedValue}</TooltipValue>
@@ -84,14 +84,14 @@ export function renderTooltip(id, formattedValue) {
 function renderGradientDefs(accounts) {
   return accounts.map((account) => {
     return linearGradientDef(
-      account.description.replaceAll(" ", ""),
+      account.description.replaceAll(' ', ''),
       [
         { offset: 0, color: account.color[0] },
         { offset: 100, color: account.color[1] },
       ],
       {
-        gradientTransform: "rotate(-45 0.5 0.5)",
-      }
+        gradientTransform: 'rotate(-45 0.5 0.5)',
+      },
     );
   });
 }
@@ -100,12 +100,12 @@ function renderMatchs(accounts) {
   return accounts.map((account) => {
     return {
       match: { id: account.description },
-      id: account.description.replaceAll(" ", ""),
+      id: account.description.replaceAll(' ', ''),
     };
   });
 }
 
-const CenteredBalance = function(totalBalance) {
+const CenteredBalance = function (totalBalance) {
   return function centeredMetric({ centerX, centerY }) {
     return (
       <React.Fragment>
@@ -115,11 +115,12 @@ const CenteredBalance = function(totalBalance) {
           textAnchor="middle"
           alignmentBaseline="middle"
         >
-          {formatDineroOutput(totalBalance, "USD")}
+          {formatDineroOutput(totalBalance, 'USD')}
         </CenterText>
       </React.Fragment>
     );
-}};
+  };
+};
 
 function CashChart({ data }) {
   const accounts = data.map((account) => {
@@ -131,16 +132,16 @@ function CashChart({ data }) {
 
   let totalBalance = data.reduce(
     (sum, account) => add(sum, dinero(account.balance)),
-    dinero({ amount: 0, currency: USD })
+    dinero({ amount: 0, currency: USD }),
   );
 
   return (
     <PieChartContainer>
       <ResponsivePie
         data={accounts}
-        colors={{ datum: "data.color[0]" }}
+        colors={{ datum: 'data.color[0]' }}
         value="balance"
-        valueFormat={(value) => formatNumberOutput(value, "USD")}
+        valueFormat={(value) => formatNumberOutput(value, 'USD')}
         id="description"
         margin={{
           top: 10,
@@ -161,10 +162,10 @@ function CashChart({ data }) {
           renderTooltip(id, formattedValue, color)
         }
         layers={[
-          "arcs",
-          "arcLabels",
-          "arcLinkLabels",
-          "legends",
+          'arcs',
+          'arcLabels',
+          'arcLinkLabels',
+          'legends',
           CenteredBalance(totalBalance),
         ]}
       />

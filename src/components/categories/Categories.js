@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import { fetchCategoriesData, archiveCategory } from "../../actions/Actions.js";
-import { createLocaleCategories } from "./utils/index.js";
-import CategoriesBar from "./barChart/CategoriesBar.js";
-import CategoriesList from "./list/CategoriesList.js";
+import { fetchCategoriesData, archiveCategory } from '../../actions/Actions.js';
+import { createLocaleCategories } from './utils/index.js';
+import CategoriesBar from './barChart/CategoriesBar.js';
+import CategoriesList from './list/CategoriesList.js';
 
-import expenseIcon from "../../assets/icons/shared/expense.svg";
-import incomeIcon from "../../assets/icons/shared/income.svg";
-import { ReactComponent as FilterIcon } from "../../assets/icons/shared/filter.svg";
-import { ReactComponent as TrashIcon } from "../../assets/icons/shared/trash.svg";
-import { ReactComponent as CalendarIcon } from "../../assets/icons/shared/calendar.svg";
+import expenseIcon from '../../assets/icons/shared/expense.svg';
+import incomeIcon from '../../assets/icons/shared/income.svg';
+import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.svg';
+import { ReactComponent as TrashIcon } from '../../assets/icons/shared/trash.svg';
+import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 
 import {
   CategoroiesContainer,
@@ -28,30 +28,30 @@ import {
   HeaderTitle,
   CategoriesTitleContainer,
   CategoriesTitleLink,
-} from "./Categories.styled.js";
+} from './Categories.styled.js';
 import {
   ArchivedTrash,
   FilterSvg,
   Trash,
   TrashCount,
   Filter,
-} from "../../theme/global.js";
-import { pages } from "../../utils/constants/pages.js";
+} from '../../theme/global.js';
+import { pages } from '../../utils/constants/pages.js';
 
 function createBarData(keys, allCount, expenseCount, incomeCount) {
   if (!keys) return [];
 
   return [
-    { [keys[0]]: allCount, type: keys[0], [`${keys[0]}Color`]: "#419FFF" },
+    { [keys[0]]: allCount, type: keys[0], [`${keys[0]}Color`]: '#419FFF' },
     {
       [keys[1]]: expenseCount,
       type: keys[1],
-      [`${keys[1]}Color`]: "#F4395B",
+      [`${keys[1]}Color`]: '#F4395B',
     },
     {
       [keys[2]]: incomeCount,
       type: keys[2],
-      [`${keys[2]}Color`]: "#6EBD0A",
+      [`${keys[2]}Color`]: '#6EBD0A',
     },
   ];
 }
@@ -63,12 +63,12 @@ export default function Categories() {
   const { t } = useTranslation();
 
   const notArchivedCategories = categories.filter(
-    (category) => category.archived === false
+    (category) => category.archived === false,
   );
   const archivedCategories = categories.filter((category) => category.archived);
   const allCount = notArchivedCategories.length;
   const expenseCount = notArchivedCategories.filter(
-    (category) => category.type === "expense"
+    (category) => category.type === 'expense',
   ).length;
   const incomeCount = allCount - expenseCount;
 
@@ -76,7 +76,7 @@ export default function Categories() {
     dispatch(fetchCategoriesData());
   }, [dispatch]);
 
-  return status === "loading" ? (
+  return status === 'loading' ? (
     <div>Loading</div>
   ) : (
     <CategoroiesContainer>
@@ -84,37 +84,37 @@ export default function Categories() {
         <CategoriesBar
           data={createBarData(
             [
-              t("CATEGORIES.ALL"),
-              t("CATEGORIES.EXPENSES"),
-              t("CATEGORIES.INCOMES"),
+              t('CATEGORIES.ALL'),
+              t('CATEGORIES.EXPENSES'),
+              t('CATEGORIES.INCOMES'),
             ],
             allCount,
             expenseCount,
-            incomeCount
+            incomeCount,
           )}
         />
         <BarChartInfo>
-          {t("CATEGORIES.TOTAL")}
+          {t('CATEGORIES.TOTAL')}
           <TotalCategoriesCount>
-            {allCount} {t(createLocaleCategories("CATEGORIES", allCount))}
+            {allCount} {t(createLocaleCategories('CATEGORIES', allCount))}
           </TotalCategoriesCount>
           <BarChartInfoItem>
             <Img src={expenseIcon} alt="expenses" />
             <div>
-              {t("CATEGORIES.EXPENSES")}
+              {t('CATEGORIES.EXPENSES')}
               <ExpensesCategoriesCount>
-                {expenseCount}{" "}
-                {t(createLocaleCategories("CATEGORIES", expenseCount))}
+                {expenseCount}{' '}
+                {t(createLocaleCategories('CATEGORIES', expenseCount))}
               </ExpensesCategoriesCount>
             </div>
           </BarChartInfoItem>
           <BarChartInfoItem>
             <Img src={incomeIcon} alt="incomes" />
             <div>
-              {t("CATEGORIES.INCOMES")}
+              {t('CATEGORIES.INCOMES')}
               <IncomesCategoriesCount>
-                {incomeCount}{" "}
-                {t(createLocaleCategories("CATEGORIES", incomeCount))}
+                {incomeCount}{' '}
+                {t(createLocaleCategories('CATEGORIES', incomeCount))}
               </IncomesCategoriesCount>
             </div>
           </BarChartInfoItem>
@@ -122,14 +122,14 @@ export default function Categories() {
       </MoreInformationContainer>
       <MainInformationContainer>
         <Header>
-          <HeaderTitle>{t("CATEGORIES.CATEGORIES_TITLE")}</HeaderTitle>
+          <HeaderTitle>{t('CATEGORIES.CATEGORIES_TITLE')}</HeaderTitle>
           <Filter>
             <FilterSvg as={FilterIcon} />
-            {t("CATEGORIES.FILTER_KEY")}
+            {t('CATEGORIES.FILTER_KEY')}
           </Filter>
           <Filter>
             <FilterSvg as={CalendarIcon} />
-            {t("CATEGORIES.FILTER_DATE")}
+            {t('CATEGORIES.FILTER_DATE')}
           </Filter>
           <ArchivedTrash>
             <NavLink to={pages.categories.trash.main}>
@@ -140,13 +140,13 @@ export default function Categories() {
         </Header>
         <CategoriesTitleContainer>
           <CategoriesTitleLink to={pages.categories.all}>
-            {t("CATEGORIES.ALL")}
+            {t('CATEGORIES.ALL')}
           </CategoriesTitleLink>
           <CategoriesTitleLink to={pages.categories.expenses}>
-            {t("CATEGORIES.EXPENSES")}
+            {t('CATEGORIES.EXPENSES')}
           </CategoriesTitleLink>
           <CategoriesTitleLink to={pages.categories.incomes}>
-            {t("CATEGORIES.INCOMES")}
+            {t('CATEGORIES.INCOMES')}
           </CategoriesTitleLink>
         </CategoriesTitleContainer>
         <CategoriesList

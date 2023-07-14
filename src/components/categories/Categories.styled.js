@@ -1,27 +1,27 @@
-import { styled } from "styled-components";
-import { NavLink } from "react-router-dom";
-import { ColorsContainer } from "../../theme/global";
+import { styled } from 'styled-components';
+import { NavLink } from 'react-router-dom';
+import { ColorsContainer } from '../../theme/global';
 
 export const CategoroiesContainer = styled.div((props) => ({
   marginTop: props.theme.spacing(14),
-  marginLeft: "22%",
-  marginRight: "5%",
-  display: "flex",
-  justifyContent: "space-between",
+  marginLeft: '22%',
+  marginRight: '5%',
+  display: 'flex',
+  justifyContent: 'space-between',
 }));
 
 export const MoreInformationContainer = styled.div((props) => ({
-  width: "20%",
+  width: '20%',
   minWidth: 170,
-  height: "100vh",
+  height: '100vh',
   marginRight: props.theme.spacing(5),
-  position: "fixed",
+  position: 'fixed',
   zIndex: 10,
 }));
 
 export const BarChartInfo = styled.div((props) => ({
   marginTop: props.theme.spacing(5),
-  textAlign: "center",
+  textAlign: 'center',
 }));
 
 export const TotalCategoriesCount = styled.div((props) => ({
@@ -31,20 +31,20 @@ export const TotalCategoriesCount = styled.div((props) => ({
 }));
 
 export const BarChartInfoItem = styled.div((props) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   height: 80,
-  width: "90%",
+  width: '90%',
   marginBottom: props.theme.spacing(3),
-  marginLeft: "auto",
-  marginRight: "auto",
+  marginLeft: 'auto',
+  marginRight: 'auto',
   background: props.theme.colors.background.primary,
   border: `1px solid ${props.theme.colors.border.item}`,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   borderRadius: props.theme.borderRadius,
-  textAlign: "left",
-  fontSize: "0.875rem",
+  textAlign: 'left',
+  fontSize: '0.875rem',
 }));
 
 export const Img = styled.img((props) => ({
@@ -54,37 +54,37 @@ export const Img = styled.img((props) => ({
 }));
 
 export const ExpensesCategoriesCount = styled.div((props) => ({
-  fontSize: "1rem",
+  fontSize: '1rem',
   color: props.theme.colors.expense,
 }));
 
 export const IncomesCategoriesCount = styled.div((props) => ({
-  fontSize: "1rem",
+  fontSize: '1rem',
   color: props.theme.colors.income,
 }));
 
 export const MainInformationContainer = styled.div(() => ({
-  marginLeft: "30%",
-  width: "70%",
+  marginLeft: '30%',
+  width: '70%',
 }));
 
 export const Header = styled.div(() => ({
-  display: "flex",
-  position: "relative",
-  alignItems: "center",
-  justifyContent: "flex-end",
+  display: 'flex',
+  position: 'relative',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
   height: 50,
 }));
 
 export const HeaderTitle = styled.div(() => ({
-  marginRight: "auto",
+  marginRight: 'auto',
 }));
 
 export const CategoriesTitleContainer = styled.div((props) => ({
-  display: "flex",
+  display: 'flex',
   marginBottom: props.theme.spacing(4),
   borderBottom: `1px solid ${props.theme.colors.border.title}`,
-  position: "sticky",
+  position: 'sticky',
   top: 56,
   zIndex: 9,
   backgroundColor: props.theme.colors.background.body,
@@ -92,16 +92,16 @@ export const CategoriesTitleContainer = styled.div((props) => ({
 
 export const CategoriesTitleLink = styled(NavLink)((props) => ({
   height: 50,
-  width: "25%",
-  fontSize: "0.9375rem",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
+  width: '25%',
+  fontSize: '0.9375rem',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
   color: props.theme.colors.text.darker,
-  "&:hover": {
+  '&:hover': {
     color: props.theme.colors.text.primary,
   },
-  "&.active": {
+  '&.active': {
     color: props.theme.colors.text.primary,
     borderBottom: `2px solid ${props.theme.colors.main.violet}`,
   },
@@ -113,11 +113,11 @@ export const CategoryColorsContainer = styled(ColorsContainer)(() => ({
 }));
 
 export const IconsContainer = styled.div((props) => ({
-  overflowY: "auto",
+  overflowY: 'auto',
   height: 300,
-  width: "70%",
+  width: '70%',
   minWidth: 364,
-  position: "absolute",
+  position: 'absolute',
   zIndex: 5,
   padding: props.theme.spacing(2),
   border: `1px solid ${props.theme.colors.border.item}`,
@@ -126,25 +126,25 @@ export const IconsContainer = styled.div((props) => ({
   top: 200,
   right: 0,
   paddingBottom: 0,
-  "&::-webkit-scrollbar": {
+  '&::-webkit-scrollbar': {
     width: 5,
   },
-  "&::-webkit-scrollbar-thumb": {
+  '&::-webkit-scrollbar-thumb': {
     background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
     borderRadius: props.theme.borderRadius * 2,
   },
 }));
 
 export const CategoriesIcons = styled.div(() => ({
-  display: "grid",
-  gridTemplateColumns: "repeat(9, 11.11%)",
+  display: 'grid',
+  gridTemplateColumns: 'repeat(9, 11.11%)',
 }));
 
 export const IconsButtonContainer = styled.div((props) => ({
-  display: "flex",
+  display: 'flex',
   paddingTop: props.theme.spacing(2),
-  justifyContent: "space-evenly",
-  position: "sticky",
+  justifyContent: 'space-evenly',
+  position: 'sticky',
   bottom: 0,
   paddingBottom: props.theme.spacing(2),
   backgroundColor: props.theme.colors.background.primary,
@@ -152,13 +152,13 @@ export const IconsButtonContainer = styled.div((props) => ({
 
 export const IconsButton = styled.button((props) => ({
   color: props.theme.colors.text.primary,
-  border: "none",
+  border: 'none',
   borderRadius: props.theme.borderRadius,
-  width: "25%",
+  width: '25%',
   minWidth: 70,
   height: 30,
   backgroundColor: props.theme.colors.button.pending,
-  "&:hover": {
+  '&:hover': {
     backgroundColor: props.theme.colors.button.hover,
   },
 }));

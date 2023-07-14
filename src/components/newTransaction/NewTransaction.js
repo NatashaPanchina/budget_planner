@@ -1,34 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { NavLink, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect } from 'react';
+import { NavLink, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import {
   fetchCategoriesData,
   fetchAccountsData,
   addNewTransaction,
   editAccount,
-} from "../../actions/Actions";
-import ExpenseTransactionForm from "./expense/ExpenseTransactionForm";
-import IncomeTransactionForm from "./income/IncomeTransactionForm";
+} from '../../actions/Actions';
+import ExpenseTransactionForm from './expense/ExpenseTransactionForm';
+import IncomeTransactionForm from './income/IncomeTransactionForm';
 
-import { ReactComponent as ExpenseIcon } from "../../assets/icons/shared/newExpense.svg";
-import { ReactComponent as IncomeIcon } from "../../assets/icons/shared/newIncome.svg";
-import { ReactComponent as TransferIcon } from "../../assets/icons/shared/newTransfer.svg";
+import { ReactComponent as ExpenseIcon } from '../../assets/icons/shared/newExpense.svg';
+import { ReactComponent as IncomeIcon } from '../../assets/icons/shared/newIncome.svg';
+import { ReactComponent as TransferIcon } from '../../assets/icons/shared/newTransfer.svg';
 
-import "./NewTransaction.css";
-import TransferTransactionForm from "./transfer/TransferTransactionForm";
-import { pages } from "../../utils/constants/pages";
+import './NewTransaction.css';
+import TransferTransactionForm from './transfer/TransferTransactionForm';
+import { pages } from '../../utils/constants/pages';
 
 function renderTransactionForm(
   transactionType,
   categories,
   accounts,
   addNewTransaction,
-  editAccount
+  editAccount,
 ) {
   switch (transactionType) {
-    case "expense":
+    case 'expense':
       return (
         <ExpenseTransactionForm
           categories={categories}
@@ -37,7 +37,7 @@ function renderTransactionForm(
           editAccount={editAccount}
         />
       );
-    case "income":
+    case 'income':
       return (
         <IncomeTransactionForm
           categories={categories}
@@ -46,7 +46,7 @@ function renderTransactionForm(
           editAccount={editAccount}
         />
       );
-    case "transfer":
+    case 'transfer':
       return <TransferTransactionForm accounts={accounts} />;
     default:
       return (
@@ -76,19 +76,19 @@ export default function NewTransaction() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (categories.status === "succeeded") {
+    if (categories.status === 'succeeded') {
       const filteredCategories = categories.categories.filter(
         (category) =>
-          category.type === transactionType && category.archived === false
+          category.type === transactionType && category.archived === false,
       );
       setFilteredCategories(filteredCategories);
     }
   }, [categories.status, categories.categories, transactionType]);
 
   useEffect(() => {
-    if (accounts.status === "succeeded") {
+    if (accounts.status === 'succeeded') {
       const notArchivedAccounts = accounts.accounts.filter(
-        (account) => account.archived === false
+        (account) => account.archived === false,
       );
       setFilteredAccounts(notArchivedAccounts);
     }
@@ -101,37 +101,37 @@ export default function NewTransaction() {
           <NavLink
             to={`${pages.newTransaction.expense}/${transactionAccount}`}
             className={({ isActive }) =>
-              isActive ? "active_expense" : `not_active_expense`
+              isActive ? 'active_expense' : `not_active_expense`
             }
           >
             <ExpenseIcon />
-            {t("NEW_TRANSACTION.TITLE.EXPENSE")}
+            {t('NEW_TRANSACTION.TITLE.EXPENSE')}
           </NavLink>
         </div>
         <div className="title_item">
           <NavLink
             to={`${pages.newTransaction.income}/${transactionAccount}`}
             className={({ isActive }) =>
-              isActive ? "active_income" : `not_active_income`
+              isActive ? 'active_income' : `not_active_income`
             }
           >
             <IncomeIcon />
-            {t("NEW_TRANSACTION.TITLE.INCOME")}
+            {t('NEW_TRANSACTION.TITLE.INCOME')}
           </NavLink>
         </div>
         <div className="title_item">
           <NavLink
             to={`${pages.newTransaction.transfer}/${transactionAccount}`}
             className={({ isActive }) =>
-              isActive ? "active_transfer" : `not_active_transfer`
+              isActive ? 'active_transfer' : `not_active_transfer`
             }
           >
             <TransferIcon />
-            {t("NEW_TRANSACTION.TITLE.TRANSFER")}
+            {t('NEW_TRANSACTION.TITLE.TRANSFER')}
           </NavLink>
         </div>
       </div>
-      {accounts.status === "loading" || categories.status === "loading" ? (
+      {accounts.status === 'loading' || categories.status === 'loading' ? (
         <div>Loading</div>
       ) : (
         renderTransactionForm(
@@ -139,7 +139,7 @@ export default function NewTransaction() {
           filteredCategories,
           filteredAccounts,
           addNewTransaction,
-          editAccount
+          editAccount,
         )
       )}
     </div>

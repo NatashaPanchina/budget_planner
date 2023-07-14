@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { NumericFormat } from "react-number-format";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { NumericFormat } from 'react-number-format';
 
-import { dinero, toSnapshot, toDecimal, subtract, add } from "dinero.js";
-import { USD } from "@dinero.js/currencies";
+import { dinero, toSnapshot, toDecimal, subtract, add } from 'dinero.js';
+import { USD } from '@dinero.js/currencies';
 
 import {
   fetchCategoriesData,
@@ -13,47 +13,47 @@ import {
   fetchTransactionsData,
   editTransaction,
   editAccount,
-} from "../../../actions/Actions.js";
-import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
-import { dineroFromFloat } from "../../../utils/format/cash";
+} from '../../../actions/Actions.js';
+import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
+import { dineroFromFloat } from '../../../utils/format/cash';
 import {
   renderSelectedCategory,
   renderCategories,
   renderAccounts,
   renderSelectedAccount,
-} from "../utils";
+} from '../utils';
 import {
   hideElement,
   useOutsideClick,
-} from "../../../hooks/useOutsideClick.js";
+} from '../../../hooks/useOutsideClick.js';
 
-import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
-import { ReactComponent as PlusIcon } from "../../../assets/icons/shared/plus.svg";
-import searchIcon from "../../../assets/icons/shared/search.svg";
+import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
+import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
+import searchIcon from '../../../assets/icons/shared/search.svg';
 
-import "../../newTransaction/NewTransaction.css";
-import { pages } from "../../../utils/constants/pages.js";
+import '../../newTransaction/NewTransaction.css';
+import { pages } from '../../../utils/constants/pages.js';
 
 function createNewBalance(prevTransaction, newTransaction, accounts) {
   const prevAccount = accounts.find(
-    (account) => account.id === prevTransaction.account
+    (account) => account.id === prevTransaction.account,
   );
   const newAccount = accounts.find(
-    (account) => account.id === newTransaction.account
+    (account) => account.id === newTransaction.account,
   );
 
   switch (newTransaction.transactionType) {
-    case "income":
+    case 'income':
       //если это один и тот же счет
       if (prevAccount === newAccount) {
         const prevAccountBalance = subtract(
           dinero(prevAccount.balance),
-          dinero(prevTransaction.amount)
+          dinero(prevTransaction.amount),
         );
         return {
           prevAccountBalance: toSnapshot(prevAccountBalance),
           newAccountBalance: toSnapshot(
-            add(prevAccountBalance, dinero(newTransaction.amount))
+            add(prevAccountBalance, dinero(newTransaction.amount)),
           ),
         };
       } else {
@@ -61,33 +61,33 @@ function createNewBalance(prevTransaction, newTransaction, accounts) {
           prevAccountBalance: toSnapshot(
             subtract(
               dinero(prevAccount.balance),
-              dinero(prevTransaction.amount)
-            )
+              dinero(prevTransaction.amount),
+            ),
           ),
           newAccountBalance: toSnapshot(
-            add(dinero(newAccount.balance), dinero(newTransaction.amount))
+            add(dinero(newAccount.balance), dinero(newTransaction.amount)),
           ),
         };
       }
-    case "expense":
+    case 'expense':
       if (prevAccount === newAccount) {
         const prevAccountBalance = add(
           dinero(prevAccount.balance),
-          dinero(prevTransaction.amount)
+          dinero(prevTransaction.amount),
         );
         return {
           prevAccountBalance: toSnapshot(prevAccountBalance),
           newAccountBalance: toSnapshot(
-            subtract(prevAccountBalance, dinero(newTransaction.amount))
+            subtract(prevAccountBalance, dinero(newTransaction.amount)),
           ),
         };
       } else {
         return {
           prevAccountBalance: toSnapshot(
-            add(dinero(prevAccount.balance), dinero(prevTransaction.amount))
+            add(dinero(prevAccount.balance), dinero(prevTransaction.amount)),
           ),
           newAccountBalance: toSnapshot(
-            subtract(dinero(newAccount.balance), dinero(newTransaction.amount))
+            subtract(dinero(newAccount.balance), dinero(newTransaction.amount)),
           ),
         };
       }
@@ -113,7 +113,7 @@ const doneEventHandler = (
   editTransaction,
   editAccount,
   accounts,
-  dispatch
+  dispatch,
 ) => {
   const newAmount = dineroFromFloat({ amount, currency: USD, scale: 2 });
   const newTransaction = {
@@ -127,36 +127,36 @@ const doneEventHandler = (
     tags,
   };
   dispatch(editTransaction(clickedTransaction, newTransaction));
-  idbAddItem(newTransaction, "transactions");
+  idbAddItem(newTransaction, 'transactions');
 
   const balance = createNewBalance(prevTransaction, newTransaction, accounts);
 
   const prevTransactionAccount = accounts.find(
-    (account) => account.id === prevTransaction.account
+    (account) => account.id === prevTransaction.account,
   );
   dispatch(
     editAccount({
       ...prevTransactionAccount,
       balance: balance.prevAccountBalance,
-    })
+    }),
   );
   idbAddItem(
     { ...prevTransactionAccount, balance: balance.prevAccountBalance },
-    "accounts"
+    'accounts',
   );
 
   const newTransactionAccount = accounts.find(
-    (account) => account.id === newTransaction.account
+    (account) => account.id === newTransaction.account,
   );
   dispatch(
     editAccount({
       ...newTransactionAccount,
       balance: balance.newAccountBalance,
-    })
+    }),
   );
   idbAddItem(
     { ...newTransactionAccount, balance: balance.newAccountBalance },
-    "accounts"
+    'accounts',
   );
 };
 
@@ -167,16 +167,16 @@ export default function InfoTransaction() {
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
-  const [activeItem, setActiveItem] = useState("");
+  const [activeItem, setActiveItem] = useState('');
 
   const clickedTransaction = useParams().transactionId;
 
-  let [id, setId] = useState("");
-  const [transactionType, setTransactionType] = useState("expense");
+  let [id, setId] = useState('');
+  const [transactionType, setTransactionType] = useState('expense');
   const [category, setCategory] = useState();
   const [account, setAccount] = useState();
   const [amount, setAmount] = useState(
-    toDecimal(dinero({ amount: 0, currency: USD }))
+    toDecimal(dinero({ amount: 0, currency: USD })),
   );
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState();
@@ -187,16 +187,16 @@ export default function InfoTransaction() {
   const [accountsData, setAccountsData] = useState([]);
 
   const notArchivedCategories = categoriesData.filter(
-      (category) => category.archived === false
+      (category) => category.archived === false,
     ),
     notArchivedAccounts = accountsData.filter(
-      (account) => account.archived === false
+      (account) => account.archived === false,
     );
   const filteredCategories = notArchivedCategories.filter(
-    (category) => category.type === transactionType
+    (category) => category.type === transactionType,
   );
   const infoTransaction = transactionsData.find(
-    (transaction) => transaction.id === clickedTransaction
+    (transaction) => transaction.id === clickedTransaction,
   );
 
   const categoriesRef = useOutsideClick(hideElement);
@@ -209,11 +209,11 @@ export default function InfoTransaction() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (transactions.status === "succeeded") {
+    if (transactions.status === 'succeeded') {
       setTransactionsData(transactions.transactions);
 
       const infoTransaction = transactions.transactions.find(
-        (transaction) => transaction.id === clickedTransaction
+        (transaction) => transaction.id === clickedTransaction,
       );
 
       if (!infoTransaction) return;
@@ -230,20 +230,20 @@ export default function InfoTransaction() {
   }, [transactions.status, transactions.transactions, clickedTransaction]);
 
   useEffect(() => {
-    if (categories.status === "succeeded") {
+    if (categories.status === 'succeeded') {
       setCategoriesData(categories.categories);
     }
   }, [categories.status, categories.categories]);
 
   useEffect(() => {
-    if (accounts.status === "succeeded") {
+    if (accounts.status === 'succeeded') {
       setAccountsData(accounts.accounts);
     }
   }, [accounts.status, accounts.accounts]);
 
-  return accounts.status === "loading" ||
-    categories.status === "loading" ||
-    transactions.status === "loading" ? (
+  return accounts.status === 'loading' ||
+    categories.status === 'loading' ||
+    transactions.status === 'loading' ? (
     <div>Loading</div>
   ) : (
     <div className="main_content">
@@ -255,23 +255,23 @@ export default function InfoTransaction() {
           <BackIcon />
         </Link>
         <div className="info_transaction_title">
-          {t("INFO_TRANSACTION.TITLE")}
+          {t('INFO_TRANSACTION.TITLE')}
         </div>
       </div>
       <div
         className={`transaction_item ${
-          activeItem === "1" ? `${transactionType}_active_item` : ""
+          activeItem === '1' ? `${transactionType}_active_item` : ''
         }`}
-        onClick={() => setActiveItem("1")}
+        onClick={() => setActiveItem('1')}
       >
-        <div className="info_items">{t("INFO_TRANSACTION.CATEGORY")}</div>
+        <div className="info_items">{t('INFO_TRANSACTION.CATEGORY')}</div>
         <div className="input_items">
           <div
             className="selected_category"
             onClick={(event) => {
-              setActiveItem("1");
-              categoriesRef.current.classList.toggle("none");
-              accountsRef.current.classList.add("none");
+              setActiveItem('1');
+              categoriesRef.current.classList.toggle('none');
+              accountsRef.current.classList.add('none');
               event.stopPropagation();
             }}
           >
@@ -283,31 +283,31 @@ export default function InfoTransaction() {
         <div className="search">
           <input
             type="text"
-            placeholder={t("INFO_TRANSACTION.SEARCH_CATEGORY")}
+            placeholder={t('INFO_TRANSACTION.SEARCH_CATEGORY')}
           ></input>
           <img src={searchIcon} alt="search" />
         </div>
         <div className="add_category_btn">
           <Link to={pages.categories.add[transactionType]}>
             <PlusIcon />
-            {t("INFO_TRANSACTION.ADD_CATEGORY")}
+            {t('INFO_TRANSACTION.ADD_CATEGORY')}
           </Link>
         </div>
         {renderCategories(filteredCategories, setCategory)}
       </div>
       <div
         className={`transaction_item ${
-          activeItem === "2" ? `${transactionType}_active_item` : ""
+          activeItem === '2' ? `${transactionType}_active_item` : ''
         }`}
-        onClick={() => setActiveItem("2")}
+        onClick={() => setActiveItem('2')}
       >
-        <div className="info_items">{t("INFO_TRANSACTION.CASH")}</div>
+        <div className="info_items">{t('INFO_TRANSACTION.CASH')}</div>
         <div
           className="input_items"
           onClick={(event) => {
-            setActiveItem("2");
-            accountsRef.current.classList.toggle("none");
-            categoriesRef.current.classList.add("none");
+            setActiveItem('2');
+            accountsRef.current.classList.toggle('none');
+            categoriesRef.current.classList.add('none');
             event.stopPropagation();
           }}
         >
@@ -318,27 +318,27 @@ export default function InfoTransaction() {
         <div className="search">
           <input
             type="text"
-            placeholder={t("INFO_TRANSACTION.SEARCH_CASH")}
+            placeholder={t('INFO_TRANSACTION.SEARCH_CASH')}
           ></input>
           <img src={searchIcon} alt="search" />
         </div>
         <div className="add_category_btn">
           <Link to={pages.cash.add.card}>
             <PlusIcon />
-            {t("INFO_TRANSACTION.ADD_CASH")}
+            {t('INFO_TRANSACTION.ADD_CASH')}
           </Link>
         </div>
         {renderAccounts(notArchivedAccounts, setAccount)}
       </div>
       <div
         className={`transaction_item ${
-          activeItem === "3" ? `${transactionType}_active_item` : ""
+          activeItem === '3' ? `${transactionType}_active_item` : ''
         }`}
-        onClick={() => setActiveItem("3")}
+        onClick={() => setActiveItem('3')}
       >
-        <div className="info_items">{t("INFO_TRANSACTION.AMOUNT")}</div>
+        <div className="info_items">{t('INFO_TRANSACTION.AMOUNT')}</div>
         <div className="input_items">
-          ${" "}
+          ${' '}
           <NumericFormat
             thousandSeparator=","
             decimalSeparator="."
@@ -352,11 +352,11 @@ export default function InfoTransaction() {
       </div>
       <div
         className={`transaction_item ${
-          activeItem === "4" ? `${transactionType}_active_item` : ""
+          activeItem === '4' ? `${transactionType}_active_item` : ''
         }`}
-        onClick={() => setActiveItem("4")}
+        onClick={() => setActiveItem('4')}
       >
-        <div className="info_items">{t("INFO_TRANSACTION.DATE")}</div>
+        <div className="info_items">{t('INFO_TRANSACTION.DATE')}</div>
         <div className="input_items">
           <input
             type="date"
@@ -366,11 +366,11 @@ export default function InfoTransaction() {
       </div>
       <div
         className={`transaction_item ${
-          activeItem === "5" ? `${transactionType}_active_item` : ""
+          activeItem === '5' ? `${transactionType}_active_item` : ''
         }`}
-        onClick={() => setActiveItem("5")}
+        onClick={() => setActiveItem('5')}
       >
-        <div className="info_items">{t("INFO_TRANSACTION.NOTES")}</div>
+        <div className="info_items">{t('INFO_TRANSACTION.NOTES')}</div>
         <input
           type="text"
           onChange={(event) => setNotes(event.target.value)}
@@ -379,11 +379,11 @@ export default function InfoTransaction() {
       </div>
       <div
         className={`transaction_item ${
-          activeItem === "6" ? `${transactionType}_active_item` : ""
+          activeItem === '6' ? `${transactionType}_active_item` : ''
         }`}
-        onClick={() => setActiveItem("6")}
+        onClick={() => setActiveItem('6')}
       >
-        <div className="info_items">{t("INFO_TRANSACTION.TAGS")}</div>
+        <div className="info_items">{t('INFO_TRANSACTION.TAGS')}</div>
         <input type="text"></input>
       </div>
       <div className="transactions_button_block">
@@ -406,18 +406,18 @@ export default function InfoTransaction() {
                   editTransaction,
                   editAccount,
                   accountsData,
-                  dispatch
+                  dispatch,
                 )
               }
             >
-              {t("INFO_TRANSACTION.DONE")}
+              {t('INFO_TRANSACTION.DONE')}
             </button>
           </Link>
         </div>
         <div className="cancel_button_div">
           <Link to={`${pages.transactions[`${transactionType}s`]}/${account}`}>
             <button className="account_cancel_button">
-              {t("INFO_TRANSACTION.CANCEL")}
+              {t('INFO_TRANSACTION.CANCEL')}
             </button>
           </Link>
         </div>
