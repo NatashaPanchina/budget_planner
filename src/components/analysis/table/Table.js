@@ -1,31 +1,31 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
-import { dinero, toDecimal, add } from "dinero.js";
-import { USD } from "@dinero.js/currencies";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { dinero, toDecimal, add } from 'dinero.js';
+import { USD } from '@dinero.js/currencies';
 
-import { categoryIcons } from "../../../utils/constants/icons";
-import { formatDineroOutput } from "../../../utils/format/cash";
-import { createData } from "../utils/charts";
+import { categoryIcons } from '../../../utils/constants/icons';
+import { formatDineroOutput } from '../../../utils/format/cash';
+import { createData } from '../utils/charts';
 
 function renderTable(t, data, tableFilter) {
   let totalSum = data.reduce(
     (sum, category) => add(sum, category.sum),
-    dinero({ amount: 0, currency: USD })
+    dinero({ amount: 0, currency: USD }),
   );
   let floatTotalSum = Number(toDecimal(totalSum));
   return (
     <React.Fragment>
       <div className="analysis_categories_description">
-        <span>{t("ANALYSIS.CATEGORY")}</span>
-        <span>{t("ANALYSIS.PERCENTAGE")}</span>
-        <span>{t("ANALYSIS.SUM")}</span>
+        <span>{t('ANALYSIS.CATEGORY')}</span>
+        <span>{t('ANALYSIS.PERCENTAGE')}</span>
+        <span>{t('ANALYSIS.SUM')}</span>
       </div>
       <div className="categories_item">
-        <div className="categories_total_info">{t("ANALYSIS.TOTAL_TABLE")}</div>
+        <div className="categories_total_info">{t('ANALYSIS.TOTAL_TABLE')}</div>
         <div>100.00%</div>
         <div className={`categories_${tableFilter}_amount`}>
-          {formatDineroOutput(totalSum, "USD")}
+          {formatDineroOutput(totalSum, 'USD')}
         </div>
       </div>
       {data.map((item) => {
@@ -67,7 +67,7 @@ function renderTable(t, data, tableFilter) {
               {((toDecimal(item.sum) * 100) / floatTotalSum).toFixed(2)}%
             </div>
             <div className={`categories_${tableFilter}_amount`}>
-              {formatDineroOutput(item.sum, "USD")}
+              {formatDineroOutput(item.sum, 'USD')}
             </div>
           </div>
         );
@@ -81,7 +81,7 @@ function Table({ transactions, categories, tableFilter, date }) {
 
   let data = createData(
     { transactions, categories, tableFilter, date },
-    "table"
+    'table',
   );
 
   return (

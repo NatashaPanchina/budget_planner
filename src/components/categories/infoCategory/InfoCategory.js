@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import { colors } from "../../../utils/constants/colors.js";
-import { categoryIcons } from "../../../utils/constants/icons.js";
-import { fetchCategoriesData, editCategory } from "../../../actions/Actions";
-import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
+import { colors } from '../../../utils/constants/colors.js';
+import { categoryIcons } from '../../../utils/constants/icons.js';
+import { fetchCategoriesData, editCategory } from '../../../actions/Actions';
+import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 import {
   renderColors,
   renderIcons,
   renderSelectedColor,
   toggleElement,
-} from "../utils";
+} from '../utils';
 import {
   hideElement,
   useOutsideClick,
-} from "../../../hooks/useOutsideClick.js";
+} from '../../../hooks/useOutsideClick.js';
 
-import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
+import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 
 import {
   AddFormButtonsContainer,
@@ -37,15 +37,15 @@ import {
   FormFieldsContainer,
   SelectButton,
   SelectedColor,
-} from "../../../theme/global.js";
+} from '../../../theme/global.js';
 import {
   CategoryColorsContainer,
   IconsButton,
   IconsContainer,
   CategoriesIcons,
   IconsButtonContainer,
-} from "../Categories.styled.js";
-import { pages } from "../../../utils/constants/pages.js";
+} from '../Categories.styled.js';
+import { pages } from '../../../utils/constants/pages.js';
 
 const doneEventHandler = (
   selectedCategory,
@@ -58,7 +58,7 @@ const doneEventHandler = (
   notes,
   tags,
   editCategory,
-  dispatch
+  dispatch,
 ) => {
   const newCategory = {
     id,
@@ -72,7 +72,7 @@ const doneEventHandler = (
     tags,
   };
   dispatch(editCategory(selectedCategory, newCategory));
-  idbAddItem(newCategory, "categories");
+  idbAddItem(newCategory, 'categories');
 };
 
 export default function InfoCategory() {
@@ -81,18 +81,18 @@ export default function InfoCategory() {
 
   const { t } = useTranslation();
 
-  const [activeItem, setActiveItem] = useState("");
+  const [activeItem, setActiveItem] = useState('');
 
   const clickedCategory = useParams().categoryId;
 
-  const [id, setId] = useState("");
-  const [categoryType, setCategoryType] = useState("expense");
+  const [id, setId] = useState('');
+  const [categoryType, setCategoryType] = useState('expense');
   const [description, setDescription] = useState();
   const [selectedColor, setSelectedColor] = useState(colors.green[600]);
   const [icon, setIcon] = useState(0);
   const [date, setDate] = useState(new Date());
-  const [notes, setNotes] = useState("");
-  const [tags, setTags] = useState([""]);
+  const [notes, setNotes] = useState('');
+  const [tags, setTags] = useState(['']);
 
   const SelectedIcon = categoryIcons[icon];
 
@@ -104,9 +104,9 @@ export default function InfoCategory() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (status === "succeeded") {
+    if (status === 'succeeded') {
       const infoCategory = categories.find(
-        (category) => category.id === clickedCategory
+        (category) => category.id === clickedCategory,
       );
       if (!infoCategory) {
         return;
@@ -124,7 +124,7 @@ export default function InfoCategory() {
 
   return (
     <AddFormContainer>
-      {status === "loading" ? (
+      {status === 'loading' ? (
         <div>Loading</div>
       ) : (
         <React.Fragment>
@@ -132,35 +132,35 @@ export default function InfoCategory() {
             <BackLink to={pages.categories[`${categoryType}s`]}>
               <BackLinkSvg as={BackIcon} />
             </BackLink>
-            {t("INFO_CATEGORY.CATEGORY_INFORMATION")}
+            {t('INFO_CATEGORY.CATEGORY_INFORMATION')}
           </AddFormHeader>
           <FormFieldsContainer>
             <FormField
-              $isActive={activeItem === "1"}
+              $isActive={activeItem === '1'}
               $formType={categoryType}
-              onClick={() => setActiveItem("1")}
+              onClick={() => setActiveItem('1')}
             >
               <FieldDescription>
-                {t("ADD_CATEGORY.DESCRIPTION")}
+                {t('ADD_CATEGORY.DESCRIPTION')}
               </FieldDescription>
               <FieldInput
                 type="text"
                 onChange={(event) => setDescription(event.target.value)}
                 defaultValue={description}
-                placeholder={t("ADD_CATEGORY.DESCRIPTION_PLACEHOLDER")}
+                placeholder={t('ADD_CATEGORY.DESCRIPTION_PLACEHOLDER')}
               ></FieldInput>
             </FormField>
             <FormField
-              $isActive={activeItem === "2"}
+              $isActive={activeItem === '2'}
               $formType={categoryType}
-              onClick={() => setActiveItem("2")}
+              onClick={() => setActiveItem('2')}
             >
-              <FieldDescription>{t("ADD_CATEGORY.COLOR")}</FieldDescription>
+              <FieldDescription>{t('ADD_CATEGORY.COLOR')}</FieldDescription>
               <SelectedColor
                 onClick={(event) => {
-                  setActiveItem("2");
+                  setActiveItem('2');
                   toggleElement(colorsRef);
-                  iconsRef.current.classList.add("none");
+                  iconsRef.current.classList.add('none');
                   event.stopPropagation();
                 }}
               >
@@ -168,13 +168,13 @@ export default function InfoCategory() {
               </SelectedColor>
               <SelectButton
                 onClick={(event) => {
-                  setActiveItem("2");
+                  setActiveItem('2');
                   toggleElement(colorsRef);
-                  iconsRef.current.classList.add("none");
+                  iconsRef.current.classList.add('none');
                   event.stopPropagation();
                 }}
               >
-                {t("ADD_CATEGORY.SELECT")}
+                {t('ADD_CATEGORY.SELECT')}
               </SelectButton>
             </FormField>
             <CategoryColorsContainer ref={colorsRef} className="none">
@@ -183,21 +183,21 @@ export default function InfoCategory() {
               </ColorsPalette>
               <ColorsPaletteButtonContainer>
                 <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
-                  {t("ADD_CATEGORY.OK")}
+                  {t('ADD_CATEGORY.OK')}
                 </ColorsPaletteButton>
               </ColorsPaletteButtonContainer>
             </CategoryColorsContainer>
             <FormField
-              $isActive={activeItem === "3"}
+              $isActive={activeItem === '3'}
               $formType={categoryType}
-              onClick={() => setActiveItem("3")}
+              onClick={() => setActiveItem('3')}
             >
-              <FieldDescription>{t("ADD_CATEGORY.ICON")}</FieldDescription>
+              <FieldDescription>{t('ADD_CATEGORY.ICON')}</FieldDescription>
               <SelectedColor
                 onClick={(event) => {
-                  setActiveItem("3");
+                  setActiveItem('3');
                   toggleElement(iconsRef);
-                  colorsRef.current.classList.add("none");
+                  colorsRef.current.classList.add('none');
                   event.stopPropagation();
                 }}
               >
@@ -205,13 +205,13 @@ export default function InfoCategory() {
               </SelectedColor>
               <SelectButton
                 onClick={(event) => {
-                  setActiveItem("3");
+                  setActiveItem('3');
                   toggleElement(iconsRef);
-                  colorsRef.current.classList.add("none");
+                  colorsRef.current.classList.add('none');
                   event.stopPropagation();
                 }}
               >
-                {t("ADD_CATEGORY.SELECT")}
+                {t('ADD_CATEGORY.SELECT')}
               </SelectButton>
             </FormField>
             <IconsContainer ref={iconsRef} className="none">
@@ -220,43 +220,43 @@ export default function InfoCategory() {
               </CategoriesIcons>
               <IconsButtonContainer>
                 <IconsButton onClick={() => toggleElement(iconsRef)}>
-                  {t("ADD_CATEGORY.OK")}
+                  {t('ADD_CATEGORY.OK')}
                 </IconsButton>
               </IconsButtonContainer>
             </IconsContainer>
             <FormField
-              $isActive={activeItem === "4"}
+              $isActive={activeItem === '4'}
               $formType={categoryType}
-              onClick={() => setActiveItem("4")}
+              onClick={() => setActiveItem('4')}
             >
-              <FieldDescription>{t("ADD_CATEGORY.DATE")}</FieldDescription>
+              <FieldDescription>{t('ADD_CATEGORY.DATE')}</FieldDescription>
               <FieldInput
                 type="date"
                 onChange={(event) => setDate(new Date(event.target.value))}
               ></FieldInput>
             </FormField>
             <FormField
-              $isActive={activeItem === "5"}
+              $isActive={activeItem === '5'}
               $formType={categoryType}
-              onClick={() => setActiveItem("5")}
+              onClick={() => setActiveItem('5')}
             >
-              <FieldDescription>{t("ADD_CATEGORY.NOTES")}</FieldDescription>
+              <FieldDescription>{t('ADD_CATEGORY.NOTES')}</FieldDescription>
               <FieldInput
                 type="text"
                 onChange={(event) => setNotes(event.target.value)}
                 value={notes}
-                placeholder={t("ADD_CATEGORY.NOTES_PLACEHOLDER")}
+                placeholder={t('ADD_CATEGORY.NOTES_PLACEHOLDER')}
               ></FieldInput>
             </FormField>
             <FormField
-              $isActive={activeItem === "6"}
+              $isActive={activeItem === '6'}
               $formType={categoryType}
-              onClick={() => setActiveItem("6")}
+              onClick={() => setActiveItem('6')}
             >
-              <FieldDescription>{t("ADD_CATEGORY.TAGS")}</FieldDescription>
+              <FieldDescription>{t('ADD_CATEGORY.TAGS')}</FieldDescription>
               <FieldInput
                 type="text"
-                placeholder={t("ADD_CATEGORY.TAGS_PLACEHOLDER")}
+                placeholder={t('ADD_CATEGORY.TAGS_PLACEHOLDER')}
               ></FieldInput>
             </FormField>
             <AddFormButtonsContainer>
@@ -275,14 +275,14 @@ export default function InfoCategory() {
                     notes,
                     tags,
                     editCategory,
-                    dispatch
+                    dispatch,
                   )
                 }
               >
-                {t("ADD_CATEGORY.DONE")}
+                {t('ADD_CATEGORY.DONE')}
               </DoneButton>
               <CancelButton to={pages.categories[`${categoryType}s`]}>
-                {t("ADD_CATEGORY.CANCEL")}
+                {t('ADD_CATEGORY.CANCEL')}
               </CancelButton>
             </AddFormButtonsContainer>
           </FormFieldsContainer>

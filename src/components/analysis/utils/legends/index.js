@@ -1,12 +1,12 @@
 export function createDataLegends(data, chartType, keys) {
   switch (chartType) {
-    case "line":
+    case 'line':
       return data.map((item) => {
         return { description: item.id, color: item.color };
       });
-    case "bar":
+    case 'bar':
       return createBarData(data, keys);
-    case "pie":
+    case 'pie':
       return data.map((item) => {
         return {
           description: item.category.description,

@@ -7,10 +7,10 @@ import {
   EDIT_ACCOUNT,
   ARCHIVE_ACCOUNT,
   RESTORE_ACCOUNT,
-} from "../actions/ActionTypes";
+} from '../actions/ActionTypes';
 
 const initialState = {
-  status: "idle",
+  status: 'idle',
   error: null,
   accounts: [],
 };
@@ -20,18 +20,18 @@ const accounts = (state = initialState, { type, payload }) => {
     case IDB_FETCH_ACCOUNTS_INIT:
       return {
         ...state,
-        status: "loading",
+        status: 'loading',
       };
     case IDB_FETCH_ACCOUNTS_SUCCESS:
       return {
         ...state,
-        status: "succeeded",
+        status: 'succeeded',
         accounts: payload,
       };
     case IDB_FETCH_ACCOUNTS_FAILURE:
       return {
         ...state,
-        status: "failed",
+        status: 'failed',
         error: payload.message,
       };
     case ADD_NEW_ACCOUNT:
@@ -43,21 +43,21 @@ const accounts = (state = initialState, { type, payload }) => {
       return {
         ...state,
         accounts: state.accounts.map((account) =>
-          account.id === payload.id ? payload.newAccount : account
+          account.id === payload.id ? payload.newAccount : account,
         ),
       };
     case ARCHIVE_ACCOUNT:
       return {
         ...state,
         accounts: state.accounts.map((account) =>
-          account.id === payload ? { ...account, archived: true } : account
+          account.id === payload ? { ...account, archived: true } : account,
         ),
       };
     case RESTORE_ACCOUNT:
       return {
         ...state,
         accounts: state.accounts.map((account) =>
-          account.id === payload ? { ...account, archived: false } : account
+          account.id === payload ? { ...account, archived: false } : account,
         ),
       };
     case DELETE_ACCOUNT:

@@ -29,7 +29,11 @@ function CashChartLegends({ data, totalBalance }) {
       {sortedData.map((value, index) => {
         return (
           <React.Fragment key={index}>
-            <LegendsSvg height={14} width={14} xmlns="http://www.w3.org/2000/svg">
+            <LegendsSvg
+              height={14}
+              width={14}
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <circle
                 cx={7}
                 cy={7}

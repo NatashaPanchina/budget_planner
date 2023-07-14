@@ -1,5 +1,5 @@
-import { dinero, add, isZero, compare } from "dinero.js";
-import { USD } from "@dinero.js/currencies";
+import { dinero, add, isZero, compare } from 'dinero.js';
+import { USD } from '@dinero.js/currencies';
 
 export function createTableData({
   transactions,
@@ -8,13 +8,13 @@ export function createTableData({
   date,
 }) {
   switch (tableFilter) {
-    case "expenses":
+    case 'expenses':
       return createExpensesData(transactions, categories, date);
-    case "incomes":
+    case 'incomes':
       return createIncomesData(transactions, categories, date);
-    case "transfers":
+    case 'transfers':
       return [];
-    case "accounts":
+    case 'accounts':
       return [];
     default:
       return [];
@@ -30,7 +30,7 @@ function createExpensesData(transactions, categories, date) {
         .filter((transaction) => {
           const transactionDate = new Date(transaction.date);
           return (
-            transaction.transactionType === "expense" &&
+            transaction.transactionType === 'expense' &&
             transaction.category === category.id &&
             transactionDate >= date.from &&
             transactionDate <= date.to
@@ -38,7 +38,7 @@ function createExpensesData(transactions, categories, date) {
         })
         .reduce(
           (sum, transaction) => add(sum, dinero(transaction.amount)),
-          dinero({ amount: 0, currency: USD })
+          dinero({ amount: 0, currency: USD }),
         ),
     };
     if (!isZero(dataItem.sum)) expensesData.push(dataItem);
@@ -56,7 +56,7 @@ function createIncomesData(transactions, categories, date) {
         .filter((transaction) => {
           const transactionDate = new Date(transaction.date);
           return (
-            transaction.transactionType === "income" &&
+            transaction.transactionType === 'income' &&
             transaction.category === category.id &&
             transactionDate >= date.from &&
             transactionDate <= date.to
@@ -64,7 +64,7 @@ function createIncomesData(transactions, categories, date) {
         })
         .reduce(
           (sum, transaction) => add(sum, dinero(transaction.amount)),
-          dinero({ amount: 0, currency: USD })
+          dinero({ amount: 0, currency: USD }),
         ),
     };
     if (!isZero(dataItem.sum)) incomesData.push(dataItem);

@@ -1,7 +1,7 @@
-import { dinero, add, toDecimal } from "dinero.js";
-import { USD } from "@dinero.js/currencies";
+import { dinero, add, toDecimal } from 'dinero.js';
+import { USD } from '@dinero.js/currencies';
 
-import { createPeriod } from "../../period";
+import { createPeriod } from '../../period';
 
 export function createLineData({
   transactions,
@@ -11,12 +11,12 @@ export function createLineData({
   date,
 }) {
   let period = createPeriod(date);
-  let dateFormatter = new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
+  let dateFormatter = new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
   });
   switch (chartFilter) {
-    case "expensesToIncomes":
+    case 'expensesToIncomes':
       return [
         ...createData(
           isDetailed,
@@ -24,7 +24,7 @@ export function createLineData({
           categories,
           period,
           dateFormatter,
-          "expense"
+          'expense',
         ),
         ...createData(
           isDetailed,
@@ -32,28 +32,28 @@ export function createLineData({
           categories,
           period,
           dateFormatter,
-          "income"
+          'income',
         ),
       ];
-    case "expenses":
+    case 'expenses':
       return createData(
         isDetailed,
         transactions,
         categories,
         period,
         dateFormatter,
-        "expense"
+        'expense',
       );
-    case "incomes":
+    case 'incomes':
       return createData(
         isDetailed,
         transactions,
         categories,
         period,
         dateFormatter,
-        "income"
+        'income',
       );
-    case "transfers":
+    case 'transfers':
       return [];
     default:
       return [];
@@ -66,7 +66,7 @@ function createData(
   categories,
   period,
   dateFormatter,
-  transactionFilter
+  transactionFilter,
 ) {
   if (isDetailed) {
     return createDetailedData(
@@ -74,14 +74,14 @@ function createData(
       categories,
       period,
       dateFormatter,
-      transactionFilter
+      transactionFilter,
     );
   }
   return createSimpleData(
     transactions,
     period,
     dateFormatter,
-    transactionFilter
+    transactionFilter,
   );
 }
 
@@ -89,12 +89,12 @@ function createSimpleData(
   transactions,
   period,
   dateFormatter,
-  transactionFilter
+  transactionFilter,
 ) {
   let color =
-    transactionFilter === "expense"
-      ? ["#FF599F", "#F4395B"]
-      : ["#B3FF53", "#6EBD0A"];
+    transactionFilter === 'expense'
+      ? ['#FF599F', '#F4395B']
+      : ['#B3FF53', '#6EBD0A'];
   return [
     {
       id: `${transactionFilter}s`,
@@ -114,8 +114,8 @@ function createSimpleData(
               })
               .reduce(
                 (sum, transaction) => add(sum, dinero(transaction.amount)),
-                dinero({ amount: 0, currency: USD })
-              )
+                dinero({ amount: 0, currency: USD }),
+              ),
           ),
         };
       }),
@@ -128,17 +128,17 @@ function createDetailedData(
   categories,
   period,
   dateFormatter,
-  transactionFilter
+  transactionFilter,
 ) {
   let result = [];
 
   //сначала находим все категории по типу chartFilter (expenses или incomes)
   let filterCategories = categories.filter(
-    (category) => category.type === transactionFilter
+    (category) => category.type === transactionFilter,
   );
   filterCategories.forEach((category) => {
     let filteredTransactions = transactions.filter(
-      (transaction) => transaction.category === category.id
+      (transaction) => transaction.category === category.id,
     );
     //если длина filteredTransactions равна 0, значит этой категории в транзакциях нет, пропускаем
     if (filteredTransactions.length) {
@@ -158,8 +158,8 @@ function createDetailedData(
                 })
                 .reduce(
                   (sum, transaction) => add(sum, dinero(transaction.amount)),
-                  dinero({ amount: 0, currency: USD })
-                )
+                  dinero({ amount: 0, currency: USD }),
+                ),
             ),
           };
         }),

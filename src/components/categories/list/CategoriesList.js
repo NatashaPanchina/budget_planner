@@ -1,35 +1,35 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
-import { categoryIcons } from "../../../utils/constants/icons.js";
+import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
+import { categoryIcons } from '../../../utils/constants/icons.js';
 import {
   renderNotes,
   createFilterType,
   filterCategories,
-} from "../utils/index.js";
+} from '../utils/index.js';
 
-import searchIcon from "../../../assets/icons/shared/search.svg";
-import { ReactComponent as PlusIcon } from "../../../assets/icons/shared/plus.svg";
-import { ReactComponent as AddIcon } from "../../../assets/icons/shared/add.svg";
-import { ReactComponent as EditIcon } from "../../../assets/icons/shared/edit.svg";
-import { ReactComponent as ArchiveIcon } from "../../../assets/icons/shared/archive.svg";
+import searchIcon from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
+import { ReactComponent as AddIcon } from '../../../assets/icons/shared/add.svg';
+import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
+import { ReactComponent as ArchiveIcon } from '../../../assets/icons/shared/archive.svg';
 
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 import {
   AddButton,
   AddButtonSvg,
   Search,
   SearchImg,
   SearchInput,
-} from "../../../theme/global.js";
-import { pages } from "../../../utils/constants/pages.js";
+} from '../../../theme/global.js';
+import { pages } from '../../../utils/constants/pages.js';
 
 const CategoriesListItem = styled.div((props) => ({
-  width: "100%",
+  width: '100%',
   paddingTop: props.theme.spacing(2),
   paddingBottom: props.theme.spacing(2),
   marginBottom: props.theme.spacing(4),
@@ -37,18 +37,18 @@ const CategoriesListItem = styled.div((props) => ({
   border: `1px solid ${props.theme.colors.border.item}`,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   borderRadius: props.theme.borderRadius,
-  display: "grid",
+  display: 'grid',
   gridTemplateAreas: '"desc" "notes"',
-  gridTemplateColumns: "1fr",
-  gap: "10px 5%",
-  alignItems: "center",
-  position: "relative",
+  gridTemplateColumns: '1fr',
+  gap: '10px 5%',
+  alignItems: 'center',
+  position: 'relative',
 }));
 
 const CategoriesDescription = styled.div(() => ({
-  gridArea: "desc",
-  display: "flex",
-  alignItems: "center",
+  gridArea: 'desc',
+  display: 'flex',
+  alignItems: 'center',
 }));
 
 const CategoriesSvg = styled.svg((props) => ({
@@ -57,7 +57,7 @@ const CategoriesSvg = styled.svg((props) => ({
 }));
 
 const EditButtons = styled.div(() => ({
-  position: "absolute",
+  position: 'absolute',
   top: 16,
   right: 0,
 }));
@@ -66,19 +66,16 @@ const EditButtonSvg = styled.svg((props) => ({
   height: 15,
   marginLeft: props.theme.spacing(2),
   marginRight: props.theme.spacing(2),
-  cursor: "pointer",
-  "& path": {
+  cursor: 'pointer',
+  '& path': {
     fill: props.theme.colors.svg.pending,
   },
-  "&:hover path": {
+  '&:hover path': {
     fill: props.theme.colors.svg.hover,
   },
 }));
 
-function CategoriesList({
-  notArchivedCategories,
-  archiveCategory,
-}) {
+function CategoriesList({ notArchivedCategories, archiveCategory }) {
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
@@ -90,16 +87,16 @@ function CategoriesList({
       <Search>
         <SearchInput
           type="text"
-          placeholder={t("CATEGORIES.SEARCH_CATEGORY")}
+          placeholder={t('CATEGORIES.SEARCH_CATEGORY')}
         ></SearchInput>
         <SearchImg src={searchIcon} alt="search" />
       </Search>
 
       <AddButton
-        to={pages.categories.add[filterType === "all" ? "expense" : filterType]}
+        to={pages.categories.add[filterType === 'all' ? 'expense' : filterType]}
       >
         <AddButtonSvg as={PlusIcon} />
-        {t("CATEGORIES.ADD_CATEGORY")}
+        {t('CATEGORIES.ADD_CATEGORY')}
       </AddButton>
 
       {filterCategories(filterType, notArchivedCategories).map(
@@ -147,14 +144,14 @@ function CategoriesList({
                   as={ArchiveIcon}
                   onClick={() => {
                     dispatch(archiveCategory(category.id));
-                    idbAddItem({ ...category, archived: true }, "categories");
+                    idbAddItem({ ...category, archived: true }, 'categories');
                   }}
                 />
               </EditButtons>
               {renderNotes(category.notes)}
             </CategoriesListItem>
           );
-        }
+        },
       )}
     </React.Fragment>
   );
@@ -163,6 +160,6 @@ function CategoriesList({
 CategoriesList.propTypes = {
   notArchivedCategories: PropTypes.array,
   archiveCategory: PropTypes.func,
-}
+};
 
 export default CategoriesList;

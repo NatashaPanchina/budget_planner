@@ -1,37 +1,37 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import { createLocaleTransactions } from "../utils/index.js";
-import Slider from "./Slider.js";
+import { createLocaleTransactions } from '../utils/index.js';
+import Slider from './Slider.js';
 
-import expenseIcon from "../../../assets/icons/shared/expense.svg";
-import incomeIcon from "../../../assets/icons/shared/income.svg";
-import transfersIcon from "../../../assets/icons/shared/transfers.svg";
+import expenseIcon from '../../../assets/icons/shared/expense.svg';
+import incomeIcon from '../../../assets/icons/shared/income.svg';
+import transfersIcon from '../../../assets/icons/shared/transfers.svg';
 
-import "./AccountsSlider.css";
+import './AccountsSlider.css';
 
 function AccountsSlider({ transactions, accounts }) {
   const { t } = useTranslation();
 
   const notArchivedAccounts = accounts.filter(
-    (account) => account.archived === false
+    (account) => account.archived === false,
   );
   const { filterType, filterAccount } = useParams();
 
   const filteredTransactions =
-    filterAccount === "all"
+    filterAccount === 'all'
       ? transactions
       : transactions.filter(
-          (transaction) => transaction.account === filterAccount
+          (transaction) => transaction.account === filterAccount,
         );
   const allTransactions = filteredTransactions.length;
   const expensesTransactions = filteredTransactions.filter(
-    (transaction) => transaction.transactionType === "expense"
+    (transaction) => transaction.transactionType === 'expense',
   ).length;
   const incomesTransactions = filteredTransactions.filter(
-    (transaction) => transaction.transactionType === "income"
+    (transaction) => transaction.transactionType === 'income',
   ).length;
   const transfersTransactions =
     allTransactions - (expensesTransactions + incomesTransactions);
@@ -39,26 +39,26 @@ function AccountsSlider({ transactions, accounts }) {
   return (
     <div className="transactions_more_info">
       <div className="transaction_more_title">
-        {t("TRANSACTIONS.CURRENT_CASH")}
+        {t('TRANSACTIONS.CURRENT_CASH')}
       </div>
       <Slider
         filterType={filterType}
         notArchivedAccounts={notArchivedAccounts}
       />
       <div className="count_transactions_info">
-        {t("TRANSACTIONS.TOTAL")}
+        {t('TRANSACTIONS.TOTAL')}
         <div className="total_transactions_count">
-          {allTransactions}{" "}
-          {t(createLocaleTransactions("TRANSACTIONS", allTransactions))}
+          {allTransactions}{' '}
+          {t(createLocaleTransactions('TRANSACTIONS', allTransactions))}
         </div>
         <div className="transactions_count_item">
           <img src={expenseIcon} alt="expenses" />
           <div>
-            {t("TRANSACTIONS.FILTER_EXPENSES")}
+            {t('TRANSACTIONS.FILTER_EXPENSES')}
             <div className="expense_transactions_count">
-              {expensesTransactions}{" "}
+              {expensesTransactions}{' '}
               {t(
-                createLocaleTransactions("TRANSACTIONS", expensesTransactions)
+                createLocaleTransactions('TRANSACTIONS', expensesTransactions),
               )}
             </div>
           </div>
@@ -66,21 +66,21 @@ function AccountsSlider({ transactions, accounts }) {
         <div className="transactions_count_item">
           <img src={incomeIcon} alt="incomes" />
           <div>
-            {t("TRANSACTIONS.FILTER_INCOMES")}
+            {t('TRANSACTIONS.FILTER_INCOMES')}
             <div className="income_transactions_count">
-              {incomesTransactions}{" "}
-              {t(createLocaleTransactions("TRANSACTIONS", incomesTransactions))}
+              {incomesTransactions}{' '}
+              {t(createLocaleTransactions('TRANSACTIONS', incomesTransactions))}
             </div>
           </div>
         </div>
         <div className="transactions_count_item">
           <img src={transfersIcon} alt="transfers" />
           <div>
-            {t("TRANSACTIONS.FILTER_TRANSFERS")}
+            {t('TRANSACTIONS.FILTER_TRANSFERS')}
             <div className="transfer_transactions_count">
-              {transfersTransactions}{" "}
+              {transfersTransactions}{' '}
               {t(
-                createLocaleTransactions("TRANSACTIONS", transfersTransactions)
+                createLocaleTransactions('TRANSACTIONS', transfersTransactions),
               )}
             </div>
           </div>
@@ -91,8 +91,8 @@ function AccountsSlider({ transactions, accounts }) {
 }
 
 AccountsSlider.propTypes = {
-  transactions: PropTypes.array, 
+  transactions: PropTypes.array,
   accounts: PropTypes.array,
-}
+};
 
 export default AccountsSlider;

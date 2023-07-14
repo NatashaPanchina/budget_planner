@@ -1,29 +1,29 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useTranslation } from "react-i18next";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
-import { v4 as uuidv4 } from "uuid";
-import { NumericFormat } from "react-number-format";
-import { USD } from "@dinero.js/currencies";
-import { toSnapshot } from "dinero.js";
+import { v4 as uuidv4 } from 'uuid';
+import { NumericFormat } from 'react-number-format';
+import { USD } from '@dinero.js/currencies';
+import { toSnapshot } from 'dinero.js';
 
-import { pages } from "../../../utils/constants/pages";
-import { colors } from "../../../utils/constants/colors";
+import { pages } from '../../../utils/constants/pages';
+import { colors } from '../../../utils/constants/colors';
 import {
   dineroFromFloat,
   formatNumberOutput,
-} from "../../../utils/format/cash";
+} from '../../../utils/format/cash';
 import {
   renderSelectedColor,
   renderColors,
   toggleElement,
   createCashType,
-} from "../utils";
-import { useOutsideClick, hideElement } from "../../../hooks/useOutsideClick";
-import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
+} from '../utils';
+import { useOutsideClick, hideElement } from '../../../hooks/useOutsideClick';
+import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 
-import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
+import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 import {
   CardBalance,
   CardBalanceContainer,
@@ -32,7 +32,7 @@ import {
   CashColorsContainer,
   CurrentBalance,
   NumericInput,
-} from "../Cash.styled";
+} from '../Cash.styled';
 import {
   AddFormButtonsContainer,
   CancelButton,
@@ -46,7 +46,7 @@ import {
   FormFieldsContainer,
   SelectButton,
   SelectedColor,
-} from "../../../theme/global";
+} from '../../../theme/global';
 
 const doneEventHandler = (
   accountType,
@@ -57,7 +57,7 @@ const doneEventHandler = (
   notes,
   tags,
   addNewAccount,
-  dispatch
+  dispatch,
 ) => {
   const newAccount = {
     id: uuidv4(),
@@ -69,7 +69,7 @@ const doneEventHandler = (
         amount: balance,
         currency: USD,
         scale: 2,
-      })
+      }),
     ),
     color: selectedColor,
     date,
@@ -77,7 +77,7 @@ const doneEventHandler = (
     tags,
   };
   dispatch(addNewAccount(newAccount));
-  idbAddItem(newAccount, "accounts");
+  idbAddItem(newAccount, 'accounts');
 };
 
 function CardForm({ accountType, addNewAccount }) {
@@ -85,14 +85,14 @@ function CardForm({ accountType, addNewAccount }) {
 
   const { t } = useTranslation();
 
-  const [activeItem, setActiveItem] = useState("");
+  const [activeItem, setActiveItem] = useState('');
 
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState('');
   const [balance, setBalance] = useState(0.0);
   const [selectedColor, setSelectedColor] = useState(colors.green[700]);
   const [date, setDate] = useState(new Date());
-  const [notes, setNotes] = useState("");
-  const [tags] = useState([""]);
+  const [notes, setNotes] = useState('');
+  const [tags] = useState(['']);
 
   const cashType = createCashType(accountType);
 
@@ -107,29 +107,29 @@ function CardForm({ accountType, addNewAccount }) {
       >
         <CardName>{description}</CardName>
         <CardBalanceContainer>
-          <CardBalance>{formatNumberOutput(balance, "USD")}</CardBalance>
-          <CurrentBalance>{t("ADD_ACCOUNT.CURRENT_BALANCE")}</CurrentBalance>
+          <CardBalance>{formatNumberOutput(balance, 'USD')}</CardBalance>
+          <CurrentBalance>{t('ADD_ACCOUNT.CURRENT_BALANCE')}</CurrentBalance>
         </CardBalanceContainer>
       </CardView>
       <FormFieldsContainer>
         <FormField
-          $isActive={activeItem === "1"}
+          $isActive={activeItem === '1'}
           $formType="cash"
-          onClick={() => setActiveItem("1")}
+          onClick={() => setActiveItem('1')}
         >
-          <FieldDescription>{t("ADD_ACCOUNT.DESCRIPTION")}</FieldDescription>
+          <FieldDescription>{t('ADD_ACCOUNT.DESCRIPTION')}</FieldDescription>
           <FieldInput
             type="text"
             onChange={(event) => setDescription(event.target.value)}
-            placeholder={t("ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER")}
+            placeholder={t('ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
           ></FieldInput>
         </FormField>
         <FormField
-          $isActive={activeItem === "2"}
+          $isActive={activeItem === '2'}
           $formType="cash"
-          onClick={() => setActiveItem("2")}
+          onClick={() => setActiveItem('2')}
         >
-          <FieldDescription>{t("ADD_ACCOUNT.BALANCE")}</FieldDescription>
+          <FieldDescription>{t('ADD_ACCOUNT.BALANCE')}</FieldDescription>
           $
           <NumericFormat
             customInput={NumericInput}
@@ -142,14 +142,14 @@ function CardForm({ accountType, addNewAccount }) {
           />
         </FormField>
         <FormField
-          $isActive={activeItem === "3"}
+          $isActive={activeItem === '3'}
           $formType="cash"
-          onClick={() => setActiveItem("3")}
+          onClick={() => setActiveItem('3')}
         >
-          <FieldDescription>{t("ADD_ACCOUNT.COLOR")}</FieldDescription>
+          <FieldDescription>{t('ADD_ACCOUNT.COLOR')}</FieldDescription>
           <SelectedColor
             onClick={(event) => {
-              setActiveItem("3");
+              setActiveItem('3');
               toggleElement(colorsRef);
               event.stopPropagation();
             }}
@@ -158,12 +158,12 @@ function CardForm({ accountType, addNewAccount }) {
           </SelectedColor>
           <SelectButton
             onClick={(event) => {
-              setActiveItem("3");
+              setActiveItem('3');
               toggleElement(colorsRef);
               event.stopPropagation();
             }}
           >
-            {t("ADD_ACCOUNT.SELECT")}
+            {t('ADD_ACCOUNT.SELECT')}
           </SelectButton>
         </FormField>
         <CashColorsContainer ref={colorsRef} className="none">
@@ -172,42 +172,42 @@ function CardForm({ accountType, addNewAccount }) {
           </ColorsPalette>
           <ColorsPaletteButtonContainer>
             <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
-              {t("ADD_ACCOUNT.OK")}
+              {t('ADD_ACCOUNT.OK')}
             </ColorsPaletteButton>
           </ColorsPaletteButtonContainer>
         </CashColorsContainer>
         <FormField
-          $isActive={activeItem === "4"}
+          $isActive={activeItem === '4'}
           $formType="cash"
-          onClick={() => setActiveItem("4")}
+          onClick={() => setActiveItem('4')}
         >
-          <FieldDescription>{t("ADD_ACCOUNT.DATE")}</FieldDescription>
+          <FieldDescription>{t('ADD_ACCOUNT.DATE')}</FieldDescription>
           <FieldInput
             type="date"
             onChange={(event) => setDate(new Date(event.target.value))}
           ></FieldInput>
         </FormField>
         <FormField
-          $isActive={activeItem === "5"}
+          $isActive={activeItem === '5'}
           $formType="cash"
-          onClick={() => setActiveItem("5")}
+          onClick={() => setActiveItem('5')}
         >
-          <FieldDescription>{t("ADD_ACCOUNT.NOTES")}</FieldDescription>
+          <FieldDescription>{t('ADD_ACCOUNT.NOTES')}</FieldDescription>
           <FieldInput
             type="text"
             onChange={(event) => setNotes(event.target.value)}
-            placeholder={t("ADD_ACCOUNT.NOTES_PLACEHOLDER")}
+            placeholder={t('ADD_ACCOUNT.NOTES_PLACEHOLDER')}
           ></FieldInput>
         </FormField>
         <FormField
-          $isActive={activeItem === "6"}
+          $isActive={activeItem === '6'}
           $formType="cash"
-          onClick={() => setActiveItem("6")}
+          onClick={() => setActiveItem('6')}
         >
-          <FieldDescription>{t("ADD_ACCOUNT.TAGS")}</FieldDescription>
+          <FieldDescription>{t('ADD_ACCOUNT.TAGS')}</FieldDescription>
           <FieldInput
             type="text"
-            placeholder={t("ADD_ACCOUNT.TAGS_PLACEHOLDER")}
+            placeholder={t('ADD_ACCOUNT.TAGS_PLACEHOLDER')}
           ></FieldInput>
         </FormField>
         <AddFormButtonsContainer>
@@ -224,14 +224,14 @@ function CardForm({ accountType, addNewAccount }) {
                 notes,
                 tags,
                 addNewAccount,
-                dispatch
+                dispatch,
               )
             }
           >
-            {t("ADD_ACCOUNT.DONE")}
+            {t('ADD_ACCOUNT.DONE')}
           </DoneButton>
           <CancelButton to={pages.cash[cashType]}>
-            {t("ADD_ACCOUNT.CANCEL")}
+            {t('ADD_ACCOUNT.CANCEL')}
           </CancelButton>
         </AddFormButtonsContainer>
       </FormFieldsContainer>
@@ -240,8 +240,8 @@ function CardForm({ accountType, addNewAccount }) {
 }
 
 CardForm.propTypes = {
-  accountType: PropTypes.string, 
+  accountType: PropTypes.string,
   addNewAccount: PropTypes.func,
-}
+};
 
 export default CardForm;

@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import { NumericFormat } from "react-number-format";
-import { USD } from "@dinero.js/currencies";
-import { dinero, toDecimal, toSnapshot } from "dinero.js";
+import { NumericFormat } from 'react-number-format';
+import { USD } from '@dinero.js/currencies';
+import { dinero, toDecimal, toSnapshot } from 'dinero.js';
 
-import { colors } from "../../../utils/constants/colors.js";
-import { fetchAccountsData, editAccount } from "../../../actions/Actions";
+import { colors } from '../../../utils/constants/colors.js';
+import { fetchAccountsData, editAccount } from '../../../actions/Actions';
 import {
   dineroFromFloat,
   formatNumberOutput,
-} from "../../../utils/format/cash";
+} from '../../../utils/format/cash';
 import {
   renderSelectedColor,
   renderColors,
   toggleElement,
   createCashType,
   createLocaleCashType,
-} from "../utils";
-import { useOutsideClick, hideElement } from "../../../hooks/useOutsideClick";
-import { idbAddItem } from "../../../indexedDB/IndexedDB.js";
+} from '../utils';
+import { useOutsideClick, hideElement } from '../../../hooks/useOutsideClick';
+import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 
-import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
-import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
+import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
+import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 
 import {
   AddFormButtonsContainer,
@@ -43,7 +43,7 @@ import {
   FormFieldsContainer,
   SelectButton,
   SelectedColor,
-} from "../../../theme/global.js";
+} from '../../../theme/global.js';
 import {
   CardView,
   CardBalance,
@@ -52,8 +52,8 @@ import {
   CurrentBalance,
   CashColorsContainer,
   NumericInput,
-} from "../Cash.styled.js";
-import { pages } from "../../../utils/constants/pages.js";
+} from '../Cash.styled.js';
+import { pages } from '../../../utils/constants/pages.js';
 
 const doneEventHandler = (
   clickedAccount,
@@ -66,7 +66,7 @@ const doneEventHandler = (
   notes,
   tags,
   editAccount,
-  dispatch
+  dispatch,
 ) => {
   const newAccount = {
     id,
@@ -78,7 +78,7 @@ const doneEventHandler = (
         amount: balance,
         currency: USD,
         scale: 2,
-      })
+      }),
     ),
     color: selectedColor,
     date,
@@ -86,7 +86,7 @@ const doneEventHandler = (
     tags,
   };
   dispatch(editAccount(clickedAccount, newAccount));
-  idbAddItem(newAccount, "accounts");
+  idbAddItem(newAccount, 'accounts');
 };
 
 export default function InfoAccount() {
@@ -95,21 +95,21 @@ export default function InfoAccount() {
 
   const { t } = useTranslation();
 
-  const [activeItem, setActiveItem] = useState("");
+  const [activeItem, setActiveItem] = useState('');
 
   //счет который пользователь хочет отредактировать (нажал на него на странице Cash)
   const clickedAccount = useParams().accountId;
 
-  const [id, setId] = useState("");
-  const [accountType, setAccountType] = useState("");
-  const [description, setDescription] = useState("");
+  const [id, setId] = useState('');
+  const [accountType, setAccountType] = useState('');
+  const [description, setDescription] = useState('');
   const [balance, setBalance] = useState(
-    toDecimal(dinero({ amount: 0, currency: USD }))
+    toDecimal(dinero({ amount: 0, currency: USD })),
   );
   const [selectedColor, setSelectedColor] = useState(colors.green[800]);
   const [date, setDate] = useState(new Date());
-  const [notes, setNotes] = useState("");
-  const [tags, setTags] = useState([""]);
+  const [notes, setNotes] = useState('');
+  const [tags, setTags] = useState(['']);
 
   const cashType = createCashType(accountType);
   const cashLocalType = createLocaleCashType(accountType);
@@ -124,9 +124,9 @@ export default function InfoAccount() {
 
   //получаем данные нужного счета когда они подгрузились
   useEffect(() => {
-    if (status === "succeeded") {
+    if (status === 'succeeded') {
       let selectedAccount = accounts.find(
-        (account) => account.id === clickedAccount
+        (account) => account.id === clickedAccount,
       );
       if (!selectedAccount) {
         return;
@@ -150,7 +150,7 @@ export default function InfoAccount() {
         </BackLink>
         {t(`INFO_ACCOUNT.${cashLocalType}_INFORMATION`)}
       </AddFormHeader>
-      {status === "loading" ? (
+      {status === 'loading' ? (
         <div>Loading</div>
       ) : (
         <React.Fragment>
@@ -161,34 +161,34 @@ export default function InfoAccount() {
           >
             <CardName>{description}</CardName>
             <CardBalanceContainer>
-              <CardBalance>{formatNumberOutput(balance, "USD")}</CardBalance>
+              <CardBalance>{formatNumberOutput(balance, 'USD')}</CardBalance>
               <CurrentBalance>
-                {t("INFO_ACCOUNT.CURRENT_BALANCE")}
+                {t('INFO_ACCOUNT.CURRENT_BALANCE')}
               </CurrentBalance>
             </CardBalanceContainer>
           </CardView>
           <FormFieldsContainer>
             <FormField
-              $isActive={activeItem === "1"}
+              $isActive={activeItem === '1'}
               $formType="cash"
-              onClick={() => setActiveItem("1")}
+              onClick={() => setActiveItem('1')}
             >
               <FieldDescription>
-                {t("INFO_ACCOUNT.DESCRIPTION")}
+                {t('INFO_ACCOUNT.DESCRIPTION')}
               </FieldDescription>
               <FieldInput
                 type="text"
                 onChange={(event) => setDescription(event.target.value)}
                 defaultValue={description}
-                placeholder={t("ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER")}
+                placeholder={t('ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
               ></FieldInput>
             </FormField>
             <FormField
-              $isActive={activeItem === "2"}
+              $isActive={activeItem === '2'}
               $formType="cash"
-              onClick={() => setActiveItem("2")}
+              onClick={() => setActiveItem('2')}
             >
-              <FieldDescription>{t("INFO_ACCOUNT.BALANCE")}</FieldDescription>
+              <FieldDescription>{t('INFO_ACCOUNT.BALANCE')}</FieldDescription>
               <div>
                 $
                 <NumericFormat
@@ -204,14 +204,14 @@ export default function InfoAccount() {
               </div>
             </FormField>
             <FormField
-              $isActive={activeItem === "3"}
+              $isActive={activeItem === '3'}
               $formType="cash"
-              onClick={() => setActiveItem("3")}
+              onClick={() => setActiveItem('3')}
             >
-              <FieldDescription>{t("INFO_ACCOUNT.COLOR")}</FieldDescription>
+              <FieldDescription>{t('INFO_ACCOUNT.COLOR')}</FieldDescription>
               <SelectedColor
                 onClick={(event) => {
-                  setActiveItem("3");
+                  setActiveItem('3');
                   toggleElement(colorsRef);
                   event.stopPropagation();
                 }}
@@ -220,12 +220,12 @@ export default function InfoAccount() {
               </SelectedColor>
               <SelectButton
                 onClick={(event) => {
-                  setActiveItem("3");
+                  setActiveItem('3');
                   toggleElement(colorsRef);
                   event.stopPropagation();
                 }}
               >
-                {t("INFO_ACCOUNT.SELECT")}
+                {t('INFO_ACCOUNT.SELECT')}
               </SelectButton>
             </FormField>
             <CashColorsContainer ref={colorsRef} className="none">
@@ -234,27 +234,27 @@ export default function InfoAccount() {
               </ColorsPalette>
               <ColorsPaletteButtonContainer>
                 <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
-                  {t("INFO_ACCOUNT.OK")}
+                  {t('INFO_ACCOUNT.OK')}
                 </ColorsPaletteButton>
               </ColorsPaletteButtonContainer>
             </CashColorsContainer>
             <FormField
-              $isActive={activeItem === "4"}
+              $isActive={activeItem === '4'}
               $formType="cash"
-              onClick={() => setActiveItem("4")}
+              onClick={() => setActiveItem('4')}
             >
-              <FieldDescription>{t("INFO_ACCOUNT.DATE")}</FieldDescription>
+              <FieldDescription>{t('INFO_ACCOUNT.DATE')}</FieldDescription>
               <FieldInput
                 type="date"
                 onChange={(event) => setDate(new Date(event.target.value))}
               ></FieldInput>
             </FormField>
             <FormField
-              $isActive={activeItem === "5"}
+              $isActive={activeItem === '5'}
               $formType="cash"
-              onClick={() => setActiveItem("5")}
+              onClick={() => setActiveItem('5')}
             >
-              <FieldDescription>{t("INFO_ACCOUNT.NOTES")}</FieldDescription>
+              <FieldDescription>{t('INFO_ACCOUNT.NOTES')}</FieldDescription>
               <FieldInput
                 type="text"
                 onChange={(event) => setNotes(event.target.value)}
@@ -262,11 +262,11 @@ export default function InfoAccount() {
               ></FieldInput>
             </FormField>
             <FormField
-              $isActive={activeItem === "6"}
+              $isActive={activeItem === '6'}
               $formType="cash"
-              onClick={() => setActiveItem("6")}
+              onClick={() => setActiveItem('6')}
             >
-              <FieldDescription>{t("INFO_ACCOUNT.TAGS")}</FieldDescription>
+              <FieldDescription>{t('INFO_ACCOUNT.TAGS')}</FieldDescription>
               <FieldInput></FieldInput>
             </FormField>
             <AddFormButtonsContainer>
@@ -285,14 +285,14 @@ export default function InfoAccount() {
                     notes,
                     tags,
                     editAccount,
-                    dispatch
+                    dispatch,
                   )
                 }
               >
-                {t("INFO_ACCOUNT.DONE")}
+                {t('INFO_ACCOUNT.DONE')}
               </DoneButton>
               <CancelButton to={pages.cash[cashType]}>
-                {t("INFO_ACCOUNT.CANCEL")}
+                {t('INFO_ACCOUNT.CANCEL')}
               </CancelButton>
             </AddFormButtonsContainer>
           </FormFieldsContainer>

@@ -1,14 +1,14 @@
 .chart_legends {
-    font-size: 0.875rem;
+  font-size: 0.875rem;
 }
 
 .legends_item {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .legends_item svg {
-    margin-right: 10px;
+  margin-right: 10px;
 }

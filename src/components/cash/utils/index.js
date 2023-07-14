@@ -1,14 +1,14 @@
-import React from "react";
-import { ReactComponent as CheckMarkIcon } from "../../../assets/icons/shared/checkMark.svg";
-import notesIcon from "../../../assets/icons/shared/notes.svg";
-import { styled } from "styled-components";
+import React from 'react';
+import { ReactComponent as CheckMarkIcon } from '../../../assets/icons/shared/checkMark.svg';
+import notesIcon from '../../../assets/icons/shared/notes.svg';
+import { styled } from 'styled-components';
 
 const CashNotes = styled.div((props) => ({
   marginTop: props.theme.spacing(2),
-  fontSize: "0.875rem",
+  fontSize: '0.875rem',
   color: props.theme.colors.text.darker,
-  display: "flex",
-  alignItems: "center",
+  display: 'flex',
+  alignItems: 'center',
 }));
 
 const NotesImg = styled.img((props) => ({
@@ -17,17 +17,17 @@ const NotesImg = styled.img((props) => ({
 }));
 
 const ColorContainer = styled.div(() => ({
-  width: "100%",
+  width: '100%',
 }));
 
 function showCheckMark(key) {
-  const allMarks = document.querySelectorAll(".checkMarkIcon");
+  const allMarks = document.querySelectorAll('.checkMarkIcon');
   for (let mark of allMarks) {
-    if (!mark.classList.contains("none")) {
-      mark.classList.add("none");
+    if (!mark.classList.contains('none')) {
+      mark.classList.add('none');
     }
   }
-  document.querySelector(`.${key}`).classList.toggle("none");
+  document.querySelector(`.${key}`).classList.toggle('none');
 }
 
 export function renderColors(colors, setSelectedColor, initialColor) {
@@ -63,7 +63,7 @@ export function renderColors(colors, setSelectedColor, initialColor) {
               x="1.5"
               y="-3.5"
               className={`${color + shade} checkMarkIcon ${
-                isInitialColor(colors[color][shade]) ? "" : "none"
+                isInitialColor(colors[color][shade]) ? '' : 'none'
               }`}
             />
             <defs>
@@ -80,7 +80,7 @@ export function renderColors(colors, setSelectedColor, initialColor) {
               </linearGradient>
             </defs>
           </svg>
-        </ColorContainer>
+        </ColorContainer>,
       );
     }
   }
@@ -122,43 +122,43 @@ export function renderSelectedColor(selectedColor) {
 }
 
 export function toggleElement(ref) {
-  ref.current.classList.toggle("none");
+  ref.current.classList.toggle('none');
 }
 
 export function createCashFilter(filterCash) {
   switch (filterCash) {
-    case "cards":
-      return "card";
-    case "cash":
-      return "cash";
-    case "transfers":
-      return "transfer";
+    case 'cards':
+      return 'card';
+    case 'cash':
+      return 'cash';
+    case 'transfers':
+      return 'transfer';
     default:
-      return "all";
+      return 'all';
   }
 }
 
 export function createCashType(accountType) {
   switch (accountType) {
-    case "card":
-      return "cards";
-    case "cash":
-      return "cash";
+    case 'card':
+      return 'cards';
+    case 'cash':
+      return 'cash';
     default:
-      return "all";
+      return 'all';
   }
 }
 
 export function createLocaleCashType(cashType) {
   switch (cashType) {
-    case "card":
-      return "CARD";
-    case "cash":
-      return "CASH";
-    case "transfer":
-      return "TRANSFER";
+    case 'card':
+      return 'CARD';
+    case 'cash':
+      return 'CASH';
+    case 'transfer':
+      return 'TRANSFER';
     default:
-      return "ALL";
+      return 'ALL';
   }
 }
 
@@ -177,7 +177,7 @@ export function createLocaleCash(NAME, count) {
 }
 
 export function filterAccounts(filterCash, accounts) {
-  return filterCash === "all"
+  return filterCash === 'all'
     ? accounts
     : accounts.filter((account) => account.type === filterCash);
 }

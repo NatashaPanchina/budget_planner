@@ -1,26 +1,21 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { ResponsivePie } from "@nivo/pie";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { ResponsivePie } from '@nivo/pie';
 
 import {
   createDescriptions,
   createGradientColors,
   renderGradients,
   renderMatchs,
-} from "../utils/gradients";
-import { createData } from "../utils/charts";
-import Legends from "../legends/Legends";
-import { renderTooltip } from "../utils/tooltip";
+} from '../utils/gradients';
+import { createData } from '../utils/charts';
+import Legends from '../legends/Legends';
+import { renderTooltip } from '../utils/tooltip';
 
-function PieChart({
-  transactions,
-  categories,
-  chartFilter,
-  date,
-}) {
+function PieChart({ transactions, categories, chartFilter, date }) {
   let commonData = createData(
     { transactions, categories, chartFilter, date },
-    "pie"
+    'pie',
   );
 
   return (
@@ -28,12 +23,12 @@ function PieChart({
       <div className="chart">
         <ResponsivePie
           data={commonData}
-          colors={{ datum: "data.category.color[1]" }}
+          colors={{ datum: 'data.category.color[1]' }}
           defs={renderGradients(createGradientColors(categories))}
           fill={renderMatchs(createDescriptions(categories))}
           value="sum"
           valueFormat={(value) =>
-            `$ ${Number(value).toLocaleString("en-US", {
+            `$ ${Number(value).toLocaleString('en-US', {
               minimumFractionDigits: 2,
             })}`
           }

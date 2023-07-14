@@ -1,24 +1,24 @@
-import { dinero, toDecimal } from "dinero.js";
+import { dinero, toDecimal } from 'dinero.js';
 
 export const formatDineroOutput = (dineroObject, currency) => {
   switch (currency) {
-    case "USD":
+    case 'USD':
       return toDecimal(dineroObject, ({ value }) => {
-        return Number(value).toLocaleString("en-US", {
-          style: "currency",
+        return Number(value).toLocaleString('en-US', {
+          style: 'currency',
           currency: currency,
         });
       });
     default:
-      return "0.00";
+      return '0.00';
   }
 };
 
 export const formatNumberOutput = (number, currency) => {
   switch (currency) {
-    case "USD":
-      return Number(number).toLocaleString("en-US", {
-        style: "currency",
+    case 'USD':
+      return Number(number).toLocaleString('en-US', {
+        style: 'currency',
         currency: currency,
       });
     default:

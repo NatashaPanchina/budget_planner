@@ -7,10 +7,10 @@ import {
   RESTORE_CATEGORY,
   DELETE_CATEGORY,
   EDIT_CATEGORY,
-} from "../actions/ActionTypes";
+} from '../actions/ActionTypes';
 
 const initialState = {
-  status: "idle",
+  status: 'idle',
   error: null,
   categories: [],
 };
@@ -20,18 +20,18 @@ const categories = (state = initialState, { type, payload }) => {
     case IDB_FETCH_CATEGORIES_INIT:
       return {
         ...state,
-        status: "loading",
+        status: 'loading',
       };
     case IDB_FETCH_CATEGORIES_SUCCESS:
       return {
         ...state,
-        status: "succeeded",
+        status: 'succeeded',
         categories: payload,
       };
     case IDB_FETCH_CATEGORIES_FAILURE:
       return {
         ...state,
-        status: "failed",
+        status: 'failed',
         error: payload.message,
       };
     case ADD_NEW_CATEGORY:
@@ -43,28 +43,28 @@ const categories = (state = initialState, { type, payload }) => {
       return {
         ...state,
         categories: state.categories.map((category) =>
-          category.id === payload.id ? payload.newCategory : category
+          category.id === payload.id ? payload.newCategory : category,
         ),
       };
     case ARCHIVE_CATEGORY:
       return {
         ...state,
         categories: state.categories.map((category) =>
-          category.id === payload ? { ...category, archived: true } : category
+          category.id === payload ? { ...category, archived: true } : category,
         ),
       };
     case RESTORE_CATEGORY:
       return {
         ...state,
         categories: state.categories.map((category) =>
-          category.id === payload ? { ...category, archived: false } : category
+          category.id === payload ? { ...category, archived: false } : category,
         ),
       };
     case DELETE_CATEGORY:
       return {
         ...state,
         categories: state.categories.filter(
-          (category) => category.id !== payload
+          (category) => category.id !== payload,
         ),
       };
     default:

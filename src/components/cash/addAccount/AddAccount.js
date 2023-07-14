@@ -1,12 +1,12 @@
-import React from "react";
-import { NavLink, useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { NavLink, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import { addNewAccount } from "../../../actions/Actions";
-import { createCashType } from "../utils";
-import AccountForm from "./AccountForm.js";
+import { addNewAccount } from '../../../actions/Actions';
+import { createCashType } from '../utils';
+import AccountForm from './AccountForm.js';
 
-import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.svg";
+import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 
 import {
   AddFormContainer,
@@ -14,22 +14,22 @@ import {
   AddFormHeaderTitles,
   BackLink,
   BackLinkSvg,
-} from "../../../theme/global";
-import { styled } from "styled-components";
-import { pages } from "../../../utils/constants/pages";
+} from '../../../theme/global';
+import { styled } from 'styled-components';
+import { pages } from '../../../utils/constants/pages';
 
 const TitleLink = styled(NavLink)((props) => ({
   height: 60,
-  width: "33.3%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  boxSizing: "border-box",
+  width: '33.3%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  boxSizing: 'border-box',
   color: props.theme.colors.text.darker,
-  "&:hover": {
+  '&:hover': {
     color: props.theme.colors.main.violet,
   },
-  "&.active": {
+  '&.active': {
     color: props.theme.colors.main.violet,
     borderBottom: `2px solid ${props.theme.colors.main.violet}`,
   },
@@ -47,10 +47,10 @@ export default function AddAccount() {
         </BackLink>
         <AddFormHeaderTitles>
           <TitleLink to={pages.cash.add.card}>
-            {t("ADD_ACCOUNT.CARD")}
+            {t('ADD_ACCOUNT.CARD')}
           </TitleLink>
           <TitleLink to={pages.cash.add.cash}>
-            {t("ADD_ACCOUNT.CASH")}
+            {t('ADD_ACCOUNT.CASH')}
           </TitleLink>
         </AddFormHeaderTitles>
       </AddFormHeader>

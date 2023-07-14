@@ -1,17 +1,17 @@
-import { createLineData } from "./line";
-import { createBarData } from "./bar";
-import { createPieData } from "./pie";
-import { createTableData } from "./table";
+import { createLineData } from './line';
+import { createBarData } from './bar';
+import { createPieData } from './pie';
+import { createTableData } from './table';
 
 export function createData(data, chartType) {
   switch (chartType) {
-    case "line":
+    case 'line':
       return createLineData(data);
-    case "bar":
+    case 'bar':
       return createBarData(data);
-    case "pie":
+    case 'pie':
       return createPieData(data);
-    case "table":
+    case 'table':
       return createTableData(data);
     default:
       return [];

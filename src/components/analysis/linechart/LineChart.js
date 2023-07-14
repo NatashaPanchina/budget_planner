@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { ResponsiveLine } from "@nivo/line";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { ResponsiveLine } from '@nivo/line';
 
-import { createData } from "../utils/charts";
-import Legends from "../legends/Legends";
-import { renderTooltip } from "../utils/tooltip";
+import { createData } from '../utils/charts';
+import Legends from '../legends/Legends';
+import { renderTooltip } from '../utils/tooltip';
 
 function LineChart({
   transactions,
@@ -15,7 +15,7 @@ function LineChart({
 }) {
   let commonData = createData(
     { transactions, categories, chartFilter, isDetailed, date },
-    "line"
+    'line',
   );
   return (
     <div className="line_chart_container">
@@ -25,36 +25,36 @@ function LineChart({
             axis: {
               ticks: {
                 line: {
-                  stroke: "#fff",
+                  stroke: '#fff',
                 },
                 text: {
-                  fill: "#fff",
+                  fill: '#fff',
                 },
               },
             },
             grid: {
               line: {
-                stroke: "#989393",
-                strokeDasharray: "4 4",
+                stroke: '#989393',
+                strokeDasharray: '4 4',
               },
             },
           }}
           data={commonData}
-          colors={{ datum: "color[1]" }}
+          colors={{ datum: 'color[1]' }}
           margin={{ top: 10, right: 50, bottom: 50, left: 80 }}
-          xScale={{ type: "point" }}
+          xScale={{ type: 'point' }}
           enablePoints={false}
           axisLeft={{
-            format: (value) => `${Number(value).toLocaleString("en-US")}`,
+            format: (value) => `${Number(value).toLocaleString('en-US')}`,
           }}
           axisBottom={{
-            orient: "bottom",
+            orient: 'bottom',
             tickSize: 5,
             tickPadding: 10,
             tickRotation: 0,
-            legend: "date",
+            legend: 'date',
             legendOffset: 40,
-            legendPosition: "middle",
+            legendPosition: 'middle',
           }}
           lineWidth={2}
           useMesh={true}
@@ -66,9 +66,9 @@ function LineChart({
           }) =>
             renderTooltip(
               serieId,
-              `$ ${Number(yFormatted).toLocaleString("en-US", {
+              `$ ${Number(yFormatted).toLocaleString('en-US', {
                 minimumFractionDigits: 2,
-              })}`
+              })}`,
             )
           }
         />

@@ -1,40 +1,40 @@
-import { css, styled } from "styled-components";
+import { css, styled } from 'styled-components';
 
 export const AnalysisContainer = styled.div((props) => ({
   marginTop: props.theme.spacing(14),
-  marginLeft: "25%",
-  marginRight: "8%",
+  marginLeft: '25%',
+  marginRight: '8%',
 }));
 
 export const AnalysisHeader = styled.div((props) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   height: 50,
-  position: "sticky",
+  position: 'sticky',
   top: 56,
   zIndex: 9,
-  paddingLeft: "25%",
-  paddingRight: "8%",
+  paddingLeft: '25%',
+  paddingRight: '8%',
   backgroundColor: props.theme.colors.background.body,
 }));
 
 export const HeaderTitle = styled.div(() => ({
-  width: "33.33%",
+  width: '33.33%',
 }));
 
 export const Filter = styled.div((props) => ({
-  display: "flex",
-  position: "relative",
-  alignItems: "center",
+  display: 'flex',
+  position: 'relative',
+  alignItems: 'center',
   borderRadius: props.theme.borderRadius * 1.5,
-  height: "fit-content",
-  width: "33.33%",
+  height: 'fit-content',
+  width: '33.33%',
   padding: props.theme.spacing(2),
-  fontSize: "0.875rem",
+  fontSize: '0.875rem',
   color: props.theme.colors.text.darker,
-  cursor: "pointer",
-  "&:hover": {
+  cursor: 'pointer',
+  '&:hover': {
     color: props.theme.colors.text.primary,
   },
 }));
@@ -51,28 +51,28 @@ export const Container = styled.div((props) => ({
   borderRadius: props.theme.borderRadius,
   backgroundColor: props.theme.colors.background.primary,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
-  position: "relative",
+  position: 'relative',
 }));
 
 export const CommonInfoContainer = styled(Container)(() => ({
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr 1fr",
-  justifyContent: "center",
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr 1fr',
+  justifyContent: 'center',
   height: 220,
 }));
 
 export const CommonInfoItem = styled.div((props) => ({
-  justifySelf: "center",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  justifySelf: 'center',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   height: 100,
-  width: "70%",
+  width: '70%',
   marginTop: props.theme.spacing(5),
   minWidth: 160,
   border: `1px solid ${props.theme.colors.border.item}`,
   borderRadius: props.theme.borderRadius,
-  textAlign: "center",
+  textAlign: 'center',
   backgroundColor: props.theme.colors.background.body,
 }));
 
@@ -83,25 +83,25 @@ export const CommonInfoSvg = styled.svg((props) => ({
 }));
 
 export const CommonInfoTitle = styled.div((props) => ({
-  fontSize: "0.75rem",
+  fontSize: '0.75rem',
   color: props.theme.colors.text.darker,
 }));
 
 export const CommonInfoAmount = styled.div((props) => {
   switch (props.$amountType) {
-    case "expense":
+    case 'expense':
       return css(() => ({
         color: props.theme.colors.expense,
       }));
-    case "income":
+    case 'income':
       return css(() => ({
         color: props.theme.colors.income,
       }));
-    case "saldo":
+    case 'saldo':
       return css(() => ({
         color: props.theme.colors.saldo,
       }));
-    case "all":
+    case 'all':
       return css(() => ({
         color: props.theme.colors.main.violet,
       }));
@@ -113,14 +113,14 @@ export const CommonInfoAmount = styled.div((props) => {
 });
 
 export const CommonInfoCount = styled.div(() => ({
-  fontSize: "0.875rem",
+  fontSize: '0.875rem',
 }));
 
 export const CommonCalcItem = styled.div(() => ({
-  justifySelf: "center",
-  textAlign: "center",
+  justifySelf: 'center',
+  textAlign: 'center',
   height: 50,
-  width: "70%",
+  width: '70%',
   minWidth: 160,
 }));
 
@@ -130,13 +130,13 @@ export const ChartsContainer = styled.div((props) => ({
   borderRadius: props.theme.borderRadius,
   backgroundColor: props.theme.colors.background.primary,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
-  position: "relative",
+  position: 'relative',
 }));
 
 export const ChartButtonsContainer = styled.div((props) => ({
   minWidth: 510,
-  display: "flex",
-  justifyContent: "space-around",
+  display: 'flex',
+  justifyContent: 'space-around',
   padding: `${props.theme.spacing(5)}px 10%`,
   borderBottom: `1px solid ${props.theme.colors.border.title}`,
 }));
@@ -148,10 +148,10 @@ export const ChartButton = styled.button((props) => ({
   paddingRight: props.theme.spacing(4),
   color: props.theme.colors.text.darker,
   backgroundColor: props.theme.colors.background.ordinary,
-  "&:hover": {
+  '&:hover': {
     color: props.theme.colors.text.primary,
   },
-  "&.active": {
+  '&.active': {
     border: `1px solid ${props.theme.colors.main.violet}`,
     backgroundColor: props.theme.colors.background.primary,
     color: props.theme.colors.text.primary,
@@ -159,9 +159,9 @@ export const ChartButton = styled.button((props) => ({
 }));
 
 export const ToggleButtonsContainer = styled.div(() => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 }));
 
 export const ToggleChartButton = styled.button((props) => ({

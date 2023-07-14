@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-import { add, dinero } from "dinero.js";
-import { USD } from "@dinero.js/currencies";
+import { add, dinero } from 'dinero.js';
+import { USD } from '@dinero.js/currencies';
 
-import { formatDineroOutput } from "../../../utils/format/cash";
+import { formatDineroOutput } from '../../../utils/format/cash';
 
-import { ReactComponent as ArrowRight } from "../../../assets/icons/shared/arrowRight.svg";
-import { ReactComponent as ArrowLeft } from "../../../assets/icons/shared/arrowLeft.svg";
-import cardBackground from "../../../assets/icons/shared/cardBackground.svg";
-import { useTranslation } from "react-i18next";
-import { pages } from "../../../utils/constants/pages";
+import { ReactComponent as ArrowRight } from '../../../assets/icons/shared/arrowRight.svg';
+import { ReactComponent as ArrowLeft } from '../../../assets/icons/shared/arrowLeft.svg';
+import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
+import { useTranslation } from 'react-i18next';
+import { pages } from '../../../utils/constants/pages';
 
 function previousSlide(slide, setCurrentSlide) {
   if (slide === 1) return;
 
-  const slides = document.querySelectorAll(".accounts_slide");
+  const slides = document.querySelectorAll('.accounts_slide');
 
   for (let i = 0; i < slides.length; i++) {
     slides[i].style.transform = `translate(-${100 * (slide - 2)}%)`;
@@ -27,7 +27,7 @@ function previousSlide(slide, setCurrentSlide) {
 function nextSlide(countSlides, slide, setCurrentSlide) {
   if (slide === countSlides) return;
 
-  const slides = document.querySelectorAll(".accounts_slide");
+  const slides = document.querySelectorAll('.accounts_slide');
 
   for (let i = 0; i < slides.length; i++) {
     slides[i].style.transform = `translate(-${100 * slide}%)`;
@@ -41,7 +41,7 @@ function Slider({ filterType, notArchivedAccounts }) {
   const countSlides = notArchivedAccounts.length + 1;
   const accountsTotalBalance = notArchivedAccounts.reduce(
     (sum, account) => add(sum, dinero(account.balance)),
-    dinero({ amount: 0, currency: USD })
+    dinero({ amount: 0, currency: USD }),
   );
 
   return (
@@ -65,13 +65,13 @@ function Slider({ filterType, notArchivedAccounts }) {
               boxShadow: `0px 4px 10px #DCE2DF`,
             }}
           >
-            <div className="card_name">{t("TRANSACTIONS.ALL")}</div>
+            <div className="card_name">{t('TRANSACTIONS.ALL')}</div>
             <div className="card_balance_info">
               <div className="card_balance">
-                {formatDineroOutput(accountsTotalBalance, "USD")}
+                {formatDineroOutput(accountsTotalBalance, 'USD')}
               </div>
               <div className="card_balance_title">
-                {t("TRANSACTIONS.CURRENT_BALANCE")}
+                {t('TRANSACTIONS.CURRENT_BALANCE')}
               </div>
             </div>
           </Link>
@@ -91,10 +91,10 @@ function Slider({ filterType, notArchivedAccounts }) {
                 <div className="card_name">{account.description}</div>
                 <div className="card_balance_info">
                   <div className="card_balance">
-                    {formatDineroOutput(dinero(account.balance), "USD")}
+                    {formatDineroOutput(dinero(account.balance), 'USD')}
                   </div>
                   <div className="card_balance_title">
-                    {t("TRANSACTIONS.CURRENT_BALANCE")}
+                    {t('TRANSACTIONS.CURRENT_BALANCE')}
                   </div>
                 </div>
               </Link>
@@ -107,8 +107,8 @@ function Slider({ filterType, notArchivedAccounts }) {
 }
 
 Slider.propTypes = {
-  filterType: PropTypes.string, 
+  filterType: PropTypes.string,
   notArchivedAccounts: PropTypes.array,
-}
+};
 
 export default Slider;

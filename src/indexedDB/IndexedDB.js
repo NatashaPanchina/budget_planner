@@ -1,6 +1,6 @@
-import dataJSON from "./data.json";
+import dataJSON from './data.json';
 
-export const DATABASE_NAME = "budget-planner";
+export const DATABASE_NAME = 'budget-planner';
 export const DB_VERSION = 1;
 
 export function idbOpen() {
@@ -15,28 +15,28 @@ export function idbOpen() {
     //инициализация бд из JSON
     openRequest.onupgradeneeded = () => {
       const idb = openRequest.result;
-      const profile = idb.createObjectStore("profile", {
-        keyPath: "id",
+      const profile = idb.createObjectStore('profile', {
+        keyPath: 'id',
       });
-      const accounts = idb.createObjectStore("accounts", {
-        keyPath: "id",
+      const accounts = idb.createObjectStore('accounts', {
+        keyPath: 'id',
       });
-      const transactions = idb.createObjectStore("transactions", {
-        keyPath: "id",
+      const transactions = idb.createObjectStore('transactions', {
+        keyPath: 'id',
       });
-      const categories = idb.createObjectStore("categories", {
-        keyPath: "id",
+      const categories = idb.createObjectStore('categories', {
+        keyPath: 'id',
       });
 
       loadJSON().then((data) => {
-        idbInitFromJson(profile, data.profile, "profile");
+        idbInitFromJson(profile, data.profile, 'profile');
         idbInitFromJson(accounts, data.accounts.accounts);
         idbInitFromJson(transactions, data.transactions.transactions);
         idbInitFromJson(categories, data.categories.categories);
       });
     };
 
-    openRequest.onerror = () => reject("idbOpen Error");
+    openRequest.onerror = () => reject('idbOpen Error');
   });
 }
 
@@ -47,7 +47,7 @@ async function loadJSON() {
 }
 
 function idbInitFromJson(objectStore, data, nameObjectStore) {
-  if (nameObjectStore === "profile") {
+  if (nameObjectStore === 'profile') {
     objectStore.put(data);
   } else {
     for (let key in data) {
@@ -60,13 +60,13 @@ export const idbAddItem = (newItem, nameObjectStore) => {
   return new Promise((resolve, reject) => {
     idbOpen().then((idb) => {
       const objectStore = idb
-        .transaction(nameObjectStore, "readwrite")
+        .transaction(nameObjectStore, 'readwrite')
         .objectStore(nameObjectStore);
       const addRequest = objectStore.put(newItem);
       addRequest.onsuccess = () => {
         resolve(addRequest.result);
       };
-      addRequest.onerror = () => reject("idbAddItem Error");
+      addRequest.onerror = () => reject('idbAddItem Error');
     });
   });
 };
@@ -75,13 +75,13 @@ export const idbDeleteItem = (id, nameObjectStore) => {
   return new Promise((resolve, reject) => {
     idbOpen().then((idb) => {
       const objectStore = idb
-        .transaction(nameObjectStore, "readwrite")
+        .transaction(nameObjectStore, 'readwrite')
         .objectStore(nameObjectStore);
       const deleteRequest = objectStore.delete(id);
       deleteRequest.onsuccess = () => {
         resolve(deleteRequest.result);
       };
-      deleteRequest.onerror = () => reject("idbDeleteItem Error");
+      deleteRequest.onerror = () => reject('idbDeleteItem Error');
     });
   });
 };

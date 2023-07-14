@@ -1,8 +1,8 @@
-import React from "react";
-import { add, dinero, toDecimal } from "dinero.js";
-import { USD } from "@dinero.js/currencies";
+import React from 'react';
+import { add, dinero, toDecimal } from 'dinero.js';
+import { USD } from '@dinero.js/currencies';
 
-import { formatNumberOutput } from "../../../../utils/format/cash";
+import { formatNumberOutput } from '../../../../utils/format/cash';
 
 export function createLocaleTransactions(NAME, count) {
   const lastNumber = Number(String(count).match(/\d$/g)[0]);
@@ -24,9 +24,9 @@ export function renderAccounts(t, accounts, setAccountFilter) {
     <div className="accounts_filter none">
       <div
         className="accounts_filter_item"
-        onClick={() => setAccountFilter("All cash")}
+        onClick={() => setAccountFilter('All cash')}
       >
-        {t("ANALYSIS.ALL_CASH")}
+        {t('ANALYSIS.ALL_CASH')}
       </div>
       {accounts.map((account) => (
         <div
@@ -47,11 +47,11 @@ export function renderAccounts(t, accounts, setAccountFilter) {
               width="34"
               height="23"
               rx="5"
-              fill={`url(#${account.description.replaceAll(" ", "_")})`}
+              fill={`url(#${account.description.replaceAll(' ', '_')})`}
             ></rect>
             <defs>
               <linearGradient
-                id={account.description.replaceAll(" ", "_")}
+                id={account.description.replaceAll(' ', '_')}
                 x1="0"
                 y1="0"
                 x2="34"
@@ -74,9 +74,9 @@ export function filterTransactions(
   transactions,
   accounts,
   date,
-  accountFilter
+  accountFilter,
 ) {
-  if (accountFilter === "All cash") {
+  if (accountFilter === 'All cash') {
     return transactions.filter((transaction) => {
       const transactionDate = new Date(transaction.date);
       return transactionDate >= date.from && transactionDate <= date.to;
@@ -85,7 +85,7 @@ export function filterTransactions(
   return transactions.filter((transaction) => {
     const transactionDate = new Date(transaction.date);
     const transactionAccount = accounts.find(
-      (account) => account.id === transaction.account
+      (account) => account.id === transaction.account,
     );
     return (
       transactionDate >= date.from &&
@@ -97,14 +97,14 @@ export function filterTransactions(
 
 export function filterByType(transactions, type) {
   return transactions.filter(
-    (transaction) => transaction.transactionType === type
+    (transaction) => transaction.transactionType === type,
   );
 }
 
 export function createSum(values) {
   return values.reduce(
     (sum, value) => add(sum, dinero(value.amount)),
-    dinero({ amount: 0, currency: USD })
+    dinero({ amount: 0, currency: USD }),
   );
 }
 
@@ -114,9 +114,9 @@ export function filterArchivedAccounts(accounts) {
 
 export function createAverageAmount(date, sum) {
   switch (date.during) {
-    case "month":
-      return formatNumberOutput((Number(toDecimal(sum)) / 4).toFixed(2), "USD");
+    case 'month':
+      return formatNumberOutput((Number(toDecimal(sum)) / 4).toFixed(2), 'USD');
     default:
-      return formatNumberOutput(0, "USD");
+      return formatNumberOutput(0, 'USD');
   }
 }
