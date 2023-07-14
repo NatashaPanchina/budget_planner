@@ -40,7 +40,7 @@ export function renderSelectedCategory(categoryId, categoriesData) {
         <Icon height="20" width="20" x="7" y="7" />
         <defs>
           <linearGradient
-            id={'selectedCategory'}
+            id="selectedCategory"
             x1="0"
             y1="0"
             x2="34"
