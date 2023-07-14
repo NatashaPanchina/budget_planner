@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { dinero, toDecimal, add } from "dinero.js";
 import { USD } from "@dinero.js/currencies";
 import { ResponsivePie } from "@nivo/pie";
@@ -9,27 +10,63 @@ import {
   formatDineroOutput,
   formatNumberOutput,
 } from "../../../utils/format/cash";
+import { styled } from "styled-components";
+
+const PieChartContainer = styled.div((props) => ({
+  width: "80%",
+  height: "50%",
+  marginTop: props.theme.spacing(2),
+  marginLeft: "auto",
+  marginRight: "auto",
+}));
+
+const CenterText = styled.text((props) => ({
+  fill: props.theme.colors.text.primary,
+}));
+
+const Tooltip = styled.div((props) => ({
+  padding: props.theme.spacing(3),
+  display: "flex",
+  alignItems: "center",
+  zIndex: 10,
+  background: props.theme.colors.background.primary,
+  border: `1px solid ${props.theme.colors.border.item}`,
+  borderRadius: props.theme.borderRadius,
+  fontSize: "0.875rem",
+}));
+
+const TooltipSvg = styled.svg((props) => ({
+  marginRight: props.theme.spacing(1),
+}));
+
+const TooltipValue = styled.span((props) => ({
+  fontWeight: 700,
+  marginLeft: props.theme.spacing(1),
+}));
+
+const LegendsContainer = styled.div((props) => ({
+  height: "70%",
+  overflowY: "auto",
+  fontSize: "0.875rem",
+  marginTop: props.theme.spacing(5),
+  "&::-webkit-scrollbar": {
+    width: 5,
+  },
+  "&::-webkit-scrollbar-thumb": {
+    background: "rgba(196, 196, 196, 0.3)",
+    borderRadius: props.theme.borderRadius,
+  },
+}));
 
 export function renderTooltip(id, formattedValue) {
   return (
-    <div
-      style={{
-        padding: 12,
-        display: "flex",
-        alignItems: "center",
-        background: "#fff",
-        border: "1px solid #F0F0F0",
-        borderRadius: "5px",
-        fontSize: "14px",
-      }}
-    >
-      <svg
+    <Tooltip>
+      <TooltipSvg
         width="20"
         height="20"
         viewBox="0 0 20 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ marginRight: "5px" }}
       >
         <circle
           cx="10"
@@ -37,12 +74,9 @@ export function renderTooltip(id, formattedValue) {
           r="10"
           fill={`url(#${id.replaceAll(" ", "_")})`}
         ></circle>
-      </svg>
-      {id}:
-      <span style={{ fontWeight: 700, marginLeft: "5px" }}>
-        {formattedValue}
-      </span>
-    </div>
+      </TooltipSvg>
+      {id}:<TooltipValue>{formattedValue}</TooltipValue>
+    </Tooltip>
   );
 }
 
@@ -71,24 +105,23 @@ function renderMatchs(accounts) {
   });
 }
 
-const CenteredMetric =
-  (totalBalance) =>
-  ({ centerX, centerY, innerRadius }) => {
+const CenteredBalance = function(totalBalance) {
+  return function centeredMetric({ centerX, centerY }) {
     return (
       <React.Fragment>
-        <text
+        <CenterText
           x={centerX}
           y={centerY}
           textAnchor="middle"
           alignmentBaseline="middle"
         >
           {formatDineroOutput(totalBalance, "USD")}
-        </text>
+        </CenterText>
       </React.Fragment>
     );
-  };
+}};
 
-export default function CashChart({ data }) {
+function CashChart({ data }) {
   const accounts = data.map((account) => {
     return {
       ...account,
@@ -102,7 +135,7 @@ export default function CashChart({ data }) {
   );
 
   return (
-    <div className="accounts_pieChart">
+    <PieChartContainer>
       <ResponsivePie
         data={accounts}
         colors={{ datum: "data.color[0]" }}
@@ -132,15 +165,21 @@ export default function CashChart({ data }) {
           "arcLabels",
           "arcLinkLabels",
           "legends",
-          CenteredMetric(totalBalance),
+          CenteredBalance(totalBalance),
         ]}
       />
-      <div className="legends_container">
+      <LegendsContainer>
         <CashChartLegends
           data={accounts}
           totalBalance={toDecimal(totalBalance)}
         />
-      </div>
-    </div>
+      </LegendsContainer>
+    </PieChartContainer>
   );
 }
+
+CashChart.propTypes = {
+  data: PropTypes.array,
+};
+
+export default CashChart;

@@ -1,6 +1,5 @@
 import React from "react";
-import { Link, NavLink, useParams } from "react-router-dom";
-import { connect } from "react-redux";
+import { NavLink, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { addNewCategory } from "../../../actions/Actions.js";
@@ -11,56 +10,120 @@ import { ReactComponent as BackIcon } from "../../../assets/icons/shared/back.sv
 import { ReactComponent as ExpenseIcon } from "../../../assets/icons/shared/expense.svg";
 import { ReactComponent as IncomeIcon } from "../../../assets/icons/shared/income.svg";
 
-import "./AddCategory.css";
+import {
+  AddFormContainer,
+  AddFormHeader,
+  AddFormHeaderTitles,
+  BackLink,
+  BackLinkSvg,
+} from "../../../theme/global.js";
+import { css, styled } from "styled-components";
+import { pages } from "../../../utils/constants/pages.js";
 
-function isActiveLink(isActive, categoryType) {
-  switch (categoryType) {
-    case "expense":
-      return isActive ? `active_expenseCategory` : `not_active_incomeCategory`;
+const TitleLink = styled(NavLink)((props) => ({
+  height: 60,
+  width: "33.3%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  boxSizing: "border-box",
+  color: props.theme.colors.text.darker,
+}));
+
+const TitleLinkSvg = styled.svg((props) => ({
+  height: 23,
+  marginRight: props.theme.spacing(1.5),
+}));
+
+const AddCategoryTitle = styled(TitleLink)((props) => {
+  switch (props.$titleType) {
     case "income":
-      return isActive ? `active_incomeCategory` : `not_active_expenseCategory`;
+      return css(() => ({
+        "& svg rect": {
+          fill: "url(#not_active)",
+        },
+        "&:hover": {
+          color: props.theme.colors.income,
+        },
+        "&:hover svg rect": {
+          fill: "url(#income_active)",
+        },
+        "&.active": {
+          borderBottom: "2px solid #6D73FF",
+          color: props.theme.colors.income,
+        },
+        "&.active svg rect": {
+          fill: "url(#income_active)",
+        },
+      }));
+    case "expense":
+      return css(() => ({
+        "& svg rect": {
+          fill: "url(#not_active)",
+        },
+        "&:hover": {
+          color: props.theme.colors.expense,
+        },
+        "&:hover svg rect": {
+          fill: "url(#expense_active)",
+        },
+        "&.active": {
+          borderBottom: "2px solid #6D73FF",
+          color: props.theme.colors.expense,
+        },
+        "&.active svg rect": {
+          fill: "url(#expense_active)",
+        },
+      }));
     default:
-      return "";
+      return css(() => ({
+        "& svg rect": {
+          fill: "url(#not_active)",
+        },
+        "&:hover": {
+          color: props.theme.colors.expense,
+        },
+        "&:hover svg rect": {
+          fill: "url(#expense_active)",
+        },
+        "&.active": {
+          borderBottom: "2px solid #6D73FF",
+          color: props.theme.colors.expense,
+        },
+        "&.active svg rect": {
+          fill: "url(#expense_active)",
+        },
+      }));
   }
-}
+});
 
-function AddCategory({ addNewCategory }) {
+export default function AddCategory() {
   const { t } = useTranslation();
 
   const { categoryType } = useParams();
 
   return (
-    <div className="add_category_content">
-      <div className="category_titles_block">
-        <Link className="category_back_nav" to={`/categories/${categoryType}s`}>
-          <BackIcon />
-        </Link>
-        <div className="add_category_titles">
-          <div className="add_category_title">
-            <NavLink
-              to="/categories/addCategory/expense"
-              className={({ isActive }) => isActiveLink(isActive, categoryType)}
-            >
-              <ExpenseIcon /> {t("ADD_CATEGORY.EXPENSE")}
-            </NavLink>
-          </div>
-          <div className="add_category_title">
-            <NavLink
-              to="/categories/addCategory/income"
-              className={({ isActive }) => isActiveLink(isActive, categoryType)}
-            >
-              <IncomeIcon /> {t("ADD_CATEGORY.INCOME")}
-            </NavLink>
-          </div>
-        </div>
-      </div>
+    <AddFormContainer>
+      <AddFormHeader>
+        <BackLink to={pages.categories[`${categoryType}s`]}>
+          <BackLinkSvg as={BackIcon} />
+        </BackLink>
+        <AddFormHeaderTitles>
+          <AddCategoryTitle
+            to={pages.categories.add.expense}
+            $titleType="expense"
+          >
+            <TitleLinkSvg as={ExpenseIcon} /> {t("ADD_CATEGORY.EXPENSE")}
+          </AddCategoryTitle>
+          <AddCategoryTitle
+            to={pages.categories.add.income}
+            $titleType="income"
+          >
+            <TitleLinkSvg as={IncomeIcon} /> {t("ADD_CATEGORY.INCOME")}
+          </AddCategoryTitle>
+        </AddFormHeaderTitles>
+      </AddFormHeader>
       <CategoryForm addNewCategory={addNewCategory} />
-    </div>
+    </AddFormContainer>
   );
 }
-
-const mapDispatchToProps = {
-  addNewCategory,
-};
-
-export default connect(null, mapDispatchToProps)(AddCategory);

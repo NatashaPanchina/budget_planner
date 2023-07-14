@@ -1,0 +1,36 @@
+.transactions_content {
+    margin-top: 56px;
+    margin-left: 19%;
+    margin-right: 3%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.transactions_main_header {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background-color: #FAFAFA;
+}
+
+.transactions_filter_title, .transactions_date, .transactions_more_filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 33.33%;
+}
+
+.transactions_filter_title {
+    color: #000;
+}
+
+.transactions_date, .transactions_more_filter {
+    font-size: 0.875rem;
+}
+
+.transactions_header svg, .transactions_main_header img {
+    height: 20px;
+    width: 20px;
+    margin-right: 5px;
+}

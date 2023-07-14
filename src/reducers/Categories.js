@@ -4,6 +4,7 @@ import {
   IDB_FETCH_CATEGORIES_FAILURE,
   ADD_NEW_CATEGORY,
   ARCHIVE_CATEGORY,
+  RESTORE_CATEGORY,
   DELETE_CATEGORY,
   EDIT_CATEGORY,
 } from "../actions/ActionTypes";
@@ -34,29 +35,38 @@ const categories = (state = initialState, { type, payload }) => {
         error: payload.message,
       };
     case ADD_NEW_CATEGORY:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         categories: [payload, ...state.categories],
-      });
+      };
     case EDIT_CATEGORY:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         categories: state.categories.map((category) =>
           category.id === payload.id ? payload.newCategory : category
         ),
-      });
+      };
     case ARCHIVE_CATEGORY:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         categories: state.categories.map((category) =>
-          category.id === payload
-            ? Object.assign({}, category, { archived: true })
-            : category
+          category.id === payload ? { ...category, archived: true } : category
         ),
-      });
+      };
+    case RESTORE_CATEGORY:
+      return {
+        ...state,
+        categories: state.categories.map((category) =>
+          category.id === payload ? { ...category, archived: false } : category
+        ),
+      };
     case DELETE_CATEGORY:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         categories: state.categories.filter(
           (category) => category.id !== payload
         ),
-      });
+      };
     default:
       return state;
   }

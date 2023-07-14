@@ -1,40 +1,42 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import {
-  fetchCategoriesData,
-  archiveCategory,
-  deleteCategory,
-} from "../../actions/Actions.js";
-
+import { fetchCategoriesData, archiveCategory } from "../../actions/Actions.js";
+import { createLocaleCategories } from "./utils/index.js";
 import CategoriesBar from "./barChart/CategoriesBar.js";
 import CategoriesList from "./list/CategoriesList.js";
 
 import expenseIcon from "../../assets/icons/shared/expense.svg";
 import incomeIcon from "../../assets/icons/shared/income.svg";
 import { ReactComponent as FilterIcon } from "../../assets/icons/shared/filter.svg";
-import { ReactComponent as ArchiveBasket } from "../../assets/icons/shared/archiveBasket.svg";
+import { ReactComponent as TrashIcon } from "../../assets/icons/shared/trash.svg";
 import { ReactComponent as CalendarIcon } from "../../assets/icons/shared/calendar.svg";
 
-import "./Categories.css";
-
-function isActive({ isActive }) {
-  return isActive ? "active_categories_title" : "";
-}
-
-function createLocaleCategories(count) {
-  if (count === 1) {
-    return "CATEGORIES.CATEGORIES.ONE";
-  } else if (count < 5) {
-    return "CATEGORIES.CATEGORIES.LESS_THAN_FIVE";
-  } else if (count >= 5) {
-    return "CATEGORIES.CATEGORIES.MORE_THAN_FIVE";
-  } else {
-    return "CATEGORIES.CATEGORIES.MORE_THAN_FIVE";
-  }
-}
+import {
+  CategoroiesContainer,
+  MoreInformationContainer,
+  BarChartInfo,
+  TotalCategoriesCount,
+  BarChartInfoItem,
+  Img,
+  ExpensesCategoriesCount,
+  IncomesCategoriesCount,
+  MainInformationContainer,
+  Header,
+  HeaderTitle,
+  CategoriesTitleContainer,
+  CategoriesTitleLink,
+} from "./Categories.styled.js";
+import {
+  ArchivedTrash,
+  FilterSvg,
+  Trash,
+  TrashCount,
+  Filter,
+} from "../../theme/global.js";
+import { pages } from "../../utils/constants/pages.js";
 
 function createBarData(keys, allCount, expenseCount, incomeCount) {
   if (!keys) return [];
@@ -54,17 +56,16 @@ function createBarData(keys, allCount, expenseCount, incomeCount) {
   ];
 }
 
-function Categories({
-  categories: { status, categories },
-  fetchCategoriesData,
-  archiveCategory,
-  deleteCategory,
-}) {
+export default function Categories() {
+  const { status, categories } = useSelector((state) => state.categories);
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
 
   const notArchivedCategories = categories.filter(
     (category) => category.archived === false
   );
+  const archivedCategories = categories.filter((category) => category.archived);
   const allCount = notArchivedCategories.length;
   const expenseCount = notArchivedCategories.filter(
     (category) => category.type === "expense"
@@ -72,14 +73,14 @@ function Categories({
   const incomeCount = allCount - expenseCount;
 
   useEffect(() => {
-    fetchCategoriesData();
-  }, [fetchCategoriesData]);
+    dispatch(fetchCategoriesData());
+  }, [dispatch]);
 
   return status === "loading" ? (
     <div>Loading</div>
   ) : (
-    <div className="categories_content">
-      <div className="categories_more_info">
+    <CategoroiesContainer>
+      <MoreInformationContainer>
         <CategoriesBar
           data={createBarData(
             [
@@ -92,85 +93,67 @@ function Categories({
             incomeCount
           )}
         />
-        <div className="categories_bar_info">
+        <BarChartInfo>
           {t("CATEGORIES.TOTAL")}
-          <div className="total_categories_count">
-            {allCount} {t(createLocaleCategories(allCount))}
-          </div>
-          <div className="categories_bar_item">
-            <img src={expenseIcon} alt="expenses" />
+          <TotalCategoriesCount>
+            {allCount} {t(createLocaleCategories("CATEGORIES", allCount))}
+          </TotalCategoriesCount>
+          <BarChartInfoItem>
+            <Img src={expenseIcon} alt="expenses" />
             <div>
               {t("CATEGORIES.EXPENSES")}
-              <div className="expense_categories_count">
-                {expenseCount} {t(createLocaleCategories(expenseCount))}
-              </div>
+              <ExpensesCategoriesCount>
+                {expenseCount}{" "}
+                {t(createLocaleCategories("CATEGORIES", expenseCount))}
+              </ExpensesCategoriesCount>
             </div>
-          </div>
-          <div className="categories_bar_item">
-            <img src={incomeIcon} alt="incomes" />
+          </BarChartInfoItem>
+          <BarChartInfoItem>
+            <Img src={incomeIcon} alt="incomes" />
             <div>
               {t("CATEGORIES.INCOMES")}
-              <div className="income_categories_count">
-                {incomeCount} {t(createLocaleCategories(incomeCount))}
-              </div>
+              <IncomesCategoriesCount>
+                {incomeCount}{" "}
+                {t(createLocaleCategories("CATEGORIES", incomeCount))}
+              </IncomesCategoriesCount>
             </div>
-          </div>
-        </div>
-      </div>
-      <div className="categories_main_info">
-        <div className="categories_header">
-          <div className="filtered_title">
-            {t("CATEGORIES.CATEGORIES_TITLE")}
-          </div>
-          <div className="filtered_field">
-            <FilterIcon />
+          </BarChartInfoItem>
+        </BarChartInfo>
+      </MoreInformationContainer>
+      <MainInformationContainer>
+        <Header>
+          <HeaderTitle>{t("CATEGORIES.CATEGORIES_TITLE")}</HeaderTitle>
+          <Filter>
+            <FilterSvg as={FilterIcon} />
             {t("CATEGORIES.FILTER_KEY")}
-          </div>
-          <div className="filtered_field">
-            <CalendarIcon />
+          </Filter>
+          <Filter>
+            <FilterSvg as={CalendarIcon} />
             {t("CATEGORIES.FILTER_DATE")}
-          </div>
-          <div className="archived">
-            <ArchiveBasket />
-          </div>
-        </div>
-        <div className="categories_titles">
-          <div className="categories_title">
-            <NavLink to="/categories/all" className={isActive}>
-              {t("CATEGORIES.ALL")}
+          </Filter>
+          <ArchivedTrash>
+            <NavLink to={pages.categories.trash.main}>
+              <Trash as={TrashIcon} />
+              <TrashCount>{archivedCategories.length}</TrashCount>
             </NavLink>
-          </div>
-          <div className="categories_title">
-            <NavLink to="/categories/expenses" className={isActive}>
-              {t("CATEGORIES.EXPENSES")}
-            </NavLink>
-          </div>
-          <div className="categories_title">
-            <NavLink to="/categories/incomes" className={isActive}>
-              {t("CATEGORIES.INCOMES")}
-            </NavLink>
-          </div>
-        </div>
+          </ArchivedTrash>
+        </Header>
+        <CategoriesTitleContainer>
+          <CategoriesTitleLink to={pages.categories.all}>
+            {t("CATEGORIES.ALL")}
+          </CategoriesTitleLink>
+          <CategoriesTitleLink to={pages.categories.expenses}>
+            {t("CATEGORIES.EXPENSES")}
+          </CategoriesTitleLink>
+          <CategoriesTitleLink to={pages.categories.incomes}>
+            {t("CATEGORIES.INCOMES")}
+          </CategoriesTitleLink>
+        </CategoriesTitleContainer>
         <CategoriesList
           notArchivedCategories={notArchivedCategories}
           archiveCategory={archiveCategory}
-          deleteCategory={deleteCategory}
         />
-      </div>
-    </div>
+      </MainInformationContainer>
+    </CategoroiesContainer>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    categories: state.categories,
-  };
-};
-
-const mapDispatchToProps = {
-  fetchCategoriesData,
-  archiveCategory,
-  deleteCategory,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Categories);

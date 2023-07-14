@@ -1,0 +1,24 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="32" height="32" rx="3" fill="url(#not_active)"/>
+<g clip-path="url(#clip0_1580_2)">
+<path d="M22.3403 24.6666V22.8888H23.9655L17.4448 16.3681L14.5559 19.257L5.26074 9.96192L6.51781 8.70485L14.5559 16.7429L17.4448 13.854L25.2226 21.6318V20.0065H27.0004V24.6666H22.3403Z" fill="white"/>
+</g>
+<defs>
+<linearGradient id="expense_active" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F4395B"/>
+<stop offset="1" stop-color="#FF6782"/>
+</linearGradient>
+<clipPath id="clip0_1580_2">
+<rect width="22" height="22" fill="white" transform="matrix(1 0 0 -1 5 26)"/>
+</clipPath>
+</defs>
+<defs>
+<linearGradient id="not_active" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+<stop stop-color="#ADADAD"/>
+<stop offset="1" stop-color="#F0F0F0"/>
+</linearGradient>
+<clipPath id="clip0_1580_7">
+<rect width="22" height="22" fill="white" transform="translate(5 6)"/>
+</clipPath>
+</defs>
+</svg>

@@ -1,10 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 
 import CashForm from "./CashForm.js";
 import CardForm from "./CardForm.js";
 
-export default function AccountForm({ addNewAccount }) {
+function AccountForm({ addNewAccount }) {
   const { accountType } = useParams();
 
   switch (accountType) {
@@ -20,3 +21,9 @@ export default function AccountForm({ addNewAccount }) {
       return <CardForm addNewAccount={addNewAccount} />;
   }
 }
+
+AccountForm.propTypes = {
+  addNewAccount: PropTypes.func,
+}
+
+export default AccountForm;

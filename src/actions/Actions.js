@@ -4,6 +4,7 @@ import {
   DELETE_CATEGORY,
   EDIT_CATEGORY,
   ADD_NEW_ACCOUNT,
+  RESTORE_ACCOUNT,
   DELETE_ACCOUNT,
   EDIT_ACCOUNT,
   IDB_FETCH_ACCOUNTS_INIT,
@@ -14,105 +15,122 @@ import {
   IDB_FETCH_CATEGORIES_FAILURE,
   EDIT_TRANSACTION,
   DELETE_TRANSACTION,
-  UPDATE_ACCOUNT_BALANCE,
   ARCHIVE_CATEGORY,
+  RESTORE_CATEGORY,
   ARCHIVE_ACCOUNT,
   IDB_FETCH_PROFILE_INIT,
   IDB_FETCH_PROFILE_SUCCESS,
   IDB_FETCH_PROFILE_FAILURE,
   CHANGE_LANGUAGE,
+  IDB_FETCH_TRANSACTIONS_INIT,
+  IDB_FETCH_TRANSACTIONS_SUCCESS,
+  CHANGE_MODE,
 } from "./ActionTypes";
 import { idbOpen } from "../indexedDB/IndexedDB";
 
-export const changeLanguage = (language) => (dispatch) => {
-  dispatch({
+export const changeLanguage = (language) => {
+  return {
     type: CHANGE_LANGUAGE,
     payload: language,
-  });
+  };
 };
 
-export const addNewTransaction = (transaction) => (dispatch) => {
-  dispatch({
+export const changeMode = (mode) => {
+  return {
+    type: CHANGE_MODE,
+    payload: mode,
+  };
+};
+
+export const addNewTransaction = (transaction) => {
+  return {
     type: ADD_NEW_TRANSACTION,
     payload: transaction,
-  });
+  };
 };
 
-export const editTransaction = (id, newTransaction) => (dispatch) => {
-  dispatch({
+export const editTransaction = (id, newTransaction) => {
+  return {
     type: EDIT_TRANSACTION,
     payload: { id, newTransaction },
-  });
+  };
 };
 
-export const deleteTransaction = (id) => (dispatch) => {
-  dispatch({
+export const deleteTransaction = (id) => {
+  return {
     type: DELETE_TRANSACTION,
     payload: id,
-  });
+  };
 };
 
-export const addNewCategory = (category) => (dispatch) => {
-  dispatch({
+export const addNewCategory = (category) => {
+  return {
     type: ADD_NEW_CATEGORY,
     payload: category,
-  });
+  };
 };
 
-export const editCategory = (id, newCategory) => (dispatch) => {
-  dispatch({
+export const editCategory = (id, newCategory) => {
+  return {
     type: EDIT_CATEGORY,
     payload: { id, newCategory },
-  });
+  };
 };
 
-export const archiveCategory = (id) => (dispatch) => {
-  dispatch({
+export const archiveCategory = (id) => {
+  return {
     type: ARCHIVE_CATEGORY,
     payload: id,
-  });
+  };
 };
 
-export const deleteCategory = (id) => (dispatch) => {
-  dispatch({
+export const restoreCategory = (id) => {
+  return {
+    type: RESTORE_CATEGORY,
+    payload: id,
+  };
+};
+
+export const deleteCategory = (id) => {
+  return {
     type: DELETE_CATEGORY,
     payload: id,
-  });
+  };
 };
 
-export const addNewAccount = (account) => (dispatch) => {
-  dispatch({
+export const addNewAccount = (account) => {
+  return {
     type: ADD_NEW_ACCOUNT,
     payload: account,
-  });
+  };
 };
 
-export const editAccount = (id, newAccount) => (dispatch) => {
-  dispatch({
+export const editAccount = (id, newAccount) => {
+  return {
     type: EDIT_ACCOUNT,
     payload: { id, newAccount },
-  });
+  };
 };
 
-export const archiveAccount = (id) => (dispatch) => {
-  dispatch({
+export const archiveAccount = (id) => {
+  return {
     type: ARCHIVE_ACCOUNT,
     payload: id,
-  });
+  };
 };
 
-export const deleteAccount = (id) => (dispatch) => {
-  dispatch({
+export const restoreAccount = (id) => {
+  return {
+    type: RESTORE_ACCOUNT,
+    payload: id,
+  };
+};
+
+export const deleteAccount = (id) => {
+  return {
     type: DELETE_ACCOUNT,
     payload: id,
-  });
-};
-
-export const updateAccountBalance = (id, balance) => (dispatch) => {
-  dispatch({
-    type: UPDATE_ACCOUNT_BALANCE,
-    payload: { id, balance },
-  });
+  };
 };
 
 export const fetchProfileData = () => {
@@ -139,9 +157,12 @@ export const fetchCategoriesData = () => {
   });
 };
 
-//позже изменю экшены на экшены для транзакций
 export const fetchTransactionsData = () => {
-  return fetchData("transactions", {});
+  return fetchData("transactions", {
+    init: IDB_FETCH_TRANSACTIONS_INIT,
+    success: IDB_FETCH_TRANSACTIONS_SUCCESS,
+    failure: IDB_FETCH_CATEGORIES_FAILURE,
+  });
 };
 
 export function fetchData(nameObjectStore, { init, success, failure }) {

@@ -1,4 +1,37 @@
+import React from "react";
 import { ReactComponent as CheckMarkIcon } from "../../../assets/icons/shared/checkMark.svg";
+import notesIcon from "../../../assets/icons/shared/notes.svg";
+import { styled } from "styled-components";
+
+const CategoriesNotes = styled.div((props) => ({
+  gridArea: "notes",
+  paddingLeft: props.theme.spacing(5),
+  fontSize: "0.875rem",
+  color: props.theme.colors.text.darker,
+  display: "flex",
+  alignItems: "center",
+}));
+
+const NotesImg = styled.img((props) => ({
+  height: 15,
+  marginRight: props.theme.spacing(1),
+}));
+
+const ColorContainer = styled.div(() => ({
+  width: "100%",
+}));
+
+const IconContainer = styled.div(() => ({
+  width: "100%",
+}));
+
+const IconSvg = styled.svg((props) => ({
+  margin: props.theme.spacing(1.5),
+  cursor: "pointer",
+  "& path": {
+    fill: props.theme.colors.text.primary,
+  },
+}));
 
 export function renderSelectedColor(selectedColor, Icon) {
   return selectedColor ? (
@@ -51,7 +84,7 @@ export function renderColors(colors, setSelectedColor, initialColor) {
   for (let shade = 500; shade <= 900; shade += 100) {
     for (let color in colors) {
       result.push(
-        <div className="color_container" key={`${color}${shade}`}>
+        <ColorContainer key={`${color}${shade}`}>
           <svg
             viewBox="0 0 34 34"
             fill="none"
@@ -86,7 +119,7 @@ export function renderColors(colors, setSelectedColor, initialColor) {
               </linearGradient>
             </defs>
           </svg>
-        </div>
+        </ColorContainer>
       );
     }
   }
@@ -96,13 +129,55 @@ export function renderColors(colors, setSelectedColor, initialColor) {
 export function renderIcons(icons, setIcon) {
   return icons.map((Icon, index) => {
     return (
-      <div className="icon_container" key={index}>
-        <Icon id={index} onClick={() => setIcon(index)} />
-      </div>
+      <IconContainer key={index}>
+        <IconSvg as={Icon} id={index} onClick={() => setIcon(index)} />
+      </IconContainer>
     );
   });
 }
 
-export function toggleElement(name) {
-  document.querySelector(name).classList.toggle("none");
+export function toggleElement(ref) {
+  ref.current.classList.toggle("none");
+}
+
+export function createFilterType(filterType) {
+  switch (filterType) {
+    case "expenses":
+      return "expense";
+    case "incomes":
+      return "income";
+    default:
+      return "all";
+  }
+}
+
+export function filterCategories(filterType, categories) {
+  return filterType === "all"
+    ? categories
+    : categories.filter((category) => category.type === filterType);
+}
+
+export function renderNotes(notes) {
+  if (notes) {
+    return (
+      <CategoriesNotes>
+        <NotesImg src={notesIcon} alt="notes" />
+        {notes}
+      </CategoriesNotes>
+    );
+  }
+}
+
+export function createLocaleCategories(NAME, count) {
+  if (count === 0) {
+    return `${NAME}.CATEGORIES.MORE_THAN_FIVE`;
+  } else if (count === 1) {
+    return `${NAME}.CATEGORIES.ONE`;
+  } else if (count < 5) {
+    return `${NAME}.CATEGORIES.LESS_THAN_FIVE`;
+  } else if (count >= 5) {
+    return `${NAME}.CATEGORIES.MORE_THAN_FIVE`;
+  } else {
+    return `${NAME}.CATEGORIES.MORE_THAN_FIVE`;
+  }
 }

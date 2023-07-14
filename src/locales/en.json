@@ -15,6 +15,49 @@
         "ANALYSIS": "Analysis",
         "MORE": "more"
     },
+    "TRANSACTIONS": {
+        "TRANSACTIONS_HEADER": "Transactions",
+        "FILTER_KEY": "By default",
+        "FILTER_DATE": "All time",
+        "FILTER_ALL": "All",
+        "FILTER_EXPENSES": "Expenses",
+        "FILTER_INCOMES": "Incomes",
+        "FILTER_TRANSFERS": "Transfers",
+        "SEARCH": "Search transaction",
+        "NEW_TRANSACTION": "New Transaction",
+        "CATEGORY": "Category",
+        "CASH": "Cash",
+        "AMOUNT": "Amount",
+        "DATE": "Date",
+        "CURRENT_CASH": "Current cash",
+        "ALL": "All",
+        "CURRENT_BALANCE": "Current balance",
+        "TOTAL": "Total",
+        "EXPENSES": "Expenses",
+        "INCOMES": "Incomes",
+        "TRANSFERS": "Transfers",
+        "TRANSACTIONS": {
+            "ONE": "transaction",
+            "LESS_THAN_FIVE": "transactions",
+            "MORE_THAN_FIVE": "transactions"
+        },
+        "NO_TRANSACTIONS": "There are no transactions here yet"
+    },
+    "INFO_TRANSACTION": {
+        "TITLE": "Transaction information",
+        "CATEGORY": "Category",
+        "SEARCH_CATEGORY": "Search category",
+        "ADD_CATEGORY": "Add category",
+        "CASH": "Cash",
+        "SEARCH_CASH": "Search cash",
+        "ADD_CASH": "Add cash",
+        "AMOUNT": "Amount",
+        "DATE": "Date",
+        "NOTES": "Notes",
+        "TAGS": "Tags",
+        "DONE": "Done",
+        "CANCEL": "Cancel"
+    },
     "CASH": {
         "TOTAL_BALANCE": "Total balance",
         "CASH_TITLE": "Cash",
@@ -72,6 +115,42 @@
         "DONE": "Done",
         "CANCEL": "Cancel"
     },
+    "ACCOUNTS_TRASH": {
+        "ARCHIVED_CASH": "Archived cash",
+        "ALL": "All",
+        "CARDS": "Cards",
+        "CASH": "Cash",
+        "SEARCH": "Search archived cash",
+        "ALL_COUNT": "Cash: ",
+        "CARD_COUNT": "Cards: ",
+        "CASH_COUNT": "Cash: ",
+        "CURRENT_BALANCE": "Current balance",
+        "RESTORE": "restore",
+        "DELETE": "delete"
+    },
+    "NEW_TRANSACTION": {
+        "TITLE": {
+            "EXPENSE": "New Expense",
+            "INCOME": "New Income",
+            "TRANSFER": "New Transfer"
+        },
+        "ORIGIN_CASH": "Origin cash",
+        "DESTINATION_CASH": "Destination cash",
+        "FROM": "From",
+        "TO": "To",
+        "CATEGORY": "Category",
+        "SEARCH_CATEGORY": "Search category",
+        "ADD_CATEGORY": "Add category",
+        "CASH": "Cash",
+        "SEARCH_CASH": "Search cash",
+        "ADD_CASH": "Add cash",
+        "AMOUNT": "Amount",
+        "DATE": "Date",
+        "NOTES": "Notes",
+        "TAGS": "Tags",
+        "DONE": "Done",
+        "CANCEL": "Cancel"
+    },
     "CATEGORIES": {
         "TOTAL": "Total",
         "CATEGORIES": {
@@ -119,5 +198,42 @@
         "TAGS_PLACEHOLDER": "Click here to define some tags",
         "DONE": "Done",
         "CANCEL": "Cancel"
+    },
+    "CATEGORIES_TRASH": {
+        "ARCHIVED_CATEGORIES": "Archived categories",
+        "ALL": "All",
+        "EXPENSES": "Expenses",
+        "INCOMES": "Incomes",
+        "SEARCH": "Search archived categories",
+        "CATEGORIES": {
+            "ONE": "category",
+            "LESS_THAN_FIVE": "categories",
+            "MORE_THAN_FIVE": "categories"
+        }
+    },
+    "ANALYSIS": {
+        "TRANSACTIONS_ANALYSIS": "Transactions Analysis",
+        "ALL_CASH": "All cash",
+        "TOTAL_EXPENSES": "Total expenses",
+        "TRANSACTIONS": {
+            "ONE": "transaction",
+            "LESS_THAN_FIVE": "transactions",
+            "MORE_THAN_FIVE": "transactions"
+        },
+        "TOTAL_INCOMES": "Total incomes",
+        "SALDO": "Saldo",
+        "TOTAL_TRANSACTIONS": "Total transactions",
+        "AVERAGE_WEEKLY_EXPENSE": "Average weekly expense",
+        "AVERAGE_WEEKLY_INCOME": "Average weekly income",
+        "EXPENSES_TO_INCOMES": "Expenses to incomes",
+        "EXPENSES": "Expenses",
+        "INCOMES": "Incomes",
+        "TRANSFERS": "Transfers",
+        "TOTAL": "Total",
+        "BY_CATEGORIES": "By categories",
+        "TOTAL_TABLE": "Total",
+        "CATEGORY": "Category",
+        "PERCENTAGE": "Percentage",
+        "SUM": "Sum"
     }
 }
