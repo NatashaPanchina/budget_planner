@@ -42,7 +42,17 @@ export const Filter = styled.div((props) => ({
 export const FilterSvg = styled.svg((props) => ({
   height: 18,
   width: 18,
-  margin: `0px ${props.theme.spacing(1)}px`,
+  margin: `0px ${props.theme.spacing(2)}px`,
+}));
+
+export const AccountsList = styled.div((props) => ({
+  position: 'absolute',
+  top: 45,
+  width: '15em',
+  color: props.theme.colors.text.primary,
+  backgroundColor: props.theme.colors.background.primary,
+  border: `1px solid${props.theme.colors.border.item}`,
+  borderRadius: props.theme.borderRadius,
 }));
 
 export const Container = styled.div((props) => ({
@@ -133,8 +143,15 @@ export const ChartsContainer = styled.div((props) => ({
   position: 'relative',
 }));
 
+export const ChartSvg = styled.svg(() => ({
+  height: 35,
+  width: 35,
+  position: 'absolute',
+  top: 20,
+  left: 20,
+}));
+
 export const ChartButtonsContainer = styled.div((props) => ({
-  minWidth: 510,
   display: 'flex',
   justifyContent: 'space-around',
   padding: `${props.theme.spacing(5)}px 10%`,
@@ -146,14 +163,16 @@ export const ChartButton = styled.button((props) => ({
   borderRadius: props.theme.borderRadius,
   paddingLeft: props.theme.spacing(4),
   paddingRight: props.theme.spacing(4),
-  color: props.theme.colors.text.darker,
-  backgroundColor: props.theme.colors.background.ordinary,
+  color: props.$isActive
+    ? props.theme.colors.text.primary
+    : props.theme.colors.text.darker,
+  backgroundColor: props.$isActive
+    ? props.theme.colors.background.primary
+    : props.theme.colors.background.ordinary,
+  border: props.$isActive
+    ? `1px solid ${props.theme.colors.main.violet}`
+    : 'none',
   '&:hover': {
-    color: props.theme.colors.text.primary,
-  },
-  '&.active': {
-    border: `1px solid ${props.theme.colors.main.violet}`,
-    backgroundColor: props.theme.colors.background.primary,
     color: props.theme.colors.text.primary,
   },
 }));
@@ -166,6 +185,11 @@ export const ToggleButtonsContainer = styled.div(() => ({
 
 export const ToggleChartButton = styled.button((props) => ({
   backgroundColor: props.theme.colors.background.primary,
-  color: props.theme.colors.text.darker,
+  color: props.$isActive
+    ? props.theme.colors.text.primary
+    : props.theme.colors.text.darker,
   height: 50,
+  '&:hover': {
+    color: props.theme.colors.text.primary,
+  },
 }));

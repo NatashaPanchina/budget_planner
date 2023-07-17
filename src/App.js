@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import {
   Navigate,
@@ -25,6 +25,7 @@ import Analysis from './components/analysis/Analysis';
 import AccountsTrash from './components/cash/trash/AccountsTrash';
 
 import './App.css';
+import Dashboard from './components/dashboard/Dashboard';
 
 const router = createBrowserRouter([
   {
@@ -33,7 +34,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Navigate replace to="analysis" />,
+        element: <Navigate replace to="dashboard" />,
+      },
+      {
+        path: 'dashboard',
+        element: <Dashboard />,
       },
       {
         path: 'transactions',
@@ -111,25 +116,11 @@ const router = createBrowserRouter([
   },
 ]);
 
-function initialMode() {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
-}
-
 function App() {
   const header = useSelector((state) => state.header);
-  const [mode, setMode] = useState(initialMode());
-
-  useEffect(() => {
-    if (header.status === 'succeeded') {
-      if (!header.profile) return;
-      setMode(header.profile.mode);
-    }
-  }, [header.profile, header.status]);
 
   return (
-    <ThemeProvider theme={mode === 'light' ? lightTheme : darkTheme}>
+    <ThemeProvider theme={header.mode === 'light' ? lightTheme : darkTheme}>
       <GlobalStyles />
       <RouterProvider router={router} />
     </ThemeProvider>

@@ -163,7 +163,7 @@ export const BackLinkSvg = styled.svg((props) => ({
   width: 40,
   height: 40,
   '&:hover circle': {
-    fill: props.theme.colors.background.ordinary,
+    fill: props.theme.colors.background.primary,
   },
 }));
 
@@ -181,7 +181,7 @@ export const FormFieldDiv = styled.div((props) => ({
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   borderRadius: props.theme.borderRadius,
   fontSize: '0.875rem',
-  color: props.theme.colors.text.ordinary,
+  color: props.theme.colors.text.darker,
 }));
 
 export const FormField = styled(FormFieldDiv)((props) => {
@@ -380,7 +380,7 @@ export const Filter = styled.div((props) => ({
   padding: props.theme.spacing(2),
   marginRight: props.theme.spacing(14),
   fontSize: '0.875rem',
-  color: props.theme.colors.text.darker,
+  color: props.theme.colors.text.ordinary,
 }));
 
 export const FilterSvg = styled.svg((props) => ({

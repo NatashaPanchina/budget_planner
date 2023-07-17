@@ -12,10 +12,16 @@ import {
   editAccount,
 } from '../../actions/Actions';
 
-import filterIcon from '../../assets/icons/shared/filter.svg';
+import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 
-import './Transactions.css';
+import {
+  Container,
+  Header,
+  HeaderTitle,
+  MainInfoContainer,
+} from './Transactions.styled.js';
+import { Filter, FilterSvg } from '../../theme/global.js';
 
 export default function Transactions() {
   const transactions = useSelector((state) => state.transactions);
@@ -59,22 +65,20 @@ export default function Transactions() {
     transactions.status === 'loading' ? (
     <div>Loading</div>
   ) : (
-    <div className="transactions_content">
+    <Container>
       <AccountsSlider transactions={transactionsData} accounts={accountsData} />
-      <div className="transactions_main_info">
-        <div className="transactions_main_header">
-          <div className="filtered_title">
-            {t('TRANSACTIONS.TRANSACTIONS_HEADER')}
-          </div>
-          <div className="filtered_field">
-            <img src={filterIcon} alt="filter" />
+      <MainInfoContainer>
+        <Header>
+          <HeaderTitle>{t('TRANSACTIONS.TRANSACTIONS_HEADER')}</HeaderTitle>
+          <Filter>
+            <FilterSvg as={FilterIcon} />
             {t('TRANSACTIONS.FILTER_KEY')}
-          </div>
-          <div className="filtered_field">
-            <CalendarIcon />
+          </Filter>
+          <Filter>
+            <FilterSvg as={CalendarIcon} />
             {t('TRANSACTIONS.FILTER_DATE')}
-          </div>
-        </div>
+          </Filter>
+        </Header>
         <TransactionsList
           transactions={transactionsData}
           accounts={accountsData}
@@ -82,7 +86,7 @@ export default function Transactions() {
           deleteTransaction={deleteTransaction}
           editAccount={editAccount}
         />
-      </div>
-    </div>
+      </MainInfoContainer>
+    </Container>
   );
 }

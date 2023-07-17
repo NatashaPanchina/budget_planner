@@ -1,4 +1,5 @@
 import { linearGradientDef } from '@nivo/core';
+import { chartsColors } from '../../../../utils/constants/chartsColors';
 
 export function createDescriptions(categories) {
   let result = categories.map((category) => category.description);
@@ -13,8 +14,8 @@ export function createGradientColors(categories) {
   });
   return Object.assign(
     result,
-    { expenses: ['#FF599F', '#F4395B'] },
-    { incomes: ['#B3FF53', '#6EBD0A'] },
+    { expenses: chartsColors.expenses },
+    { incomes: chartsColors.incomes },
   );
 }
 

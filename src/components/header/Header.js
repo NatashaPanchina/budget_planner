@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
-import { idbAddItem } from '../../indexedDB/IndexedDB';
 import {
   fetchProfileData,
   changeLanguage,
@@ -69,7 +68,7 @@ const Container = styled.div((props) => ({
   justifyContent: 'center',
   width: '5.5%',
   cursor: 'pointer',
-  color: props.theme.colors.text.darker,
+  color: props.theme.colors.text.primary,
 }));
 
 const CurrentLng = styled.div((props) => ({
@@ -91,7 +90,7 @@ const LanguagesMenu = styled.div((props) => ({
 const LanguagesMenuItem = styled.div((props) => ({
   padding: props.theme.spacing(2),
   '&:hover': {
-    color: props.theme.colors.text.primary,
+    color: props.theme.colors.text.darker,
   },
 }));
 
@@ -102,7 +101,7 @@ const Svg = styled.svg(() => ({
 
 const SvgMode = styled(Svg)((props) => ({
   '&:hover circle': {
-    fill: props.theme.colors.background.navigation,
+    fill: props.theme.colors.background.ordinary,
   },
 }));
 
@@ -119,6 +118,7 @@ const LogOut = styled(Container)(() => ({
 //lookup map
 function renderHeaderTitles(t) {
   return {
+    '/dashboard': t('HEADER.DASHBOARD'),
     '/transactions': t('HEADER.TRANSACTIONS'),
     '/cash': t('HEADER.CASH'),
     '/newTransaction': t('HEADER.NEW_TRANSACTION'),
@@ -127,22 +127,16 @@ function renderHeaderTitles(t) {
   };
 }
 
-function initialMode() {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
-}
-
 export default function Header() {
-  const { status, profile } = useSelector((state) => state.header);
+  const header = useSelector((state) => state.header);
   const dispatch = useDispatch();
 
   const [headerTitle, setHeaderTitle] = useState('');
   const [id, setId] = useState('');
   const [username, setUsername] = useState('User');
-  const [language, setLanguage] = useState('EN');
+  const [language, setLanguage] = useState(header.language);
   const [currency, setCurrency] = useState('$');
-  const [mode, setMode] = useState(initialMode());
+  const [mode, setMode] = useState(header.mode);
 
   const { t, i18n } = useTranslation();
   const location = useLocation();
@@ -151,20 +145,19 @@ export default function Header() {
   const titles = renderHeaderTitles(t);
   const path = location.pathname.match(/\/(\w)*/)[0];
 
+  console.log(id);
   useEffect(() => {
     dispatch(fetchProfileData());
   }, [dispatch]);
 
   useEffect(() => {
-    if (status === 'succeeded') {
-      if (!profile) return;
-      setId(profile.id);
-      setUsername(profile.username);
-      setLanguage(profile.language);
-      setCurrency(profile.currency);
-      setMode(profile.mode);
+    if (header.status === 'succeeded') {
+      if (!header.profile) return;
+      setId(header.profile.id);
+      setUsername(header.profile.username);
+      setCurrency(header.profile.currency);
     }
-  }, [status, profile]);
+  }, [header.status, header.profile]);
 
   useEffect(() => {
     i18n.changeLanguage(language);
@@ -194,10 +187,8 @@ export default function Header() {
         <LanguagesMenu ref={languageRef} className="none">
           <LanguagesMenuItem
             onClick={() => {
-              idbAddItem(
-                { id, username, currency, language: 'EN', mode },
-                'profile',
-              );
+              setLanguage('EN');
+              localStorage.setItem('language', 'EN');
               dispatch(changeLanguage('EN'));
             }}
           >
@@ -205,10 +196,8 @@ export default function Header() {
           </LanguagesMenuItem>
           <LanguagesMenuItem
             onClick={() => {
-              idbAddItem(
-                { id, username, currency, language: 'RU', mode },
-                'profile',
-              );
+              setLanguage('RU');
+              localStorage.setItem('language', 'RU');
               dispatch(changeLanguage('RU'));
             }}
           >
@@ -217,21 +206,16 @@ export default function Header() {
         </LanguagesMenu>
       </Container>
       <Container>
-        <Svg as={CurrencyDollarIcon} />
+        {currency === '$' ? (
+          <Svg as={CurrencyDollarIcon} />
+        ) : (
+          <Svg as={CurrencyDollarIcon} />
+        )}
       </Container>
       <Container
         onClick={() => {
           setMode(mode === 'light' ? 'dark' : 'light');
-          idbAddItem(
-            {
-              id,
-              username,
-              currency,
-              language,
-              mode: mode === 'light' ? 'dark' : 'light',
-            },
-            'profile',
-          );
+          localStorage.setItem('mode', mode === 'light' ? 'dark' : 'light');
           dispatch(changeMode(mode === 'light' ? 'dark' : 'light'));
         }}
       >

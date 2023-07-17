@@ -1,5 +1,6 @@
 {
   "HEADER": {
+    "DASHBOARD": "Главная",
     "TRANSACTIONS": "Транзакции",
     "CASH": "Денежные средства",
     "NEW_TRANSACTION": "Новая транзакция",
@@ -8,6 +9,7 @@
     "SEARCH_EVERYTHING": "Ищите все, что угодно"
   },
   "NAVIGATION": {
+    "DASHBOARD": "Главная",
     "TRANSACTIONS": "Транзакции",
     "CASH": "Денежные средства",
     "NEW_TRANSACTION": "Новая транзакция",
@@ -32,6 +34,7 @@
     "CURRENT_CASH": "Текущие денежные средства",
     "ALL": "Все",
     "CURRENT_BALANCE": "Текущий баланс",
+    "TOTAL_BALANCE": "Общий баланс",
     "TOTAL": "Всего",
     "EXPENSES": "Расходы",
     "INCOMES": "Доходы",

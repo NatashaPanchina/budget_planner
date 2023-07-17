@@ -1,5 +1,6 @@
 {
   "HEADER": {
+    "DASHBOARD": "Dashboard",
     "TRANSACTIONS": "Transactions",
     "CASH": "Cash",
     "NEW_TRANSACTION": "New Transaction",
@@ -8,6 +9,7 @@
     "SEARCH_EVERYTHING": "Search everything"
   },
   "NAVIGATION": {
+    "DASHBOARD": "Dashboard",
     "TRANSACTIONS": "Transactions",
     "CASH": "Cash",
     "NEW_TRANSACTION": "New Transaction",
@@ -32,6 +34,7 @@
     "CURRENT_CASH": "Current cash",
     "ALL": "All",
     "CURRENT_BALANCE": "Current balance",
+    "TOTAL_BALANCE": "Total balance",
     "TOTAL": "Total",
     "EXPENSES": "Expenses",
     "INCOMES": "Incomes",

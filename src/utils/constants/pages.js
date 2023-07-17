@@ -1,5 +1,6 @@
 export const pages = {
   home: '/',
+  dashboard: '/dashboard',
   transactions: {
     main: '/transactions',
     all: '/transactions/all',

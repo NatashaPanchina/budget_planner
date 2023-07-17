@@ -25,17 +25,19 @@ import { ReactComponent as ExpenseIcon } from '../../../assets/icons/shared/expe
 import { ReactComponent as IncomeIcon } from '../../../assets/icons/shared/income.svg';
 import { ReactComponent as PositiveBalanceIcon } from '../../../assets/icons/shared/positiveBalance.svg';
 import { ReactComponent as NegativeBalanceIcon } from '../../../assets/icons/shared/negativeBalance.svg';
-import lineChartIcon from '../../../assets/icons/shared/lineChart.svg';
-import barChartIcon from '../../../assets/icons/shared/barChart.svg';
-import pieChartIcon from '../../../assets/icons/shared/pieChart.svg';
-import tableIcon from '../../../assets/icons/shared/table.svg';
+import { ReactComponent as LineChartIcon } from '../../../assets/icons/shared/lineChart.svg';
+import { ReactComponent as BarChartIcon } from '../../../assets/icons/shared/barChart.svg';
+import { ReactComponent as PieChartIcon } from '../../../assets/icons/shared/pieChart.svg';
+import { ReactComponent as TableIcon } from '../../../assets/icons/shared/table.svg';
 import { ReactComponent as CalendarIcon } from '../../../assets/icons/shared/calendar.svg';
 
 import {
+  AccountsList,
   AnalysisContainer,
   AnalysisHeader,
   ChartButton,
   ChartButtonsContainer,
+  ChartSvg,
   ChartsContainer,
   CommonCalcItem,
   CommonInfoAmount,
@@ -50,7 +52,7 @@ import {
   ToggleButtonsContainer,
   ToggleChartButton,
 } from './TransactionsAnalysis.styled.js';
-import '../Analysis.css';
+import { hideElement, useOutsideClick } from '../../../hooks/useOutsideClick';
 
 function TransactionsAnalysis({ transactions, categories, accounts }) {
   const { t } = useTranslation();
@@ -82,21 +84,26 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
   const averageExpense = createAverageAmount(date, expensesSum);
   const averageIncome = createAverageAmount(date, incomesSum);
 
+  const accountsRef = useOutsideClick(hideElement);
+
   return (
     <React.Fragment>
       <AnalysisHeader>
         <HeaderTitle>{t('ANALYSIS.TRANSACTIONS_ANALYSIS')}</HeaderTitle>
         <Filter
-          onClick={() =>
-            document.querySelector('.accounts_filter').classList.toggle('none')
-          }
+          onClick={(event) => {
+            accountsRef.current.classList.toggle('none');
+            event.stopPropagation();
+          }}
         >
           <FilterSvg as={FilterIcon} />
           {accountFilter === 'All cash'
             ? t('ANALYSIS.ALL_CASH')
             : accountFilter}
-          {renderAccounts(t, notArchivedAccounts, setAccountFilter)}
         </Filter>
+        <AccountsList ref={accountsRef} className="none">
+          {renderAccounts(t, notArchivedAccounts, setAccountFilter)}
+        </AccountsList>
         <Filter>
           <FilterSvg as={CalendarIcon} />
           {`${dateFormatter.format(date.from)} - ${dateFormatter.format(
@@ -176,34 +183,28 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
             </CommonCalcItem>
           </CommonInfoContainer>
           <ChartsContainer>
-            <img src={lineChartIcon} className="chart_icon" alt="linechart" />
+            <ChartSvg as={LineChartIcon} />
             <ChartButtonsContainer>
               <ChartButton
-                className={
-                  lineChartFilter === 'expensesToIncomes' ? 'active_filter' : ''
-                }
+                $isActive={lineChartFilter === 'expensesToIncomes'}
                 onClick={() => setLineChartFilter('expensesToIncomes')}
               >
                 {t('ANALYSIS.EXPENSES_TO_INCOMES')}
               </ChartButton>
               <ChartButton
-                className={
-                  lineChartFilter === 'expenses' ? 'active_filter' : ''
-                }
+                $isActive={lineChartFilter === 'expenses'}
                 onClick={() => setLineChartFilter('expenses')}
               >
                 {t('ANALYSIS.EXPENSES')}
               </ChartButton>
               <ChartButton
-                className={lineChartFilter === 'incomes' ? 'active_filter' : ''}
+                $isActive={lineChartFilter === 'incomes'}
                 onClick={() => setLineChartFilter('incomes')}
               >
                 {t('ANALYSIS.INCOMES')}
               </ChartButton>
               <ChartButton
-                className={
-                  lineChartFilter === 'transfers' ? 'active_filter' : ''
-                }
+                $isActive={lineChartFilter === 'transfers'}
                 onClick={() => setLineChartFilter('transfers')}
               >
                 {t('ANALYSIS.TRANSFERS')}
@@ -211,13 +212,13 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
             </ChartButtonsContainer>
             <ToggleButtonsContainer>
               <ToggleChartButton
-                className={isLineChartDetailed ? '' : 'active_more_btn'}
+                $isActive={!isLineChartDetailed}
                 onClick={() => setIsLineChartDetailed(false)}
               >
                 {t('ANALYSIS.TOTAL')}
               </ToggleChartButton>
               <ToggleChartButton
-                className={isLineChartDetailed ? 'active_more_btn' : ''}
+                $isActive={isLineChartDetailed}
                 onClick={() => setIsLineChartDetailed(true)}
               >
                 {t('ANALYSIS.BY_CATEGORIES')}
@@ -232,32 +233,28 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
             />
           </ChartsContainer>
           <ChartsContainer>
-            <img src={barChartIcon} className="chart_icon" alt="barchart" />
+            <ChartSvg as={BarChartIcon} />
             <ChartButtonsContainer>
               <ChartButton
-                className={
-                  barChartFilter === 'expensesToIncomes' ? 'active_filter' : ''
-                }
+                $isActive={barChartFilter === 'expensesToIncomes'}
                 onClick={() => setBarChartFilter('expensesToIncomes')}
               >
                 {t('ANALYSIS.EXPENSES_TO_INCOMES')}
               </ChartButton>
               <ChartButton
-                className={barChartFilter === 'expenses' ? 'active_filter' : ''}
+                $isActive={barChartFilter === 'expenses'}
                 onClick={() => setBarChartFilter('expenses')}
               >
                 {t('ANALYSIS.EXPENSES')}
               </ChartButton>
               <ChartButton
-                className={barChartFilter === 'incomes' ? 'active_filter' : ''}
+                $isActive={barChartFilter === 'incomes'}
                 onClick={() => setBarChartFilter('incomes')}
               >
                 {t('ANALYSIS.INCOMES')}
               </ChartButton>
               <ChartButton
-                className={
-                  barChartFilter === 'transfers' ? 'active_filter' : ''
-                }
+                $isActive={barChartFilter === 'transfers'}
                 onClick={() => setBarChartFilter('transfers')}
               >
                 {t('ANALYSIS.TRANSFERS')}
@@ -265,13 +262,13 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
             </ChartButtonsContainer>
             <ToggleButtonsContainer>
               <ToggleChartButton
-                className={isBarChartDetailed ? '' : 'active_more_btn'}
+                $isActive={!isBarChartDetailed}
                 onClick={() => setIsBarChartDetailed(false)}
               >
                 {t('ANALYSIS.TOTAL')}
               </ToggleChartButton>
               <ToggleChartButton
-                className={isBarChartDetailed ? 'active_more_btn' : ''}
+                $isActive={isBarChartDetailed}
                 onClick={() => setIsBarChartDetailed(true)}
               >
                 {t('ANALYSIS.BY_CATEGORIES')}
@@ -286,24 +283,22 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
             />
           </ChartsContainer>
           <ChartsContainer>
-            <img src={pieChartIcon} className="chart_icon" alt="piechart" />
+            <ChartSvg as={PieChartIcon} />
             <ChartButtonsContainer>
               <ChartButton
-                className={pieChartFilter === 'expenses' ? 'active_filter' : ''}
+                $isActive={pieChartFilter === 'expenses'}
                 onClick={() => setPieChartFilter('expenses')}
               >
                 {t('ANALYSIS.EXPENSES')}
               </ChartButton>
               <ChartButton
-                className={pieChartFilter === 'incomes' ? 'active_filter' : ''}
+                $isActive={pieChartFilter === 'incomes'}
                 onClick={() => setPieChartFilter('incomes')}
               >
                 {t('ANALYSIS.INCOMES')}
               </ChartButton>
               <ChartButton
-                className={
-                  pieChartFilter === 'transfers' ? 'active_filter' : ''
-                }
+                $isActive={pieChartFilter === 'transfers'}
                 onClick={() => setPieChartFilter('transfers')}
               >
                 {t('ANALYSIS.TRANSFERS')}
@@ -317,22 +312,22 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
             />
           </ChartsContainer>
           <ChartsContainer>
-            <img src={tableIcon} className="chart_icon" alt="table" />
+            <ChartSvg as={TableIcon} />
             <ChartButtonsContainer>
               <ChartButton
-                className={tableFilter === 'expenses' ? 'active_filter' : ''}
+                $isActive={tableFilter === 'expenses'}
                 onClick={() => setTableFilter('expenses')}
               >
                 {t('ANALYSIS.EXPENSES')}
               </ChartButton>
               <ChartButton
-                className={tableFilter === 'incomes' ? 'active_filter' : ''}
+                $isActive={tableFilter === 'incomes'}
                 onClick={() => setTableFilter('incomes')}
               >
                 {t('ANALYSIS.INCOMES')}
               </ChartButton>
               <ChartButton
-                className={tableFilter === 'transfers' ? 'active_filter' : ''}
+                $isActive={tableFilter === 'transfers'}
                 onClick={() => setTableFilter('transfers')}
               >
                 {t('ANALYSIS.TRANSFERS')}

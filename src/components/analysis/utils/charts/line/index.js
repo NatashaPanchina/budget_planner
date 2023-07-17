@@ -2,6 +2,7 @@ import { dinero, add, toDecimal } from 'dinero.js';
 import { USD } from '@dinero.js/currencies';
 
 import { createPeriod } from '../../period';
+import { chartsColors } from '../../../../../utils/constants/chartsColors';
 
 export function createLineData({
   transactions,
@@ -93,8 +94,8 @@ function createSimpleData(
 ) {
   let color =
     transactionFilter === 'expense'
-      ? ['#FF599F', '#F4395B']
-      : ['#B3FF53', '#6EBD0A'];
+      ? chartsColors.expenses
+      : chartsColors.incomes;
   return [
     {
       id: `${transactionFilter}s`,

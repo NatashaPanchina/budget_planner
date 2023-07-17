@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { pages } from '../../utils/constants/pages';
 
 import { ReactComponent as LogoIcon } from '../../assets/icons/navigation/logo.svg';
+import { ReactComponent as DashboardIcon } from '../../assets/icons/navigation/dashboard.svg';
 import { ReactComponent as TransactionsIcon } from '../../assets/icons/navigation/transactions.svg';
 import { ReactComponent as CashIcon } from '../../assets/icons/navigation/cash.svg';
 import { ReactComponent as NewTransactionIcon } from '../../assets/icons/navigation/newTransaction.svg';
@@ -41,10 +42,10 @@ const Nav = styled.nav((props) => ({
   marginLeft: 'auto',
   marginRight: 'auto',
   fontSize: '0.9375rem',
-  '& div:nth-child(3) a:hover svg path': {
+  '& div:nth-child(4) a:hover svg path': {
     fill: props.theme.colors.white,
   },
-  '& div:nth-child(3) a.active svg path': {
+  '& div:nth-child(4) a.active svg path': {
     fill: props.theme.colors.white,
   },
 }));
@@ -114,6 +115,12 @@ export default function Navigation() {
         </LogoContainer>
       </NavLink>
       <Nav>
+        <LinkContainer>
+          <Link to={pages.dashboard}>
+            <Svg as={DashboardIcon} />
+            {t('NAVIGATION.DASHBOARD')}
+          </Link>
+        </LinkContainer>
         <LinkContainer>
           <Link to={pages.transactions.main}>
             <Svg as={TransactionsIcon} />

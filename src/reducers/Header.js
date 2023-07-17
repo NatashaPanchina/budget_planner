@@ -6,9 +6,17 @@ import {
   CHANGE_MODE,
 } from '../actions/ActionTypes';
 
+function initialMode() {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
+}
+
 const initialState = {
   status: 'idle',
   error: null,
+  mode: localStorage.getItem('mode') || initialMode(),
+  language: localStorage.getItem('language') || 'EN',
   profile: {},
 };
 
@@ -21,9 +29,9 @@ const header = (state = initialState, { type, payload }) => {
     case IDB_FETCH_PROFILE_FAILURE:
       return { ...state, status: 'failed', error: payload.message };
     case CHANGE_LANGUAGE:
-      return { ...state, profile: { ...state.profile, language: payload } };
+      return { ...state, language: payload };
     case CHANGE_MODE:
-      return { ...state, profile: { ...state.profile, mode: payload } };
+      return { ...state, mode: payload };
     default:
       return state;
   }
