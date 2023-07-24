@@ -15,7 +15,6 @@ import { ReactComponent as TrashIcon } from '../../assets/icons/shared/trash.svg
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 
 import {
-  CategoroiesContainer,
   MoreInformationContainer,
   BarChartInfo,
   TotalCategoriesCount,
@@ -79,7 +78,7 @@ export default function Categories() {
   return status === 'loading' ? (
     <div>Loading</div>
   ) : (
-    <CategoroiesContainer>
+    <React.Fragment>
       <MoreInformationContainer>
         <CategoriesBar
           data={createBarData(
@@ -154,6 +153,6 @@ export default function Categories() {
           archiveCategory={archiveCategory}
         />
       </MainInformationContainer>
-    </CategoroiesContainer>
+    </React.Fragment>
   );
 }

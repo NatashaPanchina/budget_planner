@@ -1,21 +1,14 @@
 import { css, styled } from 'styled-components';
 
-export const AnalysisContainer = styled.div((props) => ({
-  marginTop: props.theme.spacing(14),
-  marginLeft: '25%',
-  marginRight: '8%',
-}));
-
 export const AnalysisHeader = styled.div((props) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   height: 50,
+  width: '100%',
   position: 'sticky',
   top: 56,
   zIndex: 9,
-  paddingLeft: '25%',
-  paddingRight: '8%',
   backgroundColor: props.theme.colors.background.body,
 }));
 
@@ -69,6 +62,7 @@ export const CommonInfoContainer = styled(Container)(() => ({
   gridTemplateColumns: '1fr 1fr 1fr',
   justifyContent: 'center',
   height: 220,
+  width: '100%',
 }));
 
 export const CommonInfoItem = styled.div((props) => ({
@@ -136,6 +130,7 @@ export const CommonCalcItem = styled.div(() => ({
 
 export const ChartsContainer = styled.div((props) => ({
   marginTop: props.theme.spacing(7),
+  width: '100%',
   border: `1px solid ${props.theme.colors.border.item}`,
   borderRadius: props.theme.borderRadius,
   backgroundColor: props.theme.colors.background.primary,

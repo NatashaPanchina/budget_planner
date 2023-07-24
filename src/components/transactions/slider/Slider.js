@@ -25,32 +25,25 @@ import {
   SlidesContainer,
 } from '../Transactions.styled';
 
-function previousSlide(slide, setCurrentSlide) {
-  if (slide === 1) return;
-
-  const slides = document.querySelectorAll('.accounts_slide');
-
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].style.transform = `translate(-${100 * (slide - 2)}%)`;
-  }
+const previousSlide = (slide, setCurrentSlide) => {
+  if (slide === 1) return 100 * (slide - 1);
+  const transforming = 100 * (slide - 2);
   setCurrentSlide(slide - 1);
-}
+  return transforming;
+};
 
-function nextSlide(countSlides, slide, setCurrentSlide) {
-  if (slide === countSlides) return;
-
-  const slides = document.querySelectorAll('.accounts_slide');
-
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].style.transform = `translate(-${100 * slide}%)`;
-  }
+const nextSlide = (countSlides, slide, setCurrentSlide) => {
+  if (slide === countSlides) return 100 * (slide - 1);
+  const transforming = 100 * slide;
   setCurrentSlide(slide + 1);
-}
+  return transforming;
+};
 
 function Slider({ filterType, notArchivedAccounts }) {
   const { t } = useTranslation();
   const { filterAccount } = useParams();
   const [currentSlide, setCurrentSlide] = useState(1);
+  const [transforming, setTransforming] = useState(0);
   const countSlides = notArchivedAccounts.length + 1;
   const accountsTotalBalance = notArchivedAccounts.reduce(
     (sum, account) => add(sum, dinero(account.balance)),
@@ -61,21 +54,26 @@ function Slider({ filterType, notArchivedAccounts }) {
     const index = notArchivedAccounts.findIndex(
       (account) => account.id === filterAccount,
     );
-    if (index != -1) nextSlide(countSlides, index + 1, setCurrentSlide);
+    if (index != -1)
+      setTransforming(nextSlide(countSlides, index + 1, setCurrentSlide));
   }, []);
 
   return (
     <SliderContainer>
       <SliderPrevSvg
         as={ArrowLeft}
-        onClick={() => previousSlide(currentSlide, setCurrentSlide)}
+        onClick={() =>
+          setTransforming(previousSlide(currentSlide, setCurrentSlide))
+        }
       />
       <SliderNextSvg
         as={ArrowRight}
-        onClick={() => nextSlide(countSlides, currentSlide, setCurrentSlide)}
+        onClick={() =>
+          setTransforming(nextSlide(countSlides, currentSlide, setCurrentSlide))
+        }
       />
       <SlidesContainer>
-        <Slide className="accounts_slide">
+        <Slide $transforming={transforming}>
           <Card
             to={`${pages.transactions[filterType]}/all`}
             $cardBackground={cardBackground}
@@ -93,7 +91,7 @@ function Slider({ filterType, notArchivedAccounts }) {
         </Slide>
         {notArchivedAccounts.map((account) => {
           return (
-            <Slide key={account.id} className="accounts_slide">
+            <Slide key={account.id} $transforming={transforming}>
               <Card
                 to={`${pages.transactions[filterType]}/${account.id}`}
                 $cardBackground={cardBackground}

@@ -17,7 +17,9 @@ import {
   CountTransactionsSvg,
   MoreInfoContainer,
   MoreInfoHeader,
+  TotalCountTransactions,
 } from '../Transactions.styled.js';
+import { Grid } from '@mui/material';
 
 function AccountsSlider({ transactions, accounts }) {
   const { t } = useTranslation();
@@ -45,52 +47,68 @@ function AccountsSlider({ transactions, accounts }) {
 
   return (
     <MoreInfoContainer>
-      <MoreInfoHeader>{t('TRANSACTIONS.CURRENT_CASH')}</MoreInfoHeader>
-      <Slider
-        filterType={filterType}
-        notArchivedAccounts={notArchivedAccounts}
-      />
-      <CountTransactionsContainer>
-        {t('TRANSACTIONS.TOTAL')}
-        <CountInfo $countType="total">
-          {allTransactions}{' '}
-          {t(createLocaleTransactions('TRANSACTIONS', allTransactions))}
-        </CountInfo>
-        <CountTransactionsBlock>
-          <CountTransactionsSvg as={ExpenseIcon} />
-          <div>
-            {t('TRANSACTIONS.FILTER_EXPENSES')}
-            <CountInfo $countType="expense">
-              {expensesTransactions}{' '}
-              {t(
-                createLocaleTransactions('TRANSACTIONS', expensesTransactions),
-              )}
-            </CountInfo>
-          </div>
-        </CountTransactionsBlock>
-        <CountTransactionsBlock>
-          <CountTransactionsSvg as={IncomeIcon} />
-          <div>
-            {t('TRANSACTIONS.FILTER_INCOMES')}
-            <CountInfo $countType="income">
-              {incomesTransactions}{' '}
-              {t(createLocaleTransactions('TRANSACTIONS', incomesTransactions))}
-            </CountInfo>
-          </div>
-        </CountTransactionsBlock>
-        <CountTransactionsBlock>
-          <CountTransactionsSvg as={TransferIcon} />
-          <div>
-            {t('TRANSACTIONS.FILTER_TRANSFERS')}
-            <CountInfo $countType="transfer">
-              {transfersTransactions}{' '}
-              {t(
-                createLocaleTransactions('TRANSACTIONS', transfersTransactions),
-              )}
-            </CountInfo>
-          </div>
-        </CountTransactionsBlock>
-      </CountTransactionsContainer>
+      <Grid item xs={12} sm={5} md={12}>
+        <MoreInfoHeader>{t('TRANSACTIONS.CURRENT_CASH')}</MoreInfoHeader>
+        <Slider
+          filterType={filterType}
+          notArchivedAccounts={notArchivedAccounts}
+        />
+      </Grid>
+      <Grid item xs={12} sm={7} md={12}>
+        <CountTransactionsContainer>
+          <TotalCountTransactions>
+            <div>
+              {t('TRANSACTIONS.TOTAL')}
+              <CountInfo $countType="total">
+                {allTransactions}{' '}
+                {t(createLocaleTransactions('TRANSACTIONS', allTransactions))}
+              </CountInfo>
+            </div>
+          </TotalCountTransactions>
+          <CountTransactionsBlock>
+            <CountTransactionsSvg as={ExpenseIcon} />
+            <div>
+              {t('TRANSACTIONS.FILTER_EXPENSES')}
+              <CountInfo $countType="expense">
+                {expensesTransactions}{' '}
+                {t(
+                  createLocaleTransactions(
+                    'TRANSACTIONS',
+                    expensesTransactions,
+                  ),
+                )}
+              </CountInfo>
+            </div>
+          </CountTransactionsBlock>
+          <CountTransactionsBlock>
+            <CountTransactionsSvg as={IncomeIcon} />
+            <div>
+              {t('TRANSACTIONS.FILTER_INCOMES')}
+              <CountInfo $countType="income">
+                {incomesTransactions}{' '}
+                {t(
+                  createLocaleTransactions('TRANSACTIONS', incomesTransactions),
+                )}
+              </CountInfo>
+            </div>
+          </CountTransactionsBlock>
+          <CountTransactionsBlock>
+            <CountTransactionsSvg as={TransferIcon} />
+            <div>
+              {t('TRANSACTIONS.FILTER_TRANSFERS')}
+              <CountInfo $countType="transfer">
+                {transfersTransactions}{' '}
+                {t(
+                  createLocaleTransactions(
+                    'TRANSACTIONS',
+                    transfersTransactions,
+                  ),
+                )}
+              </CountInfo>
+            </div>
+          </CountTransactionsBlock>
+        </CountTransactionsContainer>
+      </Grid>
     </MoreInfoContainer>
   );
 }

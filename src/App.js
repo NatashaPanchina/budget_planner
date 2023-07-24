@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Navigate,
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ThemeProvider } from 'styled-components';
-import './locales';
 
+import './locales';
 import { darkTheme, lightTheme } from './theme';
 import { GlobalStyles } from './theme/global';
 import Root from './components/root/Root';
@@ -117,7 +118,13 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const { i18n } = useTranslation();
   const header = useSelector((state) => state.header);
+  const { language } = header;
+
+  useEffect(() => {
+    i18n.changeLanguage(language);
+  }, [language, i18n]);
 
   return (
     <ThemeProvider theme={header.mode === 'light' ? lightTheme : darkTheme}>
