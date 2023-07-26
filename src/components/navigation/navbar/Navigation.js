@@ -1,15 +1,16 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { pages } from '../../utils/constants/pages';
+import { pages } from '../../../utils/constants/pages';
 
-import { ReactComponent as DashboardIcon } from '../../assets/icons/navigation/dashboard.svg';
-import { ReactComponent as TransactionsIcon } from '../../assets/icons/navigation/transactions.svg';
-import { ReactComponent as CashIcon } from '../../assets/icons/navigation/cash.svg';
-import { ReactComponent as NewTransactionIcon } from '../../assets/icons/navigation/newTransaction.svg';
-import { ReactComponent as CategoriesIcon } from '../../assets/icons/navigation/categories.svg';
-import { ReactComponent as AnalysisIcon } from '../../assets/icons/navigation/analysis.svg';
-import { ReactComponent as MoreIcon } from '../../assets/icons/navigation/more.svg';
+import { ReactComponent as DashboardIcon } from '../../../assets/icons/navigation/dashboard.svg';
+import { ReactComponent as TransactionsIcon } from '../../../assets/icons/navigation/transactions.svg';
+import { ReactComponent as CashIcon } from '../../../assets/icons/navigation/cash.svg';
+import { ReactComponent as NewTransactionIcon } from '../../../assets/icons/navigation/newTransaction.svg';
+import { ReactComponent as CategoriesIcon } from '../../../assets/icons/navigation/categories.svg';
+import { ReactComponent as AnalysisIcon } from '../../../assets/icons/navigation/analysis.svg';
+import { ReactComponent as MoreIcon } from '../../../assets/icons/navigation/more.svg';
+import { ReactComponent as SettingsIcon } from '../../../assets/icons/navigation/settings.svg';
 
 import {
   NavigationContainer,
@@ -20,6 +21,9 @@ import {
   Link,
   LinkTitle,
   MoreContainer,
+  CashLinkContainer,
+  SettingsLinkContainer,
+  SettingsLink,
 } from './Navigation.styled';
 
 export default function Navigation() {
@@ -39,12 +43,12 @@ export default function Navigation() {
             <LinkTitle>{t('NAVIGATION.TRANSACTIONS')}</LinkTitle>
           </Link>
         </LinkContainer>
-        <LinkContainer>
+        <CashLinkContainer>
           <Link to={pages.cash.main}>
             <Svg as={CashIcon} />
             <LinkTitle>{t('NAVIGATION.CASH')}</LinkTitle>
           </Link>
-        </LinkContainer>
+        </CashLinkContainer>
         <LinkContainer>
           <Link to={pages.newTransaction.main}>
             <NewTransactionSvg as={NewTransactionIcon} />
@@ -67,6 +71,12 @@ export default function Navigation() {
           <Svg as={MoreIcon} />
           <LinkTitle>{t('NAVIGATION.MORE')}</LinkTitle>
         </MoreContainer>
+        <SettingsLinkContainer>
+          <SettingsLink to="/">
+            <Svg as={SettingsIcon} />
+            <LinkTitle>{t('NAVIGATION.SETTINGS')}</LinkTitle>
+          </SettingsLink>
+        </SettingsLinkContainer>
       </Nav>
     </NavigationContainer>
   );

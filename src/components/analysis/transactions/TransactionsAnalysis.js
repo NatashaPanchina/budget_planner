@@ -86,7 +86,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
   const accountsRef = useOutsideClick(hideElement);
 
   return (
-    <React.Fragment>
+    <>
       <AnalysisHeader>
         <HeaderTitle>{t('ANALYSIS.TRANSACTIONS_ANALYSIS')}</HeaderTitle>
         <Filter
@@ -331,7 +331,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           date={date}
         />
       </ChartsContainer>
-    </React.Fragment>
+    </>
   );
 }
 

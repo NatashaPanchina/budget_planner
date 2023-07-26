@@ -91,7 +91,7 @@ function renderTable(t, data, tableFilter) {
   );
   let floatTotalSum = Number(toDecimal(totalSum));
   return (
-    <React.Fragment>
+    <>
       <TableDescriptionItem>
         <span>{t('ANALYSIS.CATEGORY')}</span>
         <span>{t('ANALYSIS.PERCENTAGE')}</span>
@@ -148,7 +148,7 @@ function renderTable(t, data, tableFilter) {
           </TableItem>
         );
       })}
-    </React.Fragment>
+    </>
   );
 }
 

@@ -78,7 +78,7 @@ export default function Categories() {
   return status === 'loading' ? (
     <div>Loading</div>
   ) : (
-    <React.Fragment>
+    <>
       <MoreInformationContainer>
         <CategoriesBar
           data={createBarData(
@@ -153,6 +153,6 @@ export default function Categories() {
           archiveCategory={archiveCategory}
         />
       </MainInformationContainer>
-    </React.Fragment>
+    </>
   );
 }

@@ -62,7 +62,7 @@ export default function Transactions() {
     transactions.status === 'loading' ? (
     <div>Loading</div>
   ) : (
-    <React.Fragment>
+    <>
       <Grid item xs={12} sm={12} md={3} lg={3}>
         <AccountsSlider
           transactions={transactionsData}
@@ -94,6 +94,6 @@ export default function Transactions() {
           />
         </div>
       </Grid>
-    </React.Fragment>
+    </>
   );
 }

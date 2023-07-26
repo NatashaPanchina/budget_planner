@@ -66,7 +66,7 @@ function AccountsList({ notArchivedAccounts, archiveAccount }) {
   const localeFilterCash = createLocaleCashType(filterCash);
 
   return (
-    <React.Fragment>
+    <>
       <Search>
         <SearchInput
           type="text"
@@ -121,7 +121,7 @@ function AccountsList({ notArchivedAccounts, archiveAccount }) {
           </CashListItem>
         );
       })}
-    </React.Fragment>
+    </>
   );
 }
 

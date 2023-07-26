@@ -127,7 +127,7 @@ export default function InfoCategory() {
       {status === 'loading' ? (
         <div>Loading</div>
       ) : (
-        <React.Fragment>
+        <>
           <AddFormHeader>
             <BackLink to={pages.categories[`${categoryType}s`]}>
               <BackLinkSvg as={BackIcon} />
@@ -286,7 +286,7 @@ export default function InfoCategory() {
               </CancelButton>
             </AddFormButtonsContainer>
           </FormFieldsContainer>
-        </React.Fragment>
+        </>
       )}
     </AddFormContainer>
   );

@@ -14,7 +14,7 @@ export const HeaderContainer = styled(FlexContainer)((props) => ({
   zIndex: 10,
   top: 0,
   background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     background: props.theme.colors.background.primary,
     borderBottom: `1px solid ${props.theme.colors.border.ordinary}`,
   },
@@ -24,14 +24,14 @@ export const LogoContainer = styled(FlexContainer)((props) => ({
   justifyContent: 'center',
   height: 56,
   background: 'none',
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     width: 48,
   },
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     width: 64,
     background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
   },
-  '@media only screen and (min-width: 1200px)': {
+  '@media (min-width: 1200px)': {
     width: 208,
   },
 }));
@@ -41,7 +41,7 @@ export const Logo = styled.svg((props) => ({
   width: 45,
   marginRight: 'auto',
   marginLeft: props.theme.spacing(2),
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     display: 'block',
     margin: 0,
   },
@@ -50,7 +50,7 @@ export const Logo = styled.svg((props) => ({
 export const LogoTitle = styled.svg((props) => ({
   width: 120,
   display: 'none',
-  '@media only screen and (min-width: 1200px)': {
+  '@media (min-width: 1200px)': {
     display: 'block',
     marginLeft: props.theme.spacing(2),
   },
@@ -58,21 +58,21 @@ export const LogoTitle = styled.svg((props) => ({
 
 export const Title = styled(FlexContainer)((props) => ({
   display: 'none',
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     display: 'flex',
     fontWeight: 450,
     fontSize: '1.25rem',
     color: props.theme.colors.white,
     paddingLeft: props.theme.spacing(5),
   },
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     color: 'inherit',
   },
 }));
 
 export const GlobalSearch = styled.div((props) => ({
   display: 'none',
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     display: 'flex',
     alignItems: 'center',
     width: '100%',
@@ -102,7 +102,7 @@ export const GlobalSearchImg = styled.img((props) => ({
 
 export const ThemeContainer = styled(FlexContainer)(() => ({
   display: 'none',
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     display: 'flex',
     justifyContent: 'center',
   },
@@ -113,7 +113,7 @@ export const Container = styled(FlexContainer)((props) => ({
   width: '33.3%',
   cursor: 'pointer',
   color: props.theme.colors.text.primary,
-  '@media only screen and (min-width: 1200px)': {
+  '@media (min-width: 1200px)': {
     width: '25%',
   },
 }));
@@ -154,16 +154,20 @@ export const SvgMode = styled(Svg)((props) => ({
 
 export const Profile = styled(FlexContainer)((props) => ({
   display: 'none',
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     display: 'flex',
     paddingRight: props.theme.spacing(4),
     marginLeft: 'auto',
   },
 }));
 
+export const Username = styled.span((props) => ({
+  marginLeft: props.theme.spacing(2),
+}));
+
 export const LogOut = styled(FlexContainer)(() => ({
   display: 'none',
-  '@media only screen and (min-width: 900px)': {
+  '@media (min-width: 900px)': {
     display: 'flex',
   },
 }));
@@ -171,7 +175,7 @@ export const LogOut = styled(FlexContainer)(() => ({
 export const BurgerSvg = styled.svg(() => ({
   marginLeft: 'auto',
   cursor: 'pointer',
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     display: 'none',
   },
 }));

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from '../header/Header';
-import Navigation from '../navigation/Navigation';
+import Navigation from '../navigation/navbar/Navigation';
 import { Grid } from '@mui/material';
 
 export default function Root() {
@@ -10,21 +10,21 @@ export default function Root() {
     paddingRight: 1,
     paddingTop: 7,
     paddingBottom: 8,
-    '@media only screen and (min-width: 600px)': {
+    '@media (min-width: 600px)': {
       paddingLeft: 9,
       paddingRight: 3,
     },
-    '@media only screen and (min-width: 768px)': {
+    '@media (min-width: 768px)': {
       paddingLeft: 12,
       paddingRight: 4,
     },
-    '@media only screen and (min-width: 1200px)': {
+    '@media (min-width: 1200px)': {
       paddingLeft: 32,
       paddingRight: 6,
     },
   };
   return (
-    <React.Fragment>
+    <>
       <Header />
       <Navigation />
       <Grid
@@ -34,6 +34,6 @@ export default function Root() {
       >
         <Outlet />
       </Grid>
-    </React.Fragment>
+    </>
   );
 }

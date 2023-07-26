@@ -45,7 +45,7 @@ export default function Cash() {
   return status === 'loading' ? (
     <div>Loading</div>
   ) : (
-    <React.Fragment>
+    <>
       <MoreInformationContainer>
         {t('CASH.TOTAL_BALANCE')}
         <CashChart data={notArchivedAccounts} />
@@ -87,6 +87,6 @@ export default function Cash() {
           archiveAccount={archiveAccount}
         />
       </MainInformationContainer>
-    </React.Fragment>
+    </>
   );
 }

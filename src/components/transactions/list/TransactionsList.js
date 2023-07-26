@@ -74,7 +74,7 @@ function TransactionsList({
 
   const toggleEditButtons = useOutsideClick(hideElement);
   return (
-    <React.Fragment>
+    <>
       <TransactionsTitleContainer>
         <TransactionsTitleLink
           to={`${pages.transactions.all}/${filterAccount}`}
@@ -299,7 +299,7 @@ function TransactionsList({
       ) : (
         <div>{t('TRANSACTIONS.NO_TRANSACTIONS')}</div>
       )}
-    </React.Fragment>
+    </>
   );
 }
 

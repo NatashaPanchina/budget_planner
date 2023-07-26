@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +21,7 @@ import { ReactComponent as DarkModeIcon } from '../../assets/icons/shared/darkMo
 import searchIcon from '../../assets/icons/shared/globalSearch.svg';
 import { ReactComponent as LogoutIcon } from '../../assets/icons/shared/logOut.svg';
 import { ReactComponent as BurgerIcon } from '../../assets/icons/navigation/burger.svg';
+import { ReactComponent as AvatarIcon } from '../../assets/icons/shared/avatar.svg';
 
 import {
   FlexContainer,
@@ -42,8 +43,11 @@ import {
   Profile,
   LogOut,
   BurgerSvg,
+  Username,
 } from './Header.styled';
 import { languages } from '../../utils/constants/languages';
+import { mode } from '../../utils/constants/mode';
+import Menu from '../navigation/menu/Menu';
 
 function renderLanguagesMenu(languages, setLanguage, dispatch) {
   return languages.map((language, index) => (
@@ -75,13 +79,13 @@ function renderHeaderTitles(t) {
 export default function Header() {
   const gridStyles = {
     paddingRight: 1,
-    '@media only screen and (min-width: 600px)': {
+    '@media (min-width: 600px)': {
       paddingRight: 3,
     },
-    '@media only screen and (min-width: 900px)': {
+    '@media (min-width: 900px)': {
       paddingRight: 4,
     },
-    '@media only screen and (min-width: 1200px)': {
+    '@media (min-width: 1200px)': {
       paddingRight: 6,
     },
   };
@@ -94,11 +98,12 @@ export default function Header() {
   const [username, setUsername] = useState('User');
   const [language, setLanguage] = useState(header.language);
   const [currency, setCurrency] = useState('$');
-  const [mode, setMode] = useState(header.mode);
+  const [headerMode, setHeaderMode] = useState(header.mode);
 
   const { t } = useTranslation();
   const location = useLocation();
   const languageRef = useOutsideClick(hideElement);
+  const mobMenu = useRef();
 
   const titles = renderHeaderTitles(t);
   const path = location.pathname.match(/\/(\w)*/)[0];
@@ -122,78 +127,99 @@ export default function Header() {
   }, [path, titles]);
 
   return (
-    <HeaderContainer>
-      <Grid
-        container
-        columnSpacing={{ xs: 0, sm: 2, md: 3, lg: 4 }}
-        sx={gridStyles}
-      >
-        <Grid item xs={6} sm={1} md={1} lg={2}>
-          <NavLink to={pages.home}>
-            <LogoContainer>
-              <Logo as={LogoCatIcon} />
-              <LogoTitle as={LogoTitleIcon} />
-            </LogoContainer>
-          </NavLink>
+    <>
+      <HeaderContainer>
+        <Grid
+          container
+          columnSpacing={{ xs: 0, sm: 2, md: 3, lg: 4 }}
+          sx={gridStyles}
+        >
+          <Grid item xs={6} sm={1} md={1} lg={2}>
+            <NavLink to={pages.home}>
+              <LogoContainer>
+                <Logo as={LogoCatIcon} />
+                <LogoTitle as={LogoTitleIcon} />
+              </LogoContainer>
+            </NavLink>
+          </Grid>
+          <Grid item sm={4} md={3} lg={3}>
+            <Title>{headerTitle}</Title>
+          </Grid>
+          <Grid item sm={2} md={3} lg={3}>
+            <FlexContainer>
+              <GlobalSearch>
+                <GlobalSearchInput
+                  type="text"
+                  placeholder={t('HEADER.SEARCH_EVERYTHING')}
+                ></GlobalSearchInput>
+                <GlobalSearchImg src={searchIcon} alt="search" />
+              </GlobalSearch>
+            </FlexContainer>
+          </Grid>
+          <Grid item sm={3} md={3} lg={2}>
+            <ThemeContainer>
+              <Container
+                onClick={(event) => {
+                  languageRef.current.classList.toggle('none');
+                  event.stopPropagation();
+                }}
+              >
+                <CurrentLng>{language}</CurrentLng>
+                <LanguagesMenu ref={languageRef} className="none">
+                  {renderLanguagesMenu(languages, setLanguage, dispatch)}
+                </LanguagesMenu>
+              </Container>
+              <Container>
+                {currency === '$' ? (
+                  <Svg as={CurrencyDollarIcon} />
+                ) : (
+                  <Svg as={CurrencyDollarIcon} />
+                )}
+              </Container>
+              <Container
+                onClick={() => {
+                  setHeaderMode(
+                    headerMode === mode.light ? mode.dark : mode.light,
+                  );
+                  localStorage.setItem(
+                    'mode',
+                    headerMode === mode.light ? mode.dark : mode.light,
+                  );
+                  dispatch(
+                    changeMode(
+                      headerMode === mode.light ? mode.dark : mode.light,
+                    ),
+                  );
+                }}
+              >
+                <SvgMode
+                  as={headerMode === mode.light ? LightModeIcon : DarkModeIcon}
+                />
+              </Container>
+            </ThemeContainer>
+          </Grid>
+          <Grid item xs={6} sm={2} md={2} lg={2}>
+            <FlexContainer>
+              <Profile>
+                <Svg as={AvatarIcon} />
+                <Username>{username}</Username>
+              </Profile>
+              <LogOut>
+                <Svg as={LogoutIcon} />
+              </LogOut>
+              <BurgerSvg
+                as={BurgerIcon}
+                onClick={() => {
+                  mobMenu.current.classList.toggle('none');
+                }}
+              />
+            </FlexContainer>
+          </Grid>
         </Grid>
-        <Grid item sm={4} md={3} lg={3}>
-          <Title>{headerTitle}</Title>
-        </Grid>
-        <Grid item sm={2} md={3} lg={3}>
-          <FlexContainer>
-            <GlobalSearch>
-              <GlobalSearchInput
-                type="text"
-                placeholder={t('HEADER.SEARCH_EVERYTHING')}
-              ></GlobalSearchInput>
-              <GlobalSearchImg src={searchIcon} alt="search" />
-            </GlobalSearch>
-          </FlexContainer>
-        </Grid>
-        <Grid item sm={3} md={3} lg={2}>
-          <ThemeContainer>
-            <Container
-              onClick={(event) => {
-                languageRef.current.classList.toggle('none');
-                event.stopPropagation();
-              }}
-            >
-              <CurrentLng>{language}</CurrentLng>
-              <LanguagesMenu ref={languageRef} className="none">
-                {renderLanguagesMenu(languages, setLanguage, dispatch)}
-              </LanguagesMenu>
-            </Container>
-            <Container>
-              {currency === '$' ? (
-                <Svg as={CurrencyDollarIcon} />
-              ) : (
-                <Svg as={CurrencyDollarIcon} />
-              )}
-            </Container>
-            <Container
-              onClick={() => {
-                setMode(mode === 'light' ? 'dark' : 'light');
-                localStorage.setItem(
-                  'mode',
-                  mode === 'light' ? 'dark' : 'light',
-                );
-                dispatch(changeMode(mode === 'light' ? 'dark' : 'light'));
-              }}
-            >
-              <SvgMode as={mode === 'light' ? LightModeIcon : DarkModeIcon} />
-            </Container>
-          </ThemeContainer>
-        </Grid>
-        <Grid item xs={6} sm={2} md={2} lg={2}>
-          <FlexContainer>
-            <Profile>{username}</Profile>
-            <LogOut>
-              <Svg as={LogoutIcon} />
-            </LogOut>
-            <BurgerSvg as={BurgerIcon} />
-          </FlexContainer>
-        </Grid>
-      </Grid>
-    </HeaderContainer>
+      </HeaderContainer>
+      <div ref={mobMenu} className="none">
+        <Menu username={username} />
+      </div>
+    </>
   );
 }

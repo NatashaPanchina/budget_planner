@@ -40,7 +40,7 @@ const ListItemSvg = styled.svg((props) => ({
 
 export function renderAccounts(t, accounts, setAccountFilter) {
   return (
-    <React.Fragment>
+    <>
       <ListItem onClick={() => setAccountFilter('All cash')}>
         {t('ANALYSIS.ALL_CASH')}
       </ListItem>
@@ -81,7 +81,7 @@ export function renderAccounts(t, accounts, setAccountFilter) {
           {account.description}
         </ListItem>
       ))}
-    </React.Fragment>
+    </>
   );
 }
 

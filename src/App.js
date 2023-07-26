@@ -27,6 +27,7 @@ import AccountsTrash from './components/cash/trash/AccountsTrash';
 
 import './App.css';
 import Dashboard from './components/dashboard/Dashboard';
+import { mode } from './utils/constants/mode';
 
 const router = createBrowserRouter([
   {
@@ -127,7 +128,7 @@ function App() {
   }, [language, i18n]);
 
   return (
-    <ThemeProvider theme={header.mode === 'light' ? lightTheme : darkTheme}>
+    <ThemeProvider theme={header.mode === mode.light ? lightTheme : darkTheme}>
       <GlobalStyles />
       <RouterProvider router={router} />
     </ThemeProvider>

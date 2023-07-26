@@ -18,7 +18,7 @@ export const NavigationContainer = styled(FlexContainer)((props) => ({
   zIndex: 10,
   backgroundColor: props.theme.colors.background.primary,
   borderTop: `1px solid ${props.theme.colors.border.ordinary}`,
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     display: 'block',
     width: 48,
     padding: 0,
@@ -29,10 +29,10 @@ export const NavigationContainer = styled(FlexContainer)((props) => ({
     borderTop: 0,
     borderRight: `1px solid ${props.theme.colors.border.ordinary}`,
   },
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     width: 64,
   },
-  '@media only screen and (min-width: 1200px)': {
+  '@media (min-width: 1200px)': {
     width: 208,
   },
 }));
@@ -40,44 +40,60 @@ export const NavigationContainer = styled(FlexContainer)((props) => ({
 export const Nav = styled.nav((props) => ({
   display: 'flex',
   width: '100%',
+  height: '100%',
   alignItems: 'center',
-  '& div:nth-child(3)': {
-    display: 'none',
-  },
-  '& div:nth-child(7)': {
-    display: 'none',
-  },
-  '@media only screen and (min-width: 600px)': {
+  position: 'relative',
+  '@media (min-width: 600px)': {
     display: 'block',
     width: '90%',
     marginLeft: 'auto',
     marginRight: 'auto',
     paddingTop: props.theme.spacing(3),
     fontSize: '0.9375rem',
-    '& div:nth-child(3)': {
-      display: 'flex',
-    },
-    '& div:nth-child(7)': {
-      display: 'flex',
-    },
-    '& div:nth-child(4) a:hover svg path': {
-      fill: props.theme.colors.white,
-    },
-    '& div:nth-child(4) a.active svg path': {
-      fill: props.theme.colors.white,
-    },
   },
 }));
 
 export const LinkContainer = styled(FlexContainer)(() => ({
   justifyContent: 'center',
-  height: 50,
+  height: 55,
   width: '20%',
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     width: '100%',
   },
-  '@media only screen and (min-width: 1200px)': {
+  '@media (min-width: 1200px)': {
     justifyContent: 'flex-start',
+  },
+}));
+
+export const CashLinkContainer = styled(LinkContainer)(() => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
+}));
+
+export const MoreContainer = styled(FlexContainer)((props) => ({
+  color: props.theme.colors.text.darker,
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
+}));
+
+export const SettingsLinkContainer = styled.div((props) => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'block',
+    height: 50,
+    width: '100%',
+    marginBottom: props.theme.spacing(4),
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    fill: props.theme.colors.text.darker,
+    '&:hover': {
+      fill: props.theme.colors.main.violet,
+    },
   },
 }));
 
@@ -90,7 +106,7 @@ export const Svg = styled.svg((props) => ({
   '& path': {
     fill: 'inherit',
   },
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     width: 22,
     height: 22,
     marginRight: props.theme.spacing(2),
@@ -109,7 +125,7 @@ export const NewTransactionSvg = styled.svg((props) => ({
   '&:hover g path': {
     fill: props.theme.colors.white,
   },
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     width: 32,
   },
 }));
@@ -118,7 +134,7 @@ export const Link = styled(NavLink)((props) => ({
   display: 'flex',
   color: props.theme.colors.text.darker,
   fill: props.theme.colors.text.darker,
-  height: 45,
+  height: 50,
   width: '100%',
   alignItems: 'center',
   justifyContent: 'center',
@@ -134,22 +150,38 @@ export const Link = styled(NavLink)((props) => ({
     backgroundColor: props.theme.colors.background.navigation,
     borderRadius: props.theme.borderRadius,
   },
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     width: 'inherit',
     justifyContent: 'center',
   },
-  '@media only screen and (min-width: 1200px)': {
+  '@media (min-width: 1200px)': {
+    justifyContent: 'flex-start',
+  },
+}));
+
+export const SettingsLink = styled(NavLink)((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: 'inherit',
+  width: 'inherit',
+  color: props.theme.colors.text.darker,
+  '&:hover': {
+    color: props.theme.colors.main.violet,
+    fill: props.theme.colors.main.violet,
+  },
+  '&.active': {
+    color: props.theme.colors.main.violet,
+    fill: props.theme.colors.main.violet,
+  },
+  '@media (min-width: 1200px)': {
     justifyContent: 'flex-start',
   },
 }));
 
 export const LinkTitle = styled.span(() => ({
   display: 'none',
-  '@media only screen and (min-width: 1200px)': {
+  '@media (min-width: 1200px)': {
     display: 'flex',
   },
-}));
-
-export const MoreContainer = styled(FlexContainer)((props) => ({
-  color: props.theme.colors.text.darker,
 }));

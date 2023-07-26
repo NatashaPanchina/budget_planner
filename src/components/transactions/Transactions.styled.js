@@ -9,7 +9,7 @@ const FlexContainer = styled.div(() => ({
 export const MoreInfoContainer = styled.div((props) => ({
   display: 'flex',
   flexWrap: 'wrap',
-  '@media only screen and (min-width: 900px)': {
+  '@media (min-width: 900px)': {
     display: 'block',
     height: `calc(100vh - ${props.theme.spacing(14)}px)`,
     minWidth: 180,
@@ -36,10 +36,12 @@ export const MoreInfoHeader = styled(FlexContainer)((props) => ({
 
 export const SliderContainer = styled.div((props) => ({
   position: 'relative',
-  marginTop: props.theme.spacing(4),
   width: '100%',
   height: 130,
   overflow: 'hidden',
+  '@media (min-width: 768px)': {
+    marginTop: props.theme.spacing(4),
+  },
 }));
 
 export const Slide = styled.div((props) => ({
@@ -117,7 +119,7 @@ export const TotalCountTransactions = styled(FlexContainer)((props) => ({
   justifyContent: 'center',
   marginLeft: 'auto',
   marginRight: 'auto',
-  '@media only screen and (min-width: 900px)': {
+  '@media (min-width: 900px)': {
     padding: props.theme.spacing(2),
     width: '100%',
   },
@@ -127,7 +129,7 @@ export const CountTransactionsContainer = styled.div((props) => ({
   display: 'flex',
   flexWrap: 'wrap',
   marginTop: props.theme.spacing(5),
-  '@media only screen and (min-width: 900px)': {
+  '@media (min-width: 900px)': {
     marginTop: 0,
   },
 }));
@@ -145,7 +147,7 @@ export const CountTransactionsBlock = styled.div((props) => ({
   borderRadius: 10,
   fontSize: '0.875rem',
   textAlign: 'center',
-  '@media only screen and (min-width: 900px)': {
+  '@media (min-width: 900px)': {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -159,7 +161,7 @@ export const CountTransactionsBlock = styled.div((props) => ({
 export const CountTransactionsSvg = styled.svg((props) => ({
   height: 30,
   width: 30,
-  '@media only screen and (min-width: 900px)': {
+  '@media (min-width: 900px)': {
     marginRight: props.theme.spacing(3),
   },
 }));
@@ -231,7 +233,7 @@ export const TransactionsTitleLink = styled(NavLink)((props) => ({
 
 export const Description = styled.div((props) => ({
   display: 'none',
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     display: 'grid',
     gridTemplateColumns: '2fr 2fr 1.5fr 1.5fr',
     gap: '10px 5%',
@@ -247,9 +249,9 @@ export const Description = styled.div((props) => ({
 
 export const MobTransactionDate = styled(FlexContainer)((props) => ({
   width: '100%',
-  height: 40,
+  height: 30,
   color: props.theme.colors.text.darker,
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     display: 'none',
   },
 }));
@@ -262,7 +264,7 @@ export const TransactionItem = styled.div((props) => ({
   alignItems: 'center',
   position: 'relative',
   width: '100%',
-  marginBottom: props.theme.spacing(4),
+  marginBottom: props.theme.spacing(1),
   paddingTop: props.theme.spacing(2),
   paddingBottom: props.theme.spacing(2),
   fontSize: '1rem',
@@ -271,11 +273,12 @@ export const TransactionItem = styled.div((props) => ({
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   borderRadius: props.theme.borderRadius,
   boxSizing: 'border-box',
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     gridTemplateAreas:
       '"category account amount date" "notes notes notes notes"',
     gridTemplateColumns: '2fr 2fr 1.5fr 1.5fr',
     gap: '10px 5%',
+    marginBottom: props.theme.spacing(4),
     '&:hover svg': {
       opacity: 1,
     },
@@ -284,7 +287,7 @@ export const TransactionItem = styled.div((props) => ({
 
 export const Category = styled(FlexContainer)(() => ({
   display: 'none',
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     display: 'flex',
     gridArea: 'category',
   },
@@ -293,7 +296,7 @@ export const Category = styled(FlexContainer)(() => ({
 export const CategorySvg = styled.svg((props) => ({
   marginLeft: props.theme.spacing(2),
   marginRight: props.theme.spacing(2),
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     marginLeft: props.theme.spacing(5),
     marginRight: props.theme.spacing(4),
   },
@@ -301,7 +304,7 @@ export const CategorySvg = styled.svg((props) => ({
 
 export const Account = styled(FlexContainer)(() => ({
   display: 'none',
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     display: 'flex',
     gridArea: 'account',
   },
@@ -313,7 +316,7 @@ export const AccountSvg = styled.svg((props) => ({
 
 export const TransactionInfo = styled(FlexContainer)(() => ({
   gridArea: 'description',
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     display: 'none',
   },
 }));
@@ -349,7 +352,7 @@ export const Amount = styled.div((props) => {
 
 export const TransactionDate = styled.div(() => ({
   display: 'none',
-  '@media only screen and (min-width: 768px)': {
+  '@media (min-width: 768px)': {
     display: 'flex',
     gridArea: 'date',
   },
@@ -376,7 +379,7 @@ export const ItemButtonsContainer = styled.div(() => ({
 
 export const ItemButtonSvg = styled.svg((props) => ({
   display: 'none',
-  '@media only screen and (min-width: 900px)': {
+  '@media (min-width: 900px)': {
     display: 'block',
     height: 30,
     width: 30,
@@ -402,7 +405,7 @@ export const MobItemButtonSvg = styled.svg((props) => ({
   '& path': {
     fill: props.theme.colors.text.darker,
   },
-  '@media only screen and (min-width: 900px)': {
+  '@media (min-width: 900px)': {
     display: 'none',
   },
 }));
