@@ -179,3 +179,14 @@ export const BurgerSvg = styled.svg(() => ({
     display: 'none',
   },
 }));
+
+export const MenuContainer = styled.div((props) => ({
+  position: 'fixed',
+  top: 56,
+  height: 'calc(100vh - 56px)',
+  overflowY: 'auto',
+  width: `calc(100% - ${props.theme.spacing(2) * 2}px)`,
+  zIndex: 11,
+  backgroundColor: props.theme.colors.background.body,
+  padding: props.theme.spacing(2),
+}));

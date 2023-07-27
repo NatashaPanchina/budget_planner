@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -44,10 +44,12 @@ import {
   LogOut,
   BurgerSvg,
   Username,
+  MenuContainer,
 } from './Header.styled';
 import { languages } from '../../utils/constants/languages';
 import { mode } from '../../utils/constants/mode';
 import Menu from '../navigation/menu/Menu';
+import { animated, useTransition } from '@react-spring/web';
 
 function renderLanguagesMenu(languages, setLanguage, dispatch) {
   return languages.map((language, index) => (
@@ -76,6 +78,16 @@ function renderHeaderTitles(t) {
   };
 }
 
+const animatedMenu = (style, username) => {
+  return (
+    <MenuContainer>
+      <animated.div style={{ ...style }}>
+        <Menu username={username} />
+      </animated.div>
+    </MenuContainer>
+  );
+};
+
 export default function Header() {
   const gridStyles = {
     paddingRight: 1,
@@ -89,6 +101,12 @@ export default function Header() {
       paddingRight: 6,
     },
   };
+  const [toggleMenu, setToggleMenu] = useState(false);
+  const transitions = useTransition(toggleMenu, {
+    from: { opacity: 0, transform: 'translate3d(100%,0,0)' },
+    enter: { opacity: 1, transform: 'translate3d(0%,0,0)' },
+    leave: { opacity: 0, transform: 'translate3d(100%,0,0)' },
+  });
 
   const header = useSelector((state) => state.header);
   const dispatch = useDispatch();
@@ -103,7 +121,6 @@ export default function Header() {
   const { t } = useTranslation();
   const location = useLocation();
   const languageRef = useOutsideClick(hideElement);
-  const mobMenu = useRef();
 
   const titles = renderHeaderTitles(t);
   const path = location.pathname.match(/\/(\w)*/)[0];
@@ -210,16 +227,16 @@ export default function Header() {
               <BurgerSvg
                 as={BurgerIcon}
                 onClick={() => {
-                  mobMenu.current.classList.toggle('none');
+                  setToggleMenu(!toggleMenu);
                 }}
               />
             </FlexContainer>
           </Grid>
         </Grid>
       </HeaderContainer>
-      <div ref={mobMenu} className="none">
-        <Menu username={username} />
-      </div>
+      {transitions((style, toggleMenu) => {
+        if (toggleMenu) return animatedMenu(style, username);
+      })}
     </>
   );
 }
