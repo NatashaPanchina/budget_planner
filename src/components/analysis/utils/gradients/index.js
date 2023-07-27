@@ -10,7 +10,9 @@ export function createDescriptions(categories) {
 export function createGradientColors(categories) {
   let result = {};
   categories.forEach((category) => {
-    Object.assign(result, { [category.description]: category.color });
+    Object.assign(result, {
+      [category.description.replaceAll(' ', '_')]: category.color,
+    });
   });
   return Object.assign(
     result,
@@ -24,7 +26,7 @@ export function renderGradients(gradientsColors) {
   for (let key in gradientsColors) {
     result.push(
       linearGradientDef(
-        key,
+        key.replaceAll(' ', '_'),
         [
           { offset: 0, color: gradientsColors[key][0] },
           { offset: 100, color: gradientsColors[key][1] },
@@ -40,7 +42,7 @@ export function renderGradients(gradientsColors) {
 
 export function renderMatchs(descriptions) {
   let result = descriptions.map((desc) => {
-    return { match: { id: desc }, id: desc };
+    return { match: { id: desc }, id: desc.replaceAll(' ', '_') };
   });
   return Object.assign(
     result,

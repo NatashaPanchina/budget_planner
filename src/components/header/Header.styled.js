@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { css, styled } from 'styled-components';
 
 export const FlexContainer = styled.div(() => ({
   display: 'flex',
@@ -172,12 +172,46 @@ export const LogOut = styled(FlexContainer)(() => ({
   },
 }));
 
-export const BurgerSvg = styled.svg(() => ({
-  marginLeft: 'auto',
-  cursor: 'pointer',
-  '@media (min-width: 600px)': {
-    display: 'none',
-  },
+export const Hamburger = styled.div((props) => {
+  if (props.$isActive) {
+    return css(() => ({
+      'span:nth-of-type(1)': {
+        transform: 'rotate(45deg) translate(7px, 9px)',
+        width: 30,
+      },
+      'span:nth-of-type(2)': {
+        opacity: 0,
+        pointerEvents: 'none',
+      },
+      'span:nth-of-type(3)': {
+        transform: 'rotate(-45deg) translate(6px, -9px)',
+        width: 30,
+      },
+      marginLeft: 'auto',
+      cursor: 'pointer',
+      '@media (min-width: 600px)': {
+        display: 'none',
+      },
+    }));
+  } else {
+    return css(() => ({
+      marginLeft: 'auto',
+      cursor: 'pointer',
+      '@media (min-width: 600px)': {
+        display: 'none',
+      },
+    }));
+  }
+});
+
+export const Bar = styled.span((props) => ({
+  display: 'block',
+  width: 30,
+  height: 2,
+  marginTop: 9,
+  marginBottom: 9,
+  backgroundColor: props.theme.colors.white,
+  transition: 'all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1)',
 }));
 
 export const MenuContainer = styled.div((props) => ({

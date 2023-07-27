@@ -20,7 +20,6 @@ import { ReactComponent as LightModeIcon } from '../../assets/icons/shared/light
 import { ReactComponent as DarkModeIcon } from '../../assets/icons/shared/darkMode.svg';
 import searchIcon from '../../assets/icons/shared/globalSearch.svg';
 import { ReactComponent as LogoutIcon } from '../../assets/icons/shared/logOut.svg';
-import { ReactComponent as BurgerIcon } from '../../assets/icons/navigation/burger.svg';
 import { ReactComponent as AvatarIcon } from '../../assets/icons/shared/avatar.svg';
 
 import {
@@ -42,9 +41,10 @@ import {
   SvgMode,
   Profile,
   LogOut,
-  BurgerSvg,
   Username,
   MenuContainer,
+  Hamburger,
+  Bar,
 } from './Header.styled';
 import { languages } from '../../utils/constants/languages';
 import { mode } from '../../utils/constants/mode';
@@ -105,7 +105,11 @@ export default function Header() {
   const transitions = useTransition(toggleMenu, {
     from: { opacity: 0, transform: 'translate3d(100%,0,0)' },
     enter: { opacity: 1, transform: 'translate3d(0%,0,0)' },
-    leave: { opacity: 0, transform: 'translate3d(100%,0,0)' },
+    leave: {
+      opacity: 0,
+      transform: 'translate3d(100%,0,0)',
+      config: { duration: 100 },
+    },
   });
 
   const header = useSelector((state) => state.header);
@@ -224,12 +228,16 @@ export default function Header() {
               <LogOut>
                 <Svg as={LogoutIcon} />
               </LogOut>
-              <BurgerSvg
-                as={BurgerIcon}
+              <Hamburger
+                $isActive={toggleMenu}
                 onClick={() => {
                   setToggleMenu(!toggleMenu);
                 }}
-              />
+              >
+                <Bar />
+                <Bar />
+                <Bar />
+              </Hamburger>
             </FlexContainer>
           </Grid>
         </Grid>

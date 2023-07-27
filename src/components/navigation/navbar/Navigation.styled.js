@@ -86,10 +86,11 @@ export const SettingsLinkContainer = styled.div((props) => ({
     display: 'block',
     height: 50,
     width: '100%',
-    marginBottom: props.theme.spacing(4),
+    marginBottom: props.theme.spacing(2),
     position: 'absolute',
     left: 0,
     bottom: 0,
+    backgroundColor: props.theme.colors.background.primary,
     fill: props.theme.colors.text.darker,
     '&:hover': {
       fill: props.theme.colors.main.violet,

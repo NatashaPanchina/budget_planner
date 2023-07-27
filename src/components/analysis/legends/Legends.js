@@ -38,11 +38,11 @@ function Legends({ data, chartType, keys, chartFilter }) {
                 cx="7"
                 cy="7"
                 r="7"
-                fill={`url(#${item.description}Legends)`}
+                fill={`url(#${item.description.replaceAll(' ', '_')}Legends)`}
               ></circle>
               <defs>
                 <linearGradient
-                  id={`${item.description}Legends`}
+                  id={`${item.description.replaceAll(' ', '_')}Legends`}
                   x1="0"
                   y1="0"
                   x2="17"
