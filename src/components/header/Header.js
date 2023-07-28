@@ -78,11 +78,11 @@ function renderHeaderTitles(t) {
   };
 }
 
-const animatedMenu = (style, username) => {
+const animatedMenu = (style, username, setToggleMenu) => {
   return (
     <MenuContainer>
       <animated.div style={{ ...style }}>
-        <Menu username={username} />
+        <Menu username={username} setToggleMenu={setToggleMenu} />
       </animated.div>
     </MenuContainer>
   );
@@ -156,7 +156,7 @@ export default function Header() {
           sx={gridStyles}
         >
           <Grid item xs={6} sm={1} md={1} lg={2}>
-            <NavLink to={pages.home}>
+            <NavLink to={pages.home} onClick={() => setToggleMenu(false)}>
               <LogoContainer>
                 <Logo as={LogoCatIcon} />
                 <LogoTitle as={LogoTitleIcon} />
@@ -243,7 +243,7 @@ export default function Header() {
         </Grid>
       </HeaderContainer>
       {transitions((style, toggleMenu) => {
-        if (toggleMenu) return animatedMenu(style, username);
+        if (toggleMenu) return animatedMenu(style, username, setToggleMenu);
       })}
     </>
   );

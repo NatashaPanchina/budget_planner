@@ -84,7 +84,7 @@ const Contacts = styled(FlexContainer)(() => ({
   width: '100%',
 }));
 
-function Menu({ username }) {
+function Menu({ username, setToggleMenu }) {
   const { t } = useTranslation();
   return (
     <>
@@ -98,7 +98,7 @@ function Menu({ username }) {
         </LogOut>
       </ProfileContainer>
       <ItemsContainer>
-        <ItemLink to="/">
+        <ItemLink to="/" onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={ProfileIcon} />
@@ -106,7 +106,7 @@ function Menu({ username }) {
             <div>{t('MENU.PROFILE')}</div>
           </div>
         </ItemLink>
-        <ItemLink to="/">
+        <ItemLink to="/" onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={CurrencyIcon} />
@@ -114,7 +114,7 @@ function Menu({ username }) {
             <div>{t('MENU.CURRENCY')}</div>
           </div>
         </ItemLink>
-        <ItemLink to={pages.dashboard}>
+        <ItemLink to={pages.dashboard} onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={DashboardIcon} />
@@ -122,7 +122,10 @@ function Menu({ username }) {
             <div>{t('MENU.DASHBOARD')}</div>
           </div>
         </ItemLink>
-        <ItemLink to={pages.transactions.main}>
+        <ItemLink
+          to={pages.transactions.main}
+          onClick={() => setToggleMenu(false)}
+        >
           <div>
             <div>
               <Svg as={TransactionsIcon} />
@@ -130,7 +133,7 @@ function Menu({ username }) {
             <div>{t('MENU.TRANSACTIONS')}</div>
           </div>
         </ItemLink>
-        <ItemLink to={pages.cash.all}>
+        <ItemLink to={pages.cash.all} onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={CashIcon} />
@@ -138,7 +141,10 @@ function Menu({ username }) {
             <div>{t('MENU.CASH')}</div>
           </div>
         </ItemLink>
-        <ItemLink to={pages.categories.all}>
+        <ItemLink
+          to={pages.categories.all}
+          onClick={() => setToggleMenu(false)}
+        >
           <div>
             <div>
               <Svg as={CategoriesIcon} />
@@ -146,7 +152,7 @@ function Menu({ username }) {
             <div>{t('MENU.CATEGORIES')}</div>
           </div>
         </ItemLink>
-        <ItemLink to="/">
+        <ItemLink to="/" onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={BudgetIcon} />
@@ -154,7 +160,7 @@ function Menu({ username }) {
             <div>{t('MENU.BUDGET')}</div>
           </div>
         </ItemLink>
-        <ItemLink to={pages.analysis.main}>
+        <ItemLink to={pages.analysis.main} onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={AnalysisIcon} />
@@ -162,7 +168,7 @@ function Menu({ username }) {
             <div>{t('MENU.ANALYSIS')}</div>
           </div>
         </ItemLink>
-        <ItemLink to="/">
+        <ItemLink to="/" onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={SettingsIcon} />
@@ -170,7 +176,7 @@ function Menu({ username }) {
             <div>{t('MENU.SETTINGS')}</div>
           </div>
         </ItemLink>
-        <ItemLink to="/">
+        <ItemLink to="/" onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={DemoIcon} />
@@ -178,7 +184,7 @@ function Menu({ username }) {
             <div>{t('MENU.DEMO')}</div>
           </div>
         </ItemLink>
-        <ItemLink to="/">
+        <ItemLink to="/" onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={HelpIcon} />
@@ -186,7 +192,7 @@ function Menu({ username }) {
             <div>{t('MENU.HELP')}</div>
           </div>
         </ItemLink>
-        <ItemLink to="/">
+        <ItemLink to="/" onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={AboutIcon} />
@@ -206,6 +212,7 @@ function Menu({ username }) {
 
 Menu.propTypes = {
   username: PropTypes.string,
+  setToggleMenu: PropTypes.func,
 };
 
 export default Menu;
