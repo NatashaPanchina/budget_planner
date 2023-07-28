@@ -28,12 +28,14 @@ export function idbOpen() {
         keyPath: 'id',
       });
 
-      loadJSON().then((data) => {
-        idbInitFromJson(profile, data.profile, 'profile');
-        idbInitFromJson(accounts, data.accounts.accounts);
-        idbInitFromJson(transactions, data.transactions.transactions);
-        idbInitFromJson(categories, data.categories.categories);
-      });
+      if (process.env.NODE_ENV !== 'production') {
+        loadJSON().then((data) => {
+          idbInitFromJson(profile, data.profile, 'profile');
+          idbInitFromJson(accounts, data.accounts.accounts);
+          idbInitFromJson(transactions, data.transactions.transactions);
+          idbInitFromJson(categories, data.categories.categories);
+        });
+      }
     };
 
     openRequest.onerror = () => reject('idbOpen Error');

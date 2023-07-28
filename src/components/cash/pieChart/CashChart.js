@@ -108,16 +108,14 @@ function renderMatchs(accounts) {
 const CenteredBalance = function (totalBalance) {
   return function centeredMetric({ centerX, centerY }) {
     return (
-      <React.Fragment>
-        <CenterText
-          x={centerX}
-          y={centerY}
-          textAnchor="middle"
-          alignmentBaseline="middle"
-        >
-          {formatDineroOutput(totalBalance, 'USD')}
-        </CenterText>
-      </React.Fragment>
+      <CenterText
+        x={centerX}
+        y={centerY}
+        textAnchor="middle"
+        alignmentBaseline="middle"
+      >
+        {formatDineroOutput(totalBalance, 'USD')}
+      </CenterText>
     );
   };
 };

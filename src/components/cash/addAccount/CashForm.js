@@ -100,7 +100,7 @@ function CashForm({ accountType, addNewAccount }) {
   const colorsRef = useOutsideClick(hideElement);
 
   return (
-    <React.Fragment>
+    <>
       <CardView
         $cardBackground={cardBackground}
         $from={selectedColor[0]}
@@ -236,7 +236,7 @@ function CashForm({ accountType, addNewAccount }) {
           </CancelButton>
         </AddFormButtonsContainer>
       </FormFieldsContainer>
-    </React.Fragment>
+    </>
   );
 }
 

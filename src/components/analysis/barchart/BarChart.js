@@ -11,6 +11,10 @@ import {
 import { createData } from '../utils/charts';
 import Legends from '../legends/Legends';
 import { renderTooltip } from '../utils/tooltip';
+import { Chart, ChartsInfoContainer } from '../Analysis.styled';
+import { formatNumberOutput } from '../../../utils/format/cash';
+import { chartsColors } from '../../../utils/constants/chartsColors';
+import { useSelector } from 'react-redux';
 
 function renderKeys(chartFilter, isDetailed, transactions, categories, date) {
   switch (chartFilter) {
@@ -59,6 +63,8 @@ function renderKeys(chartFilter, isDetailed, transactions, categories, date) {
 }
 
 function BarChart({ transactions, categories, chartFilter, isDetailed, date }) {
+  const { mode } = useSelector((state) => state.header);
+
   const keys = renderKeys(
     chartFilter,
     isDetailed,
@@ -72,9 +78,32 @@ function BarChart({ transactions, categories, chartFilter, isDetailed, date }) {
   );
 
   return (
-    <div className="bar_chart_container">
-      <div className="chart">
+    <ChartsInfoContainer>
+      <Chart>
         <ResponsiveBar
+          theme={{
+            axis: {
+              ticks: {
+                line: {
+                  stroke: chartsColors[mode].stroke,
+                },
+                text: {
+                  fill: chartsColors[mode].text,
+                },
+              },
+              legend: {
+                text: {
+                  fill: chartsColors[mode].text,
+                },
+              },
+            },
+            grid: {
+              line: {
+                stroke: chartsColors[mode].stroke,
+                strokeDasharray: '4 4',
+              },
+            },
+          }}
           margin={{
             top: 10,
             right: 50,
@@ -84,11 +113,7 @@ function BarChart({ transactions, categories, chartFilter, isDetailed, date }) {
           data={commonData}
           keys={keys}
           indexBy="date"
-          valueFormat={(value) =>
-            `$ ${Number(value).toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            })}`
-          }
+          valueFormat={(value) => formatNumberOutput(value, 'USD')}
           colors={({ id, data }) => String(data[`${id}Color`][1])}
           defs={renderGradients(createGradientColors(categories))}
           fill={renderMatchs(createDescriptions(categories))}
@@ -114,9 +139,9 @@ function BarChart({ transactions, categories, chartFilter, isDetailed, date }) {
             renderTooltip(id, formattedValue, color)
           }
         />
-      </div>
+      </Chart>
       <Legends data={commonData} chartType="bar" keys={keys} />
-    </div>
+    </ChartsInfoContainer>
   );
 }
 

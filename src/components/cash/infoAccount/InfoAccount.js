@@ -153,7 +153,7 @@ export default function InfoAccount() {
       {status === 'loading' ? (
         <div>Loading</div>
       ) : (
-        <React.Fragment>
+        <>
           <CardView
             $cardBackground={cardBackground}
             $from={selectedColor[0]}
@@ -296,7 +296,7 @@ export default function InfoAccount() {
               </CancelButton>
             </AddFormButtonsContainer>
           </FormFieldsContainer>
-        </React.Fragment>
+        </>
       )}
     </AddFormContainer>
   );

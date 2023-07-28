@@ -60,7 +60,7 @@ function ExpenseTransactionForm({
   }, [accounts, categories]);
 
   return (
-    <React.Fragment>
+    <>
       <div
         className={`transaction_item ${
           activeItem === '1' ? `${transactionType}_active_item` : ''
@@ -257,7 +257,7 @@ function ExpenseTransactionForm({
           </Link>
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

@@ -3,6 +3,7 @@ import { add, dinero, toDecimal } from 'dinero.js';
 import { USD } from '@dinero.js/currencies';
 
 import { formatNumberOutput } from '../../../../utils/format/cash';
+import { styled } from 'styled-components';
 
 export function createLocaleTransactions(NAME, count) {
   const lastNumber = Number(String(count).match(/\d$/g)[0]);
@@ -19,22 +20,36 @@ export function createLocaleTransactions(NAME, count) {
   }
 }
 
+const ListItem = styled.div((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  height: 40,
+  margin: props.theme.spacing(2),
+  paddingLeft: props.theme.spacing(2),
+  borderRadius: props.theme.borderRadius,
+  cursor: 'pointer',
+  fontSize: '0.875rem',
+  '&:hover': {
+    backgroundColor: props.theme.colors.background.ordinary,
+  },
+}));
+
+const ListItemSvg = styled.svg((props) => ({
+  marginRight: props.theme.spacing(2),
+}));
+
 export function renderAccounts(t, accounts, setAccountFilter) {
   return (
-    <div className="accounts_filter none">
-      <div
-        className="accounts_filter_item"
-        onClick={() => setAccountFilter('All cash')}
-      >
+    <>
+      <ListItem onClick={() => setAccountFilter('All cash')}>
         {t('ANALYSIS.ALL_CASH')}
-      </div>
+      </ListItem>
       {accounts.map((account) => (
-        <div
+        <ListItem
           key={account.id}
-          className="accounts_filter_item"
           onClick={() => setAccountFilter(account.description)}
         >
-          <svg
+          <ListItemSvg
             width="34"
             height="23"
             viewBox="0 0 34 23"
@@ -62,11 +77,11 @@ export function renderAccounts(t, accounts, setAccountFilter) {
                 <stop offset="1" stopColor={account.color[1]} />
               </linearGradient>
             </defs>
-          </svg>
+          </ListItemSvg>
           {account.description}
-        </div>
+        </ListItem>
       ))}
-    </div>
+    </>
   );
 }
 

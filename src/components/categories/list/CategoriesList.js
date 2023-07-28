@@ -83,7 +83,7 @@ function CategoriesList({ notArchivedCategories, archiveCategory }) {
   const filterType = createFilterType(useParams().filterType);
 
   return (
-    <React.Fragment>
+    <>
       <Search>
         <SearchInput
           type="text"
@@ -153,7 +153,7 @@ function CategoriesList({ notArchivedCategories, archiveCategory }) {
           );
         },
       )}
-    </React.Fragment>
+    </>
   );
 }
 

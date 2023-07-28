@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import { Grid } from '@mui/material';
 
-import { idbAddItem } from '../../indexedDB/IndexedDB';
+import { pages } from '../../utils/constants/pages';
 import {
   fetchProfileData,
   changeLanguage,
@@ -11,114 +13,62 @@ import {
 } from '../../actions/Actions';
 import { hideElement, useOutsideClick } from '../../hooks/useOutsideClick';
 
+import { ReactComponent as LogoCatIcon } from '../../assets/icons/navigation/logoCat.svg';
+import { ReactComponent as LogoTitleIcon } from '../../assets/icons/navigation/logoTitle.svg';
 import { ReactComponent as CurrencyDollarIcon } from '../../assets/icons/shared/currencyDollar.svg';
 import { ReactComponent as LightModeIcon } from '../../assets/icons/shared/lightMode.svg';
 import { ReactComponent as DarkModeIcon } from '../../assets/icons/shared/darkMode.svg';
 import searchIcon from '../../assets/icons/shared/globalSearch.svg';
 import { ReactComponent as LogoutIcon } from '../../assets/icons/shared/logOut.svg';
+import { ReactComponent as AvatarIcon } from '../../assets/icons/shared/avatar.svg';
 
-import { styled } from 'styled-components';
+import {
+  FlexContainer,
+  HeaderContainer,
+  LogoContainer,
+  Logo,
+  LogoTitle,
+  Title,
+  GlobalSearch,
+  GlobalSearchInput,
+  GlobalSearchImg,
+  ThemeContainer,
+  Container,
+  CurrentLng,
+  LanguagesMenu,
+  LanguagesMenuItem,
+  Svg,
+  SvgMode,
+  Profile,
+  LogOut,
+  Username,
+  Hamburger,
+  Bar,
+} from './Header.styled';
+import { languages } from '../../utils/constants/languages';
+import { mode } from '../../utils/constants/mode';
+import Menu from '../navigation/menu/Menu';
+import { animated, useTransition } from '@react-spring/web';
 
-const HeaderContainer = styled.div((props) => ({
-  width: '83%',
-  height: 56,
-  marginLeft: '17%',
-  display: 'flex',
-  position: 'fixed',
-  zIndex: 10,
-  top: 0,
-  alignItems: 'center',
-  backgroundColor: props.theme.colors.background.primary,
-  borderBottom: `1px solid ${props.theme.colors.border.ordinary}`,
-}));
-
-const Title = styled.div(() => ({
-  fontWeight: 400,
-  fontSize: '1.25rem',
-  paddingLeft: '5%',
-  width: '30%',
-}));
-
-const GlobalSearch = styled.div((props) => ({
-  height: 30,
-  paddingLeft: props.theme.spacing(1),
-  width: '25%',
-  backgroundColor: props.theme.colors.background.body,
-  borderRadius: props.theme.borderRadius,
-  display: 'flex',
-  alignItems: 'center',
-  fontSize: '0.875rem',
-}));
-
-const GlobalSearchInput = styled.input((props) => ({
-  backgroundColor: props.theme.colors.background.body,
-  color: props.theme.colors.text.primary,
-  width: 'calc(100% - 20px)',
-}));
-
-const GlobalSearchImg = styled.img((props) => ({
-  paddingLeft: props.theme.spacing(1),
-  paddingRight: props.theme.spacing(1),
-  marginLeft: 'auto',
-  height: 20,
-}));
-
-const Container = styled.div((props) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '5.5%',
-  cursor: 'pointer',
-  color: props.theme.colors.text.darker,
-}));
-
-const CurrentLng = styled.div((props) => ({
-  '&:hover': {
-    color: props.theme.colors.text.primary,
-  },
-}));
-
-const LanguagesMenu = styled.div((props) => ({
-  position: 'absolute',
-  top: 56,
-  zIndex: 10,
-  backgroundColor: props.theme.colors.background.primary,
-  padding: props.theme.spacing(2),
-  border: `1px solid ${props.theme.colors.border.ordinary}`,
-  cursor: 'pointer',
-}));
-
-const LanguagesMenuItem = styled.div((props) => ({
-  padding: props.theme.spacing(2),
-  '&:hover': {
-    color: props.theme.colors.text.primary,
-  },
-}));
-
-const Svg = styled.svg(() => ({
-  height: 30,
-  width: 30,
-}));
-
-const SvgMode = styled(Svg)((props) => ({
-  '&:hover circle': {
-    fill: props.theme.colors.background.navigation,
-  },
-}));
-
-const Profile = styled.div(() => ({
-  display: 'flex',
-  justifyContent: 'flex-end',
-  width: '20%',
-}));
-
-const LogOut = styled(Container)(() => ({
-  width: '8%',
-}));
+function renderLanguagesMenu(languages, setLanguage, dispatch) {
+  return languages.map((language, index) => (
+    <LanguagesMenuItem
+      key={index}
+      onClick={() => {
+        setLanguage(language);
+        localStorage.setItem('language', language);
+        dispatch(changeLanguage(language));
+      }}
+    >
+      {language}
+    </LanguagesMenuItem>
+  ));
+}
 
 //lookup map
 function renderHeaderTitles(t) {
   return {
+    '/dashboard': t('HEADER.DASHBOARD'),
     '/transactions': t('HEADER.TRANSACTIONS'),
     '/cash': t('HEADER.CASH'),
     '/newTransaction': t('HEADER.NEW_TRANSACTION'),
@@ -127,24 +77,59 @@ function renderHeaderTitles(t) {
   };
 }
 
-function initialMode() {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
-}
+const animatedMenu = (style, username, setToggleMenu) => {
+  return (
+    <animated.div
+      style={{
+        position: 'fixed',
+        top: 56,
+        height: 'calc(100vh - 56px)',
+        overflowY: 'auto',
+        width: `100%`,
+        zIndex: 11,
+        ...style,
+      }}
+    >
+      <Menu username={username} setToggleMenu={setToggleMenu} />
+    </animated.div>
+  );
+};
 
 export default function Header() {
-  const { status, profile } = useSelector((state) => state.header);
+  const gridStyles = {
+    paddingRight: 1,
+    '@media (min-width: 600px)': {
+      paddingRight: 3,
+    },
+    '@media (min-width: 900px)': {
+      paddingRight: 4,
+    },
+    '@media (min-width: 1200px)': {
+      paddingRight: 6,
+    },
+  };
+  const [toggleMenu, setToggleMenu] = useState(false);
+  const transitions = useTransition(toggleMenu, {
+    from: { opacity: 0, transform: 'translate3d(100%,0,0)' },
+    enter: { opacity: 1, transform: 'translate3d(0%,0,0)' },
+    leave: {
+      opacity: 0,
+      transform: 'translate3d(100%,0,0)',
+      config: { duration: 100 },
+    },
+  });
+
+  const header = useSelector((state) => state.header);
   const dispatch = useDispatch();
 
   const [headerTitle, setHeaderTitle] = useState('');
   const [id, setId] = useState('');
   const [username, setUsername] = useState('User');
-  const [language, setLanguage] = useState('EN');
+  const [language, setLanguage] = useState(header.language);
   const [currency, setCurrency] = useState('$');
-  const [mode, setMode] = useState(initialMode());
+  const [headerMode, setHeaderMode] = useState(header.mode);
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const location = useLocation();
   const languageRef = useOutsideClick(hideElement);
 
@@ -156,91 +141,116 @@ export default function Header() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (status === 'succeeded') {
-      if (!profile) return;
-      setId(profile.id);
-      setUsername(profile.username);
-      setLanguage(profile.language);
-      setCurrency(profile.currency);
-      setMode(profile.mode);
+    if (header.status === 'succeeded') {
+      if (!header.profile) return;
+      setId(header.profile.id);
+      setUsername(header.profile.username);
+      setCurrency(header.profile.currency);
     }
-  }, [status, profile]);
-
-  useEffect(() => {
-    i18n.changeLanguage(language);
-  }, [language, i18n]);
+  }, [header.status, header.profile]);
 
   useEffect(() => {
     setHeaderTitle(titles[path]);
   }, [path, titles]);
 
   return (
-    <HeaderContainer>
-      <Title>{headerTitle}</Title>
-      <GlobalSearch>
-        <GlobalSearchInput
-          type="text"
-          placeholder={t('HEADER.SEARCH_EVERYTHING')}
-        ></GlobalSearchInput>
-        <GlobalSearchImg src={searchIcon} alt="search" />
-      </GlobalSearch>
-      <Container
-        onClick={(event) => {
-          languageRef.current.classList.toggle('none');
-          event.stopPropagation();
-        }}
-      >
-        <CurrentLng>{language}</CurrentLng>
-        <LanguagesMenu ref={languageRef} className="none">
-          <LanguagesMenuItem
-            onClick={() => {
-              idbAddItem(
-                { id, username, currency, language: 'EN', mode },
-                'profile',
-              );
-              dispatch(changeLanguage('EN'));
-            }}
-          >
-            EN
-          </LanguagesMenuItem>
-          <LanguagesMenuItem
-            onClick={() => {
-              idbAddItem(
-                { id, username, currency, language: 'RU', mode },
-                'profile',
-              );
-              dispatch(changeLanguage('RU'));
-            }}
-          >
-            RU
-          </LanguagesMenuItem>
-        </LanguagesMenu>
-      </Container>
-      <Container>
-        <Svg as={CurrencyDollarIcon} />
-      </Container>
-      <Container
-        onClick={() => {
-          setMode(mode === 'light' ? 'dark' : 'light');
-          idbAddItem(
-            {
-              id,
-              username,
-              currency,
-              language,
-              mode: mode === 'light' ? 'dark' : 'light',
-            },
-            'profile',
-          );
-          dispatch(changeMode(mode === 'light' ? 'dark' : 'light'));
-        }}
-      >
-        <SvgMode as={mode === 'light' ? LightModeIcon : DarkModeIcon} />
-      </Container>
-      <Profile>{username}</Profile>
-      <LogOut>
-        <Svg as={LogoutIcon} />
-      </LogOut>
-    </HeaderContainer>
+    <>
+      <HeaderContainer>
+        <Grid
+          container
+          columnSpacing={{ xs: 0, sm: 2, md: 3, lg: 4 }}
+          sx={gridStyles}
+        >
+          <Grid item xs={6} sm={1} md={1} lg={2}>
+            <NavLink to={pages.home} onClick={() => setToggleMenu(false)}>
+              <LogoContainer>
+                <Logo as={LogoCatIcon} />
+                <LogoTitle as={LogoTitleIcon} />
+              </LogoContainer>
+            </NavLink>
+          </Grid>
+          <Grid item sm={4} md={3} lg={3}>
+            <Title>{headerTitle}</Title>
+          </Grid>
+          <Grid item sm={2} md={3} lg={3}>
+            <FlexContainer>
+              <GlobalSearch>
+                <GlobalSearchInput
+                  type="text"
+                  placeholder={t('HEADER.SEARCH_EVERYTHING')}
+                ></GlobalSearchInput>
+                <GlobalSearchImg src={searchIcon} alt="search" />
+              </GlobalSearch>
+            </FlexContainer>
+          </Grid>
+          <Grid item sm={3} md={3} lg={2}>
+            <ThemeContainer>
+              <Container
+                onClick={(event) => {
+                  languageRef.current.classList.toggle('none');
+                  event.stopPropagation();
+                }}
+              >
+                <CurrentLng>{language}</CurrentLng>
+                <LanguagesMenu ref={languageRef} className="none">
+                  {renderLanguagesMenu(languages, setLanguage, dispatch)}
+                </LanguagesMenu>
+              </Container>
+              <Container>
+                {currency === '$' ? (
+                  <Svg as={CurrencyDollarIcon} />
+                ) : (
+                  <Svg as={CurrencyDollarIcon} />
+                )}
+              </Container>
+              <Container
+                onClick={() => {
+                  setHeaderMode(
+                    headerMode === mode.light ? mode.dark : mode.light,
+                  );
+                  localStorage.setItem(
+                    'mode',
+                    headerMode === mode.light ? mode.dark : mode.light,
+                  );
+                  dispatch(
+                    changeMode(
+                      headerMode === mode.light ? mode.dark : mode.light,
+                    ),
+                  );
+                }}
+              >
+                <SvgMode
+                  as={headerMode === mode.light ? LightModeIcon : DarkModeIcon}
+                />
+              </Container>
+            </ThemeContainer>
+          </Grid>
+          <Grid item xs={6} sm={2} md={2} lg={2}>
+            <FlexContainer>
+              <Profile>
+                <Svg as={AvatarIcon} />
+                <Username>{username}</Username>
+              </Profile>
+              <LogOut>
+                <Svg as={LogoutIcon} />
+              </LogOut>
+              <Hamburger
+                $isActive={toggleMenu}
+                onClick={() => {
+                  setToggleMenu(!toggleMenu);
+                }}
+              >
+                <Bar />
+                <Bar />
+                <Bar />
+              </Hamburger>
+            </FlexContainer>
+          </Grid>
+        </Grid>
+      </HeaderContainer>
+      {transitions((style, toggleMenu) => {
+        if (toggleMenu) return animatedMenu(style, username, setToggleMenu);
+      })}
+    </>
   );
 }

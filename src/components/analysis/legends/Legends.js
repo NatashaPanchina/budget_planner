@@ -1,18 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './Legends.css';
 import { createDataLegends } from '../utils/legends';
+import { styled } from 'styled-components';
+
+const Container = styled.div(() => ({
+  fontSize: '0.875rem',
+}));
+
+const ContainerItem = styled.div((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  marginTop: props.theme.spacing(2),
+  marginBottom: props.theme.spacing(2),
+}));
+
+const Svg = styled.svg((props) => ({
+  marginRight: props.theme.spacing(2),
+}));
 
 function Legends({ data, chartType, keys, chartFilter }) {
   let legendsData = createDataLegends(data, chartType, keys, chartFilter);
 
   return (
-    <div className="chart_legends">
+    <Container>
       {legendsData.map((item, index) => {
         return (
-          <div className="legends_item" key={index}>
-            <svg
+          <ContainerItem key={index}>
+            <Svg
               width="14"
               height="14"
               viewBox="0 0 14 14"
@@ -23,11 +38,11 @@ function Legends({ data, chartType, keys, chartFilter }) {
                 cx="7"
                 cy="7"
                 r="7"
-                fill={`url(#${item.description}Legends)`}
+                fill={`url(#${item.description.replaceAll(' ', '_')}Legends)`}
               ></circle>
               <defs>
                 <linearGradient
-                  id={`${item.description}Legends`}
+                  id={`${item.description.replaceAll(' ', '_')}Legends`}
                   x1="0"
                   y1="0"
                   x2="17"
@@ -38,12 +53,12 @@ function Legends({ data, chartType, keys, chartFilter }) {
                   <stop offset="1" stopColor={item.color[1]} />
                 </linearGradient>
               </defs>
-            </svg>
+            </Svg>
             {item.description}
-          </div>
+          </ContainerItem>
         );
       })}
-    </div>
+    </Container>
   );
 }
 

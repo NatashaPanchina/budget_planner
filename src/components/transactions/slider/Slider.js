@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
 import { add, dinero } from 'dinero.js';
 import { USD } from '@dinero.js/currencies';
@@ -12,97 +12,107 @@ import { ReactComponent as ArrowLeft } from '../../../assets/icons/shared/arrowL
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 import { useTranslation } from 'react-i18next';
 import { pages } from '../../../utils/constants/pages';
+import {
+  Card,
+  CardBalance,
+  CardBalanceContainer,
+  CardName,
+  CurrentBalance,
+  Slide,
+  SliderContainer,
+  SliderNextSvg,
+  SliderPrevSvg,
+  SlidesContainer,
+} from '../Transactions.styled';
 
-function previousSlide(slide, setCurrentSlide) {
-  if (slide === 1) return;
-
-  const slides = document.querySelectorAll('.accounts_slide');
-
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].style.transform = `translate(-${100 * (slide - 2)}%)`;
-  }
+const previousSlide = (slide, setCurrentSlide) => {
+  if (slide === 1) return 100 * (slide - 1);
+  const transforming = 100 * (slide - 2);
   setCurrentSlide(slide - 1);
-}
+  return transforming;
+};
 
-function nextSlide(countSlides, slide, setCurrentSlide) {
-  if (slide === countSlides) return;
-
-  const slides = document.querySelectorAll('.accounts_slide');
-
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].style.transform = `translate(-${100 * slide}%)`;
-  }
+const nextSlide = (countSlides, slide, setCurrentSlide) => {
+  if (slide === countSlides) return 100 * (slide - 1);
+  const transforming = 100 * slide;
   setCurrentSlide(slide + 1);
-}
+  return transforming;
+};
 
 function Slider({ filterType, notArchivedAccounts }) {
   const { t } = useTranslation();
+  const { filterAccount } = useParams();
   const [currentSlide, setCurrentSlide] = useState(1);
+  const [transforming, setTransforming] = useState(0);
   const countSlides = notArchivedAccounts.length + 1;
   const accountsTotalBalance = notArchivedAccounts.reduce(
     (sum, account) => add(sum, dinero(account.balance)),
     dinero({ amount: 0, currency: USD }),
   );
 
+  useEffect(() => {
+    const index = notArchivedAccounts.findIndex(
+      (account) => account.id === filterAccount,
+    );
+    if (index != -1)
+      setTransforming(nextSlide(countSlides, index + 1, setCurrentSlide));
+  }, []);
+
   return (
-    <div className="accounts_card_block">
-      <ArrowLeft
-        className="arrow_left"
-        onClick={() => previousSlide(currentSlide, setCurrentSlide)}
+    <SliderContainer>
+      <SliderPrevSvg
+        as={ArrowLeft}
+        onClick={() =>
+          setTransforming(previousSlide(currentSlide, setCurrentSlide))
+        }
       />
-      <ArrowRight
-        className="arrow_right"
-        onClick={() => nextSlide(countSlides, currentSlide, setCurrentSlide)}
+      <SliderNextSvg
+        as={ArrowRight}
+        onClick={() =>
+          setTransforming(nextSlide(countSlides, currentSlide, setCurrentSlide))
+        }
       />
-      <div className="accounts_slides_container">
-        <div className="accounts_slide">
-          <Link
+      <SlidesContainer>
+        <Slide $transforming={transforming}>
+          <Card
             to={`${pages.transactions[filterType]}/all`}
-            className="account_card"
-            style={{
-              background: `url(${cardBackground}) 0% 0% / cover no-repeat,
-                                    linear-gradient(90deg, #D38BFF 0%, #6D73FF 100%)`,
-              boxShadow: `0px 4px 10px #DCE2DF`,
-            }}
+            $cardBackground={cardBackground}
+            $from="#D38BFF"
+            $to="#6D73FF"
           >
-            <div className="card_name">{t('TRANSACTIONS.ALL')}</div>
-            <div className="card_balance_info">
-              <div className="card_balance">
+            <CardName>{t('TRANSACTIONS.ALL')}</CardName>
+            <CardBalanceContainer>
+              <CardBalance>
                 {formatDineroOutput(accountsTotalBalance, 'USD')}
-              </div>
-              <div className="card_balance_title">
-                {t('TRANSACTIONS.CURRENT_BALANCE')}
-              </div>
-            </div>
-          </Link>
-        </div>
+              </CardBalance>
+              <CurrentBalance>{t('TRANSACTIONS.TOTAL_BALANCE')}</CurrentBalance>
+            </CardBalanceContainer>
+          </Card>
+        </Slide>
         {notArchivedAccounts.map((account) => {
           return (
-            <div key={account.id} className="accounts_slide">
-              <Link
+            <Slide key={account.id} $transforming={transforming}>
+              <Card
                 to={`${pages.transactions[filterType]}/${account.id}`}
-                className="account_card"
-                style={{
-                  background: `url(${cardBackground}) 0% 0% / cover no-repeat,
-                                        linear-gradient(90deg, ${account.color[0]} 0%, ${account.color[1]} 100%)`,
-                  boxShadow: `0px 4px 10px #DCE2DF`,
-                }}
+                $cardBackground={cardBackground}
+                $from={account.color[0]}
+                $to={account.color[1]}
               >
-                <div className="card_name">{account.description}</div>
-                <div className="card_balance_info">
-                  <div className="card_balance">
+                <CardName>{account.description}</CardName>
+                <CardBalanceContainer>
+                  <CardBalance>
                     {formatDineroOutput(dinero(account.balance), 'USD')}
-                  </div>
-                  <div className="card_balance_title">
+                  </CardBalance>
+                  <CurrentBalance>
                     {t('TRANSACTIONS.CURRENT_BALANCE')}
-                  </div>
-                </div>
-              </Link>
-            </div>
+                  </CurrentBalance>
+                </CardBalanceContainer>
+              </Card>
+            </Slide>
           );
         })}
-      </div>
-    </div>
+      </SlidesContainer>
+    </SliderContainer>
   );
 }
 

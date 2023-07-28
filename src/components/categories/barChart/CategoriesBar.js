@@ -6,6 +6,7 @@ import { ResponsiveBar } from '@nivo/bar';
 import { linearGradientDef } from '@nivo/core';
 
 import { styled } from 'styled-components';
+import { chartsColors } from '../../../utils/constants/chartsColors';
 
 const BarChartContainer = styled.div(() => ({
   width: '80%',
@@ -62,8 +63,8 @@ function renderGradients(keys) {
     linearGradientDef(
       `${keys[0]}Gradient`,
       [
-        { offset: 0, color: '#D38BFF' },
-        { offset: 100, color: '#6D73FF' },
+        { offset: 0, color: chartsColors.total[0] },
+        { offset: 100, color: chartsColors.total[1] },
       ],
       {
         gradientTransform: 'rotate(-45 0.5 0.5)',
@@ -72,8 +73,8 @@ function renderGradients(keys) {
     linearGradientDef(
       `${keys[1]}Gradient`,
       [
-        { offset: 0, color: '#F862A1' },
-        { offset: 100, color: '#F4395B' },
+        { offset: 0, color: chartsColors.expenses[0] },
+        { offset: 100, color: chartsColors.expenses[1] },
       ],
       {
         gradientTransform: 'rotate(-45 0.5 0.5)',
@@ -82,8 +83,8 @@ function renderGradients(keys) {
     linearGradientDef(
       `${keys[2]}Gradient`,
       [
-        { offset: 0, color: '#B3FF53' },
-        { offset: 100, color: '#6EBD0A' },
+        { offset: 0, color: chartsColors.incomes[0] },
+        { offset: 100, color: chartsColors.incomes[1] },
       ],
       {
         gradientTransform: 'rotate(-45 0.5 0.5)',

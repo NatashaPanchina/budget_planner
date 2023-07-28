@@ -28,7 +28,7 @@ export function renderSelectedCategory(categoryId, categoriesData) {
   if (!category) return;
   const Icon = category ? categoryIcons[category.icon] : null;
   return (
-    <React.Fragment>
+    <>
       <svg
         width="34"
         height="34"
@@ -53,7 +53,7 @@ export function renderSelectedCategory(categoryId, categoriesData) {
         </defs>
       </svg>
       {category.description}
-    </React.Fragment>
+    </>
   );
 }
 

@@ -1,5 +1,6 @@
 {
   "HEADER": {
+    "DASHBOARD": "Главная",
     "TRANSACTIONS": "Транзакции",
     "CASH": "Денежные средства",
     "NEW_TRANSACTION": "Новая транзакция",
@@ -7,13 +8,29 @@
     "ANALYSIS": "Анализ",
     "SEARCH_EVERYTHING": "Ищите все, что угодно"
   },
+  "MENU": {
+    "PROFILE": "Профиль",
+    "CURRENCY": "Валюта",
+    "DASHBOARD": "Главная",
+    "TRANSACTIONS": "Транзакции",
+    "CASH": "Денежные средства",
+    "CATEGORIES": "Категории",
+    "BUDGET": "Бюджет",
+    "ANALYSIS": "Анализ",
+    "SETTINGS": "Настройки",
+    "DEMO": "Демо",
+    "HELP": "Помощь",
+    "ABOUT_APP": "О приложении"
+  },
   "NAVIGATION": {
+    "DASHBOARD": "Главная",
     "TRANSACTIONS": "Транзакции",
     "CASH": "Денежные средства",
     "NEW_TRANSACTION": "Новая транзакция",
     "CATEGORIES": "Категории",
     "ANALYSIS": "Анализ",
-    "MORE": "Еще"
+    "MORE": "Еще",
+    "SETTINGS": "Настройки"
   },
   "TRANSACTIONS": {
     "TRANSACTIONS_HEADER": "Транзакции",
@@ -32,6 +49,7 @@
     "CURRENT_CASH": "Текущие денежные средства",
     "ALL": "Все",
     "CURRENT_BALANCE": "Текущий баланс",
+    "TOTAL_BALANCE": "Общий баланс",
     "TOTAL": "Всего",
     "EXPENSES": "Расходы",
     "INCOMES": "Доходы",

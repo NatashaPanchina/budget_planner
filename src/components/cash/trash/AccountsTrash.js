@@ -91,7 +91,7 @@ function renderAccounts(
   t,
 ) {
   return (
-    <React.Fragment>
+    <>
       <ArchivedCount>
         {t(`ACCOUNTS_TRASH.${createLocaleCashType(filterType)}_COUNT`)}
         {accounts.length}
@@ -145,7 +145,7 @@ function renderAccounts(
           </CashListItem>
         );
       })}
-    </React.Fragment>
+    </>
   );
 }
 

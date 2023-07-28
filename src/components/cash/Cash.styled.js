@@ -2,14 +2,6 @@ import { NavLink } from 'react-router-dom';
 import { ColorsContainer } from '../../theme/global';
 import { styled } from 'styled-components';
 
-export const CashContainer = styled.div((props) => ({
-  marginTop: props.theme.spacing(14),
-  marginLeft: '20%',
-  marginRight: '5%',
-  display: 'flex',
-  justifyContent: 'space-between',
-}));
-
 export const MoreInformationContainer = styled.div((props) => ({
   width: '20%',
   minWidth: 200,

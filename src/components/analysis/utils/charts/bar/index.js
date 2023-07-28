@@ -2,6 +2,7 @@ import { dinero, add, toDecimal } from 'dinero.js';
 import { USD } from '@dinero.js/currencies';
 
 import { createPeriod } from '../../period';
+import { chartsColors } from '../../../../../utils/constants/chartsColors';
 
 export function createBarData({
   transactions,
@@ -75,8 +76,8 @@ function createSimpleData(
 ) {
   let color =
     transactionFilter === 'expense'
-      ? ['#FF599F', '#F4395B']
-      : ['#B3FF53', '#6EBD0A'];
+      ? chartsColors.expenses
+      : chartsColors.incomes;
   return period.map((date) => {
     return {
       [`${transactionFilter}sColor`]: color,
@@ -149,7 +150,7 @@ function createDetailedData(
 function createExpensesToIncomesData(transactions, period, dateFormatter) {
   return period.map((date) => {
     return {
-      incomesColor: ['#B3FF53', '#6EBD0A'],
+      incomesColor: chartsColors.incomes,
       incomes: toDecimal(
         transactions
           .filter((transaction) => {
@@ -165,7 +166,7 @@ function createExpensesToIncomesData(transactions, period, dateFormatter) {
             dinero({ amount: 0, currency: USD }),
           ),
       ),
-      expensesColor: ['#FF599F', '#F4395B'],
+      expensesColor: chartsColors.expenses,
       expenses: toDecimal(
         transactions
           .filter((transaction) => {

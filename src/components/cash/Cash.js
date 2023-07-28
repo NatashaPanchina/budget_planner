@@ -12,7 +12,6 @@ import { ReactComponent as TrashIcon } from '../../assets/icons/shared/trash.svg
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 
 import {
-  CashContainer,
   MoreInformationContainer,
   MainInformationContainer,
   Header,
@@ -46,7 +45,7 @@ export default function Cash() {
   return status === 'loading' ? (
     <div>Loading</div>
   ) : (
-    <CashContainer>
+    <>
       <MoreInformationContainer>
         {t('CASH.TOTAL_BALANCE')}
         <CashChart data={notArchivedAccounts} />
@@ -88,6 +87,6 @@ export default function Cash() {
           archiveAccount={archiveAccount}
         />
       </MainInformationContainer>
-    </CashContainer>
+    </>
   );
 }

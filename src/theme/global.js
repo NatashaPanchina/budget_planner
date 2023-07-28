@@ -163,7 +163,7 @@ export const BackLinkSvg = styled.svg((props) => ({
   width: 40,
   height: 40,
   '&:hover circle': {
-    fill: props.theme.colors.background.ordinary,
+    fill: props.theme.colors.background.primary,
   },
 }));
 
@@ -181,7 +181,7 @@ export const FormFieldDiv = styled.div((props) => ({
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   borderRadius: props.theme.borderRadius,
   fontSize: '0.875rem',
-  color: props.theme.colors.text.ordinary,
+  color: props.theme.colors.text.darker,
 }));
 
 export const FormField = styled(FormFieldDiv)((props) => {
@@ -371,20 +371,34 @@ export const CancelButton = styled(AddFormButton)((props) => ({
 }));
 
 export const Filter = styled.div((props) => ({
-  display: 'flex',
-  alignItems: 'center',
-  backgroundColor: props.theme.colors.background.primary,
-  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
-  borderRadius: props.theme.borderRadius * 1.5,
-  height: 'fit-content',
-  padding: props.theme.spacing(2),
-  marginRight: props.theme.spacing(14),
-  fontSize: '0.875rem',
-  color: props.theme.colors.text.darker,
+  display: 'none',
+  '@media only screen and (min-width: 600px)': {
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: props.theme.colors.background.primary,
+    boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
+    borderRadius: props.theme.borderRadius * 1.5,
+    height: 'fit-content',
+    padding: props.theme.spacing(2),
+    marginRight: props.theme.spacing(14),
+    fontSize: '0.875rem',
+    color: props.theme.colors.text.ordinary,
+  },
 }));
 
 export const FilterSvg = styled.svg((props) => ({
-  height: 18,
-  width: 18,
-  margin: `0px ${props.theme.spacing(1)}px`,
+  height: 22,
+  width: 22,
+  '@media only screen and (min-width: 600px)': {
+    height: 18,
+    width: 18,
+    margin: `0px ${props.theme.spacing(1)}px`,
+  },
+}));
+
+export const CommonFilter = styled.span(() => ({
+  display: 'flex',
+  '@media only screen and (min-width: 600px)': {
+    display: 'none',
+  },
 }));

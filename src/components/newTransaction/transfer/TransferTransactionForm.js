@@ -38,7 +38,7 @@ function TransferTransactionForm({ accounts }) {
   }, [accounts]);
 
   return (
-    <React.Fragment>
+    <>
       <div className="title_cards">
         <span>{t('NEW_TRANSACTION.ORIGIN_CASH')}</span>
         <span>{t('NEW_TRANSACTION.DESTINATION_CASH')}</span>
@@ -163,7 +163,7 @@ function TransferTransactionForm({ accounts }) {
           </Link>
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

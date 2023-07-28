@@ -144,7 +144,7 @@ function renderCategories(
   t,
 ) {
   return (
-    <React.Fragment>
+    <>
       <ArchivedCount>
         {categories.length}{' '}
         {t(createLocaleCategories('CATEGORIES_TRASH', categories.length))}
@@ -205,7 +205,7 @@ function renderCategories(
           </CategoriesListItem>
         );
       })}
-    </React.Fragment>
+    </>
   );
 }
 

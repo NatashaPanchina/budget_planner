@@ -6,11 +6,20 @@ import { useTranslation } from 'react-i18next';
 import { createLocaleTransactions } from '../utils/index.js';
 import Slider from './Slider.js';
 
-import expenseIcon from '../../../assets/icons/shared/expense.svg';
-import incomeIcon from '../../../assets/icons/shared/income.svg';
-import transfersIcon from '../../../assets/icons/shared/transfers.svg';
+import { ReactComponent as ExpenseIcon } from '../../../assets/icons/shared/expense.svg';
+import { ReactComponent as IncomeIcon } from '../../../assets/icons/shared/income.svg';
+import { ReactComponent as TransferIcon } from '../../../assets/icons/shared/transfers.svg';
 
-import './AccountsSlider.css';
+import {
+  CountInfo,
+  CountTransactionsBlock,
+  CountTransactionsContainer,
+  CountTransactionsSvg,
+  MoreInfoContainer,
+  MoreInfoHeader,
+  TotalCountTransactions,
+} from '../Transactions.styled.js';
+import { Grid } from '@mui/material';
 
 function AccountsSlider({ transactions, accounts }) {
   const { t } = useTranslation();
@@ -37,56 +46,70 @@ function AccountsSlider({ transactions, accounts }) {
     allTransactions - (expensesTransactions + incomesTransactions);
 
   return (
-    <div className="transactions_more_info">
-      <div className="transaction_more_title">
-        {t('TRANSACTIONS.CURRENT_CASH')}
-      </div>
-      <Slider
-        filterType={filterType}
-        notArchivedAccounts={notArchivedAccounts}
-      />
-      <div className="count_transactions_info">
-        {t('TRANSACTIONS.TOTAL')}
-        <div className="total_transactions_count">
-          {allTransactions}{' '}
-          {t(createLocaleTransactions('TRANSACTIONS', allTransactions))}
-        </div>
-        <div className="transactions_count_item">
-          <img src={expenseIcon} alt="expenses" />
-          <div>
-            {t('TRANSACTIONS.FILTER_EXPENSES')}
-            <div className="expense_transactions_count">
-              {expensesTransactions}{' '}
-              {t(
-                createLocaleTransactions('TRANSACTIONS', expensesTransactions),
-              )}
+    <MoreInfoContainer>
+      <Grid item xs={12} sm={5} md={12}>
+        <MoreInfoHeader>{t('TRANSACTIONS.CURRENT_CASH')}</MoreInfoHeader>
+        <Slider
+          filterType={filterType}
+          notArchivedAccounts={notArchivedAccounts}
+        />
+      </Grid>
+      <Grid item xs={12} sm={7} md={12}>
+        <CountTransactionsContainer>
+          <TotalCountTransactions>
+            <div>
+              {t('TRANSACTIONS.TOTAL')}
+              <CountInfo $countType="total">
+                {allTransactions}{' '}
+                {t(createLocaleTransactions('TRANSACTIONS', allTransactions))}
+              </CountInfo>
             </div>
-          </div>
-        </div>
-        <div className="transactions_count_item">
-          <img src={incomeIcon} alt="incomes" />
-          <div>
-            {t('TRANSACTIONS.FILTER_INCOMES')}
-            <div className="income_transactions_count">
-              {incomesTransactions}{' '}
-              {t(createLocaleTransactions('TRANSACTIONS', incomesTransactions))}
+          </TotalCountTransactions>
+          <CountTransactionsBlock>
+            <CountTransactionsSvg as={ExpenseIcon} />
+            <div>
+              {t('TRANSACTIONS.FILTER_EXPENSES')}
+              <CountInfo $countType="expense">
+                {expensesTransactions}{' '}
+                {t(
+                  createLocaleTransactions(
+                    'TRANSACTIONS',
+                    expensesTransactions,
+                  ),
+                )}
+              </CountInfo>
             </div>
-          </div>
-        </div>
-        <div className="transactions_count_item">
-          <img src={transfersIcon} alt="transfers" />
-          <div>
-            {t('TRANSACTIONS.FILTER_TRANSFERS')}
-            <div className="transfer_transactions_count">
-              {transfersTransactions}{' '}
-              {t(
-                createLocaleTransactions('TRANSACTIONS', transfersTransactions),
-              )}
+          </CountTransactionsBlock>
+          <CountTransactionsBlock>
+            <CountTransactionsSvg as={IncomeIcon} />
+            <div>
+              {t('TRANSACTIONS.FILTER_INCOMES')}
+              <CountInfo $countType="income">
+                {incomesTransactions}{' '}
+                {t(
+                  createLocaleTransactions('TRANSACTIONS', incomesTransactions),
+                )}
+              </CountInfo>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </CountTransactionsBlock>
+          <CountTransactionsBlock>
+            <CountTransactionsSvg as={TransferIcon} />
+            <div>
+              {t('TRANSACTIONS.FILTER_TRANSFERS')}
+              <CountInfo $countType="transfer">
+                {transfersTransactions}{' '}
+                {t(
+                  createLocaleTransactions(
+                    'TRANSACTIONS',
+                    transfersTransactions,
+                  ),
+                )}
+              </CountInfo>
+            </div>
+          </CountTransactionsBlock>
+        </CountTransactionsContainer>
+      </Grid>
+    </MoreInfoContainer>
   );
 }
 

@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Navigate,
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ThemeProvider } from 'styled-components';
-import './locales';
 
+import './locales';
 import { darkTheme, lightTheme } from './theme';
 import { GlobalStyles } from './theme/global';
 import Root from './components/root/Root';
@@ -25,6 +26,8 @@ import Analysis from './components/analysis/Analysis';
 import AccountsTrash from './components/cash/trash/AccountsTrash';
 
 import './App.css';
+import Dashboard from './components/dashboard/Dashboard';
+import { mode } from './utils/constants/mode';
 
 const router = createBrowserRouter([
   {
@@ -33,7 +36,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Navigate replace to="analysis" />,
+        element: <Navigate replace to="dashboard" />,
+      },
+      {
+        path: 'dashboard',
+        element: <Dashboard />,
       },
       {
         path: 'transactions',
@@ -111,25 +118,17 @@ const router = createBrowserRouter([
   },
 ]);
 
-function initialMode() {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
-}
-
 function App() {
+  const { i18n } = useTranslation();
   const header = useSelector((state) => state.header);
-  const [mode, setMode] = useState(initialMode());
+  const { language } = header;
 
   useEffect(() => {
-    if (header.status === 'succeeded') {
-      if (!header.profile) return;
-      setMode(header.profile.mode);
-    }
-  }, [header.profile, header.status]);
+    i18n.changeLanguage(language);
+  }, [language, i18n]);
 
   return (
-    <ThemeProvider theme={mode === 'light' ? lightTheme : darkTheme}>
+    <ThemeProvider theme={header.mode === mode.light ? lightTheme : darkTheme}>
       <GlobalStyles />
       <RouterProvider router={router} />
     </ThemeProvider>

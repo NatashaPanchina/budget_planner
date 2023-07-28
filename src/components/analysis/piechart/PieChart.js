@@ -11,6 +11,8 @@ import {
 import { createData } from '../utils/charts';
 import Legends from '../legends/Legends';
 import { renderTooltip } from '../utils/tooltip';
+import { Chart, ChartsInfoContainer } from '../Analysis.styled';
+import { formatNumberOutput } from '../../../utils/format/cash';
 
 function PieChart({ transactions, categories, chartFilter, date }) {
   let commonData = createData(
@@ -19,19 +21,15 @@ function PieChart({ transactions, categories, chartFilter, date }) {
   );
 
   return (
-    <div className="pie_chart_container">
-      <div className="chart">
+    <ChartsInfoContainer>
+      <Chart>
         <ResponsivePie
           data={commonData}
           colors={{ datum: 'data.category.color[1]' }}
           defs={renderGradients(createGradientColors(categories))}
           fill={renderMatchs(createDescriptions(categories))}
           value="sum"
-          valueFormat={(value) =>
-            `$ ${Number(value).toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            })}`
-          }
+          valueFormat={(value) => formatNumberOutput(value, 'USD')}
           id="category.description"
           margin={{
             top: 30,
@@ -50,9 +48,9 @@ function PieChart({ transactions, categories, chartFilter, date }) {
             renderTooltip(id, formattedValue, color)
           }
         />
-      </div>
+      </Chart>
       <Legends data={commonData} chartType="pie" />
-    </div>
+    </ChartsInfoContainer>
   );
 }
 

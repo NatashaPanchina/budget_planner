@@ -5,6 +5,10 @@ import { ResponsiveLine } from '@nivo/line';
 import { createData } from '../utils/charts';
 import Legends from '../legends/Legends';
 import { renderTooltip } from '../utils/tooltip';
+import { Chart, ChartsInfoContainer } from '../Analysis.styled';
+import { formatNumberOutput } from '../../../utils/format/cash';
+import { chartsColors } from '../../../utils/constants/chartsColors';
+import { useSelector } from 'react-redux';
 
 function LineChart({
   transactions,
@@ -13,28 +17,35 @@ function LineChart({
   isDetailed,
   date,
 }) {
-  let commonData = createData(
+  const { mode } = useSelector((state) => state.header);
+  const commonData = createData(
     { transactions, categories, chartFilter, isDetailed, date },
     'line',
   );
+
   return (
-    <div className="line_chart_container">
-      <div className="chart">
+    <ChartsInfoContainer>
+      <Chart>
         <ResponsiveLine
           theme={{
             axis: {
               ticks: {
                 line: {
-                  stroke: '#fff',
+                  stroke: chartsColors[mode].stroke,
                 },
                 text: {
-                  fill: '#fff',
+                  fill: chartsColors[mode].text,
+                },
+              },
+              legend: {
+                text: {
+                  fill: chartsColors[mode].text,
                 },
               },
             },
             grid: {
               line: {
-                stroke: '#989393',
+                stroke: chartsColors[mode].stroke,
                 strokeDasharray: '4 4',
               },
             },
@@ -63,22 +74,16 @@ function LineChart({
               serieId,
               data: { yFormatted },
             },
-          }) =>
-            renderTooltip(
-              serieId,
-              `$ ${Number(yFormatted).toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-              })}`,
-            )
-          }
+          }) => renderTooltip(serieId, formatNumberOutput(yFormatted, 'USD'))}
         />
-      </div>
+      </Chart>
       <Legends data={commonData} chartType="line" />
-    </div>
+    </ChartsInfoContainer>
   );
 }
 
 LineChart.propTypes = {
+  mode: PropTypes.string,
   transactions: PropTypes.array,
   categories: PropTypes.array,
   chartFilter: PropTypes.string,

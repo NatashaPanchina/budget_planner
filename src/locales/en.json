@@ -1,5 +1,6 @@
 {
   "HEADER": {
+    "DASHBOARD": "Dashboard",
     "TRANSACTIONS": "Transactions",
     "CASH": "Cash",
     "NEW_TRANSACTION": "New Transaction",
@@ -7,13 +8,29 @@
     "ANALYSIS": "Analysis",
     "SEARCH_EVERYTHING": "Search everything"
   },
+  "MENU": {
+    "PROFILE": "Profile",
+    "CURRENCY": "Currency",
+    "DASHBOARD": "Dashboard",
+    "TRANSACTIONS": "Transactions",
+    "CASH": "Cash",
+    "CATEGORIES": "Categories",
+    "BUDGET": "Budget",
+    "ANALYSIS": "Analysis",
+    "SETTINGS": "Settings",
+    "DEMO": "Demo",
+    "HELP": "Help",
+    "ABOUT_APP": "About app"
+  },
   "NAVIGATION": {
+    "DASHBOARD": "Dashboard",
     "TRANSACTIONS": "Transactions",
     "CASH": "Cash",
     "NEW_TRANSACTION": "New Transaction",
     "CATEGORIES": "Categories",
     "ANALYSIS": "Analysis",
-    "MORE": "more"
+    "MORE": "more",
+    "SETTINGS": "Settings"
   },
   "TRANSACTIONS": {
     "TRANSACTIONS_HEADER": "Transactions",
@@ -32,6 +49,7 @@
     "CURRENT_CASH": "Current cash",
     "ALL": "All",
     "CURRENT_BALANCE": "Current balance",
+    "TOTAL_BALANCE": "Total balance",
     "TOTAL": "Total",
     "EXPENSES": "Expenses",
     "INCOMES": "Incomes",

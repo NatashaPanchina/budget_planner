@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { Grid } from '@mui/material';
 
 import AccountsSlider from './slider/AccountsSlider.js';
 import TransactionsList from './list/TransactionsList.js';
@@ -12,10 +13,12 @@ import {
   editAccount,
 } from '../../actions/Actions';
 
-import filterIcon from '../../assets/icons/shared/filter.svg';
+import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
+import { ReactComponent as MobileFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
 
-import './Transactions.css';
+import { Header, HeaderTitle } from './Transactions.styled.js';
+import { CommonFilter, Filter, FilterSvg } from '../../theme/global.js';
 
 export default function Transactions() {
   const transactions = useSelector((state) => state.transactions);
@@ -59,30 +62,38 @@ export default function Transactions() {
     transactions.status === 'loading' ? (
     <div>Loading</div>
   ) : (
-    <div className="transactions_content">
-      <AccountsSlider transactions={transactionsData} accounts={accountsData} />
-      <div className="transactions_main_info">
-        <div className="transactions_main_header">
-          <div className="filtered_title">
-            {t('TRANSACTIONS.TRANSACTIONS_HEADER')}
-          </div>
-          <div className="filtered_field">
-            <img src={filterIcon} alt="filter" />
-            {t('TRANSACTIONS.FILTER_KEY')}
-          </div>
-          <div className="filtered_field">
-            <CalendarIcon />
-            {t('TRANSACTIONS.FILTER_DATE')}
-          </div>
-        </div>
-        <TransactionsList
+    <>
+      <Grid item xs={12} sm={12} md={3} lg={3}>
+        <AccountsSlider
           transactions={transactionsData}
           accounts={accountsData}
-          categories={categoriesData}
-          deleteTransaction={deleteTransaction}
-          editAccount={editAccount}
         />
-      </div>
-    </div>
+      </Grid>
+      <Grid item xs={12} sm={12} md={9} lg={9}>
+        <div>
+          <Header>
+            <HeaderTitle>{t('TRANSACTIONS.TRANSACTIONS_HEADER')}</HeaderTitle>
+            <Filter>
+              <FilterSvg as={FilterIcon} />
+              {t('TRANSACTIONS.FILTER_KEY')}
+            </Filter>
+            <Filter>
+              <FilterSvg as={CalendarIcon} />
+              {t('TRANSACTIONS.FILTER_DATE')}
+            </Filter>
+            <CommonFilter>
+              <FilterSvg as={MobileFilterIcon} />
+            </CommonFilter>
+          </Header>
+          <TransactionsList
+            transactions={transactionsData}
+            accounts={accountsData}
+            categories={categoriesData}
+            deleteTransaction={deleteTransaction}
+            editAccount={editAccount}
+          />
+        </div>
+      </Grid>
+    </>
   );
 }
