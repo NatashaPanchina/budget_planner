@@ -42,7 +42,6 @@ import {
   Profile,
   LogOut,
   Username,
-  MenuContainer,
   Hamburger,
   Bar,
 } from './Header.styled';
@@ -80,11 +79,19 @@ function renderHeaderTitles(t) {
 
 const animatedMenu = (style, username, setToggleMenu) => {
   return (
-    <MenuContainer>
-      <animated.div style={{ ...style }}>
-        <Menu username={username} setToggleMenu={setToggleMenu} />
-      </animated.div>
-    </MenuContainer>
+    <animated.div
+      style={{
+        position: 'fixed',
+        top: 56,
+        height: 'calc(100vh - 56px)',
+        overflowY: 'auto',
+        width: `100%`,
+        zIndex: 11,
+        ...style,
+      }}
+    >
+      <Menu username={username} setToggleMenu={setToggleMenu} />
+    </animated.div>
   );
 };
 
@@ -129,7 +136,6 @@ export default function Header() {
   const titles = renderHeaderTitles(t);
   const path = location.pathname.match(/\/(\w)*/)[0];
 
-  console.log(id);
   useEffect(() => {
     dispatch(fetchProfileData());
   }, [dispatch]);

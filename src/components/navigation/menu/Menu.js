@@ -26,6 +26,12 @@ const FlexContainer = styled.div(() => ({
   alignItems: 'center',
 }));
 
+const Container = styled.div((props) => ({
+  backgroundColor: props.theme.colors.background.body,
+  width: `calc(100% - ${props.theme.spacing(2) * 2}px)`,
+  padding: props.theme.spacing(2),
+}));
+
 const ProfileContainer = styled(FlexContainer)(() => ({
   height: 100,
   width: '100%',
@@ -87,7 +93,7 @@ const Contacts = styled(FlexContainer)(() => ({
 function Menu({ username, setToggleMenu }) {
   const { t } = useTranslation();
   return (
-    <>
+    <Container>
       <ProfileContainer>
         <Profile>
           <AvatarSvg as={AvatarIcon} />
@@ -206,7 +212,7 @@ function Menu({ username, setToggleMenu }) {
           <Svg as={GithubIcon} />
         </Link>
       </Contacts>
-    </>
+    </Container>
   );
 }
 
