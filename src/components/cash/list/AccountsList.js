@@ -36,21 +36,11 @@ import {
   CurrentBalance,
   CardButton,
   CardButtonSvg,
+  CashListItem,
+  CardButtonlink,
+  CardButtonTitle,
 } from '../Cash.styled';
-import { styled } from 'styled-components';
 import { pages } from '../../../utils/constants/pages';
-
-const CashListItem = styled.div((props) => ({
-  display: 'flex',
-  alignItems: 'center',
-  marginBottom: props.theme.spacing(10),
-}));
-
-const CardButtonlink = styled(Link)((props) => ({
-  color: props.theme.colors.svg.pending,
-  display: 'flex',
-  alignItems: 'center',
-}));
 
 function archiveEventButton(account, archiveAccount, dispatch) {
   dispatch(archiveAccount(account.id));
@@ -85,37 +75,42 @@ function AccountsList({ notArchivedAccounts, archiveAccount }) {
         return (
           <CashListItem key={account.id}>
             <div>
-              <Card
-                $cardBackground={cardBackground}
-                $from={account.color[0]}
-                $to={account.color[1]}
-                className={`${account.description}`}
-              >
-                <CardName>{account.description}</CardName>
-                <CardBalanceContainer>
-                  <CardBalance>
-                    {formatDineroOutput(balance, 'USD')}
-                  </CardBalance>
-                  <CurrentBalance>{t('CASH.CURRENT_BALANCE')}</CurrentBalance>
-                </CardBalanceContainer>
-              </Card>
-              {renderNotes(account.notes)}
+              <Link to={`${pages.cash.info.main}/${account.id}`}>
+                <Card
+                  $cardBackground={cardBackground}
+                  $from={account.color[0]}
+                  $to={account.color[1]}
+                  className={`${account.description}`}
+                >
+                  <CardName>{account.description}</CardName>
+                  <CardBalanceContainer>
+                    <CardBalance>
+                      {formatDineroOutput(balance, 'USD')}
+                    </CardBalance>
+                    <CurrentBalance>{t('CASH.CURRENT_BALANCE')}</CurrentBalance>
+                  </CardBalanceContainer>
+                </Card>
+                {renderNotes(account.notes)}
+              </Link>
             </div>
             <div>
               <CardButton>
                 <CardButtonlink to={`${pages.cash.info.main}/${account.id}`}>
-                  <CardButtonSvg as={EditIcon} /> {t('CASH.EDIT')}
+                  <CardButtonSvg as={EditIcon} />{' '}
+                  <CardButtonTitle>{t('CASH.EDIT')}</CardButtonTitle>
                 </CardButtonlink>
               </CardButton>
               <CardButton>
-                <CardButtonSvg as={TransferIcon} /> {t('CASH.NEW_TRANSFER')}
+                <CardButtonSvg as={TransferIcon} />{' '}
+                <CardButtonTitle>{t('CASH.NEW_TRANSFER')}</CardButtonTitle>
               </CardButton>
               <CardButton
                 onClick={() =>
                   archiveEventButton(account, archiveAccount, dispatch)
                 }
               >
-                <CardButtonSvg as={ArchiveIcon} /> {t('CASH.ARCHIVE')}
+                <CardButtonSvg as={ArchiveIcon} />
+                <CardButtonTitle>{t('CASH.ARCHIVE')}</CardButtonTitle>
               </CardButton>
             </div>
           </CashListItem>

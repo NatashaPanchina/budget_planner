@@ -52,7 +52,7 @@ function LineChart({
           }}
           data={commonData}
           colors={{ datum: 'color[1]' }}
-          margin={{ top: 10, right: 50, bottom: 50, left: 80 }}
+          margin={{ top: 10, right: 40, bottom: 50, left: 80 }}
           xScale={{ type: 'point' }}
           enablePoints={false}
           axisLeft={{

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { NumericFormat } from 'react-number-format';
@@ -23,8 +22,32 @@ import {
   useOutsideClick,
 } from '../../../hooks/useOutsideClick.js';
 
+import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
 import searchIcon from '../../../assets/icons/shared/search.svg';
+import {
+  AddButton,
+  AddButtonSvg,
+  AddFormButtonsContainer,
+  CancelButton,
+  DoneButton,
+  ButtonSvg,
+  FieldDescription,
+  FieldInput,
+  FormField,
+  FormFieldsContainer,
+  Search,
+  SearchImg,
+  SearchInput,
+  ButtonTitle,
+} from '../../../theme/global.js';
+import {
+  AccountsList,
+  AddAccount,
+  CategoriesList,
+  NumericInput,
+} from '../NewTransaction.styled.js';
 
 function ExpenseTransactionForm({
   categories,
@@ -60,60 +83,57 @@ function ExpenseTransactionForm({
   }, [accounts, categories]);
 
   return (
-    <>
-      <div
-        className={`transaction_item ${
-          activeItem === '1' ? `${transactionType}_active_item` : ''
-        }`}
+    <FormFieldsContainer>
+      <FormField
+        $isActive={activeItem === '1'}
+        $formType={transactionType}
         onClick={() => setActiveItem('1')}
       >
-        <div className="info_items">{t('NEW_TRANSACTION.CATEGORY')}</div>
-        <div className="input_items">
-          <div
-            className="selected_category"
-            onClick={(event) => {
-              setActiveItem('1');
-              categoriesRef.current.classList.toggle('none');
-              accountsRef.current.classList.add('none');
-              event.stopPropagation();
-            }}
-          >
-            {category ? (
-              renderSelectedCategory(category, filteredCategories)
-            ) : (
-              <Link to={pages.categories.add[transactionType]}>
-                <PlusIcon />
-                {t('NEW_TRANSACTION.ADD_CATEGORY')}
-              </Link>
-            )}
-          </div>
+        <FieldDescription>{t('NEW_TRANSACTION.CATEGORY')}</FieldDescription>
+        <div
+          onClick={(event) => {
+            setActiveItem('1');
+            categoriesRef.current.classList.toggle('none');
+            accountsRef.current.classList.add('none');
+            event.stopPropagation();
+          }}
+        >
+          {category ? (
+            renderSelectedCategory(category, filteredCategories)
+          ) : (
+            <AddButton to={pages.categories.add[transactionType]}>
+              <AddButtonSvg as={PlusIcon} />
+              {t('NEW_TRANSACTION.ADD_CATEGORY')}
+            </AddButton>
+          )}
         </div>
-      </div>
-      <div ref={categoriesRef} className="categories_list none">
-        <div className="search">
-          <input
+      </FormField>
+      <CategoriesList ref={categoriesRef} className="none">
+        <Search>
+          <SearchInput
             type="text"
             placeholder={t('NEW_TRANSACTION.SEARCH_CATEGORY')}
-          ></input>
-          <img src={searchIcon} alt="search" />
-        </div>
-        <div className="add_category_btn">
-          <Link to={pages.categories.add[transactionType]}>
-            <PlusIcon />
-            {t('NEW_TRANSACTION.ADD_CATEGORY')}
-          </Link>
-        </div>
-        {renderCategories(filteredCategories, setCategory)}
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '2' ? `${transactionType}_active_item` : ''
-        }`}
+          ></SearchInput>
+          <SearchImg src={searchIcon} alt="search" />
+        </Search>
+        <AddButton to={pages.categories.add[transactionType]}>
+          <AddButtonSvg as={PlusIcon} />
+          {t('NEW_TRANSACTION.ADD_CATEGORY')}
+        </AddButton>
+        {renderCategories(
+          filteredCategories,
+          category,
+          setCategory,
+          categoriesRef,
+        )}
+      </CategoriesList>
+      <FormField
+        $isActive={activeItem === '2'}
+        $formType={transactionType}
         onClick={() => setActiveItem('2')}
       >
-        <div className="info_items">{t('NEW_TRANSACTION.CASH')}</div>
+        <FieldDescription>{t('NEW_TRANSACTION.CASH')}</FieldDescription>
         <div
-          className="input_items"
           onClick={(event) => {
             setActiveItem('2');
             accountsRef.current.classList.toggle('none');
@@ -124,140 +144,128 @@ function ExpenseTransactionForm({
           {account ? (
             renderSelectedAccount(account, filteredAccounts)
           ) : (
-            <Link to={pages.cash.add.card}>
-              <PlusIcon />
+            <AddButton to={pages.cash.add.card}>
+              <AddButtonSvg as={PlusIcon} />
               {t('NEW_TRANSACTION.ADD_CASH')}
-            </Link>
+            </AddButton>
           )}
         </div>
-      </div>
-      <div ref={accountsRef} className="accounts_list none">
-        <div className="search">
-          <input
+      </FormField>
+      <AccountsList ref={accountsRef} className="none">
+        <Search>
+          <SearchInput
             type="text"
             placeholder={t('NEW_TRANSACTION.SEARCH_CASH')}
-          ></input>
-          <img src={searchIcon} alt="search" />
-        </div>
-        <div className="add_category_btn">
-          <Link to={pages.cash.add.card}>
-            <PlusIcon />
-            {t('NEW_TRANSACTION.ADD_CASH')}
-          </Link>
-        </div>
-        {renderAccounts(filteredAccounts, setAccount)}
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '3' ? `${transactionType}_active_item` : ''
-        }`}
+          ></SearchInput>
+          <SearchImg src={searchIcon} alt="search" />
+        </Search>
+        <AddAccount to={pages.cash.add.card}>
+          <AddButtonSvg as={PlusIcon} />
+          {t('NEW_TRANSACTION.ADD_CASH')}
+        </AddAccount>
+        {renderAccounts(filteredAccounts, setAccount, accountsRef, t)}
+      </AccountsList>
+      <FormField
+        $isActive={activeItem === '3'}
+        $formType={transactionType}
         onClick={() => setActiveItem('3')}
       >
-        <div className="info_items">{t('NEW_TRANSACTION.AMOUNT')}</div>
-        <div className="input_items">
-          ${' '}
-          <NumericFormat
-            thousandSeparator=","
-            decimalSeparator="."
-            decimalScale={2}
-            allowNegative={false}
-            placeholder="0.00"
-            onValueChange={(values) => setAmount(values.floatValue)}
-            value={amount}
-          />
-        </div>
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '4' ? `${transactionType}_active_item` : ''
-        }`}
+        <FieldDescription>{t('NEW_TRANSACTION.AMOUNT')}</FieldDescription>
+        $
+        <NumericFormat
+          customInput={NumericInput}
+          thousandSeparator=","
+          decimalSeparator="."
+          decimalScale={2}
+          allowNegative={false}
+          placeholder="0.00"
+          onValueChange={(values) => setAmount(values.floatValue)}
+          value={amount}
+        />
+      </FormField>
+      <FormField
+        $isActive={activeItem === '4'}
+        $formType={transactionType}
         onClick={() => setActiveItem('4')}
       >
-        <div className="info_items">{t('NEW_TRANSACTION.DATE')}</div>
-        <div className="input_items">
-          <input
-            type="date"
-            onChange={(event) => setDate(new Date(event.target.value))}
-          ></input>
-        </div>
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '5' ? `${transactionType}_active_item` : ''
-        }`}
+        <FieldDescription>{t('NEW_TRANSACTION.DATE')}</FieldDescription>
+        <FieldInput
+          type="date"
+          onChange={(event) => setDate(new Date(event.target.value))}
+        ></FieldInput>
+      </FormField>
+      <FormField
+        $isActive={activeItem === '5'}
+        $formType={transactionType}
         onClick={() => setActiveItem('5')}
       >
-        <div className="info_items">{t('NEW_TRANSACTION.NOTES')}</div>
-        <input
+        <FieldDescription>{t('NEW_TRANSACTION.NOTES')}</FieldDescription>
+        <FieldInput
           type="text"
           onChange={(event) => setNotes(event.target.value)}
           defaultValue={notes}
-        ></input>
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '6' ? `${transactionType}_active_item` : ''
-        }`}
+        ></FieldInput>
+      </FormField>
+      <FormField
+        $isActive={activeItem === '6'}
+        $formType={transactionType}
         onClick={() => setActiveItem('6')}
       >
-        <div className="info_items">{t('NEW_TRANSACTION.TAGS')}</div>
-        <input type="text"></input>
-      </div>
-      <div className="transactions_button_block">
-        <div className="done_button_div">
-          <Link to={`${pages.transactions[`${transactionType}s`]}/${account}`}>
-            <button
-              className={`${transactionType}_button`}
-              onClick={() => {
-                const newTransaction = {
-                  id: uuidv4(),
-                  transactionType,
-                  category,
-                  account,
-                  amount: toSnapshot(
-                    dineroFromFloat({ amount, currency: USD, scale: 2 }),
-                  ),
-                  date: date.toISOString(),
-                  notes,
-                  tags,
-                };
-                dispatch(addNewTransaction(newTransaction));
-                idbAddItem(newTransaction, 'transactions');
-                const transactionAccount = filteredAccounts.find(
-                  (filteredAccount) => filteredAccount.id === account,
-                );
-                const previousBalance = dinero(transactionAccount.balance);
-                const newBalance = toSnapshot(
-                  subtract(
-                    previousBalance,
-                    dineroFromFloat({ amount, currency: USD, scale: 2 }),
-                  ),
-                );
-                dispatch(
-                  editAccount(transactionAccount.id, {
-                    ...transactionAccount,
-                    balance: newBalance,
-                  }),
-                );
-                idbAddItem(
-                  { ...transactionAccount, balance: newBalance },
-                  'accounts',
-                );
-              }}
-            >
-              {t('NEW_TRANSACTION.DONE')}
-            </button>
-          </Link>
-        </div>
-        <div className="cancel_button_div">
-          <Link to={`${pages.transactions[`${transactionType}s`]}/${account}`}>
-            <button className="account_cancel_button">
-              {t('NEW_TRANSACTION.CANCEL')}
-            </button>
-          </Link>
-        </div>
-      </div>
-    </>
+        <FieldDescription>{t('NEW_TRANSACTION.TAGS')}</FieldDescription>
+        <FieldInput type="text"></FieldInput>
+      </FormField>
+      <AddFormButtonsContainer>
+        <DoneButton
+          $buttonType={transactionType}
+          to={`${pages.transactions[`${transactionType}s`]}/${account}`}
+          onClick={() => {
+            const newTransaction = {
+              id: uuidv4(),
+              transactionType,
+              category,
+              account,
+              amount: toSnapshot(
+                dineroFromFloat({ amount, currency: USD, scale: 2 }),
+              ),
+              date: date.toISOString(),
+              notes,
+              tags,
+            };
+            dispatch(addNewTransaction(newTransaction));
+            idbAddItem(newTransaction, 'transactions');
+            const transactionAccount = filteredAccounts.find(
+              (filteredAccount) => filteredAccount.id === account,
+            );
+            const previousBalance = dinero(transactionAccount.balance);
+            const newBalance = toSnapshot(
+              subtract(
+                previousBalance,
+                dineroFromFloat({ amount, currency: USD, scale: 2 }),
+              ),
+            );
+            dispatch(
+              editAccount(transactionAccount.id, {
+                ...transactionAccount,
+                balance: newBalance,
+              }),
+            );
+            idbAddItem(
+              { ...transactionAccount, balance: newBalance },
+              'accounts',
+            );
+          }}
+        >
+          <ButtonSvg as={DoneIcon} />
+          <ButtonTitle>{t('NEW_TRANSACTION.DONE')}</ButtonTitle>
+        </DoneButton>
+        <CancelButton
+          to={`${pages.transactions[`${transactionType}s`]}/${account}`}
+        >
+          <ButtonSvg as={CancelIcon} />
+          <ButtonTitle>{t('NEW_TRANSACTION.CANCEL')}</ButtonTitle>
+        </CancelButton>
+      </AddFormButtonsContainer>
+    </FormFieldsContainer>
   );
 }
 

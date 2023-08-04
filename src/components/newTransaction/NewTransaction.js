@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -15,10 +15,23 @@ import IncomeTransactionForm from './income/IncomeTransactionForm';
 import { ReactComponent as ExpenseIcon } from '../../assets/icons/shared/newExpense.svg';
 import { ReactComponent as IncomeIcon } from '../../assets/icons/shared/newIncome.svg';
 import { ReactComponent as TransferIcon } from '../../assets/icons/shared/newTransfer.svg';
+import { ReactComponent as BackIcon } from '../../assets/icons/shared/back.svg';
 
-import './NewTransaction.css';
 import TransferTransactionForm from './transfer/TransferTransactionForm';
 import { pages } from '../../utils/constants/pages';
+import { Grid } from '@mui/material';
+import {
+  Back,
+  BackSvg,
+  HeaderSvg,
+  HeaderTitleLink,
+} from './NewTransaction.styled';
+import {
+  AddContainer,
+  AddFormHeader,
+  MobHeaderTitle,
+} from '../../theme/global';
+import { getMobileTitle } from './utils';
 
 function renderTransactionForm(
   transactionType,
@@ -95,53 +108,49 @@ export default function NewTransaction() {
   }, [accounts.status, accounts.accounts]);
 
   return (
-    <div className="main_content">
-      <div className="content_title">
-        <div className="title_item">
-          <NavLink
+    <Grid item xs={12}>
+      <AddContainer>
+        <AddFormHeader>
+          <HeaderTitleLink
+            $linkType="expense"
             to={`${pages.newTransaction.expense}/${transactionAccount}`}
-            className={({ isActive }) =>
-              isActive ? 'active_expense' : `not_active_expense`
-            }
           >
-            <ExpenseIcon />
+            <HeaderSvg as={ExpenseIcon} />
             {t('NEW_TRANSACTION.TITLE.EXPENSE')}
-          </NavLink>
-        </div>
-        <div className="title_item">
-          <NavLink
+          </HeaderTitleLink>
+          <HeaderTitleLink
+            $linkType="income"
             to={`${pages.newTransaction.income}/${transactionAccount}`}
-            className={({ isActive }) =>
-              isActive ? 'active_income' : `not_active_income`
-            }
           >
-            <IncomeIcon />
+            <HeaderSvg as={IncomeIcon} />
             {t('NEW_TRANSACTION.TITLE.INCOME')}
-          </NavLink>
-        </div>
-        <div className="title_item">
-          <NavLink
+          </HeaderTitleLink>
+          <HeaderTitleLink
+            $linkType="transfer"
             to={`${pages.newTransaction.transfer}/${transactionAccount}`}
-            className={({ isActive }) =>
-              isActive ? 'active_transfer' : `not_active_transfer`
-            }
           >
-            <TransferIcon />
+            <HeaderSvg as={TransferIcon} />
             {t('NEW_TRANSACTION.TITLE.TRANSFER')}
-          </NavLink>
-        </div>
-      </div>
-      {accounts.status === 'loading' || categories.status === 'loading' ? (
-        <div>Loading</div>
-      ) : (
-        renderTransactionForm(
-          transactionType,
-          filteredCategories,
-          filteredAccounts,
-          addNewTransaction,
-          editAccount,
-        )
-      )}
-    </div>
+          </HeaderTitleLink>
+        </AddFormHeader>
+        <Back to={`${pages.transactions[`${transactionType}s`]}/all`}>
+          <BackSvg as={BackIcon} />
+        </Back>
+        <MobHeaderTitle $titleType={transactionType}>
+          {getMobileTitle(transactionType, t)}
+        </MobHeaderTitle>
+        {accounts.status === 'loading' || categories.status === 'loading' ? (
+          <div>Loading</div>
+        ) : (
+          renderTransactionForm(
+            transactionType,
+            filteredCategories,
+            filteredAccounts,
+            addNewTransaction,
+            editAccount,
+          )
+        )}
+      </AddContainer>
+    </Grid>
   );
 }

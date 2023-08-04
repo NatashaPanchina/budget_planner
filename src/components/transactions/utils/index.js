@@ -5,6 +5,15 @@ import { categoryIcons } from '../../../utils/constants/icons';
 import { formatDineroOutput } from '../../../utils/format/cash';
 
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
+import { styled } from 'styled-components';
+import {
+  Card,
+  CardBalance,
+  CardBalanceContainer,
+  CardName,
+  CardView,
+  CurrentBalance,
+} from '../../newTransaction/NewTransaction.styled';
 
 export function createLocaleTransactions(NAME, count) {
   const lastNumber = Number(String(count).match(/\d$/g)[0]);
@@ -21,6 +30,37 @@ export function createLocaleTransactions(NAME, count) {
   }
 }
 
+const CategoriesItem = styled.div((props) => ({
+  height: 60,
+  display: 'flex',
+  alignItems: 'center',
+  cursor: 'pointer',
+  borderRadius: props.theme.borderRadius,
+  color: props.theme.colors.text.primary,
+  backgroundColor: props.$isActive
+    ? props.theme.colors.background.navigation
+    : '',
+  '&:hover': {
+    backgroundColor: props.theme.colors.background.navigation,
+  },
+}));
+
+const SelectedCategory = styled.div((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  width: '100%',
+  cursor: 'pointer',
+  marginRight: props.theme.spacing(2),
+  color: props.theme.colors.text.primary,
+}));
+
+const CategoriesItemSvg = styled.svg((props) => ({
+  width: 34,
+  height: 34,
+  marginRight: props.theme.spacing(2),
+  marginLeft: props.theme.spacing(2),
+}));
+
 export function renderSelectedCategory(categoryId, categoriesData) {
   const category = categoriesData.find(
     (category) => category.id === categoryId,
@@ -28,8 +68,8 @@ export function renderSelectedCategory(categoryId, categoriesData) {
   if (!category) return;
   const Icon = category ? categoryIcons[category.icon] : null;
   return (
-    <>
-      <svg
+    <SelectedCategory>
+      <CategoriesItemSvg
         width="34"
         height="34"
         viewBox="0 0 34 34"
@@ -51,27 +91,30 @@ export function renderSelectedCategory(categoryId, categoriesData) {
             <stop offset="1" stopColor={category.color[1]} />
           </linearGradient>
         </defs>
-      </svg>
+      </CategoriesItemSvg>
       {category.description}
-    </>
+    </SelectedCategory>
   );
 }
 
-export function renderCategories(categories, setCategory) {
+export function renderCategories(
+  categories,
+  currentCategory,
+  setCategory,
+  categoriesRef,
+) {
   return categories.map((category, index) => {
     const Icon = categoryIcons[category.icon];
     return (
-      <div
-        className="categories_list_item"
+      <CategoriesItem
         onClick={() => {
           setCategory(category.id);
-          document.querySelector('.categories_list').classList.add('none');
+          categoriesRef.current.classList.add('none');
         }}
         key={category.id}
+        $isActive={category.id === currentCategory}
       >
-        <svg
-          width="34"
-          height="34"
+        <CategoriesItemSvg
           viewBox="0 0 34 34"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -91,21 +134,34 @@ export function renderCategories(categories, setCategory) {
               <stop offset="1" stopColor={category.color[1]} />
             </linearGradient>
           </defs>
-        </svg>
+        </CategoriesItemSvg>
         {category.description}
-      </div>
+      </CategoriesItem>
     );
   });
 }
+
+const SelectedAccount = styled.div((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  width: '100%',
+  cursor: 'pointer',
+  marginRight: props.theme.spacing(2),
+  color: props.theme.colors.text.primary,
+}));
+
+const SelectedAccountSvg = styled.svg((props) => ({
+  width: 34,
+  height: 23,
+  marginRight: props.theme.spacing(2),
+}));
 
 export function renderSelectedAccount(accountId, accountsData) {
   const account = accountsData.find((account) => account.id === accountId);
   if (!account) return;
   return (
-    <div className="selected_account">
-      <svg
-        width="34"
-        height="23"
+    <SelectedAccount>
+      <SelectedAccountSvg
         viewBox="0 0 34 23"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -131,38 +187,33 @@ export function renderSelectedAccount(accountId, accountsData) {
             <stop offset="1" stopColor={account.color[1]} />
           </linearGradient>
         </defs>
-      </svg>
+      </SelectedAccountSvg>
       {account.description}
-    </div>
+    </SelectedAccount>
   );
 }
 
-export function renderAccounts(accounts, setAccount) {
+export function renderAccounts(accounts, setAccount, accountsRef, t) {
   return accounts.map((account) => {
     const balance = dinero(account.balance);
     return (
-      <div className="account_item" key={account.id}>
-        <div
-          className={`${account.description} card`}
+      <CardView key={account.id}>
+        <Card
           onClick={() => {
             setAccount(account.id);
-            document.querySelector('.accounts_list').classList.add('none');
+            accountsRef.current.classList.add('none');
           }}
-          style={{
-            background: `url(${cardBackground}) 0% 0% / cover no-repeat,
-                                    linear-gradient(90deg, ${account.color[0]} 0%, ${account.color[1]} 100%)`,
-            boxShadow: `0px 4px 10px #DCE2DF`,
-          }}
+          $from={account.color[0]}
+          $to={account.color[1]}
+          $cardBackground={cardBackground}
         >
-          <div className="card_name">{account.description}</div>
-          <div className="card_balance_info">
-            <div className="card_balance">
-              {formatDineroOutput(balance, 'USD')}
-            </div>
-            <div className="card_balance_title">Current balance</div>
-          </div>
-        </div>
-      </div>
+          <CardName>{account.description}</CardName>
+          <CardBalanceContainer>
+            <CardBalance>{formatDineroOutput(balance, 'USD')}</CardBalance>
+            <CurrentBalance>{t('CASH.CURRENT_BALANCE')}</CurrentBalance>
+          </CardBalanceContainer>
+        </Card>
+      </CardView>
     );
   });
 }

@@ -17,8 +17,13 @@ import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.s
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 import { ReactComponent as MobileFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
 
-import { Header, HeaderTitle } from './Transactions.styled.js';
-import { CommonFilter, Filter, FilterSvg } from '../../theme/global.js';
+import {
+  Header,
+  HeaderTitle,
+  CommonFilter,
+  Filter,
+  FilterSvg,
+} from '../../theme/global.js';
 
 export default function Transactions() {
   const transactions = useSelector((state) => state.transactions);
@@ -63,6 +68,23 @@ export default function Transactions() {
     <div>Loading</div>
   ) : (
     <>
+      <Grid item xs={12} sm={12} md={12} lg={12}>
+        <Header>
+          <HeaderTitle>{t('TRANSACTIONS.TRANSACTIONS_HEADER')}</HeaderTitle>
+          <Filter>
+            <FilterSvg as={FilterIcon} />
+            {t('TRANSACTIONS.FILTER_KEY')}
+          </Filter>
+          <Filter>
+            <FilterSvg as={CalendarIcon} />
+            {t('TRANSACTIONS.FILTER_DATE')}
+          </Filter>
+          <CommonFilter>
+            <FilterSvg as={CalendarIcon} />
+            <FilterSvg as={MobileFilterIcon} />
+          </CommonFilter>
+        </Header>
+      </Grid>
       <Grid item xs={12} sm={12} md={3} lg={3}>
         <AccountsSlider
           transactions={transactionsData}
@@ -71,20 +93,6 @@ export default function Transactions() {
       </Grid>
       <Grid item xs={12} sm={12} md={9} lg={9}>
         <div>
-          <Header>
-            <HeaderTitle>{t('TRANSACTIONS.TRANSACTIONS_HEADER')}</HeaderTitle>
-            <Filter>
-              <FilterSvg as={FilterIcon} />
-              {t('TRANSACTIONS.FILTER_KEY')}
-            </Filter>
-            <Filter>
-              <FilterSvg as={CalendarIcon} />
-              {t('TRANSACTIONS.FILTER_DATE')}
-            </Filter>
-            <CommonFilter>
-              <FilterSvg as={MobileFilterIcon} />
-            </CommonFilter>
-          </Header>
           <TransactionsList
             transactions={transactionsData}
             accounts={accountsData}

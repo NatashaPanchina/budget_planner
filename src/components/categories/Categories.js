@@ -8,27 +8,27 @@ import { createLocaleCategories } from './utils/index.js';
 import CategoriesBar from './barChart/CategoriesBar.js';
 import CategoriesList from './list/CategoriesList.js';
 
-import expenseIcon from '../../assets/icons/shared/expense.svg';
-import incomeIcon from '../../assets/icons/shared/income.svg';
+import { ReactComponent as ExpenseIcon } from '../../assets/icons/shared/expense.svg';
+import { ReactComponent as IncomeIcon } from '../../assets/icons/shared/income.svg';
 import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.svg';
 import { ReactComponent as TrashIcon } from '../../assets/icons/shared/trash.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
+import { ReactComponent as MobileFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
 
 import {
   MoreInformationContainer,
   BarChartInfo,
   TotalCategoriesCount,
   BarChartInfoItem,
-  Img,
-  ExpensesCategoriesCount,
-  IncomesCategoriesCount,
-  MainInformationContainer,
-  Header,
-  HeaderTitle,
+  Svg,
   CategoriesTitleContainer,
   CategoriesTitleLink,
+  CommonFilter,
+  FlexContainer,
 } from './Categories.styled.js';
 import {
+  Header,
+  HeaderTitle,
   ArchivedTrash,
   FilterSvg,
   Trash,
@@ -36,6 +36,8 @@ import {
   Filter,
 } from '../../theme/global.js';
 import { pages } from '../../utils/constants/pages.js';
+import { Grid } from '@mui/material';
+import { CountInfo } from '../transactions/Transactions.styled.js';
 
 function createBarData(keys, allCount, expenseCount, incomeCount) {
   if (!keys) return [];
@@ -79,47 +81,7 @@ export default function Categories() {
     <div>Loading</div>
   ) : (
     <>
-      <MoreInformationContainer>
-        <CategoriesBar
-          data={createBarData(
-            [
-              t('CATEGORIES.ALL'),
-              t('CATEGORIES.EXPENSES'),
-              t('CATEGORIES.INCOMES'),
-            ],
-            allCount,
-            expenseCount,
-            incomeCount,
-          )}
-        />
-        <BarChartInfo>
-          {t('CATEGORIES.TOTAL')}
-          <TotalCategoriesCount>
-            {allCount} {t(createLocaleCategories('CATEGORIES', allCount))}
-          </TotalCategoriesCount>
-          <BarChartInfoItem>
-            <Img src={expenseIcon} alt="expenses" />
-            <div>
-              {t('CATEGORIES.EXPENSES')}
-              <ExpensesCategoriesCount>
-                {expenseCount}{' '}
-                {t(createLocaleCategories('CATEGORIES', expenseCount))}
-              </ExpensesCategoriesCount>
-            </div>
-          </BarChartInfoItem>
-          <BarChartInfoItem>
-            <Img src={incomeIcon} alt="incomes" />
-            <div>
-              {t('CATEGORIES.INCOMES')}
-              <IncomesCategoriesCount>
-                {incomeCount}{' '}
-                {t(createLocaleCategories('CATEGORIES', incomeCount))}
-              </IncomesCategoriesCount>
-            </div>
-          </BarChartInfoItem>
-        </BarChartInfo>
-      </MoreInformationContainer>
-      <MainInformationContainer>
+      <Grid item xs={12} sm={12} md={12} lg={12}>
         <Header>
           <HeaderTitle>{t('CATEGORIES.CATEGORIES_TITLE')}</HeaderTitle>
           <Filter>
@@ -130,13 +92,67 @@ export default function Categories() {
             <FilterSvg as={CalendarIcon} />
             {t('CATEGORIES.FILTER_DATE')}
           </Filter>
-          <ArchivedTrash>
-            <NavLink to={pages.categories.trash.main}>
-              <Trash as={TrashIcon} />
-              <TrashCount>{archivedCategories.length}</TrashCount>
-            </NavLink>
-          </ArchivedTrash>
+          <FlexContainer>
+            <CommonFilter>
+              <FilterSvg as={CalendarIcon} />
+              <FilterSvg as={MobileFilterIcon} />
+            </CommonFilter>
+            <ArchivedTrash>
+              <NavLink to={pages.categories.trash.main}>
+                <Trash as={TrashIcon} />
+                <TrashCount>{archivedCategories.length}</TrashCount>
+              </NavLink>
+            </ArchivedTrash>
+          </FlexContainer>
         </Header>
+      </Grid>
+      <Grid item xs={12} sm={12} md={3} lg={3}>
+        <MoreInformationContainer>
+          <CategoriesBar
+            data={createBarData(
+              [
+                t('CATEGORIES.ALL'),
+                t('CATEGORIES.EXPENSES'),
+                t('CATEGORIES.INCOMES'),
+              ],
+              allCount,
+              expenseCount,
+              incomeCount,
+            )}
+          />
+          <BarChartInfo>
+            <TotalCategoriesCount>
+              <div>
+                {t('CATEGORIES.TOTAL')}
+                <CountInfo $countType="total">
+                  {allCount} {t(createLocaleCategories('CATEGORIES', allCount))}
+                </CountInfo>
+              </div>
+            </TotalCategoriesCount>
+            <BarChartInfoItem>
+              <Svg as={ExpenseIcon} />
+              <div>
+                {t('CATEGORIES.EXPENSES')}
+                <CountInfo $countType="expense">
+                  {expenseCount}{' '}
+                  {t(createLocaleCategories('CATEGORIES', expenseCount))}
+                </CountInfo>
+              </div>
+            </BarChartInfoItem>
+            <BarChartInfoItem>
+              <Svg as={IncomeIcon} />
+              <div>
+                {t('CATEGORIES.INCOMES')}
+                <CountInfo $countType="income">
+                  {incomeCount}{' '}
+                  {t(createLocaleCategories('CATEGORIES', incomeCount))}
+                </CountInfo>
+              </div>
+            </BarChartInfoItem>
+          </BarChartInfo>
+        </MoreInformationContainer>
+      </Grid>
+      <Grid item xs={12} sm={12} md={9} lg={9}>
         <CategoriesTitleContainer>
           <CategoriesTitleLink to={pages.categories.all}>
             {t('CATEGORIES.ALL')}
@@ -152,7 +168,7 @@ export default function Categories() {
           notArchivedCategories={notArchivedCategories}
           archiveCategory={archiveCategory}
         />
-      </MainInformationContainer>
+      </Grid>
     </>
   );
 }

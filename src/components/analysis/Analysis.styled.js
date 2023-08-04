@@ -1,13 +1,20 @@
 import { styled } from 'styled-components';
 
 export const ChartsInfoContainer = styled.div((props) => ({
-  height: 350,
   marginBottom: props.theme.spacing(7),
-  display: 'flex',
-  alignItems: 'center',
+  '@media (min-width: 768px)': {
+    display: 'flex',
+    alignItems: 'center',
+  },
 }));
 
 export const Chart = styled.div(() => ({
-  width: '70%',
-  height: '100%',
+  width: '100%',
+  height: 300,
+  '@media (min-width: 600px)': {
+    height: 400,
+  },
+  '@media (min-width: 768px)': {
+    width: '70%',
+  },
 }));

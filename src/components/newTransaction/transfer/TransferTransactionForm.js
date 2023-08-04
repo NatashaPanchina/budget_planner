@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { NumericFormat } from 'react-number-format';
 import { dinero, toDecimal } from 'dinero.js';
@@ -8,11 +7,33 @@ import { USD } from '@dinero.js/currencies';
 
 import { renderSelectedAccount } from '../../transactions/utils';
 
+import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
-import arrowIcon from '../../../assets/icons/shared/transferArrow.svg';
+import { ReactComponent as ArrowIcon } from '../../../assets/icons/shared/transferArrow.svg';
 import { ReactComponent as OriginAccIcon } from '../../../assets/icons/shared/originAccount.svg';
 import { ReactComponent as DestAccIcon } from '../../../assets/icons/shared/destAccount.svg';
 import { pages } from '../../../utils/constants/pages';
+import {
+  AddButton,
+  AddButtonSvg,
+  AddFormButtonsContainer,
+  ButtonSvg,
+  ButtonTitle,
+  CancelButton,
+  DoneButton,
+  FieldDescription,
+  FieldInput,
+  FormField,
+  FormFieldsContainer,
+} from '../../../theme/global';
+import {
+  NumericInput,
+  TransferArrow,
+  TransferCardSvg,
+  TransferCards,
+  TransferCardsTitle,
+} from '../NewTransaction.styled';
 
 function TransferTransactionForm({ accounts }) {
   const { t } = useTranslation();
@@ -38,132 +59,112 @@ function TransferTransactionForm({ accounts }) {
   }, [accounts]);
 
   return (
-    <>
-      <div className="title_cards">
+    <FormFieldsContainer>
+      <TransferCardsTitle>
         <span>{t('NEW_TRANSACTION.ORIGIN_CASH')}</span>
         <span>{t('NEW_TRANSACTION.DESTINATION_CASH')}</span>
-      </div>
-      <div className="transfer_cards">
-        <OriginAccIcon />
-        <div className="arrow_icon">
-          <img src={arrowIcon} height="25px" alt="transferArrow" />
-        </div>
-        <DestAccIcon />
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '1' ? `${transactionType}_active_item` : ''
-        }`}
+      </TransferCardsTitle>
+      <TransferCards>
+        <TransferCardSvg as={OriginAccIcon} />
+        <TransferArrow as={ArrowIcon} />
+        <TransferCardSvg as={DestAccIcon} />
+      </TransferCards>
+      <FormField
+        $isActive={activeItem === '1'}
+        $formType={transactionType}
         onClick={() => setActiveItem('1')}
       >
-        <div className="info_items">{t('NEW_TRANSACTION.FROM')}</div>
-        <div className="input_items">
-          {originAccount ? (
-            renderSelectedAccount(originAccount, filteredAccounts)
-          ) : (
-            <Link to={pages.cash.add.card}>
-              <PlusIcon />
-              {t('NEW_TRANSACTION.ADD_CASH')}
-            </Link>
-          )}
-        </div>
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '2' ? `${transactionType}_active_item` : ''
-        }`}
+        <FieldDescription>{t('NEW_TRANSACTION.FROM')}</FieldDescription>
+        {originAccount ? (
+          renderSelectedAccount(originAccount, filteredAccounts)
+        ) : (
+          <AddButton to={pages.cash.add.card}>
+            <AddButtonSvg as={PlusIcon} />
+            {t('NEW_TRANSACTION.ADD_CASH')}
+          </AddButton>
+        )}
+      </FormField>
+      <FormField
+        $isActive={activeItem === '2'}
+        $formType={transactionType}
         onClick={() => setActiveItem('2')}
       >
-        <div className="info_items">{t('NEW_TRANSACTION.TO')}</div>
-        <div className="input_items">
-          {destAccount ? (
-            renderSelectedAccount(destAccount, filteredAccounts)
-          ) : (
-            <Link to={pages.cash.add.card}>
-              <PlusIcon />
-              {t('NEW_TRANSACTION.ADD_CASH')}
-            </Link>
-          )}
-        </div>
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '3' ? `${transactionType}_active_item` : ''
-        }`}
+        <FieldDescription>{t('NEW_TRANSACTION.TO')}</FieldDescription>
+        {destAccount ? (
+          renderSelectedAccount(destAccount, filteredAccounts)
+        ) : (
+          <AddButton to={pages.cash.add.card}>
+            <AddButtonSvg as={PlusIcon} />
+            {t('NEW_TRANSACTION.ADD_CASH')}
+          </AddButton>
+        )}
+      </FormField>
+      <FormField
+        $isActive={activeItem === '3'}
+        $formType={transactionType}
         onClick={() => setActiveItem('3')}
       >
-        <div className="info_items">{t('NEW_TRANSACTION.AMOUNT')}</div>
-        <div className="input_items">
-          ${' '}
-          <NumericFormat
-            thousandSeparator=","
-            decimalSeparator="."
-            decimalScale={2}
-            allowNegative={false}
-            placeholder="0.00"
-            onValueChange={(values) => setAmount(values.floatValue)}
-            value={amount}
-          />
-        </div>
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '4' ? `${transactionType}_active_item` : ''
-        }`}
+        <FieldDescription>{t('NEW_TRANSACTION.AMOUNT')}</FieldDescription>
+        $
+        <NumericFormat
+          customInput={NumericInput}
+          thousandSeparator=","
+          decimalSeparator="."
+          decimalScale={2}
+          allowNegative={false}
+          placeholder="0.00"
+          onValueChange={(values) => setAmount(values.floatValue)}
+          value={amount}
+        />
+      </FormField>
+      <FormField
+        $isActive={activeItem === '4'}
+        $formType={transactionType}
         onClick={() => setActiveItem('4')}
       >
-        <div className="info_items">{t('NEW_TRANSACTION.DATE')}</div>
-        <div className="input_items">
-          <input
-            type="date"
-            value={date}
-            onChange={(event) => setDate(new Date(event.target.value))}
-          ></input>
-        </div>
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '5' ? `${transactionType}_active_item` : ''
-        }`}
+        <FieldDescription>{t('NEW_TRANSACTION.DATE')}</FieldDescription>
+        <FieldInput
+          type="date"
+          value={date}
+          onChange={(event) => setDate(new Date(event.target.value))}
+        ></FieldInput>
+      </FormField>
+      <FormField
+        $isActive={activeItem === '5'}
+        $formType={transactionType}
         onClick={() => setActiveItem('5')}
       >
-        <div className="info_items">{t('NEW_TRANSACTION.NOTES')}</div>
-        <input
+        <FieldDescription>{t('NEW_TRANSACTION.NOTES')}</FieldDescription>
+        <FieldInput
           type="text"
           onChange={(event) => setNotes(event.target.value)}
           defaultValue={notes}
-        ></input>
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '6' ? `${transactionType}_active_item` : ''
-        }`}
+        ></FieldInput>
+      </FormField>
+      <FormField
+        $isActive={activeItem === '6'}
+        $formType={transactionType}
         onClick={() => setActiveItem('6')}
       >
-        <div className="info_items">{t('NEW_TRANSACTION.TAGS')}</div>
-        <input type="text"></input>
-      </div>
-      <div className="transactions_button_block">
-        <div className="done_button_div">
-          <Link
-            to={`${pages.transactions[`${transactionType}s`]}/${destAccount}`}
-          >
-            <button className={`${transactionType}_button`}>
-              {t('NEW_TRANSACTION.DONE')}
-            </button>
-          </Link>
-        </div>
-        <div className="cancel_button_div">
-          <Link
-            to={`${pages.transactions[`${transactionType}s`]}/${destAccount}`}
-          >
-            <button className="account_cancel_button">
-              {t('NEW_TRANSACTION.CANCEL')}
-            </button>
-          </Link>
-        </div>
-      </div>
-    </>
+        <FieldDescription>{t('NEW_TRANSACTION.TAGS')}</FieldDescription>
+        <FieldInput type="text"></FieldInput>
+      </FormField>
+      <AddFormButtonsContainer>
+        <DoneButton
+          $buttonType={transactionType}
+          to={`${pages.transactions[`${transactionType}s`]}/${destAccount}`}
+        >
+          <ButtonSvg as={DoneIcon} />
+          <ButtonTitle>{t('NEW_TRANSACTION.DONE')}</ButtonTitle>
+        </DoneButton>
+        <CancelButton
+          to={`${pages.transactions[`${transactionType}s`]}/${destAccount}`}
+        >
+          <ButtonSvg as={CancelIcon} />
+          <ButtonTitle>{t('NEW_TRANSACTION.CANCEL')}</ButtonTitle>
+        </CancelButton>
+      </AddFormButtonsContainer>
+    </FormFieldsContainer>
   );
 }
 

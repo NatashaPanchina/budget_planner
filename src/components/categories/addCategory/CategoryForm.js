@@ -33,6 +33,8 @@ import {
   FormFieldsContainer,
   SelectButton,
   SelectedColor,
+  ButtonTitle,
+  ButtonSvg,
 } from '../../../theme/global.js';
 import {
   CategoryColorsContainer,
@@ -42,6 +44,8 @@ import {
   IconsButtonContainer,
 } from '../Categories.styled.js';
 import { pages } from '../../../utils/constants/pages.js';
+import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
 
 const doneEventHandler = (
   categoryType,
@@ -227,10 +231,12 @@ function CategoryForm({ addNewCategory }) {
             )
           }
         >
-          {t('ADD_CATEGORY.DONE')}
+          <ButtonSvg as={DoneIcon} />
+          <ButtonTitle>{t('ADD_CATEGORY.DONE')}</ButtonTitle>
         </DoneButton>
         <CancelButton to={pages.categories[`${categoryType}s`]}>
-          {t('ADD_CATEGORY.CANCEL')}
+          <ButtonSvg as={CancelIcon} />
+          <ButtonTitle>{t('ADD_CATEGORY.CANCEL')}</ButtonTitle>
         </CancelButton>
       </AddFormButtonsContainer>
     </FormFieldsContainer>

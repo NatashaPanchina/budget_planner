@@ -186,6 +186,7 @@
     "ADD_CATEGORY": "Add category"
   },
   "ADD_CATEGORY": {
+    "TITLE": "New Category",
     "EXPENSE": "Expense",
     "INCOME": "Income",
     "DESCRIPTION": "Description",

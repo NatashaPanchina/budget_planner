@@ -1,42 +1,129 @@
-import { NavLink } from 'react-router-dom';
-import { ColorsContainer } from '../../theme/global';
+import { Link, NavLink } from 'react-router-dom';
+import { BackLink, BackLinkSvg, ColorsContainer } from '../../theme/global';
 import { styled } from 'styled-components';
 
-export const MoreInformationContainer = styled.div((props) => ({
-  width: '20%',
-  minWidth: 200,
-  height: '80vh',
-  paddingTop: props.theme.spacing(2),
+export const FlexContainer = styled.div(() => ({
+  display: 'flex',
+  alignItems: 'center',
+}));
+
+export const MoreInformationContainer = styled(FlexContainer)((props) => ({
+  flexWrap: 'wrap',
+  maxHeight: 200,
   marginTop: props.theme.spacing(5),
-  marginRight: props.theme.spacing(5),
-  position: 'fixed',
-  zIndex: 10,
   border: `1px solid ${props.theme.colors.border.item}`,
   borderRadius: props.theme.borderRadius,
   textAlign: 'center',
   backgroundColor: props.theme.colors.background.primary,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
+  '@media (min-width: 600px)': {
+    height: 250,
+    maxHeight: 250,
+  },
+  '@media (min-width: 900px)': {
+    display: 'block',
+    minWidth: 200,
+    height: '85vh',
+    maxHeight: '85vh',
+    position: 'sticky',
+    top: 56,
+    zIndex: 9,
+  },
 }));
 
-export const MainInformationContainer = styled.div(() => ({
-  marginLeft: '32%',
-  width: '75%',
+export const Back = styled(BackLink)(() => ({
+  zIndex: 200,
+  position: 'fixed',
+  top: 0,
+  '@media (min-width: 600px)': {
+    display: 'none',
+  },
 }));
 
-export const Header = styled.div(() => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  position: 'relative',
-  height: 60,
+export const BackSvg = styled(BackLinkSvg)((props) => ({
+  '& path': {
+    fill: props.theme.colors.text.darker,
+  },
+  '@media (min-width: 600px)': {
+    display: 'none',
+  },
 }));
 
-export const HeaderTitle = styled.div(() => ({
-  marginRight: 'auto',
+export const TotalBalance = styled.div((props) => ({
+  display: 'none',
+  '@media (min-width: 900px)': {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: props.theme.spacing(3),
+    width: `calc(100% - ${props.theme.spacing(3) * 2}px)`,
+  },
 }));
 
-export const CashTitleContainer = styled.div((props) => ({
-  display: 'flex',
+export const PieChartContainer = styled.div((props) => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+    width: `calc(40% - ${props.theme.spacing(3) * 2}px)`,
+    height: `calc(100% - ${props.theme.spacing(3) * 2}px)`,
+    padding: props.theme.spacing(3),
+  },
+  '@media (min-width: 900px)': {
+    display: 'block',
+    width: `calc(100% - ${props.theme.spacing(5) * 2}px)`,
+    height: `calc(50% - ${props.theme.spacing(5) * 2}px)`,
+    padding: props.theme.spacing(5),
+  },
+}));
+
+export const CenterText = styled.text((props) => ({
+  fill: props.theme.colors.text.primary,
+}));
+
+export const Tooltip = styled(FlexContainer)((props) => ({
+  padding: props.theme.spacing(3),
+  zIndex: 10,
+  background: props.theme.colors.background.primary,
+  border: `1px solid ${props.theme.colors.border.item}`,
+  borderRadius: props.theme.borderRadius,
+  fontSize: '0.875rem',
+}));
+
+export const TooltipSvg = styled.svg((props) => ({
+  marginRight: props.theme.spacing(1),
+}));
+
+export const TooltipValue = styled.span((props) => ({
+  fontWeight: 700,
+  marginLeft: props.theme.spacing(1),
+}));
+
+export const LegendsContainer = styled(FlexContainer)((props) => ({
+  height: `calc(80% - ${props.theme.spacing(3) * 2}px)`,
+  width: `calc(100% - ${props.theme.spacing(3) * 2}px)`,
+  overflowY: 'auto',
+  fontSize: '0.875rem',
+  padding: props.theme.spacing(3),
+  '&::-webkit-scrollbar': {
+    width: 5,
+  },
+  '&::-webkit-scrollbar-thumb': {
+    background: 'rgba(196, 196, 196, 0.3)',
+    borderRadius: props.theme.borderRadius,
+  },
+  '@media (min-width: 600px)': {
+    height: `calc(80% - ${props.theme.spacing(3) * 2}px)`,
+    width: `calc(60% - ${props.theme.spacing(3) * 2}px)`,
+  },
+  '@media (min-width: 900px)': {
+    display: 'block',
+    padding: props.theme.spacing(5),
+    height: `calc(40% - ${props.theme.spacing(5) * 2}px)`,
+    width: `calc(100% - ${props.theme.spacing(5) * 2}px)`,
+  },
+}));
+
+export const CashTitleContainer = styled(FlexContainer)((props) => ({
   marginBottom: props.theme.spacing(4),
   borderBottom: `1px solid ${props.theme.colors.border.title}`,
   position: 'sticky',
@@ -47,7 +134,7 @@ export const CashTitleContainer = styled.div((props) => ({
 
 export const CashTitleLink = styled(NavLink)((props) => ({
   height: 50,
-  width: '25%',
+  width: '33.3%',
   fontSize: '0.9375rem',
   display: 'flex',
   justifyContent: 'center',
@@ -62,9 +149,33 @@ export const CashTitleLink = styled(NavLink)((props) => ({
   },
 }));
 
+export const CommonFilter = styled.span(() => ({
+  display: 'flex',
+  '@media only screen and (min-width: 600px)': {
+    display: 'none',
+  },
+}));
+
+export const CashListItem = styled(FlexContainer)((props) => ({
+  marginBottom: props.theme.spacing(10),
+}));
+
+export const CardButtonlink = styled(Link)((props) => ({
+  color: props.theme.colors.svg.pending,
+  display: 'flex',
+  alignItems: 'center',
+}));
+
+export const CardButtonTitle = styled.span(() => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'block',
+  },
+}));
+
 export const Card = styled.div((props) => ({
-  height: 173,
-  width: 272,
+  height: 197,
+  width: 310,
   borderRadius: props.theme.borderRadius,
   background: `url(${props.$cardBackground}) 0% 0% / cover no-repeat, linear-gradient(90deg, ${props.$from} 0%, ${props.$to} 100%)`,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
@@ -85,10 +196,8 @@ export const CardName = styled.div((props) => ({
   paddingLeft: props.theme.spacing(4),
 }));
 
-export const CardBalanceContainer = styled.div(() => ({
-  display: 'flex',
+export const CardBalanceContainer = styled(FlexContainer)(() => ({
   flexDirection: 'column',
-  alignItems: 'center',
   justifyContent: 'center',
   height: '74%',
 }));
@@ -106,11 +215,9 @@ export const CashColorsContainer = styled(ColorsContainer)(() => ({
   right: 0,
 }));
 
-export const CardButton = styled.div((props) => ({
-  display: 'flex',
-  alignItems: 'center',
-  marginTop: props.theme.spacing(6),
-  marginBottom: props.theme.spacing(6),
+export const CardButton = styled(FlexContainer)((props) => ({
+  marginTop: props.theme.spacing(7),
+  marginBottom: props.theme.spacing(7),
   color: props.theme.colors.svg.pending,
   fill: props.theme.colors.svg.pending,
   cursor: 'pointer',
@@ -121,6 +228,10 @@ export const CardButton = styled.div((props) => ({
   '&:hover a': {
     color: props.theme.colors.svg.hover,
     fill: props.theme.colors.svg.hover,
+  },
+  '@media (min-width: 600px)': {
+    marginTop: props.theme.spacing(6),
+    marginBottom: props.theme.spacing(6),
   },
 }));
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { NumericFormat } from 'react-number-format';
 
@@ -27,12 +27,42 @@ import {
   useOutsideClick,
 } from '../../../hooks/useOutsideClick.js';
 
+import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
 import searchIcon from '../../../assets/icons/shared/search.svg';
 
-import '../../newTransaction/NewTransaction.css';
 import { pages } from '../../../utils/constants/pages.js';
+import {
+  AddButton,
+  AddButtonSvg,
+  AddContainer,
+  AddFormButtonsContainer,
+  AddFormHeader,
+  BackLink,
+  BackLinkSvg,
+  ButtonSvg,
+  ButtonTitle,
+  CancelButton,
+  DoneButton,
+  FieldDescription,
+  FieldInput,
+  FormField,
+  FormFieldsContainer,
+  MobHeaderTitle,
+  Search,
+  SearchImg,
+  SearchInput,
+} from '../../../theme/global.js';
+import {
+  AccountsList,
+  Back,
+  BackSvg,
+  CategoriesList,
+  NumericInput,
+} from '../../newTransaction/NewTransaction.styled.js';
+import { Grid } from '@mui/material';
 
 function createNewBalance(prevTransaction, newTransaction, accounts) {
   const prevAccount = accounts.find(
@@ -246,151 +276,145 @@ export default function InfoTransaction() {
     transactions.status === 'loading' ? (
     <div>Loading</div>
   ) : (
-    <div className="main_content">
-      <div className="transaction_title_block">
-        <Link
-          className="transaction_back_nav"
-          to={`${pages.transactions[`${transactionType}s`]}/${account}`}
-        >
-          <BackIcon />
-        </Link>
-        <div className="info_transaction_title">
-          {t('INFO_TRANSACTION.TITLE')}
-        </div>
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '1' ? `${transactionType}_active_item` : ''
-        }`}
-        onClick={() => setActiveItem('1')}
-      >
-        <div className="info_items">{t('INFO_TRANSACTION.CATEGORY')}</div>
-        <div className="input_items">
-          <div
-            className="selected_category"
-            onClick={(event) => {
-              setActiveItem('1');
-              categoriesRef.current.classList.toggle('none');
-              accountsRef.current.classList.add('none');
-              event.stopPropagation();
-            }}
+    <Grid item xs={12}>
+      <AddContainer>
+        <AddFormHeader>
+          <BackLink
+            to={`${pages.transactions[`${transactionType}s`]}/${account}`}
           >
-            {renderSelectedCategory(category, categoriesData)}
-          </div>
-        </div>
-      </div>
-      <div ref={categoriesRef} className="categories_list none">
-        <div className="search">
-          <input
-            type="text"
-            placeholder={t('INFO_TRANSACTION.SEARCH_CATEGORY')}
-          ></input>
-          <img src={searchIcon} alt="search" />
-        </div>
-        <div className="add_category_btn">
-          <Link to={pages.categories.add[transactionType]}>
-            <PlusIcon />
-            {t('INFO_TRANSACTION.ADD_CATEGORY')}
-          </Link>
-        </div>
-        {renderCategories(filteredCategories, setCategory)}
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '2' ? `${transactionType}_active_item` : ''
-        }`}
-        onClick={() => setActiveItem('2')}
-      >
-        <div className="info_items">{t('INFO_TRANSACTION.CASH')}</div>
-        <div
-          className="input_items"
-          onClick={(event) => {
-            setActiveItem('2');
-            accountsRef.current.classList.toggle('none');
-            categoriesRef.current.classList.add('none');
-            event.stopPropagation();
-          }}
-        >
-          {renderSelectedAccount(account, accountsData)}
-        </div>
-      </div>
-      <div ref={accountsRef} className="accounts_list none">
-        <div className="search">
-          <input
-            type="text"
-            placeholder={t('INFO_TRANSACTION.SEARCH_CASH')}
-          ></input>
-          <img src={searchIcon} alt="search" />
-        </div>
-        <div className="add_category_btn">
-          <Link to={pages.cash.add.card}>
-            <PlusIcon />
-            {t('INFO_TRANSACTION.ADD_CASH')}
-          </Link>
-        </div>
-        {renderAccounts(notArchivedAccounts, setAccount)}
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '3' ? `${transactionType}_active_item` : ''
-        }`}
-        onClick={() => setActiveItem('3')}
-      >
-        <div className="info_items">{t('INFO_TRANSACTION.AMOUNT')}</div>
-        <div className="input_items">
-          ${' '}
-          <NumericFormat
-            thousandSeparator=","
-            decimalSeparator="."
-            decimalScale={2}
-            allowNegative={false}
-            placeholder="0.00"
-            onValueChange={(values) => setAmount(values.floatValue)}
-            value={amount}
-          />
-        </div>
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '4' ? `${transactionType}_active_item` : ''
-        }`}
-        onClick={() => setActiveItem('4')}
-      >
-        <div className="info_items">{t('INFO_TRANSACTION.DATE')}</div>
-        <div className="input_items">
-          <input
-            type="date"
-            onChange={(event) => setDate(new Date(event.target.value))}
-          ></input>
-        </div>
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '5' ? `${transactionType}_active_item` : ''
-        }`}
-        onClick={() => setActiveItem('5')}
-      >
-        <div className="info_items">{t('INFO_TRANSACTION.NOTES')}</div>
-        <input
-          type="text"
-          onChange={(event) => setNotes(event.target.value)}
-          defaultValue={notes}
-        ></input>
-      </div>
-      <div
-        className={`transaction_item ${
-          activeItem === '6' ? `${transactionType}_active_item` : ''
-        }`}
-        onClick={() => setActiveItem('6')}
-      >
-        <div className="info_items">{t('INFO_TRANSACTION.TAGS')}</div>
-        <input type="text"></input>
-      </div>
-      <div className="transactions_button_block">
-        <div className="done_button_div">
-          <Link to={`${pages.transactions[`${transactionType}s`]}/${account}`}>
-            <button
-              className={`${transactionType}_button`}
+            <BackLinkSvg as={BackIcon} />
+          </BackLink>
+          {t('INFO_TRANSACTION.TITLE')}
+        </AddFormHeader>
+        <Back to={`${pages.transactions[`${transactionType}s`]}/${account}`}>
+          <BackSvg as={BackIcon} />
+        </Back>
+        <MobHeaderTitle $titleType={transactionType}>
+          {t('INFO_TRANSACTION.TITLE')}
+        </MobHeaderTitle>
+        <FormFieldsContainer>
+          <FormField
+            $isActive={activeItem === '1'}
+            $formType={transactionType}
+            onClick={() => setActiveItem('1')}
+          >
+            <FieldDescription>
+              {t('INFO_TRANSACTION.CATEGORY')}
+            </FieldDescription>
+            <div
+              onClick={(event) => {
+                setActiveItem('1');
+                categoriesRef.current.classList.toggle('none');
+                accountsRef.current.classList.add('none');
+                event.stopPropagation();
+              }}
+            >
+              {renderSelectedCategory(category, categoriesData)}
+            </div>
+          </FormField>
+          <CategoriesList ref={categoriesRef} className="none">
+            <Search>
+              <SearchInput
+                type="text"
+                placeholder={t('INFO_TRANSACTION.SEARCH_CATEGORY')}
+              ></SearchInput>
+              <SearchImg src={searchIcon} alt="search" />
+            </Search>
+            <AddButton to={pages.categories.add[transactionType]}>
+              <AddButtonSvg as={PlusIcon} />
+              {t('INFO_TRANSACTION.ADD_CATEGORY')}
+            </AddButton>
+            {renderCategories(
+              filteredCategories,
+              category,
+              setCategory,
+              categoriesRef,
+            )}
+          </CategoriesList>
+          <FormField
+            $isActive={activeItem === '2'}
+            $formType={transactionType}
+            onClick={() => setActiveItem('2')}
+          >
+            <FieldDescription>{t('INFO_TRANSACTION.CASH')}</FieldDescription>
+            <div
+              onClick={(event) => {
+                setActiveItem('2');
+                accountsRef.current.classList.toggle('none');
+                categoriesRef.current.classList.add('none');
+                event.stopPropagation();
+              }}
+            >
+              {renderSelectedAccount(account, accountsData)}
+            </div>
+          </FormField>
+          <AccountsList ref={accountsRef} className="none">
+            <Search>
+              <SearchInput
+                type="text"
+                placeholder={t('INFO_TRANSACTION.SEARCH_CASH')}
+              ></SearchInput>
+              <SearchImg src={searchIcon} alt="search" />
+            </Search>
+            <AddButton to={pages.cash.add.card}>
+              <AddButtonSvg as={PlusIcon} />
+              {t('INFO_TRANSACTION.ADD_CASH')}
+            </AddButton>
+            {renderAccounts(notArchivedAccounts, setAccount, accountsRef, t)}
+          </AccountsList>
+          <FormField
+            $isActive={activeItem === '3'}
+            $formType={transactionType}
+            onClick={() => setActiveItem('3')}
+          >
+            <FieldDescription>{t('INFO_TRANSACTION.AMOUNT')}</FieldDescription>
+            $
+            <NumericFormat
+              customInput={NumericInput}
+              thousandSeparator=","
+              decimalSeparator="."
+              decimalScale={2}
+              allowNegative={false}
+              placeholder="0.00"
+              onValueChange={(values) => setAmount(values.floatValue)}
+              value={amount}
+            />
+          </FormField>
+          <FormField
+            $isActive={activeItem === '4'}
+            $formType={transactionType}
+            onClick={() => setActiveItem('4')}
+          >
+            <FieldDescription>{t('INFO_TRANSACTION.DATE')}</FieldDescription>
+            <FieldInput
+              type="date"
+              onChange={(event) => setDate(new Date(event.target.value))}
+            ></FieldInput>
+          </FormField>
+          <FormField
+            $isActive={activeItem === '5'}
+            $formType={transactionType}
+            onClick={() => setActiveItem('5')}
+          >
+            <FieldDescription>{t('INFO_TRANSACTION.NOTES')}</FieldDescription>
+            <FieldInput
+              type="text"
+              onChange={(event) => setNotes(event.target.value)}
+              defaultValue={notes}
+            ></FieldInput>
+          </FormField>
+          <FormField
+            $isActive={activeItem === '6'}
+            $formType={transactionType}
+            onClick={() => setActiveItem('6')}
+          >
+            <FieldDescription>{t('INFO_TRANSACTION.TAGS')}</FieldDescription>
+            <FieldInput type="text"></FieldInput>
+          </FormField>
+          <AddFormButtonsContainer>
+            <DoneButton
+              $buttonType={transactionType}
+              to={`${pages.transactions[`${transactionType}s`]}/${account}`}
               onClick={() =>
                 doneEventHandler(
                   clickedTransaction,
@@ -410,18 +434,18 @@ export default function InfoTransaction() {
                 )
               }
             >
-              {t('INFO_TRANSACTION.DONE')}
-            </button>
-          </Link>
-        </div>
-        <div className="cancel_button_div">
-          <Link to={`${pages.transactions[`${transactionType}s`]}/${account}`}>
-            <button className="account_cancel_button">
-              {t('INFO_TRANSACTION.CANCEL')}
-            </button>
-          </Link>
-        </div>
-      </div>
-    </div>
+              <ButtonSvg as={DoneIcon} />
+              <ButtonTitle>{t('NEW_TRANSACTION.DONE')}</ButtonTitle>
+            </DoneButton>
+            <CancelButton
+              to={`${pages.transactions[`${transactionType}s`]}/${account}`}
+            >
+              <ButtonSvg as={CancelIcon} />
+              <ButtonTitle>{t('NEW_TRANSACTION.CANCEL')}</ButtonTitle>
+            </CancelButton>
+          </AddFormButtonsContainer>
+        </FormFieldsContainer>
+      </AddContainer>
+    </Grid>
   );
 }

@@ -35,7 +35,7 @@ import {
   AccountsList,
   AnalysisHeader,
   ChartButton,
-  ChartButtonsContainer,
+  ChartHeader,
   ChartSvg,
   ChartsContainer,
   CommonCalcItem,
@@ -52,6 +52,7 @@ import {
   ToggleChartButton,
 } from './TransactionsAnalysis.styled.js';
 import { hideElement, useOutsideClick } from '../../../hooks/useOutsideClick';
+import { Grid } from '@mui/material';
 
 function TransactionsAnalysis({ transactions, categories, accounts }) {
   const { t } = useTranslation();
@@ -86,7 +87,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
   const accountsRef = useOutsideClick(hideElement);
 
   return (
-    <>
+    <Grid item xs={12} sm={12} md={12} lg={12}>
       <AnalysisHeader>
         <HeaderTitle>{t('ANALYSIS.TRANSACTIONS_ANALYSIS')}</HeaderTitle>
         <Filter
@@ -111,7 +112,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
         </Filter>
       </AnalysisHeader>
       <CommonInfoContainer>
-        <CommonInfoItem>
+        <CommonInfoItem $itemType="totalExpense">
           <CommonInfoSvg as={ExpenseIcon} />
           <div>
             <CommonInfoTitle>{t('ANALYSIS.TOTAL_EXPENSES')}:</CommonInfoTitle>
@@ -124,7 +125,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
             </CommonInfoCount>
           </div>
         </CommonInfoItem>
-        <CommonInfoItem>
+        <CommonInfoItem $itemType="totalIncome">
           <CommonInfoSvg as={IncomeIcon} />
           <div>
             <CommonInfoTitle>{t('ANALYSIS.TOTAL_INCOMES')}:</CommonInfoTitle>
@@ -137,7 +138,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
             </CommonInfoCount>
           </div>
         </CommonInfoItem>
-        <CommonInfoItem>
+        <CommonInfoItem $itemType="saldo">
           {lessThan(saldo, dinero({ amount: 0, currency: USD })) ? (
             <CommonInfoSvg as={NegativeBalanceIcon} />
           ) : (
@@ -150,13 +151,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
             </CommonInfoAmount>
           </div>
         </CommonInfoItem>
-        <CommonCalcItem>
-          <CommonInfoTitle>{t('ANALYSIS.TOTAL_TRANSACTIONS')}:</CommonInfoTitle>
-          <CommonInfoAmount $amountType="all">
-            {filteredTransactions.length}
-          </CommonInfoAmount>
-        </CommonCalcItem>
-        <CommonCalcItem>
+        <CommonCalcItem $itemType="averageExpense">
           <CommonInfoTitle>
             {t('ANALYSIS.AVERAGE_WEEKLY_EXPENSE')}:
           </CommonInfoTitle>
@@ -164,7 +159,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
             {averageExpense}
           </CommonInfoAmount>
         </CommonCalcItem>
-        <CommonCalcItem>
+        <CommonCalcItem $itemType="averageIncome">
           <CommonInfoTitle>
             {t('ANALYSIS.AVERAGE_WEEKLY_INCOME')}:
           </CommonInfoTitle>
@@ -172,10 +167,16 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
             {averageIncome}
           </CommonInfoAmount>
         </CommonCalcItem>
+        <CommonCalcItem $itemType="totalCount">
+          <CommonInfoTitle>{t('ANALYSIS.TOTAL_TRANSACTIONS')}:</CommonInfoTitle>
+          <CommonInfoAmount $amountType="all">
+            {filteredTransactions.length}
+          </CommonInfoAmount>
+        </CommonCalcItem>
       </CommonInfoContainer>
       <ChartsContainer>
         <ChartSvg as={LineChartIcon} />
-        <ChartButtonsContainer>
+        <ChartHeader>
           <ChartButton
             $isActive={lineChartFilter === 'expensesToIncomes'}
             onClick={() => setLineChartFilter('expensesToIncomes')}
@@ -200,7 +201,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           >
             {t('ANALYSIS.TRANSFERS')}
           </ChartButton>
-        </ChartButtonsContainer>
+        </ChartHeader>
         <ToggleButtonsContainer>
           <ToggleChartButton
             $isActive={!isLineChartDetailed}
@@ -225,7 +226,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
       </ChartsContainer>
       <ChartsContainer>
         <ChartSvg as={BarChartIcon} />
-        <ChartButtonsContainer>
+        <ChartHeader>
           <ChartButton
             $isActive={barChartFilter === 'expensesToIncomes'}
             onClick={() => setBarChartFilter('expensesToIncomes')}
@@ -250,7 +251,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           >
             {t('ANALYSIS.TRANSFERS')}
           </ChartButton>
-        </ChartButtonsContainer>
+        </ChartHeader>
         <ToggleButtonsContainer>
           <ToggleChartButton
             $isActive={!isBarChartDetailed}
@@ -275,7 +276,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
       </ChartsContainer>
       <ChartsContainer>
         <ChartSvg as={PieChartIcon} />
-        <ChartButtonsContainer>
+        <ChartHeader>
           <ChartButton
             $isActive={pieChartFilter === 'expenses'}
             onClick={() => setPieChartFilter('expenses')}
@@ -294,7 +295,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           >
             {t('ANALYSIS.TRANSFERS')}
           </ChartButton>
-        </ChartButtonsContainer>
+        </ChartHeader>
         <PieChart
           transactions={filteredTransactions}
           categories={categories}
@@ -304,7 +305,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
       </ChartsContainer>
       <ChartsContainer>
         <ChartSvg as={TableIcon} />
-        <ChartButtonsContainer>
+        <ChartHeader>
           <ChartButton
             $isActive={tableFilter === 'expenses'}
             onClick={() => setTableFilter('expenses')}
@@ -323,7 +324,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           >
             {t('ANALYSIS.TRANSFERS')}
           </ChartButton>
-        </ChartButtonsContainer>
+        </ChartHeader>
         <Table
           transactions={filteredTransactions}
           categories={categories}
@@ -331,7 +332,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           date={date}
         />
       </ChartsContainer>
-    </>
+    </Grid>
   );
 }
 

@@ -23,6 +23,8 @@ import { useOutsideClick, hideElement } from '../../../hooks/useOutsideClick';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
+import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
 
 import {
   CardBalance,
@@ -35,6 +37,8 @@ import {
 } from '../Cash.styled';
 import {
   AddFormButtonsContainer,
+  ButtonSvg,
+  ButtonTitle,
   CancelButton,
   ColorsPalette,
   ColorsPaletteButton,
@@ -229,10 +233,12 @@ function CashForm({ accountType, addNewAccount }) {
               )
             }
           >
-            {t('ADD_ACCOUNT.DONE')}
+            <ButtonSvg as={DoneIcon} />
+            <ButtonTitle>{t('ADD_ACCOUNT.DONE')}</ButtonTitle>
           </DoneButton>
           <CancelButton to={pages.cash[cashType]}>
-            {t('ADD_ACCOUNT.CANCEL')}
+            <ButtonSvg as={CancelIcon} />
+            <ButtonTitle>{t('ADD_ACCOUNT.CANCEL')}</ButtonTitle>
           </CancelButton>
         </AddFormButtonsContainer>
       </FormFieldsContainer>

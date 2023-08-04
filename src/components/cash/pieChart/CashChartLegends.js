@@ -1,18 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { styled } from 'styled-components';
+import { formatNumberOutput } from '../../../utils/format/cash';
 
 const LegendsContainer = styled.div((props) => ({
   display: 'grid',
   width: '100%',
   alignItems: 'center',
   justifyItems: 'start',
-  gridTemplateColumns: '30px 2fr 2fr',
+  gridTemplateColumns: '15px 2fr 2fr 2fr',
   gridRowGap: props.theme.spacing(3),
+  gridColumnGap: props.theme.spacing(1),
+  '@media (min-width: 900px)': {
+    gridTemplateColumns: '20px 2fr 2fr',
+  },
 }));
 
 const LegendsSvg = styled.svg(() => ({
   alignSelf: 'center',
+  minWidth: 14,
 }));
 
 const LegendsProcent = styled.span((props) => ({
@@ -21,11 +27,24 @@ const LegendsProcent = styled.span((props) => ({
   color: props.$textColor,
 }));
 
+const Balance = styled.span((props) => ({
+  alignSelf: 'center',
+  justifySelf: 'center',
+  color: props.$textColor,
+  '@media (min-width: 900px)': {
+    display: 'none',
+  },
+}));
+
 function CashChartLegends({ data, totalBalance }) {
   const sortedData = data.slice().sort((a, b) => b.balance - a.balance);
 
   return (
     <LegendsContainer>
+      <span></span>
+      <span>Total</span>
+      <Balance>{formatNumberOutput(totalBalance, 'USD')}</Balance>
+      <LegendsProcent>100.00%</LegendsProcent>
       {sortedData.map((value, index) => {
         return (
           <React.Fragment key={index}>
@@ -55,6 +74,7 @@ function CashChartLegends({ data, totalBalance }) {
               </defs>
             </LegendsSvg>
             <span>{value.description}</span>
+            <Balance>{formatNumberOutput(value.balance, 'USD')}</Balance>
             <LegendsProcent $textColor={value.color[1]}>
               {((value.balance * 100) / totalBalance).toFixed(2)} %
             </LegendsProcent>

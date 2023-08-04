@@ -15,7 +15,7 @@ export const NavigationContainer = styled(FlexContainer)((props) => ({
   position: 'fixed',
   bottom: 0,
   left: 0,
-  zIndex: 10,
+  zIndex: 50,
   backgroundColor: props.theme.colors.background.primary,
   borderTop: `1px solid ${props.theme.colors.border.ordinary}`,
   '@media (min-width: 600px)': {
@@ -70,6 +70,75 @@ export const CashLinkContainer = styled(LinkContainer)(() => ({
   '@media (min-width: 600px)': {
     display: 'flex',
   },
+}));
+
+export const NewTransactionLinkContainer = styled(LinkContainer)(() => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
+}));
+
+export const NewTransactionButton = styled(FlexContainer)(() => ({
+  justifyContent: 'center',
+  cursor: 'pointer',
+  width: '20%',
+  zIndex: 200,
+  '@media (min-width: 600px)': {
+    display: 'none',
+  },
+}));
+
+export const MobileNavigationContainer = styled.div(() => ({
+  width: '100%',
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  zIndex: 150,
+  height: '100vh',
+  '@media (min-width: 600px)': {
+    display: 'none',
+  },
+}));
+
+export const MobileNavigationBackground = styled(FlexContainer)((props) => ({
+  backgroundColor: props.theme.colors.black,
+  opacity: 0.7,
+  justifyContent: 'center',
+  width: '100%',
+  height: '100%',
+}));
+
+export const MobileNavigationLink = styled(NavLink)((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: 50,
+  width: 50,
+  borderRadius: '50%',
+  backgroundColor: props.theme.colors.background.primary,
+  opacity: 'initial',
+  position: 'absolute',
+}));
+
+export const MobileTransferLink = styled(MobileNavigationLink)(() => ({
+  left: 'calc(25% - 25px)',
+  bottom: 60,
+}));
+
+export const MobileExpenseLink = styled(MobileNavigationLink)(() => ({
+  left: 'calc(50% - 25px)',
+  bottom: 100,
+}));
+
+export const MobileIncomeLink = styled(MobileNavigationLink)(() => ({
+  right: 'calc(25% - 25px)',
+  bottom: 60,
+}));
+
+export const MobileLinkSvg = styled.svg(() => ({
+  width: 23,
+  height: 23,
 }));
 
 export const MoreContainer = styled(FlexContainer)((props) => ({

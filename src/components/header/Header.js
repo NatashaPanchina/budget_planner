@@ -86,7 +86,7 @@ const animatedMenu = (style, username, setToggleMenu) => {
         height: 'calc(100vh - 56px)',
         overflowY: 'auto',
         width: `100%`,
-        zIndex: 11,
+        zIndex: 200,
         ...style,
       }}
     >
@@ -220,7 +220,7 @@ export default function Header() {
                 }}
               >
                 <SvgMode
-                  as={headerMode === mode.light ? LightModeIcon : DarkModeIcon}
+                  as={headerMode === mode.light ? DarkModeIcon : LightModeIcon}
                 />
               </Container>
             </ThemeContainer>

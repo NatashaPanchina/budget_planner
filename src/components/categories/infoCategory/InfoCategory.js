@@ -19,10 +19,11 @@ import {
 } from '../../../hooks/useOutsideClick.js';
 
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
+import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
 
 import {
   AddFormButtonsContainer,
-  AddFormContainer,
   AddFormHeader,
   BackLink,
   BackLinkSvg,
@@ -37,6 +38,10 @@ import {
   FormFieldsContainer,
   SelectButton,
   SelectedColor,
+  AddContainer,
+  MobHeaderTitle,
+  ButtonSvg,
+  ButtonTitle,
 } from '../../../theme/global.js';
 import {
   CategoryColorsContainer,
@@ -46,6 +51,8 @@ import {
   IconsButtonContainer,
 } from '../Categories.styled.js';
 import { pages } from '../../../utils/constants/pages.js';
+import { Back, BackSvg } from '../AddCategory.styled.js';
+import { Grid } from '@mui/material';
 
 const doneEventHandler = (
   selectedCategory,
@@ -123,171 +130,181 @@ export default function InfoCategory() {
   }, [status, categories, clickedCategory]);
 
   return (
-    <AddFormContainer>
-      {status === 'loading' ? (
-        <div>Loading</div>
-      ) : (
-        <>
-          <AddFormHeader>
-            <BackLink to={pages.categories[`${categoryType}s`]}>
-              <BackLinkSvg as={BackIcon} />
-            </BackLink>
-            {t('INFO_CATEGORY.CATEGORY_INFORMATION')}
-          </AddFormHeader>
-          <FormFieldsContainer>
-            <FormField
-              $isActive={activeItem === '1'}
-              $formType={categoryType}
-              onClick={() => setActiveItem('1')}
-            >
-              <FieldDescription>
-                {t('ADD_CATEGORY.DESCRIPTION')}
-              </FieldDescription>
-              <FieldInput
-                type="text"
-                onChange={(event) => setDescription(event.target.value)}
-                defaultValue={description}
-                placeholder={t('ADD_CATEGORY.DESCRIPTION_PLACEHOLDER')}
-              ></FieldInput>
-            </FormField>
-            <FormField
-              $isActive={activeItem === '2'}
-              $formType={categoryType}
-              onClick={() => setActiveItem('2')}
-            >
-              <FieldDescription>{t('ADD_CATEGORY.COLOR')}</FieldDescription>
-              <SelectedColor
-                onClick={(event) => {
-                  setActiveItem('2');
-                  toggleElement(colorsRef);
-                  iconsRef.current.classList.add('none');
-                  event.stopPropagation();
-                }}
+    <Grid item xs={12}>
+      <AddContainer>
+        {status === 'loading' ? (
+          <div>Loading</div>
+        ) : (
+          <>
+            <Back to={pages.categories[`${categoryType}s`]}>
+              <BackSvg as={BackIcon} />
+            </Back>
+            <MobHeaderTitle $titleType={categoryType}>
+              {t('INFO_CATEGORY.CATEGORY_INFORMATION')}
+            </MobHeaderTitle>
+            <AddFormHeader>
+              <BackLink to={pages.categories[`${categoryType}s`]}>
+                <BackLinkSvg as={BackIcon} />
+              </BackLink>
+              {t('INFO_CATEGORY.CATEGORY_INFORMATION')}
+            </AddFormHeader>
+            <FormFieldsContainer>
+              <FormField
+                $isActive={activeItem === '1'}
+                $formType={categoryType}
+                onClick={() => setActiveItem('1')}
               >
-                {renderSelectedColor(selectedColor)}
-              </SelectedColor>
-              <SelectButton
-                onClick={(event) => {
-                  setActiveItem('2');
-                  toggleElement(colorsRef);
-                  iconsRef.current.classList.add('none');
-                  event.stopPropagation();
-                }}
+                <FieldDescription>
+                  {t('ADD_CATEGORY.DESCRIPTION')}
+                </FieldDescription>
+                <FieldInput
+                  type="text"
+                  onChange={(event) => setDescription(event.target.value)}
+                  defaultValue={description}
+                  placeholder={t('ADD_CATEGORY.DESCRIPTION_PLACEHOLDER')}
+                ></FieldInput>
+              </FormField>
+              <FormField
+                $isActive={activeItem === '2'}
+                $formType={categoryType}
+                onClick={() => setActiveItem('2')}
               >
-                {t('ADD_CATEGORY.SELECT')}
-              </SelectButton>
-            </FormField>
-            <CategoryColorsContainer ref={colorsRef} className="none">
-              <ColorsPalette>
-                {renderColors(colors, setSelectedColor, selectedColor)}
-              </ColorsPalette>
-              <ColorsPaletteButtonContainer>
-                <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
-                  {t('ADD_CATEGORY.OK')}
-                </ColorsPaletteButton>
-              </ColorsPaletteButtonContainer>
-            </CategoryColorsContainer>
-            <FormField
-              $isActive={activeItem === '3'}
-              $formType={categoryType}
-              onClick={() => setActiveItem('3')}
-            >
-              <FieldDescription>{t('ADD_CATEGORY.ICON')}</FieldDescription>
-              <SelectedColor
-                onClick={(event) => {
-                  setActiveItem('3');
-                  toggleElement(iconsRef);
-                  colorsRef.current.classList.add('none');
-                  event.stopPropagation();
-                }}
+                <FieldDescription>{t('ADD_CATEGORY.COLOR')}</FieldDescription>
+                <SelectedColor
+                  onClick={(event) => {
+                    setActiveItem('2');
+                    toggleElement(colorsRef);
+                    iconsRef.current.classList.add('none');
+                    event.stopPropagation();
+                  }}
+                >
+                  {renderSelectedColor(selectedColor)}
+                </SelectedColor>
+                <SelectButton
+                  onClick={(event) => {
+                    setActiveItem('2');
+                    toggleElement(colorsRef);
+                    iconsRef.current.classList.add('none');
+                    event.stopPropagation();
+                  }}
+                >
+                  {t('ADD_CATEGORY.SELECT')}
+                </SelectButton>
+              </FormField>
+              <CategoryColorsContainer ref={colorsRef} className="none">
+                <ColorsPalette>
+                  {renderColors(colors, setSelectedColor, selectedColor)}
+                </ColorsPalette>
+                <ColorsPaletteButtonContainer>
+                  <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
+                    {t('ADD_CATEGORY.OK')}
+                  </ColorsPaletteButton>
+                </ColorsPaletteButtonContainer>
+              </CategoryColorsContainer>
+              <FormField
+                $isActive={activeItem === '3'}
+                $formType={categoryType}
+                onClick={() => setActiveItem('3')}
               >
-                {renderSelectedColor(selectedColor, SelectedIcon)}
-              </SelectedColor>
-              <SelectButton
-                onClick={(event) => {
-                  setActiveItem('3');
-                  toggleElement(iconsRef);
-                  colorsRef.current.classList.add('none');
-                  event.stopPropagation();
-                }}
+                <FieldDescription>{t('ADD_CATEGORY.ICON')}</FieldDescription>
+                <SelectedColor
+                  onClick={(event) => {
+                    setActiveItem('3');
+                    toggleElement(iconsRef);
+                    colorsRef.current.classList.add('none');
+                    event.stopPropagation();
+                  }}
+                >
+                  {renderSelectedColor(selectedColor, SelectedIcon)}
+                </SelectedColor>
+                <SelectButton
+                  onClick={(event) => {
+                    setActiveItem('3');
+                    toggleElement(iconsRef);
+                    colorsRef.current.classList.add('none');
+                    event.stopPropagation();
+                  }}
+                >
+                  {t('ADD_CATEGORY.SELECT')}
+                </SelectButton>
+              </FormField>
+              <IconsContainer ref={iconsRef} className="none">
+                <CategoriesIcons>
+                  {renderIcons(categoryIcons, setIcon)}
+                </CategoriesIcons>
+                <IconsButtonContainer>
+                  <IconsButton onClick={() => toggleElement(iconsRef)}>
+                    {t('ADD_CATEGORY.OK')}
+                  </IconsButton>
+                </IconsButtonContainer>
+              </IconsContainer>
+              <FormField
+                $isActive={activeItem === '4'}
+                $formType={categoryType}
+                onClick={() => setActiveItem('4')}
               >
-                {t('ADD_CATEGORY.SELECT')}
-              </SelectButton>
-            </FormField>
-            <IconsContainer ref={iconsRef} className="none">
-              <CategoriesIcons>
-                {renderIcons(categoryIcons, setIcon)}
-              </CategoriesIcons>
-              <IconsButtonContainer>
-                <IconsButton onClick={() => toggleElement(iconsRef)}>
-                  {t('ADD_CATEGORY.OK')}
-                </IconsButton>
-              </IconsButtonContainer>
-            </IconsContainer>
-            <FormField
-              $isActive={activeItem === '4'}
-              $formType={categoryType}
-              onClick={() => setActiveItem('4')}
-            >
-              <FieldDescription>{t('ADD_CATEGORY.DATE')}</FieldDescription>
-              <FieldInput
-                type="date"
-                onChange={(event) => setDate(new Date(event.target.value))}
-              ></FieldInput>
-            </FormField>
-            <FormField
-              $isActive={activeItem === '5'}
-              $formType={categoryType}
-              onClick={() => setActiveItem('5')}
-            >
-              <FieldDescription>{t('ADD_CATEGORY.NOTES')}</FieldDescription>
-              <FieldInput
-                type="text"
-                onChange={(event) => setNotes(event.target.value)}
-                value={notes}
-                placeholder={t('ADD_CATEGORY.NOTES_PLACEHOLDER')}
-              ></FieldInput>
-            </FormField>
-            <FormField
-              $isActive={activeItem === '6'}
-              $formType={categoryType}
-              onClick={() => setActiveItem('6')}
-            >
-              <FieldDescription>{t('ADD_CATEGORY.TAGS')}</FieldDescription>
-              <FieldInput
-                type="text"
-                placeholder={t('ADD_CATEGORY.TAGS_PLACEHOLDER')}
-              ></FieldInput>
-            </FormField>
-            <AddFormButtonsContainer>
-              <DoneButton
-                to={pages.categories[`${categoryType}s`]}
-                $buttonType={categoryType}
-                onClick={() =>
-                  doneEventHandler(
-                    clickedCategory,
-                    id,
-                    categoryType,
-                    description,
-                    selectedColor,
-                    icon,
-                    date.toISOString(),
-                    notes,
-                    tags,
-                    editCategory,
-                    dispatch,
-                  )
-                }
+                <FieldDescription>{t('ADD_CATEGORY.DATE')}</FieldDescription>
+                <FieldInput
+                  type="date"
+                  onChange={(event) => setDate(new Date(event.target.value))}
+                ></FieldInput>
+              </FormField>
+              <FormField
+                $isActive={activeItem === '5'}
+                $formType={categoryType}
+                onClick={() => setActiveItem('5')}
               >
-                {t('ADD_CATEGORY.DONE')}
-              </DoneButton>
-              <CancelButton to={pages.categories[`${categoryType}s`]}>
-                {t('ADD_CATEGORY.CANCEL')}
-              </CancelButton>
-            </AddFormButtonsContainer>
-          </FormFieldsContainer>
-        </>
-      )}
-    </AddFormContainer>
+                <FieldDescription>{t('ADD_CATEGORY.NOTES')}</FieldDescription>
+                <FieldInput
+                  type="text"
+                  onChange={(event) => setNotes(event.target.value)}
+                  value={notes}
+                  placeholder={t('ADD_CATEGORY.NOTES_PLACEHOLDER')}
+                ></FieldInput>
+              </FormField>
+              <FormField
+                $isActive={activeItem === '6'}
+                $formType={categoryType}
+                onClick={() => setActiveItem('6')}
+              >
+                <FieldDescription>{t('ADD_CATEGORY.TAGS')}</FieldDescription>
+                <FieldInput
+                  type="text"
+                  placeholder={t('ADD_CATEGORY.TAGS_PLACEHOLDER')}
+                ></FieldInput>
+              </FormField>
+              <AddFormButtonsContainer>
+                <DoneButton
+                  to={pages.categories[`${categoryType}s`]}
+                  $buttonType={categoryType}
+                  onClick={() =>
+                    doneEventHandler(
+                      clickedCategory,
+                      id,
+                      categoryType,
+                      description,
+                      selectedColor,
+                      icon,
+                      date.toISOString(),
+                      notes,
+                      tags,
+                      editCategory,
+                      dispatch,
+                    )
+                  }
+                >
+                  <ButtonSvg as={DoneIcon} />
+                  <ButtonTitle>{t('ADD_CATEGORY.DONE')}</ButtonTitle>
+                </DoneButton>
+                <CancelButton to={pages.categories[`${categoryType}s`]}>
+                  <ButtonSvg as={CancelIcon} />
+                  <ButtonTitle>{t('ADD_CATEGORY.CANCEL')}</ButtonTitle>
+                </CancelButton>
+              </AddFormButtonsContainer>
+            </FormFieldsContainer>
+          </>
+        )}
+      </AddContainer>
+    </Grid>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { pages } from '../../../utils/constants/pages';
@@ -24,10 +24,15 @@ import {
   CashLinkContainer,
   SettingsLinkContainer,
   SettingsLink,
+  NewTransactionLinkContainer,
+  NewTransactionButton,
+  MobileNavigationContainer,
 } from './Navigation.styled';
+import MobNavigation from './MobNavigation';
 
 export default function Navigation() {
   const { t } = useTranslation();
+  const mobRef = useRef(null);
   return (
     <NavigationContainer>
       <Nav>
@@ -49,12 +54,24 @@ export default function Navigation() {
             <LinkTitle>{t('NAVIGATION.CASH')}</LinkTitle>
           </Link>
         </CashLinkContainer>
-        <LinkContainer>
+        <NewTransactionLinkContainer>
           <Link to={pages.newTransaction.main}>
             <NewTransactionSvg as={NewTransactionIcon} />
             <LinkTitle>{t('NAVIGATION.NEW_TRANSACTION')}</LinkTitle>
           </Link>
-        </LinkContainer>
+        </NewTransactionLinkContainer>
+        <NewTransactionButton
+          onClick={() => mobRef.current.classList.toggle('none')}
+        >
+          <NewTransactionSvg as={NewTransactionIcon} />
+        </NewTransactionButton>
+        <MobileNavigationContainer
+          ref={mobRef}
+          className="none"
+          onClick={() => mobRef.current.classList.toggle('none')}
+        >
+          <MobNavigation />
+        </MobileNavigationContainer>
         <LinkContainer>
           <Link to={pages.categories.main}>
             <Svg as={CategoriesIcon} />

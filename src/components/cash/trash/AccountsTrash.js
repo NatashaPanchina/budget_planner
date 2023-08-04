@@ -22,7 +22,6 @@ import {
 } from '../../../actions/Actions';
 
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
-import { ReactComponent as TrashIcon } from '../../../assets/icons/shared/trash.svg';
 import { ReactComponent as RestoreIcon } from '../../../assets/icons/shared/restore.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delete.svg';
 import searchIcon from '../../../assets/icons/shared/search.svg';
@@ -30,14 +29,13 @@ import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 
 import { styled } from 'styled-components';
 import {
-  ArchivedTrash,
-  TrashCount,
   BackLink,
   Search,
   SearchImg,
   SearchInput,
-  Trash,
   BackLinkSvg,
+  TrashHeader,
+  TrashContainer,
 } from '../../../theme/global';
 import {
   Card,
@@ -49,22 +47,10 @@ import {
   CashTitleLink,
   CardButton,
   CardButtonSvg,
+  CardButtonTitle,
 } from '../Cash.styled';
 import { pages } from '../../../utils/constants/pages';
-
-const CashContainer = styled.div((props) => ({
-  marginTop: props.theme.spacing(14),
-  marginLeft: '30%',
-  marginRight: '13%',
-}));
-
-const Header = styled.div(() => ({
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: 60,
-}));
+import { Grid } from '@mui/material';
 
 const CashListItem = styled.div((props) => ({
   display: 'flex',
@@ -75,7 +61,7 @@ const CashListItem = styled.div((props) => ({
 const ArchivedCount = styled.div((props) => ({
   fontSize: '0.875rem',
   color: props.theme.colors.main.violet,
-  height: 40,
+  height: 50,
   display: 'flex',
   alignItems: 'center',
 }));
@@ -125,7 +111,8 @@ function renderAccounts(
                   idbAddItem({ ...account, archived: false }, 'accounts');
                 }}
               >
-                <CardButtonSvg as={RestoreIcon} /> {t('ACCOUNTS_TRASH.RESTORE')}
+                <CardButtonSvg as={RestoreIcon} />
+                <CardButtonTitle>{t('ACCOUNTS_TRASH.RESTORE')}</CardButtonTitle>
               </CardButton>
               <CardButton
                 onClick={() => {
@@ -139,7 +126,8 @@ function renderAccounts(
                   idbDeleteItem(account.id, 'accounts');
                 }}
               >
-                <CardButtonSvg as={DeleteIcon} /> {t('ACCOUNTS_TRASH.DELETE')}
+                <CardButtonSvg as={DeleteIcon} />
+                <CardButtonTitle>{t('ACCOUNTS_TRASH.DELETE')}</CardButtonTitle>
               </CardButton>
             </div>
           </CashListItem>
@@ -168,45 +156,43 @@ export default function AccountsTrash() {
   return accounts.status === 'loading' || transactions.status === 'loading' ? (
     <div>Loading</div>
   ) : (
-    <CashContainer>
-      <Header>
-        <BackLink to={pages.cash.all}>
-          <BackLinkSvg as={BackIcon} />
-        </BackLink>
-        {t('ACCOUNTS_TRASH.ARCHIVED_CASH')}
-        <ArchivedTrash>
-          <Trash as={TrashIcon} />
-          <TrashCount>{archivedAccounts.length}</TrashCount>
-        </ArchivedTrash>
-      </Header>
-      <CashTitleContainer>
-        <CashTitleLink to={pages.cash.trash.all}>
-          {t('ACCOUNTS_TRASH.ALL')}
-        </CashTitleLink>
-        <CashTitleLink to={pages.cash.trash.cards}>
-          {t('ACCOUNTS_TRASH.CARDS')}
-        </CashTitleLink>
-        <CashTitleLink to={pages.cash.trash.cash}>
-          {t('ACCOUNTS_TRASH.CASH')}
-        </CashTitleLink>
-      </CashTitleContainer>
-      <Search>
-        <SearchInput
-          type="text"
-          placeholder={t('ACCOUNTS_TRASH.SEARCH')}
-        ></SearchInput>
-        <SearchImg src={searchIcon} alt="search" />
-      </Search>
-      {renderAccounts(
-        filterAccounts(filterType, archivedAccounts),
-        transactions.transactions,
-        filterType,
-        restoreAccount,
-        deleteAccount,
-        deleteTransaction,
-        dispatch,
-        t,
-      )}
-    </CashContainer>
+    <Grid item xs={12}>
+      <TrashContainer>
+        <TrashHeader>
+          <BackLink to={pages.cash.all}>
+            <BackLinkSvg as={BackIcon} />
+          </BackLink>
+          {t('ACCOUNTS_TRASH.ARCHIVED_CASH')}
+        </TrashHeader>
+        <CashTitleContainer>
+          <CashTitleLink to={pages.cash.trash.all}>
+            {t('ACCOUNTS_TRASH.ALL')}
+          </CashTitleLink>
+          <CashTitleLink to={pages.cash.trash.cards}>
+            {t('ACCOUNTS_TRASH.CARDS')}
+          </CashTitleLink>
+          <CashTitleLink to={pages.cash.trash.cash}>
+            {t('ACCOUNTS_TRASH.CASH')}
+          </CashTitleLink>
+        </CashTitleContainer>
+        <Search>
+          <SearchInput
+            type="text"
+            placeholder={t('ACCOUNTS_TRASH.SEARCH')}
+          ></SearchInput>
+          <SearchImg src={searchIcon} alt="search" />
+        </Search>
+        {renderAccounts(
+          filterAccounts(filterType, archivedAccounts),
+          transactions.transactions,
+          filterType,
+          restoreAccount,
+          deleteAccount,
+          deleteTransaction,
+          dispatch,
+          t,
+        )}
+      </TrashContainer>
+    </Grid>
   );
 }

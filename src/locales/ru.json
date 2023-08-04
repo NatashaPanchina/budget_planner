@@ -186,6 +186,7 @@
     "ADD_CATEGORY": "Новая категория"
   },
   "ADD_CATEGORY": {
+    "TITLE": "Новая категория",
     "EXPENSE": "Расход",
     "INCOME": "Доход",
     "DESCRIPTION": "Описание",

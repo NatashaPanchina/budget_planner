@@ -48,9 +48,14 @@ export const GlobalStyles = createGlobalStyle((props) => ({
   },
 }));
 
-export const ArchivedTrash = styled.div(() => ({
-  position: 'absolute',
-  right: 0,
+export const ArchivedTrash = styled.div((props) => ({
+  position: 'relative',
+  marginLeft: props.theme.spacing(5),
+  '@media (min-width: 600px)': {
+    display: 'flex',
+    position: 'absolute',
+    right: 0,
+  },
 }));
 
 export const Trash = styled.svg((props) => ({
@@ -121,25 +126,109 @@ export const AddButtonSvg = styled.svg((props) => ({
   },
 }));
 
-export const AddFormContainer = styled.div((props) => ({
-  width: '50%',
-  minWidth: 460,
-  marginTop: props.theme.spacing(14),
-  marginLeft: '33.5%',
-  marginRight: '16.5%',
+export const Header = styled.div((props) => ({
+  display: 'flex',
+  position: 'relative',
+  alignItems: 'center',
+  height: 60,
+  justifyContent: 'space-between',
+  backgroundColor: props.theme.colors.background.body,
+  '@media (min-width: 600px)': {
+    justifyContent: 'center',
+    height: 70,
+  },
+}));
+
+export const TrashHeader = styled(Header)(() => ({
+  justifyContent: 'center',
+}));
+
+export const HeaderTitle = styled.div((props) => ({
+  fontSize: '1.3rem',
+  '@media (min-width: 600px)': {
+    marginRight: props.theme.spacing(14),
+  },
+}));
+
+export const MobHeaderTitle = styled.div((props) => ({
+  height: 60,
+  width: '100vw',
+  color: props.theme.colors.white,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  zIndex: 150,
+  backgroundColor:
+    props.theme.colors[props.$titleType ? props.$titleType : 'expense'],
+  '@media (min-width: 600px)': {
+    display: 'none',
+  },
+}));
+
+export const MobInfoHeaderTitle = styled(MobHeaderTitle)((props) => ({
+  color: props.theme.colors.text.primary,
+}));
+
+export const TrashContainer = styled.div((props) => ({
+  '@media (min-width: 600px)': {
+    paddingLeft: props.theme.spacing(8),
+    paddingRight: props.theme.spacing(8),
+  },
+  '@media (min-width: 768px)': {
+    paddingLeft: props.theme.spacing(15),
+    paddingRight: props.theme.spacing(15),
+  },
+  '@media (min-width: 900px)': {
+    paddingLeft: props.theme.spacing(30),
+    paddingRight: props.theme.spacing(30),
+  },
+}));
+
+export const AddContainer = styled.div((props) => ({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  zIndex: 100,
+  backgroundColor: props.theme.colors.background.body,
+  height: `calc(100vh - ${props.theme.spacing(18) * 2}px)`,
+  overflow: 'scroll',
+  width: `calc(100% - ${props.theme.spacing(2) * 2}px)`,
+  padding: `${props.theme.spacing(18)}px ${props.theme.spacing(2)}px`,
+  '@media (min-width: 600px)': {
+    position: 'static',
+    overflow: 'visible',
+    height: 'initial',
+    width: 'initial',
+    padding: `0px ${props.theme.spacing(8)}px`,
+  },
+  '@media (min-width: 768px)': {
+    paddingLeft: props.theme.spacing(15),
+    paddingRight: props.theme.spacing(15),
+  },
+  '@media (min-width: 900px)': {
+    paddingLeft: props.theme.spacing(30),
+    paddingRight: props.theme.spacing(30),
+  },
 }));
 
 export const AddFormHeader = styled.div((props) => ({
-  display: 'flex',
-  height: 60,
-  marginBottom: props.theme.spacing(8),
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderBottom: `1px solid ${props.theme.colors.border.title}`,
-  position: 'sticky',
-  top: props.theme.spacing(14),
-  backgroundColor: props.theme.colors.background.body,
-  zIndex: 9,
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+    top: 56,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: props.theme.spacing(8),
+    borderBottom: `1px solid ${props.theme.colors.border.title}`,
+    position: 'sticky',
+    zIndex: 9,
+    backgroundColor: props.theme.colors.background.body,
+    boxSizing: 'border-box',
+  },
 }));
 
 export const AddFormHeaderTitles = styled.div((props) => ({
@@ -175,13 +264,20 @@ export const FormFieldDiv = styled.div((props) => ({
   display: 'flex',
   alignItems: 'center',
   height: 60,
-  marginBottom: props.theme.spacing(3),
+  marginTop: props.theme.spacing(5),
+  marginBottom: props.theme.spacing(5),
   border: `1px solid ${props.theme.colors.border.item}`,
   backgroundColor: props.theme.colors.background.primary,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   borderRadius: props.theme.borderRadius,
   fontSize: '0.875rem',
   color: props.theme.colors.text.darker,
+  '@media only screen and (min-width: 600px)': {
+    height: 60,
+    marginTop: 0,
+    marginBottom: props.theme.spacing(3),
+    fontSize: '0.875rem',
+  },
 }));
 
 export const FormField = styled(FormFieldDiv)((props) => {
@@ -250,14 +346,17 @@ export const SelectedColor = styled.div(() => ({
 }));
 
 export const ColorsContainer = styled.div((props) => ({
-  width: '70%',
-  minWidth: 365,
+  width: `calc(100% - ${props.theme.spacing(2) * 2}px)`,
   position: 'absolute',
   zIndex: 5,
   padding: props.theme.spacing(2),
   border: `1px solid ${props.theme.colors.border.item}`,
   borderRadius: props.theme.borderRadius,
   backgroundColor: props.theme.colors.background.primary,
+  '@media (min-width: 600px)': {
+    width: '70%',
+    minWidth: 365,
+  },
 }));
 
 export const ColorsPalette = styled.div((props) => ({
@@ -289,24 +388,35 @@ export const ColorsPaletteButton = styled.button((props) => ({
 }));
 
 export const AddFormButtonsContainer = styled.div((props) => ({
+  position: 'fixed',
+  bottom: 20,
+  width: '100%',
   marginTop: props.theme.spacing(7),
   display: 'flex',
   marginLeft: 'auto',
   marginRight: 'auto',
   borderRadius: props.theme.borderRadius,
+  '@media only screen and (min-width: 600px)': {
+    position: 'static',
+  },
 }));
 
 export const AddFormButton = styled(Link)((props) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: 200,
-  height: 40,
-  marginBottom: props.theme.spacing(7),
+  width: 50,
+  height: 50,
+  borderRadius: '50%',
+  fontSize: '0.875rem',
   marginLeft: 'auto',
   marginRight: 'auto',
-  borderRadius: props.theme.borderRadius,
-  fontSize: '0.875rem',
+  '@media only screen and (min-width: 600px)': {
+    width: 200,
+    height: 40,
+    borderRadius: props.theme.borderRadius,
+    marginBottom: props.theme.spacing(7),
+  },
 }));
 
 export const DoneButton = styled(AddFormButton)((props) => {
@@ -361,12 +471,33 @@ export const DoneButton = styled(AddFormButton)((props) => {
 });
 
 export const CancelButton = styled(AddFormButton)((props) => ({
-  color: props.theme.colors.text.primary,
   border: `1px solid ${props.theme.colors.border.item}`,
-  backgroundColor: props.theme.colors.button.pending,
+  backgroundColor: props.theme.colors.grey[800],
   filter: `drop-shadow(0px 2px 5px ${props.theme.colors.boxShadow})`,
   '&:hover': {
-    background: props.theme.colors.button.hover,
+    backgroundColor: props.theme.colors.button.hover,
+  },
+  '@media only screen and (min-width: 600px)': {
+    color: props.theme.colors.text.primary,
+    backgroundColor: props.theme.colors.button.pending,
+  },
+}));
+
+export const ButtonTitle = styled.span(() => ({
+  display: 'none',
+  '@media only screen and (min-width: 600px)': {
+    display: 'flex',
+  },
+}));
+
+export const ButtonSvg = styled.svg((props) => ({
+  height: 25,
+  width: 25,
+  '& path': {
+    fill: props.theme.colors.white,
+  },
+  '@media only screen and (min-width: 600px)': {
+    display: 'none',
   },
 }));
 
@@ -389,6 +520,7 @@ export const Filter = styled.div((props) => ({
 export const FilterSvg = styled.svg((props) => ({
   height: 22,
   width: 22,
+  marginLeft: props.theme.spacing(5),
   '@media only screen and (min-width: 600px)': {
     height: 18,
     width: 18,

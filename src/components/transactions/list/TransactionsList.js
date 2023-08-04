@@ -44,6 +44,7 @@ import {
   MobItemButtonSvg,
   MobItemButtonsContainer,
   MobTransactionDate,
+  ListItemContainer,
 } from '../Transactions.styled';
 import {
   AddButton,
@@ -138,125 +139,132 @@ function TransactionsList({
               <MobTransactionDate>
                 {dateFormatter.format(new Date(transaction.date))}
               </MobTransactionDate>
-              <TransactionItem>
-                <Category>
-                  <CategorySvg
-                    width="38"
-                    height="38"
-                    viewBox="0 0 38 38"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="19"
-                      cy="19"
-                      r="19"
-                      fill={`url(#${index})`}
-                    ></circle>
-                    <Icon height="24" width="24" x="7" y="7" />
-                    <defs>
-                      <linearGradient
-                        id={index}
-                        x1="0"
-                        y1="0"
-                        x2="38"
-                        y2="38"
-                        gradientUnits="userSpaceOnUse"
+              <ListItemContainer>
+                <Link to={`${pages.transactions.info.main}/${transaction.id}`}>
+                  <TransactionItem>
+                    <Category>
+                      <CategorySvg
+                        width="38"
+                        height="38"
+                        viewBox="0 0 38 38"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <stop stopColor={transactionCategory.color[0]} />
-                        <stop
-                          offset="1"
-                          stopColor={transactionCategory.color[1]}
-                        />
-                      </linearGradient>
-                    </defs>
-                  </CategorySvg>
-                  {transactionCategory.description}
-                </Category>
-                <Account>
-                  <AccountSvg
-                    width="34"
-                    height="23"
-                    viewBox="0 0 34 23"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      x="0"
-                      y="0"
-                      width="34"
-                      height="23"
-                      rx="5"
-                      fill={`url(#${transactionAccount.description.replaceAll(
-                        ' ',
-                        '_',
-                      )})`}
-                    ></rect>
-                    <defs>
-                      <linearGradient
-                        id={transactionAccount.description.replaceAll(' ', '_')}
-                        x1="0"
-                        y1="0"
-                        x2="34"
-                        y2="11.5"
-                        gradientUnits="userSpaceOnUse"
+                        <circle
+                          cx="19"
+                          cy="19"
+                          r="19"
+                          fill={`url(#${index})`}
+                        ></circle>
+                        <Icon height="24" width="24" x="7" y="7" />
+                        <defs>
+                          <linearGradient
+                            id={index}
+                            x1="0"
+                            y1="0"
+                            x2="38"
+                            y2="38"
+                            gradientUnits="userSpaceOnUse"
+                          >
+                            <stop stopColor={transactionCategory.color[0]} />
+                            <stop
+                              offset="1"
+                              stopColor={transactionCategory.color[1]}
+                            />
+                          </linearGradient>
+                        </defs>
+                      </CategorySvg>
+                      {transactionCategory.description}
+                    </Category>
+                    <Account>
+                      <AccountSvg
+                        width="34"
+                        height="23"
+                        viewBox="0 0 34 23"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <stop stopColor={transactionAccount.color[0]} />
-                        <stop
-                          offset="1"
-                          stopColor={transactionAccount.color[1]}
-                        />
-                      </linearGradient>
-                    </defs>
-                  </AccountSvg>
-                  {transactionAccount.description}
-                </Account>
-                <TransactionInfo>
-                  <CategorySvg
-                    width="38"
-                    height="38"
-                    viewBox="0 0 38 38"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="19"
-                      cy="19"
-                      r="19"
-                      fill={`url(#mob${index})`}
-                    ></circle>
-                    <Icon height="24" width="24" x="7" y="7" />
-                    <defs>
-                      <linearGradient
-                        id={`mob${index}`}
-                        x1="0"
-                        y1="0"
-                        x2="38"
-                        y2="38"
-                        gradientUnits="userSpaceOnUse"
-                      >
-                        <stop stopColor={transactionCategory.color[0]} />
-                        <stop
-                          offset="1"
-                          stopColor={transactionCategory.color[1]}
-                        />
-                      </linearGradient>
-                    </defs>
-                  </CategorySvg>
-                  <div>
-                    <div>{transactionCategory.description}</div>
-                    <TransactionInfoAccount>
+                        <rect
+                          x="0"
+                          y="0"
+                          width="34"
+                          height="23"
+                          rx="5"
+                          fill={`url(#${transactionAccount.description.replaceAll(
+                            ' ',
+                            '_',
+                          )})`}
+                        ></rect>
+                        <defs>
+                          <linearGradient
+                            id={transactionAccount.description.replaceAll(
+                              ' ',
+                              '_',
+                            )}
+                            x1="0"
+                            y1="0"
+                            x2="34"
+                            y2="11.5"
+                            gradientUnits="userSpaceOnUse"
+                          >
+                            <stop stopColor={transactionAccount.color[0]} />
+                            <stop
+                              offset="1"
+                              stopColor={transactionAccount.color[1]}
+                            />
+                          </linearGradient>
+                        </defs>
+                      </AccountSvg>
                       {transactionAccount.description}
-                    </TransactionInfoAccount>
-                  </div>
-                </TransactionInfo>
-                <Amount $amountType={transaction.transactionType}>
-                  {formatDineroOutput(dinero(transaction.amount), 'USD')}
-                </Amount>
-                <TransactionDate>
-                  {dateFormatter.format(new Date(transaction.date))}
-                </TransactionDate>
-                {renderNotes(transaction.notes)}
+                    </Account>
+                    <TransactionInfo>
+                      <CategorySvg
+                        width="38"
+                        height="38"
+                        viewBox="0 0 38 38"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="19"
+                          cy="19"
+                          r="19"
+                          fill={`url(#mob${index})`}
+                        ></circle>
+                        <Icon height="24" width="24" x="7" y="7" />
+                        <defs>
+                          <linearGradient
+                            id={`mob${index}`}
+                            x1="0"
+                            y1="0"
+                            x2="38"
+                            y2="38"
+                            gradientUnits="userSpaceOnUse"
+                          >
+                            <stop stopColor={transactionCategory.color[0]} />
+                            <stop
+                              offset="1"
+                              stopColor={transactionCategory.color[1]}
+                            />
+                          </linearGradient>
+                        </defs>
+                      </CategorySvg>
+                      <div>
+                        <div>{transactionCategory.description}</div>
+                        <TransactionInfoAccount>
+                          {transactionAccount.description}
+                        </TransactionInfoAccount>
+                      </div>
+                    </TransactionInfo>
+                    <Amount $amountType={transaction.transactionType}>
+                      {formatDineroOutput(dinero(transaction.amount), 'USD')}
+                    </Amount>
+                    <TransactionDate>
+                      {dateFormatter.format(new Date(transaction.date))}
+                    </TransactionDate>
+                    {renderNotes(transaction.notes)}
+                  </TransactionItem>
+                </Link>
                 <ItemButtonsContainer>
                   <Link
                     to={`${pages.transactions.info.main}/${transaction.id}`}
@@ -292,7 +300,7 @@ function TransactionsList({
                     }}
                   />
                 </ItemButtonsContainer>
-              </TransactionItem>
+              </ListItemContainer>
             </div>
           );
         })

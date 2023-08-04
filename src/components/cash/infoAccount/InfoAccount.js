@@ -25,13 +25,17 @@ import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
+import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
 
 import {
+  AddContainer,
   AddFormButtonsContainer,
-  AddFormContainer,
   AddFormHeader,
   BackLink,
   BackLinkSvg,
+  ButtonSvg,
+  ButtonTitle,
   CancelButton,
   ColorsPalette,
   ColorsPaletteButton,
@@ -41,6 +45,7 @@ import {
   FieldInput,
   FormField,
   FormFieldsContainer,
+  MobInfoHeaderTitle,
   SelectButton,
   SelectedColor,
 } from '../../../theme/global.js';
@@ -52,8 +57,11 @@ import {
   CurrentBalance,
   CashColorsContainer,
   NumericInput,
+  Back,
+  BackSvg,
 } from '../Cash.styled.js';
 import { pages } from '../../../utils/constants/pages.js';
+import { Grid } from '@mui/material';
 
 const doneEventHandler = (
   clickedAccount,
@@ -143,161 +151,171 @@ export default function InfoAccount() {
   }, [status, accounts, clickedAccount]);
 
   return (
-    <AddFormContainer>
-      <AddFormHeader>
-        <BackLink to={pages.cash[cashType]}>
-          <BackLinkSvg as={BackIcon} />
-        </BackLink>
-        {t(`INFO_ACCOUNT.${cashLocalType}_INFORMATION`)}
-      </AddFormHeader>
-      {status === 'loading' ? (
-        <div>Loading</div>
-      ) : (
-        <>
-          <CardView
-            $cardBackground={cardBackground}
-            $from={selectedColor[0]}
-            $to={selectedColor[1]}
-          >
-            <CardName>{description}</CardName>
-            <CardBalanceContainer>
-              <CardBalance>{formatNumberOutput(balance, 'USD')}</CardBalance>
-              <CurrentBalance>
-                {t('INFO_ACCOUNT.CURRENT_BALANCE')}
-              </CurrentBalance>
-            </CardBalanceContainer>
-          </CardView>
-          <FormFieldsContainer>
-            <FormField
-              $isActive={activeItem === '1'}
-              $formType="cash"
-              onClick={() => setActiveItem('1')}
+    <Grid item xs={12}>
+      <AddContainer>
+        <Back to={pages.cash[cashType]}>
+          <BackSvg as={BackIcon} />
+        </Back>
+        <MobInfoHeaderTitle $titleType={accountType}>
+          {t(`INFO_ACCOUNT.${cashLocalType}_INFORMATION`)}
+        </MobInfoHeaderTitle>
+        <AddFormHeader>
+          <BackLink to={pages.cash[cashType]}>
+            <BackLinkSvg as={BackIcon} />
+          </BackLink>
+          {t(`INFO_ACCOUNT.${cashLocalType}_INFORMATION`)}
+        </AddFormHeader>
+        {status === 'loading' ? (
+          <div>Loading</div>
+        ) : (
+          <>
+            <CardView
+              $cardBackground={cardBackground}
+              $from={selectedColor[0]}
+              $to={selectedColor[1]}
             >
-              <FieldDescription>
-                {t('INFO_ACCOUNT.DESCRIPTION')}
-              </FieldDescription>
-              <FieldInput
-                type="text"
-                onChange={(event) => setDescription(event.target.value)}
-                defaultValue={description}
-                placeholder={t('ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
-              ></FieldInput>
-            </FormField>
-            <FormField
-              $isActive={activeItem === '2'}
-              $formType="cash"
-              onClick={() => setActiveItem('2')}
-            >
-              <FieldDescription>{t('INFO_ACCOUNT.BALANCE')}</FieldDescription>
-              <div>
-                $
-                <NumericFormat
-                  customInput={NumericInput}
-                  thousandSeparator=","
-                  decimalSeparator="."
-                  decimalScale={2}
-                  allowNegative={false}
-                  placeholder="0.00"
-                  onValueChange={(values) => setBalance(values.floatValue)}
-                  value={balance}
-                />
-              </div>
-            </FormField>
-            <FormField
-              $isActive={activeItem === '3'}
-              $formType="cash"
-              onClick={() => setActiveItem('3')}
-            >
-              <FieldDescription>{t('INFO_ACCOUNT.COLOR')}</FieldDescription>
-              <SelectedColor
-                onClick={(event) => {
-                  setActiveItem('3');
-                  toggleElement(colorsRef);
-                  event.stopPropagation();
-                }}
+              <CardName>{description}</CardName>
+              <CardBalanceContainer>
+                <CardBalance>{formatNumberOutput(balance, 'USD')}</CardBalance>
+                <CurrentBalance>
+                  {t('INFO_ACCOUNT.CURRENT_BALANCE')}
+                </CurrentBalance>
+              </CardBalanceContainer>
+            </CardView>
+            <FormFieldsContainer>
+              <FormField
+                $isActive={activeItem === '1'}
+                $formType="cash"
+                onClick={() => setActiveItem('1')}
               >
-                {renderSelectedColor(selectedColor)}
-              </SelectedColor>
-              <SelectButton
-                onClick={(event) => {
-                  setActiveItem('3');
-                  toggleElement(colorsRef);
-                  event.stopPropagation();
-                }}
+                <FieldDescription>
+                  {t('INFO_ACCOUNT.DESCRIPTION')}
+                </FieldDescription>
+                <FieldInput
+                  type="text"
+                  onChange={(event) => setDescription(event.target.value)}
+                  defaultValue={description}
+                  placeholder={t('ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
+                ></FieldInput>
+              </FormField>
+              <FormField
+                $isActive={activeItem === '2'}
+                $formType="cash"
+                onClick={() => setActiveItem('2')}
               >
-                {t('INFO_ACCOUNT.SELECT')}
-              </SelectButton>
-            </FormField>
-            <CashColorsContainer ref={colorsRef} className="none">
-              <ColorsPalette>
-                {renderColors(colors, setSelectedColor, selectedColor)}
-              </ColorsPalette>
-              <ColorsPaletteButtonContainer>
-                <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
-                  {t('INFO_ACCOUNT.OK')}
-                </ColorsPaletteButton>
-              </ColorsPaletteButtonContainer>
-            </CashColorsContainer>
-            <FormField
-              $isActive={activeItem === '4'}
-              $formType="cash"
-              onClick={() => setActiveItem('4')}
-            >
-              <FieldDescription>{t('INFO_ACCOUNT.DATE')}</FieldDescription>
-              <FieldInput
-                type="date"
-                onChange={(event) => setDate(new Date(event.target.value))}
-              ></FieldInput>
-            </FormField>
-            <FormField
-              $isActive={activeItem === '5'}
-              $formType="cash"
-              onClick={() => setActiveItem('5')}
-            >
-              <FieldDescription>{t('INFO_ACCOUNT.NOTES')}</FieldDescription>
-              <FieldInput
-                type="text"
-                onChange={(event) => setNotes(event.target.value)}
-                value={notes}
-              ></FieldInput>
-            </FormField>
-            <FormField
-              $isActive={activeItem === '6'}
-              $formType="cash"
-              onClick={() => setActiveItem('6')}
-            >
-              <FieldDescription>{t('INFO_ACCOUNT.TAGS')}</FieldDescription>
-              <FieldInput></FieldInput>
-            </FormField>
-            <AddFormButtonsContainer>
-              <DoneButton
-                to={pages.cash[cashType]}
-                $buttonType="cash"
-                onClick={() =>
-                  doneEventHandler(
-                    clickedAccount,
-                    id,
-                    accountType,
-                    description,
-                    balance,
-                    selectedColor,
-                    date.toISOString(),
-                    notes,
-                    tags,
-                    editAccount,
-                    dispatch,
-                  )
-                }
+                <FieldDescription>{t('INFO_ACCOUNT.BALANCE')}</FieldDescription>
+                <div>
+                  $
+                  <NumericFormat
+                    customInput={NumericInput}
+                    thousandSeparator=","
+                    decimalSeparator="."
+                    decimalScale={2}
+                    allowNegative={false}
+                    placeholder="0.00"
+                    onValueChange={(values) => setBalance(values.floatValue)}
+                    value={balance}
+                  />
+                </div>
+              </FormField>
+              <FormField
+                $isActive={activeItem === '3'}
+                $formType="cash"
+                onClick={() => setActiveItem('3')}
               >
-                {t('INFO_ACCOUNT.DONE')}
-              </DoneButton>
-              <CancelButton to={pages.cash[cashType]}>
-                {t('INFO_ACCOUNT.CANCEL')}
-              </CancelButton>
-            </AddFormButtonsContainer>
-          </FormFieldsContainer>
-        </>
-      )}
-    </AddFormContainer>
+                <FieldDescription>{t('INFO_ACCOUNT.COLOR')}</FieldDescription>
+                <SelectedColor
+                  onClick={(event) => {
+                    setActiveItem('3');
+                    toggleElement(colorsRef);
+                    event.stopPropagation();
+                  }}
+                >
+                  {renderSelectedColor(selectedColor)}
+                </SelectedColor>
+                <SelectButton
+                  onClick={(event) => {
+                    setActiveItem('3');
+                    toggleElement(colorsRef);
+                    event.stopPropagation();
+                  }}
+                >
+                  {t('INFO_ACCOUNT.SELECT')}
+                </SelectButton>
+              </FormField>
+              <CashColorsContainer ref={colorsRef} className="none">
+                <ColorsPalette>
+                  {renderColors(colors, setSelectedColor, selectedColor)}
+                </ColorsPalette>
+                <ColorsPaletteButtonContainer>
+                  <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
+                    {t('INFO_ACCOUNT.OK')}
+                  </ColorsPaletteButton>
+                </ColorsPaletteButtonContainer>
+              </CashColorsContainer>
+              <FormField
+                $isActive={activeItem === '4'}
+                $formType="cash"
+                onClick={() => setActiveItem('4')}
+              >
+                <FieldDescription>{t('INFO_ACCOUNT.DATE')}</FieldDescription>
+                <FieldInput
+                  type="date"
+                  onChange={(event) => setDate(new Date(event.target.value))}
+                ></FieldInput>
+              </FormField>
+              <FormField
+                $isActive={activeItem === '5'}
+                $formType="cash"
+                onClick={() => setActiveItem('5')}
+              >
+                <FieldDescription>{t('INFO_ACCOUNT.NOTES')}</FieldDescription>
+                <FieldInput
+                  type="text"
+                  onChange={(event) => setNotes(event.target.value)}
+                  value={notes}
+                ></FieldInput>
+              </FormField>
+              <FormField
+                $isActive={activeItem === '6'}
+                $formType="cash"
+                onClick={() => setActiveItem('6')}
+              >
+                <FieldDescription>{t('INFO_ACCOUNT.TAGS')}</FieldDescription>
+                <FieldInput></FieldInput>
+              </FormField>
+              <AddFormButtonsContainer>
+                <DoneButton
+                  to={pages.cash[cashType]}
+                  $buttonType="cash"
+                  onClick={() =>
+                    doneEventHandler(
+                      clickedAccount,
+                      id,
+                      accountType,
+                      description,
+                      balance,
+                      selectedColor,
+                      date.toISOString(),
+                      notes,
+                      tags,
+                      editAccount,
+                      dispatch,
+                    )
+                  }
+                >
+                  <ButtonSvg as={DoneIcon} />
+                  <ButtonTitle>{t('INFO_ACCOUNT.DONE')}</ButtonTitle>
+                </DoneButton>
+                <CancelButton to={pages.cash[cashType]}>
+                  <ButtonSvg as={CancelIcon} />
+                  <ButtonTitle>{t('INFO_ACCOUNT.CANCEL')}</ButtonTitle>
+                </CancelButton>
+              </AddFormButtonsContainer>
+            </FormFieldsContainer>
+          </>
+        )}
+      </AddContainer>
+    </Grid>
   );
 }
