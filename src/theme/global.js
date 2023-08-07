@@ -411,7 +411,7 @@ export const AddFormButton = styled(Link)((props) => ({
   fontSize: '0.875rem',
   marginLeft: 'auto',
   marginRight: 'auto',
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     width: 200,
     height: 40,
     borderRadius: props.theme.borderRadius,
