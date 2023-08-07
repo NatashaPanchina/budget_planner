@@ -151,7 +151,7 @@ export const CashTitleLink = styled(NavLink)((props) => ({
 
 export const CommonFilter = styled.span(() => ({
   display: 'flex',
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     display: 'none',
   },
 }));
