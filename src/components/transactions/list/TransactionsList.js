@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -12,9 +12,9 @@ import { dateFormatter } from '../../../utils/format/date';
 import { categoryIcons } from '../../../utils/constants/icons';
 import searchIcon from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
-import { ReactComponent as EditIcon } from '../../../assets/icons/shared/editTransaction.svg';
-import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/deleteTransaction.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
+import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
+import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delete.svg';
 
 import { useDispatch } from 'react-redux';
 import {
@@ -38,13 +38,15 @@ import {
   CategorySvg,
   AccountSvg,
   TransactionInfo,
-  ItemButtonSvg,
   ItemButtonsContainer,
   TransactionInfoAccount,
   MobItemButtonSvg,
-  MobItemButtonsContainer,
   MobTransactionDate,
   ListItemContainer,
+  EditLinkContainer,
+  FlexContainer,
+  EditButtonSvg,
+  DescriptionCategory,
 } from '../Transactions.styled';
 import {
   AddButton,
@@ -52,8 +54,31 @@ import {
   Search,
   SearchImg,
   SearchInput,
+  ToggleMenu,
 } from '../../../theme/global';
-import { hideElement, useOutsideClick } from '../../../hooks/useOutsideClick';
+import { MenuItem } from '@mui/material';
+
+const deleteClick = (
+  transaction,
+  accounts,
+  editAccount,
+  deleteTransaction,
+  dispatch,
+) => {
+  const newBalance = createNewBalance(transaction, accounts);
+  const transactionAccount = accounts.find(
+    (account) => transaction.account === account.id,
+  );
+  dispatch(
+    editAccount(transactionAccount.id, {
+      ...transactionAccount,
+      balance: newBalance,
+    }),
+  );
+  idbAddItem({ ...transactionAccount, balance: newBalance }, 'accounts');
+  dispatch(deleteTransaction(transaction.id));
+  idbDeleteItem(transaction.id, 'transactions');
+};
 
 function TransactionsList({
   transactions,
@@ -63,17 +88,18 @@ function TransactionsList({
   editAccount,
 }) {
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
   const { filterAccount, filterType } = useParams();
-  const transactionType = createFiltertype(filterType);
-  const transactionAccount = createFilterAccount(accounts, filterAccount);
+  const transactionsType = createFiltertype(filterType);
+  const transactionsAccount = createFilterAccount(accounts, filterAccount);
   const filteredTransactions = filterByType(
     filterByAccounts(transactions, filterAccount),
     filterType,
   );
+  const [clickedTransaction, setClickedTransaction] = useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
-  const toggleEditButtons = useOutsideClick(hideElement);
   return (
     <>
       <TransactionsTitleContainer>
@@ -106,24 +132,17 @@ function TransactionsList({
         <SearchImg src={searchIcon} alt="search" />
       </Search>
       <AddButton
-        to={`${pages.newTransaction[transactionType]}/${transactionAccount}`}
+        to={`${pages.newTransaction[transactionsType]}/${transactionsAccount}`}
       >
         <AddButtonSvg as={PlusIcon} />
         {t('TRANSACTIONS.NEW_TRANSACTION')}
       </AddButton>
       <Description>
-        <span>{t('TRANSACTIONS.CATEGORY')}</span>
+        <DescriptionCategory>{t('TRANSACTIONS.CATEGORY')}</DescriptionCategory>
         <span>{t('TRANSACTIONS.CASH')}</span>
         <span>{t('TRANSACTIONS.AMOUNT')}</span>
         <span>{t('TRANSACTIONS.DATE')}</span>
       </Description>
-
-      {/*Скоро тут будет нормальное модальное окно*/}
-      <MobItemButtonsContainer ref={toggleEditButtons} className="none">
-        <div>Edit</div>
-        <div>Delete</div>
-      </MobItemButtonsContainer>
-
       {filteredTransactions ? (
         filteredTransactions.map((transaction, index) => {
           const transactionCategory = categories.find(
@@ -266,37 +285,41 @@ function TransactionsList({
                   </TransactionItem>
                 </Link>
                 <ItemButtonsContainer>
-                  <Link
-                    to={`${pages.transactions.info.main}/${transaction.id}`}
+                  <ToggleMenu
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={() => setAnchorEl(null)}
                   >
-                    <ItemButtonSvg as={EditIcon} />
-                  </Link>
-                  <ItemButtonSvg
-                    as={DeleteIcon}
-                    onClick={() => {
-                      const newBalance = createNewBalance(
-                        transaction,
-                        accounts,
-                      );
-                      dispatch(
-                        editAccount(transactionAccount.id, {
-                          ...transactionAccount,
-                          balance: newBalance,
-                        }),
-                      );
-                      idbAddItem(
-                        { ...transactionAccount, balance: newBalance },
-                        'accounts',
-                      );
-                      dispatch(deleteTransaction(transaction.id));
-                      idbDeleteItem(transaction.id, 'transactions');
-                    }}
-                  />
+                    <MenuItem onClick={() => setAnchorEl(null)}>
+                      <EditLinkContainer
+                        to={`${pages.transactions.info.main}/${clickedTransaction.id}`}
+                      >
+                        <EditButtonSvg as={EditIcon} />
+                        {t('TRANSACTIONS.EDIT')}
+                      </EditLinkContainer>
+                    </MenuItem>
+                    <MenuItem onClick={() => setAnchorEl(null)}>
+                      <FlexContainer
+                        onClick={() =>
+                          deleteClick(
+                            clickedTransaction,
+                            accounts,
+                            editAccount,
+                            deleteTransaction,
+                            dispatch,
+                          )
+                        }
+                      >
+                        <EditButtonSvg as={DeleteIcon} />
+                        {t('TRANSACTIONS.DELETE')}
+                      </FlexContainer>
+                    </MenuItem>
+                  </ToggleMenu>
                   <MobItemButtonSvg
                     as={ToggleEditIcon}
                     onClick={(event) => {
-                      toggleEditButtons.current.classList.toggle('none');
-                      event.stopPropagation();
+                      setClickedTransaction(transaction);
+                      setAnchorEl(event.currentTarget);
                     }}
                   />
                 </ItemButtonsContainer>

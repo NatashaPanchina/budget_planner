@@ -1,54 +1,69 @@
+import React from 'react';
+import {
+  Menu,
+  TextField,
+  Tooltip,
+  alpha,
+  css,
+  styled,
+  tooltipClasses,
+} from '@mui/material';
 import { Link } from 'react-router-dom';
-import { css, styled, createGlobalStyle } from 'styled-components';
+import { GlobalStyles } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers';
 
-export const GlobalStyles = createGlobalStyle((props) => ({
-  body: {
-    background: props.theme.colors.background.body,
-    margin: 0,
-    boxSizing: 'border-box',
-    color: props.theme.colors.text.primary,
-    fontFamily:
-      "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
-    '-webkit-font-smoothing': 'antialiased',
-    '-moz-osx-font-smoothing': 'grayscale',
-  },
-  input: {
-    fontFamily:
-      "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
-    '-webkit-font-smoothing': 'antialiased',
-    '-moz-osx-font-smoothing': 'grayscale',
-    border: 'none',
-    alignItems: 'center',
-    outline: 'none',
-  },
-  a: {
-    textDecoration: 'none',
-  },
-  ul: {
-    listStyleType: 'none',
-  },
-  button: {
-    cursor: 'pointer',
-  },
-  'input::-webkit-outer-spin-button': {
-    '-webkit-appearance': 'none',
-    margin: 0,
-  },
-  'input::-webkit-inner-spin-button': {
-    '-webkit-appearance': 'none',
-    margin: 0,
-  },
-  'input[type="text"]::placeholder': {
-    fontSize: '0.875rem',
-    fontStyle: 'italic',
-    color: props.theme.colors.placeholder,
-  },
-  '.none': {
-    display: 'none',
-  },
-}));
+export const inputGlobalStyles = (
+  <GlobalStyles
+    styles={(theme) => ({
+      body: {
+        background: theme.colors.background.body,
+        margin: 0,
+        boxSizing: 'border-box',
+        color: theme.colors.text.primary,
+        fontFamily:
+          "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+        '-webkit-font-smoothing': 'antialiased',
+        '-moz-osx-font-smoothing': 'grayscale',
+      },
+      input: {
+        fontFamily:
+          "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+        '-webkit-font-smoothing': 'antialiased',
+        '-moz-osx-font-smoothing': 'grayscale',
+        border: 'none',
+        alignItems: 'center',
+        outline: 'none',
+      },
+      a: {
+        textDecoration: 'none',
+      },
+      ul: {
+        listStyleType: 'none',
+      },
+      button: {
+        cursor: 'pointer',
+      },
+      'input::-webkit-outer-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
+      'input::-webkit-inner-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
+      'input[type="text"]::placeholder': {
+        fontSize: '0.875rem',
+        fontStyle: 'italic',
+        color: theme.colors.placeholder,
+      },
+      '.none': {
+        display: 'none',
+      },
+    })}
+  />
+);
 
-export const ArchivedTrash = styled.div((props) => ({
+export const ArchivedTrash = styled('div')((props) => ({
   position: 'relative',
   marginLeft: props.theme.spacing(5),
   '@media (min-width: 600px)': {
@@ -58,7 +73,7 @@ export const ArchivedTrash = styled.div((props) => ({
   },
 }));
 
-export const Trash = styled.svg((props) => ({
+export const Trash = styled('svg')((props) => ({
   height: 35,
   width: 35,
   '& circle': {
@@ -67,7 +82,7 @@ export const Trash = styled.svg((props) => ({
   filter: `drop-shadow(0px 4px 4px ${props.theme.colors.boxShadow})`,
 }));
 
-export const TrashCount = styled.div((props) => ({
+export const TrashCount = styled('div')((props) => ({
   position: 'absolute',
   right: 0,
   top: 0,
@@ -78,7 +93,7 @@ export const TrashCount = styled.div((props) => ({
   padding: '1px 2px',
 }));
 
-export const Search = styled.div((props) => ({
+export const Search = styled('div')((props) => ({
   width: '100%',
   height: 45,
   background: props.theme.colors.background.ordinary,
@@ -88,18 +103,18 @@ export const Search = styled.div((props) => ({
   alignItems: 'center',
 }));
 
-export const SearchInput = styled.input((props) => ({
+export const SearchInput = styled('input')((props) => ({
   marginLeft: props.theme.spacing(5),
   fontSize: '0.875rem',
   color: props.theme.colors.text.primary,
   background: props.theme.colors.background.ordinary,
   width: '100%',
   '&[type="text"]::placeholder': {
-    color: props.theme.colors.text.ordinary,
+    color: props.theme.colors.text.darker,
   },
 }));
 
-export const SearchImg = styled.img((props) => ({
+export const SearchImg = styled('img')((props) => ({
   height: 20,
   marginRight: props.theme.spacing(5),
 }));
@@ -117,7 +132,7 @@ export const AddButton = styled(Link)((props) => ({
   },
 }));
 
-export const AddButtonSvg = styled.svg((props) => ({
+export const AddButtonSvg = styled('svg')((props) => ({
   height: 18,
   marginRight: props.theme.spacing(1),
   fill: 'inherit',
@@ -126,7 +141,7 @@ export const AddButtonSvg = styled.svg((props) => ({
   },
 }));
 
-export const Header = styled.div((props) => ({
+export const Header = styled('div')((props) => ({
   display: 'flex',
   position: 'relative',
   alignItems: 'center',
@@ -143,14 +158,16 @@ export const TrashHeader = styled(Header)(() => ({
   justifyContent: 'center',
 }));
 
-export const HeaderTitle = styled.div((props) => ({
+export const HeaderTitle = styled('div')((props) => ({
   fontSize: '1.3rem',
   '@media (min-width: 600px)': {
     marginRight: props.theme.spacing(14),
   },
 }));
 
-export const MobHeaderTitle = styled.div((props) => ({
+export const MobHeaderTitle = styled('div', {
+  shouldForwardProp: (prop) => prop !== '$titleType',
+})((props) => ({
   height: 60,
   width: '100vw',
   color: props.theme.colors.white,
@@ -172,7 +189,7 @@ export const MobInfoHeaderTitle = styled(MobHeaderTitle)((props) => ({
   color: props.theme.colors.text.primary,
 }));
 
-export const TrashContainer = styled.div((props) => ({
+export const TrashContainer = styled('div')((props) => ({
   '@media (min-width: 600px)': {
     paddingLeft: props.theme.spacing(8),
     paddingRight: props.theme.spacing(8),
@@ -187,22 +204,22 @@ export const TrashContainer = styled.div((props) => ({
   },
 }));
 
-export const AddContainer = styled.div((props) => ({
+export const AddContainer = styled('div')((props) => ({
   position: 'absolute',
   top: 0,
   left: 0,
   zIndex: 100,
   backgroundColor: props.theme.colors.background.body,
-  height: `calc(100vh - ${props.theme.spacing(18) * 2}px)`,
+  height: `calc(100vh - ${props.theme.spacing(18 * 2)})`,
   overflow: 'scroll',
-  width: `calc(100% - ${props.theme.spacing(2) * 2}px)`,
-  padding: `${props.theme.spacing(18)}px ${props.theme.spacing(2)}px`,
+  width: `calc(100% - ${props.theme.spacing(2 * 2)})`,
+  padding: `${props.theme.spacing(18)} ${props.theme.spacing(2)}`,
   '@media (min-width: 600px)': {
     position: 'static',
     overflow: 'visible',
     height: 'initial',
     width: 'initial',
-    padding: `0px ${props.theme.spacing(8)}px`,
+    padding: `0px ${props.theme.spacing(8)}`,
   },
   '@media (min-width: 768px)': {
     paddingLeft: props.theme.spacing(15),
@@ -214,11 +231,11 @@ export const AddContainer = styled.div((props) => ({
   },
 }));
 
-export const AddFormHeader = styled.div((props) => ({
+export const AddFormHeader = styled('div')((props) => ({
   display: 'none',
   '@media (min-width: 600px)': {
     display: 'flex',
-    top: 56,
+    top: props.theme.spacing(14),
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
@@ -228,10 +245,11 @@ export const AddFormHeader = styled.div((props) => ({
     zIndex: 9,
     backgroundColor: props.theme.colors.background.body,
     boxSizing: 'border-box',
+    color: props.theme.colors.text.primary,
   },
 }));
 
-export const AddFormHeaderTitles = styled.div((props) => ({
+export const AddFormHeaderTitles = styled('div')((props) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -248,19 +266,117 @@ export const BackLink = styled(Link)(() => ({
   alignItems: 'center',
 }));
 
-export const BackLinkSvg = styled.svg((props) => ({
+export const BackLinkSvg = styled('svg')((props) => ({
   width: 40,
   height: 40,
   '&:hover circle': {
-    fill: props.theme.colors.background.primary,
+    fill: props.theme.colors.background.ordinary,
+    opacity: 0.5,
   },
 }));
 
-export const FormFieldsContainer = styled.div(() => ({
+export const TextInputField = styled(TextField, {
+  shouldForwardProp: (prop) => prop !== '$type',
+})((props) => ({
+  width: '100%',
+  backgroundColor: props.theme.colors.background.primary,
+  borderRadius: props.theme.borderRadius,
+  '& label': {
+    color: props.theme.colors.text.darker,
+  },
+  '& label.Mui-focused': {
+    color:
+      props.$type === 'common'
+        ? props.theme.colors.main.violet
+        : props.theme.colors[props.$type],
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderRadius: props.theme.borderRadius,
+      border: `1px solid ${props.theme.colors.border.item}`,
+      boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
+    },
+    '&:hover fieldset': {
+      border: `1px solid ${props.theme.colors.text.darker}`,
+    },
+    '&.Mui-focused fieldset': {
+      border: `1px solid ${
+        props.$type === 'common'
+          ? props.theme.colors.main.violet
+          : props.theme.colors[props.$type]
+      }`,
+      boxShadow: `${alpha(
+        props.$type === 'common'
+          ? props.theme.colors.main.violet
+          : props.theme.colors[props.$type],
+        0.1,
+      )} 0 0 0 0.2rem`,
+    },
+    '& .MuiInputBase-input': {
+      color: props.theme.colors.text.primary,
+      borderRadius: props.theme.borderRadius,
+      backgroundColor: props.theme.colors.background.primary,
+    },
+    '& .MuiSelect-icon': {
+      fill: props.theme.colors.text.darker,
+    },
+  },
+}));
+
+export const DateField = styled(DatePicker, {
+  shouldForwardProp: (prop) => prop !== '$type',
+})((props) => ({
+  width: '100%',
+  marginTop: props.theme.spacing(4),
+  marginBottom: props.theme.spacing(2),
+  borderRadius: props.theme.borderRadius,
+  '& label': {
+    color: props.theme.colors.text.darker,
+  },
+  '& label.Mui-focused': {
+    color:
+      props.$type === 'common'
+        ? props.theme.colors.main.violet
+        : props.theme.colors[props.$type],
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderRadius: props.theme.borderRadius,
+      border: `1px solid ${props.theme.colors.border.item}`,
+      boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
+    },
+    '&:hover fieldset': {
+      border: `1px solid ${props.theme.colors.text.darker}`,
+    },
+    '&.Mui-focused fieldset': {
+      border: `1px solid ${
+        props.$type === 'common'
+          ? props.theme.colors.main.violet
+          : props.theme.colors[props.$type]
+      }`,
+      boxShadow: `${alpha(
+        props.$type === 'common'
+          ? props.theme.colors.main.violet
+          : props.theme.colors[props.$type],
+        0.1,
+      )} 0 0 0 0.2rem`,
+    },
+    '& .MuiInputBase-input': {
+      color: props.theme.colors.text.primary,
+      borderRadius: props.theme.borderRadius,
+      backgroundColor: props.theme.colors.background.primary,
+    },
+    '& .MuiSvgIcon-root': {
+      fill: props.theme.colors.text.darker,
+    },
+  },
+}));
+
+export const FormFieldsContainer = styled('div')(() => ({
   position: 'relative',
 }));
 
-export const FormFieldDiv = styled.div((props) => ({
+export const FormFieldDiv = styled('div')((props) => ({
   display: 'flex',
   alignItems: 'center',
   height: 60,
@@ -272,7 +388,7 @@ export const FormFieldDiv = styled.div((props) => ({
   borderRadius: props.theme.borderRadius,
   fontSize: '0.875rem',
   color: props.theme.colors.text.darker,
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     height: 60,
     marginTop: 0,
     marginBottom: props.theme.spacing(3),
@@ -280,58 +396,60 @@ export const FormFieldDiv = styled.div((props) => ({
   },
 }));
 
-export const FormField = styled(FormFieldDiv)((props) => {
+export const FormField = styled(FormFieldDiv, {
+  shouldForwardProp: (prop) => prop !== '$isActive' && prop !== '$formType',
+})((props) => {
   if (props.$isActive) {
     switch (props.$formType) {
       case 'income':
-        return css(() => ({
-          border: `1px solid ${props.theme.colors.income}`,
-          color: props.theme.colors.income,
-          boxShadow: '0px 4px 10px rgba(110, 189, 10, 0.1)',
-        }));
+        return css`
+          border: 1px solid ${props.theme.colors.income};
+          color: ${props.theme.colors.income};
+          box-shadow: 0px 4px 10px rgba(110, 189, 10, 0.1);
+        `;
       case 'expense':
-        return css(() => ({
-          border: `1px solid ${props.theme.colors.expense}`,
-          color: props.theme.colors.expense,
-          boxShadow: '0px 4px 10px rgba(244, 57, 91, 0.1)',
-        }));
+        return css`
+          border: 1px solid ${props.theme.colors.expense};
+          color: ${props.theme.colors.expense};
+          box-shadow: 0px 4px 10px rgba(244, 57, 91, 0.1);
+        `;
       case 'transfer':
-        return css(() => ({
-          border: `1px solid ${props.theme.colors.transfer}`,
-          color: props.theme.colors.transfer,
-          boxShadow: '0px 4px 10px rgba(13, 195, 180, 0.1)',
-        }));
+        return css`
+          border: 1px solid ${props.theme.colors.transfer};
+          color: ${props.theme.colors.transfer};
+          box-shadow: 0px 4px 10px rgba(13, 195, 180, 0.1);
+        `;
       case 'cash':
-        return css(() => ({
-          border: `1px solid ${props.theme.colors.main.violet}`,
-          color: props.theme.colors.main.violet,
-          boxShadow: '0px 4px 10px rgba(110, 189, 10, 0.1)',
-        }));
+        return css`
+          border: 1px solid ${props.theme.colors.main.violet};
+          color: ${props.theme.colors.main.violet};
+          box-shadow: 0px 4px 10px rgba(110, 189, 10, 0.1);
+        `;
       default:
-        return css(() => ({
-          border: `1px solid ${props.theme.colors.expense}`,
-          color: props.theme.colors.expense,
-          boxShadow: '0px 4px 10px rgba(244, 57, 91, 0.1)',
-        }));
+        return css`
+          border: 1px solid ${props.theme.colors.expense};
+          color: ${props.theme.colors.expense};
+          box-shadow: 0px 4px 10px rgba(244, 57, 91, 0.1);
+        `;
     }
   }
 });
 
-export const FieldDescription = styled.div((props) => ({
-  width: 'calc(20% - 30px)',
+export const FieldDescription = styled('div')((props) => ({
+  width: `calc(20% - ${props.theme.spacing(5)} + ${props.theme.spacing(2)})`,
   minWidth: 70,
   paddingLeft: props.theme.spacing(5),
   paddingRight: props.theme.spacing(2),
 }));
 
-export const FieldInput = styled.input((props) => ({
+export const FieldInput = styled('input')((props) => ({
   width: '75%',
   background: props.theme.colors.background.primary,
   color: props.theme.colors.text.primary,
   fontSize: '1rem',
 }));
 
-export const SelectButton = styled.div((props) => ({
+export const SelectButton = styled('div')((props) => ({
   cursor: 'pointer',
   marginLeft: 'auto',
   marginRight: props.theme.spacing(5),
@@ -341,12 +459,12 @@ export const SelectButton = styled.div((props) => ({
   },
 }));
 
-export const SelectedColor = styled.div(() => ({
+export const SelectedColor = styled('div')(() => ({
   cursor: 'pointer',
 }));
 
-export const ColorsContainer = styled.div((props) => ({
-  width: `calc(100% - ${props.theme.spacing(2) * 2}px)`,
+export const ColorsContainer = styled('div')((props) => ({
+  width: `calc(100% - ${props.theme.spacing(2 * 2)})`,
   position: 'absolute',
   zIndex: 5,
   padding: props.theme.spacing(2),
@@ -354,12 +472,12 @@ export const ColorsContainer = styled.div((props) => ({
   borderRadius: props.theme.borderRadius,
   backgroundColor: props.theme.colors.background.primary,
   '@media (min-width: 600px)': {
-    width: '70%',
+    width: '40%',
     minWidth: 365,
   },
 }));
 
-export const ColorsPalette = styled.div((props) => ({
+export const ColorsPalette = styled('div')((props) => ({
   display: 'grid',
   gridTemplateColumns: 'repeat(9, 11.11%)',
   '& svg': {
@@ -368,13 +486,13 @@ export const ColorsPalette = styled.div((props) => ({
   },
 }));
 
-export const ColorsPaletteButtonContainer = styled.div((props) => ({
+export const ColorsPaletteButtonContainer = styled('div')((props) => ({
   display: 'flex',
   paddingTop: props.theme.spacing(2),
   justifyContent: 'space-evenly',
 }));
 
-export const ColorsPaletteButton = styled.button((props) => ({
+export const ColorsPaletteButton = styled('button')((props) => ({
   color: props.theme.colors.text.primary,
   border: 'none',
   borderRadius: props.theme.borderRadius,
@@ -387,16 +505,16 @@ export const ColorsPaletteButton = styled.button((props) => ({
   },
 }));
 
-export const AddFormButtonsContainer = styled.div((props) => ({
+export const AddFormButtonsContainer = styled('div')((props) => ({
   position: 'fixed',
-  bottom: 20,
+  bottom: props.theme.spacing(5),
   width: '100%',
   marginTop: props.theme.spacing(7),
   display: 'flex',
   marginLeft: 'auto',
   marginRight: 'auto',
   borderRadius: props.theme.borderRadius,
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     position: 'static',
   },
 }));
@@ -419,54 +537,56 @@ export const AddFormButton = styled(Link)((props) => ({
   },
 }));
 
-export const DoneButton = styled(AddFormButton)((props) => {
+export const DoneButton = styled(AddFormButton, {
+  shouldForwardProp: (prop) => prop !== '$buttonType',
+})((props) => {
   switch (props.$buttonType) {
     case 'income':
-      return css(() => ({
-        color: props.theme.colors.white,
-        background: props.theme.colors.income,
-        boxShadow: '0px 4px 10px rgba(110, 189, 10, 0.5)',
-        '&:hover': {
-          background: '#80ca20',
-        },
-      }));
+      return css`
+        color: ${props.theme.colors.white};
+        background: ${props.theme.colors.income};
+        box-shadow: 0px 4px 10px rgba(110, 189, 10, 0.5);
+        &:hover: {
+          background: #80ca20;
+        }
+      `;
     case 'expense':
-      return css(() => ({
-        color: props.theme.colors.white,
-        background: props.theme.colors.expense,
-        boxShadow: '0px 4px 10px rgba(244, 57, 91, 0.5)',
-        '&:hover': {
-          background: '#fe5070',
-        },
-      }));
+      return css`
+        color: ${props.theme.colors.white};
+        background: ${props.theme.colors.expense};
+        box-shadow: 0px 4px 10px rgba(244, 57, 91, 0.5);
+        &:hover: {
+          background: #fe5070;
+        }
+      `;
     case 'transfer':
-      return css(() => ({
-        color: props.theme.colors.white,
-        background: props.theme.colors.transfer,
-        boxShadow: '0px 4px 10px rgba(13, 195, 180, 0.5)',
-        '&:hover': {
-          background: '#24d5c6',
-        },
-      }));
+      return css`
+        color: ${props.theme.colors.white};
+        background: ${props.theme.colors.transfer};
+        box-shadow: 0px 4px 10px rgba(13, 195, 180, 0.5);
+        &:hover: {
+          background: #24d5c6;
+        }
+      `;
     case 'cash':
-      return css(() => ({
-        color: props.theme.colors.white,
-        background: props.theme.colors.main.violet,
-        boxShadow: '0px 4px 10px rgba(65, 159, 255, 0.5)',
-        '&:hover': {
-          background: props.theme.colors.main.purple,
-          boxShadow: '0px 4px 10px rgba(174, 139, 255, 0.5)',
-        },
-      }));
+      return css`
+        color: ${props.theme.colors.white};
+        background: ${props.theme.colors.main.violet};
+        box-shadow: 0px 4px 10px rgba(65, 159, 255, 0.5);
+        &:hover: {
+          background: #24d5c6;
+          boxshadow: 0px 4px 10px rgba(174, 139, 255, 0.5);
+        }
+      `;
     default:
-      return css(() => ({
-        color: props.theme.colors.white,
-        background: props.theme.colors.expense,
-        boxShadow: '0px 4px 10px rgba(244, 57, 91, 0.5)',
-        '&:hover': {
-          background: '#fe5070',
-        },
-      }));
+      return css`
+        color: ${props.theme.colors.white};
+        background: ${props.theme.colors.expense};
+        box-shadow: 0px 4px 10px rgba(244, 57, 91, 0.5);
+        &:hover: {
+          background: #fe5070;
+        }
+      `;
   }
 });
 
@@ -477,33 +597,33 @@ export const CancelButton = styled(AddFormButton)((props) => ({
   '&:hover': {
     backgroundColor: props.theme.colors.button.hover,
   },
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     color: props.theme.colors.text.primary,
     backgroundColor: props.theme.colors.button.pending,
   },
 }));
 
-export const ButtonTitle = styled.span(() => ({
+export const ButtonTitle = styled('span')(() => ({
   display: 'none',
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     display: 'flex',
   },
 }));
 
-export const ButtonSvg = styled.svg((props) => ({
+export const ButtonSvg = styled('svg')((props) => ({
   height: 25,
   width: 25,
   '& path': {
     fill: props.theme.colors.white,
   },
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     display: 'none',
   },
 }));
 
-export const Filter = styled.div((props) => ({
+export const Filter = styled('div')((props) => ({
   display: 'none',
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     display: 'flex',
     alignItems: 'center',
     backgroundColor: props.theme.colors.background.primary,
@@ -517,20 +637,64 @@ export const Filter = styled.div((props) => ({
   },
 }));
 
-export const FilterSvg = styled.svg((props) => ({
+export const FilterSvg = styled('svg')((props) => ({
   height: 22,
   width: 22,
   marginLeft: props.theme.spacing(5),
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     height: 18,
     width: 18,
-    margin: `0px ${props.theme.spacing(1)}px`,
+    margin: `0px ${props.theme.spacing(1)}`,
   },
 }));
 
-export const CommonFilter = styled.span(() => ({
+export const CommonFilter = styled('span')(() => ({
   display: 'flex',
-  '@media only screen and (min-width: 600px)': {
+  '@media (min-width: 600px)': {
     display: 'none',
+  },
+}));
+
+export const CustomTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))((props) => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'block',
+    [`& .${tooltipClasses.arrow}`]: {
+      color: props.theme.colors.background.primary,
+      '&::before': {
+        backgroundColor: props.theme.colors.background.primary,
+        border: `1px solid ${props.theme.colors.border.item}`,
+      },
+    },
+    [`& .${tooltipClasses.tooltip}`]: {
+      background: props.theme.colors.background.primary,
+      color: props.theme.colors.text.primary,
+      border: `1px solid ${props.theme.colors.border.item}`,
+      borderRadius: props.theme.borderRadius,
+      fontSize: '0.75rem',
+      padding: props.theme.spacing(3),
+    },
+  },
+  '@media (min-width: 1200px)': {
+    display: 'none',
+  },
+}));
+
+export const ToggleMenu = styled(Menu)((props) => ({
+  '& .MuiPaper-root': {
+    borderRadius: props.theme.borderRadius,
+    border: `1px solid ${props.theme.colors.border.item}`,
+    color: props.theme.colors.text.primary,
+    backgroundColor: props.theme.colors.background.primary,
+    boxShadow: `0 2px 4px ${props.theme.colors.tooltipShadow}`,
+  },
+  '& .MuiMenu-list': {
+    padding: `${props.theme.spacing(1)} ${props.theme.spacing(2)}`,
+  },
+  '& .MuiMenuItem-root': {
+    borderRadius: props.theme.borderRadius,
+    margin: `${props.theme.spacing(2)} 0`,
   },
 }));

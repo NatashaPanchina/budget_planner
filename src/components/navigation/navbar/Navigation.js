@@ -9,7 +9,6 @@ import { ReactComponent as CashIcon } from '../../../assets/icons/navigation/cas
 import { ReactComponent as NewTransactionIcon } from '../../../assets/icons/navigation/newTransaction.svg';
 import { ReactComponent as CategoriesIcon } from '../../../assets/icons/navigation/categories.svg';
 import { ReactComponent as AnalysisIcon } from '../../../assets/icons/navigation/analysis.svg';
-import { ReactComponent as MoreIcon } from '../../../assets/icons/navigation/more.svg';
 import { ReactComponent as SettingsIcon } from '../../../assets/icons/navigation/settings.svg';
 
 import {
@@ -20,7 +19,6 @@ import {
   NewTransactionSvg,
   Link,
   LinkTitle,
-  MoreContainer,
   CashLinkContainer,
   SettingsLinkContainer,
   SettingsLink,
@@ -29,6 +27,7 @@ import {
   MobileNavigationContainer,
 } from './Navigation.styled';
 import MobNavigation from './MobNavigation';
+import { CustomTooltip } from '../../../theme/global';
 
 export default function Navigation() {
   const { t } = useTranslation();
@@ -36,30 +35,50 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Nav>
-        <LinkContainer>
-          <Link to={pages.dashboard}>
-            <Svg as={DashboardIcon} />
-            <LinkTitle>{t('NAVIGATION.DASHBOARD')}</LinkTitle>
-          </Link>
-        </LinkContainer>
-        <LinkContainer>
-          <Link to={pages.transactions.main}>
-            <Svg as={TransactionsIcon} />
-            <LinkTitle>{t('NAVIGATION.TRANSACTIONS')}</LinkTitle>
-          </Link>
-        </LinkContainer>
-        <CashLinkContainer>
-          <Link to={pages.cash.main}>
-            <Svg as={CashIcon} />
-            <LinkTitle>{t('NAVIGATION.CASH')}</LinkTitle>
-          </Link>
-        </CashLinkContainer>
-        <NewTransactionLinkContainer>
-          <Link to={pages.newTransaction.main}>
-            <NewTransactionSvg as={NewTransactionIcon} />
-            <LinkTitle>{t('NAVIGATION.NEW_TRANSACTION')}</LinkTitle>
-          </Link>
-        </NewTransactionLinkContainer>
+        <CustomTooltip
+          title={t('NAVIGATION.DASHBOARD')}
+          arrow
+          placement="right"
+        >
+          <LinkContainer>
+            <Link to={pages.dashboard}>
+              <Svg as={DashboardIcon} />
+              <LinkTitle>{t('NAVIGATION.DASHBOARD')}</LinkTitle>
+            </Link>
+          </LinkContainer>
+        </CustomTooltip>
+        <CustomTooltip
+          title={t('NAVIGATION.TRANSACTIONS')}
+          arrow
+          placement="right"
+        >
+          <LinkContainer>
+            <Link to={pages.transactions.main}>
+              <Svg as={TransactionsIcon} />
+              <LinkTitle>{t('NAVIGATION.TRANSACTIONS')}</LinkTitle>
+            </Link>
+          </LinkContainer>
+        </CustomTooltip>
+        <CustomTooltip title={t('NAVIGATION.CASH')} arrow placement="right">
+          <CashLinkContainer>
+            <Link to={pages.cash.main}>
+              <Svg as={CashIcon} />
+              <LinkTitle>{t('NAVIGATION.CASH')}</LinkTitle>
+            </Link>
+          </CashLinkContainer>
+        </CustomTooltip>
+        <CustomTooltip
+          title={t('NAVIGATION.NEW_TRANSACTION')}
+          arrow
+          placement="right"
+        >
+          <NewTransactionLinkContainer>
+            <Link to={pages.newTransaction.main}>
+              <NewTransactionSvg as={NewTransactionIcon} />
+              <LinkTitle>{t('NAVIGATION.NEW_TRANSACTION')}</LinkTitle>
+            </Link>
+          </NewTransactionLinkContainer>
+        </CustomTooltip>
         <NewTransactionButton
           onClick={() => mobRef.current.classList.toggle('none')}
         >
@@ -72,28 +91,34 @@ export default function Navigation() {
         >
           <MobNavigation />
         </MobileNavigationContainer>
-        <LinkContainer>
-          <Link to={pages.categories.main}>
-            <Svg as={CategoriesIcon} />
-            <LinkTitle>{t('NAVIGATION.CATEGORIES')}</LinkTitle>
-          </Link>
-        </LinkContainer>
-        <LinkContainer>
-          <Link to={pages.analysis.main}>
-            <Svg as={AnalysisIcon} />
-            <LinkTitle>{t('NAVIGATION.ANALYSIS')}</LinkTitle>
-          </Link>
-        </LinkContainer>
-        <MoreContainer>
-          <Svg as={MoreIcon} />
-          <LinkTitle>{t('NAVIGATION.MORE')}</LinkTitle>
-        </MoreContainer>
-        <SettingsLinkContainer>
-          <SettingsLink to="/">
-            <Svg as={SettingsIcon} />
-            <LinkTitle>{t('NAVIGATION.SETTINGS')}</LinkTitle>
-          </SettingsLink>
-        </SettingsLinkContainer>
+        <CustomTooltip
+          title={t('NAVIGATION.CATEGORIES')}
+          arrow
+          placement="right"
+        >
+          <LinkContainer>
+            <Link to={pages.categories.main}>
+              <Svg as={CategoriesIcon} />
+              <LinkTitle>{t('NAVIGATION.CATEGORIES')}</LinkTitle>
+            </Link>
+          </LinkContainer>
+        </CustomTooltip>
+        <CustomTooltip title={t('NAVIGATION.ANALYSIS')} arrow placement="right">
+          <LinkContainer>
+            <Link to={pages.analysis.main}>
+              <Svg as={AnalysisIcon} />
+              <LinkTitle>{t('NAVIGATION.ANALYSIS')}</LinkTitle>
+            </Link>
+          </LinkContainer>
+        </CustomTooltip>
+        <CustomTooltip title={t('NAVIGATION.SETTINGS')} arrow placement="right">
+          <SettingsLinkContainer>
+            <SettingsLink to="/">
+              <Svg as={SettingsIcon} />
+              <LinkTitle>{t('NAVIGATION.SETTINGS')}</LinkTitle>
+            </SettingsLink>
+          </SettingsLinkContainer>
+        </CustomTooltip>
       </Nav>
     </NavigationContainer>
   );

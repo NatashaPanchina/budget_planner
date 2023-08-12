@@ -59,7 +59,9 @@
       "LESS_THAN_FIVE": "transactions",
       "MORE_THAN_FIVE": "transactions"
     },
-    "NO_TRANSACTIONS": "There are no transactions here yet"
+    "NO_TRANSACTIONS": "There are no transactions here yet",
+    "EDIT": "Edit",
+    "DELETE": "Delete"
   },
   "INFO_TRANSACTION": {
     "TITLE": "Transaction information",
@@ -96,7 +98,8 @@
     "CURRENT_BALANCE": "Current balance",
     "EDIT": "Edit",
     "NEW_TRANSFER": "New transfer",
-    "ARCHIVE": "Archive"
+    "ARCHIVE": "Archive",
+    "ARCHIVED": "Archived cash"
   },
   "ADD_ACCOUNT": {
     "CARD": "New Card",
@@ -183,7 +186,11 @@
     "FILTER_KEY": "By default",
     "FILTER_DATE": "All time",
     "SEARCH_CATEGORY": "Search category",
-    "ADD_CATEGORY": "Add category"
+    "ADD_CATEGORY": "Add category",
+    "ADD_SUB": "Add subcategory",
+    "EDIT": "Edit",
+    "ARCHIVE": "Archive",
+    "ARCHIVED": "Archived categories"
   },
   "ADD_CATEGORY": {
     "TITLE": "New Category",
@@ -228,7 +235,9 @@
       "ONE": "category",
       "LESS_THAN_FIVE": "categories",
       "MORE_THAN_FIVE": "categories"
-    }
+    },
+    "RESTORE": "Restore",
+    "DELETE": "Delete"
   },
   "ANALYSIS": {
     "TRANSACTIONS_ANALYSIS": "Transactions Analysis",

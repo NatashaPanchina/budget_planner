@@ -22,7 +22,6 @@ import { ReactComponent as ArchiveIcon } from '../../../assets/icons/shared/arch
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 import searchIcon from '../../../assets/icons/shared/search.svg';
 import {
-  AddButton,
   AddButtonSvg,
   Search,
   SearchImg,
@@ -39,6 +38,7 @@ import {
   CashListItem,
   CardButtonlink,
   CardButtonTitle,
+  AddCashButton,
 } from '../Cash.styled';
 import { pages } from '../../../utils/constants/pages';
 
@@ -64,12 +64,12 @@ function AccountsList({ notArchivedAccounts, archiveAccount }) {
         ></SearchInput>
         <SearchImg src={searchIcon} alt="search" />
       </Search>
-      <AddButton
+      <AddCashButton
         to={pages.cash.add[filterCash === 'all' ? 'card' : filterCash]}
       >
         <AddButtonSvg as={PlusIcon} />
         {t(`CASH.ADD_${localeFilterCash}`)}
-      </AddButton>
+      </AddCashButton>
       {filterAccounts(filterCash, notArchivedAccounts).map((account) => {
         const balance = dinero(account.balance);
         return (

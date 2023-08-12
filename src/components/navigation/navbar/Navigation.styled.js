@@ -1,7 +1,7 @@
+import { styled } from '@mui/material';
 import { NavLink } from 'react-router-dom';
-import { styled } from 'styled-components';
 
-export const FlexContainer = styled.div(() => ({
+export const FlexContainer = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
 }));
@@ -22,7 +22,7 @@ export const NavigationContainer = styled(FlexContainer)((props) => ({
     display: 'block',
     width: 48,
     padding: 0,
-    height: `calc(100vh - ${props.theme.spacing(14)}px)`,
+    height: `calc(100vh - ${props.theme.spacing(14)})`,
     marginTop: props.theme.spacing(14),
     top: 0,
     left: 0,
@@ -37,7 +37,7 @@ export const NavigationContainer = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const Nav = styled.nav((props) => ({
+export const Nav = styled('nav')((props) => ({
   display: 'flex',
   width: '100%',
   height: '100%',
@@ -89,7 +89,7 @@ export const NewTransactionButton = styled(FlexContainer)(() => ({
   },
 }));
 
-export const MobileNavigationContainer = styled.div(() => ({
+export const MobileNavigationContainer = styled('div')(() => ({
   width: '100%',
   position: 'fixed',
   top: 0,
@@ -121,35 +121,27 @@ export const MobileNavigationLink = styled(NavLink)((props) => ({
   position: 'absolute',
 }));
 
-export const MobileTransferLink = styled(MobileNavigationLink)(() => ({
+export const MobileTransferLink = styled(MobileNavigationLink)((props) => ({
   left: 'calc(25% - 25px)',
-  bottom: 60,
+  bottom: props.theme.spacing(15),
 }));
 
-export const MobileExpenseLink = styled(MobileNavigationLink)(() => ({
+export const MobileExpenseLink = styled(MobileNavigationLink)((props) => ({
   left: 'calc(50% - 25px)',
-  bottom: 100,
+  bottom: props.theme.spacing(25),
 }));
 
-export const MobileIncomeLink = styled(MobileNavigationLink)(() => ({
+export const MobileIncomeLink = styled(MobileNavigationLink)((props) => ({
   right: 'calc(25% - 25px)',
-  bottom: 60,
+  bottom: props.theme.spacing(15),
 }));
 
-export const MobileLinkSvg = styled.svg(() => ({
+export const MobileLinkSvg = styled('svg')(() => ({
   width: 23,
   height: 23,
 }));
 
-export const MoreContainer = styled(FlexContainer)((props) => ({
-  color: props.theme.colors.text.darker,
-  display: 'none',
-  '@media (min-width: 600px)': {
-    display: 'flex',
-  },
-}));
-
-export const SettingsLinkContainer = styled.div((props) => ({
+export const SettingsLinkContainer = styled('div')((props) => ({
   display: 'none',
   '@media (min-width: 600px)': {
     display: 'block',
@@ -167,7 +159,7 @@ export const SettingsLinkContainer = styled.div((props) => ({
   },
 }));
 
-export const Svg = styled.svg((props) => ({
+export const Svg = styled('svg')((props) => ({
   width: 28,
   height: 28,
   marginRight: props.theme.spacing(3),
@@ -184,7 +176,7 @@ export const Svg = styled.svg((props) => ({
   },
 }));
 
-export const NewTransactionSvg = styled.svg((props) => ({
+export const NewTransactionSvg = styled('svg')((props) => ({
   width: 42,
   marginLeft: props.theme.spacing(2),
   marginRight: props.theme.spacing(2),
@@ -249,7 +241,7 @@ export const SettingsLink = styled(NavLink)((props) => ({
   },
 }));
 
-export const LinkTitle = styled.span(() => ({
+export const LinkTitle = styled('span')(() => ({
   display: 'none',
   '@media (min-width: 1200px)': {
     display: 'flex',

@@ -11,15 +11,16 @@ export const lightTheme = {
     },
     placeholder: '#D1D1D1',
     background: {
-      body: '#FAFAFA',
+      body: '#F7F7F7',
       navigation: '#F3F3F3',
       primary: '#fff',
-      ordinary: '#F3F3F3',
+      ordinary: '#EAEAEA',
     },
     boxShadow: '#F3F3F3',
+    tooltipShadow: '#E9E9E9',
     svg: {
-      pending: '#D3D3D3',
-      hover: '#B8B7B7',
+      pending: '#B8B7B7',
+      hover: '#989393',
     },
     button: {
       pending: '#e0e0e0',
@@ -38,8 +39,8 @@ export const lightTheme = {
     transfer: '#0DC3B4',
     saldo: '#419FFF',
     border: {
-      ordinary: '#DCE2DF',
-      title: '#DCE2DF',
+      ordinary: '#D5D5D5',
+      title: '#D5D5D5',
       item: '#DCE2DF',
     },
   },
@@ -65,6 +66,7 @@ export const darkTheme = {
       primary: '#333232',
       ordinary: '#515151',
     },
+    tooltipShadow: '#202020',
     svg: {
       pending: '#7D7C7C',
       hover: '#D3D3D3',

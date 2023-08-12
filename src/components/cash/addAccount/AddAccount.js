@@ -16,10 +16,9 @@ import {
   BackLinkSvg,
   MobInfoHeaderTitle,
 } from '../../../theme/global';
-import { styled } from 'styled-components';
 import { pages } from '../../../utils/constants/pages';
 import { Back, BackSvg } from '../Cash.styled';
-import { Grid } from '@mui/material';
+import { Grid, styled } from '@mui/material';
 
 const TitleLink = styled(NavLink)((props) => ({
   height: 60,

@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { NumericFormat } from 'react-number-format';
 import { USD } from '@dinero.js/currencies';
 import { dinero, toDecimal, toSnapshot } from 'dinero.js';
 
 import { colors } from '../../../utils/constants/colors.js';
 import { fetchAccountsData, editAccount } from '../../../actions/Actions';
 import {
+  NumericFormatCustom,
   dineroFromFloat,
   formatNumberOutput,
 } from '../../../utils/format/cash';
@@ -40,14 +40,15 @@ import {
   ColorsPalette,
   ColorsPaletteButton,
   ColorsPaletteButtonContainer,
+  DateField,
   DoneButton,
   FieldDescription,
-  FieldInput,
   FormField,
   FormFieldsContainer,
   MobInfoHeaderTitle,
   SelectButton,
   SelectedColor,
+  TextInputField,
 } from '../../../theme/global.js';
 import {
   CardView,
@@ -56,12 +57,12 @@ import {
   CardName,
   CurrentBalance,
   CashColorsContainer,
-  NumericInput,
   Back,
   BackSvg,
 } from '../Cash.styled.js';
 import { pages } from '../../../utils/constants/pages.js';
 import { Grid } from '@mui/material';
+import dayjs from 'dayjs';
 
 const doneEventHandler = (
   clickedAccount,
@@ -124,13 +125,10 @@ export default function InfoAccount() {
 
   const colorsRef = useOutsideClick(hideElement);
 
-  //запрашиваем нужные данные для этого компонента
-  //один раз только при его монтировании
   useEffect(() => {
     dispatch(fetchAccountsData());
   }, [dispatch]);
 
-  //получаем данные нужного счета когда они подгрузились
   useEffect(() => {
     if (status === 'succeeded') {
       let selectedAccount = accounts.find(
@@ -183,41 +181,28 @@ export default function InfoAccount() {
               </CardBalanceContainer>
             </CardView>
             <FormFieldsContainer>
-              <FormField
-                $isActive={activeItem === '1'}
-                $formType="cash"
-                onClick={() => setActiveItem('1')}
-              >
-                <FieldDescription>
-                  {t('INFO_ACCOUNT.DESCRIPTION')}
-                </FieldDescription>
-                <FieldInput
-                  type="text"
-                  onChange={(event) => setDescription(event.target.value)}
-                  defaultValue={description}
-                  placeholder={t('ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
-                ></FieldInput>
-              </FormField>
-              <FormField
-                $isActive={activeItem === '2'}
-                $formType="cash"
-                onClick={() => setActiveItem('2')}
-              >
-                <FieldDescription>{t('INFO_ACCOUNT.BALANCE')}</FieldDescription>
-                <div>
-                  $
-                  <NumericFormat
-                    customInput={NumericInput}
-                    thousandSeparator=","
-                    decimalSeparator="."
-                    decimalScale={2}
-                    allowNegative={false}
-                    placeholder="0.00"
-                    onValueChange={(values) => setBalance(values.floatValue)}
-                    value={balance}
-                  />
-                </div>
-              </FormField>
+              <TextInputField
+                $type="common"
+                margin="normal"
+                required
+                multiline
+                label={t('INFO_ACCOUNT.DESCRIPTION')}
+                placeholder={t('INFO_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
+                defaultValue={description}
+                onChange={(event) => setDescription(event.target.value)}
+              />
+              <TextInputField
+                $type="common"
+                margin="normal"
+                required
+                label={t('INFO_ACCOUNT.BALANCE')}
+                name="numberformat"
+                value={balance}
+                onChange={(event) => setBalance(event.target.value)}
+                InputProps={{
+                  inputComponent: NumericFormatCustom,
+                }}
+              />
               <FormField
                 $isActive={activeItem === '3'}
                 $formType="cash"
@@ -253,37 +238,30 @@ export default function InfoAccount() {
                   </ColorsPaletteButton>
                 </ColorsPaletteButtonContainer>
               </CashColorsContainer>
-              <FormField
-                $isActive={activeItem === '4'}
-                $formType="cash"
-                onClick={() => setActiveItem('4')}
-              >
-                <FieldDescription>{t('INFO_ACCOUNT.DATE')}</FieldDescription>
-                <FieldInput
-                  type="date"
-                  onChange={(event) => setDate(new Date(event.target.value))}
-                ></FieldInput>
-              </FormField>
-              <FormField
-                $isActive={activeItem === '5'}
-                $formType="cash"
-                onClick={() => setActiveItem('5')}
-              >
-                <FieldDescription>{t('INFO_ACCOUNT.NOTES')}</FieldDescription>
-                <FieldInput
-                  type="text"
-                  onChange={(event) => setNotes(event.target.value)}
-                  value={notes}
-                ></FieldInput>
-              </FormField>
-              <FormField
-                $isActive={activeItem === '6'}
-                $formType="cash"
-                onClick={() => setActiveItem('6')}
-              >
-                <FieldDescription>{t('INFO_ACCOUNT.TAGS')}</FieldDescription>
-                <FieldInput></FieldInput>
-              </FormField>
+              <DateField
+                $type="common"
+                required
+                label={t('INFO_ACCOUNT.DATE')}
+                defaultValue={dayjs(date)}
+                onChange={(value) => setDate(value)}
+              />
+              <TextInputField
+                $type="common"
+                margin="normal"
+                multiline
+                label={t('INFO_ACCOUNT.NOTES')}
+                placeholder={t('INFO_ACCOUNT.NOTES_PLACEHOLDER')}
+                defaultValue={notes}
+                onChange={(event) => setNotes(event.target.value)}
+              />
+              <TextInputField
+                $type="common"
+                margin="normal"
+                multiline
+                label={t('INFO_ACCOUNT.TAGS')}
+                placeholder={t('INFO_ACCOUNT.TAGS_PLACEHOLDER')}
+                onChange={(event) => setTags(event.target.value)}
+              />
               <AddFormButtonsContainer>
                 <DoneButton
                   to={pages.cash[cashType]}

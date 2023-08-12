@@ -28,6 +28,7 @@ import {
   Trash,
   Filter,
   FilterSvg,
+  CustomTooltip,
 } from '../../theme/global.js';
 import { pages } from '../../utils/constants/pages.js';
 import { Grid } from '@mui/material';
@@ -66,12 +67,14 @@ export default function Cash() {
               <FilterSvg as={CalendarIcon} />
               <FilterSvg as={CommonFilterIcon} />
             </CommonFilter>
-            <ArchivedTrash>
-              <NavLink to={pages.cash.trash.main}>
-                <Trash as={TrashIcon} />
-                <TrashCount>{archivedAccounts.length}</TrashCount>
-              </NavLink>
-            </ArchivedTrash>
+            <CustomTooltip title={t('CASH.ARCHIVED')} arrow>
+              <ArchivedTrash>
+                <NavLink to={pages.cash.trash.main}>
+                  <Trash as={TrashIcon} />
+                  <TrashCount>{archivedAccounts.length}</TrashCount>
+                </NavLink>
+              </ArchivedTrash>
+            </CustomTooltip>
           </FlexContainer>
         </Header>
       </Grid>

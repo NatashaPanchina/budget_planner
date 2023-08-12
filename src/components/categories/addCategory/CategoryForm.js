@@ -28,13 +28,14 @@ import {
   ColorsPaletteButton,
   DoneButton,
   FieldDescription,
-  FieldInput,
   FormField,
-  FormFieldsContainer,
   SelectButton,
   SelectedColor,
   ButtonTitle,
   ButtonSvg,
+  TextInputField,
+  DateField,
+  FormFieldsContainer,
 } from '../../../theme/global.js';
 import {
   CategoryColorsContainer,
@@ -46,6 +47,7 @@ import {
 import { pages } from '../../../utils/constants/pages.js';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
+import dayjs from 'dayjs';
 
 const doneEventHandler = (
   categoryType,
@@ -86,7 +88,7 @@ function CategoryForm({ addNewCategory }) {
   const [icon, setIcon] = useState(0);
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState('');
-  const [tags] = useState(['']);
+  const [tags, setTags] = useState(['']);
 
   const SelectedIcon = categoryIcons[icon];
 
@@ -95,18 +97,16 @@ function CategoryForm({ addNewCategory }) {
 
   return (
     <FormFieldsContainer>
-      <FormField
-        $isActive={activeItem === '1'}
-        $formType={categoryType}
-        onClick={() => setActiveItem('1')}
-      >
-        <FieldDescription>{t('ADD_CATEGORY.DESCRIPTION')}</FieldDescription>
-        <FieldInput
-          type="text"
-          onChange={(event) => setDescription(event.target.value)}
-          placeholder={t('ADD_CATEGORY.DESCRIPTION_PLACEHOLDER')}
-        ></FieldInput>
-      </FormField>
+      <TextInputField
+        $type={categoryType}
+        margin="normal"
+        required
+        multiline
+        label={t('ADD_CATEGORY.DESCRIPTION')}
+        placeholder={t('ADD_CATEGORY.DESCRIPTION_PLACEHOLDER')}
+        defaultValue={description}
+        onChange={(event) => setDescription(event.target.value)}
+      />
       <FormField
         $isActive={activeItem === '2'}
         $formType={categoryType}
@@ -179,40 +179,30 @@ function CategoryForm({ addNewCategory }) {
           </IconsButton>
         </IconsButtonContainer>
       </IconsContainer>
-      <FormField
-        $isActive={activeItem === '4'}
-        $formType={categoryType}
-        onClick={() => setActiveItem('4')}
-      >
-        <FieldDescription>{t('ADD_CATEGORY.DATE')}</FieldDescription>
-        <FieldInput
-          type="date"
-          onChange={(event) => setDate(new Date(event.target.value))}
-        ></FieldInput>
-      </FormField>
-      <FormField
-        $isActive={activeItem === '5'}
-        $formType={categoryType}
-        onClick={() => setActiveItem('5')}
-      >
-        <FieldDescription>{t('ADD_CATEGORY.NOTES')}</FieldDescription>
-        <FieldInput
-          type="text"
-          onChange={(event) => setNotes(event.target.value)}
-          placeholder={t('ADD_CATEGORY.NOTES_PLACEHOLDER')}
-        ></FieldInput>
-      </FormField>
-      <FormField
-        $isActive={activeItem === '6'}
-        $formType={categoryType}
-        onClick={() => setActiveItem('6')}
-      >
-        <FieldDescription>{t('ADD_CATEGORY.TAGS')}</FieldDescription>
-        <FieldInput
-          type="text"
-          placeholder={t('ADD_CATEGORY.TAGS_PLACEHOLDER')}
-        ></FieldInput>
-      </FormField>
+      <DateField
+        $type={categoryType}
+        required
+        label={t('ADD_CATEGORY.DATE')}
+        defaultValue={dayjs(date)}
+        onChange={(value) => setDate(value)}
+      />
+      <TextInputField
+        $type={categoryType}
+        margin="normal"
+        multiline
+        label={t('ADD_CATEGORY.NOTES')}
+        placeholder={t('ADD_CATEGORY.NOTES_PLACEHOLDER')}
+        defaultValue={notes}
+        onChange={(event) => setNotes(event.target.value)}
+      />
+      <TextInputField
+        $type={categoryType}
+        margin="normal"
+        multiline
+        label={t('ADD_CATEGORY.TAGS')}
+        placeholder={t('ADD_CATEGORY.TAGS_PLACEHOLDER')}
+        onChange={(event) => setTags(event.target.value)}
+      />
       <AddFormButtonsContainer>
         <DoneButton
           to={pages.categories[`${categoryType}s`]}

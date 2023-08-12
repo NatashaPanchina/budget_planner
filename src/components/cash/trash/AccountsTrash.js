@@ -27,7 +27,6 @@ import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delet
 import searchIcon from '../../../assets/icons/shared/search.svg';
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 
-import { styled } from 'styled-components';
 import {
   BackLink,
   Search,
@@ -50,20 +49,28 @@ import {
   CardButtonTitle,
 } from '../Cash.styled';
 import { pages } from '../../../utils/constants/pages';
-import { Grid } from '@mui/material';
+import { Grid, styled } from '@mui/material';
 
-const CashListItem = styled.div((props) => ({
+const CashListItem = styled('div')((props) => ({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'center',
   marginBottom: props.theme.spacing(10),
+  '@media (min-width: 600px)': {
+    justifyContent: 'start',
+  },
 }));
 
-const ArchivedCount = styled.div((props) => ({
+const ArchivedCount = styled('div')((props) => ({
   fontSize: '0.875rem',
   color: props.theme.colors.main.violet,
   height: 50,
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'center',
+  '@media (min-width: 600px)': {
+    justifyContent: 'start',
+  },
 }));
 
 function renderAccounts(

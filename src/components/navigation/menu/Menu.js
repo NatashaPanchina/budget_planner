@@ -1,5 +1,4 @@
 import React from 'react';
-import { styled } from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -20,15 +19,16 @@ import { ReactComponent as AboutIcon } from '../../../assets/icons/navigation/mo
 import { ReactComponent as GithubIcon } from '../../../assets/icons/shared/github.svg';
 import { pages } from '../../../utils/constants/pages';
 import { useTranslation } from 'react-i18next';
+import { styled } from '@mui/material';
 
-const FlexContainer = styled.div(() => ({
+const FlexContainer = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
 }));
 
-const Container = styled.div((props) => ({
+const Container = styled('div')((props) => ({
   backgroundColor: props.theme.colors.background.body,
-  width: `calc(100% - ${props.theme.spacing(2) * 2}px)`,
+  width: `calc(100% - ${props.theme.spacing(2 * 2)})`,
   padding: props.theme.spacing(2),
 }));
 
@@ -47,18 +47,18 @@ const LogOut = styled(FlexContainer)(() => ({
   marginLeft: 'auto',
 }));
 
-const LogOutSvg = styled.svg(() => ({
+const LogOutSvg = styled('svg')(() => ({
   height: 45,
   width: 45,
 }));
 
-const AvatarSvg = styled.svg((props) => ({
+const AvatarSvg = styled('svg')((props) => ({
   height: 60,
   width: 60,
   marginRight: props.theme.spacing(2),
 }));
 
-const Svg = styled.svg((props) => ({
+const Svg = styled('svg')((props) => ({
   height: 35,
   width: 35,
   marginBottom: props.theme.spacing(1),

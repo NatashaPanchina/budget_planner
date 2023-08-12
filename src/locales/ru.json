@@ -59,7 +59,9 @@
       "LESS_THAN_FIVE": "транзакции",
       "MORE_THAN_FIVE": "транзакций"
     },
-    "NO_TRANSACTIONS": "Здесь пока нет ни одной транзакции"
+    "NO_TRANSACTIONS": "Здесь пока нет ни одной транзакции",
+    "EDIT": "Редактировать",
+    "DELETE": "Удалить"
   },
   "INFO_TRANSACTION": {
     "TITLE": "Информация о транзакции",
@@ -96,7 +98,8 @@
     "CURRENT_BALANCE": "Текущий баланс",
     "EDIT": "Изменить",
     "NEW_TRANSFER": "Новый перевод",
-    "ARCHIVE": "Архивировать"
+    "ARCHIVE": "Архивировать",
+    "ARCHIVED": "Архив"
   },
   "ADD_ACCOUNT": {
     "CARD": "Карта",
@@ -183,7 +186,11 @@
     "FILTER_KEY": "По умолчанию",
     "FILTER_DATE": "Все время",
     "SEARCH_CATEGORY": "Поиск по категориям",
-    "ADD_CATEGORY": "Новая категория"
+    "ADD_CATEGORY": "Новая категория",
+    "ADD_SUB": "Добавить подкатегорию",
+    "EDIT": "Редактировать",
+    "ARCHIVE": "Архивировать",
+    "ARCHIVED": "Архив"
   },
   "ADD_CATEGORY": {
     "TITLE": "Новая категория",
@@ -228,7 +235,9 @@
       "ONE": "категория",
       "LESS_THAN_FIVE": "категории",
       "MORE_THAN_FIVE": "категорий"
-    }
+    },
+    "RESTORE": "Восстановить",
+    "DELETE": "Удалить"
   },
   "ANALYSIS": {
     "TRANSACTIONS_ANALYSIS": "Анализ транзакций",

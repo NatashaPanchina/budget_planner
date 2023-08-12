@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { NumericFormat } from 'react-number-format';
 
 import { dinero, toSnapshot, toDecimal, subtract, add } from 'dinero.js';
 import { USD } from '@dinero.js/currencies';
@@ -16,16 +16,7 @@ import {
 } from '../../../actions/Actions.js';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 import { dineroFromFloat } from '../../../utils/format/cash';
-import {
-  renderSelectedCategory,
-  renderCategories,
-  renderAccounts,
-  renderSelectedAccount,
-} from '../utils';
-import {
-  hideElement,
-  useOutsideClick,
-} from '../../../hooks/useOutsideClick.js';
+import { renderCategories, renderAccounts } from '../utils';
 
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
@@ -45,24 +36,19 @@ import {
   ButtonSvg,
   ButtonTitle,
   CancelButton,
+  DateField,
   DoneButton,
-  FieldDescription,
-  FieldInput,
-  FormField,
-  FormFieldsContainer,
   MobHeaderTitle,
   Search,
   SearchImg,
   SearchInput,
+  TextInputField,
 } from '../../../theme/global.js';
-import {
-  AccountsList,
-  Back,
-  BackSvg,
-  CategoriesList,
-  NumericInput,
-} from '../../newTransaction/NewTransaction.styled.js';
+import { Back, BackSvg } from '../../newTransaction/NewTransaction.styled.js';
 import { Grid } from '@mui/material';
+
+import dayjs from 'dayjs';
+import { NumericFormatCustom } from '../../../utils/format/cash';
 
 function createNewBalance(prevTransaction, newTransaction, accounts) {
   const prevAccount = accounts.find(
@@ -197,14 +183,13 @@ export default function InfoTransaction() {
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
-  const [activeItem, setActiveItem] = useState('');
 
   const clickedTransaction = useParams().transactionId;
 
   let [id, setId] = useState('');
   const [transactionType, setTransactionType] = useState('expense');
-  const [category, setCategory] = useState();
-  const [account, setAccount] = useState();
+  const [category, setCategory] = useState('');
+  const [account, setAccount] = useState('');
   const [amount, setAmount] = useState(
     toDecimal(dinero({ amount: 0, currency: USD })),
   );
@@ -228,9 +213,6 @@ export default function InfoTransaction() {
   const infoTransaction = transactionsData.find(
     (transaction) => transaction.id === clickedTransaction,
   );
-
-  const categoriesRef = useOutsideClick(hideElement);
-  const accountsRef = useOutsideClick(hideElement);
 
   useEffect(() => {
     dispatch(fetchCategoriesData());
@@ -292,159 +274,117 @@ export default function InfoTransaction() {
         <MobHeaderTitle $titleType={transactionType}>
           {t('INFO_TRANSACTION.TITLE')}
         </MobHeaderTitle>
-        <FormFieldsContainer>
-          <FormField
-            $isActive={activeItem === '1'}
-            $formType={transactionType}
-            onClick={() => setActiveItem('1')}
+
+        <TextInputField
+          $type={transactionType}
+          margin="normal"
+          required
+          select
+          label={t('INFO_TRANSACTION.CATEGORY')}
+          value={category}
+          onChange={(event) => setCategory(event.target.value)}
+        >
+          <Search>
+            <SearchInput
+              placeholder={t('INFO_TRANSACTION.SEARCH_CATEGORY')}
+            ></SearchInput>
+            <SearchImg src={searchIcon} alt="search" />
+          </Search>
+          <AddButton to={pages.categories.add[transactionType]}>
+            <AddButtonSvg as={PlusIcon} />
+            {t('INFO_TRANSACTION.ADD_CATEGORY')}
+          </AddButton>
+          {renderCategories(filteredCategories)}
+        </TextInputField>
+        <TextInputField
+          $type={transactionType}
+          margin="normal"
+          required
+          select
+          label={t('INFO_TRANSACTION.CASH')}
+          value={account}
+          onChange={(event) => setAccount(event.target.value)}
+        >
+          <Search>
+            <SearchInput
+              placeholder={t('INFO_TRANSACTION.SEARCH_CASH')}
+            ></SearchInput>
+            <SearchImg src={searchIcon} alt="search" />
+          </Search>
+          <AddButton to={pages.cash.add.card}>
+            <AddButtonSvg as={PlusIcon} />
+            {t('INFO_TRANSACTION.ADD_CASH')}
+          </AddButton>
+          {renderAccounts(notArchivedAccounts, t)}
+        </TextInputField>
+        <TextInputField
+          $type={transactionType}
+          margin="normal"
+          required
+          label={t('INFO_TRANSACTION.AMOUNT')}
+          name="numberformat"
+          value={amount}
+          onChange={(event) => setAmount(event.target.value)}
+          InputProps={{
+            inputComponent: NumericFormatCustom,
+          }}
+        />
+        <DateField
+          $type={transactionType}
+          required
+          label={t('INFO_TRANSACTION.DATE')}
+          defaultValue={dayjs(date)}
+          onChange={(value) => setDate(value)}
+        />
+        <TextInputField
+          $type={transactionType}
+          margin="normal"
+          multiline
+          label={t('INFO_TRANSACTION.NOTES')}
+          placeholder="Tap here to make some notes"
+          defaultValue={notes}
+          onChange={(event) => setNotes(event.target.value)}
+        />
+        <TextInputField
+          $type={transactionType}
+          margin="normal"
+          multiline
+          label={t('INFO_TRANSACTION.TAGS')}
+          onChange={(event) => setTags(event.target.value)}
+        />
+        <AddFormButtonsContainer>
+          <DoneButton
+            $buttonType={transactionType}
+            to={`${pages.transactions[`${transactionType}s`]}/${account}`}
+            onClick={() =>
+              doneEventHandler(
+                clickedTransaction,
+                id,
+                transactionType,
+                category,
+                account,
+                amount,
+                date.toISOString(),
+                notes,
+                tags,
+                infoTransaction,
+                editTransaction,
+                editAccount,
+                accountsData,
+                dispatch,
+              )
+            }
           >
-            <FieldDescription>
-              {t('INFO_TRANSACTION.CATEGORY')}
-            </FieldDescription>
-            <div
-              onClick={(event) => {
-                setActiveItem('1');
-                categoriesRef.current.classList.toggle('none');
-                accountsRef.current.classList.add('none');
-                event.stopPropagation();
-              }}
-            >
-              {renderSelectedCategory(category, categoriesData)}
-            </div>
-          </FormField>
-          <CategoriesList ref={categoriesRef} className="none">
-            <Search>
-              <SearchInput
-                type="text"
-                placeholder={t('INFO_TRANSACTION.SEARCH_CATEGORY')}
-              ></SearchInput>
-              <SearchImg src={searchIcon} alt="search" />
-            </Search>
-            <AddButton to={pages.categories.add[transactionType]}>
-              <AddButtonSvg as={PlusIcon} />
-              {t('INFO_TRANSACTION.ADD_CATEGORY')}
-            </AddButton>
-            {renderCategories(
-              filteredCategories,
-              category,
-              setCategory,
-              categoriesRef,
-            )}
-          </CategoriesList>
-          <FormField
-            $isActive={activeItem === '2'}
-            $formType={transactionType}
-            onClick={() => setActiveItem('2')}
+            <ButtonSvg as={DoneIcon} />
+            <ButtonTitle>{t('NEW_TRANSACTION.DONE')}</ButtonTitle>
+          </DoneButton>
+          <CancelButton
+            to={`${pages.transactions[`${transactionType}s`]}/${account}`}
           >
-            <FieldDescription>{t('INFO_TRANSACTION.CASH')}</FieldDescription>
-            <div
-              onClick={(event) => {
-                setActiveItem('2');
-                accountsRef.current.classList.toggle('none');
-                categoriesRef.current.classList.add('none');
-                event.stopPropagation();
-              }}
-            >
-              {renderSelectedAccount(account, accountsData)}
-            </div>
-          </FormField>
-          <AccountsList ref={accountsRef} className="none">
-            <Search>
-              <SearchInput
-                type="text"
-                placeholder={t('INFO_TRANSACTION.SEARCH_CASH')}
-              ></SearchInput>
-              <SearchImg src={searchIcon} alt="search" />
-            </Search>
-            <AddButton to={pages.cash.add.card}>
-              <AddButtonSvg as={PlusIcon} />
-              {t('INFO_TRANSACTION.ADD_CASH')}
-            </AddButton>
-            {renderAccounts(notArchivedAccounts, setAccount, accountsRef, t)}
-          </AccountsList>
-          <FormField
-            $isActive={activeItem === '3'}
-            $formType={transactionType}
-            onClick={() => setActiveItem('3')}
-          >
-            <FieldDescription>{t('INFO_TRANSACTION.AMOUNT')}</FieldDescription>
-            $
-            <NumericFormat
-              customInput={NumericInput}
-              thousandSeparator=","
-              decimalSeparator="."
-              decimalScale={2}
-              allowNegative={false}
-              placeholder="0.00"
-              onValueChange={(values) => setAmount(values.floatValue)}
-              value={amount}
-            />
-          </FormField>
-          <FormField
-            $isActive={activeItem === '4'}
-            $formType={transactionType}
-            onClick={() => setActiveItem('4')}
-          >
-            <FieldDescription>{t('INFO_TRANSACTION.DATE')}</FieldDescription>
-            <FieldInput
-              type="date"
-              onChange={(event) => setDate(new Date(event.target.value))}
-            ></FieldInput>
-          </FormField>
-          <FormField
-            $isActive={activeItem === '5'}
-            $formType={transactionType}
-            onClick={() => setActiveItem('5')}
-          >
-            <FieldDescription>{t('INFO_TRANSACTION.NOTES')}</FieldDescription>
-            <FieldInput
-              type="text"
-              onChange={(event) => setNotes(event.target.value)}
-              defaultValue={notes}
-            ></FieldInput>
-          </FormField>
-          <FormField
-            $isActive={activeItem === '6'}
-            $formType={transactionType}
-            onClick={() => setActiveItem('6')}
-          >
-            <FieldDescription>{t('INFO_TRANSACTION.TAGS')}</FieldDescription>
-            <FieldInput type="text"></FieldInput>
-          </FormField>
-          <AddFormButtonsContainer>
-            <DoneButton
-              $buttonType={transactionType}
-              to={`${pages.transactions[`${transactionType}s`]}/${account}`}
-              onClick={() =>
-                doneEventHandler(
-                  clickedTransaction,
-                  id,
-                  transactionType,
-                  category,
-                  account,
-                  amount,
-                  date.toISOString(),
-                  notes,
-                  tags,
-                  infoTransaction,
-                  editTransaction,
-                  editAccount,
-                  accountsData,
-                  dispatch,
-                )
-              }
-            >
-              <ButtonSvg as={DoneIcon} />
-              <ButtonTitle>{t('NEW_TRANSACTION.DONE')}</ButtonTitle>
-            </DoneButton>
-            <CancelButton
-              to={`${pages.transactions[`${transactionType}s`]}/${account}`}
-            >
-              <ButtonSvg as={CancelIcon} />
-              <ButtonTitle>{t('NEW_TRANSACTION.CANCEL')}</ButtonTitle>
-            </CancelButton>
-          </AddFormButtonsContainer>
-        </FormFieldsContainer>
+            <ButtonSvg as={CancelIcon} />
+            <ButtonTitle>{t('NEW_TRANSACTION.CANCEL')}</ButtonTitle>
+          </CancelButton>
+        </AddFormButtonsContainer>
       </AddContainer>
     </Grid>
   );

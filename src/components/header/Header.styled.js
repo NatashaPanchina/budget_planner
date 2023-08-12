@@ -1,6 +1,6 @@
-import { css, styled } from 'styled-components';
+import { css, styled } from '@mui/material';
 
-export const FlexContainer = styled.div(() => ({
+export const FlexContainer = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
   height: '100%',
@@ -36,7 +36,7 @@ export const LogoContainer = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const Logo = styled.svg((props) => ({
+export const Logo = styled('svg')((props) => ({
   height: 45,
   width: 45,
   marginRight: 'auto',
@@ -47,7 +47,7 @@ export const Logo = styled.svg((props) => ({
   },
 }));
 
-export const LogoTitle = styled.svg((props) => ({
+export const LogoTitle = styled('svg')((props) => ({
   width: 120,
   display: 'none',
   '@media (min-width: 1200px)': {
@@ -70,7 +70,7 @@ export const Title = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const GlobalSearch = styled.div((props) => ({
+export const GlobalSearch = styled('div')((props) => ({
   display: 'none',
   '@media (min-width: 768px)': {
     display: 'flex',
@@ -82,18 +82,18 @@ export const GlobalSearch = styled.div((props) => ({
   },
 }));
 
-export const GlobalSearchInput = styled.input((props) => ({
+export const GlobalSearchInput = styled('input')((props) => ({
   height: 30,
   borderRadius: 'inherit',
   backgroundColor: 'inherit',
   color: props.theme.colors.text.primary,
-  width: 'calc(100% - 28px)',
+  width: `calc(100% - ${props.theme.spacing(12)})`,
   '&[type="text"]::placeholder': {
     color: props.theme.colors.text.darker,
   },
 }));
 
-export const GlobalSearchImg = styled.img((props) => ({
+export const GlobalSearchImg = styled('img')((props) => ({
   paddingLeft: props.theme.spacing(1),
   paddingRight: props.theme.spacing(1),
   marginLeft: 'auto',
@@ -118,15 +118,15 @@ export const Container = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const CurrentLng = styled.div((props) => ({
+export const CurrentLng = styled('div')((props) => ({
   '&:hover': {
     color: props.theme.colors.text.primary,
   },
 }));
 
-export const LanguagesMenu = styled.div((props) => ({
+export const LanguagesMenu = styled('div')((props) => ({
   position: 'absolute',
-  top: 56,
+  top: props.theme.spacing(14),
   zIndex: 10,
   backgroundColor: props.theme.colors.background.primary,
   padding: props.theme.spacing(2),
@@ -134,14 +134,14 @@ export const LanguagesMenu = styled.div((props) => ({
   cursor: 'pointer',
 }));
 
-export const LanguagesMenuItem = styled.div((props) => ({
+export const LanguagesMenuItem = styled('div')((props) => ({
   padding: props.theme.spacing(2),
   '&:hover': {
     color: props.theme.colors.text.darker,
   },
 }));
 
-export const Svg = styled.svg(() => ({
+export const Svg = styled('svg')(() => ({
   height: 30,
   width: 30,
 }));
@@ -161,7 +161,7 @@ export const Profile = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const Username = styled.span((props) => ({
+export const Username = styled('span')((props) => ({
   marginLeft: props.theme.spacing(2),
 }));
 
@@ -172,39 +172,41 @@ export const LogOut = styled(FlexContainer)(() => ({
   },
 }));
 
-export const Hamburger = styled.div((props) => {
+const HamburgerWrapper = styled('div')(() => ({
+  '@media (min-width: 600px)': {
+    display: 'none',
+  },
+}));
+
+export const Hamburger = styled(HamburgerWrapper, {
+  shouldForwardProp: (prop) => prop !== '$isActive',
+})((props) => {
   if (props.$isActive) {
-    return css(() => ({
-      'span:nth-of-type(1)': {
-        transform: 'rotate(45deg) translate(7px, 9px)',
-        width: 30,
-      },
-      'span:nth-of-type(2)': {
-        opacity: 0,
-        pointerEvents: 'none',
-      },
-      'span:nth-of-type(3)': {
-        transform: 'rotate(-45deg) translate(6px, -9px)',
-        width: 30,
-      },
-      marginLeft: 'auto',
-      cursor: 'pointer',
-      '@media (min-width: 600px)': {
-        display: 'none',
-      },
-    }));
+    return css`
+      span:nth-of-type(1): {
+        transform: rotate(45deg) translate(7px, 9px);
+        width: 30;
+      }
+      span:nth-of-type(2): {
+        opacity: 0;
+        pointer-events: none;
+      }
+      span:nth-of-type(3): {
+        transform: rotate(-45deg) translate(6px, -9px);
+        width: 30;
+      }
+      margin-left: auto;
+      cursor: pointer;
+    `;
   } else {
-    return css(() => ({
-      marginLeft: 'auto',
-      cursor: 'pointer',
-      '@media (min-width: 600px)': {
-        display: 'none',
-      },
-    }));
+    return css`
+      margin-left: auto;
+      cursor: pointer;
+    `;
   }
 });
 
-export const Bar = styled.span((props) => ({
+export const Bar = styled('span')((props) => ({
   display: 'block',
   width: 30,
   height: 2,

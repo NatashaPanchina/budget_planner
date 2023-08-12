@@ -34,6 +34,7 @@ import {
   Trash,
   TrashCount,
   Filter,
+  CustomTooltip,
 } from '../../theme/global.js';
 import { pages } from '../../utils/constants/pages.js';
 import { Grid } from '@mui/material';
@@ -97,12 +98,14 @@ export default function Categories() {
               <FilterSvg as={CalendarIcon} />
               <FilterSvg as={MobileFilterIcon} />
             </CommonFilter>
-            <ArchivedTrash>
-              <NavLink to={pages.categories.trash.main}>
-                <Trash as={TrashIcon} />
-                <TrashCount>{archivedCategories.length}</TrashCount>
-              </NavLink>
-            </ArchivedTrash>
+            <CustomTooltip title={t('CATEGORIES.ARCHIVED')} arrow>
+              <ArchivedTrash>
+                <NavLink to={pages.categories.trash.main}>
+                  <Trash as={TrashIcon} />
+                  <TrashCount>{archivedCategories.length}</TrashCount>
+                </NavLink>
+              </ArchivedTrash>
+            </CustomTooltip>
           </FlexContainer>
         </Header>
       </Grid>

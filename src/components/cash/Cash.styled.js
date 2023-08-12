@@ -1,8 +1,13 @@
 import { Link, NavLink } from 'react-router-dom';
-import { BackLink, BackLinkSvg, ColorsContainer } from '../../theme/global';
-import { styled } from 'styled-components';
+import {
+  AddButton,
+  BackLink,
+  BackLinkSvg,
+  ColorsContainer,
+} from '../../theme/global';
+import { styled } from '@mui/material';
 
-export const FlexContainer = styled.div(() => ({
+export const FlexContainer = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
 }));
@@ -22,11 +27,11 @@ export const MoreInformationContainer = styled(FlexContainer)((props) => ({
   },
   '@media (min-width: 900px)': {
     display: 'block',
-    minWidth: 200,
     height: '85vh',
     maxHeight: '85vh',
+    marginRight: props.theme.spacing(8),
     position: 'sticky',
-    top: 56,
+    top: props.theme.spacing(14),
     zIndex: 9,
   },
 }));
@@ -49,34 +54,34 @@ export const BackSvg = styled(BackLinkSvg)((props) => ({
   },
 }));
 
-export const TotalBalance = styled.div((props) => ({
+export const TotalBalance = styled('div')((props) => ({
   display: 'none',
   '@media (min-width: 900px)': {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     padding: props.theme.spacing(3),
-    width: `calc(100% - ${props.theme.spacing(3) * 2}px)`,
+    width: `calc(100% - ${props.theme.spacing(3 * 2)})`,
   },
 }));
 
-export const PieChartContainer = styled.div((props) => ({
+export const PieChartContainer = styled('div')((props) => ({
   display: 'none',
   '@media (min-width: 600px)': {
     display: 'flex',
-    width: `calc(40% - ${props.theme.spacing(3) * 2}px)`,
-    height: `calc(100% - ${props.theme.spacing(3) * 2}px)`,
+    width: `calc(40% - ${props.theme.spacing(3 * 2)})`,
+    height: `calc(100% - ${props.theme.spacing(3 * 2)})`,
     padding: props.theme.spacing(3),
   },
   '@media (min-width: 900px)': {
     display: 'block',
-    width: `calc(100% - ${props.theme.spacing(5) * 2}px)`,
-    height: `calc(50% - ${props.theme.spacing(5) * 2}px)`,
+    width: `calc(100% - ${props.theme.spacing(5 * 2)})`,
+    height: `calc(50% - ${props.theme.spacing(5 * 2)})`,
     padding: props.theme.spacing(5),
   },
 }));
 
-export const CenterText = styled.text((props) => ({
+export const CenterText = styled('text')((props) => ({
   fill: props.theme.colors.text.primary,
 }));
 
@@ -89,18 +94,18 @@ export const Tooltip = styled(FlexContainer)((props) => ({
   fontSize: '0.875rem',
 }));
 
-export const TooltipSvg = styled.svg((props) => ({
+export const TooltipSvg = styled('svg')((props) => ({
   marginRight: props.theme.spacing(1),
 }));
 
-export const TooltipValue = styled.span((props) => ({
+export const TooltipValue = styled('span')((props) => ({
   fontWeight: 700,
   marginLeft: props.theme.spacing(1),
 }));
 
 export const LegendsContainer = styled(FlexContainer)((props) => ({
-  height: `calc(80% - ${props.theme.spacing(3) * 2}px)`,
-  width: `calc(100% - ${props.theme.spacing(3) * 2}px)`,
+  height: `calc(80% - ${props.theme.spacing(3 * 2)})`,
+  width: `calc(100% - ${props.theme.spacing(3 * 2)})`,
   overflowY: 'auto',
   fontSize: '0.875rem',
   padding: props.theme.spacing(3),
@@ -112,14 +117,14 @@ export const LegendsContainer = styled(FlexContainer)((props) => ({
     borderRadius: props.theme.borderRadius,
   },
   '@media (min-width: 600px)': {
-    height: `calc(80% - ${props.theme.spacing(3) * 2}px)`,
-    width: `calc(60% - ${props.theme.spacing(3) * 2}px)`,
+    height: `calc(80% - ${props.theme.spacing(3 * 2)})`,
+    width: `calc(60% - ${props.theme.spacing(3 * 2)})`,
   },
   '@media (min-width: 900px)': {
     display: 'block',
     padding: props.theme.spacing(5),
-    height: `calc(40% - ${props.theme.spacing(5) * 2}px)`,
-    width: `calc(100% - ${props.theme.spacing(5) * 2}px)`,
+    height: `calc(40% - ${props.theme.spacing(5 * 2)})`,
+    width: `calc(100% - ${props.theme.spacing(5 * 2)})`,
   },
 }));
 
@@ -149,15 +154,28 @@ export const CashTitleLink = styled(NavLink)((props) => ({
   },
 }));
 
-export const CommonFilter = styled.span(() => ({
+export const CommonFilter = styled('span')(() => ({
   display: 'flex',
   '@media (min-width: 600px)': {
     display: 'none',
   },
 }));
 
+export const AddCashButton = styled(AddButton)(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  '@media (min-width: 600px)': {
+    justifyContent: 'start',
+  },
+}));
+
 export const CashListItem = styled(FlexContainer)((props) => ({
+  justifyContent: 'center',
   marginBottom: props.theme.spacing(10),
+  '@media (min-width: 600px)': {
+    justifyContent: 'start',
+  },
 }));
 
 export const CardButtonlink = styled(Link)((props) => ({
@@ -166,14 +184,17 @@ export const CardButtonlink = styled(Link)((props) => ({
   alignItems: 'center',
 }));
 
-export const CardButtonTitle = styled.span(() => ({
+export const CardButtonTitle = styled('span')(() => ({
   display: 'none',
   '@media (min-width: 600px)': {
     display: 'block',
   },
 }));
 
-export const Card = styled.div((props) => ({
+export const Card = styled('div', {
+  shouldForwardProp: (prop) =>
+    prop !== '$cardBackground' && prop !== '$from' && prop !== '$to',
+})((props) => ({
   height: 197,
   width: 310,
   borderRadius: props.theme.borderRadius,
@@ -188,7 +209,7 @@ export const CardView = styled(Card)((props) => ({
   marginBottom: props.theme.spacing(8),
 }));
 
-export const CardName = styled.div((props) => ({
+export const CardName = styled('div')((props) => ({
   fontSize: '0.875rem',
   width: '100%',
   height: '10%',
@@ -202,16 +223,16 @@ export const CardBalanceContainer = styled(FlexContainer)(() => ({
   height: '74%',
 }));
 
-export const CardBalance = styled.div(() => ({
+export const CardBalance = styled('div')(() => ({
   fontSize: '1.375rem',
 }));
 
-export const CurrentBalance = styled.div(() => ({
+export const CurrentBalance = styled('div')(() => ({
   fontSize: '0.75rem',
 }));
 
-export const CashColorsContainer = styled(ColorsContainer)(() => ({
-  top: 200,
+export const CashColorsContainer = styled(ColorsContainer)((props) => ({
+  top: props.theme.spacing(50),
   right: 0,
 }));
 
@@ -235,18 +256,21 @@ export const CardButton = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const CardButtonSvg = styled.svg((props) => ({
+export const CardButtonSvg = styled('svg')((props) => ({
   height: 18,
   width: 18,
-  marginLeft: props.theme.spacing(7),
-  marginRight: props.theme.spacing(2),
+  marginLeft: props.theme.spacing(4),
   fill: 'inherit',
   '& path': {
     fill: 'inherit',
   },
+  '@media (min-width: 600px)': {
+    marginLeft: props.theme.spacing(7),
+    marginRight: props.theme.spacing(2),
+  },
 }));
 
-export const NumericInput = styled.input((props) => ({
+export const NumericInput = styled('input')((props) => ({
   color: props.theme.colors.text.primary,
   fontSize: '1rem',
   backgroundColor: props.theme.colors.background.primary,

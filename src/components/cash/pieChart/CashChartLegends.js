@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { styled } from 'styled-components';
 import { formatNumberOutput } from '../../../utils/format/cash';
+import { styled } from '@mui/material';
 
-const LegendsContainer = styled.div((props) => ({
+const LegendsContainer = styled('div')((props) => ({
   display: 'grid',
   width: '100%',
   alignItems: 'center',
@@ -16,18 +16,18 @@ const LegendsContainer = styled.div((props) => ({
   },
 }));
 
-const LegendsSvg = styled.svg(() => ({
+const LegendsSvg = styled('svg')(() => ({
   alignSelf: 'center',
   minWidth: 14,
 }));
 
-const LegendsProcent = styled.span((props) => ({
+const LegendsProcent = styled('span')((props) => ({
   alignSelf: 'center',
   justifySelf: 'end',
   color: props.$textColor,
 }));
 
-const Balance = styled.span((props) => ({
+const Balance = styled('span')((props) => ({
   alignSelf: 'center',
   justifySelf: 'center',
   color: props.$textColor,

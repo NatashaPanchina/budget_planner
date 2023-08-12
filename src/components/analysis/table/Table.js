@@ -7,10 +7,9 @@ import { USD } from '@dinero.js/currencies';
 import { categoryIcons } from '../../../utils/constants/icons';
 import { formatDineroOutput } from '../../../utils/format/cash';
 import { createData } from '../utils/charts';
+import { styled } from '@mui/material';
 
-import { css, styled } from 'styled-components';
-
-const TableContainer = styled.div((props) => ({
+const TableContainer = styled('div')((props) => ({
   height: 450,
   overflowY: 'auto',
   '&::-webkit-scrollbar': {
@@ -22,7 +21,7 @@ const TableContainer = styled.div((props) => ({
   },
 }));
 
-const TableDescriptionItem = styled.div((props) => ({
+const TableDescriptionItem = styled('div')((props) => ({
   display: 'grid',
   gridTemplateColumns: '1fr 1fr',
   justifyContent: 'center',
@@ -43,7 +42,7 @@ const TableDescriptionItem = styled.div((props) => ({
   },
 }));
 
-const PercentageDescription = styled.span(() => ({
+const PercentageDescription = styled('span')(() => ({
   display: 'none',
   '@media (min-width: 600px)': {
     display: 'flex',
@@ -51,17 +50,17 @@ const PercentageDescription = styled.span(() => ({
   },
 }));
 
-const SumDescription = styled.span(() => ({
+const SumDescription = styled('span')(() => ({
   justifySelf: 'end',
   '@media (min-width: 768px)': {
     justifySelf: 'center',
   },
 }));
 
-const TableItem = styled.div((props) => ({
+const TableItem = styled('div')((props) => ({
   display: 'grid',
   gridTemplateColumns: '1fr 1fr',
-  gap: 10,
+  gap: props.theme.spacing(3),
   alignItems: 'center',
   padding: props.theme.spacing(4),
   paddingLeft: props.theme.spacing(3),
@@ -82,17 +81,17 @@ const TableItem = styled.div((props) => ({
   },
 }));
 
-const CategoryInfo = styled.div(() => ({
+const CategoryInfo = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
 }));
 
-const CategoryInfoSvg = styled.svg((props) => ({
+const CategoryInfoSvg = styled('svg')((props) => ({
   marginRight: props.theme.spacing(3),
   minWidth: 38,
 }));
 
-const Amount = styled.div(() => ({
+const Amount = styled('div')(() => ({
   justifySelf: 'end',
   textAlign: 'right',
   '@media (min-width: 768px)': {
@@ -100,28 +99,13 @@ const Amount = styled.div(() => ({
   },
 }));
 
-const CategoryInfoAmount = styled(Amount)((props) => {
-  switch (props.$amountType) {
-    case 'expenses':
-      return css(() => ({
-        color: props.theme.colors.expense,
-      }));
-    case 'incomes':
-      return css(() => ({
-        color: props.theme.colors.income,
-      }));
-    case 'transfers':
-      return css(() => ({
-        color: props.theme.colors.transfer,
-      }));
-    default:
-      return css(() => ({
-        color: props.theme.colors.expense,
-      }));
-  }
-});
+const CategoryInfoAmount = styled(Amount, {
+  shouldForwardProp: (prop) => prop !== '$amountType',
+})((props) => ({
+  color: props.theme.colors[props.$amountType],
+}));
 
-const Percent = styled.div(() => ({
+const Percent = styled('div')(() => ({
   display: 'none',
   justifySelf: 'end',
   '@media (min-width: 600px)': {
@@ -129,7 +113,7 @@ const Percent = styled.div(() => ({
   },
 }));
 
-const MobPercent = styled.div((props) => ({
+const MobPercent = styled('div')((props) => ({
   color: props.theme.colors.text.primary,
   fontSize: '0.8125rem',
   '@media (min-width: 600px)': {

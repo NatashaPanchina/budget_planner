@@ -1,8 +1,8 @@
+import { styled } from '@mui/material';
 import React from 'react';
-import { styled } from 'styled-components';
 
-const Tooltip = styled.div((props) => ({
-  padding: 12,
+const Tooltip = styled('div')((props) => ({
+  padding: props.theme.spacing(3),
   display: 'flex',
   alignItems: 'center',
   background: props.theme.colors.background.primary,
@@ -11,13 +11,13 @@ const Tooltip = styled.div((props) => ({
   fontSize: '0.875rem',
 }));
 
-const TooltipSvg = styled.svg(() => ({
-  marginRight: 6,
+const TooltipSvg = styled('svg')((props) => ({
+  marginRight: props.theme.spacing(1.5),
 }));
 
-const TooltipValue = styled.span(() => ({
+const TooltipValue = styled('span')((props) => ({
   fontWeight: 700,
-  marginLeft: 6,
+  marginLeft: props.theme.spacing(1.5),
 }));
 
 export function renderTooltip(id, formattedValue) {

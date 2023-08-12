@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -25,18 +25,18 @@ import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delet
 import searchIcon from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
 
-import { styled } from 'styled-components';
 import {
   BackLink,
   BackLinkSvg,
   Search,
   SearchImg,
   SearchInput,
+  ToggleMenu,
   TrashContainer,
   TrashHeader,
 } from '../../../theme/global';
 import { pages } from '../../../utils/constants/pages';
-import { Grid } from '@mui/material';
+import { Grid, MenuItem, styled } from '@mui/material';
 import {
   CategoriesDescription,
   CategoriesListItem,
@@ -45,10 +45,11 @@ import {
   CategoriesTitleLink,
   EditButtonSvg,
   EditButtons,
+  FlexContainer,
   MobItemButtonSvg,
 } from '../Categories.styled';
 
-const ArchivedCount = styled.div((props) => ({
+const ArchivedCount = styled('div')((props) => ({
   fontSize: '0.875rem',
   color: props.theme.colors.main.violet,
   height: 60,
@@ -57,6 +58,11 @@ const ArchivedCount = styled.div((props) => ({
 }));
 
 function renderCategories(
+  clickedCategory,
+  setClickedCategory,
+  anchorEl,
+  setAnchorEl,
+  open,
   categories,
   transactions,
   restoreCategory,
@@ -102,27 +108,50 @@ function renderCategories(
               {category.description}
             </CategoriesDescription>
             <EditButtons>
-              <EditButtonSvg
-                as={RestoreIcon}
-                onClick={() => {
-                  dispatch(restoreCategory(category.id));
-                  idbAddItem({ ...category, archived: false }, 'categories');
+              <ToggleMenu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={() => setAnchorEl(null)}
+              >
+                <MenuItem onClick={() => setAnchorEl(null)}>
+                  <FlexContainer
+                    onClick={() => {
+                      dispatch(restoreCategory(clickedCategory.id));
+                      idbAddItem(
+                        { ...clickedCategory, archived: false },
+                        'categories',
+                      );
+                    }}
+                  >
+                    <EditButtonSvg as={RestoreIcon} />
+                    {t('CATEGORIES_TRASH.RESTORE')}
+                  </FlexContainer>
+                </MenuItem>
+                <MenuItem onClick={() => setAnchorEl(null)}>
+                  <FlexContainer
+                    onClick={() => {
+                      transactions.forEach((transaction) => {
+                        if (transaction.category === clickedCategory.id) {
+                          dispatch(deleteTransaction(transaction.id));
+                          idbDeleteItem(transaction.id, 'transactions');
+                        }
+                      });
+                      dispatch(deleteCategory(clickedCategory.id));
+                      idbDeleteItem(clickedCategory.id, 'categories');
+                    }}
+                  >
+                    <EditButtonSvg as={DeleteIcon} />
+                    {t('CATEGORIES_TRASH.DELETE')}
+                  </FlexContainer>
+                </MenuItem>
+              </ToggleMenu>
+              <MobItemButtonSvg
+                as={ToggleEditIcon}
+                onClick={(event) => {
+                  setClickedCategory(category);
+                  setAnchorEl(event.currentTarget);
                 }}
               />
-              <EditButtonSvg
-                as={DeleteIcon}
-                onClick={() => {
-                  transactions.forEach((transaction) => {
-                    if (transaction.category === category.id) {
-                      dispatch(deleteTransaction(transaction.id));
-                      idbDeleteItem(transaction.id, 'transactions');
-                    }
-                  });
-                  dispatch(deleteCategory(category.id));
-                  idbDeleteItem(category.id, 'categories');
-                }}
-              />
-              <MobItemButtonSvg as={ToggleEditIcon} />
             </EditButtons>
             {renderNotes(category.notes)}
           </CategoriesListItem>
@@ -136,12 +165,14 @@ export default function CategoriesTrash() {
   const categories = useSelector((state) => state.categories);
   const transactions = useSelector((state) => state.transactions);
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
   const filterType = createFilterType(useParams().filterType);
   const archivedCategories = categories.categories.filter(
     (category) => category.archived,
   );
+  const [clickedCategory, setClickedCategory] = useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     dispatch(fetchCategoriesData());
@@ -179,6 +210,11 @@ export default function CategoriesTrash() {
           <SearchImg src={searchIcon} alt="search" />
         </Search>
         {renderCategories(
+          clickedCategory,
+          setClickedCategory,
+          anchorEl,
+          setAnchorEl,
+          open,
           filterCategories(filterType, archivedCategories),
           transactions.transactions,
           restoreCategory,

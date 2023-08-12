@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
@@ -25,6 +25,7 @@ import {
   Search,
   SearchImg,
   SearchInput,
+  ToggleMenu,
 } from '../../../theme/global.js';
 import {
   CategoriesListItem,
@@ -33,16 +34,20 @@ import {
   EditButtons,
   EditButtonSvg,
   ListItemContainer,
+  FlexContainer,
+  EditLinkContainer,
 } from '../Categories.styled.js';
 import { pages } from '../../../utils/constants/pages.js';
 import { MobItemButtonSvg } from '../Categories.styled.js';
+import { MenuItem } from '@mui/material';
 
 function CategoriesList({ notArchivedCategories, archiveCategory }) {
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
-
   const filterType = createFilterType(useParams().filterType);
+  const [clickedCategory, setClickedCategory] = useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   return (
     <>
@@ -104,18 +109,47 @@ function CategoriesList({ notArchivedCategories, archiveCategory }) {
                   </CategoriesListItem>
                 </Link>
                 <EditButtons>
-                  <EditButtonSvg as={AddIcon} />
-                  <Link to={`${pages.categories.info.main}/${category.id}`}>
-                    <EditButtonSvg as={EditIcon} />
-                  </Link>
-                  <EditButtonSvg
-                    as={ArchiveIcon}
-                    onClick={() => {
-                      dispatch(archiveCategory(category.id));
-                      idbAddItem({ ...category, archived: true }, 'categories');
+                  <ToggleMenu
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={() => setAnchorEl(null)}
+                  >
+                    <MenuItem onClick={() => setAnchorEl(null)}>
+                      <FlexContainer>
+                        <EditButtonSvg as={AddIcon} />
+                        {t('CATEGORIES.ADD_SUB')}
+                      </FlexContainer>
+                    </MenuItem>
+                    <MenuItem onClick={() => setAnchorEl(null)}>
+                      <EditLinkContainer
+                        to={`${pages.categories.info.main}/${clickedCategory.id}`}
+                      >
+                        <EditButtonSvg as={EditIcon} />
+                        {t('CATEGORIES.EDIT')}
+                      </EditLinkContainer>
+                    </MenuItem>
+                    <MenuItem onClick={() => setAnchorEl(null)}>
+                      <FlexContainer
+                        onClick={() => {
+                          dispatch(archiveCategory(clickedCategory.id));
+                          idbAddItem(
+                            { ...clickedCategory, archived: true },
+                            'categories',
+                          );
+                        }}
+                      >
+                        <EditButtonSvg as={ArchiveIcon} />
+                        {t('CATEGORIES.ARCHIVE')}
+                      </FlexContainer>
+                    </MenuItem>
+                  </ToggleMenu>
+                  <MobItemButtonSvg
+                    as={ToggleEditIcon}
+                    onClick={(event) => {
+                      setClickedCategory(category);
+                      setAnchorEl(event.currentTarget);
                     }}
                   />
-                  <MobItemButtonSvg as={ToggleEditIcon} />
                 </EditButtons>
               </ListItemContainer>
             </React.Fragment>

@@ -1,6 +1,6 @@
-import { css, styled } from 'styled-components';
+import { css, styled } from '@mui/material';
 
-const FlexContainer = styled.div(() => ({
+const FlexContainer = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
 }));
@@ -8,9 +8,9 @@ const FlexContainer = styled.div(() => ({
 export const AnalysisHeader = styled(FlexContainer)((props) => ({
   justifyContent: 'center',
   flexWrap: 'wrap',
-  padding: `${props.theme.spacing(2)}px 0`,
+  padding: `${props.theme.spacing(2)} 0`,
   position: 'sticky',
-  top: 56,
+  top: props.theme.spacing(14),
   zIndex: 9,
   backgroundColor: props.theme.colors.background.body,
   '@media (min-width: 768px)': {
@@ -33,7 +33,7 @@ export const Filter = styled(FlexContainer)((props) => ({
   justifyContent: 'center',
   borderRadius: props.theme.borderRadius * 1.5,
   height: 'fit-content',
-  width: `calc(50% - ${props.theme.spacing(2) * 2}px)`,
+  width: `calc(50% - ${props.theme.spacing(2 * 2)})`,
   padding: props.theme.spacing(2),
   fontSize: '0.875rem',
   color: props.theme.colors.text.darker,
@@ -46,15 +46,15 @@ export const Filter = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const FilterSvg = styled.svg((props) => ({
+export const FilterSvg = styled('svg')((props) => ({
   height: 18,
   width: 18,
-  margin: `0px ${props.theme.spacing(2)}px`,
+  margin: `0px ${props.theme.spacing(2)}`,
 }));
 
-export const AccountsList = styled.div((props) => ({
+export const AccountsList = styled('div')((props) => ({
   position: 'absolute',
-  top: 75,
+  top: props.theme.spacing(22),
   left: `calc(25% - 6em)`,
   width: '12em',
   color: props.theme.colors.text.primary,
@@ -63,12 +63,12 @@ export const AccountsList = styled.div((props) => ({
   borderRadius: props.theme.borderRadius,
   '@media (min-width: 768px)': {
     width: '15em',
-    top: 45,
+    top: props.theme.spacing(11),
     left: `calc(50% - 7.5em)`,
   },
 }));
 
-export const Container = styled.div((props) => ({
+export const Container = styled('div')((props) => ({
   boxSizing: 'border-box',
   border: `1px solid ${props.theme.colors.border.item}`,
   borderRadius: props.theme.borderRadius,
@@ -92,7 +92,7 @@ export const CommonInfoContainer = styled(Container)((props) => ({
   },
 }));
 
-export const CommonInfoItemDiv = styled.div((props) => ({
+export const CommonInfoItemDiv = styled('div')((props) => ({
   justifySelf: 'center',
   width: '80%',
   boxSizing: 'border-box',
@@ -105,75 +105,54 @@ export const CommonInfoItemDiv = styled.div((props) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: `${props.theme.spacing(5)}px ${props.theme.spacing(4)}px`,
+    padding: `${props.theme.spacing(5)} ${props.theme.spacing(4)}`,
   },
 }));
 
-export const CommonInfoItem = styled(CommonInfoItemDiv)((props) => {
+export const CommonInfoItem = styled(CommonInfoItemDiv, {
+  shouldForwardProp: (prop) => prop !== '$itemType',
+})((props) => {
   switch (props.$itemType) {
     case 'totalExpense':
-      return css(() => ({
-        gridColumn: '1 / 2',
-        gridRow: '1 / 2',
-        '@media (min-width: 600px)': {
-          gridColumn: '1 / 2',
-          gridRow: '1 / 2',
-        },
-      }));
+      return css`
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        @media (min-width: 600px) : {
+          grid-column: 1 / 2;
+          grid-row: 1 / 2;
+        }
+      `;
     case 'totalIncome':
-      return css(() => ({
-        gridColumn: '1 / 2',
-        gridRow: '2 / 3',
-        '@media (min-width: 600px)': {
-          gridColumn: '2 / 3',
-          gridRow: '1 / 2',
-        },
-      }));
+      return css`
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+        @media (min-width: 600px) : {
+          grid-column: 2 / 3;
+          grid-row: 1 / 2;
+        }
+      `;
     case 'saldo':
-      return css(() => ({
-        gridColumn: '1 / 2',
-        gridRow: '3 / 4',
-        '@media (min-width: 600px)': {
-          gridColumn: '3 / 4',
-          gridRow: '1 / 2',
-        },
-      }));
-    case 'averageExpense':
-      return css(() => ({
-        gridColumn: '2 / 3',
-        gridRow: '1 / 2',
-        '@media (min-width: 600px)': {
-          gridColumn: '1 / 2',
-          gridRow: '2 / 3',
-        },
-      }));
-    case 'averageIncome':
-      return css(() => ({
-        gridColumn: '2 / 3',
-        gridRow: '2 / 3',
-        '@media (min-width: 600px)': {
-          gridColumn: '2 / 3',
-          gridRow: '2 / 3',
-        },
-      }));
-    case 'totalCount':
-      return css(() => ({
-        gridColumn: '2 / 3',
-        gridRow: '3 / 4',
-        '@media (min-width: 600px)': {
-          gridColumn: '3 / 4',
-          gridRow: '2 / 3',
-        },
-      }));
+      return css`
+        grid-column: 1 / 2;
+        grid-row: 3 / 4;
+        @media (min-width: 600px) : {
+          grid-column: 3 / 4;
+          grid-row: 1 / 2;
+        }
+      `;
     default:
-      return css(() => ({
-        gridColumn: '1 / 2',
-        gridRow: '1 / 2',
-      }));
+      return css`
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        @media (min-width: 600px) : {
+          grid-column: 1 / 2;
+          grid-row: 1 / 2;
+        }
+      `;
   }
 });
 
-export const CommonInfoSvg = styled.svg((props) => ({
+export const CommonInfoSvg = styled('svg')((props) => ({
   width: 30,
   height: 30,
   minWidth: 30,
@@ -185,41 +164,25 @@ export const CommonInfoSvg = styled.svg((props) => ({
   },
 }));
 
-export const CommonInfoTitle = styled.div((props) => ({
+export const CommonInfoTitle = styled('div')((props) => ({
   fontSize: '0.75rem',
   color: props.theme.colors.text.darker,
 }));
 
-export const CommonInfoAmount = styled.div((props) => {
-  switch (props.$amountType) {
-    case 'expense':
-      return css(() => ({
-        color: props.theme.colors.expense,
-      }));
-    case 'income':
-      return css(() => ({
-        color: props.theme.colors.income,
-      }));
-    case 'saldo':
-      return css(() => ({
-        color: props.theme.colors.saldo,
-      }));
-    case 'all':
-      return css(() => ({
-        color: props.theme.colors.main.violet,
-      }));
-    default:
-      return css(() => ({
-        color: props.theme.colors.expense,
-      }));
-  }
-});
+export const CommonInfoAmount = styled('div', {
+  shouldForwardProp: (prop) => prop !== '$amountType',
+})((props) => ({
+  color:
+    props.$amountType === 'all'
+      ? props.theme.colors.main.violet
+      : props.theme.colors[props.$amountType],
+}));
 
-export const CommonInfoCount = styled.div(() => ({
+export const CommonInfoCount = styled('div')(() => ({
   fontSize: '0.875rem',
 }));
 
-export const CommonCalcItem = styled.div((props) => ({
+const CommonCalcDiv = styled('div')((props) => ({
   justifySelf: 'center',
   textAlign: 'center',
   width: '80%',
@@ -228,11 +191,54 @@ export const CommonCalcItem = styled.div((props) => ({
     display: 'block',
   },
   '@media (min-width: 768px)': {
-    padding: `${props.theme.spacing(6)}px ${props.theme.spacing(4)}px`,
+    padding: `${props.theme.spacing(6)} ${props.theme.spacing(4)}`,
   },
 }));
 
-export const ChartsContainer = styled.div((props) => ({
+export const CommonCalcItem = styled(CommonCalcDiv, {
+  shouldForwardProp: (prop) => prop !== '$itemType',
+})((props) => {
+  switch (props.$itemType) {
+    case 'averageExpense':
+      return css`
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        @media (min-width: 600px) : {
+          grid-column: 1 / 2;
+          grid-row: 2 / 3;
+        }
+      `;
+    case 'averageIncome':
+      return css`
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+        @media (min-width: 600px) : {
+          grid-column: 2 / 3;
+          grid-row: 2 / 3;
+        }
+      `;
+    case 'totalCount':
+      return css`
+        grid-column: 2 / 3;
+        grid-row: 3 / 4;
+        @media (min-width: 600px) : {
+          grid-column: 3 / 4;
+          grid-row: 2 / 3;
+        }
+      `;
+    default:
+      return css`
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        @media (min-width: 600px) : {
+          grid-column: 1 / 2;
+          grid-row: 2 / 3;
+        }
+      `;
+  }
+});
+
+export const ChartsContainer = styled('div')((props) => ({
   marginTop: props.theme.spacing(7),
   width: '100%',
   border: `1px solid ${props.theme.colors.border.item}`,
@@ -242,13 +248,13 @@ export const ChartsContainer = styled.div((props) => ({
   position: 'relative',
 }));
 
-export const ChartSvg = styled.svg(() => ({
+export const ChartSvg = styled('svg')((props) => ({
   display: 'none',
   '@media (min-width: 768px)': {
     display: 'flex',
     position: 'absolute',
-    top: 20,
-    left: 20,
+    top: props.theme.spacing(5),
+    left: props.theme.spacing(5),
     width: 35,
     height: 35,
     minWidth: 35,
@@ -257,7 +263,7 @@ export const ChartSvg = styled.svg(() => ({
 
 export const ChartHeader = styled(FlexContainer)((props) => ({
   overflowX: 'scroll',
-  width: `calc(100% - ${props.theme.spacing(5) * 2}px)`,
+  width: `calc(100% - ${props.theme.spacing(5 * 2)})`,
   padding: props.theme.spacing(5),
   borderBottom: `1px solid ${props.theme.colors.border.title}`,
   '&::-webkit-scrollbar': {
@@ -274,7 +280,9 @@ export const ChartHeader = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const ChartButton = styled.button((props) => ({
+export const ChartButton = styled('button', {
+  shouldForwardProp: (prop) => prop !== '$isActive',
+})((props) => ({
   height: 35,
   borderRadius: props.theme.borderRadius,
   paddingLeft: props.theme.spacing(4),
@@ -300,7 +308,9 @@ export const ToggleButtonsContainer = styled(FlexContainer)(() => ({
   justifyContent: 'center',
 }));
 
-export const ToggleChartButton = styled.button((props) => ({
+export const ToggleChartButton = styled('button', {
+  shouldForwardProp: (prop) => prop !== '$isActive',
+})((props) => ({
   backgroundColor: props.theme.colors.background.primary,
   color: props.$isActive
     ? props.theme.colors.text.primary
