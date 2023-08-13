@@ -22,14 +22,14 @@ export const inputGlobalStyles = (
         color: theme.colors.text.primary,
         fontFamily:
           "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
-        '-webkit-font-smoothing': 'antialiased',
-        '-moz-osx-font-smoothing': 'grayscale',
+        WebkitFontSmoothing: 'antialiased',
+        MozOsxFontSmoothing: 'grayscale',
       },
       input: {
         fontFamily:
           "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
-        '-webkit-font-smoothing': 'antialiased',
-        '-moz-osx-font-smoothing': 'grayscale',
+        WebkitFontSmoothing: 'antialiased',
+        MozOsxFontSmoothing: 'grayscale',
         border: 'none',
         alignItems: 'center',
         outline: 'none',
@@ -44,11 +44,11 @@ export const inputGlobalStyles = (
         cursor: 'pointer',
       },
       'input::-webkit-outer-spin-button': {
-        '-webkit-appearance': 'none',
+        WebkitAppearance: 'none',
         margin: 0,
       },
       'input::-webkit-inner-spin-button': {
-        '-webkit-appearance': 'none',
+        WebkitAppearance: 'none',
         margin: 0,
       },
       'input[type="text"]::placeholder': {
