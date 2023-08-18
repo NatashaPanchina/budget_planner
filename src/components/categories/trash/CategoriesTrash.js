@@ -34,6 +34,7 @@ import {
   ToggleMenu,
   TrashContainer,
   TrashHeader,
+  MobItemButtonSvg,
 } from '../../../theme/global';
 import { pages } from '../../../utils/constants/pages';
 import { Grid, MenuItem, styled } from '@mui/material';
@@ -46,7 +47,6 @@ import {
   EditButtonSvg,
   EditButtons,
   FlexContainer,
-  MobItemButtonSvg,
 } from '../Categories.styled';
 
 const ArchivedCount = styled('div')((props) => ({

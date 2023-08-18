@@ -68,23 +68,21 @@ export default function Transactions() {
     <div>Loading</div>
   ) : (
     <>
-      <Grid item xs={12} sm={12} md={12} lg={12}>
-        <Header>
-          <HeaderTitle>{t('TRANSACTIONS.TRANSACTIONS_HEADER')}</HeaderTitle>
-          <Filter>
-            <FilterSvg as={FilterIcon} />
-            {t('TRANSACTIONS.FILTER_KEY')}
-          </Filter>
-          <Filter>
-            <FilterSvg as={CalendarIcon} />
-            {t('TRANSACTIONS.FILTER_DATE')}
-          </Filter>
-          <CommonFilter>
-            <FilterSvg as={CalendarIcon} />
-            <FilterSvg as={MobileFilterIcon} />
-          </CommonFilter>
-        </Header>
-      </Grid>
+      <Header>
+        <HeaderTitle>{t('TRANSACTIONS.TRANSACTIONS_HEADER')}</HeaderTitle>
+        <Filter>
+          <FilterSvg as={FilterIcon} />
+          {t('TRANSACTIONS.FILTER_KEY')}
+        </Filter>
+        <Filter>
+          <FilterSvg as={CalendarIcon} />
+          {t('TRANSACTIONS.FILTER_DATE')}
+        </Filter>
+        <CommonFilter>
+          <FilterSvg as={CalendarIcon} />
+          <FilterSvg as={MobileFilterIcon} />
+        </CommonFilter>
+      </Header>
       <Grid item xs={12} sm={12} md={3} lg={3}>
         <AccountsSlider
           transactions={transactionsData}

@@ -65,7 +65,7 @@ export const LinkContainer = styled(FlexContainer)(() => ({
   },
 }));
 
-export const CashLinkContainer = styled(LinkContainer)(() => ({
+export const HiddenLinkContainer = styled(LinkContainer)(() => ({
   display: 'none',
   '@media (min-width: 600px)': {
     display: 'flex',
@@ -177,9 +177,10 @@ export const Svg = styled('svg')((props) => ({
 }));
 
 export const NewTransactionSvg = styled('svg')((props) => ({
-  width: 42,
-  marginLeft: props.theme.spacing(2),
-  marginRight: props.theme.spacing(2),
+  width: 45,
+  height: 45,
+  marginLeft: 'auto',
+  marginRight: 'auto',
   filter: 'drop-shadow(0px 2px 4px rgba(109, 115, 255, 0.5))',
   '& path': {
     fill: props.theme.colors.white,
@@ -188,7 +189,13 @@ export const NewTransactionSvg = styled('svg')((props) => ({
     fill: props.theme.colors.white,
   },
   '@media (min-width: 600px)': {
-    width: 32,
+    width: 40,
+    height: 40,
+    marginRight: props.theme.spacing(3),
+    marginLeft: props.theme.spacing(3),
+  },
+  '@media (min-width: 1200px)': {
+    marginLeft: 0,
   },
 }));
 
@@ -245,5 +252,31 @@ export const LinkTitle = styled('span')(() => ({
   display: 'none',
   '@media (min-width: 1200px)': {
     display: 'flex',
+  },
+}));
+
+export const Profile = styled(FlexContainer)(() => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  '@media (min-width: 768px)': {
+    display: 'none',
+  },
+}));
+
+export const ProfileSvg = styled('svg')(() => ({
+  width: 35,
+  height: 35,
+}));
+
+export const MobMenu = styled(FlexContainer)((props) => ({
+  justifyContent: 'center',
+  fill: props.theme.colors.text.darker,
+  width: '20%',
+  height: 55,
+  '@media (min-width: 600px)': {
+    display: 'none',
   },
 }));

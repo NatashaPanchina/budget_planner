@@ -17,6 +17,7 @@ import { ReactComponent as DemoIcon } from '../../../assets/icons/navigation/mob
 import { ReactComponent as HelpIcon } from '../../../assets/icons/navigation/mobHelp.svg';
 import { ReactComponent as AboutIcon } from '../../../assets/icons/navigation/mobAbout.svg';
 import { ReactComponent as GithubIcon } from '../../../assets/icons/shared/github.svg';
+import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 import { pages } from '../../../utils/constants/pages';
 import { useTranslation } from 'react-i18next';
 import { styled } from '@mui/material';
@@ -58,10 +59,14 @@ const AvatarSvg = styled('svg')((props) => ({
   marginRight: props.theme.spacing(2),
 }));
 
-const Svg = styled('svg')((props) => ({
+const Svg = styled('svg')(() => ({
   height: 35,
   width: 35,
-  marginBottom: props.theme.spacing(1),
+}));
+
+const BackSvg = styled('svg')(() => ({
+  height: 45,
+  width: 45,
 }));
 
 const ItemsContainer = styled(FlexContainer)(() => ({
@@ -94,6 +99,7 @@ function Menu({ username, setToggleMenu }) {
   const { t } = useTranslation();
   return (
     <Container>
+      <BackSvg as={BackIcon} onClick={() => setToggleMenu(false)} />
       <ProfileContainer>
         <Profile>
           <AvatarSvg as={AvatarIcon} />

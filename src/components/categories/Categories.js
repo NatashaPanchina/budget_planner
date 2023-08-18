@@ -82,33 +82,31 @@ export default function Categories() {
     <div>Loading</div>
   ) : (
     <>
-      <Grid item xs={12} sm={12} md={12} lg={12}>
-        <Header>
-          <HeaderTitle>{t('CATEGORIES.CATEGORIES_TITLE')}</HeaderTitle>
-          <Filter>
-            <FilterSvg as={FilterIcon} />
-            {t('CATEGORIES.FILTER_KEY')}
-          </Filter>
-          <Filter>
+      <Header>
+        <HeaderTitle>{t('CATEGORIES.CATEGORIES_TITLE')}</HeaderTitle>
+        <Filter>
+          <FilterSvg as={FilterIcon} />
+          {t('CATEGORIES.FILTER_KEY')}
+        </Filter>
+        <Filter>
+          <FilterSvg as={CalendarIcon} />
+          {t('CATEGORIES.FILTER_DATE')}
+        </Filter>
+        <FlexContainer>
+          <CommonFilter>
             <FilterSvg as={CalendarIcon} />
-            {t('CATEGORIES.FILTER_DATE')}
-          </Filter>
-          <FlexContainer>
-            <CommonFilter>
-              <FilterSvg as={CalendarIcon} />
-              <FilterSvg as={MobileFilterIcon} />
-            </CommonFilter>
-            <CustomTooltip title={t('CATEGORIES.ARCHIVED')} arrow>
-              <ArchivedTrash>
-                <NavLink to={pages.categories.trash.main}>
-                  <Trash as={TrashIcon} />
-                  <TrashCount>{archivedCategories.length}</TrashCount>
-                </NavLink>
-              </ArchivedTrash>
-            </CustomTooltip>
-          </FlexContainer>
-        </Header>
-      </Grid>
+            <FilterSvg as={MobileFilterIcon} />
+          </CommonFilter>
+          <CustomTooltip title={t('CATEGORIES.ARCHIVED')} arrow>
+            <ArchivedTrash>
+              <NavLink to={pages.categories.trash.main}>
+                <Trash as={TrashIcon} />
+                <TrashCount>{archivedCategories.length}</TrashCount>
+              </NavLink>
+            </ArchivedTrash>
+          </CustomTooltip>
+        </FlexContainer>
+      </Header>
       <Grid item xs={12} sm={12} md={3} lg={3}>
         <MoreInformationContainer>
           <CategoriesBar

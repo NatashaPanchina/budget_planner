@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Menu,
+  Popover,
   TextField,
   Tooltip,
   alpha,
@@ -143,12 +144,16 @@ export const AddButtonSvg = styled('svg')((props) => ({
 
 export const Header = styled('div')((props) => ({
   display: 'flex',
-  position: 'relative',
+  position: 'sticky',
+  top: 0,
+  zIndex: 9,
   alignItems: 'center',
   height: 60,
+  width: '100%',
   justifyContent: 'space-between',
   backgroundColor: props.theme.colors.background.body,
   '@media (min-width: 600px)': {
+    position: 'relative',
     justifyContent: 'center',
     height: 70,
   },
@@ -179,14 +184,16 @@ export const MobHeaderTitle = styled('div', {
   left: 0,
   zIndex: 150,
   backgroundColor:
-    props.theme.colors[props.$titleType ? props.$titleType : 'expense'],
+    props.$titleType === 'common'
+      ? props.theme.colors.main.violet
+      : props.theme.colors[props.$titleType],
   '@media (min-width: 600px)': {
     display: 'none',
   },
 }));
 
 export const MobInfoHeaderTitle = styled(MobHeaderTitle)((props) => ({
-  color: props.theme.colors.text.primary,
+  color: props.theme.colors.white,
 }));
 
 export const TrashContainer = styled('div')((props) => ({
@@ -273,6 +280,16 @@ export const BackLinkSvg = styled('svg')((props) => ({
     fill: props.theme.colors.background.ordinary,
     opacity: 0.5,
   },
+}));
+
+export const SelectHeader = styled('div')((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: props.theme.spacing(2),
+  paddingBottom: props.theme.spacing(4),
+  width: `calc(100% - ${props.theme.spacing(2 * 2)})`,
+  color: props.theme.colors.text.primary,
 }));
 
 export const TextInputField = styled(TextField, {
@@ -372,83 +389,6 @@ export const DateField = styled(DatePicker, {
   },
 }));
 
-export const FormFieldsContainer = styled('div')(() => ({
-  position: 'relative',
-}));
-
-export const FormFieldDiv = styled('div')((props) => ({
-  display: 'flex',
-  alignItems: 'center',
-  height: 60,
-  marginTop: props.theme.spacing(5),
-  marginBottom: props.theme.spacing(5),
-  border: `1px solid ${props.theme.colors.border.item}`,
-  backgroundColor: props.theme.colors.background.primary,
-  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
-  borderRadius: props.theme.borderRadius,
-  fontSize: '0.875rem',
-  color: props.theme.colors.text.darker,
-  '@media (min-width: 600px)': {
-    height: 60,
-    marginTop: 0,
-    marginBottom: props.theme.spacing(3),
-    fontSize: '0.875rem',
-  },
-}));
-
-export const FormField = styled(FormFieldDiv, {
-  shouldForwardProp: (prop) => prop !== '$isActive' && prop !== '$formType',
-})((props) => {
-  if (props.$isActive) {
-    switch (props.$formType) {
-      case 'income':
-        return css`
-          border: 1px solid ${props.theme.colors.income};
-          color: ${props.theme.colors.income};
-          box-shadow: 0px 4px 10px rgba(110, 189, 10, 0.1);
-        `;
-      case 'expense':
-        return css`
-          border: 1px solid ${props.theme.colors.expense};
-          color: ${props.theme.colors.expense};
-          box-shadow: 0px 4px 10px rgba(244, 57, 91, 0.1);
-        `;
-      case 'transfer':
-        return css`
-          border: 1px solid ${props.theme.colors.transfer};
-          color: ${props.theme.colors.transfer};
-          box-shadow: 0px 4px 10px rgba(13, 195, 180, 0.1);
-        `;
-      case 'cash':
-        return css`
-          border: 1px solid ${props.theme.colors.main.violet};
-          color: ${props.theme.colors.main.violet};
-          box-shadow: 0px 4px 10px rgba(110, 189, 10, 0.1);
-        `;
-      default:
-        return css`
-          border: 1px solid ${props.theme.colors.expense};
-          color: ${props.theme.colors.expense};
-          box-shadow: 0px 4px 10px rgba(244, 57, 91, 0.1);
-        `;
-    }
-  }
-});
-
-export const FieldDescription = styled('div')((props) => ({
-  width: `calc(20% - ${props.theme.spacing(5)} + ${props.theme.spacing(2)})`,
-  minWidth: 70,
-  paddingLeft: props.theme.spacing(5),
-  paddingRight: props.theme.spacing(2),
-}));
-
-export const FieldInput = styled('input')((props) => ({
-  width: '75%',
-  background: props.theme.colors.background.primary,
-  color: props.theme.colors.text.primary,
-  fontSize: '1rem',
-}));
-
 export const SelectButton = styled('div')((props) => ({
   cursor: 'pointer',
   marginLeft: 'auto',
@@ -459,36 +399,45 @@ export const SelectButton = styled('div')((props) => ({
   },
 }));
 
-export const SelectedColor = styled('div')(() => ({
-  cursor: 'pointer',
-}));
-
-export const ColorsContainer = styled('div')((props) => ({
-  width: `calc(100% - ${props.theme.spacing(2 * 2)})`,
-  position: 'absolute',
-  zIndex: 5,
-  padding: props.theme.spacing(2),
-  border: `1px solid ${props.theme.colors.border.item}`,
-  borderRadius: props.theme.borderRadius,
-  backgroundColor: props.theme.colors.background.primary,
-  '@media (min-width: 600px)': {
-    width: '40%',
-    minWidth: 365,
-  },
-}));
-
 export const ColorsPalette = styled('div')((props) => ({
   display: 'grid',
   gridTemplateColumns: 'repeat(9, 11.11%)',
+  padding: props.theme.spacing(3),
+  paddingBottom: 0,
   '& svg': {
     margin: props.theme.spacing(1.5),
     cursor: 'pointer',
   },
 }));
 
+export const ColorsPopoverPalette = styled(Popover)((props) => ({
+  '& .MuiPopover-paper': {
+    width: '100%',
+    border: `1px solid ${props.theme.colors.border.item}`,
+    borderRadius: props.theme.borderRadius,
+    backgroundColor: props.theme.colors.background.primary,
+    boxShadow: `0 2px 4px ${props.theme.colors.tooltipShadow}`,
+    '@media (min-width: 600px)': {
+      width: '40%',
+      minWidth: 365,
+      height: 300,
+    },
+    '@media (min-width: 900px)': {
+      width: '30%',
+    },
+    '&::-webkit-scrollbar': {
+      width: 5,
+    },
+    '&::-webkit-scrollbar-thumb': {
+      background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
+      borderRadius: props.theme.borderRadius * 2,
+    },
+  },
+}));
+
 export const ColorsPaletteButtonContainer = styled('div')((props) => ({
   display: 'flex',
-  paddingTop: props.theme.spacing(2),
+  padding: props.theme.spacing(3),
   justifyContent: 'space-evenly',
 }));
 
@@ -546,7 +495,7 @@ export const DoneButton = styled(AddFormButton, {
         color: ${props.theme.colors.white};
         background: ${props.theme.colors.income};
         box-shadow: 0px 4px 10px rgba(110, 189, 10, 0.5);
-        &:hover: {
+        &:hover {
           background: #80ca20;
         }
       `;
@@ -555,7 +504,7 @@ export const DoneButton = styled(AddFormButton, {
         color: ${props.theme.colors.white};
         background: ${props.theme.colors.expense};
         box-shadow: 0px 4px 10px rgba(244, 57, 91, 0.5);
-        &:hover: {
+        &:hover {
           background: #fe5070;
         }
       `;
@@ -564,7 +513,7 @@ export const DoneButton = styled(AddFormButton, {
         color: ${props.theme.colors.white};
         background: ${props.theme.colors.transfer};
         box-shadow: 0px 4px 10px rgba(13, 195, 180, 0.5);
-        &:hover: {
+        &:hover {
           background: #24d5c6;
         }
       `;
@@ -573,7 +522,7 @@ export const DoneButton = styled(AddFormButton, {
         color: ${props.theme.colors.white};
         background: ${props.theme.colors.main.violet};
         box-shadow: 0px 4px 10px rgba(65, 159, 255, 0.5);
-        &:hover: {
+        &:hover {
           background: #24d5c6;
           boxshadow: 0px 4px 10px rgba(174, 139, 255, 0.5);
         }
@@ -583,7 +532,7 @@ export const DoneButton = styled(AddFormButton, {
         color: ${props.theme.colors.white};
         background: ${props.theme.colors.expense};
         box-shadow: 0px 4px 10px rgba(244, 57, 91, 0.5);
-        &:hover: {
+        &:hover {
           background: #fe5070;
         }
       `;
@@ -696,5 +645,20 @@ export const ToggleMenu = styled(Menu)((props) => ({
   '& .MuiMenuItem-root': {
     borderRadius: props.theme.borderRadius,
     margin: `${props.theme.spacing(2)} 0`,
+  },
+}));
+
+export const MobItemButtonSvg = styled('svg')((props) => ({
+  height: 25,
+  width: 25,
+  paddingRight: props.theme.spacing(1),
+  cursor: 'pointer',
+  '& path': {
+    fill: props.theme.colors.text.darker,
+  },
+  '&:hover': {
+    '& circle': {
+      fill: props.theme.colors.background.ordinary,
+    },
   },
 }));

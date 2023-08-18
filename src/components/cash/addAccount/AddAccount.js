@@ -47,7 +47,7 @@ export default function AddAccount() {
         <Back to={pages.cash[createCashType(accountType)]}>
           <BackSvg as={BackIcon} />
         </Back>
-        <MobInfoHeaderTitle $titleType={accountType}>
+        <MobInfoHeaderTitle $titleType="common">
           {t(`ADD_ACCOUNT.${createLocaleCashType(accountType)}`)}
         </MobInfoHeaderTitle>
         <AddFormHeader>

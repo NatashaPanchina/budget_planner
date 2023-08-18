@@ -28,6 +28,7 @@ import {
   ButtonTitle,
   TextInputField,
   DateField,
+  SelectHeader,
 } from '../../../theme/global.js';
 import { AddAccount } from '../NewTransaction.styled.js';
 
@@ -70,6 +71,7 @@ function ExpenseTransactionForm({
         value={category}
         onChange={(event) => setCategory(event.target.value)}
       >
+        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CATEGORIES')}</SelectHeader>
         <Search>
           <SearchInput
             type="text"
@@ -92,6 +94,7 @@ function ExpenseTransactionForm({
         value={account}
         onChange={(event) => setAccount(event.target.value)}
       >
+        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CASH')}</SelectHeader>
         <Search>
           <SearchInput
             type="text"

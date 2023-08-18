@@ -19,6 +19,13 @@ import {
   CurrentBalance,
 } from '../Transactions.styled';
 import Carousel from 'react-material-ui-carousel';
+import { styled } from '@mui/system';
+
+const CustomCarousel = styled(Carousel)(() => ({
+  '& .MuiIconButton-root': {
+    top: 'calc(50% - 30px)!important',
+  },
+}));
 
 function Slider({ filterType, notArchivedAccounts }) {
   const { t } = useTranslation();
@@ -41,7 +48,7 @@ function Slider({ filterType, notArchivedAccounts }) {
   }, []);
 
   return (
-    <Carousel
+    <CustomCarousel
       indicators={true}
       autoPlay={false}
       swipe={true}
@@ -72,7 +79,7 @@ function Slider({ filterType, notArchivedAccounts }) {
           </Card>
         </CardContainer>
       ))}
-    </Carousel>
+    </CustomCarousel>
   );
 }
 

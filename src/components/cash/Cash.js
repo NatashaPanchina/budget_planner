@@ -51,33 +51,31 @@ export default function Cash() {
     <div>Loading</div>
   ) : (
     <>
-      <Grid item xs={12} sm={12} md={12} lg={12}>
-        <Header>
-          <HeaderTitle>{t('CASH.CASH_TITLE')}</HeaderTitle>
-          <Filter>
-            <FilterSvg as={FilterIcon} />
-            {t('CASH.FILTER_KEY')}
-          </Filter>
-          <Filter>
+      <Header>
+        <HeaderTitle>{t('CASH.CASH_TITLE')}</HeaderTitle>
+        <Filter>
+          <FilterSvg as={FilterIcon} />
+          {t('CASH.FILTER_KEY')}
+        </Filter>
+        <Filter>
+          <FilterSvg as={CalendarIcon} />
+          {t('CASH.FILTER_DATE')}
+        </Filter>
+        <FlexContainer>
+          <CommonFilter>
             <FilterSvg as={CalendarIcon} />
-            {t('CASH.FILTER_DATE')}
-          </Filter>
-          <FlexContainer>
-            <CommonFilter>
-              <FilterSvg as={CalendarIcon} />
-              <FilterSvg as={CommonFilterIcon} />
-            </CommonFilter>
-            <CustomTooltip title={t('CASH.ARCHIVED')} arrow>
-              <ArchivedTrash>
-                <NavLink to={pages.cash.trash.main}>
-                  <Trash as={TrashIcon} />
-                  <TrashCount>{archivedAccounts.length}</TrashCount>
-                </NavLink>
-              </ArchivedTrash>
-            </CustomTooltip>
-          </FlexContainer>
-        </Header>
-      </Grid>
+            <FilterSvg as={CommonFilterIcon} />
+          </CommonFilter>
+          <CustomTooltip title={t('CASH.ARCHIVED')} arrow>
+            <ArchivedTrash>
+              <NavLink to={pages.cash.trash.main}>
+                <Trash as={TrashIcon} />
+                <TrashCount>{archivedAccounts.length}</TrashCount>
+              </NavLink>
+            </ArchivedTrash>
+          </CustomTooltip>
+        </FlexContainer>
+      </Header>
       <Grid item xs={12} sm={12} md={4} lg={4}>
         <MoreInformationContainer>
           <TotalBalance>{t('CASH.TOTAL_BALANCE')}</TotalBalance>

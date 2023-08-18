@@ -8,9 +8,10 @@ export default function Root() {
   const gridStyles = {
     paddingLeft: 1,
     paddingRight: 1,
-    paddingTop: 14,
+    paddingTop: 0,
     paddingBottom: 14,
     '@media (min-width: 600px)': {
+      paddingTop: 14,
       paddingLeft: 15,
       paddingRight: 3,
     },

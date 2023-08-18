@@ -1,4 +1,4 @@
-import { css, styled } from '@mui/material';
+import { styled } from '@mui/material';
 
 export const FlexContainer = styled('div')(() => ({
   display: 'flex',
@@ -7,13 +7,17 @@ export const FlexContainer = styled('div')(() => ({
 }));
 
 export const HeaderContainer = styled(FlexContainer)((props) => ({
-  width: '100%',
-  height: 56,
-  marginTop: 0,
-  position: 'fixed',
-  zIndex: 10,
-  top: 0,
-  background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+    width: '100%',
+    height: 56,
+    marginTop: 0,
+    position: 'fixed',
+    zIndex: 10,
+    top: 0,
+    background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
+  },
   '@media (min-width: 768px)': {
     background: props.theme.colors.background.primary,
     borderBottom: `1px solid ${props.theme.colors.border.ordinary}`,
@@ -57,9 +61,7 @@ export const LogoTitle = styled('svg')((props) => ({
 }));
 
 export const Title = styled(FlexContainer)((props) => ({
-  display: 'none',
   '@media (min-width: 600px)': {
-    display: 'flex',
     fontWeight: 450,
     fontSize: '1.25rem',
     color: props.theme.colors.white,
@@ -170,48 +172,4 @@ export const LogOut = styled(FlexContainer)(() => ({
   '@media (min-width: 900px)': {
     display: 'flex',
   },
-}));
-
-const HamburgerWrapper = styled('div')(() => ({
-  '@media (min-width: 600px)': {
-    display: 'none',
-  },
-}));
-
-export const Hamburger = styled(HamburgerWrapper, {
-  shouldForwardProp: (prop) => prop !== '$isActive',
-})((props) => {
-  if (props.$isActive) {
-    return css`
-      span:nth-of-type(1): {
-        transform: rotate(45deg) translate(7px, 9px);
-        width: 30;
-      }
-      span:nth-of-type(2): {
-        opacity: 0;
-        pointer-events: none;
-      }
-      span:nth-of-type(3): {
-        transform: rotate(-45deg) translate(6px, -9px);
-        width: 30;
-      }
-      margin-left: auto;
-      cursor: pointer;
-    `;
-  } else {
-    return css`
-      margin-left: auto;
-      cursor: pointer;
-    `;
-  }
-});
-
-export const Bar = styled('span')((props) => ({
-  display: 'block',
-  width: 30,
-  height: 2,
-  marginTop: 9,
-  marginBottom: 9,
-  backgroundColor: props.theme.colors.white,
-  transition: 'all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1)',
 }));

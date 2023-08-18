@@ -3,9 +3,9 @@ import {
   AddButton,
   BackLink,
   BackLinkSvg,
-  ColorsContainer,
+  MobItemButtonSvg,
 } from '../../theme/global';
-import { styled } from '@mui/material';
+import { alpha, styled } from '@mui/material';
 
 export const FlexContainer = styled('div')(() => ({
   display: 'flex',
@@ -31,7 +31,7 @@ export const MoreInformationContainer = styled(FlexContainer)((props) => ({
     maxHeight: '85vh',
     marginRight: props.theme.spacing(8),
     position: 'sticky',
-    top: props.theme.spacing(14),
+    top: props.theme.spacing(18),
     zIndex: 9,
   },
 }));
@@ -47,7 +47,7 @@ export const Back = styled(BackLink)(() => ({
 
 export const BackSvg = styled(BackLinkSvg)((props) => ({
   '& path': {
-    fill: props.theme.colors.text.darker,
+    fill: props.theme.colors.white,
   },
   '@media (min-width: 600px)': {
     display: 'none',
@@ -165,30 +165,25 @@ export const AddCashButton = styled(AddButton)(() => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  '@media (min-width: 600px)': {
+  '@media (min-width: 900px)': {
     justifyContent: 'start',
   },
 }));
 
 export const CashListItem = styled(FlexContainer)((props) => ({
+  position: 'relative',
   justifyContent: 'center',
+  alignItems: 'start',
   marginBottom: props.theme.spacing(10),
-  '@media (min-width: 600px)': {
+  '@media (min-width: 900px)': {
     justifyContent: 'start',
   },
 }));
 
 export const CardButtonlink = styled(Link)((props) => ({
-  color: props.theme.colors.svg.pending,
+  color: props.theme.colors.text.primary,
   display: 'flex',
   alignItems: 'center',
-}));
-
-export const CardButtonTitle = styled('span')(() => ({
-  display: 'none',
-  '@media (min-width: 600px)': {
-    display: 'block',
-  },
 }));
 
 export const Card = styled('div', {
@@ -199,7 +194,7 @@ export const Card = styled('div', {
   width: 310,
   borderRadius: props.theme.borderRadius,
   background: `url(${props.$cardBackground}) 0% 0% / cover no-repeat, linear-gradient(90deg, ${props.$from} 0%, ${props.$to} 100%)`,
-  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
+  boxShadow: `0px 7px 20px ${alpha(props.$from, 0.4)}`,
   color: props.theme.colors.white,
 }));
 
@@ -211,10 +206,11 @@ export const CardView = styled(Card)((props) => ({
 
 export const CardName = styled('div')((props) => ({
   fontSize: '0.875rem',
-  width: '100%',
+  width: `calc(100% - ${props.theme.spacing(4 * 2)})`,
   height: '10%',
   paddingTop: props.theme.spacing(2),
   paddingLeft: props.theme.spacing(4),
+  paddingRight: props.theme.spacing(4),
 }));
 
 export const CardBalanceContainer = styled(FlexContainer)(() => ({
@@ -231,41 +227,15 @@ export const CurrentBalance = styled('div')(() => ({
   fontSize: '0.75rem',
 }));
 
-export const CashColorsContainer = styled(ColorsContainer)((props) => ({
-  top: props.theme.spacing(50),
-  right: 0,
-}));
-
-export const CardButton = styled(FlexContainer)((props) => ({
-  marginTop: props.theme.spacing(7),
-  marginBottom: props.theme.spacing(7),
-  color: props.theme.colors.svg.pending,
-  fill: props.theme.colors.svg.pending,
-  cursor: 'pointer',
-  '&:hover': {
-    color: props.theme.colors.svg.hover,
-    fill: props.theme.colors.svg.hover,
-  },
-  '&:hover a': {
-    color: props.theme.colors.svg.hover,
-    fill: props.theme.colors.svg.hover,
-  },
-  '@media (min-width: 600px)': {
-    marginTop: props.theme.spacing(6),
-    marginBottom: props.theme.spacing(6),
-  },
-}));
-
 export const CardButtonSvg = styled('svg')((props) => ({
-  height: 18,
-  width: 18,
-  marginLeft: props.theme.spacing(4),
-  fill: 'inherit',
-  '& path': {
-    fill: 'inherit',
-  },
+  display: 'none',
   '@media (min-width: 600px)': {
-    marginLeft: props.theme.spacing(7),
+    display: 'flex',
+    height: 18,
+    width: 18,
+    '& path': {
+      fill: props.theme.colors.text.primary,
+    },
     marginRight: props.theme.spacing(2),
   },
 }));
@@ -274,4 +244,13 @@ export const NumericInput = styled('input')((props) => ({
   color: props.theme.colors.text.primary,
   fontSize: '1rem',
   backgroundColor: props.theme.colors.background.primary,
+}));
+
+export const ToggleButtonSvg = styled(MobItemButtonSvg)((props) => ({
+  height: 30,
+  width: 30,
+  padding: 0,
+  '@media (min-width: 600px)': {
+    marginLeft: props.theme.spacing(2),
+  },
 }));

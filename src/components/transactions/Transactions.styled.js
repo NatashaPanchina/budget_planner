@@ -1,5 +1,6 @@
-import { css, styled } from '@mui/material';
+import { alpha, css, styled } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
+import { AddButton } from '../../theme/global';
 
 export const FlexContainer = styled('div')(() => ({
   display: 'flex',
@@ -37,6 +38,10 @@ export const MoreInfoHeader = styled(FlexContainer)((props) => ({
   },
 }));
 
+export const AddAccount = styled(AddButton)(() => ({
+  justifyContent: 'center',
+}));
+
 export const CardContainer = styled(FlexContainer)(() => ({
   justifyContent: 'center',
 }));
@@ -50,15 +55,17 @@ export const Card = styled(Link, {
   width: 310,
   borderRadius: props.theme.borderRadius,
   background: `url(${props.$background}) 0% 0% / cover no-repeat, linear-gradient(90deg, ${props.$from} 0%, ${props.$to} 100%)`,
-  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
+  boxShadow: `0px 10px 30px ${alpha(props.$from, 0.3)}`,
   color: props.theme.colors.white,
   '@media (min-width: 600px)': {
     height: 171,
     width: 269,
+    boxShadow: `0px 10px 25px ${alpha(props.$from, 0.3)}`,
   },
   '@media (min-width: 900px)': {
     height: 130,
     width: 205,
+    boxShadow: `0px 10px 20px ${alpha(props.$from, 0.3)}`,
   },
 }));
 

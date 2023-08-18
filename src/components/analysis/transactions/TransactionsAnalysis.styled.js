@@ -10,10 +10,11 @@ export const AnalysisHeader = styled(FlexContainer)((props) => ({
   flexWrap: 'wrap',
   padding: `${props.theme.spacing(2)} 0`,
   position: 'sticky',
-  top: props.theme.spacing(14),
+  top: 0,
   zIndex: 9,
   backgroundColor: props.theme.colors.background.body,
   '@media (min-width: 768px)': {
+    top: props.theme.spacing(14),
     flexWrap: 'nowrap',
   },
 }));
@@ -117,7 +118,7 @@ export const CommonInfoItem = styled(CommonInfoItemDiv, {
       return css`
         grid-column: 1 / 2;
         grid-row: 1 / 2;
-        @media (min-width: 600px) : {
+        @media (min-width: 600px) {
           grid-column: 1 / 2;
           grid-row: 1 / 2;
         }
@@ -126,7 +127,7 @@ export const CommonInfoItem = styled(CommonInfoItemDiv, {
       return css`
         grid-column: 1 / 2;
         grid-row: 2 / 3;
-        @media (min-width: 600px) : {
+        @media (min-width: 600px) {
           grid-column: 2 / 3;
           grid-row: 1 / 2;
         }
@@ -135,7 +136,7 @@ export const CommonInfoItem = styled(CommonInfoItemDiv, {
       return css`
         grid-column: 1 / 2;
         grid-row: 3 / 4;
-        @media (min-width: 600px) : {
+        @media (min-width: 600px) {
           grid-column: 3 / 4;
           grid-row: 1 / 2;
         }
@@ -144,7 +145,7 @@ export const CommonInfoItem = styled(CommonInfoItemDiv, {
       return css`
         grid-column: 1 / 2;
         grid-row: 1 / 2;
-        @media (min-width: 600px) : {
+        @media (min-width: 600px) {
           grid-column: 1 / 2;
           grid-row: 1 / 2;
         }
@@ -203,7 +204,7 @@ export const CommonCalcItem = styled(CommonCalcDiv, {
       return css`
         grid-column: 2 / 3;
         grid-row: 1 / 2;
-        @media (min-width: 600px) : {
+        @media (min-width: 600px) {
           grid-column: 1 / 2;
           grid-row: 2 / 3;
         }
@@ -212,7 +213,7 @@ export const CommonCalcItem = styled(CommonCalcDiv, {
       return css`
         grid-column: 2 / 3;
         grid-row: 2 / 3;
-        @media (min-width: 600px) : {
+        @media (min-width: 600px) {
           grid-column: 2 / 3;
           grid-row: 2 / 3;
         }
@@ -221,7 +222,7 @@ export const CommonCalcItem = styled(CommonCalcDiv, {
       return css`
         grid-column: 2 / 3;
         grid-row: 3 / 4;
-        @media (min-width: 600px) : {
+        @media (min-width: 600px) {
           grid-column: 3 / 4;
           grid-row: 2 / 3;
         }
@@ -230,7 +231,7 @@ export const CommonCalcItem = styled(CommonCalcDiv, {
       return css`
         grid-column: 2 / 3;
         grid-row: 1 / 2;
-        @media (min-width: 600px) : {
+        @media (min-width: 600px) {
           grid-column: 1 / 2;
           grid-row: 2 / 3;
         }
@@ -308,14 +309,19 @@ export const ToggleButtonsContainer = styled(FlexContainer)(() => ({
   justifyContent: 'center',
 }));
 
-export const ToggleChartButton = styled('button', {
+export const ToggleChartButton = styled(FlexContainer, {
   shouldForwardProp: (prop) => prop !== '$isActive',
 })((props) => ({
+  cursor: 'pointer',
   backgroundColor: props.theme.colors.background.primary,
+  fontSize: '0.875rem',
   color: props.$isActive
     ? props.theme.colors.text.primary
     : props.theme.colors.text.darker,
   height: 50,
+  justifyContent: 'center',
+  paddingLeft: props.theme.spacing(2),
+  paddingRight: props.theme.spacing(2),
   '&:hover': {
     color: props.theme.colors.text.primary,
   },

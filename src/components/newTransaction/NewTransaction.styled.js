@@ -70,14 +70,12 @@ export const Card = styled('div')((props) => ({
   width: 310,
   borderRadius: props.theme.borderRadius,
   background: `url(${props.$cardBackground}) 0% 0% / cover no-repeat, linear-gradient(90deg, ${props.$from} 0%, ${props.$to} 100%)`,
-  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   color: props.theme.colors.white,
 }));
 
-export const CardView = styled(Card)((props) => ({
+export const CardView = styled(Card)(() => ({
   marginLeft: 'auto',
   marginRight: 'auto',
-  marginBottom: props.theme.spacing(8),
 }));
 
 export const CardName = styled('div')((props) => ({

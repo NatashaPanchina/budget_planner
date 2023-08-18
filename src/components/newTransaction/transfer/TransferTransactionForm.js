@@ -20,6 +20,7 @@ import {
   Search,
   SearchImg,
   SearchInput,
+  SelectHeader,
   TextInputField,
 } from '../../../theme/global';
 import { AddAccount } from '../NewTransaction.styled';
@@ -58,6 +59,7 @@ function TransferTransactionForm({ accounts }) {
         value={originAccount}
         onChange={(event) => setOriginAccount(event.target.value)}
       >
+        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CASH')}</SelectHeader>
         <Search>
           <SearchInput
             type="text"
@@ -80,6 +82,7 @@ function TransferTransactionForm({ accounts }) {
         value={destAccount}
         onChange={(event) => setDestAccount(event.target.value)}
       >
+        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CASH')}</SelectHeader>
         <Search>
           <SearchInput
             type="text"

@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
 import { v4 as uuidv4 } from 'uuid';
 import { USD } from '@dinero.js/currencies';
 import { dinero, toDecimal, toSnapshot } from 'dinero.js';
-
 import { pages } from '../../../utils/constants/pages';
 import { colors } from '../../../utils/constants/colors';
 import {
@@ -14,15 +12,8 @@ import {
   dineroFromFloat,
   formatNumberOutput,
 } from '../../../utils/format/cash';
-import {
-  renderSelectedColor,
-  renderColors,
-  toggleElement,
-  createCashType,
-} from '../utils';
-import { useOutsideClick, hideElement } from '../../../hooks/useOutsideClick';
+import { renderSelectedColor, renderColors, createCashType } from '../utils';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
-
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
@@ -31,7 +22,6 @@ import {
   CardBalanceContainer,
   CardName,
   CardView,
-  CashColorsContainer,
   CurrentBalance,
 } from '../Cash.styled';
 import {
@@ -41,21 +31,19 @@ import {
   ColorsPaletteButtonContainer,
   ColorsPaletteButton,
   DoneButton,
-  FieldDescription,
-  FormField,
-  FormFieldsContainer,
-  SelectButton,
-  SelectedColor,
   ButtonSvg,
   ButtonTitle,
   TextInputField,
   DateField,
+  ColorsPopoverPalette,
 } from '../../../theme/global';
 import dayjs from 'dayjs';
+import { MenuItem } from '@mui/material';
 
 const doneEventHandler = (
   accountType,
   description,
+  currency,
   balance,
   selectedColor,
   date,
@@ -69,6 +57,7 @@ const doneEventHandler = (
     archived: false,
     type: accountType,
     description,
+    currency,
     balance: toSnapshot(
       dineroFromFloat({
         amount: balance,
@@ -87,12 +76,9 @@ const doneEventHandler = (
 
 function CardForm({ accountType, addNewAccount }) {
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
-
-  const [activeItem, setActiveItem] = useState('');
-
   const [description, setDescription] = useState('');
+  const [currency, setCurrency] = useState('USD');
   const [balance, setBalance] = useState(
     toDecimal(dinero({ amount: 0, currency: USD })),
   );
@@ -100,10 +86,10 @@ function CardForm({ accountType, addNewAccount }) {
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState(['']);
-
   const cashType = createCashType(accountType);
 
-  const colorsRef = useOutsideClick(hideElement);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   return (
     <>
@@ -118,7 +104,7 @@ function CardForm({ accountType, addNewAccount }) {
           <CurrentBalance>{t('ADD_ACCOUNT.CURRENT_BALANCE')}</CurrentBalance>
         </CardBalanceContainer>
       </CardView>
-      <FormFieldsContainer>
+      <>
         <TextInputField
           $type="common"
           margin="normal"
@@ -133,6 +119,18 @@ function CardForm({ accountType, addNewAccount }) {
           $type="common"
           margin="normal"
           required
+          select
+          fullWidth
+          label={t('ADD_ACCOUNT.CURRENCY')}
+          value={currency}
+          onChange={(event) => setCurrency(event.target.value)}
+        >
+          <MenuItem value="USD">USD</MenuItem>
+        </TextInputField>
+        <TextInputField
+          $type="common"
+          margin="normal"
+          required
           label={t('ADD_ACCOUNT.BALANCE')}
           name="numberformat"
           value={balance}
@@ -141,41 +139,32 @@ function CardForm({ accountType, addNewAccount }) {
             inputComponent: NumericFormatCustom,
           }}
         />
-        <FormField
-          $isActive={activeItem === '3'}
-          $formType="cash"
-          onClick={() => setActiveItem('3')}
+        <TextInputField
+          $type="common"
+          margin="normal"
+          required
+          label={t('ADD_ACCOUNT.COLOR')}
+          InputProps={{
+            readOnly: true,
+            startAdornment: renderSelectedColor(selectedColor),
+          }}
+          onClick={(event) => setAnchorEl(event.currentTarget)}
+        />
+        <ColorsPopoverPalette
+          open={open}
+          anchorEl={anchorEl}
+          onClose={() => setAnchorEl(null)}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         >
-          <FieldDescription>{t('ADD_ACCOUNT.COLOR')}</FieldDescription>
-          <SelectedColor
-            onClick={(event) => {
-              setActiveItem('3');
-              toggleElement(colorsRef);
-              event.stopPropagation();
-            }}
-          >
-            {renderSelectedColor(selectedColor)}
-          </SelectedColor>
-          <SelectButton
-            onClick={(event) => {
-              setActiveItem('3');
-              toggleElement(colorsRef);
-              event.stopPropagation();
-            }}
-          >
-            {t('ADD_ACCOUNT.SELECT')}
-          </SelectButton>
-        </FormField>
-        <CashColorsContainer ref={colorsRef} className="none">
           <ColorsPalette>
             {renderColors(colors, setSelectedColor, selectedColor)}
           </ColorsPalette>
           <ColorsPaletteButtonContainer>
-            <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
+            <ColorsPaletteButton onClick={() => setAnchorEl(null)}>
               {t('ADD_ACCOUNT.OK')}
             </ColorsPaletteButton>
           </ColorsPaletteButtonContainer>
-        </CashColorsContainer>
+        </ColorsPopoverPalette>
         <DateField
           $type="common"
           required
@@ -208,6 +197,7 @@ function CardForm({ accountType, addNewAccount }) {
               doneEventHandler(
                 accountType,
                 description,
+                currency,
                 balance,
                 selectedColor,
                 date.toISOString(),
@@ -226,7 +216,7 @@ function CardForm({ accountType, addNewAccount }) {
             <ButtonTitle>{t('ADD_ACCOUNT.CANCEL')}</ButtonTitle>
           </CancelButton>
         </AddFormButtonsContainer>
-      </FormFieldsContainer>
+      </>
     </>
   );
 }

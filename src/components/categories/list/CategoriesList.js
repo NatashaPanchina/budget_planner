@@ -22,6 +22,7 @@ import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/t
 import {
   AddButton,
   AddButtonSvg,
+  MobItemButtonSvg,
   Search,
   SearchImg,
   SearchInput,
@@ -38,7 +39,6 @@ import {
   EditLinkContainer,
 } from '../Categories.styled.js';
 import { pages } from '../../../utils/constants/pages.js';
-import { MobItemButtonSvg } from '../Categories.styled.js';
 import { MenuItem } from '@mui/material';
 
 function CategoriesList({ notArchivedCategories, archiveCategory }) {

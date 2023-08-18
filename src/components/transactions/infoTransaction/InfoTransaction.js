@@ -42,6 +42,7 @@ import {
   Search,
   SearchImg,
   SearchInput,
+  SelectHeader,
   TextInputField,
 } from '../../../theme/global.js';
 import { Back, BackSvg } from '../../newTransaction/NewTransaction.styled.js';
@@ -49,6 +50,7 @@ import { Grid } from '@mui/material';
 
 import dayjs from 'dayjs';
 import { NumericFormatCustom } from '../../../utils/format/cash';
+import { AddAccount } from '../Transactions.styled.js';
 
 function createNewBalance(prevTransaction, newTransaction, accounts) {
   const prevAccount = accounts.find(
@@ -274,7 +276,16 @@ export default function InfoTransaction() {
         <MobHeaderTitle $titleType={transactionType}>
           {t('INFO_TRANSACTION.TITLE')}
         </MobHeaderTitle>
-
+        <TextInputField
+          $type={transactionType}
+          margin="normal"
+          required
+          label={t('INFO_TRANSACTION.TYPE')}
+          value={t(`INFO_TRANSACTION.${transactionType.toUpperCase()}`)}
+          InputProps={{
+            readOnly: true,
+          }}
+        />
         <TextInputField
           $type={transactionType}
           margin="normal"
@@ -284,6 +295,9 @@ export default function InfoTransaction() {
           value={category}
           onChange={(event) => setCategory(event.target.value)}
         >
+          <SelectHeader>
+            {t('INFO_TRANSACTION.AVAILABLE_CATEGORIES')}
+          </SelectHeader>
           <Search>
             <SearchInput
               placeholder={t('INFO_TRANSACTION.SEARCH_CATEGORY')}
@@ -305,16 +319,17 @@ export default function InfoTransaction() {
           value={account}
           onChange={(event) => setAccount(event.target.value)}
         >
+          <SelectHeader>{t('INFO_TRANSACTION.AVAILABLE_CASH')}</SelectHeader>
           <Search>
             <SearchInput
               placeholder={t('INFO_TRANSACTION.SEARCH_CASH')}
             ></SearchInput>
             <SearchImg src={searchIcon} alt="search" />
           </Search>
-          <AddButton to={pages.cash.add.card}>
+          <AddAccount to={pages.cash.add.card}>
             <AddButtonSvg as={PlusIcon} />
             {t('INFO_TRANSACTION.ADD_CASH')}
-          </AddButton>
+          </AddAccount>
           {renderAccounts(notArchivedAccounts, t)}
         </TextInputField>
         <TextInputField

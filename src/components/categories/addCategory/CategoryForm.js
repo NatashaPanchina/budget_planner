@@ -3,23 +3,12 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
 import { v4 as uuidv4 } from 'uuid';
-
 import { colors } from '../../../utils/constants/colors.js';
 import { categoryIcons } from '../../../utils/constants/icons.js';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
-import {
-  renderColors,
-  renderIcons,
-  renderSelectedColor,
-  toggleElement,
-} from '../utils';
-import {
-  hideElement,
-  useOutsideClick,
-} from '../../../hooks/useOutsideClick.js';
-
+import { renderColors, renderIcons, renderSelectedColor } from '../utils';
+('../../../hooks/useOutsideClick.js');
 import {
   AddFormButtonsContainer,
   CancelButton,
@@ -27,20 +16,14 @@ import {
   ColorsPaletteButtonContainer,
   ColorsPaletteButton,
   DoneButton,
-  FieldDescription,
-  FormField,
-  SelectButton,
-  SelectedColor,
   ButtonTitle,
   ButtonSvg,
   TextInputField,
   DateField,
-  FormFieldsContainer,
+  ColorsPopoverPalette,
 } from '../../../theme/global.js';
 import {
-  CategoryColorsContainer,
   IconsButton,
-  IconsContainer,
   CategoriesIcons,
   IconsButtonContainer,
 } from '../Categories.styled.js';
@@ -77,11 +60,7 @@ const doneEventHandler = (
 
 function CategoryForm({ addNewCategory }) {
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
-
-  const [activeItem, setActiveItem] = useState('');
-
   const { categoryType } = useParams();
   const [description, setDescription] = useState('');
   const [selectedColor, setSelectedColor] = useState(colors.green[600]);
@@ -89,14 +68,25 @@ function CategoryForm({ addNewCategory }) {
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState(['']);
-
   const SelectedIcon = categoryIcons[icon];
 
-  const colorsRef = useOutsideClick(hideElement);
-  const iconsRef = useOutsideClick(hideElement);
+  const [anchorColorsEl, setAnchorColorsEl] = useState(null);
+  const [anchorIconsEl, setAnchorIconsEl] = useState(null);
+  const openColors = Boolean(anchorColorsEl);
+  const openIcons = Boolean(anchorIconsEl);
 
   return (
-    <FormFieldsContainer>
+    <>
+      <TextInputField
+        $type={categoryType}
+        margin="normal"
+        required
+        label={t('INFO_CATEGORY.TYPE')}
+        value={t(`INFO_CATEGORY.${categoryType.toUpperCase()}`)}
+        InputProps={{
+          readOnly: true,
+        }}
+      />
       <TextInputField
         $type={categoryType}
         margin="normal"
@@ -107,78 +97,56 @@ function CategoryForm({ addNewCategory }) {
         defaultValue={description}
         onChange={(event) => setDescription(event.target.value)}
       />
-      <FormField
-        $isActive={activeItem === '2'}
-        $formType={categoryType}
-        onClick={() => setActiveItem('2')}
+      <TextInputField
+        $type={categoryType}
+        margin="normal"
+        required
+        label={t('INFO_CATEGORY.COLOR')}
+        InputProps={{
+          readOnly: true,
+          startAdornment: renderSelectedColor(selectedColor),
+        }}
+        onClick={(event) => setAnchorColorsEl(event.currentTarget)}
+      />
+      <ColorsPopoverPalette
+        open={openColors}
+        anchorEl={anchorColorsEl}
+        onClose={() => setAnchorColorsEl(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       >
-        <FieldDescription>{t('ADD_CATEGORY.COLOR')}</FieldDescription>
-        <SelectedColor
-          onClick={(event) => {
-            setActiveItem('2');
-            toggleElement(colorsRef);
-            iconsRef.current.classList.add('none');
-            event.stopPropagation();
-          }}
-        >
-          {renderSelectedColor(selectedColor)}
-        </SelectedColor>
-        <SelectButton
-          onClick={(event) => {
-            setActiveItem('2');
-            toggleElement(colorsRef);
-            iconsRef.current.classList.add('none');
-            event.stopPropagation();
-          }}
-        >
-          {t('ADD_CATEGORY.SELECT')}
-        </SelectButton>
-      </FormField>
-      <CategoryColorsContainer ref={colorsRef} className="none">
         <ColorsPalette>
           {renderColors(colors, setSelectedColor, selectedColor)}
         </ColorsPalette>
         <ColorsPaletteButtonContainer>
-          <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
-            {t('ADD_CATEGORY.OK')}
+          <ColorsPaletteButton onClick={() => setAnchorColorsEl(null)}>
+            {t('INFO_CATEGORY.OK')}
           </ColorsPaletteButton>
         </ColorsPaletteButtonContainer>
-      </CategoryColorsContainer>
-      <FormField
-        $isActive={activeItem === '3'}
-        $formType={categoryType}
-        onClick={() => setActiveItem('3')}
+      </ColorsPopoverPalette>
+      <TextInputField
+        $type={categoryType}
+        margin="normal"
+        required
+        label={t('INFO_CATEGORY.ICON')}
+        InputProps={{
+          readOnly: true,
+          startAdornment: renderSelectedColor(selectedColor, SelectedIcon),
+        }}
+        onClick={(event) => setAnchorIconsEl(event.currentTarget)}
+      />
+      <ColorsPopoverPalette
+        open={openIcons}
+        anchorEl={anchorIconsEl}
+        onClose={() => setAnchorIconsEl(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       >
-        <FieldDescription>{t('ADD_CATEGORY.ICON')}</FieldDescription>
-        <SelectedColor
-          onClick={(event) => {
-            setActiveItem('3');
-            toggleElement(iconsRef);
-            colorsRef.current.classList.add('none');
-            event.stopPropagation();
-          }}
-        >
-          {renderSelectedColor(selectedColor, SelectedIcon)}
-        </SelectedColor>
-        <SelectButton
-          onClick={(event) => {
-            setActiveItem('3');
-            toggleElement(iconsRef);
-            colorsRef.current.classList.add('none');
-            event.stopPropagation();
-          }}
-        >
-          {t('ADD_CATEGORY.SELECT')}
-        </SelectButton>
-      </FormField>
-      <IconsContainer ref={iconsRef} className="none">
         <CategoriesIcons>{renderIcons(categoryIcons, setIcon)}</CategoriesIcons>
         <IconsButtonContainer>
-          <IconsButton onClick={() => toggleElement(iconsRef)}>
-            {t('ADD_CATEGORY.OK')}
+          <IconsButton onClick={() => setAnchorIconsEl(null)}>
+            {t('INFO_CATEGORY.OK')}
           </IconsButton>
         </IconsButtonContainer>
-      </IconsContainer>
+      </ColorsPopoverPalette>
       <DateField
         $type={categoryType}
         required
@@ -229,7 +197,7 @@ function CategoryForm({ addNewCategory }) {
           <ButtonTitle>{t('ADD_CATEGORY.CANCEL')}</ButtonTitle>
         </CancelButton>
       </AddFormButtonsContainer>
-    </FormFieldsContainer>
+    </>
   );
 }
 

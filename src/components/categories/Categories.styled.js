@@ -1,5 +1,4 @@
 import { Link, NavLink } from 'react-router-dom';
-import { ColorsContainer } from '../../theme/global';
 import { css, styled } from '@mui/material';
 
 export const FlexContainer = styled('div')(() => ({
@@ -181,41 +180,10 @@ export const CategoriesTitleLink = styled(NavLink)((props) => ({
   },
 }));
 
-export const CategoryColorsContainer = styled(ColorsContainer)((props) => ({
-  top: props.theme.spacing(33),
-  right: 0,
-}));
-
-export const IconsContainer = styled('div')((props) => ({
-  overflowY: 'auto',
-  height: 300,
-  width: `calc(100% - ${props.theme.spacing(2 * 2)})`,
-  position: 'absolute',
-  zIndex: 5,
-  padding: props.theme.spacing(2),
-  border: `1px solid ${props.theme.colors.border.item}`,
-  borderRadius: props.theme.borderRadius,
-  backgroundColor: props.theme.colors.background.primary,
-  top: props.theme.spacing(55),
-  right: 0,
-  paddingBottom: 0,
-  '&::-webkit-scrollbar': {
-    width: 5,
-  },
-  '&::-webkit-scrollbar-thumb': {
-    background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
-    borderRadius: props.theme.borderRadius * 2,
-  },
-  '@media (min-width: 600px)': {
-    width: '40%',
-    minWidth: 365,
-    top: props.theme.spacing(50),
-  },
-}));
-
-export const CategoriesIcons = styled('div')(() => ({
+export const CategoriesIcons = styled('div')((props) => ({
   display: 'grid',
   gridTemplateColumns: 'repeat(9, 11.11%)',
+  padding: props.theme.spacing(3),
 }));
 
 export const IconsButtonContainer = styled(FlexContainer)((props) => ({
@@ -298,21 +266,6 @@ export const EditButtonSvg = styled('svg')((props) => ({
     cursor: 'pointer',
     '& path': {
       fill: props.theme.colors.text.primary,
-    },
-  },
-}));
-
-export const MobItemButtonSvg = styled('svg')((props) => ({
-  height: 25,
-  width: 25,
-  paddingRight: props.theme.spacing(1),
-  cursor: 'pointer',
-  '& path': {
-    fill: props.theme.colors.text.darker,
-  },
-  '&:hover': {
-    '& circle': {
-      fill: props.theme.colors.background.ordinary,
     },
   },
 }));

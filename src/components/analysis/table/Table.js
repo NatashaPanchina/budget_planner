@@ -114,7 +114,7 @@ const Percent = styled('div')(() => ({
 }));
 
 const MobPercent = styled('div')((props) => ({
-  color: props.theme.colors.text.primary,
+  color: props.theme.colors.text.darker,
   fontSize: '0.8125rem',
   '@media (min-width: 600px)': {
     display: 'none',

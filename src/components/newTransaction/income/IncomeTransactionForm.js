@@ -28,6 +28,7 @@ import {
   Search,
   SearchImg,
   SearchInput,
+  SelectHeader,
   TextInputField,
 } from '../../../theme/global.js';
 import { AddAccount } from '../NewTransaction.styled.js';
@@ -73,6 +74,7 @@ function IncomeTransactionForm({
         value={category}
         onChange={(event) => setCategory(event.target.value)}
       >
+        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CATEGORIES')}</SelectHeader>
         <Search>
           <SearchInput
             type="text"
@@ -95,6 +97,7 @@ function IncomeTransactionForm({
         value={account}
         onChange={(event) => setAccount(event.target.value)}
       >
+        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CASH')}</SelectHeader>
         <Search>
           <SearchInput
             type="text"

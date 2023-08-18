@@ -22,8 +22,6 @@ import InfoAccount from './components/cash/infoAccount/InfoAccount';
 import InfoCategory from './components/categories/infoCategory/InfoCategory';
 import Analysis from './components/analysis/Analysis';
 import AccountsTrash from './components/cash/trash/AccountsTrash';
-
-import './App.css';
 import Dashboard from './components/dashboard/Dashboard';
 import { mode } from './utils/constants/mode';
 import { ThemeProvider, createTheme } from '@mui/material';
