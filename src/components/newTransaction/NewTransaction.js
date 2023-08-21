@@ -136,9 +136,7 @@ export default function NewTransaction() {
         <Back to={`${pages.transactions[`${transactionType}s`]}/all`}>
           <BackSvg as={BackIcon} />
         </Back>
-        <MobHeaderTitle $titleType={transactionType}>
-          {getMobileTitle(transactionType, t)}
-        </MobHeaderTitle>
+        <MobHeaderTitle>{getMobileTitle(transactionType, t)}</MobHeaderTitle>
         {accounts.status === 'loading' || categories.status === 'loading' ? (
           <div>Loading</div>
         ) : (

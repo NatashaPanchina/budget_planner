@@ -14,7 +14,7 @@ import {
   AddFormHeaderTitles,
   BackLink,
   BackLinkSvg,
-  MobInfoHeaderTitle,
+  MobHeaderTitle,
 } from '../../../theme/global';
 import { pages } from '../../../utils/constants/pages';
 import { Back, BackSvg } from '../Cash.styled';
@@ -47,9 +47,9 @@ export default function AddAccount() {
         <Back to={pages.cash[createCashType(accountType)]}>
           <BackSvg as={BackIcon} />
         </Back>
-        <MobInfoHeaderTitle $titleType="common">
+        <MobHeaderTitle>
           {t(`ADD_ACCOUNT.${createLocaleCashType(accountType)}`)}
-        </MobInfoHeaderTitle>
+        </MobHeaderTitle>
         <AddFormHeader>
           <BackLink to={pages.cash[createCashType(accountType)]}>
             <BackLinkSvg as={BackIcon} />

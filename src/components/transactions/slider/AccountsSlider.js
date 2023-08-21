@@ -14,7 +14,9 @@ import {
   CountInfo,
   CountTransactionsBlock,
   CountTransactionsContainer,
-  CountTransactionsSvg,
+  ExpenseCountSvg,
+  IncomeCountSvg,
+  TransferCountSvg,
   MoreInfoContainer,
   MoreInfoHeader,
   TotalCountTransactions,
@@ -66,7 +68,7 @@ function AccountsSlider({ transactions, accounts }) {
             </div>
           </TotalCountTransactions>
           <CountTransactionsBlock>
-            <CountTransactionsSvg as={ExpenseIcon} />
+            <ExpenseCountSvg as={ExpenseIcon} />
             <div>
               {t('TRANSACTIONS.FILTER_EXPENSES')}
               <CountInfo $countType="expense">
@@ -81,7 +83,7 @@ function AccountsSlider({ transactions, accounts }) {
             </div>
           </CountTransactionsBlock>
           <CountTransactionsBlock>
-            <CountTransactionsSvg as={IncomeIcon} />
+            <IncomeCountSvg as={IncomeIcon} />
             <div>
               {t('TRANSACTIONS.FILTER_INCOMES')}
               <CountInfo $countType="income">
@@ -93,7 +95,7 @@ function AccountsSlider({ transactions, accounts }) {
             </div>
           </CountTransactionsBlock>
           <CountTransactionsBlock>
-            <CountTransactionsSvg as={TransferIcon} />
+            <TransferCountSvg as={TransferIcon} />
             <div>
               {t('TRANSACTIONS.FILTER_TRANSFERS')}
               <CountInfo $countType="transfer">

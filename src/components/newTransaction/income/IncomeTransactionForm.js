@@ -12,7 +12,7 @@ import {
 } from '../../../utils/format/cash';
 import { renderCategories, renderAccounts } from '../../transactions/utils';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
-import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
 import searchIcon from '../../../assets/icons/shared/search.svg';
 import { pages } from '../../../utils/constants/pages.js';
@@ -66,7 +66,6 @@ function IncomeTransactionForm({
   return (
     <>
       <TextInputField
-        $type={transactionType}
         margin="normal"
         required
         select
@@ -89,7 +88,6 @@ function IncomeTransactionForm({
         {renderCategories(filteredCategories)}
       </TextInputField>
       <TextInputField
-        $type={transactionType}
         margin="normal"
         required
         select
@@ -112,7 +110,6 @@ function IncomeTransactionForm({
         {renderAccounts(filteredAccounts, t)}
       </TextInputField>
       <TextInputField
-        $type={transactionType}
         margin="normal"
         required
         label={t('NEW_TRANSACTION.AMOUNT')}
@@ -124,14 +121,12 @@ function IncomeTransactionForm({
         }}
       />
       <DateField
-        $type={transactionType}
         required
         label={t('NEW_TRANSACTION.DATE')}
         defaultValue={dayjs(date)}
         onChange={(value) => setDate(value)}
       />
       <TextInputField
-        $type={transactionType}
         margin="normal"
         multiline
         label={t('NEW_TRANSACTION.NOTES')}
@@ -140,7 +135,6 @@ function IncomeTransactionForm({
         onChange={(event) => setNotes(event.target.value)}
       />
       <TextInputField
-        $type={transactionType}
         margin="normal"
         multiline
         label={t('NEW_TRANSACTION.TAGS')}
@@ -148,8 +142,7 @@ function IncomeTransactionForm({
       />
       <AddFormButtonsContainer>
         <DoneButton
-          $buttonType={transactionType}
-          to={`${pages.transactions[`${transactionType}s`]}/${account}`}
+          to={`${pages.transactions[`${transactionType}s`]}/all`}
           onClick={() => {
             const newTransaction = {
               id: uuidv4(),
@@ -190,9 +183,7 @@ function IncomeTransactionForm({
           <ButtonSvg as={DoneIcon} />
           <ButtonTitle>{t('NEW_TRANSACTION.DONE')}</ButtonTitle>
         </DoneButton>
-        <CancelButton
-          to={`${pages.transactions[`${transactionType}s`]}/${account}`}
-        >
+        <CancelButton to={`${pages.transactions[`${transactionType}s`]}/all`}>
           <ButtonSvg as={CancelIcon} />
           <ButtonTitle>{t('NEW_TRANSACTION.CANCEL')}</ButtonTitle>
         </CancelButton>

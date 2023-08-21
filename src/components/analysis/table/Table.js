@@ -139,7 +139,9 @@ function renderTable(t, data, tableFilter) {
       <TableItem>
         <div>{t('ANALYSIS.TOTAL_TABLE')}</div>
         <Percent>100.00%</Percent>
-        <CategoryInfoAmount $amountType={tableFilter}>
+        <CategoryInfoAmount
+          $amountType={tableFilter.slice(0, tableFilter.length - 1)}
+        >
           {formatDineroOutput(totalSum, 'USD')}
           <MobPercent>100.00%</MobPercent>
         </CategoryInfoAmount>
@@ -185,7 +187,9 @@ function renderTable(t, data, tableFilter) {
             <Percent>
               {((toDecimal(item.sum) * 100) / floatTotalSum).toFixed(2)}%
             </Percent>
-            <CategoryInfoAmount $amountType={tableFilter}>
+            <CategoryInfoAmount
+              $amountType={tableFilter.slice(0, tableFilter.length - 1)}
+            >
               {formatDineroOutput(item.sum, 'USD')}
               <MobPercent>
                 {((toDecimal(item.sum) * 100) / floatTotalSum).toFixed(2)}%

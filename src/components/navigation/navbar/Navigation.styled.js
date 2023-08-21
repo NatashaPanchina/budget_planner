@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { alpha, styled } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 export const FlexContainer = styled('div')(() => ({
@@ -109,14 +109,10 @@ export const MobileNavigationBackground = styled(FlexContainer)((props) => ({
   height: '100%',
 }));
 
-export const MobileNavigationLink = styled(NavLink)((props) => ({
+export const MobileNavigationLink = styled(NavLink)(() => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  height: 50,
-  width: 50,
-  borderRadius: '50%',
-  backgroundColor: props.theme.colors.background.primary,
   opacity: 'initial',
   position: 'absolute',
 }));
@@ -124,21 +120,34 @@ export const MobileNavigationLink = styled(NavLink)((props) => ({
 export const MobileTransferLink = styled(MobileNavigationLink)((props) => ({
   left: 'calc(25% - 25px)',
   bottom: props.theme.spacing(15),
+  filter: `drop-shadow( 0px 3px 5px ${alpha(
+    props.theme.colors.linear.transfer.from,
+    0.4,
+  )})`,
 }));
 
 export const MobileExpenseLink = styled(MobileNavigationLink)((props) => ({
   left: 'calc(50% - 25px)',
   bottom: props.theme.spacing(25),
+  filter: `drop-shadow( 0px 3px 5px ${alpha(
+    props.theme.colors.linear.expense.from,
+    0.4,
+  )})`,
 }));
 
 export const MobileIncomeLink = styled(MobileNavigationLink)((props) => ({
   right: 'calc(25% - 25px)',
   bottom: props.theme.spacing(15),
+  filter: `drop-shadow( 0px 3px 5px ${alpha(
+    props.theme.colors.linear.income.from,
+    0.4,
+  )})`,
 }));
 
 export const MobileLinkSvg = styled('svg')(() => ({
-  width: 23,
-  height: 23,
+  height: 50,
+  width: 50,
+  fill: 'inherit',
 }));
 
 export const SettingsLinkContainer = styled('div')((props) => ({
@@ -181,7 +190,10 @@ export const NewTransactionSvg = styled('svg')((props) => ({
   height: 45,
   marginLeft: 'auto',
   marginRight: 'auto',
-  filter: 'drop-shadow(0px 2px 4px rgba(109, 115, 255, 0.5))',
+  filter: `drop-shadow( 0px 3px 10px ${alpha(
+    props.theme.colors.linear.main.to,
+    0.6,
+  )})`,
   '& path': {
     fill: props.theme.colors.white,
   },

@@ -9,7 +9,7 @@ import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 import { renderColors, renderIcons, renderSelectedColor } from '../utils';
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
-import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import {
   AddFormButtonsContainer,
   AddFormHeader,
@@ -27,6 +27,7 @@ import {
   TextInputField,
   DateField,
   ColorsPopoverPalette,
+  PopoverField,
 } from '../../../theme/global.js';
 import {
   IconsButton,
@@ -129,7 +130,6 @@ export default function InfoCategory() {
               {t('INFO_CATEGORY.CATEGORY_INFORMATION')}
             </AddFormHeader>
             <TextInputField
-              $type={categoryType}
               margin="normal"
               required
               label={t('INFO_CATEGORY.TYPE')}
@@ -139,7 +139,6 @@ export default function InfoCategory() {
               }}
             />
             <TextInputField
-              $type={categoryType}
               margin="normal"
               required
               multiline
@@ -148,8 +147,7 @@ export default function InfoCategory() {
               value={description}
               onChange={(event) => setDescription(event.target.value)}
             />
-            <TextInputField
-              $type={categoryType}
+            <PopoverField
               margin="normal"
               required
               label={t('INFO_CATEGORY.COLOR')}
@@ -174,8 +172,7 @@ export default function InfoCategory() {
                 </ColorsPaletteButton>
               </ColorsPaletteButtonContainer>
             </ColorsPopoverPalette>
-            <TextInputField
-              $type={categoryType}
+            <PopoverField
               margin="normal"
               required
               label={t('INFO_CATEGORY.ICON')}
@@ -204,14 +201,12 @@ export default function InfoCategory() {
               </IconsButtonContainer>
             </ColorsPopoverPalette>
             <DateField
-              $type={categoryType}
               required
               label={t('INFO_CATEGORY.DATE')}
               defaultValue={dayjs(date)}
               onChange={(value) => setDate(value)}
             />
             <TextInputField
-              $type={categoryType}
               margin="normal"
               multiline
               label={t('INFO_CATEGORY.NOTES')}
@@ -220,7 +215,6 @@ export default function InfoCategory() {
               onChange={(event) => setNotes(event.target.value)}
             />
             <TextInputField
-              $type={categoryType}
               margin="normal"
               multiline
               label={t('INFO_CATEGORY.TAGS')}
@@ -230,7 +224,6 @@ export default function InfoCategory() {
             <AddFormButtonsContainer>
               <DoneButton
                 to={pages.categories[`${categoryType}s`]}
-                $buttonType={categoryType}
                 onClick={() =>
                   doneEventHandler(
                     clickedCategory,

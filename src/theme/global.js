@@ -5,7 +5,6 @@ import {
   TextField,
   Tooltip,
   alpha,
-  css,
   styled,
   tooltipClasses,
 } from '@mui/material';
@@ -97,7 +96,7 @@ export const TrashCount = styled('div')((props) => ({
 export const Search = styled('div')((props) => ({
   width: '100%',
   height: 45,
-  background: props.theme.colors.background.ordinary,
+  background: props.theme.colors.background.search,
   borderRadius: props.theme.borderRadius,
   display: 'flex',
   justifyContent: 'space-between',
@@ -108,7 +107,7 @@ export const SearchInput = styled('input')((props) => ({
   marginLeft: props.theme.spacing(5),
   fontSize: '0.875rem',
   color: props.theme.colors.text.primary,
-  background: props.theme.colors.background.ordinary,
+  background: props.theme.colors.background.search,
   width: '100%',
   '&[type="text"]::placeholder': {
     color: props.theme.colors.text.darker,
@@ -170,12 +169,10 @@ export const HeaderTitle = styled('div')((props) => ({
   },
 }));
 
-export const MobHeaderTitle = styled('div', {
-  shouldForwardProp: (prop) => prop !== '$titleType',
-})((props) => ({
+export const MobHeaderTitle = styled('div')((props) => ({
   height: 60,
   width: '100vw',
-  color: props.theme.colors.white,
+  color: props.theme.colors.text.primary,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -183,17 +180,10 @@ export const MobHeaderTitle = styled('div', {
   top: 0,
   left: 0,
   zIndex: 150,
-  backgroundColor:
-    props.$titleType === 'common'
-      ? props.theme.colors.main.violet
-      : props.theme.colors[props.$titleType],
+  backgroundColor: props.theme.colors.background.body,
   '@media (min-width: 600px)': {
     display: 'none',
   },
-}));
-
-export const MobInfoHeaderTitle = styled(MobHeaderTitle)((props) => ({
-  color: props.theme.colors.white,
 }));
 
 export const TrashContainer = styled('div')((props) => ({
@@ -292,9 +282,7 @@ export const SelectHeader = styled('div')((props) => ({
   color: props.theme.colors.text.primary,
 }));
 
-export const TextInputField = styled(TextField, {
-  shouldForwardProp: (prop) => prop !== '$type',
-})((props) => ({
+export const TextInputField = styled(TextField)((props) => ({
   width: '100%',
   backgroundColor: props.theme.colors.background.primary,
   borderRadius: props.theme.borderRadius,
@@ -302,10 +290,7 @@ export const TextInputField = styled(TextField, {
     color: props.theme.colors.text.darker,
   },
   '& label.Mui-focused': {
-    color:
-      props.$type === 'common'
-        ? props.theme.colors.main.violet
-        : props.theme.colors[props.$type],
+    color: props.theme.colors.main.violet,
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
@@ -317,17 +302,8 @@ export const TextInputField = styled(TextField, {
       border: `1px solid ${props.theme.colors.text.darker}`,
     },
     '&.Mui-focused fieldset': {
-      border: `1px solid ${
-        props.$type === 'common'
-          ? props.theme.colors.main.violet
-          : props.theme.colors[props.$type]
-      }`,
-      boxShadow: `${alpha(
-        props.$type === 'common'
-          ? props.theme.colors.main.violet
-          : props.theme.colors[props.$type],
-        0.1,
-      )} 0 0 0 0.2rem`,
+      border: `1px solid ${props.theme.colors.main.violet}`,
+      boxShadow: `${alpha(props.theme.colors.main.violet, 0.1)} 0 0 0 0.2rem`,
     },
     '& .MuiInputBase-input': {
       color: props.theme.colors.text.primary,
@@ -340,9 +316,17 @@ export const TextInputField = styled(TextField, {
   },
 }));
 
-export const DateField = styled(DatePicker, {
-  shouldForwardProp: (prop) => prop !== '$type',
-})((props) => ({
+export const PopoverField = styled(TextInputField)(() => ({
+  cursor: 'pointer',
+  '& .MuiOutlinedInput-root': {
+    cursor: 'pointer',
+    '& .MuiInputBase-input': {
+      cursor: 'pointer',
+    },
+  },
+}));
+
+export const DateField = styled(DatePicker)((props) => ({
   width: '100%',
   marginTop: props.theme.spacing(4),
   marginBottom: props.theme.spacing(2),
@@ -351,10 +335,7 @@ export const DateField = styled(DatePicker, {
     color: props.theme.colors.text.darker,
   },
   '& label.Mui-focused': {
-    color:
-      props.$type === 'common'
-        ? props.theme.colors.main.violet
-        : props.theme.colors[props.$type],
+    color: props.theme.colors.main.violet,
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
@@ -366,17 +347,8 @@ export const DateField = styled(DatePicker, {
       border: `1px solid ${props.theme.colors.text.darker}`,
     },
     '&.Mui-focused fieldset': {
-      border: `1px solid ${
-        props.$type === 'common'
-          ? props.theme.colors.main.violet
-          : props.theme.colors[props.$type]
-      }`,
-      boxShadow: `${alpha(
-        props.$type === 'common'
-          ? props.theme.colors.main.violet
-          : props.theme.colors[props.$type],
-        0.1,
-      )} 0 0 0 0.2rem`,
+      border: `1px solid ${props.theme.colors.main.violet}`,
+      boxShadow: `${alpha(props.theme.colors.main.violet, 0.1)} 0 0 0 0.2rem`,
     },
     '& .MuiInputBase-input': {
       color: props.theme.colors.text.primary,
@@ -449,8 +421,12 @@ export const ColorsPaletteButton = styled('button')((props) => ({
   minWidth: 70,
   height: 30,
   backgroundColor: props.theme.colors.button.pending,
-  '&:hover': {
-    backgroundColor: props.theme.colors.button.hover,
+  '@media (min-width: 600px)': {
+    opacity: 0.7,
+    '&:hover': {
+      opacity: 1,
+      transition: 'opacity 0.3s ease-out',
+    },
   },
 }));
 
@@ -486,69 +462,32 @@ export const AddFormButton = styled(Link)((props) => ({
   },
 }));
 
-export const DoneButton = styled(AddFormButton, {
-  shouldForwardProp: (prop) => prop !== '$buttonType',
-})((props) => {
-  switch (props.$buttonType) {
-    case 'income':
-      return css`
-        color: ${props.theme.colors.white};
-        background: ${props.theme.colors.income};
-        box-shadow: 0px 4px 10px rgba(110, 189, 10, 0.5);
-        &:hover {
-          background: #80ca20;
-        }
-      `;
-    case 'expense':
-      return css`
-        color: ${props.theme.colors.white};
-        background: ${props.theme.colors.expense};
-        box-shadow: 0px 4px 10px rgba(244, 57, 91, 0.5);
-        &:hover {
-          background: #fe5070;
-        }
-      `;
-    case 'transfer':
-      return css`
-        color: ${props.theme.colors.white};
-        background: ${props.theme.colors.transfer};
-        box-shadow: 0px 4px 10px rgba(13, 195, 180, 0.5);
-        &:hover {
-          background: #24d5c6;
-        }
-      `;
-    case 'cash':
-      return css`
-        color: ${props.theme.colors.white};
-        background: ${props.theme.colors.main.violet};
-        box-shadow: 0px 4px 10px rgba(65, 159, 255, 0.5);
-        &:hover {
-          background: #24d5c6;
-          boxshadow: 0px 4px 10px rgba(174, 139, 255, 0.5);
-        }
-      `;
-    default:
-      return css`
-        color: ${props.theme.colors.white};
-        background: ${props.theme.colors.expense};
-        box-shadow: 0px 4px 10px rgba(244, 57, 91, 0.5);
-        &:hover {
-          background: #fe5070;
-        }
-      `;
-  }
-});
+export const DoneButton = styled(AddFormButton)((props) => ({
+  color: props.theme.colors.white,
+  background: `linear-gradient(to bottom right, ${props.theme.colors.linear.main.from}, ${props.theme.colors.linear.main.to})`,
+  boxShadow: `0px 5px 15px ${alpha(props.theme.colors.linear.main.to, 0.4)}`,
+  '@media (min-width: 600px)': {
+    opacity: 0.9,
+    '&:hover': {
+      opacity: 1,
+      transition: 'opacity 0.3s ease-out',
+      boxShadow: `0px 5px 15px ${alpha(props.theme.colors.main.violet, 0.7)}`,
+    },
+  },
+}));
 
 export const CancelButton = styled(AddFormButton)((props) => ({
-  border: `1px solid ${props.theme.colors.border.item}`,
-  backgroundColor: props.theme.colors.grey[800],
-  filter: `drop-shadow(0px 2px 5px ${props.theme.colors.boxShadow})`,
-  '&:hover': {
-    backgroundColor: props.theme.colors.button.hover,
-  },
+  border: `1px solid ${props.theme.colors.main.violet}`,
+  color: props.theme.colors.text.primary,
+  backgroundColor: props.theme.colors.background.primary,
+  boxShadow: `0px 5px 15px ${alpha(props.theme.colors.main.violet, 0.2)}`,
   '@media (min-width: 600px)': {
-    color: props.theme.colors.text.primary,
-    backgroundColor: props.theme.colors.button.pending,
+    opacity: 0.8,
+    '&:hover': {
+      opacity: 1,
+      transition: 'opacity 0.3s ease-out',
+      boxShadow: `0px 5px 15px ${alpha(props.theme.colors.main.violet, 0.4)}`,
+    },
   },
 }));
 
@@ -559,12 +498,9 @@ export const ButtonTitle = styled('span')(() => ({
   },
 }));
 
-export const ButtonSvg = styled('svg')((props) => ({
-  height: 25,
-  width: 25,
-  '& path': {
-    fill: props.theme.colors.white,
-  },
+export const ButtonSvg = styled('svg')(() => ({
+  height: 20,
+  width: 20,
   '@media (min-width: 600px)': {
     display: 'none',
   },

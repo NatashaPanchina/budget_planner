@@ -37,6 +37,8 @@ import {
   ListItemContainer,
   FlexContainer,
   EditLinkContainer,
+  DeleteMenuItem,
+  DeleteSvg,
 } from '../Categories.styled.js';
 import { pages } from '../../../utils/constants/pages.js';
 import { MenuItem } from '@mui/material';
@@ -128,7 +130,7 @@ function CategoriesList({ notArchivedCategories, archiveCategory }) {
                         {t('CATEGORIES.EDIT')}
                       </EditLinkContainer>
                     </MenuItem>
-                    <MenuItem onClick={() => setAnchorEl(null)}>
+                    <DeleteMenuItem onClick={() => setAnchorEl(null)}>
                       <FlexContainer
                         onClick={() => {
                           dispatch(archiveCategory(clickedCategory.id));
@@ -138,10 +140,10 @@ function CategoriesList({ notArchivedCategories, archiveCategory }) {
                           );
                         }}
                       >
-                        <EditButtonSvg as={ArchiveIcon} />
+                        <DeleteSvg as={ArchiveIcon} />
                         {t('CATEGORIES.ARCHIVE')}
                       </FlexContainer>
-                    </MenuItem>
+                    </DeleteMenuItem>
                   </ToggleMenu>
                   <MobItemButtonSvg
                     as={ToggleEditIcon}

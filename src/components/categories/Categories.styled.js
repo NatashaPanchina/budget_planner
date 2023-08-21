@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom';
-import { css, styled } from '@mui/material';
+import { MenuItem, alpha, css, styled } from '@mui/material';
 
 export const FlexContainer = styled('div')(() => ({
   display: 'flex',
@@ -13,10 +13,10 @@ export const MoreInformationContainer = styled('div')((props) => ({
   '@media (min-width: 900px)': {
     display: 'block',
     minWidth: 170,
-    height: '100vh',
+    height: `calc(100vh - ${props.theme.spacing(14)})`,
     position: 'sticky',
     top: props.theme.spacing(14),
-    zIndex: 5,
+    zIndex: 200,
     overflowY: 'auto',
     '&::-webkit-scrollbar': {
       width: 5,
@@ -139,12 +139,30 @@ export const BarChartInfoItem = styled('div')((props) => ({
 }));
 
 export const Svg = styled('svg')((props) => ({
-  height: 30,
-  width: 30,
-  minWidth: 30,
+  height: 40,
+  width: 40,
+  minWidth: 40,
+  filter: `drop-shadow( 0px 3px 5px ${alpha(
+    props.theme.colors.linear.expense.from,
+    0.4,
+  )})`,
   '@media (min-width: 768px)': {
     marginRight: props.theme.spacing(3),
   },
+}));
+
+export const ExpenseSvg = styled(Svg)((props) => ({
+  filter: `drop-shadow( 0px 3px 5px ${alpha(
+    props.theme.colors.linear.expense.from,
+    0.4,
+  )})`,
+}));
+
+export const IncomeSvg = styled(Svg)((props) => ({
+  filter: `drop-shadow( 0px 3px 5px ${alpha(
+    props.theme.colors.linear.income.from,
+    0.4,
+  )})`,
 }));
 
 export const CommonFilter = styled('span')(() => ({
@@ -203,8 +221,12 @@ export const IconsButton = styled('button')((props) => ({
   minWidth: 70,
   height: 30,
   backgroundColor: props.theme.colors.button.pending,
-  '&:hover': {
-    backgroundColor: props.theme.colors.button.hover,
+  '@media (min-width: 600px)': {
+    opacity: 0.7,
+    '&:hover': {
+      opacity: 1,
+      transition: 'opacity 0.3s ease-out',
+    },
   },
 }));
 
@@ -267,5 +289,15 @@ export const EditButtonSvg = styled('svg')((props) => ({
     '& path': {
       fill: props.theme.colors.text.primary,
     },
+  },
+}));
+
+export const DeleteMenuItem = styled(MenuItem)((props) => ({
+  color: props.theme.colors.expense,
+}));
+
+export const DeleteSvg = styled(EditButtonSvg)((props) => ({
+  '& path': {
+    fill: props.theme.colors.expense,
   },
 }));

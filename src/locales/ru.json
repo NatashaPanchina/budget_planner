@@ -109,6 +109,9 @@
     "ARCHIVED": "Архив"
   },
   "ADD_ACCOUNT": {
+    "TYPE": "Тип",
+    "TYPE_CARD": "Карта",
+    "TYPE_CASH": "Наличные",
     "CARD": "Карта",
     "CASH": "Наличные",
     "CURRENT_BALANCE": "Текущий баланс",
@@ -131,6 +134,9 @@
     "CARD_INFORMATION": "Информация о карте",
     "CASH_INFORMATION": "Информация о наличных",
     "CURRENT_BALANCE": "Текущий баланс",
+    "TYPE": "Тип",
+    "CASH": "Наличные",
+    "CARD": "Карта",
     "DESCRIPTION": "Описание",
     "BALANCE": "Баланс",
     "CURRENCY": "Валюта",

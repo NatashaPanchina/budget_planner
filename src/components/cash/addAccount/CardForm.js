@@ -16,7 +16,7 @@ import { renderSelectedColor, renderColors, createCashType } from '../utils';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
-import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import {
   CardBalance,
   CardBalanceContainer,
@@ -36,6 +36,7 @@ import {
   TextInputField,
   DateField,
   ColorsPopoverPalette,
+  PopoverField,
 } from '../../../theme/global';
 import dayjs from 'dayjs';
 import { MenuItem } from '@mui/material';
@@ -104,119 +105,118 @@ function CardForm({ accountType, addNewAccount }) {
           <CurrentBalance>{t('ADD_ACCOUNT.CURRENT_BALANCE')}</CurrentBalance>
         </CardBalanceContainer>
       </CardView>
-      <>
-        <TextInputField
-          $type="common"
-          margin="normal"
-          required
-          multiline
-          label={t('ADD_ACCOUNT.DESCRIPTION')}
-          placeholder={t('ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
-          defaultValue={description}
-          onChange={(event) => setDescription(event.target.value)}
-        />
-        <TextInputField
-          $type="common"
-          margin="normal"
-          required
-          select
-          fullWidth
-          label={t('ADD_ACCOUNT.CURRENCY')}
-          value={currency}
-          onChange={(event) => setCurrency(event.target.value)}
+      <TextInputField
+        margin="normal"
+        required
+        label={t('ADD_ACCOUNT.TYPE')}
+        value={t(`ADD_ACCOUNT.TYPE_${accountType.toUpperCase()}`)}
+        InputProps={{
+          readOnly: true,
+        }}
+      />
+      <TextInputField
+        margin="normal"
+        required
+        multiline
+        label={t('ADD_ACCOUNT.DESCRIPTION')}
+        placeholder={t('ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
+        defaultValue={description}
+        onChange={(event) => setDescription(event.target.value)}
+      />
+      <TextInputField
+        margin="normal"
+        required
+        select
+        fullWidth
+        label={t('ADD_ACCOUNT.CURRENCY')}
+        value={currency}
+        onChange={(event) => setCurrency(event.target.value)}
+      >
+        <MenuItem value="USD">USD</MenuItem>
+      </TextInputField>
+      <TextInputField
+        margin="normal"
+        required
+        label={t('ADD_ACCOUNT.BALANCE')}
+        name="numberformat"
+        value={balance}
+        onChange={(event) => setBalance(event.target.value)}
+        InputProps={{
+          inputComponent: NumericFormatCustom,
+        }}
+      />
+      <PopoverField
+        margin="normal"
+        required
+        label={t('ADD_ACCOUNT.COLOR')}
+        InputProps={{
+          readOnly: true,
+          startAdornment: renderSelectedColor(selectedColor),
+        }}
+        onClick={(event) => setAnchorEl(event.currentTarget)}
+      />
+      <ColorsPopoverPalette
+        open={open}
+        anchorEl={anchorEl}
+        onClose={() => setAnchorEl(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <ColorsPalette>
+          {renderColors(colors, setSelectedColor, selectedColor)}
+        </ColorsPalette>
+        <ColorsPaletteButtonContainer>
+          <ColorsPaletteButton onClick={() => setAnchorEl(null)}>
+            {t('ADD_ACCOUNT.OK')}
+          </ColorsPaletteButton>
+        </ColorsPaletteButtonContainer>
+      </ColorsPopoverPalette>
+      <DateField
+        required
+        label={t('ADD_ACCOUNT.DATE')}
+        defaultValue={dayjs(date)}
+        onChange={(value) => setDate(value)}
+      />
+      <TextInputField
+        margin="normal"
+        multiline
+        label={t('ADD_ACCOUNT.NOTES')}
+        placeholder={t('ADD_ACCOUNT.NOTES_PLACEHOLDER')}
+        defaultValue={notes}
+        onChange={(event) => setNotes(event.target.value)}
+      />
+      <TextInputField
+        margin="normal"
+        multiline
+        label={t('ADD_ACCOUNT.TAGS')}
+        placeholder={t('ADD_ACCOUNT.TAGS_PLACEHOLDER')}
+        onChange={(event) => setTags(event.target.value)}
+      />
+      <AddFormButtonsContainer>
+        <DoneButton
+          to={pages.cash[cashType]}
+          onClick={() =>
+            doneEventHandler(
+              accountType,
+              description,
+              currency,
+              balance,
+              selectedColor,
+              date.toISOString(),
+              notes,
+              tags,
+              addNewAccount,
+              dispatch,
+            )
+          }
         >
-          <MenuItem value="USD">USD</MenuItem>
-        </TextInputField>
-        <TextInputField
-          $type="common"
-          margin="normal"
-          required
-          label={t('ADD_ACCOUNT.BALANCE')}
-          name="numberformat"
-          value={balance}
-          onChange={(event) => setBalance(event.target.value)}
-          InputProps={{
-            inputComponent: NumericFormatCustom,
-          }}
-        />
-        <TextInputField
-          $type="common"
-          margin="normal"
-          required
-          label={t('ADD_ACCOUNT.COLOR')}
-          InputProps={{
-            readOnly: true,
-            startAdornment: renderSelectedColor(selectedColor),
-          }}
-          onClick={(event) => setAnchorEl(event.currentTarget)}
-        />
-        <ColorsPopoverPalette
-          open={open}
-          anchorEl={anchorEl}
-          onClose={() => setAnchorEl(null)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-        >
-          <ColorsPalette>
-            {renderColors(colors, setSelectedColor, selectedColor)}
-          </ColorsPalette>
-          <ColorsPaletteButtonContainer>
-            <ColorsPaletteButton onClick={() => setAnchorEl(null)}>
-              {t('ADD_ACCOUNT.OK')}
-            </ColorsPaletteButton>
-          </ColorsPaletteButtonContainer>
-        </ColorsPopoverPalette>
-        <DateField
-          $type="common"
-          required
-          label={t('ADD_ACCOUNT.DATE')}
-          defaultValue={dayjs(date)}
-          onChange={(value) => setDate(value)}
-        />
-        <TextInputField
-          $type="common"
-          margin="normal"
-          multiline
-          label={t('ADD_ACCOUNT.NOTES')}
-          placeholder={t('ADD_ACCOUNT.NOTES_PLACEHOLDER')}
-          defaultValue={notes}
-          onChange={(event) => setNotes(event.target.value)}
-        />
-        <TextInputField
-          $type="common"
-          margin="normal"
-          multiline
-          label={t('ADD_ACCOUNT.TAGS')}
-          placeholder={t('ADD_ACCOUNT.TAGS_PLACEHOLDER')}
-          onChange={(event) => setTags(event.target.value)}
-        />
-        <AddFormButtonsContainer>
-          <DoneButton
-            to={pages.cash[cashType]}
-            $buttonType="cash"
-            onClick={() =>
-              doneEventHandler(
-                accountType,
-                description,
-                currency,
-                balance,
-                selectedColor,
-                date.toISOString(),
-                notes,
-                tags,
-                addNewAccount,
-                dispatch,
-              )
-            }
-          >
-            <ButtonSvg as={DoneIcon} />
-            <ButtonTitle>{t('ADD_ACCOUNT.DONE')}</ButtonTitle>
-          </DoneButton>
-          <CancelButton to={pages.cash[cashType]}>
-            <ButtonSvg as={CancelIcon} />
-            <ButtonTitle>{t('ADD_ACCOUNT.CANCEL')}</ButtonTitle>
-          </CancelButton>
-        </AddFormButtonsContainer>
-      </>
+          <ButtonSvg as={DoneIcon} />
+          <ButtonTitle>{t('ADD_ACCOUNT.DONE')}</ButtonTitle>
+        </DoneButton>
+        <CancelButton to={pages.cash[cashType]}>
+          <ButtonSvg as={CancelIcon} />
+          <ButtonTitle>{t('ADD_ACCOUNT.CANCEL')}</ButtonTitle>
+        </CancelButton>
+      </AddFormButtonsContainer>
     </>
   );
 }

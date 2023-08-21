@@ -20,11 +20,12 @@ import {
   BarChartInfo,
   TotalCategoriesCount,
   BarChartInfoItem,
-  Svg,
   CategoriesTitleContainer,
   CategoriesTitleLink,
   CommonFilter,
   FlexContainer,
+  IncomeSvg,
+  ExpenseSvg,
 } from './Categories.styled.js';
 import {
   Header,
@@ -131,7 +132,7 @@ export default function Categories() {
               </div>
             </TotalCategoriesCount>
             <BarChartInfoItem>
-              <Svg as={ExpenseIcon} />
+              <ExpenseSvg as={ExpenseIcon} />
               <div>
                 {t('CATEGORIES.EXPENSES')}
                 <CountInfo $countType="expense">
@@ -141,7 +142,7 @@ export default function Categories() {
               </div>
             </BarChartInfoItem>
             <BarChartInfoItem>
-              <Svg as={IncomeIcon} />
+              <IncomeSvg as={IncomeIcon} />
               <div>
                 {t('CATEGORIES.INCOMES')}
                 <CountInfo $countType="income">

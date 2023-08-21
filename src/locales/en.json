@@ -109,6 +109,9 @@
     "ARCHIVED": "Archived cash"
   },
   "ADD_ACCOUNT": {
+    "TYPE": "Type",
+    "TYPE_CARD": "Card",
+    "TYPE_CASH": "Cash",
     "CARD": "New Card",
     "CASH": "New Cash",
     "CURRENT_BALANCE": "Current balance",
@@ -131,6 +134,9 @@
     "CARD_INFORMATION": "Card information",
     "CASH_INFORMATION": "Cash information",
     "CURRENT_BALANCE": "Current balance",
+    "TYPE": "Type",
+    "CASH": "Cash",
+    "CARD": "Card",
     "DESCRIPTION": "Description",
     "CURRENCY": "Currency",
     "BALANCE": "Balance",

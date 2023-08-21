@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { AddButton, BackLink, BackLinkSvg } from '../../theme/global';
-import { styled } from '@mui/material';
+import { alpha, styled } from '@mui/material';
 
 export const FlexContainer = styled('div')(() => ({
   display: 'flex',
@@ -14,6 +14,7 @@ export const HeaderTitle = styled(NavLink)((props) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  fontSize: '0.875rem',
   '&.active': {
     borderBottom: `2px solid ${props.theme.colors.main.violet}`,
   },
@@ -26,10 +27,22 @@ export const HeaderTitleLink = styled(HeaderTitle, {
   '&:hover': {
     color: props.theme.colors[props.$linkType],
     fill: `url(#${props.$linkType}_active)`,
+    '& svg': {
+      filter: `drop-shadow( 0px 3px 5px ${alpha(
+        props.theme.colors.linear[props.$linkType].from,
+        0.4,
+      )})`,
+    },
   },
   '&.active': {
     color: props.theme.colors[props.$linkType],
     fill: `url(#${props.$linkType}_active)`,
+    '& svg': {
+      filter: `drop-shadow( 0px 3px 5px ${alpha(
+        props.theme.colors.linear[props.$linkType].from,
+        0.4,
+      )})`,
+    },
   },
 }));
 
@@ -44,7 +57,7 @@ export const Back = styled(BackLink)(() => ({
 
 export const BackSvg = styled(BackLinkSvg)((props) => ({
   '& path': {
-    fill: props.theme.colors.white,
+    fill: props.theme.colors.text.darker,
   },
   '@media (min-width: 600px)': {
     display: 'none',
@@ -53,11 +66,13 @@ export const BackSvg = styled(BackLinkSvg)((props) => ({
 
 export const HeaderSvg = styled('svg')((props) => ({
   fill: 'inherit',
-  height: 23,
-  width: 23,
+  height: 35,
+  width: 35,
+  minWidth: 35,
   marginRight: props.theme.spacing(2),
-  '& rect': {
+  '& circle': {
     fill: 'inherit',
+    transition: 'fill 0.3s ease-out',
   },
 }));
 

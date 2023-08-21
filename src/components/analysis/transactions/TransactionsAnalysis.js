@@ -21,10 +21,14 @@ import PieChart from '../piechart/PieChart';
 import Table from '../table/Table';
 
 import { ReactComponent as FilterIcon } from '../../../assets/icons/shared/filter.svg';
-import { ReactComponent as ExpenseIcon } from '../../../assets/icons/shared/expense.svg';
-import { ReactComponent as IncomeIcon } from '../../../assets/icons/shared/income.svg';
+import { ReactComponent as ExpenseIcon } from '../../../assets/icons/shared/analysisExpense.svg';
+import { ReactComponent as AverageExpenseIcon } from '../../../assets/icons/shared/averageExpense.svg';
+import { ReactComponent as AverageIncomeIcon } from '../../../assets/icons/shared/averageIncome.svg';
+import { ReactComponent as IncomeIcon } from '../../../assets/icons/shared/analysisIncome.svg';
 import { ReactComponent as PositiveBalanceIcon } from '../../../assets/icons/shared/positiveBalance.svg';
 import { ReactComponent as NegativeBalanceIcon } from '../../../assets/icons/shared/negativeBalance.svg';
+import { ReactComponent as TotalTransactionsIcon } from '../../../assets/icons/navigation/mobTransactions.svg';
+import backgroundIcon from '../../../assets/icons/shared/sumBackground.svg';
 import { ReactComponent as LineChartIcon } from '../../../assets/icons/shared/lineChart.svg';
 import { ReactComponent as BarChartIcon } from '../../../assets/icons/shared/barChart.svg';
 import { ReactComponent as PieChartIcon } from '../../../assets/icons/shared/pieChart.svg';
@@ -34,6 +38,7 @@ import { ReactComponent as CalendarIcon } from '../../../assets/icons/shared/cal
 import {
   AccountsList,
   AnalysisHeader,
+  AverageInfoSvg,
   ChartButton,
   ChartHeader,
   ChartSvg,
@@ -41,7 +46,6 @@ import {
   CommonCalcItem,
   CommonInfoAmount,
   CommonInfoContainer,
-  CommonInfoCount,
   CommonInfoItem,
   CommonInfoSvg,
   CommonInfoTitle,
@@ -50,6 +54,7 @@ import {
   HeaderTitle,
   ToggleButtonsContainer,
   ToggleChartButton,
+  TotalTransactionsSvg,
 } from './TransactionsAnalysis.styled.js';
 import { hideElement, useOutsideClick } from '../../../hooks/useOutsideClick';
 import { Grid } from '@mui/material';
@@ -112,66 +117,77 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
         </Filter>
       </AnalysisHeader>
       <CommonInfoContainer>
-        <CommonInfoItem $itemType="totalExpense">
+        <CommonInfoItem $itemType="totalExpense" $background={backgroundIcon}>
           <CommonInfoSvg as={ExpenseIcon} />
           <div>
-            <CommonInfoTitle>{t('ANALYSIS.TOTAL_EXPENSES')}:</CommonInfoTitle>
-            <CommonInfoAmount $amountType="expense">
+            <div>{t('ANALYSIS.TOTAL_EXPENSES')}:</div>
+            <CommonInfoAmount>
               {formatDineroOutput(expensesSum, 'USD')}
             </CommonInfoAmount>
-            <CommonInfoCount>
+            <div>
               {expenses.length}{' '}
               {t(createLocaleTransactions('ANALYSIS', expenses.length))}
-            </CommonInfoCount>
+            </div>
           </div>
         </CommonInfoItem>
-        <CommonInfoItem $itemType="totalIncome">
+        <CommonInfoItem $itemType="totalIncome" $background={backgroundIcon}>
           <CommonInfoSvg as={IncomeIcon} />
           <div>
-            <CommonInfoTitle>{t('ANALYSIS.TOTAL_INCOMES')}:</CommonInfoTitle>
-            <CommonInfoAmount $amountType="income">
+            <div>{t('ANALYSIS.TOTAL_INCOMES')}:</div>
+            <CommonInfoAmount>
               {formatDineroOutput(incomesSum, 'USD')}
             </CommonInfoAmount>
-            <CommonInfoCount>
+            <div>
               {incomes.length}{' '}
               {t(createLocaleTransactions('ANALYSIS', incomes.length))}
-            </CommonInfoCount>
+            </div>
           </div>
         </CommonInfoItem>
-        <CommonInfoItem $itemType="saldo">
+        <CommonInfoItem $itemType="saldo" $background={backgroundIcon}>
           {lessThan(saldo, dinero({ amount: 0, currency: USD })) ? (
             <CommonInfoSvg as={NegativeBalanceIcon} />
           ) : (
             <CommonInfoSvg as={PositiveBalanceIcon} />
           )}
           <div>
-            <CommonInfoTitle>{t('ANALYSIS.SALDO')}:</CommonInfoTitle>
-            <CommonInfoAmount $amountType="saldo">
+            <div>{t('ANALYSIS.SALDO')}:</div>
+            <CommonInfoAmount>
               {formatDineroOutput(saldo, 'USD')}
             </CommonInfoAmount>
           </div>
         </CommonInfoItem>
         <CommonCalcItem $itemType="averageExpense">
-          <CommonInfoTitle>
-            {t('ANALYSIS.AVERAGE_WEEKLY_EXPENSE')}:
-          </CommonInfoTitle>
-          <CommonInfoAmount $amountType="expense">
-            {averageExpense}
-          </CommonInfoAmount>
+          <AverageInfoSvg as={AverageExpenseIcon} />
+          <div>
+            <CommonInfoTitle>
+              {t('ANALYSIS.AVERAGE_WEEKLY_EXPENSE')}:
+            </CommonInfoTitle>
+            <CommonInfoAmount $amountType="expense">
+              {averageExpense}
+            </CommonInfoAmount>
+          </div>
         </CommonCalcItem>
         <CommonCalcItem $itemType="averageIncome">
-          <CommonInfoTitle>
-            {t('ANALYSIS.AVERAGE_WEEKLY_INCOME')}:
-          </CommonInfoTitle>
-          <CommonInfoAmount $amountType="income">
-            {averageIncome}
-          </CommonInfoAmount>
+          <AverageInfoSvg as={AverageIncomeIcon} />
+          <div>
+            <CommonInfoTitle>
+              {t('ANALYSIS.AVERAGE_WEEKLY_INCOME')}:
+            </CommonInfoTitle>
+            <CommonInfoAmount $amountType="income">
+              {averageIncome}
+            </CommonInfoAmount>
+          </div>
         </CommonCalcItem>
         <CommonCalcItem $itemType="totalCount">
-          <CommonInfoTitle>{t('ANALYSIS.TOTAL_TRANSACTIONS')}:</CommonInfoTitle>
-          <CommonInfoAmount $amountType="all">
-            {filteredTransactions.length}
-          </CommonInfoAmount>
+          <TotalTransactionsSvg as={TotalTransactionsIcon} />
+          <div>
+            <CommonInfoTitle>
+              {t('ANALYSIS.TOTAL_TRANSACTIONS')}:
+            </CommonInfoTitle>
+            <CommonInfoAmount $amountType="all">
+              {filteredTransactions.length}
+            </CommonInfoAmount>
+          </div>
         </CommonCalcItem>
       </CommonInfoContainer>
       <ChartsContainer>

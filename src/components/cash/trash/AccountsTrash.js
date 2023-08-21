@@ -50,6 +50,8 @@ import {
   CardButtonSvg,
   CashListItem,
   ToggleButtonSvg,
+  DeleteMenuItem,
+  DeleteSvg,
 } from '../Cash.styled';
 import { pages } from '../../../utils/constants/pages';
 import { Grid, MenuItem, styled } from '@mui/material';
@@ -160,7 +162,7 @@ export default function AccountsTrash() {
                       {t('ACCOUNTS_TRASH.RESTORE')}
                     </FlexContainer>
                   </MenuItem>
-                  <MenuItem onClick={() => setAnchorEl(null)}>
+                  <DeleteMenuItem onClick={() => setAnchorEl(null)}>
                     <FlexContainer
                       onClick={() => {
                         transactions.transactions.forEach((transaction) => {
@@ -173,10 +175,10 @@ export default function AccountsTrash() {
                         idbDeleteItem(clickedAccount.id, 'accounts');
                       }}
                     >
-                      <CardButtonSvg as={DeleteIcon} />
+                      <DeleteSvg as={DeleteIcon} />
                       {t('ACCOUNTS_TRASH.DELETE')}
                     </FlexContainer>
-                  </MenuItem>
+                  </DeleteMenuItem>
                 </ToggleMenu>
                 <ToggleButtonSvg
                   as={ToggleEditIcon}

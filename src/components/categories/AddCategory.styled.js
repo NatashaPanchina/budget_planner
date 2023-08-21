@@ -49,7 +49,7 @@ export const Back = styled(BackLink)(() => ({
 
 export const BackSvg = styled(BackLinkSvg)((props) => ({
   '& path': {
-    fill: props.theme.colors.white,
+    fill: props.theme.colors.text.darker,
   },
   '@media (min-width: 600px)': {
     display: 'none',

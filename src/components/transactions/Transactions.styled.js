@@ -1,4 +1,4 @@
-import { alpha, css, styled } from '@mui/material';
+import { MenuItem, alpha, css, styled } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
 import { AddButton } from '../../theme/global';
 
@@ -145,9 +145,37 @@ export const CountTransactionsBlock = styled('div')((props) => ({
   },
 }));
 
-export const CountTransactionsSvg = styled('svg')((props) => ({
-  height: 30,
-  width: 30,
+export const ExpenseCountSvg = styled('svg')((props) => ({
+  height: 40,
+  width: 40,
+  filter: `drop-shadow( 0px 3px 5px ${alpha(
+    props.theme.colors.linear.expense.from,
+    0.4,
+  )})`,
+  '@media (min-width: 900px)': {
+    marginRight: props.theme.spacing(3),
+  },
+}));
+
+export const IncomeCountSvg = styled('svg')((props) => ({
+  height: 40,
+  width: 40,
+  filter: `drop-shadow( 0px 3px 5px ${alpha(
+    props.theme.colors.linear.income.from,
+    0.4,
+  )})`,
+  '@media (min-width: 900px)': {
+    marginRight: props.theme.spacing(3),
+  },
+}));
+
+export const TransferCountSvg = styled('svg')((props) => ({
+  height: 40,
+  width: 40,
+  filter: `drop-shadow( 0px 3px 5px ${alpha(
+    props.theme.colors.linear.transfer.from,
+    0.4,
+  )})`,
   '@media (min-width: 900px)': {
     marginRight: props.theme.spacing(3),
   },
@@ -340,6 +368,10 @@ export const NotesSvg = styled('svg')((props) => ({
   marginLeft: props.theme.spacing(2),
 }));
 
+export const DeleteMenuItem = styled(MenuItem)((props) => ({
+  color: props.theme.colors.expense,
+}));
+
 export const ItemButtonsContainer = styled(FlexContainer)((props) => ({
   position: 'absolute',
   right: 0,
@@ -363,6 +395,12 @@ export const EditButtonSvg = styled('svg')((props) => ({
     '& path': {
       fill: props.theme.colors.text.primary,
     },
+  },
+}));
+
+export const DeleteButtonSvg = styled(EditButtonSvg)((props) => ({
+  '& path': {
+    fill: props.theme.colors.expense,
   },
 }));
 

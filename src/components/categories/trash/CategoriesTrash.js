@@ -44,6 +44,8 @@ import {
   CategoriesSvg,
   CategoriesTitleContainer,
   CategoriesTitleLink,
+  DeleteMenuItem,
+  DeleteSvg,
   EditButtonSvg,
   EditButtons,
   FlexContainer,
@@ -127,7 +129,7 @@ function renderCategories(
                     {t('CATEGORIES_TRASH.RESTORE')}
                   </FlexContainer>
                 </MenuItem>
-                <MenuItem onClick={() => setAnchorEl(null)}>
+                <DeleteMenuItem onClick={() => setAnchorEl(null)}>
                   <FlexContainer
                     onClick={() => {
                       transactions.forEach((transaction) => {
@@ -140,10 +142,10 @@ function renderCategories(
                       idbDeleteItem(clickedCategory.id, 'categories');
                     }}
                   >
-                    <EditButtonSvg as={DeleteIcon} />
+                    <DeleteSvg as={DeleteIcon} />
                     {t('CATEGORIES_TRASH.DELETE')}
                   </FlexContainer>
-                </MenuItem>
+                </DeleteMenuItem>
               </ToggleMenu>
               <MobItemButtonSvg
                 as={ToggleEditIcon}

@@ -47,6 +47,8 @@ import {
   FlexContainer,
   EditButtonSvg,
   DescriptionCategory,
+  DeleteButtonSvg,
+  DeleteMenuItem,
 } from '../Transactions.styled';
 import {
   AddButton,
@@ -298,7 +300,7 @@ function TransactionsList({
                         {t('TRANSACTIONS.EDIT')}
                       </EditLinkContainer>
                     </MenuItem>
-                    <MenuItem onClick={() => setAnchorEl(null)}>
+                    <DeleteMenuItem onClick={() => setAnchorEl(null)}>
                       <FlexContainer
                         onClick={() =>
                           deleteClick(
@@ -310,10 +312,10 @@ function TransactionsList({
                           )
                         }
                       >
-                        <EditButtonSvg as={DeleteIcon} />
+                        <DeleteButtonSvg as={DeleteIcon} />
                         {t('TRANSACTIONS.DELETE')}
                       </FlexContainer>
-                    </MenuItem>
+                    </DeleteMenuItem>
                   </ToggleMenu>
                   <MobItemButtonSvg
                     as={ToggleEditIcon}

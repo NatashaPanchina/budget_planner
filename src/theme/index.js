@@ -36,6 +36,7 @@ export const lightTheme = {
       styleOverrides: {
         viewTransitionContainer: {
           background: '#fff',
+          color: '#000',
         },
       },
     },
@@ -56,6 +57,15 @@ export const lightTheme = {
         },
         slideTransition: {
           background: '#fff',
+        },
+      },
+    },
+    MuiPickersDay: {
+      styleOverrides: {
+        root: {
+          '&.Mui-selected': {
+            backgroundColor: '#6D73FF',
+          },
         },
       },
     },
@@ -101,6 +111,16 @@ export const lightTheme = {
           margin: '8px 0px',
           paddingTop: 8,
           paddingBottom: 8,
+          '&:hover': {
+            background: '#EAEAEA',
+            transition: 'background 0.4s ease-out',
+          },
+          '&.Mui-selected': {
+            background: '#EAEAEA',
+          },
+          '&.Mui-selected:hover': {
+            background: '#EAEAEA',
+          },
         },
       },
     },
@@ -108,7 +128,7 @@ export const lightTheme = {
   colors: {
     main: {
       violet: '#6D73FF',
-      purple: '#a57fff',
+      purple: '#B67FFF',
     },
     text: {
       primary: '#000',
@@ -117,8 +137,9 @@ export const lightTheme = {
     },
     placeholder: '#D1D1D1',
     background: {
-      body: '#F7F7F7',
+      body: '#F7F7FF',
       navigation: '#F3F3F3',
+      search: '#e8e9ff',
       primary: '#fff',
       ordinary: '#EAEAEA',
     },
@@ -148,6 +169,28 @@ export const lightTheme = {
       ordinary: '#D5D5D5',
       title: '#D5D5D5',
       item: '#D9D9D9',
+    },
+    linear: {
+      main: {
+        from: '#B67FFF',
+        to: '#6D73FF',
+      },
+      expense: {
+        from: '#ff58b2',
+        to: '#f73c5e',
+      },
+      income: {
+        from: '#b8f56a',
+        to: '#76c314',
+      },
+      transfer: {
+        from: '#31FFB5',
+        to: '#07C8BD',
+      },
+      saldo: {
+        from: '#53ffff',
+        to: '#419fff',
+      },
     },
   },
   borderRadius: 8,
@@ -207,6 +250,9 @@ export const darkTheme = {
       styleOverrides: {
         root: {
           color: '#fff',
+          '&.Mui-selected': {
+            backgroundColor: '#6D73FF',
+          },
         },
       },
     },
@@ -265,6 +311,16 @@ export const darkTheme = {
           margin: '8px 0px',
           paddingTop: 8,
           paddingBottom: 8,
+          '&:hover': {
+            background: '#515151',
+            transition: 'background 0.4s ease-out',
+          },
+          '&.Mui-selected': {
+            background: '#515151',
+          },
+          '&.Mui-selected:hover': {
+            background: '#515151',
+          },
         },
       },
     },
@@ -272,7 +328,7 @@ export const darkTheme = {
   colors: {
     main: {
       violet: '#6D73FF',
-      purple: '#a57fff',
+      purple: '#B67FFF',
     },
     text: {
       primary: '#fff',
@@ -283,6 +339,7 @@ export const darkTheme = {
     background: {
       body: '#262626',
       navigation: '#383838',
+      search: '#515151',
       primary: '#333232',
       ordinary: '#515151',
     },
@@ -311,6 +368,28 @@ export const darkTheme = {
       ordinary: '#434343',
       title: '#4B4B4B',
       item: '#4B4B4B',
+    },
+    linear: {
+      main: {
+        from: '#B67FFF',
+        to: '#6D73FF',
+      },
+      expense: {
+        from: '#ff58b2',
+        to: '#f73c5e',
+      },
+      income: {
+        from: '#b8f56a',
+        to: '#76c314',
+      },
+      transfer: {
+        from: '#31FFB5',
+        to: '#07C8BD',
+      },
+      saldo: {
+        from: '#53ffff',
+        to: '#419fff',
+      },
     },
   },
   borderRadius: 8,

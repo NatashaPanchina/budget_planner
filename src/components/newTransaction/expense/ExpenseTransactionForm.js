@@ -11,8 +11,8 @@ import { pages } from '../../../utils/constants/pages';
 import { dineroFromFloat } from '../../../utils/format/cash';
 import { renderCategories, renderAccounts } from '../../transactions/utils';
 import { NumericFormatCustom } from '../../../utils/format/cash';
-import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
-import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
+import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/done.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
 import searchIcon from '../../../assets/icons/shared/search.svg';
 import {
@@ -63,7 +63,6 @@ function ExpenseTransactionForm({
   return (
     <>
       <TextInputField
-        $type={transactionType}
         margin="normal"
         required
         select
@@ -86,7 +85,6 @@ function ExpenseTransactionForm({
         {renderCategories(filteredCategories)}
       </TextInputField>
       <TextInputField
-        $type={transactionType}
         margin="normal"
         required
         select
@@ -109,7 +107,6 @@ function ExpenseTransactionForm({
         {renderAccounts(filteredAccounts, t)}
       </TextInputField>
       <TextInputField
-        $type={transactionType}
         margin="normal"
         required
         label={t('NEW_TRANSACTION.AMOUNT')}
@@ -121,14 +118,12 @@ function ExpenseTransactionForm({
         }}
       />
       <DateField
-        $type={transactionType}
         required
         label={t('NEW_TRANSACTION.DATE')}
         defaultValue={dayjs(date)}
         onChange={(value) => setDate(value)}
       />
       <TextInputField
-        $type={transactionType}
         margin="normal"
         multiline
         label={t('NEW_TRANSACTION.NOTES')}
@@ -137,7 +132,6 @@ function ExpenseTransactionForm({
         onChange={(event) => setNotes(event.target.value)}
       />
       <TextInputField
-        $type={transactionType}
         margin="normal"
         multiline
         label={t('NEW_TRANSACTION.TAGS')}
@@ -145,8 +139,7 @@ function ExpenseTransactionForm({
       />
       <AddFormButtonsContainer>
         <DoneButton
-          $buttonType={transactionType}
-          to={`${pages.transactions[`${transactionType}s`]}/${account}`}
+          to={`${pages.transactions[`${transactionType}s`]}/all`}
           onClick={() => {
             const newTransaction = {
               id: uuidv4(),
@@ -187,9 +180,7 @@ function ExpenseTransactionForm({
           <ButtonSvg as={DoneIcon} />
           <ButtonTitle>{t('NEW_TRANSACTION.DONE')}</ButtonTitle>
         </DoneButton>
-        <CancelButton
-          to={`${pages.transactions[`${transactionType}s`]}/${account}`}
-        >
+        <CancelButton to={`${pages.transactions[`${transactionType}s`]}/all`}>
           <ButtonSvg as={CancelIcon} />
           <ButtonTitle>{t('NEW_TRANSACTION.CANCEL')}</ButtonTitle>
         </CancelButton>

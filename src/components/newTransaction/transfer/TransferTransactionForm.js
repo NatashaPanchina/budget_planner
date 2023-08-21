@@ -6,7 +6,7 @@ import { USD } from '@dinero.js/currencies';
 import { renderAccounts } from '../../transactions/utils';
 import searchIcon from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
-import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
 import { pages } from '../../../utils/constants/pages';
 import {
@@ -51,7 +51,6 @@ function TransferTransactionForm({ accounts }) {
   return (
     <>
       <TextInputField
-        $type={transactionType}
         margin="normal"
         required
         select
@@ -74,7 +73,6 @@ function TransferTransactionForm({ accounts }) {
         {renderAccounts(filteredAccounts, t)}
       </TextInputField>
       <TextInputField
-        $type={transactionType}
         margin="normal"
         required
         select
@@ -97,7 +95,6 @@ function TransferTransactionForm({ accounts }) {
         {renderAccounts(filteredAccounts, t)}
       </TextInputField>
       <TextInputField
-        $type={transactionType}
         margin="normal"
         required
         label={t('NEW_TRANSACTION.AMOUNT')}
@@ -109,14 +106,12 @@ function TransferTransactionForm({ accounts }) {
         }}
       />
       <DateField
-        $type={transactionType}
         required
         label={t('NEW_TRANSACTION.DATE')}
         defaultValue={dayjs(date)}
         onChange={(value) => setDate(value)}
       />
       <TextInputField
-        $type={transactionType}
         margin="normal"
         multiline
         label={t('NEW_TRANSACTION.NOTES')}
@@ -125,23 +120,17 @@ function TransferTransactionForm({ accounts }) {
         onChange={(event) => setNotes(event.target.value)}
       />
       <TextInputField
-        $type={transactionType}
         margin="normal"
         multiline
         label={t('NEW_TRANSACTION.TAGS')}
         onChange={(event) => setTags(event.target.value)}
       />
       <AddFormButtonsContainer>
-        <DoneButton
-          $buttonType={transactionType}
-          to={`${pages.transactions[`${transactionType}s`]}/${destAccount}`}
-        >
+        <DoneButton to={`${pages.transactions[`${transactionType}s`]}/all`}>
           <ButtonSvg as={DoneIcon} />
           <ButtonTitle>{t('NEW_TRANSACTION.DONE')}</ButtonTitle>
         </DoneButton>
-        <CancelButton
-          to={`${pages.transactions[`${transactionType}s`]}/${destAccount}`}
-        >
+        <CancelButton to={`${pages.transactions[`${transactionType}s`]}/all`}>
           <ButtonSvg as={CancelIcon} />
           <ButtonTitle>{t('NEW_TRANSACTION.CANCEL')}</ButtonTitle>
         </CancelButton>

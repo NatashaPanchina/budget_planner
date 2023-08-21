@@ -5,7 +5,7 @@ import {
   BackLinkSvg,
   MobItemButtonSvg,
 } from '../../theme/global';
-import { alpha, styled } from '@mui/material';
+import { MenuItem, alpha, styled } from '@mui/material';
 
 export const FlexContainer = styled('div')(() => ({
   display: 'flex',
@@ -24,6 +24,7 @@ export const MoreInformationContainer = styled(FlexContainer)((props) => ({
   '@media (min-width: 600px)': {
     height: 250,
     maxHeight: 250,
+    zIndex: 200,
   },
   '@media (min-width: 900px)': {
     display: 'block',
@@ -32,7 +33,6 @@ export const MoreInformationContainer = styled(FlexContainer)((props) => ({
     marginRight: props.theme.spacing(8),
     position: 'sticky',
     top: props.theme.spacing(18),
-    zIndex: 9,
   },
 }));
 
@@ -47,7 +47,7 @@ export const Back = styled(BackLink)(() => ({
 
 export const BackSvg = styled(BackLinkSvg)((props) => ({
   '& path': {
-    fill: props.theme.colors.white,
+    fill: props.theme.colors.text.darker,
   },
   '@media (min-width: 600px)': {
     display: 'none',
@@ -231,12 +231,22 @@ export const CardButtonSvg = styled('svg')((props) => ({
   display: 'none',
   '@media (min-width: 600px)': {
     display: 'flex',
-    height: 18,
-    width: 18,
+    height: 15,
+    width: 15,
     '& path': {
       fill: props.theme.colors.text.primary,
     },
     marginRight: props.theme.spacing(2),
+  },
+}));
+
+export const DeleteMenuItem = styled(MenuItem)((props) => ({
+  color: props.theme.colors.expense,
+}));
+
+export const DeleteSvg = styled(CardButtonSvg)((props) => ({
+  '& path': {
+    fill: props.theme.colors.expense,
   },
 }));
 

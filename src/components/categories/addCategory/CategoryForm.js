@@ -21,6 +21,7 @@ import {
   TextInputField,
   DateField,
   ColorsPopoverPalette,
+  PopoverField,
 } from '../../../theme/global.js';
 import {
   IconsButton,
@@ -29,7 +30,7 @@ import {
 } from '../Categories.styled.js';
 import { pages } from '../../../utils/constants/pages.js';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
-import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import dayjs from 'dayjs';
 
 const doneEventHandler = (
@@ -78,7 +79,6 @@ function CategoryForm({ addNewCategory }) {
   return (
     <>
       <TextInputField
-        $type={categoryType}
         margin="normal"
         required
         label={t('INFO_CATEGORY.TYPE')}
@@ -88,7 +88,6 @@ function CategoryForm({ addNewCategory }) {
         }}
       />
       <TextInputField
-        $type={categoryType}
         margin="normal"
         required
         multiline
@@ -97,8 +96,7 @@ function CategoryForm({ addNewCategory }) {
         defaultValue={description}
         onChange={(event) => setDescription(event.target.value)}
       />
-      <TextInputField
-        $type={categoryType}
+      <PopoverField
         margin="normal"
         required
         label={t('INFO_CATEGORY.COLOR')}
@@ -123,8 +121,7 @@ function CategoryForm({ addNewCategory }) {
           </ColorsPaletteButton>
         </ColorsPaletteButtonContainer>
       </ColorsPopoverPalette>
-      <TextInputField
-        $type={categoryType}
+      <PopoverField
         margin="normal"
         required
         label={t('INFO_CATEGORY.ICON')}
@@ -148,14 +145,12 @@ function CategoryForm({ addNewCategory }) {
         </IconsButtonContainer>
       </ColorsPopoverPalette>
       <DateField
-        $type={categoryType}
         required
         label={t('ADD_CATEGORY.DATE')}
         defaultValue={dayjs(date)}
         onChange={(value) => setDate(value)}
       />
       <TextInputField
-        $type={categoryType}
         margin="normal"
         multiline
         label={t('ADD_CATEGORY.NOTES')}
@@ -164,7 +159,6 @@ function CategoryForm({ addNewCategory }) {
         onChange={(event) => setNotes(event.target.value)}
       />
       <TextInputField
-        $type={categoryType}
         margin="normal"
         multiline
         label={t('ADD_CATEGORY.TAGS')}
@@ -174,7 +168,6 @@ function CategoryForm({ addNewCategory }) {
       <AddFormButtonsContainer>
         <DoneButton
           to={pages.categories[`${categoryType}s`]}
-          $buttonType={categoryType}
           onClick={() =>
             doneEventHandler(
               categoryType,

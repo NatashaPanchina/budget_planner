@@ -1,4 +1,4 @@
-import { css, styled } from '@mui/material';
+import { alpha, css, styled } from '@mui/material';
 
 const FlexContainer = styled('div')(() => ({
   display: 'flex',
@@ -97,11 +97,11 @@ export const CommonInfoItemDiv = styled('div')((props) => ({
   justifySelf: 'center',
   width: '80%',
   boxSizing: 'border-box',
-  border: `1px solid ${props.theme.colors.border.item}`,
   borderRadius: props.theme.borderRadius,
   textAlign: 'center',
-  backgroundColor: props.theme.colors.background.body,
   padding: props.theme.spacing(4),
+  color: props.theme.colors.white,
+  fontSize: '0.75rem',
   '@media (min-width: 768px)': {
     display: 'flex',
     alignItems: 'center',
@@ -111,11 +111,20 @@ export const CommonInfoItemDiv = styled('div')((props) => ({
 }));
 
 export const CommonInfoItem = styled(CommonInfoItemDiv, {
-  shouldForwardProp: (prop) => prop !== '$itemType',
+  shouldForwardProp: (prop) => prop !== '$itemType' && prop !== '$background',
 })((props) => {
   switch (props.$itemType) {
     case 'totalExpense':
       return css`
+        background:
+          url(${props.$background}) 0% 0% / 40% no-repeat,
+          linear-gradient(
+            to bottom right,
+            ${props.theme.colors.linear.expense.from},
+            ${props.theme.colors.linear.expense.to}
+          );
+        box-shadow: 0px 5px 20px
+          ${alpha(props.theme.colors.linear.expense.from, 0.4)};
         grid-column: 1 / 2;
         grid-row: 1 / 2;
         @media (min-width: 600px) {
@@ -125,6 +134,15 @@ export const CommonInfoItem = styled(CommonInfoItemDiv, {
       `;
     case 'totalIncome':
       return css`
+        background:
+          url(${props.$background}) 0% 0% / 40% no-repeat,
+          linear-gradient(
+            to bottom right,
+            ${props.theme.colors.linear.income.from},
+            ${props.theme.colors.linear.income.to}
+          );
+        box-shadow: 0px 5px 20px
+          ${alpha(props.theme.colors.linear.income.from, 0.4)};
         grid-column: 1 / 2;
         grid-row: 2 / 3;
         @media (min-width: 600px) {
@@ -134,6 +152,15 @@ export const CommonInfoItem = styled(CommonInfoItemDiv, {
       `;
     case 'saldo':
       return css`
+        background:
+          url(${props.$background}) 0% 0% / 40% no-repeat,
+          linear-gradient(
+            to bottom right,
+            ${props.theme.colors.linear.saldo.from},
+            ${props.theme.colors.linear.saldo.to}
+          );
+        box-shadow: 0px 5px 20px
+          ${alpha(props.theme.colors.linear.saldo.from, 0.4)};
         grid-column: 1 / 2;
         grid-row: 3 / 4;
         @media (min-width: 600px) {
@@ -143,6 +170,15 @@ export const CommonInfoItem = styled(CommonInfoItemDiv, {
       `;
     default:
       return css`
+        background:
+          url(${props.$background}) 0% 0% / 40% no-repeat,
+          linear-gradient(
+            to bottom right,
+            ${props.theme.colors.linear.expense.from},
+            ${props.theme.colors.linear.expense.to}
+          );
+        box-shadow: 0px 5px 20px
+          ${alpha(props.theme.colors.linear.expense.from, 0.4)};
         grid-column: 1 / 2;
         grid-row: 1 / 2;
         @media (min-width: 600px) {
@@ -158,9 +194,35 @@ export const CommonInfoSvg = styled('svg')((props) => ({
   height: 30,
   minWidth: 30,
   '@media (min-width: 768px)': {
-    width: 35,
-    height: 35,
+    width: 40,
+    height: 40,
+    minWidth: 40,
+    marginRight: props.theme.spacing(3),
+  },
+}));
+
+export const AverageInfoSvg = styled('svg')((props) => ({
+  width: '90%',
+  height: 70,
+  minWidth: 50,
+  '@media (min-width: 768px)': {
+    width: '70%',
     minWidth: 35,
+  },
+  '@media (min-width: 1000px)': {
+    paddingRight: props.theme.spacing(3),
+    width: `calc(50% - ${props.theme.spacing(3)})`,
+  },
+}));
+
+export const TotalTransactionsSvg = styled('svg')((props) => ({
+  width: 35,
+  height: 35,
+  minWidth: 35,
+  marginTop: props.theme.spacing(6),
+  marginBottom: props.theme.spacing(2),
+  '@media (min-width: 1000px)': {
+    margin: 0,
     marginRight: props.theme.spacing(3),
   },
 }));
@@ -170,29 +232,46 @@ export const CommonInfoTitle = styled('div')((props) => ({
   color: props.theme.colors.text.darker,
 }));
 
-export const CommonInfoAmount = styled('div', {
-  shouldForwardProp: (prop) => prop !== '$amountType',
-})((props) => ({
-  color:
-    props.$amountType === 'all'
-      ? props.theme.colors.main.violet
-      : props.theme.colors[props.$amountType],
+const InfoAmount = styled('div')(() => ({
+  fontSize: '1.1rem',
+  lineHeight: '2',
 }));
 
-export const CommonInfoCount = styled('div')(() => ({
-  fontSize: '0.875rem',
-}));
+export const CommonInfoAmount = styled(InfoAmount, {
+  shouldForwardProp: (prop) => prop !== '$amountType',
+})((props) => {
+  switch (props.$amountType) {
+    case 'all':
+      return css`
+        color: ${props.theme.colors.main.violet};
+      `;
+    case 'expense':
+      return css`
+        color: ${props.theme.colors.expense};
+      `;
+    case 'income':
+      return css`
+        color: ${props.theme.colors.income};
+      `;
+    default:
+      return css`
+        color: ${props.theme.colors.white};
+      `;
+  }
+});
 
 const CommonCalcDiv = styled('div')((props) => ({
   justifySelf: 'center',
   textAlign: 'center',
   width: '80%',
   padding: props.theme.spacing(4),
-  '@media (min-width: 600px)': {
-    display: 'block',
-  },
   '@media (min-width: 768px)': {
     padding: `${props.theme.spacing(6)} ${props.theme.spacing(4)}`,
+  },
+  '@media (min-width: 1000px)': {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 }));
 
@@ -281,9 +360,11 @@ export const ChartHeader = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const ChartButton = styled('button', {
+export const ChartButton = styled(FlexContainer, {
   shouldForwardProp: (prop) => prop !== '$isActive',
 })((props) => ({
+  cursor: 'pointer',
+  fontSize: '0.875rem',
   height: 35,
   borderRadius: props.theme.borderRadius,
   paddingLeft: props.theme.spacing(4),
@@ -291,17 +372,15 @@ export const ChartButton = styled('button', {
   marginLeft: props.theme.spacing(4),
   marginRight: props.theme.spacing(4),
   whiteSpace: 'nowrap',
-  color: props.$isActive
-    ? props.theme.colors.text.primary
-    : props.theme.colors.text.darker,
-  backgroundColor: props.$isActive
-    ? props.theme.colors.background.primary
-    : props.theme.colors.background.ordinary,
-  border: props.$isActive
-    ? `1px solid ${props.theme.colors.main.violet}`
-    : 'none',
+  color: props.theme.colors.white,
+  background: `linear-gradient(to bottom right, ${alpha(
+    props.theme.colors.linear.main.from,
+    0.8,
+  )}, ${alpha(props.theme.colors.linear.main.to, 0.8)})`,
+  opacity: props.$isActive ? 1 : 0.5,
   '&:hover': {
-    color: props.theme.colors.text.primary,
+    opacity: 1,
+    transition: 'opacity 0.3s ease-out',
   },
 }));
 

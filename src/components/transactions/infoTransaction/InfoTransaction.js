@@ -19,7 +19,7 @@ import { dineroFromFloat } from '../../../utils/format/cash';
 import { renderCategories, renderAccounts } from '../utils';
 
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
-import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/delete.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
 import searchIcon from '../../../assets/icons/shared/search.svg';
@@ -277,7 +277,6 @@ export default function InfoTransaction() {
           {t('INFO_TRANSACTION.TITLE')}
         </MobHeaderTitle>
         <TextInputField
-          $type={transactionType}
           margin="normal"
           required
           label={t('INFO_TRANSACTION.TYPE')}
@@ -287,7 +286,6 @@ export default function InfoTransaction() {
           }}
         />
         <TextInputField
-          $type={transactionType}
           margin="normal"
           required
           select
@@ -311,7 +309,6 @@ export default function InfoTransaction() {
           {renderCategories(filteredCategories)}
         </TextInputField>
         <TextInputField
-          $type={transactionType}
           margin="normal"
           required
           select
@@ -333,7 +330,6 @@ export default function InfoTransaction() {
           {renderAccounts(notArchivedAccounts, t)}
         </TextInputField>
         <TextInputField
-          $type={transactionType}
           margin="normal"
           required
           label={t('INFO_TRANSACTION.AMOUNT')}
@@ -345,14 +341,12 @@ export default function InfoTransaction() {
           }}
         />
         <DateField
-          $type={transactionType}
           required
           label={t('INFO_TRANSACTION.DATE')}
           defaultValue={dayjs(date)}
           onChange={(value) => setDate(value)}
         />
         <TextInputField
-          $type={transactionType}
           margin="normal"
           multiline
           label={t('INFO_TRANSACTION.NOTES')}
@@ -361,7 +355,6 @@ export default function InfoTransaction() {
           onChange={(event) => setNotes(event.target.value)}
         />
         <TextInputField
-          $type={transactionType}
           margin="normal"
           multiline
           label={t('INFO_TRANSACTION.TAGS')}
@@ -369,7 +362,6 @@ export default function InfoTransaction() {
         />
         <AddFormButtonsContainer>
           <DoneButton
-            $buttonType={transactionType}
             to={`${pages.transactions[`${transactionType}s`]}/${account}`}
             onClick={() =>
               doneEventHandler(

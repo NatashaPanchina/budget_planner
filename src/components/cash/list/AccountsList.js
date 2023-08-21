@@ -38,6 +38,8 @@ import {
   AddCashButton,
   FlexContainer,
   ToggleButtonSvg,
+  DeleteMenuItem,
+  DeleteSvg,
 } from '../Cash.styled';
 import { pages } from '../../../utils/constants/pages';
 import { MenuItem } from '@mui/material';
@@ -112,7 +114,7 @@ function AccountsList({ notArchivedAccounts, archiveAccount }) {
                     <CardButtonSvg as={TransferIcon} /> {t('CASH.NEW_TRANSFER')}
                   </FlexContainer>
                 </MenuItem>
-                <MenuItem onClick={() => setAnchorEl(null)}>
+                <DeleteMenuItem onClick={() => setAnchorEl(null)}>
                   <FlexContainer
                     onClick={() =>
                       archiveEventButton(
@@ -122,10 +124,10 @@ function AccountsList({ notArchivedAccounts, archiveAccount }) {
                       )
                     }
                   >
-                    <CardButtonSvg as={ArchiveIcon} />
+                    <DeleteSvg as={ArchiveIcon} />
                     {t('CASH.ARCHIVE')}
                   </FlexContainer>
-                </MenuItem>
+                </DeleteMenuItem>
               </ToggleMenu>
               <ToggleButtonSvg
                 as={ToggleEditIcon}

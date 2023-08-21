@@ -14,7 +14,7 @@ export const HeaderContainer = styled(FlexContainer)((props) => ({
     height: 56,
     marginTop: 0,
     position: 'fixed',
-    zIndex: 10,
+    zIndex: 300,
     top: 0,
     background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
   },
@@ -151,6 +151,7 @@ export const Svg = styled('svg')(() => ({
 export const SvgMode = styled(Svg)((props) => ({
   '&:hover circle': {
     fill: props.theme.colors.background.ordinary,
+    transition: 'fill 0.4s ease-out',
   },
 }));
 

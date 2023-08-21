@@ -24,6 +24,9 @@ import { styled } from '@mui/system';
 const CustomCarousel = styled(Carousel)(() => ({
   '& .MuiIconButton-root': {
     top: 'calc(50% - 30px)!important',
+    '& .css-aq8pb7-MuiSvgIcon-root': {
+      fontSize: '0.75rem',
+    },
   },
 }));
 
@@ -52,7 +55,7 @@ function Slider({ filterType, notArchivedAccounts }) {
       indicators={true}
       autoPlay={false}
       swipe={true}
-      animation="slide"
+      animation="fade"
       index={currentSlide}
     >
       {slides.map((account) => (
