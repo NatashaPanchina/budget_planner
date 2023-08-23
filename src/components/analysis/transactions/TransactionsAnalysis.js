@@ -21,10 +21,14 @@ import PieChart from '../piechart/PieChart';
 import Table from '../table/Table';
 
 import { ReactComponent as FilterIcon } from '../../../assets/icons/shared/filter.svg';
-import { ReactComponent as ExpenseIcon } from '../../../assets/icons/shared/expense.svg';
-import { ReactComponent as IncomeIcon } from '../../../assets/icons/shared/income.svg';
+import { ReactComponent as ExpenseIcon } from '../../../assets/icons/shared/analysisExpense.svg';
+import { ReactComponent as AverageExpenseIcon } from '../../../assets/icons/shared/averageExpense.svg';
+import { ReactComponent as AverageIncomeIcon } from '../../../assets/icons/shared/averageIncome.svg';
+import { ReactComponent as IncomeIcon } from '../../../assets/icons/shared/analysisIncome.svg';
 import { ReactComponent as PositiveBalanceIcon } from '../../../assets/icons/shared/positiveBalance.svg';
 import { ReactComponent as NegativeBalanceIcon } from '../../../assets/icons/shared/negativeBalance.svg';
+import { ReactComponent as TotalTransactionsIcon } from '../../../assets/icons/navigation/mobTransactions.svg';
+import backgroundIcon from '../../../assets/icons/shared/sumBackground.svg';
 import { ReactComponent as LineChartIcon } from '../../../assets/icons/shared/lineChart.svg';
 import { ReactComponent as BarChartIcon } from '../../../assets/icons/shared/barChart.svg';
 import { ReactComponent as PieChartIcon } from '../../../assets/icons/shared/pieChart.svg';
@@ -34,14 +38,14 @@ import { ReactComponent as CalendarIcon } from '../../../assets/icons/shared/cal
 import {
   AccountsList,
   AnalysisHeader,
+  AverageInfoSvg,
   ChartButton,
-  ChartButtonsContainer,
+  ChartHeader,
   ChartSvg,
   ChartsContainer,
   CommonCalcItem,
   CommonInfoAmount,
   CommonInfoContainer,
-  CommonInfoCount,
   CommonInfoItem,
   CommonInfoSvg,
   CommonInfoTitle,
@@ -50,8 +54,10 @@ import {
   HeaderTitle,
   ToggleButtonsContainer,
   ToggleChartButton,
+  TotalTransactionsSvg,
 } from './TransactionsAnalysis.styled.js';
 import { hideElement, useOutsideClick } from '../../../hooks/useOutsideClick';
+import { Grid } from '@mui/material';
 
 function TransactionsAnalysis({ transactions, categories, accounts }) {
   const { t } = useTranslation();
@@ -86,7 +92,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
   const accountsRef = useOutsideClick(hideElement);
 
   return (
-    <>
+    <Grid item xs={12} sm={12} md={12} lg={12}>
       <AnalysisHeader>
         <HeaderTitle>{t('ANALYSIS.TRANSACTIONS_ANALYSIS')}</HeaderTitle>
         <Filter
@@ -111,71 +117,82 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
         </Filter>
       </AnalysisHeader>
       <CommonInfoContainer>
-        <CommonInfoItem>
+        <CommonInfoItem $itemType="totalExpense" $background={backgroundIcon}>
           <CommonInfoSvg as={ExpenseIcon} />
           <div>
-            <CommonInfoTitle>{t('ANALYSIS.TOTAL_EXPENSES')}:</CommonInfoTitle>
-            <CommonInfoAmount $amountType="expense">
+            <div>{t('ANALYSIS.TOTAL_EXPENSES')}:</div>
+            <CommonInfoAmount>
               {formatDineroOutput(expensesSum, 'USD')}
             </CommonInfoAmount>
-            <CommonInfoCount>
+            <div>
               {expenses.length}{' '}
               {t(createLocaleTransactions('ANALYSIS', expenses.length))}
-            </CommonInfoCount>
+            </div>
           </div>
         </CommonInfoItem>
-        <CommonInfoItem>
+        <CommonInfoItem $itemType="totalIncome" $background={backgroundIcon}>
           <CommonInfoSvg as={IncomeIcon} />
           <div>
-            <CommonInfoTitle>{t('ANALYSIS.TOTAL_INCOMES')}:</CommonInfoTitle>
-            <CommonInfoAmount $amountType="income">
+            <div>{t('ANALYSIS.TOTAL_INCOMES')}:</div>
+            <CommonInfoAmount>
               {formatDineroOutput(incomesSum, 'USD')}
             </CommonInfoAmount>
-            <CommonInfoCount>
+            <div>
               {incomes.length}{' '}
               {t(createLocaleTransactions('ANALYSIS', incomes.length))}
-            </CommonInfoCount>
+            </div>
           </div>
         </CommonInfoItem>
-        <CommonInfoItem>
+        <CommonInfoItem $itemType="saldo" $background={backgroundIcon}>
           {lessThan(saldo, dinero({ amount: 0, currency: USD })) ? (
             <CommonInfoSvg as={NegativeBalanceIcon} />
           ) : (
             <CommonInfoSvg as={PositiveBalanceIcon} />
           )}
           <div>
-            <CommonInfoTitle>{t('ANALYSIS.SALDO')}:</CommonInfoTitle>
-            <CommonInfoAmount $amountType="saldo">
+            <div>{t('ANALYSIS.SALDO')}:</div>
+            <CommonInfoAmount>
               {formatDineroOutput(saldo, 'USD')}
             </CommonInfoAmount>
           </div>
         </CommonInfoItem>
-        <CommonCalcItem>
-          <CommonInfoTitle>{t('ANALYSIS.TOTAL_TRANSACTIONS')}:</CommonInfoTitle>
-          <CommonInfoAmount $amountType="all">
-            {filteredTransactions.length}
-          </CommonInfoAmount>
+        <CommonCalcItem $itemType="averageExpense">
+          <AverageInfoSvg as={AverageExpenseIcon} />
+          <div>
+            <CommonInfoTitle>
+              {t('ANALYSIS.AVERAGE_WEEKLY_EXPENSE')}:
+            </CommonInfoTitle>
+            <CommonInfoAmount $amountType="expense">
+              {averageExpense}
+            </CommonInfoAmount>
+          </div>
         </CommonCalcItem>
-        <CommonCalcItem>
-          <CommonInfoTitle>
-            {t('ANALYSIS.AVERAGE_WEEKLY_EXPENSE')}:
-          </CommonInfoTitle>
-          <CommonInfoAmount $amountType="expense">
-            {averageExpense}
-          </CommonInfoAmount>
+        <CommonCalcItem $itemType="averageIncome">
+          <AverageInfoSvg as={AverageIncomeIcon} />
+          <div>
+            <CommonInfoTitle>
+              {t('ANALYSIS.AVERAGE_WEEKLY_INCOME')}:
+            </CommonInfoTitle>
+            <CommonInfoAmount $amountType="income">
+              {averageIncome}
+            </CommonInfoAmount>
+          </div>
         </CommonCalcItem>
-        <CommonCalcItem>
-          <CommonInfoTitle>
-            {t('ANALYSIS.AVERAGE_WEEKLY_INCOME')}:
-          </CommonInfoTitle>
-          <CommonInfoAmount $amountType="income">
-            {averageIncome}
-          </CommonInfoAmount>
+        <CommonCalcItem $itemType="totalCount">
+          <TotalTransactionsSvg as={TotalTransactionsIcon} />
+          <div>
+            <CommonInfoTitle>
+              {t('ANALYSIS.TOTAL_TRANSACTIONS')}:
+            </CommonInfoTitle>
+            <CommonInfoAmount $amountType="all">
+              {filteredTransactions.length}
+            </CommonInfoAmount>
+          </div>
         </CommonCalcItem>
       </CommonInfoContainer>
       <ChartsContainer>
         <ChartSvg as={LineChartIcon} />
-        <ChartButtonsContainer>
+        <ChartHeader>
           <ChartButton
             $isActive={lineChartFilter === 'expensesToIncomes'}
             onClick={() => setLineChartFilter('expensesToIncomes')}
@@ -200,7 +217,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           >
             {t('ANALYSIS.TRANSFERS')}
           </ChartButton>
-        </ChartButtonsContainer>
+        </ChartHeader>
         <ToggleButtonsContainer>
           <ToggleChartButton
             $isActive={!isLineChartDetailed}
@@ -225,7 +242,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
       </ChartsContainer>
       <ChartsContainer>
         <ChartSvg as={BarChartIcon} />
-        <ChartButtonsContainer>
+        <ChartHeader>
           <ChartButton
             $isActive={barChartFilter === 'expensesToIncomes'}
             onClick={() => setBarChartFilter('expensesToIncomes')}
@@ -250,7 +267,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           >
             {t('ANALYSIS.TRANSFERS')}
           </ChartButton>
-        </ChartButtonsContainer>
+        </ChartHeader>
         <ToggleButtonsContainer>
           <ToggleChartButton
             $isActive={!isBarChartDetailed}
@@ -275,7 +292,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
       </ChartsContainer>
       <ChartsContainer>
         <ChartSvg as={PieChartIcon} />
-        <ChartButtonsContainer>
+        <ChartHeader>
           <ChartButton
             $isActive={pieChartFilter === 'expenses'}
             onClick={() => setPieChartFilter('expenses')}
@@ -294,7 +311,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           >
             {t('ANALYSIS.TRANSFERS')}
           </ChartButton>
-        </ChartButtonsContainer>
+        </ChartHeader>
         <PieChart
           transactions={filteredTransactions}
           categories={categories}
@@ -304,7 +321,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
       </ChartsContainer>
       <ChartsContainer>
         <ChartSvg as={TableIcon} />
-        <ChartButtonsContainer>
+        <ChartHeader>
           <ChartButton
             $isActive={tableFilter === 'expenses'}
             onClick={() => setTableFilter('expenses')}
@@ -323,7 +340,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           >
             {t('ANALYSIS.TRANSFERS')}
           </ChartButton>
-        </ChartButtonsContainer>
+        </ChartHeader>
         <Table
           transactions={filteredTransactions}
           categories={categories}
@@ -331,7 +348,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           date={date}
         />
       </ChartsContainer>
-    </>
+    </Grid>
   );
 }
 

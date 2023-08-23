@@ -2,36 +2,27 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
 import { v4 as uuidv4 } from 'uuid';
-import { NumericFormat } from 'react-number-format';
 import { USD } from '@dinero.js/currencies';
-import { toSnapshot } from 'dinero.js';
-
+import { dinero, toDecimal, toSnapshot } from 'dinero.js';
 import { pages } from '../../../utils/constants/pages';
 import { colors } from '../../../utils/constants/colors';
 import {
+  NumericFormatCustom,
   dineroFromFloat,
   formatNumberOutput,
 } from '../../../utils/format/cash';
-import {
-  renderSelectedColor,
-  renderColors,
-  toggleElement,
-  createCashType,
-} from '../utils';
-import { useOutsideClick, hideElement } from '../../../hooks/useOutsideClick';
+import { renderSelectedColor, renderColors, createCashType } from '../utils';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
-
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
+import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import {
   CardBalance,
   CardBalanceContainer,
   CardName,
   CardView,
-  CashColorsContainer,
   CurrentBalance,
-  NumericInput,
 } from '../Cash.styled';
 import {
   AddFormButtonsContainer,
@@ -40,17 +31,20 @@ import {
   ColorsPaletteButtonContainer,
   ColorsPaletteButton,
   DoneButton,
-  FieldDescription,
-  FieldInput,
-  FormField,
-  FormFieldsContainer,
-  SelectButton,
-  SelectedColor,
+  ButtonSvg,
+  ButtonTitle,
+  TextInputField,
+  DateField,
+  ColorsPopoverPalette,
+  PopoverField,
 } from '../../../theme/global';
+import dayjs from 'dayjs';
+import { MenuItem } from '@mui/material';
 
 const doneEventHandler = (
   accountType,
   description,
+  currency,
   balance,
   selectedColor,
   date,
@@ -64,6 +58,7 @@ const doneEventHandler = (
     archived: false,
     type: accountType,
     description,
+    currency,
     balance: toSnapshot(
       dineroFromFloat({
         amount: balance,
@@ -82,21 +77,20 @@ const doneEventHandler = (
 
 function CardForm({ accountType, addNewAccount }) {
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
-
-  const [activeItem, setActiveItem] = useState('');
-
   const [description, setDescription] = useState('');
-  const [balance, setBalance] = useState(0.0);
+  const [currency, setCurrency] = useState('USD');
+  const [balance, setBalance] = useState(
+    toDecimal(dinero({ amount: 0, currency: USD })),
+  );
   const [selectedColor, setSelectedColor] = useState(colors.green[700]);
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState('');
-  const [tags] = useState(['']);
-
+  const [tags, setTags] = useState(['']);
   const cashType = createCashType(accountType);
 
-  const colorsRef = useOutsideClick(hideElement);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   return (
     <>
@@ -111,130 +105,118 @@ function CardForm({ accountType, addNewAccount }) {
           <CurrentBalance>{t('ADD_ACCOUNT.CURRENT_BALANCE')}</CurrentBalance>
         </CardBalanceContainer>
       </CardView>
-      <FormFieldsContainer>
-        <FormField
-          $isActive={activeItem === '1'}
-          $formType="cash"
-          onClick={() => setActiveItem('1')}
+      <TextInputField
+        margin="normal"
+        required
+        label={t('ADD_ACCOUNT.TYPE')}
+        value={t(`ADD_ACCOUNT.TYPE_${accountType.toUpperCase()}`)}
+        InputProps={{
+          readOnly: true,
+        }}
+      />
+      <TextInputField
+        margin="normal"
+        required
+        multiline
+        label={t('ADD_ACCOUNT.DESCRIPTION')}
+        placeholder={t('ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
+        defaultValue={description}
+        onChange={(event) => setDescription(event.target.value)}
+      />
+      <TextInputField
+        margin="normal"
+        required
+        select
+        fullWidth
+        label={t('ADD_ACCOUNT.CURRENCY')}
+        value={currency}
+        onChange={(event) => setCurrency(event.target.value)}
+      >
+        <MenuItem value="USD">USD</MenuItem>
+      </TextInputField>
+      <TextInputField
+        margin="normal"
+        required
+        label={t('ADD_ACCOUNT.BALANCE')}
+        name="numberformat"
+        value={balance}
+        onChange={(event) => setBalance(event.target.value)}
+        InputProps={{
+          inputComponent: NumericFormatCustom,
+        }}
+      />
+      <PopoverField
+        margin="normal"
+        required
+        label={t('ADD_ACCOUNT.COLOR')}
+        InputProps={{
+          readOnly: true,
+          startAdornment: renderSelectedColor(selectedColor),
+        }}
+        onClick={(event) => setAnchorEl(event.currentTarget)}
+      />
+      <ColorsPopoverPalette
+        open={open}
+        anchorEl={anchorEl}
+        onClose={() => setAnchorEl(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <ColorsPalette>
+          {renderColors(colors, setSelectedColor, selectedColor)}
+        </ColorsPalette>
+        <ColorsPaletteButtonContainer>
+          <ColorsPaletteButton onClick={() => setAnchorEl(null)}>
+            {t('ADD_ACCOUNT.OK')}
+          </ColorsPaletteButton>
+        </ColorsPaletteButtonContainer>
+      </ColorsPopoverPalette>
+      <DateField
+        required
+        label={t('ADD_ACCOUNT.DATE')}
+        defaultValue={dayjs(date)}
+        onChange={(value) => setDate(value)}
+      />
+      <TextInputField
+        margin="normal"
+        multiline
+        label={t('ADD_ACCOUNT.NOTES')}
+        placeholder={t('ADD_ACCOUNT.NOTES_PLACEHOLDER')}
+        defaultValue={notes}
+        onChange={(event) => setNotes(event.target.value)}
+      />
+      <TextInputField
+        margin="normal"
+        multiline
+        label={t('ADD_ACCOUNT.TAGS')}
+        placeholder={t('ADD_ACCOUNT.TAGS_PLACEHOLDER')}
+        onChange={(event) => setTags(event.target.value)}
+      />
+      <AddFormButtonsContainer>
+        <DoneButton
+          to={pages.cash[cashType]}
+          onClick={() =>
+            doneEventHandler(
+              accountType,
+              description,
+              currency,
+              balance,
+              selectedColor,
+              date.toISOString(),
+              notes,
+              tags,
+              addNewAccount,
+              dispatch,
+            )
+          }
         >
-          <FieldDescription>{t('ADD_ACCOUNT.DESCRIPTION')}</FieldDescription>
-          <FieldInput
-            type="text"
-            onChange={(event) => setDescription(event.target.value)}
-            placeholder={t('ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
-          ></FieldInput>
-        </FormField>
-        <FormField
-          $isActive={activeItem === '2'}
-          $formType="cash"
-          onClick={() => setActiveItem('2')}
-        >
-          <FieldDescription>{t('ADD_ACCOUNT.BALANCE')}</FieldDescription>
-          $
-          <NumericFormat
-            customInput={NumericInput}
-            thousandSeparator=","
-            decimalSeparator="."
-            decimalScale={2}
-            allowNegative={false}
-            placeholder="0.00"
-            onValueChange={(values) => setBalance(values.floatValue)}
-          />
-        </FormField>
-        <FormField
-          $isActive={activeItem === '3'}
-          $formType="cash"
-          onClick={() => setActiveItem('3')}
-        >
-          <FieldDescription>{t('ADD_ACCOUNT.COLOR')}</FieldDescription>
-          <SelectedColor
-            onClick={(event) => {
-              setActiveItem('3');
-              toggleElement(colorsRef);
-              event.stopPropagation();
-            }}
-          >
-            {renderSelectedColor(selectedColor)}
-          </SelectedColor>
-          <SelectButton
-            onClick={(event) => {
-              setActiveItem('3');
-              toggleElement(colorsRef);
-              event.stopPropagation();
-            }}
-          >
-            {t('ADD_ACCOUNT.SELECT')}
-          </SelectButton>
-        </FormField>
-        <CashColorsContainer ref={colorsRef} className="none">
-          <ColorsPalette>
-            {renderColors(colors, setSelectedColor, selectedColor)}
-          </ColorsPalette>
-          <ColorsPaletteButtonContainer>
-            <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
-              {t('ADD_ACCOUNT.OK')}
-            </ColorsPaletteButton>
-          </ColorsPaletteButtonContainer>
-        </CashColorsContainer>
-        <FormField
-          $isActive={activeItem === '4'}
-          $formType="cash"
-          onClick={() => setActiveItem('4')}
-        >
-          <FieldDescription>{t('ADD_ACCOUNT.DATE')}</FieldDescription>
-          <FieldInput
-            type="date"
-            onChange={(event) => setDate(new Date(event.target.value))}
-          ></FieldInput>
-        </FormField>
-        <FormField
-          $isActive={activeItem === '5'}
-          $formType="cash"
-          onClick={() => setActiveItem('5')}
-        >
-          <FieldDescription>{t('ADD_ACCOUNT.NOTES')}</FieldDescription>
-          <FieldInput
-            type="text"
-            onChange={(event) => setNotes(event.target.value)}
-            placeholder={t('ADD_ACCOUNT.NOTES_PLACEHOLDER')}
-          ></FieldInput>
-        </FormField>
-        <FormField
-          $isActive={activeItem === '6'}
-          $formType="cash"
-          onClick={() => setActiveItem('6')}
-        >
-          <FieldDescription>{t('ADD_ACCOUNT.TAGS')}</FieldDescription>
-          <FieldInput
-            type="text"
-            placeholder={t('ADD_ACCOUNT.TAGS_PLACEHOLDER')}
-          ></FieldInput>
-        </FormField>
-        <AddFormButtonsContainer>
-          <DoneButton
-            to={pages.cash[cashType]}
-            $buttonType="cash"
-            onClick={() =>
-              doneEventHandler(
-                accountType,
-                description,
-                balance,
-                selectedColor,
-                date.toISOString(),
-                notes,
-                tags,
-                addNewAccount,
-                dispatch,
-              )
-            }
-          >
-            {t('ADD_ACCOUNT.DONE')}
-          </DoneButton>
-          <CancelButton to={pages.cash[cashType]}>
-            {t('ADD_ACCOUNT.CANCEL')}
-          </CancelButton>
-        </AddFormButtonsContainer>
-      </FormFieldsContainer>
+          <ButtonSvg as={DoneIcon} />
+          <ButtonTitle>{t('ADD_ACCOUNT.DONE')}</ButtonTitle>
+        </DoneButton>
+        <CancelButton to={pages.cash[cashType]}>
+          <ButtonSvg as={CancelIcon} />
+          <ButtonTitle>{t('ADD_ACCOUNT.CANCEL')}</ButtonTitle>
+        </CancelButton>
+      </AddFormButtonsContainer>
     </>
   );
 }

@@ -2,47 +2,44 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-import { NumericFormat } from 'react-number-format';
 import { USD } from '@dinero.js/currencies';
 import { dinero, toDecimal, toSnapshot } from 'dinero.js';
-
 import { colors } from '../../../utils/constants/colors.js';
 import { fetchAccountsData, editAccount } from '../../../actions/Actions';
 import {
+  NumericFormatCustom,
   dineroFromFloat,
   formatNumberOutput,
 } from '../../../utils/format/cash';
 import {
   renderSelectedColor,
   renderColors,
-  toggleElement,
   createCashType,
   createLocaleCashType,
 } from '../utils';
-import { useOutsideClick, hideElement } from '../../../hooks/useOutsideClick';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
-
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
-
+import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import {
+  AddContainer,
   AddFormButtonsContainer,
-  AddFormContainer,
   AddFormHeader,
   BackLink,
   BackLinkSvg,
+  ButtonSvg,
+  ButtonTitle,
   CancelButton,
   ColorsPalette,
   ColorsPaletteButton,
   ColorsPaletteButtonContainer,
+  ColorsPopoverPalette,
+  DateField,
   DoneButton,
-  FieldDescription,
-  FieldInput,
-  FormField,
-  FormFieldsContainer,
-  SelectButton,
-  SelectedColor,
+  MobHeaderTitle,
+  PopoverField,
+  TextInputField,
 } from '../../../theme/global.js';
 import {
   CardView,
@@ -50,16 +47,19 @@ import {
   CardBalanceContainer,
   CardName,
   CurrentBalance,
-  CashColorsContainer,
-  NumericInput,
+  Back,
+  BackSvg,
 } from '../Cash.styled.js';
 import { pages } from '../../../utils/constants/pages.js';
+import { Grid, MenuItem } from '@mui/material';
+import dayjs from 'dayjs';
 
 const doneEventHandler = (
   clickedAccount,
   id,
   accountType,
   description,
+  currency,
   balance,
   selectedColor,
   date,
@@ -73,6 +73,7 @@ const doneEventHandler = (
     archived: false,
     type: accountType,
     description,
+    currency,
     balance: toSnapshot(
       dineroFromFloat({
         amount: balance,
@@ -92,17 +93,13 @@ const doneEventHandler = (
 export default function InfoAccount() {
   const { status, accounts } = useSelector((state) => state.accounts);
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
-
-  const [activeItem, setActiveItem] = useState('');
-
   //счет который пользователь хочет отредактировать (нажал на него на странице Cash)
   const clickedAccount = useParams().accountId;
-
   const [id, setId] = useState('');
   const [accountType, setAccountType] = useState('');
   const [description, setDescription] = useState('');
+  const [currency, setCurrency] = useState('USD');
   const [balance, setBalance] = useState(
     toDecimal(dinero({ amount: 0, currency: USD })),
   );
@@ -110,19 +107,16 @@ export default function InfoAccount() {
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState(['']);
-
   const cashType = createCashType(accountType);
   const cashLocalType = createLocaleCashType(accountType);
 
-  const colorsRef = useOutsideClick(hideElement);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
-  //запрашиваем нужные данные для этого компонента
-  //один раз только при его монтировании
   useEffect(() => {
     dispatch(fetchAccountsData());
   }, [dispatch]);
 
-  //получаем данные нужного счета когда они подгрузились
   useEffect(() => {
     if (status === 'succeeded') {
       let selectedAccount = accounts.find(
@@ -134,6 +128,7 @@ export default function InfoAccount() {
       setId(selectedAccount.id);
       setAccountType(selectedAccount.type);
       setDescription(selectedAccount.description);
+      setCurrency(selectedAccount.currency);
       setBalance(toDecimal(dinero(selectedAccount.balance)));
       setSelectedColor(selectedAccount.color);
       setDate(new Date(selectedAccount.date));
@@ -143,142 +138,133 @@ export default function InfoAccount() {
   }, [status, accounts, clickedAccount]);
 
   return (
-    <AddFormContainer>
-      <AddFormHeader>
-        <BackLink to={pages.cash[cashType]}>
-          <BackLinkSvg as={BackIcon} />
-        </BackLink>
-        {t(`INFO_ACCOUNT.${cashLocalType}_INFORMATION`)}
-      </AddFormHeader>
-      {status === 'loading' ? (
-        <div>Loading</div>
-      ) : (
-        <>
-          <CardView
-            $cardBackground={cardBackground}
-            $from={selectedColor[0]}
-            $to={selectedColor[1]}
-          >
-            <CardName>{description}</CardName>
-            <CardBalanceContainer>
-              <CardBalance>{formatNumberOutput(balance, 'USD')}</CardBalance>
-              <CurrentBalance>
-                {t('INFO_ACCOUNT.CURRENT_BALANCE')}
-              </CurrentBalance>
-            </CardBalanceContainer>
-          </CardView>
-          <FormFieldsContainer>
-            <FormField
-              $isActive={activeItem === '1'}
-              $formType="cash"
-              onClick={() => setActiveItem('1')}
+    <Grid item xs={12}>
+      <AddContainer>
+        <Back to={pages.cash[cashType]}>
+          <BackSvg as={BackIcon} />
+        </Back>
+        <MobHeaderTitle>
+          {t(`INFO_ACCOUNT.${cashLocalType}_INFORMATION`)}
+        </MobHeaderTitle>
+        <AddFormHeader>
+          <BackLink to={pages.cash[cashType]}>
+            <BackLinkSvg as={BackIcon} />
+          </BackLink>
+          {t(`INFO_ACCOUNT.${cashLocalType}_INFORMATION`)}
+        </AddFormHeader>
+        {status === 'loading' ? (
+          <div>Loading</div>
+        ) : (
+          <>
+            <CardView
+              $cardBackground={cardBackground}
+              $from={selectedColor[0]}
+              $to={selectedColor[1]}
             >
-              <FieldDescription>
-                {t('INFO_ACCOUNT.DESCRIPTION')}
-              </FieldDescription>
-              <FieldInput
-                type="text"
-                onChange={(event) => setDescription(event.target.value)}
-                defaultValue={description}
-                placeholder={t('ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
-              ></FieldInput>
-            </FormField>
-            <FormField
-              $isActive={activeItem === '2'}
-              $formType="cash"
-              onClick={() => setActiveItem('2')}
+              <CardName>{description}</CardName>
+              <CardBalanceContainer>
+                <CardBalance>{formatNumberOutput(balance, 'USD')}</CardBalance>
+                <CurrentBalance>
+                  {t('INFO_ACCOUNT.CURRENT_BALANCE')}
+                </CurrentBalance>
+              </CardBalanceContainer>
+            </CardView>
+            <TextInputField
+              margin="normal"
+              required
+              label={t('INFO_ACCOUNT.TYPE')}
+              value={t(`INFO_ACCOUNT.${accountType.toUpperCase()}`)}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <TextInputField
+              margin="normal"
+              required
+              multiline
+              label={t('INFO_ACCOUNT.DESCRIPTION')}
+              placeholder={t('INFO_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
+              defaultValue={description}
+              onChange={(event) => setDescription(event.target.value)}
+            />
+            <TextInputField
+              margin="normal"
+              required
+              select
+              fullWidth
+              label={t('ADD_ACCOUNT.CURRENCY')}
+              value={currency}
+              onChange={(event) => setCurrency(event.target.value)}
             >
-              <FieldDescription>{t('INFO_ACCOUNT.BALANCE')}</FieldDescription>
-              <div>
-                $
-                <NumericFormat
-                  customInput={NumericInput}
-                  thousandSeparator=","
-                  decimalSeparator="."
-                  decimalScale={2}
-                  allowNegative={false}
-                  placeholder="0.00"
-                  onValueChange={(values) => setBalance(values.floatValue)}
-                  value={balance}
-                />
-              </div>
-            </FormField>
-            <FormField
-              $isActive={activeItem === '3'}
-              $formType="cash"
-              onClick={() => setActiveItem('3')}
+              <MenuItem value="USD">USD</MenuItem>
+            </TextInputField>
+            <TextInputField
+              margin="normal"
+              required
+              label={t('INFO_ACCOUNT.BALANCE')}
+              name="numberformat"
+              value={balance}
+              onChange={(event) => setBalance(event.target.value)}
+              InputProps={{
+                inputComponent: NumericFormatCustom,
+              }}
+            />
+            <PopoverField
+              margin="normal"
+              required
+              label={t('INFO_ACCOUNT.COLOR')}
+              InputProps={{
+                readOnly: true,
+                startAdornment: renderSelectedColor(selectedColor),
+              }}
+              onClick={(event) => setAnchorEl(event.currentTarget)}
+            />
+            <ColorsPopoverPalette
+              open={open}
+              anchorEl={anchorEl}
+              onClose={() => setAnchorEl(null)}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
             >
-              <FieldDescription>{t('INFO_ACCOUNT.COLOR')}</FieldDescription>
-              <SelectedColor
-                onClick={(event) => {
-                  setActiveItem('3');
-                  toggleElement(colorsRef);
-                  event.stopPropagation();
-                }}
-              >
-                {renderSelectedColor(selectedColor)}
-              </SelectedColor>
-              <SelectButton
-                onClick={(event) => {
-                  setActiveItem('3');
-                  toggleElement(colorsRef);
-                  event.stopPropagation();
-                }}
-              >
-                {t('INFO_ACCOUNT.SELECT')}
-              </SelectButton>
-            </FormField>
-            <CashColorsContainer ref={colorsRef} className="none">
               <ColorsPalette>
                 {renderColors(colors, setSelectedColor, selectedColor)}
               </ColorsPalette>
               <ColorsPaletteButtonContainer>
-                <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
+                <ColorsPaletteButton onClick={() => setAnchorEl(null)}>
                   {t('INFO_ACCOUNT.OK')}
                 </ColorsPaletteButton>
               </ColorsPaletteButtonContainer>
-            </CashColorsContainer>
-            <FormField
-              $isActive={activeItem === '4'}
-              $formType="cash"
-              onClick={() => setActiveItem('4')}
-            >
-              <FieldDescription>{t('INFO_ACCOUNT.DATE')}</FieldDescription>
-              <FieldInput
-                type="date"
-                onChange={(event) => setDate(new Date(event.target.value))}
-              ></FieldInput>
-            </FormField>
-            <FormField
-              $isActive={activeItem === '5'}
-              $formType="cash"
-              onClick={() => setActiveItem('5')}
-            >
-              <FieldDescription>{t('INFO_ACCOUNT.NOTES')}</FieldDescription>
-              <FieldInput
-                type="text"
-                onChange={(event) => setNotes(event.target.value)}
-                value={notes}
-              ></FieldInput>
-            </FormField>
-            <FormField
-              $isActive={activeItem === '6'}
-              $formType="cash"
-              onClick={() => setActiveItem('6')}
-            >
-              <FieldDescription>{t('INFO_ACCOUNT.TAGS')}</FieldDescription>
-              <FieldInput></FieldInput>
-            </FormField>
+            </ColorsPopoverPalette>
+            <DateField
+              required
+              label={t('INFO_ACCOUNT.DATE')}
+              defaultValue={dayjs(date)}
+              onChange={(value) => setDate(value)}
+            />
+            <TextInputField
+              margin="normal"
+              multiline
+              label={t('INFO_ACCOUNT.NOTES')}
+              placeholder={t('INFO_ACCOUNT.NOTES_PLACEHOLDER')}
+              defaultValue={notes}
+              onChange={(event) => setNotes(event.target.value)}
+            />
+            <TextInputField
+              margin="normal"
+              multiline
+              label={t('INFO_ACCOUNT.TAGS')}
+              placeholder={t('INFO_ACCOUNT.TAGS_PLACEHOLDER')}
+              onChange={(event) => setTags(event.target.value)}
+            />
             <AddFormButtonsContainer>
               <DoneButton
                 to={pages.cash[cashType]}
-                $buttonType="cash"
                 onClick={() =>
                   doneEventHandler(
                     clickedAccount,
                     id,
                     accountType,
                     description,
+                    currency,
                     balance,
                     selectedColor,
                     date.toISOString(),
@@ -289,15 +275,17 @@ export default function InfoAccount() {
                   )
                 }
               >
-                {t('INFO_ACCOUNT.DONE')}
+                <ButtonSvg as={DoneIcon} />
+                <ButtonTitle>{t('INFO_ACCOUNT.DONE')}</ButtonTitle>
               </DoneButton>
               <CancelButton to={pages.cash[cashType]}>
-                {t('INFO_ACCOUNT.CANCEL')}
+                <ButtonSvg as={CancelIcon} />
+                <ButtonTitle>{t('INFO_ACCOUNT.CANCEL')}</ButtonTitle>
               </CancelButton>
             </AddFormButtonsContainer>
-          </FormFieldsContainer>
-        </>
-      )}
-    </AddFormContainer>
+          </>
+        )}
+      </AddContainer>
+    </Grid>
   );
 }

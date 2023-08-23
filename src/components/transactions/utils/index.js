@@ -5,6 +5,32 @@ import { categoryIcons } from '../../../utils/constants/icons';
 import { formatDineroOutput } from '../../../utils/format/cash';
 
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
+import {
+  Card,
+  CardBalance,
+  CardBalanceContainer,
+  CardName,
+  CardView,
+  CurrentBalance,
+} from '../../newTransaction/NewTransaction.styled';
+import { MenuItem, styled } from '@mui/material';
+
+const CategoriesMenuItem = styled(MenuItem)((props) => ({
+  borderRadius: props.theme.borderRadius,
+  backgroundColor: props.theme.colors.background.primary,
+}));
+
+const InfoContainer = styled('div')((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  color: props.theme.colors.text.primary,
+}));
+
+const CategoriesItemSvg = styled('svg')((props) => ({
+  width: 34,
+  height: 34,
+  marginRight: props.theme.spacing(3),
+}));
 
 export function createLocaleTransactions(NAME, count) {
   const lastNumber = Number(String(count).match(/\d$/g)[0]);
@@ -21,148 +47,59 @@ export function createLocaleTransactions(NAME, count) {
   }
 }
 
-export function renderSelectedCategory(categoryId, categoriesData) {
-  const category = categoriesData.find(
-    (category) => category.id === categoryId,
-  );
-  if (!category) return;
-  const Icon = category ? categoryIcons[category.icon] : null;
-  return (
-    <>
-      <svg
-        width="34"
-        height="34"
-        viewBox="0 0 34 34"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle cx="17" cy="17" r="17" fill={`url(#selectedCategory)`}></circle>
-        <Icon height="20" width="20" x="7" y="7" />
-        <defs>
-          <linearGradient
-            id="selectedCategory"
-            x1="0"
-            y1="0"
-            x2="34"
-            y2="34"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stopColor={category.color[0]} />
-            <stop offset="1" stopColor={category.color[1]} />
-          </linearGradient>
-        </defs>
-      </svg>
-      {category.description}
-    </>
-  );
-}
-
-export function renderCategories(categories, setCategory) {
+export function renderCategories(categories) {
   return categories.map((category, index) => {
     const Icon = categoryIcons[category.icon];
     return (
-      <div
-        className="categories_list_item"
-        onClick={() => {
-          setCategory(category.id);
-          document.querySelector('.categories_list').classList.add('none');
-        }}
-        key={category.id}
-      >
-        <svg
-          width="34"
-          height="34"
-          viewBox="0 0 34 34"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle cx="17" cy="17" r="17" fill={`url(#${index})`}></circle>
-          <Icon height="20" width="20" x="7" y="7" />
-          <defs>
-            <linearGradient
-              id={index}
-              x1="0"
-              y1="0"
-              x2="34"
-              y2="34"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor={category.color[0]} />
-              <stop offset="1" stopColor={category.color[1]} />
-            </linearGradient>
-          </defs>
-        </svg>
-        {category.description}
-      </div>
+      <CategoriesMenuItem key={category.id} value={category.id}>
+        <InfoContainer>
+          <CategoriesItemSvg
+            viewBox="0 0 34 34"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="17" cy="17" r="17" fill={`url(#${index})`}></circle>
+            <Icon height="20" width="20" x="7" y="7" />
+            <defs>
+              <linearGradient
+                id={index}
+                x1="0"
+                y1="0"
+                x2="34"
+                y2="34"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stopColor={category.color[0]} />
+                <stop offset="1" stopColor={category.color[1]} />
+              </linearGradient>
+            </defs>
+          </CategoriesItemSvg>
+          {category.description}
+        </InfoContainer>
+      </CategoriesMenuItem>
     );
   });
 }
 
-export function renderSelectedAccount(accountId, accountsData) {
-  const account = accountsData.find((account) => account.id === accountId);
-  if (!account) return;
-  return (
-    <div className="selected_account">
-      <svg
-        width="34"
-        height="23"
-        viewBox="0 0 34 23"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect
-          x="0"
-          y="0"
-          width="34"
-          height="23"
-          rx="5"
-          fill={`url(#selectedAccount)`}
-        ></rect>
-        <defs>
-          <linearGradient
-            id="selectedAccount"
-            x1="0"
-            y1="0"
-            x2="34"
-            y2="11.5"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stopColor={account.color[0]} />
-            <stop offset="1" stopColor={account.color[1]} />
-          </linearGradient>
-        </defs>
-      </svg>
-      {account.description}
-    </div>
-  );
-}
-
-export function renderAccounts(accounts, setAccount) {
+export function renderAccounts(accounts, t) {
   return accounts.map((account) => {
     const balance = dinero(account.balance);
     return (
-      <div className="account_item" key={account.id}>
-        <div
-          className={`${account.description} card`}
-          onClick={() => {
-            setAccount(account.id);
-            document.querySelector('.accounts_list').classList.add('none');
-          }}
-          style={{
-            background: `url(${cardBackground}) 0% 0% / cover no-repeat,
-                                    linear-gradient(90deg, ${account.color[0]} 0%, ${account.color[1]} 100%)`,
-            boxShadow: `0px 4px 10px #DCE2DF`,
-          }}
-        >
-          <div className="card_name">{account.description}</div>
-          <div className="card_balance_info">
-            <div className="card_balance">
-              {formatDineroOutput(balance, 'USD')}
-            </div>
-            <div className="card_balance_title">Current balance</div>
-          </div>
-        </div>
-      </div>
+      <MenuItem key={account.id} value={account.id}>
+        <CardView>
+          <Card
+            $from={account.color[0]}
+            $to={account.color[1]}
+            $cardBackground={cardBackground}
+          >
+            <CardName>{account.description}</CardName>
+            <CardBalanceContainer>
+              <CardBalance>{formatDineroOutput(balance, 'USD')}</CardBalance>
+              <CurrentBalance>{t('CASH.CURRENT_BALANCE')}</CurrentBalance>
+            </CardBalanceContainer>
+          </Card>
+        </CardView>
+      </MenuItem>
     );
   });
 }

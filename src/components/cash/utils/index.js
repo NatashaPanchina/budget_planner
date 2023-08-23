@@ -1,9 +1,9 @@
 import React from 'react';
 import { ReactComponent as CheckMarkIcon } from '../../../assets/icons/shared/checkMark.svg';
 import notesIcon from '../../../assets/icons/shared/notes.svg';
-import { styled } from 'styled-components';
+import { styled } from '@mui/material';
 
-const CashNotes = styled.div((props) => ({
+const CashNotes = styled('div')((props) => ({
   marginTop: props.theme.spacing(2),
   fontSize: '0.875rem',
   color: props.theme.colors.text.darker,
@@ -11,12 +11,12 @@ const CashNotes = styled.div((props) => ({
   alignItems: 'center',
 }));
 
-const NotesImg = styled.img((props) => ({
+const NotesImg = styled('img')((props) => ({
   height: 15,
   marginRight: props.theme.spacing(1),
 }));
 
-const ColorContainer = styled.div(() => ({
+const ColorContainer = styled('div')(() => ({
   width: '100%',
 }));
 

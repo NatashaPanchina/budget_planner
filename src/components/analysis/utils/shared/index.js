@@ -3,7 +3,7 @@ import { add, dinero, toDecimal } from 'dinero.js';
 import { USD } from '@dinero.js/currencies';
 
 import { formatNumberOutput } from '../../../../utils/format/cash';
-import { styled } from 'styled-components';
+import { styled } from '@mui/material';
 
 export function createLocaleTransactions(NAME, count) {
   const lastNumber = Number(String(count).match(/\d$/g)[0]);
@@ -20,7 +20,7 @@ export function createLocaleTransactions(NAME, count) {
   }
 }
 
-const ListItem = styled.div((props) => ({
+const ListItem = styled('div')((props) => ({
   display: 'flex',
   alignItems: 'center',
   height: 40,
@@ -34,7 +34,7 @@ const ListItem = styled.div((props) => ({
   },
 }));
 
-const ListItemSvg = styled.svg((props) => ({
+const ListItemSvg = styled('svg')((props) => ({
   marginRight: props.theme.spacing(2),
 }));
 

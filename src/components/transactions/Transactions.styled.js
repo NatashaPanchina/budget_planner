@@ -1,21 +1,22 @@
+import { MenuItem, alpha, css, styled } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
-import { css, styled } from 'styled-components';
+import { AddButton } from '../../theme/global';
 
-const FlexContainer = styled.div(() => ({
+export const FlexContainer = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
 }));
 
-export const MoreInfoContainer = styled.div((props) => ({
+export const MoreInfoContainer = styled('div')((props) => ({
   display: 'flex',
   flexWrap: 'wrap',
   '@media (min-width: 900px)': {
     display: 'block',
-    height: `calc(100vh - ${props.theme.spacing(14)}px)`,
+    height: `calc(100vh - ${props.theme.spacing(14)})`,
     minWidth: 180,
     overflowY: 'auto',
     position: 'sticky',
-    top: 56,
+    top: props.theme.spacing(14),
     '&::-webkit-scrollbar': {
       width: 5,
     },
@@ -27,75 +28,56 @@ export const MoreInfoContainer = styled.div((props) => ({
 }));
 
 export const MoreInfoHeader = styled(FlexContainer)((props) => ({
-  height: 50,
+  height: 40,
   justifyContent: 'center',
   textAlign: 'center',
   fontSize: '0.9375rem',
   color: props.theme.colors.text.darker,
-}));
-
-export const SliderContainer = styled.div((props) => ({
-  position: 'relative',
-  width: '100%',
-  height: 130,
-  overflow: 'hidden',
   '@media (min-width: 768px)': {
-    marginTop: props.theme.spacing(4),
+    height: 50,
   },
 }));
 
-export const Slide = styled.div((props) => ({
-  transition: 'transform 0.5s linear',
-  transform: `translate(-${props.$transforming}%)`,
+export const AddAccount = styled(AddButton)(() => ({
+  justifyContent: 'center',
 }));
 
-const SliderSvg = styled.svg((props) => ({
-  position: 'absolute',
-  zIndex: 1,
-  height: 28,
-  bottom: 'calc(50% - 14px)',
-  opacity: 0.7,
-  cursor: 'pointer',
-  '& circle': {
-    fill: props.theme.colors.background.ordinary,
-  },
-  '& path': {
-    fill: props.theme.colors.text.darker,
-  },
-  '&:hover': {
-    opacity: 1,
-  },
+export const CardContainer = styled(FlexContainer)(() => ({
+  justifyContent: 'center',
 }));
 
-export const SliderNextSvg = styled(SliderSvg)(() => ({
-  right: 0,
-}));
-
-export const SliderPrevSvg = styled(SliderSvg)(() => ({
-  left: 0,
-}));
-
-export const SlidesContainer = styled(FlexContainer)(() => ({
-  overflow: 'hidden',
-}));
-
-export const Card = styled(Link)((props) => ({
+export const Card = styled(Link, {
+  shouldForwardProp: (prop) =>
+    prop !== '$background' && prop !== '$from' && prop !== '$to',
+})((props) => ({
   display: 'block',
-  height: 130,
-  width: 205,
-  marginRight: props.theme.spacing(7),
+  height: 197,
+  width: 310,
   borderRadius: props.theme.borderRadius,
-  background: `url(${props.$cardBackground}) 0% 0% / cover no-repeat, linear-gradient(90deg, ${props.$from} 0%, ${props.$to} 100%)`,
-  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
+  background: `url(${props.$background}) 0% 0% / cover no-repeat, linear-gradient(90deg, ${props.$from} 0%, ${props.$to} 100%)`,
+  boxShadow: `0px 10px 30px ${alpha(props.$from, 0.3)}`,
   color: props.theme.colors.white,
+  '@media (min-width: 600px)': {
+    height: 171,
+    width: 269,
+    boxShadow: `0px 10px 25px ${alpha(props.$from, 0.3)}`,
+  },
+  '@media (min-width: 900px)': {
+    height: 130,
+    width: 205,
+    boxShadow: `0px 10px 20px ${alpha(props.$from, 0.3)}`,
+  },
 }));
 
-export const CardName = styled.div((props) => ({
-  fontSize: '0.875rem',
+export const CardName = styled('div')((props) => ({
+  fontSize: '1rem',
   width: '100%',
   height: '10%',
   paddingTop: props.theme.spacing(2),
   paddingLeft: props.theme.spacing(4),
+  '@media (min-width: 900px)': {
+    fontSize: '0.875rem',
+  },
 }));
 
 export const CardBalanceContainer = styled(FlexContainer)(() => ({
@@ -104,12 +86,18 @@ export const CardBalanceContainer = styled(FlexContainer)(() => ({
   height: '74%',
 }));
 
-export const CardBalance = styled.div(() => ({
-  fontSize: '1rem',
+export const CardBalance = styled('div')(() => ({
+  fontSize: '1.2rem',
+  '@media (min-width: 900px)': {
+    fontSize: '1rem',
+  },
 }));
 
-export const CurrentBalance = styled.div(() => ({
-  fontSize: '0.625rem',
+export const CurrentBalance = styled('div')(() => ({
+  fontSize: '0.875rem',
+  '@media (min-width: 900px)': {
+    fontSize: '0.625rem',
+  },
 }));
 
 export const TotalCountTransactions = styled(FlexContainer)((props) => ({
@@ -125,8 +113,7 @@ export const TotalCountTransactions = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const CountTransactionsContainer = styled.div((props) => ({
-  display: 'flex',
+export const CountTransactionsContainer = styled(FlexContainer)((props) => ({
   flexWrap: 'wrap',
   marginTop: props.theme.spacing(5),
   '@media (min-width: 900px)': {
@@ -134,7 +121,7 @@ export const CountTransactionsContainer = styled.div((props) => ({
   },
 }));
 
-export const CountTransactionsBlock = styled.div((props) => ({
+export const CountTransactionsBlock = styled('div')((props) => ({
   width: '40%',
   marginBottom: props.theme.spacing(5),
   marginLeft: 'auto',
@@ -144,7 +131,7 @@ export const CountTransactionsBlock = styled.div((props) => ({
   border: `1px solid ${props.theme.colors.border.item}`,
   boxSizing: 'border-box',
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
-  borderRadius: 10,
+  borderRadius: props.theme.borderRadius,
   fontSize: '0.875rem',
   textAlign: 'center',
   '@media (min-width: 900px)': {
@@ -158,58 +145,60 @@ export const CountTransactionsBlock = styled.div((props) => ({
   },
 }));
 
-export const CountTransactionsSvg = styled.svg((props) => ({
-  height: 30,
-  width: 30,
+export const ExpenseCountSvg = styled('svg')((props) => ({
+  height: 40,
+  width: 40,
+  filter: `drop-shadow( 0px 3px 5px ${alpha(
+    props.theme.colors.linear.expense.from,
+    0.4,
+  )})`,
   '@media (min-width: 900px)': {
     marginRight: props.theme.spacing(3),
   },
 }));
 
-const CountTransactions = styled.div(() => ({
+export const IncomeCountSvg = styled('svg')((props) => ({
+  height: 40,
+  width: 40,
+  filter: `drop-shadow( 0px 3px 5px ${alpha(
+    props.theme.colors.linear.income.from,
+    0.4,
+  )})`,
+  '@media (min-width: 900px)': {
+    marginRight: props.theme.spacing(3),
+  },
+}));
+
+export const TransferCountSvg = styled('svg')((props) => ({
+  height: 40,
+  width: 40,
+  filter: `drop-shadow( 0px 3px 5px ${alpha(
+    props.theme.colors.linear.transfer.from,
+    0.4,
+  )})`,
+  '@media (min-width: 900px)': {
+    marginRight: props.theme.spacing(3),
+  },
+}));
+
+const CountTransactions = styled('div')(() => ({
   fontSize: '1rem',
 }));
 
-export const CountInfo = styled(CountTransactions)((props) => {
-  switch (props.$countType) {
-    case 'total':
-      return css(() => ({
-        color: props.theme.colors.main.violet,
-      }));
-    case 'expense':
-      return css(() => ({
-        color: props.theme.colors.expense,
-      }));
-    case 'income':
-      return css(() => ({
-        color: props.theme.colors.income,
-      }));
-    case 'transfer':
-      return css(() => ({
-        color: props.theme.colors.transfer,
-      }));
-    default:
-      return css(() => ({
-        color: props.theme.colors.main.violet,
-      }));
-  }
-});
-
-export const Header = styled(FlexContainer)((props) => ({
-  height: 50,
-  justifyContent: 'flex-end',
-  backgroundColor: props.theme.colors.background.body,
-}));
-
-export const HeaderTitle = styled.div(() => ({
-  marginRight: 'auto',
+export const CountInfo = styled(CountTransactions, {
+  shouldForwardProp: (prop) => prop !== '$countType',
+})((props) => ({
+  color:
+    props.$countType === 'total'
+      ? props.theme.colors.main.violet
+      : props.theme.colors[props.$countType],
 }));
 
 export const TransactionsTitleContainer = styled(FlexContainer)((props) => ({
   marginBottom: props.theme.spacing(4),
   borderBottom: `1px solid ${props.theme.colors.border.title}`,
   position: 'sticky',
-  top: 56,
+  top: props.theme.spacing(14),
   zIndex: 9,
   backgroundColor: props.theme.colors.background.body,
 }));
@@ -231,20 +220,21 @@ export const TransactionsTitleLink = styled(NavLink)((props) => ({
   },
 }));
 
-export const Description = styled.div((props) => ({
+export const Description = styled('div')((props) => ({
   display: 'none',
   '@media (min-width: 768px)': {
     display: 'grid',
     gridTemplateColumns: '2fr 2fr 1.5fr 1.5fr',
-    gap: '10px 5%',
+    gap: props.theme.spacing(3),
     width: '100%',
     height: 35,
     fontSize: '0.875rem',
     color: props.theme.colors.text.darker,
-    '& span:first-child': {
-      paddingLeft: props.theme.spacing(5),
-    },
   },
+}));
+
+export const DescriptionCategory = styled('span')((props) => ({
+  paddingLeft: props.theme.spacing(5),
 }));
 
 export const MobTransactionDate = styled(FlexContainer)((props) => ({
@@ -256,18 +246,22 @@ export const MobTransactionDate = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const TransactionItem = styled.div((props) => ({
+export const ListItemContainer = styled('div')(() => ({
+  position: 'relative',
+}));
+
+export const TransactionItem = styled('div')((props) => ({
   display: 'grid',
   gridTemplateAreas: '"description amount" "notes notes"',
-  gridTemplateColumns: '1.5fr 1fr',
-  gap: '10px 5%',
+  gridTemplateColumns: '1.5fr 1fr 29px',
+  gap: props.theme.spacing(3),
   alignItems: 'center',
-  position: 'relative',
   width: '100%',
   marginBottom: props.theme.spacing(1),
   paddingTop: props.theme.spacing(2),
   paddingBottom: props.theme.spacing(2),
   fontSize: '1rem',
+  color: props.theme.colors.text.primary,
   background: props.theme.colors.background.primary,
   border: `1px solid ${props.theme.colors.border.item}`,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
@@ -277,7 +271,7 @@ export const TransactionItem = styled.div((props) => ({
     gridTemplateAreas:
       '"category account amount date" "notes notes notes notes"',
     gridTemplateColumns: '2fr 2fr 1.5fr 1.5fr',
-    gap: '10px 5%',
+    gap: props.theme.spacing(2),
     marginBottom: props.theme.spacing(4),
     '&:hover svg': {
       opacity: 1,
@@ -293,9 +287,10 @@ export const Category = styled(FlexContainer)(() => ({
   },
 }));
 
-export const CategorySvg = styled.svg((props) => ({
+export const CategorySvg = styled('svg')((props) => ({
   marginLeft: props.theme.spacing(2),
   marginRight: props.theme.spacing(2),
+  minWidth: 38,
   '@media (min-width: 768px)': {
     marginLeft: props.theme.spacing(5),
     marginRight: props.theme.spacing(4),
@@ -310,7 +305,8 @@ export const Account = styled(FlexContainer)(() => ({
   },
 }));
 
-export const AccountSvg = styled.svg((props) => ({
+export const AccountSvg = styled('svg')((props) => ({
+  minWidth: 34,
   marginRight: props.theme.spacing(4),
 }));
 
@@ -321,36 +317,38 @@ export const TransactionInfo = styled(FlexContainer)(() => ({
   },
 }));
 
-export const TransactionInfoAccount = styled.div(() => ({
+export const TransactionInfoAccount = styled('div')(() => ({
   fontSize: '0.8125rem',
 }));
 
-export const Amount = styled.div((props) => {
+export const Amount = styled('div', {
+  shouldForwardProp: (prop) => prop !== '$amountType',
+})((props) => {
   switch (props.$amountType) {
     case 'expense':
-      return css(() => ({
-        gridArea: 'amount',
-        color: props.theme.colors.expense,
-      }));
+      return css`
+        grid-area: amount;
+        color: ${props.theme.colors.expense};
+      `;
     case 'income':
-      return css(() => ({
-        gridArea: 'amount',
-        color: props.theme.colors.income,
-      }));
+      return css`
+        grid-area: amount;
+        color: ${props.theme.colors.income};
+      `;
     case 'transfer':
-      return css(() => ({
-        gridArea: 'amount',
-        color: props.theme.colors.transfer,
-      }));
+      return css`
+        grid-area: amount;
+        color: ${props.theme.colors.transfer};
+      `;
     default:
-      return css(() => ({
-        gridArea: 'amount',
-        color: props.theme.colors.expense,
-      }));
+      return css`
+        grid-area: amount;
+        color: ${props.theme.colors.expense};
+      `;
   }
 });
 
-export const TransactionDate = styled.div(() => ({
+export const TransactionDate = styled(FlexContainer)(() => ({
   display: 'none',
   '@media (min-width: 768px)': {
     display: 'flex',
@@ -363,57 +361,61 @@ export const Notes = styled(FlexContainer)((props) => ({
   color: props.theme.colors.text.darker,
 }));
 
-export const NotesSvg = styled.svg((props) => ({
+export const NotesSvg = styled('svg')((props) => ({
   height: 15,
   width: 15,
   marginRight: props.theme.spacing(1),
   marginLeft: props.theme.spacing(2),
 }));
 
-export const ItemButtonsContainer = styled.div(() => ({
-  display: 'flex',
-  position: 'absolute',
-  right: 0,
-  top: 10,
+export const DeleteMenuItem = styled(MenuItem)((props) => ({
+  color: props.theme.colors.expense,
 }));
 
-export const ItemButtonSvg = styled.svg((props) => ({
+export const ItemButtonsContainer = styled(FlexContainer)((props) => ({
+  position: 'absolute',
+  right: 0,
+  top: props.theme.spacing(3),
+}));
+
+export const EditLinkContainer = styled(Link)((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  width: '100%',
+  color: props.theme.colors.text.primary,
+}));
+
+export const EditButtonSvg = styled('svg')((props) => ({
   display: 'none',
-  '@media (min-width: 900px)': {
+  '@media (min-width: 600px)': {
     display: 'block',
-    height: 30,
-    width: 30,
-    marginRight: props.theme.spacing(4),
-    opacity: 0,
+    height: 15,
+    marginRight: props.theme.spacing(2),
     cursor: 'pointer',
     '& path': {
-      fill: props.theme.colors.text.darker,
-    },
-    '& circle': {
-      fill: props.theme.colors.background.ordinary,
-    },
-    '&:hover path': {
       fill: props.theme.colors.text.primary,
     },
   },
 }));
 
-export const MobItemButtonSvg = styled.svg((props) => ({
+export const DeleteButtonSvg = styled(EditButtonSvg)((props) => ({
+  '& path': {
+    fill: props.theme.colors.expense,
+  },
+}));
+
+export const MobItemButtonSvg = styled('svg')((props) => ({
+  gridArea: 'button',
   height: 25,
   width: 25,
+  paddingRight: props.theme.spacing(1),
   cursor: 'pointer',
   '& path': {
     fill: props.theme.colors.text.darker,
   },
-  '@media (min-width: 900px)': {
-    display: 'none',
+  '&:hover': {
+    '& circle': {
+      fill: props.theme.colors.background.ordinary,
+    },
   },
-}));
-
-export const MobItemButtonsContainer = styled.div((props) => ({
-  backgroundColor: props.theme.colors.background.ordinary,
-  position: 'absolute',
-  left: '50%',
-  top: '50%',
-  zIndex: 20,
 }));

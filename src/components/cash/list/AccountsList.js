@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
 import { dinero } from 'dinero.js';
-
 import { formatDineroOutput } from '../../../utils/format/cash';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 import {
@@ -14,19 +12,19 @@ import {
   renderNotes,
   createLocaleCashType,
 } from '../utils';
-
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
 import { ReactComponent as TransferIcon } from '../../../assets/icons/shared/transfer.svg';
 import { ReactComponent as ArchiveIcon } from '../../../assets/icons/shared/archive.svg';
+import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 import searchIcon from '../../../assets/icons/shared/search.svg';
 import {
-  AddButton,
   AddButtonSvg,
   Search,
   SearchImg,
   SearchInput,
+  ToggleMenu,
 } from '../../../theme/global';
 import {
   Card,
@@ -34,23 +32,17 @@ import {
   CardBalanceContainer,
   CardBalance,
   CurrentBalance,
-  CardButton,
   CardButtonSvg,
+  CashListItem,
+  CardButtonlink,
+  AddCashButton,
+  FlexContainer,
+  ToggleButtonSvg,
+  DeleteMenuItem,
+  DeleteSvg,
 } from '../Cash.styled';
-import { styled } from 'styled-components';
 import { pages } from '../../../utils/constants/pages';
-
-const CashListItem = styled.div((props) => ({
-  display: 'flex',
-  alignItems: 'center',
-  marginBottom: props.theme.spacing(10),
-}));
-
-const CardButtonlink = styled(Link)((props) => ({
-  color: props.theme.colors.svg.pending,
-  display: 'flex',
-  alignItems: 'center',
-}));
+import { MenuItem } from '@mui/material';
 
 function archiveEventButton(account, archiveAccount, dispatch) {
   dispatch(archiveAccount(account.id));
@@ -59,9 +51,10 @@ function archiveEventButton(account, archiveAccount, dispatch) {
 
 function AccountsList({ notArchivedAccounts, archiveAccount }) {
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
-
+  const [clickedAccount, setClickedAccount] = useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const filterCash = createCashFilter(useParams().filterCash);
   const localeFilterCash = createLocaleCashType(filterCash);
 
@@ -74,17 +67,17 @@ function AccountsList({ notArchivedAccounts, archiveAccount }) {
         ></SearchInput>
         <SearchImg src={searchIcon} alt="search" />
       </Search>
-      <AddButton
+      <AddCashButton
         to={pages.cash.add[filterCash === 'all' ? 'card' : filterCash]}
       >
         <AddButtonSvg as={PlusIcon} />
         {t(`CASH.ADD_${localeFilterCash}`)}
-      </AddButton>
+      </AddCashButton>
       {filterAccounts(filterCash, notArchivedAccounts).map((account) => {
         const balance = dinero(account.balance);
         return (
           <CashListItem key={account.id}>
-            <div>
+            <Link to={`${pages.cash.info.main}/${account.id}`}>
               <Card
                 $cardBackground={cardBackground}
                 $from={account.color[0]}
@@ -100,23 +93,49 @@ function AccountsList({ notArchivedAccounts, archiveAccount }) {
                 </CardBalanceContainer>
               </Card>
               {renderNotes(account.notes)}
-            </div>
+            </Link>
             <div>
-              <CardButton>
-                <CardButtonlink to={`${pages.cash.info.main}/${account.id}`}>
-                  <CardButtonSvg as={EditIcon} /> {t('CASH.EDIT')}
-                </CardButtonlink>
-              </CardButton>
-              <CardButton>
-                <CardButtonSvg as={TransferIcon} /> {t('CASH.NEW_TRANSFER')}
-              </CardButton>
-              <CardButton
-                onClick={() =>
-                  archiveEventButton(account, archiveAccount, dispatch)
-                }
+              <ToggleMenu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={() => setAnchorEl(null)}
               >
-                <CardButtonSvg as={ArchiveIcon} /> {t('CASH.ARCHIVE')}
-              </CardButton>
+                <MenuItem onClick={() => setAnchorEl(null)}>
+                  <FlexContainer>
+                    <CardButtonlink
+                      to={`${pages.cash.info.main}/${clickedAccount.id}`}
+                    >
+                      <CardButtonSvg as={EditIcon} /> {t('CASH.EDIT')}
+                    </CardButtonlink>
+                  </FlexContainer>
+                </MenuItem>
+                <MenuItem onClick={() => setAnchorEl(null)}>
+                  <FlexContainer>
+                    <CardButtonSvg as={TransferIcon} /> {t('CASH.NEW_TRANSFER')}
+                  </FlexContainer>
+                </MenuItem>
+                <DeleteMenuItem onClick={() => setAnchorEl(null)}>
+                  <FlexContainer
+                    onClick={() =>
+                      archiveEventButton(
+                        clickedAccount,
+                        archiveAccount,
+                        dispatch,
+                      )
+                    }
+                  >
+                    <DeleteSvg as={ArchiveIcon} />
+                    {t('CASH.ARCHIVE')}
+                  </FlexContainer>
+                </DeleteMenuItem>
+              </ToggleMenu>
+              <ToggleButtonSvg
+                as={ToggleEditIcon}
+                onClick={(event) => {
+                  setClickedAccount(account);
+                  setAnchorEl(event.currentTarget);
+                }}
+              />
             </div>
           </CashListItem>
         );

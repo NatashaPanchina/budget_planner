@@ -2,27 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
 import { colors } from '../../../utils/constants/colors.js';
 import { categoryIcons } from '../../../utils/constants/icons.js';
 import { fetchCategoriesData, editCategory } from '../../../actions/Actions';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
-import {
-  renderColors,
-  renderIcons,
-  renderSelectedColor,
-  toggleElement,
-} from '../utils';
-import {
-  hideElement,
-  useOutsideClick,
-} from '../../../hooks/useOutsideClick.js';
-
+import { renderColors, renderIcons, renderSelectedColor } from '../utils';
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
-
+import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
+import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import {
   AddFormButtonsContainer,
-  AddFormContainer,
   AddFormHeader,
   BackLink,
   BackLinkSvg,
@@ -31,21 +20,24 @@ import {
   ColorsPaletteButtonContainer,
   ColorsPaletteButton,
   DoneButton,
-  FieldDescription,
-  FieldInput,
-  FormField,
-  FormFieldsContainer,
-  SelectButton,
-  SelectedColor,
+  AddContainer,
+  MobHeaderTitle,
+  ButtonSvg,
+  ButtonTitle,
+  TextInputField,
+  DateField,
+  ColorsPopoverPalette,
+  PopoverField,
 } from '../../../theme/global.js';
 import {
-  CategoryColorsContainer,
   IconsButton,
-  IconsContainer,
   CategoriesIcons,
   IconsButtonContainer,
 } from '../Categories.styled.js';
 import { pages } from '../../../utils/constants/pages.js';
+import { Back, BackSvg } from '../AddCategory.styled.js';
+import { Grid } from '@mui/material';
+import dayjs from 'dayjs';
 
 const doneEventHandler = (
   selectedCategory,
@@ -78,26 +70,22 @@ const doneEventHandler = (
 export default function InfoCategory() {
   const { status, categories } = useSelector((state) => state.categories);
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
-
-  const [activeItem, setActiveItem] = useState('');
-
   const clickedCategory = useParams().categoryId;
-
   const [id, setId] = useState('');
   const [categoryType, setCategoryType] = useState('expense');
-  const [description, setDescription] = useState();
+  const [description, setDescription] = useState('');
   const [selectedColor, setSelectedColor] = useState(colors.green[600]);
   const [icon, setIcon] = useState(0);
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState(['']);
-
   const SelectedIcon = categoryIcons[icon];
 
-  const colorsRef = useOutsideClick(hideElement);
-  const iconsRef = useOutsideClick(hideElement);
+  const [anchorColorsEl, setAnchorColorsEl] = useState(null);
+  const [anchorIconsEl, setAnchorIconsEl] = useState(null);
+  const openColors = Boolean(anchorColorsEl);
+  const openIcons = Boolean(anchorIconsEl);
 
   useEffect(() => {
     dispatch(fetchCategoriesData());
@@ -123,146 +111,119 @@ export default function InfoCategory() {
   }, [status, categories, clickedCategory]);
 
   return (
-    <AddFormContainer>
-      {status === 'loading' ? (
-        <div>Loading</div>
-      ) : (
-        <>
-          <AddFormHeader>
-            <BackLink to={pages.categories[`${categoryType}s`]}>
-              <BackLinkSvg as={BackIcon} />
-            </BackLink>
-            {t('INFO_CATEGORY.CATEGORY_INFORMATION')}
-          </AddFormHeader>
-          <FormFieldsContainer>
-            <FormField
-              $isActive={activeItem === '1'}
-              $formType={categoryType}
-              onClick={() => setActiveItem('1')}
+    <Grid item xs={12}>
+      <AddContainer>
+        {status === 'loading' ? (
+          <div>Loading</div>
+        ) : (
+          <>
+            <Back to={pages.categories[`${categoryType}s`]}>
+              <BackSvg as={BackIcon} />
+            </Back>
+            <MobHeaderTitle $titleType={categoryType}>
+              {t('INFO_CATEGORY.CATEGORY_INFORMATION')}
+            </MobHeaderTitle>
+            <AddFormHeader>
+              <BackLink to={pages.categories[`${categoryType}s`]}>
+                <BackLinkSvg as={BackIcon} />
+              </BackLink>
+              {t('INFO_CATEGORY.CATEGORY_INFORMATION')}
+            </AddFormHeader>
+            <TextInputField
+              margin="normal"
+              required
+              label={t('INFO_CATEGORY.TYPE')}
+              value={t(`INFO_CATEGORY.${categoryType.toUpperCase()}`)}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <TextInputField
+              margin="normal"
+              required
+              multiline
+              label={t('INFO_CATEGORY.DESCRIPTION')}
+              placeholder={t('INFO_CATEGORY.DESCRIPTION_PLACEHOLDER')}
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+            />
+            <PopoverField
+              margin="normal"
+              required
+              label={t('INFO_CATEGORY.COLOR')}
+              InputProps={{
+                readOnly: true,
+                startAdornment: renderSelectedColor(selectedColor),
+              }}
+              onClick={(event) => setAnchorColorsEl(event.currentTarget)}
+            />
+            <ColorsPopoverPalette
+              open={openColors}
+              anchorEl={anchorColorsEl}
+              onClose={() => setAnchorColorsEl(null)}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
             >
-              <FieldDescription>
-                {t('ADD_CATEGORY.DESCRIPTION')}
-              </FieldDescription>
-              <FieldInput
-                type="text"
-                onChange={(event) => setDescription(event.target.value)}
-                defaultValue={description}
-                placeholder={t('ADD_CATEGORY.DESCRIPTION_PLACEHOLDER')}
-              ></FieldInput>
-            </FormField>
-            <FormField
-              $isActive={activeItem === '2'}
-              $formType={categoryType}
-              onClick={() => setActiveItem('2')}
-            >
-              <FieldDescription>{t('ADD_CATEGORY.COLOR')}</FieldDescription>
-              <SelectedColor
-                onClick={(event) => {
-                  setActiveItem('2');
-                  toggleElement(colorsRef);
-                  iconsRef.current.classList.add('none');
-                  event.stopPropagation();
-                }}
-              >
-                {renderSelectedColor(selectedColor)}
-              </SelectedColor>
-              <SelectButton
-                onClick={(event) => {
-                  setActiveItem('2');
-                  toggleElement(colorsRef);
-                  iconsRef.current.classList.add('none');
-                  event.stopPropagation();
-                }}
-              >
-                {t('ADD_CATEGORY.SELECT')}
-              </SelectButton>
-            </FormField>
-            <CategoryColorsContainer ref={colorsRef} className="none">
               <ColorsPalette>
                 {renderColors(colors, setSelectedColor, selectedColor)}
               </ColorsPalette>
               <ColorsPaletteButtonContainer>
-                <ColorsPaletteButton onClick={() => toggleElement(colorsRef)}>
-                  {t('ADD_CATEGORY.OK')}
+                <ColorsPaletteButton onClick={() => setAnchorColorsEl(null)}>
+                  {t('INFO_CATEGORY.OK')}
                 </ColorsPaletteButton>
               </ColorsPaletteButtonContainer>
-            </CategoryColorsContainer>
-            <FormField
-              $isActive={activeItem === '3'}
-              $formType={categoryType}
-              onClick={() => setActiveItem('3')}
+            </ColorsPopoverPalette>
+            <PopoverField
+              margin="normal"
+              required
+              label={t('INFO_CATEGORY.ICON')}
+              InputProps={{
+                readOnly: true,
+                startAdornment: renderSelectedColor(
+                  selectedColor,
+                  SelectedIcon,
+                ),
+              }}
+              onClick={(event) => setAnchorIconsEl(event.currentTarget)}
+            />
+            <ColorsPopoverPalette
+              open={openIcons}
+              anchorEl={anchorIconsEl}
+              onClose={() => setAnchorIconsEl(null)}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
             >
-              <FieldDescription>{t('ADD_CATEGORY.ICON')}</FieldDescription>
-              <SelectedColor
-                onClick={(event) => {
-                  setActiveItem('3');
-                  toggleElement(iconsRef);
-                  colorsRef.current.classList.add('none');
-                  event.stopPropagation();
-                }}
-              >
-                {renderSelectedColor(selectedColor, SelectedIcon)}
-              </SelectedColor>
-              <SelectButton
-                onClick={(event) => {
-                  setActiveItem('3');
-                  toggleElement(iconsRef);
-                  colorsRef.current.classList.add('none');
-                  event.stopPropagation();
-                }}
-              >
-                {t('ADD_CATEGORY.SELECT')}
-              </SelectButton>
-            </FormField>
-            <IconsContainer ref={iconsRef} className="none">
               <CategoriesIcons>
                 {renderIcons(categoryIcons, setIcon)}
               </CategoriesIcons>
               <IconsButtonContainer>
-                <IconsButton onClick={() => toggleElement(iconsRef)}>
-                  {t('ADD_CATEGORY.OK')}
+                <IconsButton onClick={() => setAnchorIconsEl(null)}>
+                  {t('INFO_CATEGORY.OK')}
                 </IconsButton>
               </IconsButtonContainer>
-            </IconsContainer>
-            <FormField
-              $isActive={activeItem === '4'}
-              $formType={categoryType}
-              onClick={() => setActiveItem('4')}
-            >
-              <FieldDescription>{t('ADD_CATEGORY.DATE')}</FieldDescription>
-              <FieldInput
-                type="date"
-                onChange={(event) => setDate(new Date(event.target.value))}
-              ></FieldInput>
-            </FormField>
-            <FormField
-              $isActive={activeItem === '5'}
-              $formType={categoryType}
-              onClick={() => setActiveItem('5')}
-            >
-              <FieldDescription>{t('ADD_CATEGORY.NOTES')}</FieldDescription>
-              <FieldInput
-                type="text"
-                onChange={(event) => setNotes(event.target.value)}
-                value={notes}
-                placeholder={t('ADD_CATEGORY.NOTES_PLACEHOLDER')}
-              ></FieldInput>
-            </FormField>
-            <FormField
-              $isActive={activeItem === '6'}
-              $formType={categoryType}
-              onClick={() => setActiveItem('6')}
-            >
-              <FieldDescription>{t('ADD_CATEGORY.TAGS')}</FieldDescription>
-              <FieldInput
-                type="text"
-                placeholder={t('ADD_CATEGORY.TAGS_PLACEHOLDER')}
-              ></FieldInput>
-            </FormField>
+            </ColorsPopoverPalette>
+            <DateField
+              required
+              label={t('INFO_CATEGORY.DATE')}
+              defaultValue={dayjs(date)}
+              onChange={(value) => setDate(value)}
+            />
+            <TextInputField
+              margin="normal"
+              multiline
+              label={t('INFO_CATEGORY.NOTES')}
+              placeholder={t('INFO_CATEGORY.NOTES_PLACEHOLDER')}
+              defaultValue={notes}
+              onChange={(event) => setNotes(event.target.value)}
+            />
+            <TextInputField
+              margin="normal"
+              multiline
+              label={t('INFO_CATEGORY.TAGS')}
+              placeholder={t('INFO_CATEGORY.TAGS_PLACEHOLDER')}
+              onChange={(event) => setTags(event.target.value)}
+            />
             <AddFormButtonsContainer>
               <DoneButton
                 to={pages.categories[`${categoryType}s`]}
-                $buttonType={categoryType}
                 onClick={() =>
                   doneEventHandler(
                     clickedCategory,
@@ -279,15 +240,17 @@ export default function InfoCategory() {
                   )
                 }
               >
-                {t('ADD_CATEGORY.DONE')}
+                <ButtonSvg as={DoneIcon} />
+                <ButtonTitle>{t('INFO_CATEGORY.DONE')}</ButtonTitle>
               </DoneButton>
               <CancelButton to={pages.categories[`${categoryType}s`]}>
-                {t('ADD_CATEGORY.CANCEL')}
+                <ButtonSvg as={CancelIcon} />
+                <ButtonTitle>{t('INFO_CATEGORY.CANCEL')}</ButtonTitle>
               </CancelButton>
             </AddFormButtonsContainer>
-          </FormFieldsContainer>
-        </>
-      )}
-    </AddFormContainer>
+          </>
+        )}
+      </AddContainer>
+    </Grid>
   );
 }

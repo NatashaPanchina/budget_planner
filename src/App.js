@@ -6,11 +6,9 @@ import {
   createBrowserRouter,
 } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ThemeProvider } from 'styled-components';
 
 import './locales';
 import { darkTheme, lightTheme } from './theme';
-import { GlobalStyles } from './theme/global';
 import Root from './components/root/Root';
 import Transactions from './components/transactions/Transactions';
 import InfoTransaction from './components/transactions/infoTransaction/InfoTransaction';
@@ -24,10 +22,12 @@ import InfoAccount from './components/cash/infoAccount/InfoAccount';
 import InfoCategory from './components/categories/infoCategory/InfoCategory';
 import Analysis from './components/analysis/Analysis';
 import AccountsTrash from './components/cash/trash/AccountsTrash';
-
-import './App.css';
 import Dashboard from './components/dashboard/Dashboard';
 import { mode } from './utils/constants/mode';
+import { ThemeProvider, createTheme } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { inputGlobalStyles } from './theme/global';
 
 const router = createBrowserRouter([
   {
@@ -128,9 +128,17 @@ function App() {
   }, [language, i18n]);
 
   return (
-    <ThemeProvider theme={header.mode === mode.light ? lightTheme : darkTheme}>
-      <GlobalStyles />
-      <RouterProvider router={router} />
+    <ThemeProvider
+      theme={
+        header.mode === mode.light
+          ? createTheme(lightTheme)
+          : createTheme(darkTheme)
+      }
+    >
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        {inputGlobalStyles}
+        <RouterProvider router={router} />
+      </LocalizationProvider>
     </ThemeProvider>
   );
 }

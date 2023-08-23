@@ -42,13 +42,9 @@ import {
   Profile,
   LogOut,
   Username,
-  Hamburger,
-  Bar,
 } from './Header.styled';
 import { languages } from '../../utils/constants/languages';
 import { mode } from '../../utils/constants/mode';
-import Menu from '../navigation/menu/Menu';
-import { animated, useTransition } from '@react-spring/web';
 
 function renderLanguagesMenu(languages, setLanguage, dispatch) {
   return languages.map((language, index) => (
@@ -77,24 +73,6 @@ function renderHeaderTitles(t) {
   };
 }
 
-const animatedMenu = (style, username, setToggleMenu) => {
-  return (
-    <animated.div
-      style={{
-        position: 'fixed',
-        top: 56,
-        height: 'calc(100vh - 56px)',
-        overflowY: 'auto',
-        width: `100%`,
-        zIndex: 11,
-        ...style,
-      }}
-    >
-      <Menu username={username} setToggleMenu={setToggleMenu} />
-    </animated.div>
-  );
-};
-
 export default function Header() {
   const gridStyles = {
     paddingRight: 1,
@@ -108,16 +86,6 @@ export default function Header() {
       paddingRight: 6,
     },
   };
-  const [toggleMenu, setToggleMenu] = useState(false);
-  const transitions = useTransition(toggleMenu, {
-    from: { opacity: 0, transform: 'translate3d(100%,0,0)' },
-    enter: { opacity: 1, transform: 'translate3d(0%,0,0)' },
-    leave: {
-      opacity: 0,
-      transform: 'translate3d(100%,0,0)',
-      config: { duration: 100 },
-    },
-  });
 
   const header = useSelector((state) => state.header);
   const dispatch = useDispatch();
@@ -162,7 +130,7 @@ export default function Header() {
           sx={gridStyles}
         >
           <Grid item xs={6} sm={1} md={1} lg={2}>
-            <NavLink to={pages.home} onClick={() => setToggleMenu(false)}>
+            <NavLink to={pages.home}>
               <LogoContainer>
                 <Logo as={LogoCatIcon} />
                 <LogoTitle as={LogoTitleIcon} />
@@ -220,7 +188,7 @@ export default function Header() {
                 }}
               >
                 <SvgMode
-                  as={headerMode === mode.light ? LightModeIcon : DarkModeIcon}
+                  as={headerMode === mode.light ? DarkModeIcon : LightModeIcon}
                 />
               </Container>
             </ThemeContainer>
@@ -234,23 +202,10 @@ export default function Header() {
               <LogOut>
                 <Svg as={LogoutIcon} />
               </LogOut>
-              <Hamburger
-                $isActive={toggleMenu}
-                onClick={() => {
-                  setToggleMenu(!toggleMenu);
-                }}
-              >
-                <Bar />
-                <Bar />
-                <Bar />
-              </Hamburger>
             </FlexContainer>
           </Grid>
         </Grid>
       </HeaderContainer>
-      {transitions((style, toggleMenu) => {
-        if (toggleMenu) return animatedMenu(style, username, setToggleMenu);
-      })}
     </>
   );
 }

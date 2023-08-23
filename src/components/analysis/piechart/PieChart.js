@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ResponsivePie } from '@nivo/pie';
-
 import {
   createDescriptions,
   createGradientColors,
@@ -15,7 +14,7 @@ import { Chart, ChartsInfoContainer } from '../Analysis.styled';
 import { formatNumberOutput } from '../../../utils/format/cash';
 
 function PieChart({ transactions, categories, chartFilter, date }) {
-  let commonData = createData(
+  const commonData = createData(
     { transactions, categories, chartFilter, date },
     'pie',
   );
@@ -37,7 +36,7 @@ function PieChart({ transactions, categories, chartFilter, date }) {
             bottom: 30,
             left: 100,
           }}
-          innerRadius={0.55}
+          innerRadius={0.65}
           padAngle={0.7}
           cornerRadius={4}
           enableArcLinkLabels={false}

@@ -10,53 +10,14 @@ import {
   formatDineroOutput,
   formatNumberOutput,
 } from '../../../utils/format/cash';
-import { styled } from 'styled-components';
-
-const PieChartContainer = styled.div((props) => ({
-  width: '80%',
-  height: '50%',
-  marginTop: props.theme.spacing(2),
-  marginLeft: 'auto',
-  marginRight: 'auto',
-}));
-
-const CenterText = styled.text((props) => ({
-  fill: props.theme.colors.text.primary,
-}));
-
-const Tooltip = styled.div((props) => ({
-  padding: props.theme.spacing(3),
-  display: 'flex',
-  alignItems: 'center',
-  zIndex: 10,
-  background: props.theme.colors.background.primary,
-  border: `1px solid ${props.theme.colors.border.item}`,
-  borderRadius: props.theme.borderRadius,
-  fontSize: '0.875rem',
-}));
-
-const TooltipSvg = styled.svg((props) => ({
-  marginRight: props.theme.spacing(1),
-}));
-
-const TooltipValue = styled.span((props) => ({
-  fontWeight: 700,
-  marginLeft: props.theme.spacing(1),
-}));
-
-const LegendsContainer = styled.div((props) => ({
-  height: '70%',
-  overflowY: 'auto',
-  fontSize: '0.875rem',
-  marginTop: props.theme.spacing(5),
-  '&::-webkit-scrollbar': {
-    width: 5,
-  },
-  '&::-webkit-scrollbar-thumb': {
-    background: 'rgba(196, 196, 196, 0.3)',
-    borderRadius: props.theme.borderRadius,
-  },
-}));
+import {
+  PieChartContainer,
+  CenterText,
+  Tooltip,
+  TooltipSvg,
+  TooltipValue,
+  LegendsContainer,
+} from '../Cash.styled.js';
 
 export function renderTooltip(id, formattedValue) {
   return (
@@ -80,7 +41,6 @@ export function renderTooltip(id, formattedValue) {
   );
 }
 
-//имена градиентов не работают с пробелами
 function renderGradientDefs(accounts) {
   return accounts.map((account) => {
     return linearGradientDef(
@@ -134,46 +94,48 @@ function CashChart({ data }) {
   );
 
   return (
-    <PieChartContainer>
-      <ResponsivePie
-        data={accounts}
-        colors={{ datum: 'data.color[0]' }}
-        value="balance"
-        valueFormat={(value) => formatNumberOutput(value, 'USD')}
-        id="description"
-        margin={{
-          top: 10,
-          right: 10,
-          bottom: 10,
-          left: 10,
-        }}
-        innerRadius={0.65}
-        padAngle={0.7}
-        cornerRadius={3}
-        enableArcLinkLabels={false}
-        activeOuterRadiusOffset={7}
-        enableArcLabels={false}
-        sortByValue={true}
-        defs={renderGradientDefs(data)}
-        fill={renderMatchs(data)}
-        tooltip={({ datum: { id, formattedValue, color } }) =>
-          renderTooltip(id, formattedValue, color)
-        }
-        layers={[
-          'arcs',
-          'arcLabels',
-          'arcLinkLabels',
-          'legends',
-          CenteredBalance(totalBalance),
-        ]}
-      />
+    <>
+      <PieChartContainer>
+        <ResponsivePie
+          data={accounts}
+          colors={{ datum: 'data.color[0]' }}
+          value="balance"
+          valueFormat={(value) => formatNumberOutput(value, 'USD')}
+          id="description"
+          margin={{
+            top: 10,
+            right: 10,
+            bottom: 10,
+            left: 10,
+          }}
+          innerRadius={0.65}
+          padAngle={0.7}
+          cornerRadius={3}
+          enableArcLinkLabels={false}
+          activeOuterRadiusOffset={7}
+          enableArcLabels={false}
+          sortByValue={true}
+          defs={renderGradientDefs(data)}
+          fill={renderMatchs(data)}
+          tooltip={({ datum: { id, formattedValue, color } }) =>
+            renderTooltip(id, formattedValue, color)
+          }
+          layers={[
+            'arcs',
+            'arcLabels',
+            'arcLinkLabels',
+            'legends',
+            CenteredBalance(totalBalance),
+          ]}
+        />
+      </PieChartContainer>
       <LegendsContainer>
         <CashChartLegends
           data={accounts}
           totalBalance={toDecimal(totalBalance)}
         />
       </LegendsContainer>
-    </PieChartContainer>
+    </>
   );
 }
 

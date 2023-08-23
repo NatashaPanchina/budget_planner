@@ -5,34 +5,13 @@ import { useTranslation } from 'react-i18next';
 import { ResponsiveBar } from '@nivo/bar';
 import { linearGradientDef } from '@nivo/core';
 
-import { styled } from 'styled-components';
+import {
+  BarChartContainer,
+  Tooltip,
+  TooltipSvg,
+  TooltipValue,
+} from '../Categories.styled';
 import { chartsColors } from '../../../utils/constants/chartsColors';
-
-const BarChartContainer = styled.div(() => ({
-  width: '80%',
-  height: '40%',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-}));
-
-const Tooltip = styled.div((props) => ({
-  padding: 12,
-  display: 'flex',
-  alignItems: 'center',
-  background: props.theme.colors.background.primary,
-  border: `1px solid ${props.theme.colors.border.item}`,
-  borderRadius: props.theme.borderRadius,
-  fontSize: '0.875rem',
-}));
-
-const TooltipSvg = styled.svg((props) => ({
-  marginRight: props.theme.spacing(1),
-}));
-
-const TooltipValue = styled.span((props) => ({
-  fontWeight: 700,
-  marginLeft: props.theme.spacing(1),
-}));
 
 function renderTooltip(id, formattedValue) {
   return (

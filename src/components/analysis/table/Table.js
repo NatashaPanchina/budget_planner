@@ -7,11 +7,10 @@ import { USD } from '@dinero.js/currencies';
 import { categoryIcons } from '../../../utils/constants/icons';
 import { formatDineroOutput } from '../../../utils/format/cash';
 import { createData } from '../utils/charts';
+import { styled } from '@mui/material';
 
-import { css, styled } from 'styled-components';
-
-const TableContainer = styled.div((props) => ({
-  height: 400,
+const TableContainer = styled('div')((props) => ({
+  height: 450,
   overflowY: 'auto',
   '&::-webkit-scrollbar': {
     width: 5,
@@ -22,67 +21,105 @@ const TableContainer = styled.div((props) => ({
   },
 }));
 
-const TableDescriptionItem = styled.div((props) => ({
+const TableDescriptionItem = styled('div')((props) => ({
   display: 'grid',
-  gridTemplateColumns: '1.5fr 1fr 1.5fr',
+  gridTemplateColumns: '1fr 1fr',
   justifyContent: 'center',
-  width: '94%',
-  height: 35,
-  paddingLeft: props.theme.spacing(5),
-  marginTop: props.theme.spacing(10),
-  marginLeft: 'auto',
-  marginRight: 'auto',
+  padding: props.theme.spacing(4),
+  paddingLeft: props.theme.spacing(3),
+  marginLeft: props.theme.spacing(2),
+  marginRight: props.theme.spacing(2),
+  marginTop: props.theme.spacing(5),
   fontSize: '0.875rem',
   color: props.theme.colors.text.ordinary,
-  '& span:first-child': {
-    paddingLeft: props.theme.spacing(5),
+  '@media (min-width: 600px)': {
+    gridTemplateColumns: '1.5fr 1fr 1.5fr',
+  },
+  '@media (min-width: 768px)': {
+    padding: props.theme.spacing(5),
+    marginLeft: props.theme.spacing(5),
+    marginRight: props.theme.spacing(5),
   },
 }));
 
-const TableItem = styled.div((props) => ({
+const PercentageDescription = styled('span')(() => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+    justifySelf: 'end',
+  },
+}));
+
+const SumDescription = styled('span')(() => ({
+  justifySelf: 'end',
+  '@media (min-width: 768px)': {
+    justifySelf: 'center',
+  },
+}));
+
+const TableItem = styled('div')((props) => ({
   display: 'grid',
-  gridTemplateColumns: '1.5fr 1fr 1.5fr',
+  gridTemplateColumns: '1fr 1fr',
+  gap: props.theme.spacing(3),
   alignItems: 'center',
-  width: '94%',
-  height: 65,
-  paddingLeft: props.theme.spacing(5),
-  marginBottom: props.theme.spacing(4),
-  marginLeft: 'auto',
-  marginRight: 'auto',
+  padding: props.theme.spacing(4),
+  paddingLeft: props.theme.spacing(3),
+  marginBottom: props.theme.spacing(2),
+  marginLeft: props.theme.spacing(2),
+  marginRight: props.theme.spacing(2),
   background: props.theme.colors.background.body,
   border: `1px solid ${props.theme.colors.border.item}`,
   borderRadius: props.theme.borderRadius,
+  '@media (min-width: 600px)': {
+    gridTemplateColumns: '1.5fr 1fr 1.5fr',
+  },
+  '@media (min-width: 768px)': {
+    padding: props.theme.spacing(5),
+    marginBottom: props.theme.spacing(4),
+    marginLeft: props.theme.spacing(5),
+    marginRight: props.theme.spacing(5),
+  },
 }));
 
-const CategoryInfo = styled.div(() => ({
+const CategoryInfo = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
 }));
 
-const CategoryInfoSvg = styled.svg((props) => ({
+const CategoryInfoSvg = styled('svg')((props) => ({
   marginRight: props.theme.spacing(3),
+  minWidth: 38,
 }));
 
-const CategoryInfoAmount = styled.div((props) => {
-  switch (props.$amountType) {
-    case 'expenses':
-      return css(() => ({
-        color: props.theme.colors.expense,
-      }));
-    case 'incomes':
-      return css(() => ({
-        color: props.theme.colors.income,
-      }));
-    case 'transfers':
-      return css(() => ({
-        color: props.theme.colors.transfer,
-      }));
-    default:
-      return css(() => ({
-        color: props.theme.colors.expense,
-      }));
-  }
-});
+const Amount = styled('div')(() => ({
+  justifySelf: 'end',
+  textAlign: 'right',
+  '@media (min-width: 768px)': {
+    justifySelf: 'center',
+  },
+}));
+
+const CategoryInfoAmount = styled(Amount, {
+  shouldForwardProp: (prop) => prop !== '$amountType',
+})((props) => ({
+  color: props.theme.colors[props.$amountType],
+}));
+
+const Percent = styled('div')(() => ({
+  display: 'none',
+  justifySelf: 'end',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
+}));
+
+const MobPercent = styled('div')((props) => ({
+  color: props.theme.colors.text.darker,
+  fontSize: '0.8125rem',
+  '@media (min-width: 600px)': {
+    display: 'none',
+  },
+}));
 
 function renderTable(t, data, tableFilter) {
   let totalSum = data.reduce(
@@ -94,14 +131,19 @@ function renderTable(t, data, tableFilter) {
     <>
       <TableDescriptionItem>
         <span>{t('ANALYSIS.CATEGORY')}</span>
-        <span>{t('ANALYSIS.PERCENTAGE')}</span>
-        <span>{t('ANALYSIS.SUM')}</span>
+        <PercentageDescription>
+          {t('ANALYSIS.PERCENTAGE')}
+        </PercentageDescription>
+        <SumDescription>{t('ANALYSIS.SUM')}</SumDescription>
       </TableDescriptionItem>
       <TableItem>
         <div>{t('ANALYSIS.TOTAL_TABLE')}</div>
-        <div>100.00%</div>
-        <CategoryInfoAmount $amountType={tableFilter}>
+        <Percent>100.00%</Percent>
+        <CategoryInfoAmount
+          $amountType={tableFilter.slice(0, tableFilter.length - 1)}
+        >
           {formatDineroOutput(totalSum, 'USD')}
+          <MobPercent>100.00%</MobPercent>
         </CategoryInfoAmount>
       </TableItem>
       {data.map((item) => {
@@ -120,12 +162,15 @@ function renderTable(t, data, tableFilter) {
                   cx="19"
                   cy="19"
                   r="19"
-                  fill={`url(#${item.category.description})`}
+                  fill={`url(#${item.category.description.replaceAll(
+                    ' ',
+                    '_',
+                  )})`}
                 ></circle>
                 <Icon height="24" width="24" x="7" y="7" />
                 <defs>
                   <linearGradient
-                    id={item.category.description}
+                    id={item.category.description.replaceAll(' ', '_')}
                     x1="0"
                     y1="0"
                     x2="17"
@@ -139,11 +184,16 @@ function renderTable(t, data, tableFilter) {
               </CategoryInfoSvg>
               {item.category.description}
             </CategoryInfo>
-            <div>
+            <Percent>
               {((toDecimal(item.sum) * 100) / floatTotalSum).toFixed(2)}%
-            </div>
-            <CategoryInfoAmount $amountType={tableFilter}>
+            </Percent>
+            <CategoryInfoAmount
+              $amountType={tableFilter.slice(0, tableFilter.length - 1)}
+            >
               {formatDineroOutput(item.sum, 'USD')}
+              <MobPercent>
+                {((toDecimal(item.sum) * 100) / floatTotalSum).toFixed(2)}%
+              </MobPercent>
             </CategoryInfoAmount>
           </TableItem>
         );

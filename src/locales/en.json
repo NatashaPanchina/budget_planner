@@ -28,6 +28,7 @@
     "CASH": "Cash",
     "NEW_TRANSACTION": "New Transaction",
     "CATEGORIES": "Categories",
+    "BUDGET": "Budget",
     "ANALYSIS": "Analysis",
     "MORE": "more",
     "SETTINGS": "Settings"
@@ -59,13 +60,21 @@
       "LESS_THAN_FIVE": "transactions",
       "MORE_THAN_FIVE": "transactions"
     },
-    "NO_TRANSACTIONS": "There are no transactions here yet"
+    "NO_TRANSACTIONS": "There are no transactions here yet",
+    "EDIT": "Edit",
+    "DELETE": "Delete"
   },
   "INFO_TRANSACTION": {
     "TITLE": "Transaction information",
+    "TYPE": "Type",
+    "EXPENSE": "Expense",
+    "INCOME": "Income",
+    "TRANSFER": "Transfer",
+    "AVAILABLE_CATEGORIES": "Available Categories",
     "CATEGORY": "Category",
     "SEARCH_CATEGORY": "Search category",
     "ADD_CATEGORY": "Add category",
+    "AVAILABLE_CASH": "Available Cash",
     "CASH": "Cash",
     "SEARCH_CASH": "Search cash",
     "ADD_CASH": "Add cash",
@@ -96,14 +105,19 @@
     "CURRENT_BALANCE": "Current balance",
     "EDIT": "Edit",
     "NEW_TRANSFER": "New transfer",
-    "ARCHIVE": "Archive"
+    "ARCHIVE": "Archive",
+    "ARCHIVED": "Archived cash"
   },
   "ADD_ACCOUNT": {
+    "TYPE": "Type",
+    "TYPE_CARD": "Card",
+    "TYPE_CASH": "Cash",
     "CARD": "New Card",
     "CASH": "New Cash",
     "CURRENT_BALANCE": "Current balance",
     "DESCRIPTION": "Description",
     "DESCRIPTION_PLACEHOLDER": "Click here to set the description",
+    "CURRENCY": "Currency",
     "BALANCE": "Balance",
     "COLOR": "Color",
     "SELECT": "Select",
@@ -120,7 +134,11 @@
     "CARD_INFORMATION": "Card information",
     "CASH_INFORMATION": "Cash information",
     "CURRENT_BALANCE": "Current balance",
+    "TYPE": "Type",
+    "CASH": "Cash",
+    "CARD": "Card",
     "DESCRIPTION": "Description",
+    "CURRENCY": "Currency",
     "BALANCE": "Balance",
     "COLOR": "Color",
     "SELECT": "Select",
@@ -156,9 +174,11 @@
     "DESTINATION_CASH": "Destination cash",
     "FROM": "From",
     "TO": "To",
+    "AVAILABLE_CATEGORIES": "Available Categories",
     "CATEGORY": "Category",
     "SEARCH_CATEGORY": "Search category",
     "ADD_CATEGORY": "Add category",
+    "AVAILABLE_CASH": "Available Cash",
     "CASH": "Cash",
     "SEARCH_CASH": "Search cash",
     "ADD_CASH": "Add cash",
@@ -183,9 +203,14 @@
     "FILTER_KEY": "By default",
     "FILTER_DATE": "All time",
     "SEARCH_CATEGORY": "Search category",
-    "ADD_CATEGORY": "Add category"
+    "ADD_CATEGORY": "Add category",
+    "ADD_SUB": "Add subcategory",
+    "EDIT": "Edit",
+    "ARCHIVE": "Archive",
+    "ARCHIVED": "Archived categories"
   },
   "ADD_CATEGORY": {
+    "TITLE": "New Category",
     "EXPENSE": "Expense",
     "INCOME": "Income",
     "DESCRIPTION": "Description",
@@ -204,6 +229,9 @@
   },
   "INFO_CATEGORY": {
     "CATEGORY_INFORMATION": "Category information",
+    "TYPE": "Type",
+    "EXPENSE": "Expense",
+    "INCOME": "Income",
     "DESCRIPTION": "Description",
     "COLOR": "Color",
     "SELECT": "Select",
@@ -227,7 +255,9 @@
       "ONE": "category",
       "LESS_THAN_FIVE": "categories",
       "MORE_THAN_FIVE": "categories"
-    }
+    },
+    "RESTORE": "Restore",
+    "DELETE": "Delete"
   },
   "ANALYSIS": {
     "TRANSACTIONS_ANALYSIS": "Transactions Analysis",
