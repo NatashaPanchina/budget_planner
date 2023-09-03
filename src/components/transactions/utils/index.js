@@ -95,7 +95,7 @@ export function renderAccounts(accounts, t) {
             <CardName>{account.description}</CardName>
             <CardBalanceContainer>
               <CardBalance>{formatDineroOutput(balance, 'USD')}</CardBalance>
-              <CurrentBalance>{t('CASH.CURRENT_BALANCE')}</CurrentBalance>
+              <CurrentBalance>{t('ACCOUNTS.CURRENT_BALANCE')}</CurrentBalance>
             </CardBalanceContainer>
           </Card>
         </CardView>

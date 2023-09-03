@@ -50,7 +50,7 @@ function AccountsSlider({ transactions, accounts }) {
   return (
     <MoreInfoContainer>
       <Grid item xs={12} sm={5} md={12}>
-        <MoreInfoHeader>{t('TRANSACTIONS.CURRENT_CASH')}</MoreInfoHeader>
+        <MoreInfoHeader>{t('TRANSACTIONS.CURRENT_ACCOUNT')}</MoreInfoHeader>
         <Slider
           filterType={filterType}
           notArchivedAccounts={notArchivedAccounts}

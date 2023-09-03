@@ -13,8 +13,9 @@ import { renderCategories, renderAccounts } from '../../transactions/utils';
 import { NumericFormatCustom } from '../../../utils/format/cash';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/done.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
+import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
-import searchIcon from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import {
   AddButton,
   AddButtonSvg,
@@ -22,15 +23,15 @@ import {
   CancelButton,
   DoneButton,
   ButtonSvg,
-  Search,
-  SearchImg,
-  SearchInput,
   ButtonTitle,
   TextInputField,
   DateField,
   SelectHeader,
+  SearchField,
+  CancelSearchSvg,
 } from '../../../theme/global.js';
 import { AddAccount } from '../NewTransaction.styled.js';
+import { InputAdornment } from '@mui/material';
 
 function ExpenseTransactionForm({
   categories,
@@ -71,13 +72,21 @@ function ExpenseTransactionForm({
         onChange={(event) => setCategory(event.target.value)}
       >
         <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CATEGORIES')}</SelectHeader>
-        <Search>
-          <SearchInput
-            type="text"
-            placeholder={t('NEW_TRANSACTION.SEARCH_CATEGORY')}
-          ></SearchInput>
-          <SearchImg src={searchIcon} alt="search" />
-        </Search>
+        <SearchField
+          placeholder={t('NEW_TRANSACTION.SEARCH_CATEGORY')}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <CancelSearchSvg as={CancelSearchIcon} />
+              </InputAdornment>
+            ),
+          }}
+        />
         <AddButton to={pages.categories.add[transactionType]}>
           <AddButtonSvg as={PlusIcon} />
           {t('NEW_TRANSACTION.ADD_CATEGORY')}
@@ -88,21 +97,29 @@ function ExpenseTransactionForm({
         margin="normal"
         required
         select
-        label={t('NEW_TRANSACTION.CASH')}
+        label={t('NEW_TRANSACTION.ACCOUNT')}
         value={account}
         onChange={(event) => setAccount(event.target.value)}
       >
-        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CASH')}</SelectHeader>
-        <Search>
-          <SearchInput
-            type="text"
-            placeholder={t('NEW_TRANSACTION.SEARCH_CASH')}
-          ></SearchInput>
-          <SearchImg src={searchIcon} alt="search" />
-        </Search>
-        <AddAccount to={pages.cash.add.card}>
+        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}</SelectHeader>
+        <SearchField
+          placeholder={t('NEW_TRANSACTION.SEARCH_ACCOUNTS')}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <CancelSearchSvg as={CancelSearchIcon} />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <AddAccount to={pages.accounts.add.card}>
           <AddButtonSvg as={PlusIcon} />
-          {t('NEW_TRANSACTION.ADD_CASH')}
+          {t('NEW_TRANSACTION.ADD_ACCOUNT')}
         </AddAccount>
         {renderAccounts(filteredAccounts, t)}
       </TextInputField>

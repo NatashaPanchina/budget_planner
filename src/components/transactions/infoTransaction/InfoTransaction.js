@@ -22,7 +22,8 @@ import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMa
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
-import searchIcon from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 
 import { pages } from '../../../utils/constants/pages.js';
 import {
@@ -36,17 +37,16 @@ import {
   ButtonSvg,
   ButtonTitle,
   CancelButton,
+  CancelSearchSvg,
   DateField,
   DoneButton,
   MobHeaderTitle,
-  Search,
-  SearchImg,
-  SearchInput,
+  SearchField,
   SelectHeader,
   TextInputField,
 } from '../../../theme/global.js';
 import { Back, BackSvg } from '../../newTransaction/NewTransaction.styled.js';
-import { Grid } from '@mui/material';
+import { Grid, InputAdornment } from '@mui/material';
 
 import dayjs from 'dayjs';
 import { NumericFormatCustom } from '../../../utils/format/cash';
@@ -296,12 +296,21 @@ export default function InfoTransaction() {
           <SelectHeader>
             {t('INFO_TRANSACTION.AVAILABLE_CATEGORIES')}
           </SelectHeader>
-          <Search>
-            <SearchInput
-              placeholder={t('INFO_TRANSACTION.SEARCH_CATEGORY')}
-            ></SearchInput>
-            <SearchImg src={searchIcon} alt="search" />
-          </Search>
+          <SearchField
+            placeholder={t('INFO_TRANSACTION.SEARCH_CATEGORY')}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <CancelSearchSvg as={CancelSearchIcon} />
+                </InputAdornment>
+              ),
+            }}
+          />
           <AddButton to={pages.categories.add[transactionType]}>
             <AddButtonSvg as={PlusIcon} />
             {t('INFO_TRANSACTION.ADD_CATEGORY')}
@@ -312,20 +321,31 @@ export default function InfoTransaction() {
           margin="normal"
           required
           select
-          label={t('INFO_TRANSACTION.CASH')}
+          label={t('INFO_TRANSACTION.ACCOUNT')}
           value={account}
           onChange={(event) => setAccount(event.target.value)}
         >
-          <SelectHeader>{t('INFO_TRANSACTION.AVAILABLE_CASH')}</SelectHeader>
-          <Search>
-            <SearchInput
-              placeholder={t('INFO_TRANSACTION.SEARCH_CASH')}
-            ></SearchInput>
-            <SearchImg src={searchIcon} alt="search" />
-          </Search>
-          <AddAccount to={pages.cash.add.card}>
+          <SelectHeader>
+            {t('INFO_TRANSACTION.AVAILABLE_ACCOUNTS')}
+          </SelectHeader>
+          <SearchField
+            placeholder={t('INFO_TRANSACTION.SEARCH_ACCOUNT')}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <CancelSearchSvg as={CancelSearchIcon} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <AddAccount to={pages.accounts.add.card}>
             <AddButtonSvg as={PlusIcon} />
-            {t('INFO_TRANSACTION.ADD_CASH')}
+            {t('INFO_TRANSACTION.ADD_ACCOUNT')}
           </AddAccount>
           {renderAccounts(notArchivedAccounts, t)}
         </TextInputField>

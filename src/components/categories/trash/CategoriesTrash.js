@@ -22,22 +22,20 @@ import { categoryIcons } from '../../../utils/constants/icons.js';
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 import { ReactComponent as RestoreIcon } from '../../../assets/icons/shared/restore.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delete.svg';
-import searchIcon from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
 
 import {
   BackLink,
   BackLinkSvg,
-  Search,
-  SearchImg,
-  SearchInput,
   ToggleMenu,
   TrashContainer,
   TrashHeader,
   MobItemButtonSvg,
+  SearchField,
 } from '../../../theme/global';
 import { pages } from '../../../utils/constants/pages';
-import { Grid, MenuItem, styled } from '@mui/material';
+import { Grid, InputAdornment, MenuItem, styled } from '@mui/material';
 import {
   CategoriesDescription,
   CategoriesListItem,
@@ -204,13 +202,17 @@ export default function CategoriesTrash() {
             {t('CATEGORIES_TRASH.INCOMES')}
           </CategoriesTitleLink>
         </CategoriesTitleContainer>
-        <Search>
-          <SearchInput
-            type="text"
-            placeholder={t('CATEGORIES_TRASH.SEARCH')}
-          ></SearchInput>
-          <SearchImg src={searchIcon} alt="search" />
-        </Search>
+        <SearchField
+          type="search"
+          placeholder={t('CATEGORIES_TRASH.SEARCH')}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
         {renderCategories(
           clickedCategory,
           setClickedCategory,

@@ -12,7 +12,8 @@ import {
   filterCategories,
 } from '../utils/index.js';
 
-import searchIcon from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
 import { ReactComponent as AddIcon } from '../../../assets/icons/shared/add.svg';
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
@@ -22,10 +23,9 @@ import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/t
 import {
   AddButton,
   AddButtonSvg,
+  CancelSearchSvg,
   MobItemButtonSvg,
-  Search,
-  SearchImg,
-  SearchInput,
+  SearchField,
   ToggleMenu,
 } from '../../../theme/global.js';
 import {
@@ -41,7 +41,7 @@ import {
   DeleteSvg,
 } from '../Categories.styled.js';
 import { pages } from '../../../utils/constants/pages.js';
-import { MenuItem } from '@mui/material';
+import { InputAdornment, MenuItem } from '@mui/material';
 
 function CategoriesList({ notArchivedCategories, archiveCategory }) {
   const dispatch = useDispatch();
@@ -53,14 +53,21 @@ function CategoriesList({ notArchivedCategories, archiveCategory }) {
 
   return (
     <>
-      <Search>
-        <SearchInput
-          type="text"
-          placeholder={t('CATEGORIES.SEARCH_CATEGORY')}
-        ></SearchInput>
-        <SearchImg src={searchIcon} alt="search" />
-      </Search>
-
+      <SearchField
+        placeholder={t('CATEGORIES.SEARCH_CATEGORY')}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position="end">
+              <CancelSearchSvg as={CancelSearchIcon} />
+            </InputAdornment>
+          ),
+        }}
+      />
       <AddButton
         to={pages.categories.add[filterType === 'all' ? 'expense' : filterType]}
       >

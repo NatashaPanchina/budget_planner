@@ -10,9 +10,9 @@ import { ReactComponent as CurrencyIcon } from '../../../assets/icons/navigation
 import { ReactComponent as DashboardIcon } from '../../../assets/icons/navigation/mobDashboard.svg';
 import { ReactComponent as TransactionsIcon } from '../../../assets/icons/navigation/mobTransactions.svg';
 import { ReactComponent as BudgetIcon } from '../../../assets/icons/navigation/mobBudget.svg';
-import { ReactComponent as CashIcon } from '../../../assets/icons/navigation/mobCash.svg';
+import { ReactComponent as AccountsIcon } from '../../../assets/icons/navigation/mobAccounts.svg';
 import { ReactComponent as CategoriesIcon } from '../../../assets/icons/navigation/mobCategories.svg';
-import { ReactComponent as AnalysisIcon } from '../../../assets/icons/navigation/mobAnalysis.svg';
+import { ReactComponent as CashFlowIcon } from '../../../assets/icons/navigation/mobCashFlow.svg';
 import { ReactComponent as DemoIcon } from '../../../assets/icons/navigation/mobDemo.svg';
 import { ReactComponent as HelpIcon } from '../../../assets/icons/navigation/mobHelp.svg';
 import { ReactComponent as AboutIcon } from '../../../assets/icons/navigation/mobAbout.svg';
@@ -145,12 +145,12 @@ function Menu({ username, setToggleMenu }) {
             <div>{t('MENU.TRANSACTIONS')}</div>
           </div>
         </ItemLink>
-        <ItemLink to={pages.cash.all} onClick={() => setToggleMenu(false)}>
+        <ItemLink to={pages.accounts.all} onClick={() => setToggleMenu(false)}>
           <div>
             <div>
-              <Svg as={CashIcon} />
+              <Svg as={AccountsIcon} />
             </div>
-            <div>{t('MENU.CASH')}</div>
+            <div>{t('MENU.ACCOUNTS')}</div>
           </div>
         </ItemLink>
         <ItemLink
@@ -175,9 +175,9 @@ function Menu({ username, setToggleMenu }) {
         <ItemLink to={pages.analysis.main} onClick={() => setToggleMenu(false)}>
           <div>
             <div>
-              <Svg as={AnalysisIcon} />
+              <Svg as={CashFlowIcon} />
             </div>
-            <div>{t('MENU.ANALYSIS')}</div>
+            <div>{t('MENU.CASH_FLOW')}</div>
           </div>
         </ItemLink>
         <ItemLink to="/" onClick={() => setToggleMenu(false)}>

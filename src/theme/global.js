@@ -93,30 +93,41 @@ export const TrashCount = styled('div')((props) => ({
   padding: '1px 2px',
 }));
 
-export const Search = styled('div')((props) => ({
+export const SearchField = styled(TextField)((props) => ({
   width: '100%',
-  height: 45,
   background: props.theme.colors.background.search,
   borderRadius: props.theme.borderRadius,
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-}));
-
-export const SearchInput = styled('input')((props) => ({
-  marginLeft: props.theme.spacing(5),
-  fontSize: '0.875rem',
-  color: props.theme.colors.text.primary,
-  background: props.theme.colors.background.search,
-  width: '100%',
-  '&[type="text"]::placeholder': {
-    color: props.theme.colors.text.darker,
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      border: `1px solid ${props.theme.colors.background.search}`,
+    },
+    '&.Mui-focused fieldset': {
+      border: `1px solid ${props.theme.colors.main.violet}`,
+    },
+    '&:hover fieldset': {
+      border: `1px solid ${props.theme.colors.main.violet}`,
+    },
+    '& .MuiInputBase-input': {
+      color: props.theme.colors.text.primary,
+      borderRadius: props.theme.borderRadius,
+      backgroundColor: props.theme.colors.background.search,
+      '&::placeholder': {
+        fontStyle: 'italic',
+        color: props.theme.colors.text.darker,
+      },
+    },
   },
 }));
 
-export const SearchImg = styled('img')((props) => ({
-  height: 20,
-  marginRight: props.theme.spacing(5),
+export const CancelSearchSvg = styled('svg')(() => ({
+  cursor: 'pointer',
+  '@media (min-width: 600px)': {
+    opacity: 0.7,
+    '&:hover': {
+      opacity: 1,
+      transition: 'opacity 0.3s ease-out',
+    },
+  },
 }));
 
 export const AddButton = styled(Link)((props) => ({

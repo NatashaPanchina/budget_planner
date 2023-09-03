@@ -30,11 +30,9 @@ export default function Transactions() {
   const accounts = useSelector((state) => state.accounts);
   const categories = useSelector((state) => state.categories);
   const dispatch = useDispatch();
-
   const [accountsData, setAccountsData] = useState([]);
   const [categoriesData, setCategoriesData] = useState([]);
   const [transactionsData, setTransactionsData] = useState([]);
-
   const { t } = useTranslation();
 
   useEffect(() => {

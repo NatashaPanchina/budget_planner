@@ -5,12 +5,12 @@ import { pages } from '../../../utils/constants/pages';
 
 import { ReactComponent as DashboardIcon } from '../../../assets/icons/navigation/mobDashboard.svg';
 import { ReactComponent as TransactionsIcon } from '../../../assets/icons/navigation/transactions.svg';
-import { ReactComponent as CashIcon } from '../../../assets/icons/navigation/cash.svg';
+import { ReactComponent as AccountsIcon } from '../../../assets/icons/navigation/accounts.svg';
 import { ReactComponent as NewTransactionIcon } from '../../../assets/icons/navigation/newTransaction.svg';
 import { ReactComponent as MobNewTransactionIcon } from '../../../assets/icons/navigation/mobNewTransaction.svg';
 import { ReactComponent as CategoriesIcon } from '../../../assets/icons/navigation/categories.svg';
 import { ReactComponent as BudgetIcon } from '../../../assets/icons/navigation/budget.svg';
-import { ReactComponent as AnalysisIcon } from '../../../assets/icons/navigation/analysis.svg';
+import { ReactComponent as CashFlowIcon } from '../../../assets/icons/navigation/cashFlow.svg';
 import { ReactComponent as SettingsIcon } from '../../../assets/icons/navigation/settings.svg';
 import { ReactComponent as MenuIcon } from '../../../assets/icons/navigation/menu.svg';
 import { ReactComponent as AvatarIcon } from '../../../assets/icons/shared/avatar.svg';
@@ -101,11 +101,15 @@ export default function Navigation() {
               </Link>
             </LinkContainer>
           </CustomTooltip>
-          <CustomTooltip title={t('NAVIGATION.CASH')} arrow placement="right">
+          <CustomTooltip
+            title={t('NAVIGATION.ACCOUNTS')}
+            arrow
+            placement="right"
+          >
             <HiddenLinkContainer>
-              <Link to={pages.cash.main}>
-                <Svg as={CashIcon} />
-                <LinkTitle>{t('NAVIGATION.CASH')}</LinkTitle>
+              <Link to={pages.accounts.main}>
+                <Svg as={AccountsIcon} />
+                <LinkTitle>{t('NAVIGATION.ACCOUNTS')}</LinkTitle>
               </Link>
             </HiddenLinkContainer>
           </CustomTooltip>
@@ -154,14 +158,14 @@ export default function Navigation() {
             </HiddenLinkContainer>
           </CustomTooltip>
           <CustomTooltip
-            title={t('NAVIGATION.ANALYSIS')}
+            title={t('NAVIGATION.CASH_FLOW')}
             arrow
             placement="right"
           >
             <LinkContainer>
               <Link to={pages.analysis.main}>
-                <Svg as={AnalysisIcon} />
-                <LinkTitle>{t('NAVIGATION.ANALYSIS')}</LinkTitle>
+                <Svg as={CashFlowIcon} />
+                <LinkTitle>{t('NAVIGATION.CASH_FLOW')}</LinkTitle>
               </Link>
             </LinkContainer>
           </CustomTooltip>

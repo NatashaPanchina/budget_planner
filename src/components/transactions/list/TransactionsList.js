@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -6,11 +6,16 @@ import { useTranslation } from 'react-i18next';
 import { dinero } from 'dinero.js';
 
 import { formatDineroOutput } from '../../../utils/format/cash';
-import { idbAddItem, idbDeleteItem } from '../../../indexedDB/IndexedDB';
+import {
+  idbAddItem,
+  idbDeleteItem,
+  idbSearchItems,
+} from '../../../indexedDB/IndexedDB';
 import { dateFormatter } from '../../../utils/format/date';
 
 import { categoryIcons } from '../../../utils/constants/icons';
-import searchIcon from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
@@ -24,6 +29,7 @@ import {
   createFilterAccount,
   filterByType,
   filterByAccounts,
+  filterQuery,
 } from './utils';
 import { pages } from '../../../utils/constants/pages';
 import {
@@ -53,12 +59,11 @@ import {
 import {
   AddButton,
   AddButtonSvg,
-  Search,
-  SearchImg,
-  SearchInput,
+  CancelSearchSvg,
+  SearchField,
   ToggleMenu,
 } from '../../../theme/global';
-import { MenuItem } from '@mui/material';
+import { InputAdornment, MenuItem } from '@mui/material';
 
 const deleteClick = (
   transaction,
@@ -94,13 +99,39 @@ function TransactionsList({
   const { filterAccount, filterType } = useParams();
   const transactionsType = createFiltertype(filterType);
   const transactionsAccount = createFilterAccount(accounts, filterAccount);
-  const filteredTransactions = filterByType(
-    filterByAccounts(transactions, filterAccount),
-    filterType,
-  );
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [clickedTransaction, setClickedTransaction] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    if (query) {
+      idbSearchItems(
+        filterQuery(query, accounts, categories),
+        'transactions',
+      ).then((result) => {
+        setFilteredTransactions(
+          filterByType(filterByAccounts(result, filterAccount), filterType),
+        );
+      });
+    } else {
+      setFilteredTransactions(
+        filterByType(filterByAccounts(transactions, filterAccount), filterType),
+      );
+    }
+  }, [transactions, filterType, filterAccount]);
+
+  useEffect(() => {
+    idbSearchItems(
+      filterQuery(query, accounts, categories),
+      'transactions',
+    ).then((result) => {
+      setFilteredTransactions(
+        filterByType(filterByAccounts(result, filterAccount), filterType),
+      );
+    });
+  }, [query]);
 
   return (
     <>
@@ -126,13 +157,23 @@ function TransactionsList({
           {t('TRANSACTIONS.FILTER_TRANSFERS')}
         </TransactionsTitleLink>
       </TransactionsTitleContainer>
-      <Search>
-        <SearchInput
-          type="text"
-          placeholder={t('TRANSACTIONS.SEARCH')}
-        ></SearchInput>
-        <SearchImg src={searchIcon} alt="search" />
-      </Search>
+      <SearchField
+        placeholder={t('TRANSACTIONS.SEARCH')}
+        value={query}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+          endAdornment: query ? (
+            <InputAdornment position="end" onClick={() => setQuery('')}>
+              <CancelSearchSvg as={CancelSearchIcon} />
+            </InputAdornment>
+          ) : null,
+        }}
+        onChange={(event) => setQuery(event.target.value)}
+      />
       <AddButton
         to={`${pages.newTransaction[transactionsType]}/${transactionsAccount}`}
       >
@@ -141,7 +182,7 @@ function TransactionsList({
       </AddButton>
       <Description>
         <DescriptionCategory>{t('TRANSACTIONS.CATEGORY')}</DescriptionCategory>
-        <span>{t('TRANSACTIONS.CASH')}</span>
+        <span>{t('TRANSACTIONS.ACCOUNT')}</span>
         <span>{t('TRANSACTIONS.AMOUNT')}</span>
         <span>{t('TRANSACTIONS.DATE')}</span>
       </Description>

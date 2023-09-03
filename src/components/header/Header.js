@@ -66,10 +66,10 @@ function renderHeaderTitles(t) {
   return {
     '/dashboard': t('HEADER.DASHBOARD'),
     '/transactions': t('HEADER.TRANSACTIONS'),
-    '/cash': t('HEADER.CASH'),
+    '/accounts': t('HEADER.ACCOUNTS'),
     '/newTransaction': t('HEADER.NEW_TRANSACTION'),
     '/categories': t('HEADER.CATEGORIES'),
-    '/analysis': t('HEADER.ANALYSIS'),
+    '/analysis': t('HEADER.CASH_FLOW'),
   };
 }
 

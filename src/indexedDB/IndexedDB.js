@@ -21,9 +21,18 @@ export function idbOpen() {
       const accounts = idb.createObjectStore('accounts', {
         keyPath: 'id',
       });
+
       const transactions = idb.createObjectStore('transactions', {
         keyPath: 'id',
       });
+      transactions.createIndex('type', 'transactionType');
+      transactions.createIndex('account', 'account');
+      transactions.createIndex('amount', 'amount.amount');
+      transactions.createIndex('category', 'category');
+      transactions.createIndex('date', 'date');
+      transactions.createIndex('notes', 'notes');
+      transactions.createIndex('tags', 'tags');
+
       const categories = idb.createObjectStore('categories', {
         keyPath: 'id',
       });
@@ -84,6 +93,57 @@ export const idbDeleteItem = (id, nameObjectStore) => {
         resolve(deleteRequest.result);
       };
       deleteRequest.onerror = () => reject('idbDeleteItem Error');
+    });
+  });
+};
+
+const getData = (index, query, dataResult) => {
+  return new Promise((resolve, reject) => {
+    const indexRequest = index.getAll(query);
+    indexRequest.onsuccess = () => {
+      if (indexRequest.result) {
+        indexRequest.result.forEach((item) => {
+          if (!dataResult.find((elem) => elem.id === item.id)) {
+            dataResult.push(item);
+          }
+        });
+      }
+      return resolve(dataResult);
+    };
+    indexRequest.onerror = () => reject('idbSearch Error');
+  });
+};
+
+const searchTransactionsData = (transactions, query) => {
+  return new Promise((resolve) => {
+    const dataResult = [];
+    getData(transactions.index('type'), query, dataResult)
+      .then((result) => getData(transactions.index('category'), query, result))
+      .then((result) => getData(transactions.index('account'), query, result))
+      .then((result) => getData(transactions.index('amount'), query, result))
+      .then((result) => getData(transactions.index('date'), query, result))
+      .then((result) => getData(transactions.index('tags'), query, result))
+      .then((result) => getData(transactions.index('notes'), query, result))
+      .then((result) => resolve(result));
+  });
+};
+
+export const idbSearchItems = (query, nameObjectStore) => {
+  return new Promise((resolve) => {
+    idbOpen().then((idb) => {
+      const transactions = idb
+        .transaction(nameObjectStore, 'readonly')
+        .objectStore(nameObjectStore);
+
+      switch (nameObjectStore) {
+        case 'transactions':
+          searchTransactionsData(transactions, query).then((result) =>
+            resolve(result),
+          );
+          break;
+        default:
+          resolve([]);
+      }
     });
   });
 };

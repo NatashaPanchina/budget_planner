@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { dinero, toDecimal } from 'dinero.js';
 import { USD } from '@dinero.js/currencies';
 import { renderAccounts } from '../../transactions/utils';
-import searchIcon from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
@@ -15,17 +16,17 @@ import {
   ButtonSvg,
   ButtonTitle,
   CancelButton,
+  CancelSearchSvg,
   DateField,
   DoneButton,
-  Search,
-  SearchImg,
-  SearchInput,
+  SearchField,
   SelectHeader,
   TextInputField,
 } from '../../../theme/global';
 import { AddAccount } from '../NewTransaction.styled';
 import { NumericFormatCustom } from '../../../utils/format/cash';
 import dayjs from 'dayjs';
+import { InputAdornment } from '@mui/material';
 
 function TransferTransactionForm({ accounts }) {
   const { t } = useTranslation();
@@ -54,21 +55,29 @@ function TransferTransactionForm({ accounts }) {
         margin="normal"
         required
         select
-        label={t('NEW_TRANSACTION.ORIGIN_CASH')}
+        label={t('NEW_TRANSACTION.ORIGIN_ACCOUNT')}
         value={originAccount}
         onChange={(event) => setOriginAccount(event.target.value)}
       >
-        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CASH')}</SelectHeader>
-        <Search>
-          <SearchInput
-            type="text"
-            placeholder={t('NEW_TRANSACTION.SEARCH_CASH')}
-          ></SearchInput>
-          <SearchImg src={searchIcon} alt="search" />
-        </Search>
-        <AddAccount to={pages.cash.add.card}>
+        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}</SelectHeader>
+        <SearchField
+          placeholder={t('NEW_TRANSACTION.SEARCH_ACCOUNTS')}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <CancelSearchSvg as={CancelSearchIcon} />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <AddAccount to={pages.accounts.add.card}>
           <AddButtonSvg as={PlusIcon} />
-          {t('NEW_TRANSACTION.ADD_CASH')}
+          {t('NEW_TRANSACTION.ADD_ACCOUNT')}
         </AddAccount>
         {renderAccounts(filteredAccounts, t)}
       </TextInputField>
@@ -76,21 +85,29 @@ function TransferTransactionForm({ accounts }) {
         margin="normal"
         required
         select
-        label={t('NEW_TRANSACTION.DESTINATION_CASH')}
+        label={t('NEW_TRANSACTION.DESTINATION_ACCOUNT')}
         value={destAccount}
         onChange={(event) => setDestAccount(event.target.value)}
       >
-        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CASH')}</SelectHeader>
-        <Search>
-          <SearchInput
-            type="text"
-            placeholder={t('NEW_TRANSACTION.SEARCH_CASH')}
-          ></SearchInput>
-          <SearchImg src={searchIcon} alt="search" />
-        </Search>
-        <AddAccount to={pages.cash.add.card}>
+        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}</SelectHeader>
+        <SearchField
+          placeholder={t('NEW_TRANSACTION.SEARCH_ACCOUNTS')}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <CancelSearchSvg as={CancelSearchIcon} />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <AddAccount to={pages.accounts.add.card}>
           <AddButtonSvg as={PlusIcon} />
-          {t('NEW_TRANSACTION.ADD_CASH')}
+          {t('NEW_TRANSACTION.ADD_ACCOUNT')}
         </AddAccount>
         {renderAccounts(filteredAccounts, t)}
       </TextInputField>

@@ -11,24 +11,24 @@ export const pages = {
       main: '/transactions/infoTransaction',
     },
   },
-  cash: {
-    main: '/cash',
-    all: '/cash/all',
-    cards: '/cash/cards',
-    cash: '/cash/cash',
-    transfers: '/cash/transfers',
+  accounts: {
+    main: '/accounts',
+    all: '/accounts/all',
+    cards: '/accounts/cards',
+    cash: '/accounts/cash',
+    transfers: '/accounts/transfers',
     trash: {
-      main: '/cash/trash',
-      all: '/cash/trash/all',
-      cards: '/cash/trash/cards',
-      cash: '/cash/trash/cash',
+      main: '/accounts/trash',
+      all: '/accounts/trash/all',
+      cards: '/accounts/trash/cards',
+      cash: '/accounts/trash/cash',
     },
     add: {
-      card: '/cash/addAccount/card',
-      cash: '/cash/addAccount/cash',
+      card: '/accounts/addAccount/card',
+      cash: '/accounts/addAccount/cash',
     },
     info: {
-      main: '/cash/infoAccount',
+      main: '/accounts/infoAccount',
     },
   },
   newTransaction: {
