@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { dinero } from 'dinero.js';
 import { formatDineroOutput } from '../../../utils/format/cash';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
-import {
-  createAccountFilter,
-  filterAccounts,
-  renderNotes,
-  createLocaleAccountType,
-} from '../utils';
-import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
+import { filterAccounts, renderNotes } from '../utils';
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
 import { ReactComponent as TransferIcon } from '../../../assets/icons/shared/transfer.svg';
 import { ReactComponent as ArchiveIcon } from '../../../assets/icons/shared/archive.svg';
@@ -21,7 +15,6 @@ import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import {
-  AddButtonSvg,
   CancelSearchSvg,
   SearchField,
   ToggleMenu,
@@ -35,7 +28,6 @@ import {
   CardButtonSvg,
   CashListItem,
   CardButtonlink,
-  AddCashButton,
   FlexContainer,
   ToggleButtonSvg,
   DeleteMenuItem,
@@ -49,14 +41,17 @@ function archiveEventButton(account, archiveAccount, dispatch) {
   idbAddItem({ ...account, archived: true }, 'accounts');
 }
 
-function AccountsList({ notArchivedAccounts, archiveAccount }) {
+function AccountsList({
+  notArchivedAccounts,
+  archiveAccount,
+  filterAccount,
+  localeFilterAccount,
+}) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [clickedAccount, setClickedAccount] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const filterAccount = createAccountFilter(useParams().filterCash);
-  const localeFilterAccount = createLocaleAccountType(filterAccount);
 
   return (
     <>
@@ -75,14 +70,6 @@ function AccountsList({ notArchivedAccounts, archiveAccount }) {
           ),
         }}
       />
-      <AddCashButton
-        to={
-          pages.accounts.add[filterAccount === 'all' ? 'card' : filterAccount]
-        }
-      >
-        <AddButtonSvg as={PlusIcon} />
-        {t(`ACCOUNTS.ADD_${localeFilterAccount}`)}
-      </AddCashButton>
       {filterAccounts(filterAccount, notArchivedAccounts).map((account) => {
         const balance = dinero(account.balance);
         return (
@@ -160,6 +147,8 @@ function AccountsList({ notArchivedAccounts, archiveAccount }) {
 AccountsList.propTypes = {
   notArchivedAccounts: PropTypes.array,
   archiveAccount: PropTypes.func,
+  filterAccount: PropTypes.string,
+  localeFilterAccount: PropTypes.string,
 };
 
 export default AccountsList;

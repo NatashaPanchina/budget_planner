@@ -1,10 +1,5 @@
 import { Link, NavLink } from 'react-router-dom';
-import {
-  AddButton,
-  BackLink,
-  BackLinkSvg,
-  MobItemButtonSvg,
-} from '../../theme/global';
+import { BackLink, BackLinkSvg, MobItemButtonSvg } from '../../theme/global';
 import { MenuItem, alpha, styled } from '@mui/material';
 
 export const FlexContainer = styled('div')(() => ({
@@ -156,17 +151,8 @@ export const CashTitleLink = styled(NavLink)((props) => ({
 
 export const CommonFilter = styled('span')(() => ({
   display: 'flex',
-  '@media (min-width: 600px)': {
+  '@media (min-width: 768px)': {
     display: 'none',
-  },
-}));
-
-export const AddCashButton = styled(AddButton)(() => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  '@media (min-width: 900px)': {
-    justifyContent: 'start',
   },
 }));
 
@@ -174,7 +160,8 @@ export const CashListItem = styled(FlexContainer)((props) => ({
   position: 'relative',
   justifyContent: 'center',
   alignItems: 'start',
-  marginBottom: props.theme.spacing(10),
+  marginTop: props.theme.spacing(3),
+  marginBottom: props.theme.spacing(7),
   '@media (min-width: 900px)': {
     justifyContent: 'start',
   },

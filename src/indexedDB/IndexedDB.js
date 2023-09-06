@@ -108,7 +108,7 @@ const getData = (index, query, dataResult) => {
           }
         });
       }
-      return resolve(dataResult);
+      resolve();
     };
     indexRequest.onerror = () => reject('idbSearch Error');
   });
@@ -117,14 +117,19 @@ const getData = (index, query, dataResult) => {
 const searchTransactionsData = (transactions, query) => {
   return new Promise((resolve) => {
     const dataResult = [];
-    getData(transactions.index('type'), query, dataResult)
-      .then((result) => getData(transactions.index('category'), query, result))
-      .then((result) => getData(transactions.index('account'), query, result))
-      .then((result) => getData(transactions.index('amount'), query, result))
-      .then((result) => getData(transactions.index('date'), query, result))
-      .then((result) => getData(transactions.index('tags'), query, result))
-      .then((result) => getData(transactions.index('notes'), query, result))
-      .then((result) => resolve(result));
+    const indexes = [
+      'type',
+      'category',
+      'account',
+      'amount',
+      'date',
+      'tags',
+      'notes',
+    ];
+    const promises = indexes.map((idx) =>
+      getData(transactions.index(idx), query, dataResult),
+    );
+    Promise.all(promises).then(() => resolve(dataResult));
   });
 };
 

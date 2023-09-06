@@ -17,7 +17,6 @@ import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import {
-  AddButton,
   AddButtonSvg,
   AddFormButtonsContainer,
   CancelButton,
@@ -29,8 +28,8 @@ import {
   SelectHeader,
   SearchField,
   CancelSearchSvg,
+  SelectHeaderButton,
 } from '../../../theme/global.js';
-import { AddAccount } from '../NewTransaction.styled.js';
 import { InputAdornment } from '@mui/material';
 
 function ExpenseTransactionForm({
@@ -71,7 +70,12 @@ function ExpenseTransactionForm({
         value={category}
         onChange={(event) => setCategory(event.target.value)}
       >
-        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CATEGORIES')}</SelectHeader>
+        <SelectHeader>
+          {t('NEW_TRANSACTION.AVAILABLE_CATEGORIES')}
+          <SelectHeaderButton to={pages.categories.add[transactionType]}>
+            <AddButtonSvg as={PlusIcon} />
+          </SelectHeaderButton>
+        </SelectHeader>
         <SearchField
           placeholder={t('NEW_TRANSACTION.SEARCH_CATEGORY')}
           InputProps={{
@@ -87,10 +91,6 @@ function ExpenseTransactionForm({
             ),
           }}
         />
-        <AddButton to={pages.categories.add[transactionType]}>
-          <AddButtonSvg as={PlusIcon} />
-          {t('NEW_TRANSACTION.ADD_CATEGORY')}
-        </AddButton>
         {renderCategories(filteredCategories)}
       </TextInputField>
       <TextInputField
@@ -101,7 +101,12 @@ function ExpenseTransactionForm({
         value={account}
         onChange={(event) => setAccount(event.target.value)}
       >
-        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}</SelectHeader>
+        <SelectHeader>
+          {t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}
+          <SelectHeaderButton to={pages.accounts.add.card}>
+            <AddButtonSvg as={PlusIcon} />
+          </SelectHeaderButton>
+        </SelectHeader>
         <SearchField
           placeholder={t('NEW_TRANSACTION.SEARCH_ACCOUNTS')}
           InputProps={{
@@ -117,10 +122,6 @@ function ExpenseTransactionForm({
             ),
           }}
         />
-        <AddAccount to={pages.accounts.add.card}>
-          <AddButtonSvg as={PlusIcon} />
-          {t('NEW_TRANSACTION.ADD_ACCOUNT')}
-        </AddAccount>
         {renderAccounts(filteredAccounts, t)}
       </TextInputField>
       <TextInputField

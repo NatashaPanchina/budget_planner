@@ -27,7 +27,6 @@ import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared
 
 import { pages } from '../../../utils/constants/pages.js';
 import {
-  AddButton,
   AddButtonSvg,
   AddContainer,
   AddFormButtonsContainer,
@@ -43,6 +42,7 @@ import {
   MobHeaderTitle,
   SearchField,
   SelectHeader,
+  SelectHeaderButton,
   TextInputField,
 } from '../../../theme/global.js';
 import { Back, BackSvg } from '../../newTransaction/NewTransaction.styled.js';
@@ -50,7 +50,6 @@ import { Grid, InputAdornment } from '@mui/material';
 
 import dayjs from 'dayjs';
 import { NumericFormatCustom } from '../../../utils/format/cash';
-import { AddAccount } from '../Transactions.styled.js';
 
 function createNewBalance(prevTransaction, newTransaction, accounts) {
   const prevAccount = accounts.find(
@@ -295,6 +294,9 @@ export default function InfoTransaction() {
         >
           <SelectHeader>
             {t('INFO_TRANSACTION.AVAILABLE_CATEGORIES')}
+            <SelectHeaderButton to={pages.categories.add[transactionType]}>
+              <AddButtonSvg as={PlusIcon} />
+            </SelectHeaderButton>
           </SelectHeader>
           <SearchField
             placeholder={t('INFO_TRANSACTION.SEARCH_CATEGORY')}
@@ -311,10 +313,6 @@ export default function InfoTransaction() {
               ),
             }}
           />
-          <AddButton to={pages.categories.add[transactionType]}>
-            <AddButtonSvg as={PlusIcon} />
-            {t('INFO_TRANSACTION.ADD_CATEGORY')}
-          </AddButton>
           {renderCategories(filteredCategories)}
         </TextInputField>
         <TextInputField
@@ -327,6 +325,9 @@ export default function InfoTransaction() {
         >
           <SelectHeader>
             {t('INFO_TRANSACTION.AVAILABLE_ACCOUNTS')}
+            <SelectHeaderButton to={pages.accounts.add.card}>
+              <AddButtonSvg as={PlusIcon} />
+            </SelectHeaderButton>
           </SelectHeader>
           <SearchField
             placeholder={t('INFO_TRANSACTION.SEARCH_ACCOUNT')}
@@ -343,10 +344,6 @@ export default function InfoTransaction() {
               ),
             }}
           />
-          <AddAccount to={pages.accounts.add.card}>
-            <AddButtonSvg as={PlusIcon} />
-            {t('INFO_TRANSACTION.ADD_ACCOUNT')}
-          </AddAccount>
           {renderAccounts(notArchivedAccounts, t)}
         </TextInputField>
         <TextInputField

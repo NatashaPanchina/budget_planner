@@ -21,6 +21,7 @@ import {
   DoneButton,
   SearchField,
   SelectHeader,
+  SelectHeaderButton,
   TextInputField,
 } from '../../../theme/global';
 import { AddAccount } from '../NewTransaction.styled';
@@ -59,7 +60,12 @@ function TransferTransactionForm({ accounts }) {
         value={originAccount}
         onChange={(event) => setOriginAccount(event.target.value)}
       >
-        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}</SelectHeader>
+        <SelectHeader>
+          {t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}
+          <SelectHeaderButton to={pages.accounts.add.card}>
+            <AddButtonSvg as={PlusIcon} />
+          </SelectHeaderButton>
+        </SelectHeader>
         <SearchField
           placeholder={t('NEW_TRANSACTION.SEARCH_ACCOUNTS')}
           InputProps={{
@@ -89,7 +95,12 @@ function TransferTransactionForm({ accounts }) {
         value={destAccount}
         onChange={(event) => setDestAccount(event.target.value)}
       >
-        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}</SelectHeader>
+        <SelectHeader>
+          {t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}
+          <SelectHeaderButton to={pages.accounts.add.card}>
+            <AddButtonSvg as={PlusIcon} />
+          </SelectHeaderButton>
+        </SelectHeader>
         <SearchField
           placeholder={t('NEW_TRANSACTION.SEARCH_ACCOUNTS')}
           InputProps={{
@@ -105,10 +116,6 @@ function TransferTransactionForm({ accounts }) {
             ),
           }}
         />
-        <AddAccount to={pages.accounts.add.card}>
-          <AddButtonSvg as={PlusIcon} />
-          {t('NEW_TRANSACTION.ADD_ACCOUNT')}
-        </AddAccount>
         {renderAccounts(filteredAccounts, t)}
       </TextInputField>
       <TextInputField

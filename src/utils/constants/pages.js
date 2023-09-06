@@ -16,7 +16,6 @@ export const pages = {
     all: '/accounts/all',
     cards: '/accounts/cards',
     cash: '/accounts/cash',
-    transfers: '/accounts/transfers',
     trash: {
       main: '/accounts/trash',
       all: '/accounts/trash/all',

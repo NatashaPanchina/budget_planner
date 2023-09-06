@@ -16,9 +16,6 @@ export const HeaderContainer = styled(FlexContainer)((props) => ({
     position: 'fixed',
     zIndex: 300,
     top: 0,
-    background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
-  },
-  '@media (min-width: 768px)': {
     background: props.theme.colors.background.primary,
     borderBottom: `1px solid ${props.theme.colors.border.ordinary}`,
   },
@@ -30,10 +27,10 @@ export const LogoContainer = styled(FlexContainer)((props) => ({
   background: 'none',
   '@media (min-width: 600px)': {
     width: 48,
+    background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
   },
   '@media (min-width: 768px)': {
     width: 64,
-    background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
   },
   '@media (min-width: 1200px)': {
     width: 208,
@@ -64,7 +61,6 @@ export const Title = styled(FlexContainer)((props) => ({
   '@media (min-width: 600px)': {
     fontWeight: 450,
     fontSize: '1.25rem',
-    color: props.theme.colors.white,
     paddingLeft: props.theme.spacing(5),
   },
   '@media (min-width: 768px)': {
@@ -74,24 +70,30 @@ export const Title = styled(FlexContainer)((props) => ({
 
 export const GlobalSearch = styled('div')((props) => ({
   display: 'none',
-  '@media (min-width: 768px)': {
+  '@media (min-width: 600px)': {
     display: 'flex',
     alignItems: 'center',
     width: '100%',
     fontSize: '0.875rem',
     borderRadius: props.theme.borderRadius,
+  },
+  '@media (min-width: 768px)': {
     backgroundColor: props.theme.colors.background.body,
   },
 }));
 
 export const GlobalSearchInput = styled('input')((props) => ({
-  height: 30,
-  borderRadius: 'inherit',
-  backgroundColor: 'inherit',
-  color: props.theme.colors.text.primary,
-  width: `calc(100% - ${props.theme.spacing(12)})`,
-  '&[type="text"]::placeholder': {
-    color: props.theme.colors.text.darker,
+  display: 'none',
+  '@media (min-width: 768px)': {
+    display: 'flex',
+    height: 30,
+    borderRadius: 'inherit',
+    backgroundColor: 'inherit',
+    color: props.theme.colors.text.primary,
+    width: `calc(100% - ${props.theme.spacing(12)})`,
+    '&[type="text"]::placeholder': {
+      color: props.theme.colors.text.darker,
+    },
   },
 }));
 
@@ -104,7 +106,7 @@ export const GlobalSearchImg = styled('img')((props) => ({
 
 export const ThemeContainer = styled(FlexContainer)(() => ({
   display: 'none',
-  '@media (min-width: 768px)': {
+  '@media (min-width: 600px)': {
     display: 'flex',
     justifyContent: 'center',
   },

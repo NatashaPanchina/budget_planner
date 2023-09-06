@@ -16,6 +16,7 @@ import {
 import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 import { ReactComponent as MobileFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
+import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
 
 import {
   Header,
@@ -23,7 +24,13 @@ import {
   CommonFilter,
   Filter,
   FilterSvg,
+  AddButtonSvg,
+  AddButton,
+  AddSvg,
 } from '../../theme/global.js';
+import { useParams } from 'react-router-dom';
+import { pages } from '../../utils/constants/pages.js';
+import { createFilterAccount, createFiltertype } from './utils/index.js';
 
 export default function Transactions() {
   const transactions = useSelector((state) => state.transactions);
@@ -34,6 +41,9 @@ export default function Transactions() {
   const [categoriesData, setCategoriesData] = useState([]);
   const [transactionsData, setTransactionsData] = useState([]);
   const { t } = useTranslation();
+  const { filterAccount, filterType } = useParams();
+  const transactionsType = createFiltertype(filterType);
+  const transactionsAccount = createFilterAccount(accountsData, filterAccount);
 
   useEffect(() => {
     dispatch(fetchAccountsData());
@@ -76,9 +86,22 @@ export default function Transactions() {
           <FilterSvg as={CalendarIcon} />
           {t('TRANSACTIONS.FILTER_DATE')}
         </Filter>
+        <Filter>
+          <AddButton
+            to={`${pages.newTransaction[transactionsType]}/${transactionsAccount}`}
+          >
+            <AddButtonSvg as={AddIcon} />
+            {t('TRANSACTIONS.NEW_TRANSACTION')}
+          </AddButton>
+        </Filter>
         <CommonFilter>
           <FilterSvg as={CalendarIcon} />
           <FilterSvg as={MobileFilterIcon} />
+          <AddSvg
+            to={`${pages.newTransaction[transactionsType]}/${transactionsAccount}`}
+          >
+            <FilterSvg as={AddIcon} />
+          </AddSvg>
         </CommonFilter>
       </Header>
       <Grid item xs={12} sm={12} md={3} lg={3}>

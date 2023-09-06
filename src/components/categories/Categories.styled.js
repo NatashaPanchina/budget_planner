@@ -167,7 +167,7 @@ export const IncomeSvg = styled(Svg)((props) => ({
 
 export const CommonFilter = styled('span')(() => ({
   display: 'flex',
-  '@media (min-width: 600px)': {
+  '@media (min-width: 768px)': {
     display: 'none',
   },
 }));

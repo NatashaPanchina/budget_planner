@@ -66,7 +66,7 @@ export const inputGlobalStyles = (
 export const ArchivedTrash = styled('div')((props) => ({
   position: 'relative',
   marginLeft: props.theme.spacing(5),
-  '@media (min-width: 600px)': {
+  '@media (min-width: 768px)': {
     display: 'flex',
     position: 'absolute',
     right: 0,
@@ -80,6 +80,13 @@ export const Trash = styled('svg')((props) => ({
     fill: props.theme.colors.background.primary,
   },
   filter: `drop-shadow(0px 4px 4px ${props.theme.colors.boxShadow})`,
+  '&:hover': {
+    filter: `drop-shadow(0px 4px 4px ${alpha(
+      props.theme.colors.main.violet,
+      0.2,
+    )})`,
+    transition: 'filter 0.3s ease-out',
+  },
 }));
 
 export const TrashCount = styled('div')((props) => ({
@@ -97,6 +104,7 @@ export const SearchField = styled(TextField)((props) => ({
   width: '100%',
   background: props.theme.colors.background.search,
   borderRadius: props.theme.borderRadius,
+  marginBottom: props.theme.spacing(4),
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       border: `1px solid ${props.theme.colors.background.search}`,
@@ -131,16 +139,11 @@ export const CancelSearchSvg = styled('svg')(() => ({
 }));
 
 export const AddButton = styled(Link)((props) => ({
-  height: 60,
   width: '100%',
   display: 'flex',
   alignItems: 'center',
-  color: props.theme.colors.main.violet,
+  color: 'inherit',
   fill: props.theme.colors.main.violet,
-  '&:hover': {
-    color: props.theme.colors.main.purple,
-    fill: props.theme.colors.main.purple,
-  },
 }));
 
 export const AddButtonSvg = styled('svg')((props) => ({
@@ -149,6 +152,12 @@ export const AddButtonSvg = styled('svg')((props) => ({
   fill: 'inherit',
   '& path': {
     fill: 'inherit',
+  },
+}));
+
+export const AddSvg = styled(Link)(() => ({
+  '@media (min-width: 768px)': {
+    display: 'none',
   },
 }));
 
@@ -162,7 +171,7 @@ export const Header = styled('div')((props) => ({
   width: '100%',
   justifyContent: 'space-between',
   backgroundColor: props.theme.colors.background.body,
-  '@media (min-width: 600px)': {
+  '@media (min-width: 768px)': {
     position: 'relative',
     justifyContent: 'center',
     height: 70,
@@ -175,7 +184,7 @@ export const TrashHeader = styled(Header)(() => ({
 
 export const HeaderTitle = styled('div')((props) => ({
   fontSize: '1.3rem',
-  '@media (min-width: 600px)': {
+  '@media (min-width: 768px)': {
     marginRight: props.theme.spacing(14),
   },
 }));
@@ -192,7 +201,7 @@ export const MobHeaderTitle = styled('div')((props) => ({
   left: 0,
   zIndex: 150,
   backgroundColor: props.theme.colors.background.body,
-  '@media (min-width: 600px)': {
+  '@media (min-width: 768px)': {
     display: 'none',
   },
 }));
@@ -293,6 +302,12 @@ export const SelectHeader = styled('div')((props) => ({
   color: props.theme.colors.text.primary,
 }));
 
+export const SelectHeaderButton = styled(Link)((props) => ({
+  position: 'absolute',
+  right: 0,
+  fill: props.theme.colors.main.violet,
+}));
+
 export const TextInputField = styled(TextField)((props) => ({
   width: '100%',
   backgroundColor: props.theme.colors.background.primary,
@@ -314,7 +329,6 @@ export const TextInputField = styled(TextField)((props) => ({
     },
     '&.Mui-focused fieldset': {
       border: `1px solid ${props.theme.colors.main.violet}`,
-      boxShadow: `${alpha(props.theme.colors.main.violet, 0.1)} 0 0 0 0.2rem`,
     },
     '& .MuiInputBase-input': {
       color: props.theme.colors.text.primary,
@@ -359,7 +373,6 @@ export const DateField = styled(DatePicker)((props) => ({
     },
     '&.Mui-focused fieldset': {
       border: `1px solid ${props.theme.colors.main.violet}`,
-      boxShadow: `${alpha(props.theme.colors.main.violet, 0.1)} 0 0 0 0.2rem`,
     },
     '& .MuiInputBase-input': {
       color: props.theme.colors.text.primary,
@@ -519,7 +532,8 @@ export const ButtonSvg = styled('svg')(() => ({
 
 export const Filter = styled('div')((props) => ({
   display: 'none',
-  '@media (min-width: 600px)': {
+  '@media (min-width: 768px)': {
+    cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
     backgroundColor: props.theme.colors.background.primary,
@@ -530,6 +544,11 @@ export const Filter = styled('div')((props) => ({
     marginRight: props.theme.spacing(14),
     fontSize: '0.875rem',
     color: props.theme.colors.text.ordinary,
+    '&:hover': {
+      color: props.theme.colors.main.violet,
+      boxShadow: `0px 4px 10px ${alpha(props.theme.colors.main.violet, 0.2)}`,
+      transition: 'all 0.3s ease-out',
+    },
   },
 }));
 
@@ -537,7 +556,7 @@ export const FilterSvg = styled('svg')((props) => ({
   height: 22,
   width: 22,
   marginLeft: props.theme.spacing(5),
-  '@media (min-width: 600px)': {
+  '@media (min-width: 768px)': {
     height: 18,
     width: 18,
     margin: `0px ${props.theme.spacing(1)}`,
@@ -546,7 +565,7 @@ export const FilterSvg = styled('svg')((props) => ({
 
 export const CommonFilter = styled('span')(() => ({
   display: 'flex',
-  '@media (min-width: 600px)': {
+  '@media (min-width: 768px)': {
     display: 'none',
   },
 }));

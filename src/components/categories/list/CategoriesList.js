@@ -1,28 +1,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 import { categoryIcons } from '../../../utils/constants/icons.js';
-import {
-  renderNotes,
-  createFilterType,
-  filterCategories,
-} from '../utils/index.js';
+import { renderNotes, filterCategories } from '../utils/index.js';
 
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
-import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
 import { ReactComponent as AddIcon } from '../../../assets/icons/shared/add.svg';
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
 import { ReactComponent as ArchiveIcon } from '../../../assets/icons/shared/archive.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
 
 import {
-  AddButton,
-  AddButtonSvg,
   CancelSearchSvg,
   MobItemButtonSvg,
   SearchField,
@@ -43,10 +36,13 @@ import {
 import { pages } from '../../../utils/constants/pages.js';
 import { InputAdornment, MenuItem } from '@mui/material';
 
-function CategoriesList({ notArchivedCategories, archiveCategory }) {
+function CategoriesList({
+  notArchivedCategories,
+  archiveCategory,
+  filterType,
+}) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const filterType = createFilterType(useParams().filterType);
   const [clickedCategory, setClickedCategory] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -68,13 +64,6 @@ function CategoriesList({ notArchivedCategories, archiveCategory }) {
           ),
         }}
       />
-      <AddButton
-        to={pages.categories.add[filterType === 'all' ? 'expense' : filterType]}
-      >
-        <AddButtonSvg as={PlusIcon} />
-        {t('CATEGORIES.ADD_CATEGORY')}
-      </AddButton>
-
       {filterCategories(filterType, notArchivedCategories).map(
         (category, index) => {
           let Icon = categoryIcons[category.icon];
@@ -172,6 +161,7 @@ function CategoriesList({ notArchivedCategories, archiveCategory }) {
 CategoriesList.propTypes = {
   notArchivedCategories: PropTypes.array,
   archiveCategory: PropTypes.func,
+  filterType: PropTypes.string,
 };
 
 export default CategoriesList;

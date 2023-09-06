@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { fetchCategoriesData, archiveCategory } from '../../actions/Actions.js';
-import { createLocaleCategories } from './utils/index.js';
+import { createFilterType, createLocaleCategories } from './utils/index.js';
 import CategoriesBar from './barChart/CategoriesBar.js';
 import CategoriesList from './list/CategoriesList.js';
 
@@ -14,6 +14,7 @@ import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.s
 import { ReactComponent as TrashIcon } from '../../assets/icons/shared/trash.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 import { ReactComponent as MobileFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
+import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
 
 import {
   MoreInformationContainer,
@@ -36,6 +37,9 @@ import {
   TrashCount,
   Filter,
   CustomTooltip,
+  AddButton,
+  AddButtonSvg,
+  AddSvg,
 } from '../../theme/global.js';
 import { pages } from '../../utils/constants/pages.js';
 import { Grid } from '@mui/material';
@@ -64,7 +68,7 @@ export default function Categories() {
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
-
+  const filterType = createFilterType(useParams().filterType);
   const notArchivedCategories = categories.filter(
     (category) => category.archived === false,
   );
@@ -93,10 +97,31 @@ export default function Categories() {
           <FilterSvg as={CalendarIcon} />
           {t('CATEGORIES.FILTER_DATE')}
         </Filter>
+        <Filter>
+          <AddButton
+            to={
+              pages.categories.add[
+                filterType === 'all' ? 'expense' : filterType
+              ]
+            }
+          >
+            <AddButtonSvg as={AddIcon} />
+            {t('CATEGORIES.ADD_CATEGORY')}
+          </AddButton>
+        </Filter>
         <FlexContainer>
           <CommonFilter>
             <FilterSvg as={CalendarIcon} />
             <FilterSvg as={MobileFilterIcon} />
+            <AddSvg
+              to={
+                pages.categories.add[
+                  filterType === 'all' ? 'expense' : filterType
+                ]
+              }
+            >
+              <FilterSvg as={AddIcon} />
+            </AddSvg>
           </CommonFilter>
           <CustomTooltip title={t('CATEGORIES.ARCHIVED')} arrow>
             <ArchivedTrash>
@@ -169,6 +194,7 @@ export default function Categories() {
         <CategoriesList
           notArchivedCategories={notArchivedCategories}
           archiveCategory={archiveCategory}
+          filterType={filterType}
         />
       </Grid>
     </>

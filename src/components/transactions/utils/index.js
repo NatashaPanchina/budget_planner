@@ -103,3 +103,25 @@ export function renderAccounts(accounts, t) {
     );
   });
 }
+
+//для транзакций нужно убрать s на конце, a для
+// all сделать по умолчанию expense
+export function createFiltertype(filterType) {
+  switch (filterType) {
+    case 'expenses':
+      return 'expense';
+    case 'incomes':
+      return 'income';
+    case 'transfers':
+      return 'transfer';
+    default:
+      return 'expense';
+  }
+}
+
+export function createFilterAccount(accounts, filterAccount) {
+  if (!accounts.length) return '';
+  return filterAccount === 'all'
+    ? accounts[0].id
+    : accounts.find((account) => account.id === filterAccount).id;
+}
