@@ -50,6 +50,7 @@ import { Grid, InputAdornment } from '@mui/material';
 
 import dayjs from 'dayjs';
 import { NumericFormatCustom } from '../../../utils/format/cash';
+import { toStringDate } from '../../../utils/format/date/index.js';
 
 function createNewBalance(prevTransaction, newTransaction, accounts) {
   const prevAccount = accounts.find(
@@ -123,7 +124,7 @@ const doneEventHandler = (
   category,
   account,
   amount,
-  date,
+  dateObj,
   notes,
   tags,
   prevTransaction,
@@ -133,6 +134,8 @@ const doneEventHandler = (
   dispatch,
 ) => {
   const newAmount = dineroFromFloat({ amount, currency: USD, scale: 2 });
+  const date = toStringDate(new Date(dateObj.format()));
+
   const newTransaction = {
     id,
     transactionType,
@@ -194,7 +197,7 @@ export default function InfoTransaction() {
   const [amount, setAmount] = useState(
     toDecimal(dinero({ amount: 0, currency: USD })),
   );
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState();
   const [tags, setTags] = useState([]);
 
@@ -236,7 +239,7 @@ export default function InfoTransaction() {
       setCategory(infoTransaction.category);
       setAccount(infoTransaction.account);
       setAmount(toDecimal(dinero(infoTransaction.amount)));
-      setDate(new Date(infoTransaction.date));
+      setDate(dayjs(new Date(infoTransaction.date)));
       setNotes(infoTransaction.notes);
       setTags(infoTransaction.tags);
     }
@@ -360,7 +363,7 @@ export default function InfoTransaction() {
         <DateField
           required
           label={t('INFO_TRANSACTION.DATE')}
-          defaultValue={dayjs(date)}
+          value={date}
           onChange={(value) => setDate(value)}
         />
         <TextInputField
@@ -388,7 +391,7 @@ export default function InfoTransaction() {
                 category,
                 account,
                 amount,
-                date.toISOString(),
+                date,
                 notes,
                 tags,
                 infoTransaction,

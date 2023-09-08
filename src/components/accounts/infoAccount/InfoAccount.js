@@ -53,6 +53,7 @@ import {
 import { pages } from '../../../utils/constants/pages.js';
 import { Grid, MenuItem } from '@mui/material';
 import dayjs from 'dayjs';
+import { toStringDate } from '../../../utils/format/date/index.js';
 
 const doneEventHandler = (
   clickedAccount,
@@ -62,12 +63,13 @@ const doneEventHandler = (
   currency,
   balance,
   selectedColor,
-  date,
+  dateObj,
   notes,
   tags,
   editAccount,
   dispatch,
 ) => {
+  const date = toStringDate(new Date(dateObj.format()));
   const newAccount = {
     id,
     archived: false,
@@ -104,7 +106,7 @@ export default function InfoAccount() {
     toDecimal(dinero({ amount: 0, currency: USD })),
   );
   const [selectedColor, setSelectedColor] = useState(colors.green[800]);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState(['']);
   const cashType = createAccountType(accountType);
@@ -131,7 +133,7 @@ export default function InfoAccount() {
       setCurrency(selectedAccount.currency);
       setBalance(toDecimal(dinero(selectedAccount.balance)));
       setSelectedColor(selectedAccount.color);
-      setDate(new Date(selectedAccount.date));
+      setDate(dayjs(new Date(selectedAccount.date)));
       setNotes(selectedAccount.notes);
       setTags(selectedAccount.tags);
     }
@@ -237,7 +239,7 @@ export default function InfoAccount() {
             <DateField
               required
               label={t('INFO_ACCOUNT.DATE')}
-              defaultValue={dayjs(date)}
+              value={date}
               onChange={(value) => setDate(value)}
             />
             <TextInputField
@@ -267,7 +269,7 @@ export default function InfoAccount() {
                     currency,
                     balance,
                     selectedColor,
-                    date.toISOString(),
+                    date,
                     notes,
                     tags,
                     editAccount,

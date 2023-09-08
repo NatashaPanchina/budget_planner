@@ -38,6 +38,7 @@ import { pages } from '../../../utils/constants/pages.js';
 import { Back, BackSvg } from '../AddCategory.styled.js';
 import { Grid } from '@mui/material';
 import dayjs from 'dayjs';
+import { toStringDate } from '../../../utils/format/date/index.js';
 
 const doneEventHandler = (
   selectedCategory,
@@ -46,12 +47,13 @@ const doneEventHandler = (
   description,
   selectedColor,
   icon,
-  date,
+  dateObj,
   notes,
   tags,
   editCategory,
   dispatch,
 ) => {
+  const date = toStringDate(new Date(dateObj.format()));
   const newCategory = {
     id,
     archived: false,
@@ -77,7 +79,7 @@ export default function InfoCategory() {
   const [description, setDescription] = useState('');
   const [selectedColor, setSelectedColor] = useState(colors.green[600]);
   const [icon, setIcon] = useState(0);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState(['']);
   const SelectedIcon = categoryIcons[icon];
@@ -104,7 +106,7 @@ export default function InfoCategory() {
       setDescription(infoCategory.description);
       setSelectedColor(infoCategory.color);
       setIcon(infoCategory.icon);
-      setDate(new Date(infoCategory.date));
+      setDate(dayjs(new Date(infoCategory.date)));
       setNotes(infoCategory.notes);
       setTags(infoCategory.tags);
     }
@@ -203,7 +205,7 @@ export default function InfoCategory() {
             <DateField
               required
               label={t('INFO_CATEGORY.DATE')}
-              defaultValue={dayjs(date)}
+              value={date}
               onChange={(value) => setDate(value)}
             />
             <TextInputField
@@ -232,7 +234,7 @@ export default function InfoCategory() {
                     description,
                     selectedColor,
                     icon,
-                    date.toISOString(),
+                    date,
                     notes,
                     tags,
                     editCategory,

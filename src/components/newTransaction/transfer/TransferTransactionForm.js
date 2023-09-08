@@ -38,7 +38,7 @@ function TransferTransactionForm({ accounts }) {
   const [amount, setAmount] = useState(
     toDecimal(dinero({ amount: 0, currency: USD })),
   );
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState([]);
 
@@ -132,7 +132,7 @@ function TransferTransactionForm({ accounts }) {
       <DateField
         required
         label={t('NEW_TRANSACTION.DATE')}
-        defaultValue={dayjs(date)}
+        value={date}
         onChange={(value) => setDate(value)}
       />
       <TextInputField

@@ -149,13 +149,6 @@ export const CashTitleLink = styled(NavLink)((props) => ({
   },
 }));
 
-export const CommonFilter = styled('span')(() => ({
-  display: 'flex',
-  '@media (min-width: 768px)': {
-    display: 'none',
-  },
-}));
-
 export const CashListItem = styled(FlexContainer)((props) => ({
   position: 'relative',
   justifyContent: 'center',

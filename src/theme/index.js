@@ -72,7 +72,7 @@ export const lightTheme = {
     MuiIconButton: {
       styleOverrides: {
         root: {
-          color: '#fff',
+          color: '#989393',
         },
       },
     },

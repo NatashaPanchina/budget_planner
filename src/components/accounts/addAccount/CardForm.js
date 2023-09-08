@@ -40,6 +40,7 @@ import {
 } from '../../../theme/global';
 import dayjs from 'dayjs';
 import { MenuItem } from '@mui/material';
+import { toStringDate } from '../../../utils/format/date';
 
 const doneEventHandler = (
   accountType,
@@ -47,12 +48,13 @@ const doneEventHandler = (
   currency,
   balance,
   selectedColor,
-  date,
+  dateObj,
   notes,
   tags,
   addNewAccount,
   dispatch,
 ) => {
+  const date = toStringDate(new Date(dateObj.format()));
   const newAccount = {
     id: uuidv4(),
     archived: false,
@@ -84,7 +86,7 @@ function CardForm({ accountType, addNewAccount }) {
     toDecimal(dinero({ amount: 0, currency: USD })),
   );
   const [selectedColor, setSelectedColor] = useState(colors.green[700]);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState(['']);
   const cashType = createAccountType(accountType);
@@ -173,7 +175,7 @@ function CardForm({ accountType, addNewAccount }) {
       <DateField
         required
         label={t('ADD_ACCOUNT.DATE')}
-        defaultValue={dayjs(date)}
+        value={date}
         onChange={(value) => setDate(value)}
       />
       <TextInputField
@@ -201,7 +203,7 @@ function CardForm({ accountType, addNewAccount }) {
               currency,
               balance,
               selectedColor,
-              date.toISOString(),
+              date,
               notes,
               tags,
               addNewAccount,

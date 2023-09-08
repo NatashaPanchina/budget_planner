@@ -6,19 +6,18 @@ import { useTranslation } from 'react-i18next';
 import { fetchAccountsData, archiveAccount } from '../../actions/Actions.js';
 import AccountsChart from './pieChart/AccountsChart.js';
 
-import { ReactComponent as CommonFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
 import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.svg';
 import { ReactComponent as TrashIcon } from '../../assets/icons/shared/trash.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
+import { ReactComponent as SortIcon } from '../../assets/icons/shared/sort.svg';
+import { ReactComponent as MobileFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
 
 import {
   MoreInformationContainer,
   CashTitleContainer,
   CashTitleLink,
   TotalBalance,
-  CommonFilter,
-  FlexContainer,
 } from './Accounts.styled.js';
 import {
   Header,
@@ -26,12 +25,15 @@ import {
   ArchivedTrash,
   TrashCount,
   Trash,
-  Filter,
   FilterSvg,
   CustomTooltip,
   AddButton,
-  AddButtonSvg,
-  AddSvg,
+  FilterButtonsContainer,
+  FilterButton,
+  FilterTitle,
+  FilterTooltip,
+  MobileFilterButton,
+  SortButtonsContainer,
 } from '../../theme/global.js';
 import { pages } from '../../utils/constants/pages.js';
 import { Grid } from '@mui/material';
@@ -59,40 +61,38 @@ export default function Cash() {
     <>
       <Header>
         <HeaderTitle>{t('ACCOUNTS.ACCOUNTS_TITLE')}</HeaderTitle>
-        <Filter>
-          <FilterSvg as={FilterIcon} />
-          {t('ACCOUNTS.FILTER_KEY')}
-        </Filter>
-        <Filter>
-          <FilterSvg as={CalendarIcon} />
-          {t('ACCOUNTS.FILTER_DATE')}
-        </Filter>
-        <Filter>
-          <AddButton
-            to={
-              pages.accounts.add[
-                filterAccount === 'all' ? 'card' : filterAccount
-              ]
-            }
-          >
-            <AddButtonSvg as={AddIcon} />
-            {t(`ACCOUNTS.ADD_ALL`)}
-          </AddButton>
-        </Filter>
-        <FlexContainer>
-          <CommonFilter>
-            <FilterSvg as={CalendarIcon} />
-            <FilterSvg as={CommonFilterIcon} />
-            <AddSvg
-              to={
-                pages.accounts.add[
-                  filterAccount === 'all' ? 'card' : filterAccount
-                ]
-              }
-            >
-              <FilterSvg as={AddIcon} />
-            </AddSvg>
-          </CommonFilter>
+        <FilterButtonsContainer>
+          <SortButtonsContainer>
+            <FilterButton>
+              <FilterSvg as={FilterIcon} />
+              <FilterTitle>{t('ACCOUNTS.FILTER_KEY')}</FilterTitle>
+            </FilterButton>
+            <FilterButton>
+              <FilterSvg as={CalendarIcon} />
+              <FilterTitle>{t('ACCOUNTS.FILTER_DATE')}</FilterTitle>
+            </FilterButton>
+            <FilterButton>
+              <FilterSvg as={SortIcon} />
+              <FilterTitle>Filter</FilterTitle>
+            </FilterButton>
+          </SortButtonsContainer>
+          <MobileFilterButton>
+            <FilterSvg as={MobileFilterIcon} />
+          </MobileFilterButton>
+          <FilterTooltip title={t(`ACCOUNTS.ADD_ALL`)} arrow>
+            <FilterButton>
+              <AddButton
+                to={
+                  pages.accounts.add[
+                    filterAccount === 'all' ? 'card' : filterAccount
+                  ]
+                }
+              >
+                <FilterSvg as={AddIcon} />
+                <FilterTitle>{t(`ACCOUNTS.ADD_ALL`)}</FilterTitle>
+              </AddButton>
+            </FilterButton>
+          </FilterTooltip>
           <CustomTooltip title={t('ACCOUNTS.ARCHIVED')} arrow>
             <ArchivedTrash>
               <NavLink to={pages.accounts.trash.main}>
@@ -101,7 +101,7 @@ export default function Cash() {
               </NavLink>
             </ArchivedTrash>
           </CustomTooltip>
-        </FlexContainer>
+        </FilterButtonsContainer>
       </Header>
       <Grid item xs={12} sm={12} md={4} lg={4}>
         <MoreInformationContainer>

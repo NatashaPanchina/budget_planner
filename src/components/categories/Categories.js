@@ -13,8 +13,9 @@ import { ReactComponent as IncomeIcon } from '../../assets/icons/shared/income.s
 import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.svg';
 import { ReactComponent as TrashIcon } from '../../assets/icons/shared/trash.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
-import { ReactComponent as MobileFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
 import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
+import { ReactComponent as SortIcon } from '../../assets/icons/shared/sort.svg';
+import { ReactComponent as MobileFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
 
 import {
   MoreInformationContainer,
@@ -23,8 +24,6 @@ import {
   BarChartInfoItem,
   CategoriesTitleContainer,
   CategoriesTitleLink,
-  CommonFilter,
-  FlexContainer,
   IncomeSvg,
   ExpenseSvg,
 } from './Categories.styled.js';
@@ -35,11 +34,14 @@ import {
   FilterSvg,
   Trash,
   TrashCount,
-  Filter,
   CustomTooltip,
   AddButton,
-  AddButtonSvg,
-  AddSvg,
+  FilterButtonsContainer,
+  FilterButton,
+  FilterTitle,
+  FilterTooltip,
+  MobileFilterButton,
+  SortButtonsContainer,
 } from '../../theme/global.js';
 import { pages } from '../../utils/constants/pages.js';
 import { Grid } from '@mui/material';
@@ -89,40 +91,38 @@ export default function Categories() {
     <>
       <Header>
         <HeaderTitle>{t('CATEGORIES.CATEGORIES_TITLE')}</HeaderTitle>
-        <Filter>
-          <FilterSvg as={FilterIcon} />
-          {t('CATEGORIES.FILTER_KEY')}
-        </Filter>
-        <Filter>
-          <FilterSvg as={CalendarIcon} />
-          {t('CATEGORIES.FILTER_DATE')}
-        </Filter>
-        <Filter>
-          <AddButton
-            to={
-              pages.categories.add[
-                filterType === 'all' ? 'expense' : filterType
-              ]
-            }
-          >
-            <AddButtonSvg as={AddIcon} />
-            {t('CATEGORIES.ADD_CATEGORY')}
-          </AddButton>
-        </Filter>
-        <FlexContainer>
-          <CommonFilter>
-            <FilterSvg as={CalendarIcon} />
+        <FilterButtonsContainer>
+          <SortButtonsContainer>
+            <FilterButton>
+              <FilterSvg as={FilterIcon} />
+              <FilterTitle>{t('CATEGORIES.FILTER_KEY')}</FilterTitle>
+            </FilterButton>
+            <FilterButton>
+              <FilterSvg as={CalendarIcon} />
+              <FilterTitle>{t('CATEGORIES.FILTER_DATE')}</FilterTitle>
+            </FilterButton>
+            <FilterButton>
+              <FilterSvg as={SortIcon} />
+              <FilterTitle>Filter</FilterTitle>
+            </FilterButton>
+          </SortButtonsContainer>
+          <MobileFilterButton>
             <FilterSvg as={MobileFilterIcon} />
-            <AddSvg
-              to={
-                pages.categories.add[
-                  filterType === 'all' ? 'expense' : filterType
-                ]
-              }
-            >
-              <FilterSvg as={AddIcon} />
-            </AddSvg>
-          </CommonFilter>
+          </MobileFilterButton>
+          <FilterTooltip title={t('CATEGORIES.ADD_CATEGORY')} arrow>
+            <FilterButton>
+              <AddButton
+                to={
+                  pages.categories.add[
+                    filterType === 'all' ? 'expense' : filterType
+                  ]
+                }
+              >
+                <FilterSvg as={AddIcon} />
+                <FilterTitle>{t('CATEGORIES.ADD_CATEGORY')}</FilterTitle>
+              </AddButton>
+            </FilterButton>
+          </FilterTooltip>
           <CustomTooltip title={t('CATEGORIES.ARCHIVED')} arrow>
             <ArchivedTrash>
               <NavLink to={pages.categories.trash.main}>
@@ -131,7 +131,7 @@ export default function Categories() {
               </NavLink>
             </ArchivedTrash>
           </CustomTooltip>
-        </FlexContainer>
+        </FilterButtonsContainer>
       </Header>
       <Grid item xs={12} sm={12} md={3} lg={3}>
         <MoreInformationContainer>

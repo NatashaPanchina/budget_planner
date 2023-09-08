@@ -165,13 +165,6 @@ export const IncomeSvg = styled(Svg)((props) => ({
   )})`,
 }));
 
-export const CommonFilter = styled('span')(() => ({
-  display: 'flex',
-  '@media (min-width: 768px)': {
-    display: 'none',
-  },
-}));
-
 export const CategoriesTitleContainer = styled(FlexContainer)((props) => ({
   marginBottom: props.theme.spacing(4),
   borderBottom: `1px solid ${props.theme.colors.border.title}`,

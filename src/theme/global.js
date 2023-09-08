@@ -63,12 +63,10 @@ export const inputGlobalStyles = (
   />
 );
 
-export const ArchivedTrash = styled('div')((props) => ({
+export const ArchivedTrash = styled('div')(() => ({
   position: 'relative',
-  marginLeft: props.theme.spacing(5),
   '@media (min-width: 768px)': {
     display: 'flex',
-    position: 'absolute',
     right: 0,
   },
 }));
@@ -139,11 +137,13 @@ export const CancelSearchSvg = styled('svg')(() => ({
 }));
 
 export const AddButton = styled(Link)((props) => ({
-  width: '100%',
   display: 'flex',
   alignItems: 'center',
   color: 'inherit',
   fill: props.theme.colors.main.violet,
+  '@media (min-width: 1000px)': {
+    width: '100%',
+  },
 }));
 
 export const AddButtonSvg = styled('svg')((props) => ({
@@ -152,12 +152,6 @@ export const AddButtonSvg = styled('svg')((props) => ({
   fill: 'inherit',
   '& path': {
     fill: 'inherit',
-  },
-}));
-
-export const AddSvg = styled(Link)(() => ({
-  '@media (min-width: 768px)': {
-    display: 'none',
   },
 }));
 
@@ -530,33 +524,79 @@ export const ButtonSvg = styled('svg')(() => ({
   },
 }));
 
-export const Filter = styled('div')((props) => ({
-  display: 'none',
+export const FilterButtonsContainer = styled('div')(() => ({
+  display: 'flex',
   '@media (min-width: 768px)': {
-    cursor: 'pointer',
+    position: 'absolute',
+    right: 0,
+  },
+  '@media (min-width: 1000px)': {
+    position: 'static',
+  },
+}));
+
+export const SortButtonsContainer = styled('div')(() => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
     display: 'flex',
-    alignItems: 'center',
-    backgroundColor: props.theme.colors.background.primary,
-    boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
-    borderRadius: props.theme.borderRadius * 1.5,
-    height: 'fit-content',
-    padding: props.theme.spacing(2),
-    marginRight: props.theme.spacing(14),
-    fontSize: '0.875rem',
+  },
+}));
+
+export const MobileFilterButton = styled('div')((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: 35,
+  width: 35,
+  marginRight: props.theme.spacing(2),
+  backgroundColor: props.theme.colors.background.primary,
+  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
+  borderRadius: '50%',
+  '@media (min-width: 600px)': {
+    display: 'none',
+  },
+}));
+
+export const FilterButton = styled('div')((props) => ({
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: 35,
+  width: 35,
+  marginRight: props.theme.spacing(2),
+  backgroundColor: props.theme.colors.background.primary,
+  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
+  borderRadius: '50%',
+  '@media (min-width: 600px)': {
+    marginRight: props.theme.spacing(5),
     color: props.theme.colors.text.ordinary,
     '&:hover': {
-      color: props.theme.colors.main.violet,
+      color: props.theme.colors.text.primary,
       boxShadow: `0px 4px 10px ${alpha(props.theme.colors.main.violet, 0.2)}`,
       transition: 'all 0.3s ease-out',
     },
+  },
+  '@media (min-width: 1000px)': {
+    borderRadius: props.theme.borderRadius * 1.5,
+    height: 'fit-content',
+    width: 'fit-content',
+    padding: props.theme.spacing(2),
+  },
+}));
+
+export const FilterTitle = styled('span')(() => ({
+  display: 'none',
+  '@media (min-width: 1000px)': {
+    display: 'flex',
+    fontSize: '0.875rem',
   },
 }));
 
 export const FilterSvg = styled('svg')((props) => ({
   height: 22,
   width: 22,
-  marginLeft: props.theme.spacing(5),
-  '@media (min-width: 768px)': {
+  '@media (min-width: 600px)': {
     height: 18,
     width: 18,
     margin: `0px ${props.theme.spacing(1)}`,
@@ -593,6 +633,12 @@ export const CustomTooltip = styled(({ className, ...props }) => (
     },
   },
   '@media (min-width: 1200px)': {
+    display: 'none',
+  },
+}));
+
+export const FilterTooltip = styled(CustomTooltip)(() => ({
+  '@media (min-width: 1000px)': {
     display: 'none',
   },
 }));

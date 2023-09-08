@@ -1,3 +1,5 @@
+import { toStringDate } from '../date';
+
 export const filterQuery = (query, accounts, categories) => {
   //delete spaces from the start and the end
   const data = query.replaceAll(/^ +/g, '').replaceAll(/ +$/g, '');
@@ -10,14 +12,16 @@ export const filterQuery = (query, accounts, categories) => {
     result = result.replace(/(\d{1,2})\.(\d{1,2})\.(\d{4})/, '$2/$1/$3');
     //is valid date
     if (!isNaN(Date.parse(result))) {
-      return new Date(result).toISOString();
+      result = toStringDate(new Date(result));
+      return result;
     }
   }
   //11/1/2023 or 11-1-2023
   if (/^\d{1,2}[-/]\d{1,2}[-/]\d{4}$/.test(data)) {
     //is valid date
     if (!isNaN(Date.parse(data))) {
-      return new Date(result).toISOString();
+      result = toStringDate(new Date(data));
+      return result;
     }
   }
 

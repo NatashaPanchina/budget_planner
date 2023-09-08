@@ -14,19 +14,22 @@ import {
 } from '../../actions/Actions';
 
 import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.svg';
+import { ReactComponent as SortIcon } from '../../assets/icons/shared/sort.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
-import { ReactComponent as MobileFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
 import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
+import { ReactComponent as MobileFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
 
 import {
   Header,
   HeaderTitle,
-  CommonFilter,
-  Filter,
   FilterSvg,
-  AddButtonSvg,
   AddButton,
-  AddSvg,
+  FilterButton,
+  FilterTitle,
+  FilterButtonsContainer,
+  FilterTooltip,
+  SortButtonsContainer,
+  MobileFilterButton,
 } from '../../theme/global.js';
 import { useParams } from 'react-router-dom';
 import { pages } from '../../utils/constants/pages.js';
@@ -78,31 +81,35 @@ export default function Transactions() {
     <>
       <Header>
         <HeaderTitle>{t('TRANSACTIONS.TRANSACTIONS_HEADER')}</HeaderTitle>
-        <Filter>
-          <FilterSvg as={FilterIcon} />
-          {t('TRANSACTIONS.FILTER_KEY')}
-        </Filter>
-        <Filter>
-          <FilterSvg as={CalendarIcon} />
-          {t('TRANSACTIONS.FILTER_DATE')}
-        </Filter>
-        <Filter>
-          <AddButton
-            to={`${pages.newTransaction[transactionsType]}/${transactionsAccount}`}
-          >
-            <AddButtonSvg as={AddIcon} />
-            {t('TRANSACTIONS.NEW_TRANSACTION')}
-          </AddButton>
-        </Filter>
-        <CommonFilter>
-          <FilterSvg as={CalendarIcon} />
-          <FilterSvg as={MobileFilterIcon} />
-          <AddSvg
-            to={`${pages.newTransaction[transactionsType]}/${transactionsAccount}`}
-          >
-            <FilterSvg as={AddIcon} />
-          </AddSvg>
-        </CommonFilter>
+        <FilterButtonsContainer>
+          <SortButtonsContainer>
+            <FilterButton>
+              <FilterSvg as={FilterIcon} />
+              <FilterTitle>{t('TRANSACTIONS.FILTER_KEY')}</FilterTitle>
+            </FilterButton>
+            <FilterButton>
+              <FilterSvg as={CalendarIcon} />
+              <FilterTitle>{t('TRANSACTIONS.FILTER_DATE')}</FilterTitle>
+            </FilterButton>
+            <FilterButton>
+              <FilterSvg as={SortIcon} />
+              <FilterTitle>Filter</FilterTitle>
+            </FilterButton>
+          </SortButtonsContainer>
+          <MobileFilterButton>
+            <FilterSvg as={MobileFilterIcon} />
+          </MobileFilterButton>
+          <FilterTooltip title={t('TRANSACTIONS.NEW_TRANSACTION')} arrow>
+            <FilterButton>
+              <AddButton
+                to={`${pages.newTransaction[transactionsType]}/${transactionsAccount}`}
+              >
+                <FilterSvg as={AddIcon} />
+                <FilterTitle>{t('TRANSACTIONS.NEW_TRANSACTION')}</FilterTitle>
+              </AddButton>
+            </FilterButton>
+          </FilterTooltip>
+        </FilterButtonsContainer>
       </Header>
       <Grid item xs={12} sm={12} md={3} lg={3}>
         <AccountsSlider
