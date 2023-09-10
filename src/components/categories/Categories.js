@@ -15,7 +15,6 @@ import { ReactComponent as TrashIcon } from '../../assets/icons/shared/trash.svg
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
 import { ReactComponent as SortIcon } from '../../assets/icons/shared/sort.svg';
-import { ReactComponent as MobileFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
 
 import {
   MoreInformationContainer,
@@ -107,21 +106,19 @@ export default function Categories() {
             </FilterButton>
           </SortButtonsContainer>
           <MobileFilterButton>
-            <FilterSvg as={MobileFilterIcon} />
+            <FilterSvg as={FilterIcon} />
           </MobileFilterButton>
           <FilterTooltip title={t('CATEGORIES.ADD_CATEGORY')} arrow>
-            <FilterButton>
-              <AddButton
-                to={
-                  pages.categories.add[
-                    filterType === 'all' ? 'expense' : filterType
-                  ]
-                }
-              >
-                <FilterSvg as={AddIcon} />
-                <FilterTitle>{t('CATEGORIES.ADD_CATEGORY')}</FilterTitle>
-              </AddButton>
-            </FilterButton>
+            <AddButton
+              to={
+                pages.categories.add[
+                  filterType === 'all' ? 'expense' : filterType
+                ]
+              }
+            >
+              <FilterSvg as={AddIcon} />
+              <FilterTitle>{t('CATEGORIES.ADD_CATEGORY')}</FilterTitle>
+            </AddButton>
           </FilterTooltip>
           <CustomTooltip title={t('CATEGORIES.ARCHIVED')} arrow>
             <ArchivedTrash>

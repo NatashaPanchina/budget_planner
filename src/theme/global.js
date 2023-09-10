@@ -139,10 +139,34 @@ export const CancelSearchSvg = styled('svg')(() => ({
 export const AddButton = styled(Link)((props) => ({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'center',
   color: 'inherit',
-  fill: props.theme.colors.main.violet,
+  fill: props.theme.colors.white,
+  cursor: 'pointer',
+  height: 35,
+  width: 35,
+  marginRight: props.theme.spacing(2),
+  background: `linear-gradient(to bottom right, ${props.theme.colors.linear.main.from}, ${props.theme.colors.linear.main.to})`,
+  boxShadow: `0px 5px 15px ${alpha(props.theme.colors.linear.main.to, 0.2)}`,
+  borderRadius: '50%',
+  '@media (min-width: 600px)': {
+    opacity: 0.8,
+    marginRight: props.theme.spacing(5),
+    color: props.theme.colors.white,
+    '&:hover': {
+      opacity: 1,
+      boxShadow: `0px 4px 10px ${alpha(
+        props.theme.colors.linear.main.to,
+        0.4,
+      )}`,
+      transition: 'all 0.3s ease-out',
+    },
+  },
   '@media (min-width: 1000px)': {
-    width: '100%',
+    borderRadius: props.theme.borderRadius * 1.5,
+    height: 'fit-content',
+    width: 'fit-content',
+    padding: props.theme.spacing(2),
   },
 }));
 
@@ -552,6 +576,7 @@ export const MobileFilterButton = styled('div')((props) => ({
   backgroundColor: props.theme.colors.background.primary,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   borderRadius: '50%',
+  fill: props.theme.colors.main.violet,
   '@media (min-width: 600px)': {
     display: 'none',
   },
@@ -568,9 +593,10 @@ export const FilterButton = styled('div')((props) => ({
   backgroundColor: props.theme.colors.background.primary,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   borderRadius: '50%',
+  fill: props.theme.colors.main.violet,
   '@media (min-width: 600px)': {
     marginRight: props.theme.spacing(5),
-    color: props.theme.colors.text.ordinary,
+    color: props.theme.colors.text.darker,
     '&:hover': {
       color: props.theme.colors.text.primary,
       boxShadow: `0px 4px 10px ${alpha(props.theme.colors.main.violet, 0.2)}`,
@@ -596,17 +622,14 @@ export const FilterTitle = styled('span')(() => ({
 export const FilterSvg = styled('svg')((props) => ({
   height: 22,
   width: 22,
+  fill: 'inherit',
+  '& path': {
+    fill: 'inherit',
+  },
   '@media (min-width: 600px)': {
     height: 18,
     width: 18,
     margin: `0px ${props.theme.spacing(1)}`,
-  },
-}));
-
-export const CommonFilter = styled('span')(() => ({
-  display: 'flex',
-  '@media (min-width: 768px)': {
-    display: 'none',
   },
 }));
 

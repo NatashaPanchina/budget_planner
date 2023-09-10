@@ -11,7 +11,6 @@ import { ReactComponent as TrashIcon } from '../../assets/icons/shared/trash.svg
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
 import { ReactComponent as SortIcon } from '../../assets/icons/shared/sort.svg';
-import { ReactComponent as MobileFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
 
 import {
   MoreInformationContainer,
@@ -77,21 +76,19 @@ export default function Cash() {
             </FilterButton>
           </SortButtonsContainer>
           <MobileFilterButton>
-            <FilterSvg as={MobileFilterIcon} />
+            <FilterSvg as={FilterIcon} />
           </MobileFilterButton>
           <FilterTooltip title={t(`ACCOUNTS.ADD_ALL`)} arrow>
-            <FilterButton>
-              <AddButton
-                to={
-                  pages.accounts.add[
-                    filterAccount === 'all' ? 'card' : filterAccount
-                  ]
-                }
-              >
-                <FilterSvg as={AddIcon} />
-                <FilterTitle>{t(`ACCOUNTS.ADD_ALL`)}</FilterTitle>
-              </AddButton>
-            </FilterButton>
+            <AddButton
+              to={
+                pages.accounts.add[
+                  filterAccount === 'all' ? 'card' : filterAccount
+                ]
+              }
+            >
+              <FilterSvg as={AddIcon} />
+              <FilterTitle>{t(`ACCOUNTS.ADD_ALL`)}</FilterTitle>
+            </AddButton>
           </FilterTooltip>
           <CustomTooltip title={t('ACCOUNTS.ARCHIVED')} arrow>
             <ArchivedTrash>

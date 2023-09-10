@@ -17,7 +17,6 @@ import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.s
 import { ReactComponent as SortIcon } from '../../assets/icons/shared/sort.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
-import { ReactComponent as MobileFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
 
 import {
   Header,
@@ -97,17 +96,15 @@ export default function Transactions() {
             </FilterButton>
           </SortButtonsContainer>
           <MobileFilterButton>
-            <FilterSvg as={MobileFilterIcon} />
+            <FilterSvg as={FilterIcon} />
           </MobileFilterButton>
           <FilterTooltip title={t('TRANSACTIONS.NEW_TRANSACTION')} arrow>
-            <FilterButton>
-              <AddButton
-                to={`${pages.newTransaction[transactionsType]}/${transactionsAccount}`}
-              >
-                <FilterSvg as={AddIcon} />
-                <FilterTitle>{t('TRANSACTIONS.NEW_TRANSACTION')}</FilterTitle>
-              </AddButton>
-            </FilterButton>
+            <AddButton
+              to={`${pages.newTransaction[transactionsType]}/${transactionsAccount}`}
+            >
+              <FilterSvg as={AddIcon} />
+              <FilterTitle>{t('TRANSACTIONS.NEW_TRANSACTION')}</FilterTitle>
+            </AddButton>
           </FilterTooltip>
         </FilterButtonsContainer>
       </Header>

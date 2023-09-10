@@ -115,7 +115,6 @@ export const ThemeContainer = styled(FlexContainer)(() => ({
 export const Container = styled(FlexContainer)((props) => ({
   justifyContent: 'center',
   width: '33.3%',
-  cursor: 'pointer',
   color: props.theme.colors.text.primary,
   '@media (min-width: 1200px)': {
     width: '25%',
@@ -123,6 +122,7 @@ export const Container = styled(FlexContainer)((props) => ({
 }));
 
 export const CurrentLng = styled('div')((props) => ({
+  cursor: 'pointer',
   '&:hover': {
     color: props.theme.colors.text.primary,
   },
@@ -148,9 +148,11 @@ export const LanguagesMenuItem = styled('div')((props) => ({
 export const Svg = styled('svg')(() => ({
   height: 30,
   width: 30,
+  cursor: 'pointer',
 }));
 
 export const SvgMode = styled(Svg)((props) => ({
+  cursor: 'pointer',
   '&:hover circle': {
     fill: props.theme.colors.background.ordinary,
     transition: 'fill 0.4s ease-out',

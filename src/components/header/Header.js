@@ -153,13 +153,15 @@ export default function Header() {
           </Grid>
           <Grid item sm={3} md={3} lg={2}>
             <ThemeContainer>
-              <Container
-                onClick={(event) => {
-                  languageRef.current.classList.toggle('none');
-                  event.stopPropagation();
-                }}
-              >
-                <CurrentLng>{language}</CurrentLng>
+              <Container>
+                <CurrentLng
+                  onClick={(event) => {
+                    languageRef.current.classList.toggle('none');
+                    event.stopPropagation();
+                  }}
+                >
+                  {language}
+                </CurrentLng>
                 <LanguagesMenu ref={languageRef} className="none">
                   {renderLanguagesMenu(languages, setLanguage, dispatch)}
                 </LanguagesMenu>
@@ -171,23 +173,22 @@ export default function Header() {
                   <Svg as={CurrencyDollarIcon} />
                 )}
               </Container>
-              <Container
-                onClick={() => {
-                  setHeaderMode(
-                    headerMode === mode.light ? mode.dark : mode.light,
-                  );
-                  localStorage.setItem(
-                    'mode',
-                    headerMode === mode.light ? mode.dark : mode.light,
-                  );
-                  dispatch(
-                    changeMode(
-                      headerMode === mode.light ? mode.dark : mode.light,
-                    ),
-                  );
-                }}
-              >
+              <Container>
                 <SvgMode
+                  onClick={() => {
+                    setHeaderMode(
+                      headerMode === mode.light ? mode.dark : mode.light,
+                    );
+                    localStorage.setItem(
+                      'mode',
+                      headerMode === mode.light ? mode.dark : mode.light,
+                    );
+                    dispatch(
+                      changeMode(
+                        headerMode === mode.light ? mode.dark : mode.light,
+                      ),
+                    );
+                  }}
                   as={headerMode === mode.light ? DarkModeIcon : LightModeIcon}
                 />
               </Container>
