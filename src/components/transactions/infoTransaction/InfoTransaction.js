@@ -142,6 +142,7 @@ const doneEventHandler = (
     category,
     account,
     amount: toSnapshot(newAmount),
+    formatAmount: toDecimal(newAmount),
     date,
     notes,
     tags,

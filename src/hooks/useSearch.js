@@ -7,21 +7,14 @@ import {
   filterByType,
 } from '../components/transactions/list/utils';
 
-export const useTransactionsSearch = (
-  query,
-  accounts,
-  categories,
-  transactions,
-) => {
+export const useTransactionsSearch = (query, transactions) => {
   const { filterAccount, filterType } = useParams();
   const [filteredTransactions, setFilteredTransactions] = useState([]);
 
   useEffect(() => {
-    if (query) {
-      idbSearchItems(
-        filterQuery(query, accounts, categories),
-        'transactions',
-      ).then((result) => {
+    const filtered = filterQuery(query);
+    if (filtered) {
+      idbSearchItems(filtered, 'transactions').then((result) => {
         setFilteredTransactions(
           filterByType(filterByAccounts(result, filterAccount), filterType),
         );

@@ -163,14 +163,18 @@ function IncomeTransactionForm({
         <DoneButton
           to={`${pages.transactions[`${transactionType}s`]}/all`}
           onClick={() => {
+            const newAmount = dineroFromFloat({
+              amount,
+              currency: USD,
+              scale: 2,
+            });
             const newTransaction = {
               id: uuidv4(),
               transactionType,
               category,
               account,
-              amount: toSnapshot(
-                dineroFromFloat({ amount, currency: USD, scale: 2 }),
-              ),
+              amount: toSnapshot(newAmount),
+              formatAmount: toDecimal(newAmount),
               date: toStringDate(new Date(date.format())),
               notes,
               tags,
@@ -181,12 +185,7 @@ function IncomeTransactionForm({
               (filteredAccount) => filteredAccount.id === account,
             );
             const previousBalance = dinero(transactionAccount.balance);
-            const newBalance = toSnapshot(
-              add(
-                previousBalance,
-                dineroFromFloat({ amount, currency: USD, scale: 2 }),
-              ),
-            );
+            const newBalance = toSnapshot(add(previousBalance, newAmount));
             dispatch(
               editAccount(transactionAccount.id, {
                 ...transactionAccount,

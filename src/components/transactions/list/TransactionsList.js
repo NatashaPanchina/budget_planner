@@ -88,12 +88,7 @@ function TransactionsList({
   const open = Boolean(anchorEl);
   const [query, setQuery] = useState('');
 
-  const searchData = useTransactionsSearch(
-    query,
-    accounts,
-    categories,
-    transactions,
-  );
+  const searchData = useTransactionsSearch(query, transactions);
 
   return (
     <>
