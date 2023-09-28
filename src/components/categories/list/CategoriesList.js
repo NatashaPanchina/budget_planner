@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 import { categoryIcons } from '../../../utils/constants/icons.js';
-import { renderNotes, filterCategories } from '../utils/index.js';
+import { renderNotes } from '../utils/index.js';
 
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
@@ -14,10 +14,14 @@ import { ReactComponent as AddIcon } from '../../../assets/icons/shared/add.svg'
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
 import { ReactComponent as ArchiveIcon } from '../../../assets/icons/shared/archive.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
+import { ReactComponent as NoResults } from '../../../assets/icons/shared/noResults.svg';
 
 import {
   CancelSearchSvg,
   MobItemButtonSvg,
+  NoSearchResults,
+  NoSearchResultsContainer,
+  NoSearchResultsSvg,
   SearchField,
   ToggleMenu,
 } from '../../../theme/global.js';
@@ -35,37 +39,38 @@ import {
 } from '../Categories.styled.js';
 import { pages } from '../../../utils/constants/pages.js';
 import { InputAdornment, MenuItem } from '@mui/material';
+import { useCategoriesSearch } from '../../../hooks/useSearch.js';
 
-function CategoriesList({
-  notArchivedCategories,
-  archiveCategory,
-  filterType,
-}) {
+function CategoriesList({ categories, archiveCategory }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [clickedCategory, setClickedCategory] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [query, setQuery] = useState('');
 
+  const searchData = useCategoriesSearch(query, categories, false);
   return (
     <>
       <SearchField
         placeholder={t('CATEGORIES.SEARCH_CATEGORY')}
+        value={query}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
               <SearchIcon />
             </InputAdornment>
           ),
-          endAdornment: (
-            <InputAdornment position="end">
+          endAdornment: query ? (
+            <InputAdornment position="end" onClick={() => setQuery('')}>
               <CancelSearchSvg as={CancelSearchIcon} />
             </InputAdornment>
-          ),
+          ) : null,
         }}
+        onChange={(event) => setQuery(event.target.value)}
       />
-      {filterCategories(filterType, notArchivedCategories).map(
-        (category, index) => {
+      {searchData.length ? (
+        searchData.map((category, index) => {
           let Icon = categoryIcons[category.icon];
           return (
             <React.Fragment key={category.id}>
@@ -152,14 +157,24 @@ function CategoriesList({
               </ListItemContainer>
             </React.Fragment>
           );
-        },
+        })
+      ) : (
+        <NoSearchResults>
+          <NoSearchResultsContainer>
+            <div>
+              <NoSearchResultsSvg as={NoResults} />
+            </div>
+            <div>{`${t('SEARCH.NO_RESULTS')} "${query}"`}</div>
+          </NoSearchResultsContainer>
+        </NoSearchResults>
       )}
+      {}
     </>
   );
 }
 
 CategoriesList.propTypes = {
-  notArchivedCategories: PropTypes.array,
+  categories: PropTypes.array,
   archiveCategory: PropTypes.func,
   filterType: PropTypes.string,
 };

@@ -11,7 +11,6 @@ import {
   changeLanguage,
   changeMode,
 } from '../../actions/Actions';
-import { hideElement, useOutsideClick } from '../../hooks/useOutsideClick';
 
 import { ReactComponent as LogoCatIcon } from '../../assets/icons/navigation/logoCat.svg';
 import { ReactComponent as LogoTitleIcon } from '../../assets/icons/navigation/logoTitle.svg';
@@ -34,28 +33,20 @@ import {
   GlobalSearchImg,
   ThemeContainer,
   Container,
-  CurrentLng,
-  LanguagesMenu,
   LanguagesMenuItem,
   Svg,
   SvgMode,
   Profile,
   LogOut,
   Username,
+  LanguagesMenu,
 } from './Header.styled';
 import { languages } from '../../utils/constants/languages';
 import { mode } from '../../utils/constants/mode';
 
-function renderLanguagesMenu(languages, setLanguage, dispatch) {
+function renderLanguagesMenu(languages) {
   return languages.map((language, index) => (
-    <LanguagesMenuItem
-      key={index}
-      onClick={() => {
-        setLanguage(language);
-        localStorage.setItem('language', language);
-        dispatch(changeLanguage(language));
-      }}
-    >
+    <LanguagesMenuItem key={index} value={language}>
       {language}
     </LanguagesMenuItem>
   ));
@@ -86,20 +77,16 @@ export default function Header() {
       paddingRight: 6,
     },
   };
-
   const header = useSelector((state) => state.header);
   const dispatch = useDispatch();
-
   const [headerTitle, setHeaderTitle] = useState('');
   const [id, setId] = useState('');
   const [username, setUsername] = useState('User');
   const [language, setLanguage] = useState(header.language);
   const [currency, setCurrency] = useState('$');
   const [headerMode, setHeaderMode] = useState(header.mode);
-
   const { t } = useTranslation();
   const location = useLocation();
-  const languageRef = useOutsideClick(hideElement);
 
   const titles = renderHeaderTitles(t);
   const path = location.pathname.match(/\/(\w)*/)[0];
@@ -154,16 +141,17 @@ export default function Header() {
           <Grid item sm={3} md={3} lg={2}>
             <ThemeContainer>
               <Container>
-                <CurrentLng
-                  onClick={(event) => {
-                    languageRef.current.classList.toggle('none');
-                    event.stopPropagation();
+                <LanguagesMenu
+                  select
+                  value={language}
+                  onChange={(event) => {
+                    const newLanguage = event.target.value;
+                    setLanguage(newLanguage);
+                    localStorage.setItem('language', newLanguage);
+                    dispatch(changeLanguage(newLanguage));
                   }}
                 >
-                  {language}
-                </CurrentLng>
-                <LanguagesMenu ref={languageRef} className="none">
-                  {renderLanguagesMenu(languages, setLanguage, dispatch)}
+                  {renderLanguagesMenu(languages)}
                 </LanguagesMenu>
               </Container>
               <Container>

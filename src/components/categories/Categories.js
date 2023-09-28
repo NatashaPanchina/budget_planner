@@ -189,9 +189,8 @@ export default function Categories() {
           </CategoriesTitleLink>
         </CategoriesTitleContainer>
         <CategoriesList
-          notArchivedCategories={notArchivedCategories}
+          categories={categories}
           archiveCategory={archiveCategory}
-          filterType={filterType}
         />
       </Grid>
     </>

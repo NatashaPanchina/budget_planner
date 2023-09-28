@@ -1,4 +1,5 @@
-import { styled } from '@mui/material';
+import { MenuItem, alpha, styled } from '@mui/material';
+import { TextInputField } from '../../theme/global';
 
 export const FlexContainer = styled('div')(() => ({
   display: 'flex',
@@ -121,28 +122,38 @@ export const Container = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const CurrentLng = styled('div')((props) => ({
-  cursor: 'pointer',
-  '&:hover': {
-    color: props.theme.colors.text.primary,
+export const LanguagesMenu = styled(TextInputField)((props) => ({
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      border: `1px solid ${props.theme.colors.background.primary}`,
+      padding: 0,
+      boxShadow: 'none',
+    },
+    '&:hover fieldset': {
+      border: `1px solid ${props.theme.colors.background.primary}`,
+    },
+    '&.Mui-focused fieldset': {
+      border: `1px solid ${props.theme.colors.background.primary}`,
+    },
+    '& .MuiSelect-icon': {
+      display: 'none',
+    },
+    '& .MuiInputBase-input': {
+      paddingLeft: 0,
+      paddingRight: '0px !important',
+      display: 'flex',
+      justifyContent: 'center',
+      '&:hover': {
+        color: alpha(props.theme.colors.text.primary, 0.7),
+      },
+    },
   },
 }));
 
-export const LanguagesMenu = styled('div')((props) => ({
-  position: 'absolute',
-  top: props.theme.spacing(14),
-  zIndex: 10,
+export const LanguagesMenuItem = styled(MenuItem)((props) => ({
+  borderRadius: props.theme.borderRadius,
   backgroundColor: props.theme.colors.background.primary,
-  padding: props.theme.spacing(2),
-  border: `1px solid ${props.theme.colors.border.ordinary}`,
-  cursor: 'pointer',
-}));
-
-export const LanguagesMenuItem = styled('div')((props) => ({
-  padding: props.theme.spacing(2),
-  '&:hover': {
-    color: props.theme.colors.text.darker,
-  },
+  color: props.theme.colors.text.primary,
 }));
 
 export const Svg = styled('svg')(() => ({

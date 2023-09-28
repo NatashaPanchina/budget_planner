@@ -13,6 +13,7 @@
         "type": "card",
         "description": "Sberbank",
         "currency": "USD",
+        "formatBalance": "2500.00",
         "balance": {
           "amount": 250000,
           "currency": {
@@ -38,6 +39,7 @@
         "type": "cash",
         "description": "Wallet",
         "currency": "USD",
+        "formatBalance": "900.70",
         "balance": {
           "amount": 90070,
           "currency": {

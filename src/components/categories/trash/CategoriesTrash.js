@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import {
-  createFilterType,
-  createLocaleCategories,
-  filterCategories,
-  renderNotes,
-} from '../utils';
+import { createLocaleCategories, renderNotes } from '../utils';
 import { idbAddItem, idbDeleteItem } from '../../../indexedDB/IndexedDB';
 import {
   fetchCategoriesData,
@@ -24,6 +18,8 @@ import { ReactComponent as RestoreIcon } from '../../../assets/icons/shared/rest
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delete.svg';
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
+import { ReactComponent as NoResults } from '../../../assets/icons/shared/noResults.svg';
+import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 
 import {
   BackLink,
@@ -33,6 +29,10 @@ import {
   TrashHeader,
   MobItemButtonSvg,
   SearchField,
+  CancelSearchSvg,
+  NoSearchResults,
+  NoSearchResultsContainer,
+  NoSearchResultsSvg,
 } from '../../../theme/global';
 import { pages } from '../../../utils/constants/pages';
 import { Grid, InputAdornment, MenuItem, styled } from '@mui/material';
@@ -48,6 +48,7 @@ import {
   EditButtons,
   FlexContainer,
 } from '../Categories.styled';
+import { useCategoriesSearch } from '../../../hooks/useSearch';
 
 const ArchivedCount = styled('div')((props) => ({
   fontSize: '0.875rem',
@@ -166,13 +167,12 @@ export default function CategoriesTrash() {
   const transactions = useSelector((state) => state.transactions);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const filterType = createFilterType(useParams().filterType);
-  const archivedCategories = categories.categories.filter(
-    (category) => category.archived,
-  );
   const [clickedCategory, setClickedCategory] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [query, setQuery] = useState('');
+
+  const searchData = useCategoriesSearch(query, categories.categories, true);
 
   useEffect(() => {
     dispatch(fetchCategoriesData());
@@ -203,29 +203,46 @@ export default function CategoriesTrash() {
           </CategoriesTitleLink>
         </CategoriesTitleContainer>
         <SearchField
-          type="search"
           placeholder={t('CATEGORIES_TRASH.SEARCH')}
+          value={query}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <SearchIcon />
               </InputAdornment>
             ),
+            endAdornment: query ? (
+              <InputAdornment position="end" onClick={() => setQuery('')}>
+                <CancelSearchSvg as={CancelSearchIcon} />
+              </InputAdornment>
+            ) : null,
           }}
+          onChange={(event) => setQuery(event.target.value)}
         />
-        {renderCategories(
-          clickedCategory,
-          setClickedCategory,
-          anchorEl,
-          setAnchorEl,
-          open,
-          filterCategories(filterType, archivedCategories),
-          transactions.transactions,
-          restoreCategory,
-          deleteCategory,
-          deleteTransaction,
-          dispatch,
-          t,
+        {searchData.length ? (
+          renderCategories(
+            clickedCategory,
+            setClickedCategory,
+            anchorEl,
+            setAnchorEl,
+            open,
+            searchData,
+            transactions.transactions,
+            restoreCategory,
+            deleteCategory,
+            deleteTransaction,
+            dispatch,
+            t,
+          )
+        ) : (
+          <NoSearchResults>
+            <NoSearchResultsContainer>
+              <div>
+                <NoSearchResultsSvg as={NoResults} />
+              </div>
+              <div>{`${t('SEARCH.NO_RESULTS')} "${query}"`}</div>
+            </NoSearchResultsContainer>
+          </NoSearchResults>
         )}
       </TrashContainer>
     </Grid>

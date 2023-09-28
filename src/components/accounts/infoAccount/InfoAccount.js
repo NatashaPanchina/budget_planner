@@ -70,19 +70,19 @@ const doneEventHandler = (
   dispatch,
 ) => {
   const date = toStringDate(new Date(dateObj.format()));
+  const newBalance = dineroFromFloat({
+    amount: balance,
+    currency: USD,
+    scale: 2,
+  });
   const newAccount = {
     id,
     archived: false,
     type: accountType,
     description,
     currency,
-    balance: toSnapshot(
-      dineroFromFloat({
-        amount: balance,
-        currency: USD,
-        scale: 2,
-      }),
-    ),
+    formatBalance: toDecimal(newBalance),
+    balance: toSnapshot(newBalance),
     color: selectedColor,
     date,
     notes,

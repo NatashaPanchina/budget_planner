@@ -67,7 +67,7 @@ const router = createBrowserRouter([
         element: <Navigate replace to="all" />,
       },
       {
-        path: 'accounts/trash/:filterType',
+        path: 'accounts/trash/:filterCash',
         element: <AccountsTrash />,
       },
       {

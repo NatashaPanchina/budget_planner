@@ -23,6 +23,7 @@ export function idbOpen() {
       });
       accounts.createIndex('type', 'type');
       accounts.createIndex('description', 'description');
+      accounts.createIndex('balance', 'formatBalance');
       accounts.createIndex('date', 'date');
       accounts.createIndex('notes', 'notes');
       accounts.createIndex('tags', 'tags');
@@ -205,10 +206,57 @@ const searchTransactionsData = (query) => {
   });
 };
 
+const searchAccountsData = (query) => {
+  return new Promise((resolve) => {
+    idbOpen().then((idb) => {
+      const accounts = idb
+        .transaction('accounts', 'readonly')
+        .objectStore('accounts');
+      let dataResult = [];
+      const indexes = [
+        'type',
+        'description',
+        'balance',
+        'date',
+        'tags',
+        'notes',
+      ];
+      let promises = indexes.map((idx) =>
+        getData(accounts.index(idx), query, dataResult),
+      );
+      Promise.all(promises).then(() => {
+        resolve(dataResult);
+      });
+    });
+  });
+};
+
+const searchCategoriesData = (query) => {
+  return new Promise((resolve) => {
+    idbOpen().then((idb) => {
+      const categories = idb
+        .transaction('categories', 'readonly')
+        .objectStore('categories');
+      let dataResult = [];
+      const indexes = ['type', 'description', 'date', 'tags', 'notes'];
+      let promises = indexes.map((idx) =>
+        getData(categories.index(idx), query, dataResult),
+      );
+      Promise.all(promises).then(() => {
+        resolve(dataResult);
+      });
+    });
+  });
+};
+
 export const idbSearchItems = (query, nameObjectStore) => {
   switch (nameObjectStore) {
     case 'transactions':
       return searchTransactionsData(query);
+    case 'accounts':
+      return searchAccountsData(query);
+    case 'categories':
+      return searchCategoriesData(query);
     default:
       return new Promise((resolve) => resolve([]));
   }

@@ -8,6 +8,9 @@
     "CASH_FLOW": "Анализ",
     "SEARCH_EVERYTHING": "Ищите все, что угодно"
   },
+  "SEARCH": {
+    "NO_RESULTS": "Не найдено результатов по запросу"
+  },
   "MENU": {
     "PROFILE": "Профиль",
     "CURRENCY": "Валюта",

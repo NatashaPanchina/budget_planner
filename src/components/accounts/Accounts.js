@@ -119,9 +119,8 @@ export default function Cash() {
           </CashTitleLink>
         </CashTitleContainer>
         <AccountsList
-          notArchivedAccounts={notArchivedAccounts}
+          accounts={accounts}
           archiveAccount={archiveAccount}
-          filterAccount={filterAccount}
           localeFilterAccount={localeFilterAccount}
         />
       </Grid>

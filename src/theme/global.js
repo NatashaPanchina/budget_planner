@@ -697,3 +697,21 @@ export const MobItemButtonSvg = styled('svg')((props) => ({
     },
   },
 }));
+
+export const NoSearchResults = styled('div')((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginTop: props.theme.spacing(5),
+  marginBottom: props.theme.spacing(9),
+}));
+
+export const NoSearchResultsContainer = styled('div')(() => ({
+  textAlign: 'center',
+}));
+
+export const NoSearchResultsSvg = styled('svg')((props) => ({
+  '& path': {
+    fill: props.theme.colors.text.ordinary,
+  },
+}));
