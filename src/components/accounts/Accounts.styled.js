@@ -236,11 +236,8 @@ export const NumericInput = styled('input')((props) => ({
   backgroundColor: props.theme.colors.background.primary,
 }));
 
-export const ToggleButtonSvg = styled(MobItemButtonSvg)((props) => ({
+export const ToggleButtonSvg = styled(MobItemButtonSvg)(() => ({
   height: 30,
   width: 30,
   padding: 0,
-  '@media (min-width: 600px)': {
-    marginLeft: props.theme.spacing(2),
-  },
 }));

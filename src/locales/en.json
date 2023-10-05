@@ -1,5 +1,6 @@
 {
   "HEADER": {
+    "SEARCH": "Search Results",
     "DASHBOARD": "Dashboard",
     "TRANSACTIONS": "Transactions",
     "ACCOUNTS": "Accounts",
@@ -9,7 +10,14 @@
     "SEARCH_EVERYTHING": "Search for everything"
   },
   "SEARCH": {
-    "NO_RESULTS": "No results found for"
+    "TITLE": "Global Search",
+    "SEARCH_EVERYTHING": "Search for everything",
+    "NO_RESULTS": "No results found for",
+    "SHOW_RESULTS": "Show all results",
+    "SHOW_ALL": "Show all",
+    "TRANSACTIONS": "Transactions",
+    "CATEGORIES": "Categories",
+    "ACCOUNTS": "Accounts"
   },
   "MENU": {
     "PROFILE": "Profile",

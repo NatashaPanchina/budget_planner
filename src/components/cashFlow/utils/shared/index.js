@@ -4,6 +4,7 @@ import { USD } from '@dinero.js/currencies';
 
 import { formatNumberOutput } from '../../../../utils/format/cash';
 import { styled } from '@mui/material';
+import { AccountsMenuItem } from '../../transactions/TransactionsAnalysis.styled';
 
 export function createLocaleTransactions(NAME, count) {
   const lastNumber = Number(String(count).match(/\d$/g)[0]);
@@ -20,69 +21,54 @@ export function createLocaleTransactions(NAME, count) {
   }
 }
 
-const ListItem = styled('div')((props) => ({
-  display: 'flex',
-  alignItems: 'center',
-  height: 40,
-  margin: props.theme.spacing(2),
-  paddingLeft: props.theme.spacing(2),
-  borderRadius: props.theme.borderRadius,
-  cursor: 'pointer',
-  fontSize: '0.875rem',
-  '&:hover': {
-    backgroundColor: props.theme.colors.background.ordinary,
-  },
-}));
-
 const ListItemSvg = styled('svg')((props) => ({
   marginRight: props.theme.spacing(2),
 }));
 
-export function renderAccounts(t, accounts, setAccountFilter) {
-  return (
-    <>
-      <ListItem onClick={() => setAccountFilter('All accounts')}>
-        {t('ANALYSIS.ALL_ACCOUNTS')}
-      </ListItem>
-      {accounts.map((account) => (
-        <ListItem
-          key={account.id}
-          onClick={() => setAccountFilter(account.description)}
+export function renderAccounts(t, accounts) {
+  let result = [];
+  result.push(
+    <AccountsMenuItem key="All accounts" value="All accounts">
+      {t('ANALYSIS.ALL_ACCOUNTS')}
+    </AccountsMenuItem>,
+  );
+  accounts.forEach((account) => {
+    result.push(
+      <AccountsMenuItem key={account.id} value={account.description}>
+        <ListItemSvg
+          width="34"
+          height="23"
+          viewBox="0 0 34 23"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <ListItemSvg
+          <rect
+            x="0"
+            y="0"
             width="34"
             height="23"
-            viewBox="0 0 34 23"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              x="0"
-              y="0"
-              width="34"
-              height="23"
-              rx="5"
-              fill={`url(#${account.description.replaceAll(' ', '_')})`}
-            ></rect>
-            <defs>
-              <linearGradient
-                id={account.description.replaceAll(' ', '_')}
-                x1="0"
-                y1="0"
-                x2="34"
-                y2="11.5"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor={account.color[0]} />
-                <stop offset="1" stopColor={account.color[1]} />
-              </linearGradient>
-            </defs>
-          </ListItemSvg>
-          {account.description}
-        </ListItem>
-      ))}
-    </>
-  );
+            rx="5"
+            fill={`url(#${account.description.replaceAll(' ', '_')})`}
+          ></rect>
+          <defs>
+            <linearGradient
+              id={account.description.replaceAll(' ', '_')}
+              x1="0"
+              y1="0"
+              x2="34"
+              y2="11.5"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor={account.color[0]} />
+              <stop offset="1" stopColor={account.color[1]} />
+            </linearGradient>
+          </defs>
+        </ListItemSvg>
+        {account.description}
+      </AccountsMenuItem>,
+    );
+  });
+  return result;
 }
 
 export function filterTransactions(

@@ -37,6 +37,23 @@ export const useTransactionsSearch = (query, transactions) => {
   return filteredTransactions;
 };
 
+export const useGlobalTransactionsSearch = (query, transactions) => {
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
+
+  useEffect(() => {
+    const filtered = filterQuery(query);
+    if (filtered) {
+      idbSearchItems(filtered, 'transactions').then((result) =>
+        setFilteredTransactions(result),
+      );
+    } else {
+      setFilteredTransactions(transactions);
+    }
+  }, [transactions, query]);
+
+  return filteredTransactions;
+};
+
 export const useAccountsSearch = (query, accounts, isArchived) => {
   const filterAccount = createAccountFilter(useParams().filterCash);
 
@@ -66,6 +83,27 @@ export const useAccountsSearch = (query, accounts, isArchived) => {
   return filteredAccounts;
 };
 
+export const useGlobalAccountsSearch = (query, accounts) => {
+  const [filteredAccounts, setFilteredAccounts] = useState([]);
+
+  useEffect(() => {
+    const filtered = filterQuery(query);
+    if (filtered) {
+      idbSearchItems(filtered, 'accounts').then((result) => {
+        setFilteredAccounts(
+          result.filter((account) => account.archived === false),
+        );
+      });
+    } else {
+      setFilteredAccounts(
+        accounts.filter((account) => account.archived === false),
+      );
+    }
+  }, [accounts, query]);
+
+  return filteredAccounts;
+};
+
 export const useCategoriesSearch = (query, categories, isArchived) => {
   const filterType = createFilterType(useParams().filterType);
 
@@ -91,6 +129,27 @@ export const useCategoriesSearch = (query, categories, isArchived) => {
       );
     }
   }, [categories, filterType, query]);
+
+  return filteredCategories;
+};
+
+export const useGlobalCategoriesSearch = (query, categories) => {
+  const [filteredCategories, setFilteredCategories] = useState([]);
+
+  useEffect(() => {
+    const filtered = filterQuery(query);
+    if (filtered) {
+      idbSearchItems(filtered, 'categories').then((result) => {
+        setFilteredCategories(
+          result.filter((category) => category.archived === false),
+        );
+      });
+    } else {
+      setFilteredCategories(
+        categories.filter((category) => category.archived === false),
+      );
+    }
+  }, [categories, query]);
 
   return filteredCategories;
 };

@@ -69,42 +69,6 @@ export const Title = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const GlobalSearch = styled('div')((props) => ({
-  display: 'none',
-  '@media (min-width: 600px)': {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-    fontSize: '0.875rem',
-    borderRadius: props.theme.borderRadius,
-  },
-  '@media (min-width: 768px)': {
-    backgroundColor: props.theme.colors.background.body,
-  },
-}));
-
-export const GlobalSearchInput = styled('input')((props) => ({
-  display: 'none',
-  '@media (min-width: 768px)': {
-    display: 'flex',
-    height: 30,
-    borderRadius: 'inherit',
-    backgroundColor: 'inherit',
-    color: props.theme.colors.text.primary,
-    width: `calc(100% - ${props.theme.spacing(12)})`,
-    '&[type="text"]::placeholder': {
-      color: props.theme.colors.text.darker,
-    },
-  },
-}));
-
-export const GlobalSearchImg = styled('img')((props) => ({
-  paddingLeft: props.theme.spacing(1),
-  paddingRight: props.theme.spacing(1),
-  marginLeft: 'auto',
-  height: 20,
-}));
-
 export const ThemeContainer = styled(FlexContainer)(() => ({
   display: 'none',
   '@media (min-width: 600px)': {

@@ -24,12 +24,13 @@ import {
   SelectHeaderButton,
   TextInputField,
 } from '../../../theme/global';
-import { AddAccount } from '../NewTransaction.styled';
 import { NumericFormatCustom } from '../../../utils/format/cash';
 import dayjs from 'dayjs';
 import { InputAdornment } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 function TransferTransactionForm({ accounts }) {
+  const { transactionAccount } = useParams();
   const { t } = useTranslation();
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const transactionType = 'transfer';
@@ -48,6 +49,7 @@ function TransferTransactionForm({ accounts }) {
       setOriginAccount(accounts[0].id);
       setDestAccount(accounts[0].id);
     }
+    if (transactionAccount) setOriginAccount(transactionAccount);
   }, [accounts]);
 
   return (
@@ -81,10 +83,6 @@ function TransferTransactionForm({ accounts }) {
             ),
           }}
         />
-        <AddAccount to={pages.accounts.add.card}>
-          <AddButtonSvg as={PlusIcon} />
-          {t('NEW_TRANSACTION.ADD_ACCOUNT')}
-        </AddAccount>
         {renderAccounts(filteredAccounts, t)}
       </TextInputField>
       <TextInputField

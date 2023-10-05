@@ -117,8 +117,12 @@ function AccountsList({ accounts, archiveAccount, localeFilterAccount }) {
                   </MenuItem>
                   <MenuItem onClick={() => setAnchorEl(null)}>
                     <FlexContainer>
-                      <CardButtonSvg as={TransferIcon} />{' '}
-                      {t('ACCOUNTS.NEW_TRANSFER')}
+                      <CardButtonlink
+                        to={`${pages.newTransaction.transfer}/${clickedAccount.id}`}
+                      >
+                        <CardButtonSvg as={TransferIcon} />{' '}
+                        {t('ACCOUNTS.NEW_TRANSFER')}
+                      </CardButtonlink>
                     </FlexContainer>
                   </MenuItem>
                   <DeleteMenuItem onClick={() => setAnchorEl(null)}>

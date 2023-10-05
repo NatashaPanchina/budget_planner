@@ -17,7 +17,6 @@ import { ReactComponent as LogoTitleIcon } from '../../assets/icons/navigation/l
 import { ReactComponent as CurrencyDollarIcon } from '../../assets/icons/shared/currencyDollar.svg';
 import { ReactComponent as LightModeIcon } from '../../assets/icons/shared/lightMode.svg';
 import { ReactComponent as DarkModeIcon } from '../../assets/icons/shared/darkMode.svg';
-import searchIcon from '../../assets/icons/shared/globalSearch.svg';
 import { ReactComponent as LogoutIcon } from '../../assets/icons/shared/logOut.svg';
 import { ReactComponent as AvatarIcon } from '../../assets/icons/shared/avatar.svg';
 
@@ -28,9 +27,6 @@ import {
   Logo,
   LogoTitle,
   Title,
-  GlobalSearch,
-  GlobalSearchInput,
-  GlobalSearchImg,
   ThemeContainer,
   Container,
   LanguagesMenuItem,
@@ -43,6 +39,7 @@ import {
 } from './Header.styled';
 import { languages } from '../../utils/constants/languages';
 import { mode } from '../../utils/constants/mode';
+import GlobalSearch from './globalSearch/GlobalSearch';
 
 function renderLanguagesMenu(languages) {
   return languages.map((language, index) => (
@@ -55,6 +52,7 @@ function renderLanguagesMenu(languages) {
 //lookup map
 function renderHeaderTitles(t) {
   return {
+    '/search': t('HEADER.SEARCH'),
     '/dashboard': t('HEADER.DASHBOARD'),
     '/transactions': t('HEADER.TRANSACTIONS'),
     '/accounts': t('HEADER.ACCOUNTS'),
@@ -87,7 +85,6 @@ export default function Header() {
   const [headerMode, setHeaderMode] = useState(header.mode);
   const { t } = useTranslation();
   const location = useLocation();
-
   const titles = renderHeaderTitles(t);
   const path = location.pathname.match(/\/(\w)*/)[0];
 
@@ -129,13 +126,7 @@ export default function Header() {
           </Grid>
           <Grid item sm={2} md={3} lg={3}>
             <FlexContainer>
-              <GlobalSearch>
-                <GlobalSearchInput
-                  type="text"
-                  placeholder={t('HEADER.SEARCH_EVERYTHING')}
-                ></GlobalSearchInput>
-                <GlobalSearchImg src={searchIcon} alt="search" />
-              </GlobalSearch>
+              <GlobalSearch />
             </FlexContainer>
           </Grid>
           <Grid item sm={3} md={3} lg={2}>

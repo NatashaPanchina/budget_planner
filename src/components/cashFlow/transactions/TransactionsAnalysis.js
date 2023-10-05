@@ -36,7 +36,7 @@ import { ReactComponent as TableIcon } from '../../../assets/icons/shared/table.
 import { ReactComponent as CalendarIcon } from '../../../assets/icons/shared/calendar.svg';
 
 import {
-  AccountsList,
+  AccountsFieldFilter,
   AnalysisHeader,
   AverageInfoSvg,
   ChartButton,
@@ -56,8 +56,7 @@ import {
   ToggleChartButton,
   TotalTransactionsSvg,
 } from './TransactionsAnalysis.styled.js';
-import { hideElement, useOutsideClick } from '../../../hooks/useOutsideClick';
-import { Grid } from '@mui/material';
+import { Grid, InputAdornment } from '@mui/material';
 
 function TransactionsAnalysis({ transactions, categories, accounts }) {
   const { t } = useTranslation();
@@ -89,26 +88,25 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
   const averageExpense = createAverageAmount(date, expensesSum);
   const averageIncome = createAverageAmount(date, incomesSum);
 
-  const accountsRef = useOutsideClick(hideElement);
-
   return (
     <Grid item xs={12} sm={12} md={12} lg={12}>
       <AnalysisHeader>
         <HeaderTitle>{t('ANALYSIS.CASH_FLOW')}</HeaderTitle>
-        <Filter
-          onClick={(event) => {
-            accountsRef.current.classList.toggle('none');
-            event.stopPropagation();
+        <AccountsFieldFilter
+          margin="normal"
+          select
+          value={accountFilter}
+          onChange={(event) => setAccountFilter(event.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <FilterSvg as={FilterIcon} />
+              </InputAdornment>
+            ),
           }}
         >
-          <FilterSvg as={FilterIcon} />
-          {accountFilter === 'All accounts'
-            ? t('ANALYSIS.ALL_ACCOUNTS')
-            : accountFilter}
-        </Filter>
-        <AccountsList ref={accountsRef} className="none">
-          {renderAccounts(t, notArchivedAccounts, setAccountFilter)}
-        </AccountsList>
+          {renderAccounts(t, notArchivedAccounts)}
+        </AccountsFieldFilter>
         <Filter>
           <FilterSvg as={CalendarIcon} />
           {`${dateFormatter.format(date.from)} - ${dateFormatter.format(

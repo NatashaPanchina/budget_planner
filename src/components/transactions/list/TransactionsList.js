@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { dinero } from 'dinero.js';
 
 import { formatDineroOutput } from '../../../utils/format/cash';
-import { idbAddItem, idbDeleteItem } from '../../../indexedDB/IndexedDB';
 import { dateFormatter } from '../../../utils/format/date';
 
 import { categoryIcons } from '../../../utils/constants/icons';
@@ -18,7 +17,7 @@ import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delet
 import { ReactComponent as NoResults } from '../../../assets/icons/shared/noResults.svg';
 
 import { useDispatch } from 'react-redux';
-import { createNewBalance, renderNotes } from './utils';
+import { deleteClick, renderNotes } from './utils';
 import { pages } from '../../../utils/constants/pages';
 import {
   Account,
@@ -54,28 +53,6 @@ import {
 } from '../../../theme/global';
 import { InputAdornment, MenuItem } from '@mui/material';
 import { useTransactionsSearch } from '../../../hooks/useSearch';
-
-const deleteClick = (
-  transaction,
-  accounts,
-  editAccount,
-  deleteTransaction,
-  dispatch,
-) => {
-  const newBalance = createNewBalance(transaction, accounts);
-  const transactionAccount = accounts.find(
-    (account) => transaction.account === account.id,
-  );
-  dispatch(
-    editAccount(transactionAccount.id, {
-      ...transactionAccount,
-      balance: newBalance,
-    }),
-  );
-  idbAddItem({ ...transactionAccount, balance: newBalance }, 'accounts');
-  dispatch(deleteTransaction(transaction.id));
-  idbDeleteItem(transaction.id, 'transactions');
-};
 
 function TransactionsList({
   transactions,

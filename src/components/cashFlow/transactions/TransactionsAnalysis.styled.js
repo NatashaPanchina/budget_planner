@@ -1,4 +1,4 @@
-import { alpha, css, styled } from '@mui/material';
+import { MenuItem, TextField, alpha, css, styled } from '@mui/material';
 
 const FlexContainer = styled('div')(() => ({
   display: 'flex',
@@ -53,20 +53,47 @@ export const FilterSvg = styled('svg')((props) => ({
   margin: `0px ${props.theme.spacing(2)}`,
 }));
 
-export const AccountsList = styled('div')((props) => ({
-  position: 'absolute',
-  top: props.theme.spacing(22),
-  left: `calc(25% - 6em)`,
+export const AccountsFieldFilter = styled(TextField)((props) => ({
   width: '12em',
-  color: props.theme.colors.text.primary,
-  backgroundColor: props.theme.colors.background.primary,
-  border: `1px solid${props.theme.colors.border.item}`,
-  borderRadius: props.theme.borderRadius,
   '@media (min-width: 768px)': {
     width: '15em',
-    top: props.theme.spacing(11),
-    left: `calc(50% - 7.5em)`,
   },
+  margin: 0,
+  '& .MuiInputAdornment-root': {
+    margin: 0,
+  },
+  '& .MuiOutlinedInput-root': {
+    paddingLeft: 0,
+    '& fieldset': {
+      border: `1px solid ${props.theme.colors.background.body}`,
+      padding: 0,
+      boxShadow: 'none',
+    },
+    '&:hover fieldset': {
+      border: `1px solid ${props.theme.colors.background.body}`,
+    },
+    '&.Mui-focused fieldset': {
+      border: `1px solid ${props.theme.colors.background.body}`,
+    },
+    '& .MuiInputBase-input': {
+      backgroundColor: props.theme.colors.background.body,
+      fontSize: '0.875rem',
+      padding: 0,
+      display: 'flex',
+      justifyContent: 'center',
+      color: props.theme.colors.text.darker,
+      '&:hover': {
+        color: props.theme.colors.text.primary,
+      },
+    },
+  },
+}));
+
+export const AccountsMenuItem = styled(MenuItem)((props) => ({
+  borderRadius: props.theme.borderRadius,
+  backgroundColor: props.theme.colors.background.primary,
+  color: props.theme.colors.text.primary,
+  fontSize: '0.875rem',
 }));
 
 export const Container = styled('div')((props) => ({

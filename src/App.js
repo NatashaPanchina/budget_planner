@@ -28,6 +28,10 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { inputGlobalStyles } from './theme/global';
+import GlobalSearchPage from './components/header/globalSearch/page/GlobalSearchPage';
+import TransactionsSearch from './components/header/globalSearch/transactions/TransactionsSearch';
+import CategoriesSearch from './components/header/globalSearch/categories/CategoriesSearch';
+import AccountsSearch from './components/header/globalSearch/accounts/AccountsSearch';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +41,22 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Navigate replace to="dashboard" />,
+      },
+      {
+        path: '/search/:query',
+        element: <GlobalSearchPage />,
+      },
+      {
+        path: '/search/transactions/:query',
+        element: <TransactionsSearch />,
+      },
+      {
+        path: '/search/categories/:query',
+        element: <CategoriesSearch />,
+      },
+      {
+        path: '/search/accounts/:query',
+        element: <AccountsSearch />,
       },
       {
         path: 'dashboard',

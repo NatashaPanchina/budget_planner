@@ -189,6 +189,7 @@ export const Header = styled('div')((props) => ({
   width: '100%',
   justifyContent: 'space-between',
   backgroundColor: props.theme.colors.background.body,
+  paddingLeft: props.theme.spacing(2),
   '@media (min-width: 768px)': {
     position: 'relative',
     justifyContent: 'center',
