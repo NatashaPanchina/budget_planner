@@ -135,6 +135,7 @@ export default function AccountsTrash() {
             ) : null,
           }}
           onChange={(event) => setQuery(event.target.value)}
+          autoComplete="off"
         />
         {searchData.length ? (
           <>

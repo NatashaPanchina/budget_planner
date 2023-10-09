@@ -97,6 +97,7 @@ export default function GlobalSearch() {
           event.stopPropagation();
           setAnchorEl(event.currentTarget);
         }}
+        autoComplete="off"
       />
       <GlobalSearchPopper
         open={open}

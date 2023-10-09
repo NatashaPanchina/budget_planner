@@ -87,6 +87,7 @@ export default function CategoriesSearch() {
             ) : null,
           }}
           onChange={(event) => setQuery(event.target.value)}
+          autoComplete="off"
         />
         {status === 'loading' ? (
           <Loading />

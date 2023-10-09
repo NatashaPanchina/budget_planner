@@ -219,6 +219,7 @@ export default function CategoriesTrash() {
             ) : null,
           }}
           onChange={(event) => setQuery(event.target.value)}
+          autoComplete="off"
         />
         {searchData.length ? (
           renderCategories(

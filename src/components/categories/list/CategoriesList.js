@@ -68,6 +68,7 @@ function CategoriesList({ categories, archiveCategory }) {
           ) : null,
         }}
         onChange={(event) => setQuery(event.target.value)}
+        autoComplete="off"
       />
       {searchData.length ? (
         searchData.map((category, index) => {

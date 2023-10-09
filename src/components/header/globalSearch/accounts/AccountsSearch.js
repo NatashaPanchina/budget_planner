@@ -86,6 +86,7 @@ export default function AccountsSearch() {
             ) : null,
           }}
           onChange={(event) => setQuery(event.target.value)}
+          autoComplete="off"
         />
         {status === 'loading' ? (
           <Loading />

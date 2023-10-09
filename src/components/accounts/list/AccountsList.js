@@ -75,6 +75,7 @@ function AccountsList({ accounts, archiveAccount, localeFilterAccount }) {
           ) : null,
         }}
         onChange={(event) => setQuery(event.target.value)}
+        autoComplete="off"
       />
       {searchData.length ? (
         searchData.map((account) => {

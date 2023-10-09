@@ -111,6 +111,7 @@ function TransactionsList({
           ) : null,
         }}
         onChange={(event) => setQuery(event.target.value)}
+        autoComplete="off"
       />
       {searchData.length ? (
         <>

@@ -112,6 +112,7 @@ export default function TransactionsSearch() {
             ) : null,
           }}
           onChange={(event) => setQuery(event.target.value)}
+          autoComplete="off"
         />
         {transactions.status === 'loading' ||
         categories.status === 'loading' ||
