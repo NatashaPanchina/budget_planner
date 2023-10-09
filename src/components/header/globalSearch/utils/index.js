@@ -13,8 +13,9 @@ export function renderNotes(notes) {
   }
 }
 
-export const sliceData = (data) => {
+export const sliceData = (data, size) => {
+  const dataSize = size ? size : 5;
   if (!data) return data;
-  if (data.length < 5) return data;
-  return data.slice(0, 5);
+  if (data.length < dataSize) return data;
+  return data.slice(0, dataSize);
 };

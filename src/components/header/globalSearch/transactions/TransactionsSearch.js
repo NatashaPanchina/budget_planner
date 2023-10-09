@@ -30,6 +30,7 @@ import {
 } from '../../../../actions/Actions';
 import { useGlobalTransactionsSearch } from '../../../../hooks/useSearch';
 import TransactionsPage from '../page/transactions/TransactionsPage';
+import Loading from '../../../loading/Loading';
 
 export default function TransactionsSearch() {
   const dispatch = useDispatch();
@@ -115,7 +116,7 @@ export default function TransactionsSearch() {
         {transactions.status === 'loading' ||
         categories.status === 'loading' ||
         accounts.status === 'loading' ? (
-          <div>Loading</div>
+          <Loading />
         ) : (
           <TransactionsPage
             transactions={searchTransactions}

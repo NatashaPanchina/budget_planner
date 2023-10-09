@@ -49,6 +49,7 @@ import {
   FlexContainer,
 } from '../Categories.styled';
 import { useCategoriesSearch } from '../../../hooks/useSearch';
+import Loading from '../../loading/Loading';
 
 const ArchivedCount = styled('div')((props) => ({
   fontSize: '0.875rem',
@@ -181,7 +182,7 @@ export default function CategoriesTrash() {
 
   return categories.status === 'loading' ||
     transactions.status === 'loading' ? (
-    <div>Loading</div>
+    <Loading />
   ) : (
     <Grid item xs={12}>
       <TrashContainer>

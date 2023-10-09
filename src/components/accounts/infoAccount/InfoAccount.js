@@ -54,6 +54,7 @@ import { pages } from '../../../utils/constants/pages.js';
 import { Grid, MenuItem } from '@mui/material';
 import dayjs from 'dayjs';
 import { toStringDate } from '../../../utils/format/date/index.js';
+import Loading from '../../loading/Loading.js';
 
 const doneEventHandler = (
   clickedAccount,
@@ -155,7 +156,7 @@ export default function InfoAccount() {
           {t(`INFO_ACCOUNT.${cashLocalType}_INFORMATION`)}
         </AddFormHeader>
         {status === 'loading' ? (
-          <div>Loading</div>
+          <Loading />
         ) : (
           <>
             <CardView

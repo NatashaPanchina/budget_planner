@@ -88,6 +88,7 @@ export function filterTransactions(
     const transactionAccount = accounts.find(
       (account) => account.id === transaction.account,
     );
+    if (!transactionAccount) return null;
     return (
       transactionDate >= date.from &&
       transactionDate <= date.to &&

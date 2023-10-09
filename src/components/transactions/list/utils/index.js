@@ -6,11 +6,17 @@ import { ReactComponent as NotesIcon } from '../../../../assets/icons/shared/not
 import { Notes, NotesSvg } from '../../Transactions.styled';
 import { createFiltertype } from '../../utils';
 import { idbAddItem, idbDeleteItem } from '../../../../indexedDB/IndexedDB';
+import { USD } from '@dinero.js/currencies';
 
 export function createNewBalance(transaction, accounts) {
   const account = accounts.find(
     (account) => account.id === transaction.account,
   );
+
+  if (!account) {
+    return toSnapshot(dinero({ amount: 0, currency: USD }));
+  }
+
   switch (transaction.transactionType) {
     case 'income':
       return toSnapshot(
@@ -64,13 +70,15 @@ export const deleteClick = (
   const transactionAccount = accounts.find(
     (account) => transaction.account === account.id,
   );
-  dispatch(
-    editAccount(transactionAccount.id, {
-      ...transactionAccount,
-      balance: newBalance,
-    }),
-  );
-  idbAddItem({ ...transactionAccount, balance: newBalance }, 'accounts');
-  dispatch(deleteTransaction(transaction.id));
-  idbDeleteItem(transaction.id, 'transactions');
+  if (transactionAccount) {
+    dispatch(
+      editAccount(transactionAccount.id, {
+        ...transactionAccount,
+        balance: newBalance,
+      }),
+    );
+    idbAddItem({ ...transactionAccount, balance: newBalance }, 'accounts');
+    dispatch(deleteTransaction(transaction.id));
+    idbDeleteItem(transaction.id, 'transactions');
+  }
 };

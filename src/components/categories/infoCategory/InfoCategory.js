@@ -39,6 +39,7 @@ import { Back, BackSvg } from '../AddCategory.styled.js';
 import { Grid } from '@mui/material';
 import dayjs from 'dayjs';
 import { toStringDate } from '../../../utils/format/date/index.js';
+import Loading from '../../loading/Loading.js';
 
 const doneEventHandler = (
   selectedCategory,
@@ -116,7 +117,7 @@ export default function InfoCategory() {
     <Grid item xs={12}>
       <AddContainer>
         {status === 'loading' ? (
-          <div>Loading</div>
+          <Loading />
         ) : (
           <>
             <Back to={pages.categories[`${categoryType}s`]}>

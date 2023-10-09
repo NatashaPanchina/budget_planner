@@ -7,6 +7,7 @@ import {
   fetchTransactionsData,
 } from '../../actions/Actions';
 import TransactionsAnalysis from './transactions/TransactionsAnalysis';
+import Loading from '../loading/Loading';
 
 export default function Analysis() {
   const categories = useSelector((state) => state.categories);
@@ -42,7 +43,7 @@ export default function Analysis() {
   return categories.status === 'loading' ||
     accounts.status === 'loading' ||
     transactions.status === 'loading' ? (
-    <div>Loading</div>
+    <Loading />
   ) : (
     <TransactionsAnalysis
       transactions={transactionsData}

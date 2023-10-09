@@ -184,18 +184,20 @@ function IncomeTransactionForm({
             const transactionAccount = filteredAccounts.find(
               (filteredAccount) => filteredAccount.id === account,
             );
-            const previousBalance = dinero(transactionAccount.balance);
-            const newBalance = toSnapshot(add(previousBalance, newAmount));
-            dispatch(
-              editAccount(transactionAccount.id, {
-                ...transactionAccount,
-                balance: newBalance,
-              }),
-            );
-            idbAddItem(
-              { ...transactionAccount, balance: newBalance },
-              'accounts',
-            );
+            if (transactionAccount) {
+              const previousBalance = dinero(transactionAccount.balance);
+              const newBalance = toSnapshot(add(previousBalance, newAmount));
+              dispatch(
+                editAccount(transactionAccount.id, {
+                  ...transactionAccount,
+                  balance: newBalance,
+                }),
+              );
+              idbAddItem(
+                { ...transactionAccount, balance: newBalance },
+                'accounts',
+              );
+            }
           }}
         >
           <ButtonSvg as={DoneIcon} />

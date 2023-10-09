@@ -38,6 +38,7 @@ import { pages } from '../../utils/constants/pages.js';
 import { Grid } from '@mui/material';
 import { createAccountFilter, createLocaleAccountType } from './utils/index.js';
 import AccountsList from './list/AccountsList.js';
+import Loading from '../loading/Loading.js';
 
 export default function Cash() {
   const { status, accounts } = useSelector((state) => state.accounts);
@@ -55,7 +56,7 @@ export default function Cash() {
   }, [dispatch]);
 
   return status === 'loading' ? (
-    <div>Loading</div>
+    <Loading />
   ) : (
     <>
       <Header>

@@ -38,6 +38,7 @@ import CategoriesPage from './categories/CategoriesPage';
 import AccountsPage from './accounts/AccountsPage';
 import { sliceData } from '../utils';
 import { filterQuery } from '../../../../utils/format/search';
+import Loading from '../../../loading/Loading';
 
 function GlobalSearchPage() {
   const { t } = useTranslation();
@@ -56,6 +57,10 @@ function GlobalSearchPage() {
   );
   const searchCategories = useGlobalCategoriesSearch(query, categoriesData);
   const searchAccounts = useGlobalAccountsSearch(query, accountsData);
+
+  useEffect(() => {
+    setQuery(queryData);
+  }, [queryData]);
 
   useEffect(() => {
     dispatch(fetchTransactionsData());
@@ -122,13 +127,14 @@ function GlobalSearchPage() {
             ) : null,
           }}
           onChange={(event) => setQuery(event.target.value)}
+          autoComplete="off"
         />
       </Grid>
       {transactions.status === 'loading' ||
       categories.status === 'loading' ||
       accounts.status === 'loading' ? (
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <div>Loading</div>
+          <Loading />
         </Grid>
       ) : (
         <>

@@ -33,6 +33,7 @@ import {
 import { useParams } from 'react-router-dom';
 import { pages } from '../../utils/constants/pages.js';
 import { createFilterAccount, createFiltertype } from './utils/index.js';
+import Loading from '../loading/Loading.js';
 
 export default function Transactions() {
   const transactions = useSelector((state) => state.transactions);
@@ -75,7 +76,7 @@ export default function Transactions() {
   return accounts.status === 'loading' ||
     categories.status === 'loading' ||
     transactions.status === 'loading' ? (
-    <div>Loading</div>
+    <Loading />
   ) : (
     <>
       <Header>

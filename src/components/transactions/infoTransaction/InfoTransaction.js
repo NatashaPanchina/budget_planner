@@ -51,6 +51,7 @@ import { Grid, InputAdornment } from '@mui/material';
 import dayjs from 'dayjs';
 import { NumericFormatCustom } from '../../../utils/format/cash';
 import { toStringDate } from '../../../utils/format/date/index.js';
+import Loading from '../../loading/Loading.js';
 
 function createNewBalance(prevTransaction, newTransaction, accounts) {
   const prevAccount = accounts.find(
@@ -59,6 +60,13 @@ function createNewBalance(prevTransaction, newTransaction, accounts) {
   const newAccount = accounts.find(
     (account) => account.id === newTransaction.account,
   );
+
+  if (!newAccount || !prevAccount) {
+    return {
+      prevAccountBalance: toSnapshot(dinero({ amount: 0, currency: USD })),
+      newAccountBalance: toSnapshot(dinero({ amount: 0, currency: USD })),
+    };
+  }
 
   switch (newTransaction.transactionType) {
     case 'income':
@@ -155,30 +163,34 @@ const doneEventHandler = (
   const prevTransactionAccount = accounts.find(
     (account) => account.id === prevTransaction.account,
   );
-  dispatch(
-    editAccount({
-      ...prevTransactionAccount,
-      balance: balance.prevAccountBalance,
-    }),
-  );
-  idbAddItem(
-    { ...prevTransactionAccount, balance: balance.prevAccountBalance },
-    'accounts',
-  );
+  if (prevTransactionAccount) {
+    dispatch(
+      editAccount({
+        ...prevTransactionAccount,
+        balance: balance.prevAccountBalance,
+      }),
+    );
+    idbAddItem(
+      { ...prevTransactionAccount, balance: balance.prevAccountBalance },
+      'accounts',
+    );
+  }
 
   const newTransactionAccount = accounts.find(
     (account) => account.id === newTransaction.account,
   );
-  dispatch(
-    editAccount({
-      ...newTransactionAccount,
-      balance: balance.newAccountBalance,
-    }),
-  );
-  idbAddItem(
-    { ...newTransactionAccount, balance: balance.newAccountBalance },
-    'accounts',
-  );
+  if (newTransactionAccount) {
+    dispatch(
+      editAccount({
+        ...newTransactionAccount,
+        balance: balance.newAccountBalance,
+      }),
+    );
+    idbAddItem(
+      { ...newTransactionAccount, balance: balance.newAccountBalance },
+      'accounts',
+    );
+  }
 };
 
 export default function InfoTransaction() {
@@ -199,7 +211,7 @@ export default function InfoTransaction() {
     toDecimal(dinero({ amount: 0, currency: USD })),
   );
   const [date, setDate] = useState(dayjs(new Date()));
-  const [notes, setNotes] = useState();
+  const [notes, setNotes] = useState('');
   const [tags, setTags] = useState([]);
 
   const [transactionsData, setTransactionsData] = useState([]);
@@ -261,7 +273,7 @@ export default function InfoTransaction() {
   return accounts.status === 'loading' ||
     categories.status === 'loading' ||
     transactions.status === 'loading' ? (
-    <div>Loading</div>
+    <Loading />
   ) : (
     <Grid item xs={12}>
       <AddContainer>

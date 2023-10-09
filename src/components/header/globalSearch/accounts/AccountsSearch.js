@@ -26,6 +26,7 @@ import { ReactComponent as FilterIcon } from '../../../../assets/icons/shared/fi
 import { ReactComponent as CalendarIcon } from '../../../../assets/icons/shared/calendar.svg';
 import { ReactComponent as SearchIcon } from '../../../../assets/icons/shared/search.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../../assets/icons/shared/cancelSearch.svg';
+import Loading from '../../../loading/Loading';
 
 export default function AccountsSearch() {
   const { status, accounts } = useSelector((state) => state.accounts);
@@ -87,7 +88,7 @@ export default function AccountsSearch() {
           onChange={(event) => setQuery(event.target.value)}
         />
         {status === 'loading' ? (
-          <div>Loading</div>
+          <Loading />
         ) : (
           <AccountsPage accounts={searchAccounts} query={query} />
         )}

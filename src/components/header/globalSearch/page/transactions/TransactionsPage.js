@@ -51,6 +51,11 @@ function TransactionsPage({ transactions, accounts, categories, query }) {
       const transactionAccount = accounts.find(
         (account) => account.id === transaction.account,
       );
+
+      if (!transactionCategory || !transactionAccount) {
+        return null;
+      }
+
       const Icon = categoryIcons[transactionCategory.icon];
 
       return (

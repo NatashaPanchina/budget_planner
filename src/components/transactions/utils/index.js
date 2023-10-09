@@ -121,7 +121,10 @@ export function createFiltertype(filterType) {
 
 export function createFilterAccount(accounts, filterAccount) {
   if (!accounts.length) return '';
-  return filterAccount === 'all'
-    ? accounts[0].id
-    : accounts.find((account) => account.id === filterAccount).id;
+  if (filterAccount === 'all') return accounts[0].id;
+  const currentAccount = accounts.find(
+    (account) => account.id === filterAccount,
+  ).id;
+  if (!currentAccount) return '';
+  return currentAccount.id;
 }

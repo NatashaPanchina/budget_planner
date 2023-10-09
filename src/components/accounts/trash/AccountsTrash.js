@@ -61,6 +61,7 @@ import {
 import { pages } from '../../../utils/constants/pages';
 import { Grid, InputAdornment, MenuItem, styled } from '@mui/material';
 import { useAccountsSearch } from '../../../hooks/useSearch';
+import Loading from '../../loading/Loading';
 
 const ArchivedCount = styled('div')((props) => ({
   fontSize: '0.875rem',
@@ -97,7 +98,7 @@ export default function AccountsTrash() {
   }, [dispatch]);
 
   return accounts.status === 'loading' || transactions.status === 'loading' ? (
-    <div>Loading</div>
+    <Loading />
   ) : (
     <Grid item xs={12}>
       <TrashContainer>

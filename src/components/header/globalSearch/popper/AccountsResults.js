@@ -16,35 +16,40 @@ import {
 import { formatDineroOutput } from '../../../../utils/format/cash';
 import { useTranslation } from 'react-i18next';
 
-function AccountsResults({ accounts }) {
+function AccountsResults({ accounts, query }) {
   const { t } = useTranslation();
 
-  return accounts.slice(0, 3).map((account) => {
-    const balance = dinero(account.balance);
-    return (
-      <CashListItem key={account.id}>
-        <Link to={`${pages.accounts.info.main}/${account.id}`}>
-          <Card
-            $cardBackground={cardBackground}
-            $from={account.color[0]}
-            $to={account.color[1]}
-            className={`${account.description}`}
-          >
-            <CardName>{account.description}</CardName>
-            <CardBalanceContainer>
-              <CardBalance>{formatDineroOutput(balance, 'USD')}</CardBalance>
-              <CurrentBalance>{t('ACCOUNTS.CURRENT_BALANCE')}</CurrentBalance>
-            </CardBalanceContainer>
-          </Card>
-          {renderNotes(account.notes)}
-        </Link>
-      </CashListItem>
-    );
-  });
+  return accounts.length ? (
+    accounts.map((account) => {
+      const balance = dinero(account.balance);
+      return (
+        <CashListItem key={account.id}>
+          <Link to={`${pages.accounts.info.main}/${account.id}`}>
+            <Card
+              $cardBackground={cardBackground}
+              $from={account.color[0]}
+              $to={account.color[1]}
+              className={`${account.description}`}
+            >
+              <CardName>{account.description}</CardName>
+              <CardBalanceContainer>
+                <CardBalance>{formatDineroOutput(balance, 'USD')}</CardBalance>
+                <CurrentBalance>{t('ACCOUNTS.CURRENT_BALANCE')}</CurrentBalance>
+              </CardBalanceContainer>
+            </Card>
+            {renderNotes(account.notes)}
+          </Link>
+        </CashListItem>
+      );
+    })
+  ) : (
+    <div>{`${t('SEARCH.NO_RESULTS')} ${query}`}</div>
+  );
 }
 
 AccountsResults.propTypes = {
   accounts: PropTypes.array,
+  query: PropTypes.string,
 };
 
 export default AccountsResults;

@@ -45,6 +45,7 @@ import {
 import { pages } from '../../utils/constants/pages.js';
 import { Grid } from '@mui/material';
 import { CountInfo } from '../transactions/Transactions.styled.js';
+import Loading from '../loading/Loading.js';
 
 function createBarData(keys, allCount, expenseCount, incomeCount) {
   if (!keys) return [];
@@ -85,7 +86,7 @@ export default function Categories() {
   }, [dispatch]);
 
   return status === 'loading' ? (
-    <div>Loading</div>
+    <Loading />
   ) : (
     <>
       <Header>

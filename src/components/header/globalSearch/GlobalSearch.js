@@ -27,6 +27,9 @@ import TransactionsResults from './popper/TransactionsResults';
 import CategoriesResults from './popper/CategoriesResults';
 import AccountsResults from './popper/AccountsResults';
 import { useOutsideClick } from '../../../hooks/useOutsideClick';
+import { filterQuery } from '../../../utils/format/search';
+import { sliceData } from './utils';
+import Loading from '../../loading/Loading';
 
 export default function GlobalSearch() {
   const { t } = useTranslation();
@@ -101,50 +104,53 @@ export default function GlobalSearch() {
         onClick={() => setAnchorEl(null)}
         ref={popperRef}
       >
-        {query ? (
-          <ShowResults to={`/search/${query}`}>
-            {t('SEARCH.SHOW_RESULTS')}
-          </ShowResults>
+        {transactions.status === 'loading' ||
+        categories.status === 'loading' ||
+        accounts.status === 'loading' ? (
+          <Loading />
         ) : (
-          <div>Recent queries...</div>
+          <>
+            {filterQuery(query) ? (
+              <ShowResults to={`/search/${query}`}>
+                {t('SEARCH.SHOW_RESULTS')}
+              </ShowResults>
+            ) : (
+              <div>Recent queries...</div>
+            )}
+            <ResultsTitle>
+              {t('SEARCH.TRANSACTIONS')}{' '}
+              <ResultsCount>{searchTransactions.length}</ResultsCount>{' '}
+            </ResultsTitle>
+            <div>
+              <TransactionsResults
+                transactions={sliceData(searchTransactions, 3)}
+                categories={categoriesData}
+                accounts={accountsData}
+                query={query}
+              />
+            </div>
+            <ResultsTitle>
+              {t('SEARCH.CATEGORIES')}{' '}
+              <ResultsCount>{searchCategories.length}</ResultsCount>
+            </ResultsTitle>
+            <div>
+              <CategoriesResults
+                categories={sliceData(searchCategories, 3)}
+                query={query}
+              />
+            </div>
+            <ResultsTitle>
+              {t('SEARCH.ACCOUNTS')}{' '}
+              <ResultsCount>{searchAccounts.length}</ResultsCount>
+            </ResultsTitle>
+            <div>
+              <AccountsResults
+                accounts={sliceData(searchAccounts, 3)}
+                query={query}
+              />
+            </div>
+          </>
         )}
-        <ResultsTitle>
-          {t('SEARCH.TRANSACTIONS')}{' '}
-          <ResultsCount>{searchTransactions.length}</ResultsCount>{' '}
-        </ResultsTitle>
-        <div>
-          {searchTransactions.length ? (
-            <TransactionsResults
-              transactions={searchTransactions}
-              categories={categoriesData}
-              accounts={accountsData}
-            />
-          ) : (
-            `${t('SEARCH.NO_RESULTS')} ${query}`
-          )}
-        </div>
-        <ResultsTitle>
-          {t('SEARCH.CATEGORIES')}{' '}
-          <ResultsCount>{searchCategories.length}</ResultsCount>
-        </ResultsTitle>
-        <div>
-          {searchCategories.length ? (
-            <CategoriesResults categories={searchCategories} />
-          ) : (
-            `${t('SEARCH.NO_RESULTS')} ${query}`
-          )}
-        </div>
-        <ResultsTitle>
-          {t('SEARCH.ACCOUNTS')}{' '}
-          <ResultsCount>{searchAccounts.length}</ResultsCount>
-        </ResultsTitle>
-        <div>
-          {searchAccounts.length ? (
-            <AccountsResults accounts={searchAccounts} />
-          ) : (
-            `${t('SEARCH.NO_RESULTS')} ${query}`
-          )}
-        </div>
       </GlobalSearchPopper>
     </>
   );
