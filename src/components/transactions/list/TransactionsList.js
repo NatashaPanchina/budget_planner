@@ -8,13 +8,11 @@ import { dinero } from 'dinero.js';
 import { formatDineroOutput } from '../../../utils/format/cash';
 import { dateFormatter } from '../../../utils/format/date';
 
-import { categoryIcons } from '../../../utils/constants/icons';
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delete.svg';
-import { ReactComponent as NoResults } from '../../../assets/icons/shared/noResults.svg';
 
 import { useDispatch } from 'react-redux';
 import { deleteClick, renderNotes } from './utils';
@@ -28,8 +26,6 @@ import {
   TransactionItem,
   TransactionsTitleContainer,
   TransactionsTitleLink,
-  CategorySvg,
-  AccountSvg,
   TransactionInfo,
   ItemButtonsContainer,
   TransactionInfoAccount,
@@ -45,14 +41,14 @@ import {
 } from '../Transactions.styled';
 import {
   CancelSearchSvg,
-  NoSearchResults,
-  NoSearchResultsContainer,
-  NoSearchResultsSvg,
   SearchField,
   ToggleMenu,
 } from '../../../theme/global';
 import { InputAdornment, MenuItem } from '@mui/material';
 import { useTransactionsSearch } from '../../../hooks/useSearch';
+import NoResultsFound from '../../noResults/NoResultsFound';
+import CategorySvg from '../../shared/CategorySvg';
+import AccountSvg from '../../shared/AccountSvg';
 
 function TransactionsList({
   transactions,
@@ -135,8 +131,6 @@ function TransactionsList({
               return null;
             }
 
-            const Icon = categoryIcons[transactionCategory.icon];
-
             return (
               <div key={transaction.id}>
                 <MobTransactionDate>
@@ -149,111 +143,20 @@ function TransactionsList({
                     <TransactionItem>
                       <Category>
                         <CategorySvg
-                          width="38"
-                          height="38"
-                          viewBox="0 0 38 38"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="19"
-                            cy="19"
-                            r="19"
-                            fill={`url(#${index})`}
-                          ></circle>
-                          <Icon height="24" width="24" x="7" y="7" />
-                          <defs>
-                            <linearGradient
-                              id={index}
-                              x1="0"
-                              y1="0"
-                              x2="38"
-                              y2="38"
-                              gradientUnits="userSpaceOnUse"
-                            >
-                              <stop stopColor={transactionCategory.color[0]} />
-                              <stop
-                                offset="1"
-                                stopColor={transactionCategory.color[1]}
-                              />
-                            </linearGradient>
-                          </defs>
-                        </CategorySvg>
+                          category={transactionCategory}
+                          fillName={`transactionCategory${index}`}
+                        />
                         {transactionCategory.description}
                       </Category>
                       <Account>
-                        <AccountSvg
-                          width="34"
-                          height="23"
-                          viewBox="0 0 34 23"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <rect
-                            x="0"
-                            y="0"
-                            width="34"
-                            height="23"
-                            rx="5"
-                            fill={`url(#${transactionAccount.description.replaceAll(
-                              ' ',
-                              '_',
-                            )})`}
-                          ></rect>
-                          <defs>
-                            <linearGradient
-                              id={transactionAccount.description.replaceAll(
-                                ' ',
-                                '_',
-                              )}
-                              x1="0"
-                              y1="0"
-                              x2="34"
-                              y2="11.5"
-                              gradientUnits="userSpaceOnUse"
-                            >
-                              <stop stopColor={transactionAccount.color[0]} />
-                              <stop
-                                offset="1"
-                                stopColor={transactionAccount.color[1]}
-                              />
-                            </linearGradient>
-                          </defs>
-                        </AccountSvg>
+                        <AccountSvg account={transactionAccount} />
                         {transactionAccount.description}
                       </Account>
                       <TransactionInfo>
                         <CategorySvg
-                          width="38"
-                          height="38"
-                          viewBox="0 0 38 38"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="19"
-                            cy="19"
-                            r="19"
-                            fill={`url(#mob${index})`}
-                          ></circle>
-                          <Icon height="24" width="24" x="7" y="7" />
-                          <defs>
-                            <linearGradient
-                              id={`mob${index}`}
-                              x1="0"
-                              y1="0"
-                              x2="38"
-                              y2="38"
-                              gradientUnits="userSpaceOnUse"
-                            >
-                              <stop stopColor={transactionCategory.color[0]} />
-                              <stop
-                                offset="1"
-                                stopColor={transactionCategory.color[1]}
-                              />
-                            </linearGradient>
-                          </defs>
-                        </CategorySvg>
+                          category={transactionCategory}
+                          fillName={`mobTransactionCategory${index}`}
+                        />
                         <div>
                           <div>{transactionCategory.description}</div>
                           <TransactionInfoAccount>
@@ -315,14 +218,7 @@ function TransactionsList({
           })}
         </>
       ) : (
-        <NoSearchResults>
-          <NoSearchResultsContainer>
-            <div>
-              <NoSearchResultsSvg as={NoResults} />
-            </div>
-            <div>{`${t('SEARCH.NO_RESULTS')} "${query}"`}</div>
-          </NoSearchResultsContainer>
-        </NoSearchResults>
+        <NoResultsFound query={query} />
       )}
     </>
   );

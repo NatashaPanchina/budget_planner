@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { categoryIcons } from '../../../../../utils/constants/icons';
 import {
   Account,
-  AccountSvg,
   Amount,
   Category,
-  CategorySvg,
   DeleteButtonSvg,
   DeleteMenuItem,
   EditButtonSvg,
@@ -35,6 +32,8 @@ import { deleteTransaction, editAccount } from '../../../../../actions/Actions';
 import { ReactComponent as ToggleEditIcon } from '../../../../../assets/icons/shared/toggleEdit.svg';
 import { ReactComponent as EditIcon } from '../../../../../assets/icons/shared/edit.svg';
 import { ReactComponent as DeleteIcon } from '../../../../../assets/icons/shared/delete.svg';
+import CategorySvg from '../../../../shared/CategorySvg';
+import AccountSvg from '../../../../shared/AccountSvg';
 
 function TransactionsPage({ transactions, accounts, categories, query }) {
   const dispatch = useDispatch();
@@ -56,8 +55,6 @@ function TransactionsPage({ transactions, accounts, categories, query }) {
         return null;
       }
 
-      const Icon = categoryIcons[transactionCategory.icon];
-
       return (
         <div key={transaction.id}>
           <MobTransactionDate>
@@ -68,108 +65,20 @@ function TransactionsPage({ transactions, accounts, categories, query }) {
               <TransactionItem>
                 <Category>
                   <CategorySvg
-                    width="38"
-                    height="38"
-                    viewBox="0 0 38 38"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="19"
-                      cy="19"
-                      r="19"
-                      fill={`url(#transaction${index})`}
-                    ></circle>
-                    <Icon height="24" width="24" x="7" y="7" />
-                    <defs>
-                      <linearGradient
-                        id={`transaction${index}`}
-                        x1="0"
-                        y1="0"
-                        x2="38"
-                        y2="38"
-                        gradientUnits="userSpaceOnUse"
-                      >
-                        <stop stopColor={transactionCategory.color[0]} />
-                        <stop
-                          offset="1"
-                          stopColor={transactionCategory.color[1]}
-                        />
-                      </linearGradient>
-                    </defs>
-                  </CategorySvg>
+                    category={transactionCategory}
+                    fillName={`transactionCategory${index}`}
+                  />
                   {transactionCategory.description}
                 </Category>
                 <Account>
-                  <AccountSvg
-                    width="34"
-                    height="23"
-                    viewBox="0 0 34 23"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      x="0"
-                      y="0"
-                      width="34"
-                      height="23"
-                      rx="5"
-                      fill={`url(#${transactionAccount.description.replaceAll(
-                        ' ',
-                        '_',
-                      )})`}
-                    ></rect>
-                    <defs>
-                      <linearGradient
-                        id={transactionAccount.description.replaceAll(' ', '_')}
-                        x1="0"
-                        y1="0"
-                        x2="34"
-                        y2="11.5"
-                        gradientUnits="userSpaceOnUse"
-                      >
-                        <stop stopColor={transactionAccount.color[0]} />
-                        <stop
-                          offset="1"
-                          stopColor={transactionAccount.color[1]}
-                        />
-                      </linearGradient>
-                    </defs>
-                  </AccountSvg>
+                  <AccountSvg account={transactionAccount} />
                   {transactionAccount.description}
                 </Account>
                 <TransactionInfo>
                   <CategorySvg
-                    width="38"
-                    height="38"
-                    viewBox="0 0 38 38"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="19"
-                      cy="19"
-                      r="19"
-                      fill={`url(#mobTransaction${index})`}
-                    ></circle>
-                    <Icon height="24" width="24" x="7" y="7" />
-                    <defs>
-                      <linearGradient
-                        id={`mobTransaction${index}`}
-                        x1="0"
-                        y1="0"
-                        x2="38"
-                        y2="38"
-                        gradientUnits="userSpaceOnUse"
-                      >
-                        <stop stopColor={transactionCategory.color[0]} />
-                        <stop
-                          offset="1"
-                          stopColor={transactionCategory.color[1]}
-                        />
-                      </linearGradient>
-                    </defs>
-                  </CategorySvg>
+                    category={transactionCategory}
+                    fillName={`mobTransactionCategory${index}`}
+                  />
                   <div>
                     <div>{transactionCategory.description}</div>
                     <TransactionInfoAccount>

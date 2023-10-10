@@ -27,7 +27,6 @@ import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delet
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
-import { ReactComponent as NoResults } from '../../../assets/icons/shared/noResults.svg';
 
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 
@@ -39,9 +38,6 @@ import {
   ToggleMenu,
   SearchField,
   CancelSearchSvg,
-  NoSearchResults,
-  NoSearchResultsContainer,
-  NoSearchResultsSvg,
 } from '../../../theme/global';
 import {
   Card,
@@ -62,6 +58,7 @@ import { pages } from '../../../utils/constants/pages';
 import { Grid, InputAdornment, MenuItem, styled } from '@mui/material';
 import { useAccountsSearch } from '../../../hooks/useSearch';
 import Loading from '../../loading/Loading';
+import NoResultsFound from '../../noResults/NoResultsFound';
 
 const ArchivedCount = styled('div')((props) => ({
   fontSize: '0.875rem',
@@ -216,14 +213,7 @@ export default function AccountsTrash() {
             })}
           </>
         ) : (
-          <NoSearchResults>
-            <NoSearchResultsContainer>
-              <div>
-                <NoSearchResultsSvg as={NoResults} />
-              </div>
-              <div>{`${t('SEARCH.NO_RESULTS')} "${query}"`}</div>
-            </NoSearchResultsContainer>
-          </NoSearchResults>
+          <NoResultsFound query={query} />
         )}
       </TrashContainer>
     </Grid>

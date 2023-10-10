@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
-import { categoryIcons } from '../../../utils/constants/icons.js';
 import { renderNotes } from '../utils/index.js';
 
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
@@ -14,21 +13,16 @@ import { ReactComponent as AddIcon } from '../../../assets/icons/shared/add.svg'
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
 import { ReactComponent as ArchiveIcon } from '../../../assets/icons/shared/archive.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
-import { ReactComponent as NoResults } from '../../../assets/icons/shared/noResults.svg';
 
 import {
   CancelSearchSvg,
   MobItemButtonSvg,
-  NoSearchResults,
-  NoSearchResultsContainer,
-  NoSearchResultsSvg,
   SearchField,
   ToggleMenu,
 } from '../../../theme/global.js';
 import {
   CategoriesListItem,
   CategoriesDescription,
-  CategoriesSvg,
   EditButtons,
   EditButtonSvg,
   ListItemContainer,
@@ -40,6 +34,8 @@ import {
 import { pages } from '../../../utils/constants/pages.js';
 import { InputAdornment, MenuItem } from '@mui/material';
 import { useCategoriesSearch } from '../../../hooks/useSearch.js';
+import NoResultsFound from '../../noResults/NoResultsFound.js';
+import CategorySvg from '../../shared/CategorySvg.js';
 
 function CategoriesList({ categories, archiveCategory }) {
   const dispatch = useDispatch();
@@ -72,41 +68,16 @@ function CategoriesList({ categories, archiveCategory }) {
       />
       {searchData.length ? (
         searchData.map((category, index) => {
-          let Icon = categoryIcons[category.icon];
           return (
             <React.Fragment key={category.id}>
               <ListItemContainer>
                 <Link to={`${pages.categories.info.main}/${category.id}`}>
                   <CategoriesListItem>
                     <CategoriesDescription>
-                      <CategoriesSvg
-                        width="38"
-                        height="38"
-                        viewBox="0 0 38 38"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <circle
-                          cx="19"
-                          cy="19"
-                          r="19"
-                          fill={`url(#${index})`}
-                        ></circle>
-                        <Icon height="24" width="24" x="7" y="7" />
-                        <defs>
-                          <linearGradient
-                            id={index}
-                            x1="0"
-                            y1="0"
-                            x2="38"
-                            y2="38"
-                            gradientUnits="userSpaceOnUse"
-                          >
-                            <stop stopColor={category.color[0]} />
-                            <stop offset="1" stopColor={category.color[1]} />
-                          </linearGradient>
-                        </defs>
-                      </CategoriesSvg>
+                      <CategorySvg
+                        category={category}
+                        fillName={`category${index}`}
+                      />
                       {category.description}
                     </CategoriesDescription>
                     {renderNotes(category.notes)}
@@ -160,14 +131,7 @@ function CategoriesList({ categories, archiveCategory }) {
           );
         })
       ) : (
-        <NoSearchResults>
-          <NoSearchResultsContainer>
-            <div>
-              <NoSearchResultsSvg as={NoResults} />
-            </div>
-            <div>{`${t('SEARCH.NO_RESULTS')} "${query}"`}</div>
-          </NoSearchResultsContainer>
-        </NoSearchResults>
+        <NoResultsFound query={query} />
       )}
       {}
     </>

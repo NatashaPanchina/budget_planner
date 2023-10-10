@@ -14,13 +14,9 @@ import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/t
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
-import { ReactComponent as NoResults } from '../../../assets/icons/shared/noResults.svg';
 
 import {
   CancelSearchSvg,
-  NoSearchResults,
-  NoSearchResultsContainer,
-  NoSearchResultsSvg,
   SearchField,
   ToggleMenu,
 } from '../../../theme/global';
@@ -41,6 +37,7 @@ import {
 import { pages } from '../../../utils/constants/pages';
 import { InputAdornment, MenuItem } from '@mui/material';
 import { useAccountsSearch } from '../../../hooks/useSearch';
+import NoResultsFound from '../../noResults/NoResultsFound';
 
 function archiveEventButton(account, archiveAccount, dispatch) {
   dispatch(archiveAccount(account.id));
@@ -153,14 +150,7 @@ function AccountsList({ accounts, archiveAccount, localeFilterAccount }) {
           );
         })
       ) : (
-        <NoSearchResults>
-          <NoSearchResultsContainer>
-            <div>
-              <NoSearchResultsSvg as={NoResults} />
-            </div>
-            <div>{`${t('SEARCH.NO_RESULTS')} "${query}"`}</div>
-          </NoSearchResultsContainer>
-        </NoSearchResults>
+        <NoResultsFound query={query} />
       )}
     </>
   );

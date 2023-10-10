@@ -34,12 +34,12 @@ function CategoriesResults({ categories, query }) {
                     cx="19"
                     cy="19"
                     r="19"
-                    fill={`url(#searchCategory${index})`}
+                    fill={`url(#popperCategory${index})`}
                   ></circle>
                   <Icon height="24" width="24" x="7" y="7" />
                   <defs>
                     <linearGradient
-                      id={`searchCategory${index}`}
+                      id={`popperCategory${index}`}
                       x1="0"
                       y1="0"
                       x2="38"

@@ -57,12 +57,12 @@ function TransactionsResults({ transactions, categories, accounts, query }) {
                       cx="19"
                       cy="19"
                       r="19"
-                      fill={`url(#search${index})`}
+                      fill={`url(#popperTransactionCategory${index})`}
                     ></circle>
                     <Icon height="24" width="24" x="7" y="7" />
                     <defs>
                       <linearGradient
-                        id={`search${index}`}
+                        id={`popperTransactionCategory${index}`}
                         x1="0"
                         y1="0"
                         x2="38"

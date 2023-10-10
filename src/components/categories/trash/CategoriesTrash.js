@@ -11,14 +11,12 @@ import {
   deleteCategory,
   deleteTransaction,
 } from '../../../actions/Actions';
-import { categoryIcons } from '../../../utils/constants/icons.js';
 
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 import { ReactComponent as RestoreIcon } from '../../../assets/icons/shared/restore.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delete.svg';
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
-import { ReactComponent as NoResults } from '../../../assets/icons/shared/noResults.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 
 import {
@@ -30,16 +28,12 @@ import {
   MobItemButtonSvg,
   SearchField,
   CancelSearchSvg,
-  NoSearchResults,
-  NoSearchResultsContainer,
-  NoSearchResultsSvg,
 } from '../../../theme/global';
 import { pages } from '../../../utils/constants/pages';
 import { Grid, InputAdornment, MenuItem, styled } from '@mui/material';
 import {
   CategoriesDescription,
   CategoriesListItem,
-  CategoriesSvg,
   CategoriesTitleContainer,
   CategoriesTitleLink,
   DeleteMenuItem,
@@ -50,6 +44,8 @@ import {
 } from '../Categories.styled';
 import { useCategoriesSearch } from '../../../hooks/useSearch';
 import Loading from '../../loading/Loading';
+import NoResultsFound from '../../noResults/NoResultsFound';
+import CategorySvg from '../../shared/CategorySvg';
 
 const ArchivedCount = styled('div')((props) => ({
   fontSize: '0.875rem',
@@ -80,33 +76,10 @@ function renderCategories(
         {t(createLocaleCategories('CATEGORIES_TRASH', categories.length))}
       </ArchivedCount>
       {categories.map((category, index) => {
-        let Icon = categoryIcons[category.icon];
         return (
           <CategoriesListItem key={category.id}>
             <CategoriesDescription>
-              <CategoriesSvg
-                width="38"
-                height="38"
-                viewBox="0 0 38 38"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle cx="19" cy="19" r="19" fill={`url(#${index})`}></circle>
-                <Icon height="24" width="24" x="7" y="7" />
-                <defs>
-                  <linearGradient
-                    id={index}
-                    x1="0"
-                    y1="0"
-                    x2="38"
-                    y2="38"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop stopColor={category.color[0]} />
-                    <stop offset="1" stopColor={category.color[1]} />
-                  </linearGradient>
-                </defs>
-              </CategoriesSvg>
+              <CategorySvg category={category} fillName={`category${index}`} />
               {category.description}
             </CategoriesDescription>
             <EditButtons>
@@ -237,14 +210,7 @@ export default function CategoriesTrash() {
             t,
           )
         ) : (
-          <NoSearchResults>
-            <NoSearchResultsContainer>
-              <div>
-                <NoSearchResultsSvg as={NoResults} />
-              </div>
-              <div>{`${t('SEARCH.NO_RESULTS')} "${query}"`}</div>
-            </NoSearchResultsContainer>
-          </NoSearchResults>
+          <NoResultsFound query={query} />
         )}
       </TrashContainer>
     </Grid>

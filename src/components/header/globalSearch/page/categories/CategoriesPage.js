@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   CategoriesDescription,
   CategoriesListItem,
-  CategoriesSvg,
   DeleteMenuItem,
   DeleteSvg,
   EditButtonSvg,
@@ -14,7 +13,6 @@ import {
 } from '../../../../categories/Categories.styled';
 import { Link } from 'react-router-dom';
 import { pages } from '../../../../../utils/constants/pages';
-import { categoryIcons } from '../../../../../utils/constants/icons';
 import { renderNotes } from '../../../../categories/utils';
 import { MobItemButtonSvg, ToggleMenu } from '../../../../../theme/global';
 import { MenuItem } from '@mui/material';
@@ -27,6 +25,7 @@ import { ReactComponent as AddIcon } from '../../../../../assets/icons/shared/ad
 import { ReactComponent as EditIcon } from '../../../../../assets/icons/shared/edit.svg';
 import { ReactComponent as ArchiveIcon } from '../../../../../assets/icons/shared/archive.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../../../assets/icons/shared/toggleEdit.svg';
+import CategorySvg from '../../../../shared/CategorySvg';
 
 function CategoriesPage({ categories, query }) {
   const dispatch = useDispatch();
@@ -37,41 +36,16 @@ function CategoriesPage({ categories, query }) {
 
   return categories.length ? (
     categories.map((category, index) => {
-      let Icon = categoryIcons[category.icon];
       return (
         <React.Fragment key={category.id}>
           <ListItemContainer>
             <Link to={`${pages.categories.info.main}/${category.id}`}>
               <CategoriesListItem>
                 <CategoriesDescription>
-                  <CategoriesSvg
-                    width="38"
-                    height="38"
-                    viewBox="0 0 38 38"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="19"
-                      cy="19"
-                      r="19"
-                      fill={`url(#category${index})`}
-                    ></circle>
-                    <Icon height="24" width="24" x="7" y="7" />
-                    <defs>
-                      <linearGradient
-                        id={`category${index}`}
-                        x1="0"
-                        y1="0"
-                        x2="38"
-                        y2="38"
-                        gradientUnits="userSpaceOnUse"
-                      >
-                        <stop stopColor={category.color[0]} />
-                        <stop offset="1" stopColor={category.color[1]} />
-                      </linearGradient>
-                    </defs>
-                  </CategoriesSvg>
+                  <CategorySvg
+                    category={category}
+                    fillName={`category${index}`}
+                  />
                   {category.description}
                 </CategoriesDescription>
                 {renderNotes(category.notes)}

@@ -249,16 +249,6 @@ export const CategoriesDescription = styled(FlexContainer)(() => ({
   gridArea: 'desc',
 }));
 
-export const CategoriesSvg = styled('svg')((props) => ({
-  marginLeft: props.theme.spacing(2),
-  marginRight: props.theme.spacing(2),
-  minWidth: 38,
-  '@media (min-width: 600px)': {
-    marginLeft: props.theme.spacing(5),
-    marginRight: props.theme.spacing(4),
-  },
-}));
-
 export const EditButtons = styled(FlexContainer)((props) => ({
   position: 'absolute',
   top: props.theme.spacing(4),
