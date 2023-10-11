@@ -72,7 +72,7 @@ export const lightTheme = {
     MuiIconButton: {
       styleOverrides: {
         root: {
-          color: '#fff',
+          color: '#989393',
         },
       },
     },
@@ -339,7 +339,7 @@ export const darkTheme = {
     background: {
       body: '#262626',
       navigation: '#383838',
-      search: '#515151',
+      search: '#313149',
       primary: '#333232',
       ordinary: '#515151',
     },

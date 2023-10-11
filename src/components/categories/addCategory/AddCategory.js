@@ -7,8 +7,8 @@ import { addNewCategory } from '../../../actions/Actions.js';
 import CategoryForm from './CategoryForm.js';
 
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
-import { ReactComponent as ExpenseIcon } from '../../../assets/icons/shared/expense.svg';
-import { ReactComponent as IncomeIcon } from '../../../assets/icons/shared/income.svg';
+import { ReactComponent as ExpenseIcon } from '../../../assets/icons/shared/newExpense.svg';
+import { ReactComponent as IncomeIcon } from '../../../assets/icons/shared/newIncome.svg';
 
 import {
   AddContainer,

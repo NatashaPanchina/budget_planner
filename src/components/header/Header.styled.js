@@ -1,4 +1,5 @@
-import { styled } from '@mui/material';
+import { MenuItem, alpha, styled } from '@mui/material';
+import { TextInputField } from '../../theme/global';
 
 export const FlexContainer = styled('div')(() => ({
   display: 'flex',
@@ -16,9 +17,6 @@ export const HeaderContainer = styled(FlexContainer)((props) => ({
     position: 'fixed',
     zIndex: 300,
     top: 0,
-    background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
-  },
-  '@media (min-width: 768px)': {
     background: props.theme.colors.background.primary,
     borderBottom: `1px solid ${props.theme.colors.border.ordinary}`,
   },
@@ -30,10 +28,10 @@ export const LogoContainer = styled(FlexContainer)((props) => ({
   background: 'none',
   '@media (min-width: 600px)': {
     width: 48,
+    background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
   },
   '@media (min-width: 768px)': {
     width: 64,
-    background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
   },
   '@media (min-width: 1200px)': {
     width: 208,
@@ -64,7 +62,6 @@ export const Title = styled(FlexContainer)((props) => ({
   '@media (min-width: 600px)': {
     fontWeight: 450,
     fontSize: '1.25rem',
-    color: props.theme.colors.white,
     paddingLeft: props.theme.spacing(5),
   },
   '@media (min-width: 768px)': {
@@ -72,39 +69,9 @@ export const Title = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const GlobalSearch = styled('div')((props) => ({
-  display: 'none',
-  '@media (min-width: 768px)': {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-    fontSize: '0.875rem',
-    borderRadius: props.theme.borderRadius,
-    backgroundColor: props.theme.colors.background.body,
-  },
-}));
-
-export const GlobalSearchInput = styled('input')((props) => ({
-  height: 30,
-  borderRadius: 'inherit',
-  backgroundColor: 'inherit',
-  color: props.theme.colors.text.primary,
-  width: `calc(100% - ${props.theme.spacing(12)})`,
-  '&[type="text"]::placeholder': {
-    color: props.theme.colors.text.darker,
-  },
-}));
-
-export const GlobalSearchImg = styled('img')((props) => ({
-  paddingLeft: props.theme.spacing(1),
-  paddingRight: props.theme.spacing(1),
-  marginLeft: 'auto',
-  height: 20,
-}));
-
 export const ThemeContainer = styled(FlexContainer)(() => ({
   display: 'none',
-  '@media (min-width: 768px)': {
+  '@media (min-width: 600px)': {
     display: 'flex',
     justifyContent: 'center',
   },
@@ -113,42 +80,54 @@ export const ThemeContainer = styled(FlexContainer)(() => ({
 export const Container = styled(FlexContainer)((props) => ({
   justifyContent: 'center',
   width: '33.3%',
-  cursor: 'pointer',
   color: props.theme.colors.text.primary,
   '@media (min-width: 1200px)': {
     width: '25%',
   },
 }));
 
-export const CurrentLng = styled('div')((props) => ({
-  '&:hover': {
-    color: props.theme.colors.text.primary,
+export const LanguagesMenu = styled(TextInputField)((props) => ({
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      border: `1px solid ${props.theme.colors.background.primary}`,
+      padding: 0,
+      boxShadow: 'none',
+    },
+    '&:hover fieldset': {
+      border: `1px solid ${props.theme.colors.background.primary}`,
+    },
+    '&.Mui-focused fieldset': {
+      border: `1px solid ${props.theme.colors.background.primary}`,
+    },
+    '& .MuiSelect-icon': {
+      display: 'none',
+    },
+    '& .MuiInputBase-input': {
+      paddingLeft: 0,
+      paddingRight: '0px !important',
+      display: 'flex',
+      justifyContent: 'center',
+      '&:hover': {
+        color: alpha(props.theme.colors.text.primary, 0.7),
+      },
+    },
   },
 }));
 
-export const LanguagesMenu = styled('div')((props) => ({
-  position: 'absolute',
-  top: props.theme.spacing(14),
-  zIndex: 10,
+export const LanguagesMenuItem = styled(MenuItem)((props) => ({
+  borderRadius: props.theme.borderRadius,
   backgroundColor: props.theme.colors.background.primary,
-  padding: props.theme.spacing(2),
-  border: `1px solid ${props.theme.colors.border.ordinary}`,
-  cursor: 'pointer',
-}));
-
-export const LanguagesMenuItem = styled('div')((props) => ({
-  padding: props.theme.spacing(2),
-  '&:hover': {
-    color: props.theme.colors.text.darker,
-  },
+  color: props.theme.colors.text.primary,
 }));
 
 export const Svg = styled('svg')(() => ({
   height: 30,
   width: 30,
+  cursor: 'pointer',
 }));
 
 export const SvgMode = styled(Svg)((props) => ({
+  cursor: 'pointer',
   '&:hover circle': {
     fill: props.theme.colors.background.ordinary,
     transition: 'fill 0.4s ease-out',

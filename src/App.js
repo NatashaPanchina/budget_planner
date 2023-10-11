@@ -12,22 +12,26 @@ import { darkTheme, lightTheme } from './theme';
 import Root from './components/root/Root';
 import Transactions from './components/transactions/Transactions';
 import InfoTransaction from './components/transactions/infoTransaction/InfoTransaction';
-import Cash from './components/cash/Cash';
+import Accounts from './components/accounts/Accounts';
 import NewTransaction from './components/newTransaction/NewTransaction';
 import Categories from './components/categories/Categories';
 import CategoriesTrash from './components/categories/trash/CategoriesTrash';
 import AddCategory from './components/categories/addCategory/AddCategory';
-import AddAccount from './components/cash/addAccount/AddAccount';
-import InfoAccount from './components/cash/infoAccount/InfoAccount';
+import AddAccount from './components/accounts/addAccount/AddAccount';
+import InfoAccount from './components/accounts/infoAccount/InfoAccount';
 import InfoCategory from './components/categories/infoCategory/InfoCategory';
-import Analysis from './components/analysis/Analysis';
-import AccountsTrash from './components/cash/trash/AccountsTrash';
+import CashFlow from './components/cashFlow/CashFlow';
+import AccountsTrash from './components/accounts/trash/AccountsTrash';
 import Dashboard from './components/dashboard/Dashboard';
 import { mode } from './utils/constants/mode';
 import { ThemeProvider, createTheme } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { inputGlobalStyles } from './theme/global';
+import GlobalSearchPage from './components/header/globalSearch/page/GlobalSearchPage';
+import TransactionsSearch from './components/header/globalSearch/transactions/TransactionsSearch';
+import CategoriesSearch from './components/header/globalSearch/categories/CategoriesSearch';
+import AccountsSearch from './components/header/globalSearch/accounts/AccountsSearch';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +41,22 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Navigate replace to="dashboard" />,
+      },
+      {
+        path: '/search/:query',
+        element: <GlobalSearchPage />,
+      },
+      {
+        path: '/search/transactions/:query',
+        element: <TransactionsSearch />,
+      },
+      {
+        path: '/search/categories/:query',
+        element: <CategoriesSearch />,
+      },
+      {
+        path: '/search/accounts/:query',
+        element: <AccountsSearch />,
       },
       {
         path: 'dashboard',
@@ -55,27 +75,27 @@ const router = createBrowserRouter([
         element: <InfoTransaction />,
       },
       {
-        path: 'cash',
+        path: 'accounts',
         element: <Navigate replace to="all" />,
       },
       {
-        path: 'cash/:filterCash',
-        element: <Cash />,
+        path: 'accounts/:filterCash',
+        element: <Accounts />,
       },
       {
-        path: 'cash/trash',
+        path: 'accounts/trash',
         element: <Navigate replace to="all" />,
       },
       {
-        path: 'cash/trash/:filterType',
+        path: 'accounts/trash/:filterCash',
         element: <AccountsTrash />,
       },
       {
-        path: 'cash/addAccount/:accountType',
+        path: 'accounts/addAccount/:accountType',
         element: <AddAccount />,
       },
       {
-        path: 'cash/infoAccount/:accountId',
+        path: 'accounts/infoAccount/:accountId',
         element: <InfoAccount />,
       },
       {
@@ -112,7 +132,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'analysis',
-        element: <Analysis />,
+        element: <CashFlow />,
       },
     ],
   },

@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import {
-  createFilterType,
-  createLocaleCategories,
-  filterCategories,
-  renderNotes,
-} from '../utils';
+import { createLocaleCategories, renderNotes } from '../utils';
 import { idbAddItem, idbDeleteItem } from '../../../indexedDB/IndexedDB';
 import {
   fetchCategoriesData,
@@ -17,31 +11,29 @@ import {
   deleteCategory,
   deleteTransaction,
 } from '../../../actions/Actions';
-import { categoryIcons } from '../../../utils/constants/icons.js';
 
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 import { ReactComponent as RestoreIcon } from '../../../assets/icons/shared/restore.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delete.svg';
-import searchIcon from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
+import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 
 import {
   BackLink,
   BackLinkSvg,
-  Search,
-  SearchImg,
-  SearchInput,
   ToggleMenu,
   TrashContainer,
   TrashHeader,
   MobItemButtonSvg,
+  SearchField,
+  CancelSearchSvg,
 } from '../../../theme/global';
 import { pages } from '../../../utils/constants/pages';
-import { Grid, MenuItem, styled } from '@mui/material';
+import { Grid, InputAdornment, MenuItem, styled } from '@mui/material';
 import {
   CategoriesDescription,
   CategoriesListItem,
-  CategoriesSvg,
   CategoriesTitleContainer,
   CategoriesTitleLink,
   DeleteMenuItem,
@@ -50,6 +42,10 @@ import {
   EditButtons,
   FlexContainer,
 } from '../Categories.styled';
+import { useCategoriesSearch } from '../../../hooks/useSearch';
+import Loading from '../../loading/Loading';
+import NoResultsFound from '../../noResults/NoResultsFound';
+import CategorySvg from '../../shared/CategorySvg';
 
 const ArchivedCount = styled('div')((props) => ({
   fontSize: '0.875rem',
@@ -80,33 +76,10 @@ function renderCategories(
         {t(createLocaleCategories('CATEGORIES_TRASH', categories.length))}
       </ArchivedCount>
       {categories.map((category, index) => {
-        let Icon = categoryIcons[category.icon];
         return (
           <CategoriesListItem key={category.id}>
             <CategoriesDescription>
-              <CategoriesSvg
-                width="38"
-                height="38"
-                viewBox="0 0 38 38"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle cx="19" cy="19" r="19" fill={`url(#${index})`}></circle>
-                <Icon height="24" width="24" x="7" y="7" />
-                <defs>
-                  <linearGradient
-                    id={index}
-                    x1="0"
-                    y1="0"
-                    x2="38"
-                    y2="38"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop stopColor={category.color[0]} />
-                    <stop offset="1" stopColor={category.color[1]} />
-                  </linearGradient>
-                </defs>
-              </CategoriesSvg>
+              <CategorySvg category={category} fillName={`category${index}`} />
               {category.description}
             </CategoriesDescription>
             <EditButtons>
@@ -168,13 +141,12 @@ export default function CategoriesTrash() {
   const transactions = useSelector((state) => state.transactions);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const filterType = createFilterType(useParams().filterType);
-  const archivedCategories = categories.categories.filter(
-    (category) => category.archived,
-  );
   const [clickedCategory, setClickedCategory] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [query, setQuery] = useState('');
+
+  const searchData = useCategoriesSearch(query, categories.categories, true);
 
   useEffect(() => {
     dispatch(fetchCategoriesData());
@@ -183,7 +155,7 @@ export default function CategoriesTrash() {
 
   return categories.status === 'loading' ||
     transactions.status === 'loading' ? (
-    <div>Loading</div>
+    <Loading />
   ) : (
     <Grid item xs={12}>
       <TrashContainer>
@@ -204,26 +176,41 @@ export default function CategoriesTrash() {
             {t('CATEGORIES_TRASH.INCOMES')}
           </CategoriesTitleLink>
         </CategoriesTitleContainer>
-        <Search>
-          <SearchInput
-            type="text"
-            placeholder={t('CATEGORIES_TRASH.SEARCH')}
-          ></SearchInput>
-          <SearchImg src={searchIcon} alt="search" />
-        </Search>
-        {renderCategories(
-          clickedCategory,
-          setClickedCategory,
-          anchorEl,
-          setAnchorEl,
-          open,
-          filterCategories(filterType, archivedCategories),
-          transactions.transactions,
-          restoreCategory,
-          deleteCategory,
-          deleteTransaction,
-          dispatch,
-          t,
+        <SearchField
+          placeholder={t('CATEGORIES_TRASH.SEARCH')}
+          value={query}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: query ? (
+              <InputAdornment position="end" onClick={() => setQuery('')}>
+                <CancelSearchSvg as={CancelSearchIcon} />
+              </InputAdornment>
+            ) : null,
+          }}
+          onChange={(event) => setQuery(event.target.value)}
+          autoComplete="off"
+        />
+        {searchData.length ? (
+          renderCategories(
+            clickedCategory,
+            setClickedCategory,
+            anchorEl,
+            setAnchorEl,
+            open,
+            searchData,
+            transactions.transactions,
+            restoreCategory,
+            deleteCategory,
+            deleteTransaction,
+            dispatch,
+            t,
+          )
+        ) : (
+          <NoResultsFound query={query} />
         )}
       </TrashContainer>
     </Grid>

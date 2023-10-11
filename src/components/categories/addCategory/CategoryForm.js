@@ -32,18 +32,20 @@ import { pages } from '../../../utils/constants/pages.js';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import dayjs from 'dayjs';
+import { toStringDate } from '../../../utils/format/date/index.js';
 
 const doneEventHandler = (
   categoryType,
   description,
   selectedColor,
   icon,
-  date,
+  dateObj,
   notes,
   tags,
   addNewCategory,
   dispatch,
 ) => {
+  const date = toStringDate(new Date(dateObj.format()));
   const newCategory = {
     id: uuidv4(),
     archived: false,
@@ -66,7 +68,7 @@ function CategoryForm({ addNewCategory }) {
   const [description, setDescription] = useState('');
   const [selectedColor, setSelectedColor] = useState(colors.green[600]);
   const [icon, setIcon] = useState(0);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState(['']);
   const SelectedIcon = categoryIcons[icon];
@@ -147,7 +149,7 @@ function CategoryForm({ addNewCategory }) {
       <DateField
         required
         label={t('ADD_CATEGORY.DATE')}
-        defaultValue={dayjs(date)}
+        value={date}
         onChange={(value) => setDate(value)}
       />
       <TextInputField
@@ -174,7 +176,7 @@ function CategoryForm({ addNewCategory }) {
               description,
               selectedColor,
               icon,
-              date.toISOString(),
+              date,
               notes,
               tags,
               addNewCategory,

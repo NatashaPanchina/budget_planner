@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { dinero, toDecimal } from 'dinero.js';
 import { USD } from '@dinero.js/currencies';
 import { renderAccounts } from '../../transactions/utils';
-import searchIcon from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
@@ -15,19 +16,21 @@ import {
   ButtonSvg,
   ButtonTitle,
   CancelButton,
+  CancelSearchSvg,
   DateField,
   DoneButton,
-  Search,
-  SearchImg,
-  SearchInput,
+  SearchField,
   SelectHeader,
+  SelectHeaderButton,
   TextInputField,
 } from '../../../theme/global';
-import { AddAccount } from '../NewTransaction.styled';
 import { NumericFormatCustom } from '../../../utils/format/cash';
 import dayjs from 'dayjs';
+import { InputAdornment } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 function TransferTransactionForm({ accounts }) {
+  const { transactionAccount } = useParams();
   const { t } = useTranslation();
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const transactionType = 'transfer';
@@ -36,7 +39,7 @@ function TransferTransactionForm({ accounts }) {
   const [amount, setAmount] = useState(
     toDecimal(dinero({ amount: 0, currency: USD })),
   );
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState([]);
 
@@ -46,6 +49,7 @@ function TransferTransactionForm({ accounts }) {
       setOriginAccount(accounts[0].id);
       setDestAccount(accounts[0].id);
     }
+    if (transactionAccount) setOriginAccount(transactionAccount);
   }, [accounts]);
 
   return (
@@ -54,44 +58,62 @@ function TransferTransactionForm({ accounts }) {
         margin="normal"
         required
         select
-        label={t('NEW_TRANSACTION.ORIGIN_CASH')}
+        label={t('NEW_TRANSACTION.ORIGIN_ACCOUNT')}
         value={originAccount}
         onChange={(event) => setOriginAccount(event.target.value)}
       >
-        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CASH')}</SelectHeader>
-        <Search>
-          <SearchInput
-            type="text"
-            placeholder={t('NEW_TRANSACTION.SEARCH_CASH')}
-          ></SearchInput>
-          <SearchImg src={searchIcon} alt="search" />
-        </Search>
-        <AddAccount to={pages.cash.add.card}>
-          <AddButtonSvg as={PlusIcon} />
-          {t('NEW_TRANSACTION.ADD_CASH')}
-        </AddAccount>
+        <SelectHeader>
+          {t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}
+          <SelectHeaderButton to={pages.accounts.add.card}>
+            <AddButtonSvg as={PlusIcon} />
+          </SelectHeaderButton>
+        </SelectHeader>
+        <SearchField
+          placeholder={t('NEW_TRANSACTION.SEARCH_ACCOUNTS')}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <CancelSearchSvg as={CancelSearchIcon} />
+              </InputAdornment>
+            ),
+          }}
+        />
         {renderAccounts(filteredAccounts, t)}
       </TextInputField>
       <TextInputField
         margin="normal"
         required
         select
-        label={t('NEW_TRANSACTION.DESTINATION_CASH')}
+        label={t('NEW_TRANSACTION.DESTINATION_ACCOUNT')}
         value={destAccount}
         onChange={(event) => setDestAccount(event.target.value)}
       >
-        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CASH')}</SelectHeader>
-        <Search>
-          <SearchInput
-            type="text"
-            placeholder={t('NEW_TRANSACTION.SEARCH_CASH')}
-          ></SearchInput>
-          <SearchImg src={searchIcon} alt="search" />
-        </Search>
-        <AddAccount to={pages.cash.add.card}>
-          <AddButtonSvg as={PlusIcon} />
-          {t('NEW_TRANSACTION.ADD_CASH')}
-        </AddAccount>
+        <SelectHeader>
+          {t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}
+          <SelectHeaderButton to={pages.accounts.add.card}>
+            <AddButtonSvg as={PlusIcon} />
+          </SelectHeaderButton>
+        </SelectHeader>
+        <SearchField
+          placeholder={t('NEW_TRANSACTION.SEARCH_ACCOUNTS')}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <CancelSearchSvg as={CancelSearchIcon} />
+              </InputAdornment>
+            ),
+          }}
+        />
         {renderAccounts(filteredAccounts, t)}
       </TextInputField>
       <TextInputField
@@ -108,7 +130,7 @@ function TransferTransactionForm({ accounts }) {
       <DateField
         required
         label={t('NEW_TRANSACTION.DATE')}
-        defaultValue={dayjs(date)}
+        value={date}
         onChange={(value) => setDate(value)}
       />
       <TextInputField

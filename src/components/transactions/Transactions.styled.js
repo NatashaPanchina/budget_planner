@@ -287,27 +287,12 @@ export const Category = styled(FlexContainer)(() => ({
   },
 }));
 
-export const CategorySvg = styled('svg')((props) => ({
-  marginLeft: props.theme.spacing(2),
-  marginRight: props.theme.spacing(2),
-  minWidth: 38,
-  '@media (min-width: 768px)': {
-    marginLeft: props.theme.spacing(5),
-    marginRight: props.theme.spacing(4),
-  },
-}));
-
 export const Account = styled(FlexContainer)(() => ({
   display: 'none',
   '@media (min-width: 768px)': {
     display: 'flex',
     gridArea: 'account',
   },
-}));
-
-export const AccountSvg = styled('svg')((props) => ({
-  minWidth: 34,
-  marginRight: props.theme.spacing(4),
 }));
 
 export const TransactionInfo = styled(FlexContainer)(() => ({

@@ -1,12 +1,12 @@
 import { useRef, useEffect } from 'react';
 
-export const useOutsideClick = (callback) => {
+export const useOutsideClick = (setAnchorEl) => {
   const ref = useRef();
 
   useEffect(() => {
     const handleClick = (event) => {
       if (ref.current && !ref.current.contains(event.target)) {
-        callback(ref.current);
+        setAnchorEl(null);
       }
     };
 
@@ -15,11 +15,7 @@ export const useOutsideClick = (callback) => {
     return () => {
       document.removeEventListener('click', handleClick);
     };
-  }, [ref, callback]);
+  }, [ref]);
 
   return ref;
-};
-
-export const hideElement = (element) => {
-  element.classList.add('none');
 };

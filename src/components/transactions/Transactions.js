@@ -14,28 +14,39 @@ import {
 } from '../../actions/Actions';
 
 import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.svg';
+import { ReactComponent as SortIcon } from '../../assets/icons/shared/sort.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
-import { ReactComponent as MobileFilterIcon } from '../../assets/icons/shared/mobileFilter.svg';
+import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
 
 import {
   Header,
   HeaderTitle,
-  CommonFilter,
-  Filter,
   FilterSvg,
+  AddButton,
+  FilterButton,
+  FilterTitle,
+  FilterButtonsContainer,
+  FilterTooltip,
+  SortButtonsContainer,
+  MobileFilterButton,
 } from '../../theme/global.js';
+import { useParams } from 'react-router-dom';
+import { pages } from '../../utils/constants/pages.js';
+import { createFilterAccount, createFiltertype } from './utils/index.js';
+import Loading from '../loading/Loading.js';
 
 export default function Transactions() {
   const transactions = useSelector((state) => state.transactions);
   const accounts = useSelector((state) => state.accounts);
   const categories = useSelector((state) => state.categories);
   const dispatch = useDispatch();
-
   const [accountsData, setAccountsData] = useState([]);
   const [categoriesData, setCategoriesData] = useState([]);
   const [transactionsData, setTransactionsData] = useState([]);
-
   const { t } = useTranslation();
+  const { filterAccount, filterType } = useParams();
+  const transactionsType = createFiltertype(filterType);
+  const transactionsAccount = createFilterAccount(accountsData, filterAccount);
 
   useEffect(() => {
     dispatch(fetchAccountsData());
@@ -65,23 +76,38 @@ export default function Transactions() {
   return accounts.status === 'loading' ||
     categories.status === 'loading' ||
     transactions.status === 'loading' ? (
-    <div>Loading</div>
+    <Loading />
   ) : (
     <>
       <Header>
         <HeaderTitle>{t('TRANSACTIONS.TRANSACTIONS_HEADER')}</HeaderTitle>
-        <Filter>
-          <FilterSvg as={FilterIcon} />
-          {t('TRANSACTIONS.FILTER_KEY')}
-        </Filter>
-        <Filter>
-          <FilterSvg as={CalendarIcon} />
-          {t('TRANSACTIONS.FILTER_DATE')}
-        </Filter>
-        <CommonFilter>
-          <FilterSvg as={CalendarIcon} />
-          <FilterSvg as={MobileFilterIcon} />
-        </CommonFilter>
+        <FilterButtonsContainer>
+          <SortButtonsContainer>
+            <FilterButton>
+              <FilterSvg as={FilterIcon} />
+              <FilterTitle>{t('TRANSACTIONS.FILTER_KEY')}</FilterTitle>
+            </FilterButton>
+            <FilterButton>
+              <FilterSvg as={CalendarIcon} />
+              <FilterTitle>{t('TRANSACTIONS.FILTER_DATE')}</FilterTitle>
+            </FilterButton>
+            <FilterButton>
+              <FilterSvg as={SortIcon} />
+              <FilterTitle>Filter</FilterTitle>
+            </FilterButton>
+          </SortButtonsContainer>
+          <MobileFilterButton>
+            <FilterSvg as={FilterIcon} />
+          </MobileFilterButton>
+          <FilterTooltip title={t('TRANSACTIONS.NEW_TRANSACTION')} arrow>
+            <AddButton
+              to={`${pages.newTransaction[transactionsType]}/${transactionsAccount}`}
+            >
+              <FilterSvg as={AddIcon} />
+              <FilterTitle>{t('TRANSACTIONS.NEW_TRANSACTION')}</FilterTitle>
+            </AddButton>
+          </FilterTooltip>
+        </FilterButtonsContainer>
       </Header>
       <Grid item xs={12} sm={12} md={3} lg={3}>
         <AccountsSlider

@@ -32,6 +32,7 @@ import {
   MobHeaderTitle,
 } from '../../theme/global';
 import { getMobileTitle } from './utils';
+import Loading from '../loading/Loading';
 
 function renderTransactionForm(
   transactionType,
@@ -138,7 +139,7 @@ export default function NewTransaction() {
         </Back>
         <MobHeaderTitle>{getMobileTitle(transactionType, t)}</MobHeaderTitle>
         {accounts.status === 'loading' || categories.status === 'loading' ? (
-          <div>Loading</div>
+          <Loading />
         ) : (
           renderTransactionForm(
             transactionType,

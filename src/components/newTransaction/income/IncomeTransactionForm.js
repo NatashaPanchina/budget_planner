@@ -14,25 +14,26 @@ import { renderCategories, renderAccounts } from '../../transactions/utils';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
-import searchIcon from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { pages } from '../../../utils/constants/pages.js';
 import {
-  AddButton,
   AddButtonSvg,
   AddFormButtonsContainer,
   ButtonSvg,
   ButtonTitle,
   CancelButton,
+  CancelSearchSvg,
   DateField,
   DoneButton,
-  Search,
-  SearchImg,
-  SearchInput,
+  SearchField,
   SelectHeader,
+  SelectHeaderButton,
   TextInputField,
 } from '../../../theme/global.js';
-import { AddAccount } from '../NewTransaction.styled.js';
 import dayjs from 'dayjs';
+import { InputAdornment } from '@mui/material';
+import { toStringDate } from '../../../utils/format/date/index.js';
 
 function IncomeTransactionForm({
   categories,
@@ -52,7 +53,7 @@ function IncomeTransactionForm({
   const [amount, setAmount] = useState(
     toDecimal(dinero({ amount: 0, currency: USD })),
   );
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState([]);
 
@@ -73,40 +74,58 @@ function IncomeTransactionForm({
         value={category}
         onChange={(event) => setCategory(event.target.value)}
       >
-        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CATEGORIES')}</SelectHeader>
-        <Search>
-          <SearchInput
-            type="text"
-            placeholder={t('NEW_TRANSACTION.SEARCH_CATEGORY')}
-          ></SearchInput>
-          <SearchImg src={searchIcon} alt="search" />
-        </Search>
-        <AddButton to={pages.categories.add[transactionType]}>
-          <AddButtonSvg as={PlusIcon} />
-          {t('NEW_TRANSACTION.ADD_CATEGORY')}
-        </AddButton>
+        <SelectHeader>
+          {t('NEW_TRANSACTION.AVAILABLE_CATEGORIES')}
+          <SelectHeaderButton to={pages.categories.add[transactionType]}>
+            <AddButtonSvg as={PlusIcon} />
+          </SelectHeaderButton>
+        </SelectHeader>
+        <SearchField
+          placeholder={t('NEW_TRANSACTION.SEARCH_CATEGORY')}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <CancelSearchSvg as={CancelSearchIcon} />
+              </InputAdornment>
+            ),
+          }}
+        />
         {renderCategories(filteredCategories)}
       </TextInputField>
       <TextInputField
         margin="normal"
         required
         select
-        label={t('NEW_TRANSACTION.CASH')}
+        label={t('NEW_TRANSACTION.ACCOUNT')}
         value={account}
         onChange={(event) => setAccount(event.target.value)}
       >
-        <SelectHeader>{t('NEW_TRANSACTION.AVAILABLE_CASH')}</SelectHeader>
-        <Search>
-          <SearchInput
-            type="text"
-            placeholder={t('NEW_TRANSACTION.SEARCH_CASH')}
-          ></SearchInput>
-          <SearchImg src={searchIcon} alt="search" />
-        </Search>
-        <AddAccount to={pages.cash.add.card}>
-          <AddButtonSvg as={PlusIcon} />
-          {t('NEW_TRANSACTION.ADD_CASH')}
-        </AddAccount>
+        <SelectHeader>
+          {t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}
+          <SelectHeaderButton to={pages.accounts.add.card}>
+            <AddButtonSvg as={PlusIcon} />
+          </SelectHeaderButton>
+        </SelectHeader>
+        <SearchField
+          placeholder={t('NEW_TRANSACTION.SEARCH_ACCOUNTS')}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <CancelSearchSvg as={CancelSearchIcon} />
+              </InputAdornment>
+            ),
+          }}
+        />
         {renderAccounts(filteredAccounts, t)}
       </TextInputField>
       <TextInputField
@@ -123,7 +142,7 @@ function IncomeTransactionForm({
       <DateField
         required
         label={t('NEW_TRANSACTION.DATE')}
-        defaultValue={dayjs(date)}
+        value={date}
         onChange={(value) => setDate(value)}
       />
       <TextInputField
@@ -144,15 +163,19 @@ function IncomeTransactionForm({
         <DoneButton
           to={`${pages.transactions[`${transactionType}s`]}/all`}
           onClick={() => {
+            const newAmount = dineroFromFloat({
+              amount,
+              currency: USD,
+              scale: 2,
+            });
             const newTransaction = {
               id: uuidv4(),
               transactionType,
               category,
               account,
-              amount: toSnapshot(
-                dineroFromFloat({ amount, currency: USD, scale: 2 }),
-              ),
-              date: date.toISOString(),
+              amount: toSnapshot(newAmount),
+              formatAmount: toDecimal(newAmount),
+              date: toStringDate(new Date(date.format())),
               notes,
               tags,
             };
@@ -161,23 +184,20 @@ function IncomeTransactionForm({
             const transactionAccount = filteredAccounts.find(
               (filteredAccount) => filteredAccount.id === account,
             );
-            const previousBalance = dinero(transactionAccount.balance);
-            const newBalance = toSnapshot(
-              add(
-                previousBalance,
-                dineroFromFloat({ amount, currency: USD, scale: 2 }),
-              ),
-            );
-            dispatch(
-              editAccount(transactionAccount.id, {
-                ...transactionAccount,
-                balance: newBalance,
-              }),
-            );
-            idbAddItem(
-              { ...transactionAccount, balance: newBalance },
-              'accounts',
-            );
+            if (transactionAccount) {
+              const previousBalance = dinero(transactionAccount.balance);
+              const newBalance = toSnapshot(add(previousBalance, newAmount));
+              dispatch(
+                editAccount(transactionAccount.id, {
+                  ...transactionAccount,
+                  balance: newBalance,
+                }),
+              );
+              idbAddItem(
+                { ...transactionAccount, balance: newBalance },
+                'accounts',
+              );
+            }
           }}
         >
           <ButtonSvg as={DoneIcon} />

@@ -22,11 +22,11 @@ import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMa
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
-import searchIcon from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 
 import { pages } from '../../../utils/constants/pages.js';
 import {
-  AddButton,
   AddButtonSvg,
   AddContainer,
   AddFormButtonsContainer,
@@ -36,21 +36,22 @@ import {
   ButtonSvg,
   ButtonTitle,
   CancelButton,
+  CancelSearchSvg,
   DateField,
   DoneButton,
   MobHeaderTitle,
-  Search,
-  SearchImg,
-  SearchInput,
+  SearchField,
   SelectHeader,
+  SelectHeaderButton,
   TextInputField,
 } from '../../../theme/global.js';
 import { Back, BackSvg } from '../../newTransaction/NewTransaction.styled.js';
-import { Grid } from '@mui/material';
+import { Grid, InputAdornment } from '@mui/material';
 
 import dayjs from 'dayjs';
 import { NumericFormatCustom } from '../../../utils/format/cash';
-import { AddAccount } from '../Transactions.styled.js';
+import { toStringDate } from '../../../utils/format/date/index.js';
+import Loading from '../../loading/Loading.js';
 
 function createNewBalance(prevTransaction, newTransaction, accounts) {
   const prevAccount = accounts.find(
@@ -59,6 +60,13 @@ function createNewBalance(prevTransaction, newTransaction, accounts) {
   const newAccount = accounts.find(
     (account) => account.id === newTransaction.account,
   );
+
+  if (!newAccount || !prevAccount) {
+    return {
+      prevAccountBalance: toSnapshot(dinero({ amount: 0, currency: USD })),
+      newAccountBalance: toSnapshot(dinero({ amount: 0, currency: USD })),
+    };
+  }
 
   switch (newTransaction.transactionType) {
     case 'income':
@@ -124,7 +132,7 @@ const doneEventHandler = (
   category,
   account,
   amount,
-  date,
+  dateObj,
   notes,
   tags,
   prevTransaction,
@@ -134,12 +142,15 @@ const doneEventHandler = (
   dispatch,
 ) => {
   const newAmount = dineroFromFloat({ amount, currency: USD, scale: 2 });
+  const date = toStringDate(new Date(dateObj.format()));
+
   const newTransaction = {
     id,
     transactionType,
     category,
     account,
     amount: toSnapshot(newAmount),
+    formatAmount: toDecimal(newAmount),
     date,
     notes,
     tags,
@@ -152,30 +163,34 @@ const doneEventHandler = (
   const prevTransactionAccount = accounts.find(
     (account) => account.id === prevTransaction.account,
   );
-  dispatch(
-    editAccount({
-      ...prevTransactionAccount,
-      balance: balance.prevAccountBalance,
-    }),
-  );
-  idbAddItem(
-    { ...prevTransactionAccount, balance: balance.prevAccountBalance },
-    'accounts',
-  );
+  if (prevTransactionAccount) {
+    dispatch(
+      editAccount({
+        ...prevTransactionAccount,
+        balance: balance.prevAccountBalance,
+      }),
+    );
+    idbAddItem(
+      { ...prevTransactionAccount, balance: balance.prevAccountBalance },
+      'accounts',
+    );
+  }
 
   const newTransactionAccount = accounts.find(
     (account) => account.id === newTransaction.account,
   );
-  dispatch(
-    editAccount({
-      ...newTransactionAccount,
-      balance: balance.newAccountBalance,
-    }),
-  );
-  idbAddItem(
-    { ...newTransactionAccount, balance: balance.newAccountBalance },
-    'accounts',
-  );
+  if (newTransactionAccount) {
+    dispatch(
+      editAccount({
+        ...newTransactionAccount,
+        balance: balance.newAccountBalance,
+      }),
+    );
+    idbAddItem(
+      { ...newTransactionAccount, balance: balance.newAccountBalance },
+      'accounts',
+    );
+  }
 };
 
 export default function InfoTransaction() {
@@ -195,8 +210,8 @@ export default function InfoTransaction() {
   const [amount, setAmount] = useState(
     toDecimal(dinero({ amount: 0, currency: USD })),
   );
-  const [date, setDate] = useState(new Date());
-  const [notes, setNotes] = useState();
+  const [date, setDate] = useState(dayjs(new Date()));
+  const [notes, setNotes] = useState('');
   const [tags, setTags] = useState([]);
 
   const [transactionsData, setTransactionsData] = useState([]);
@@ -237,7 +252,7 @@ export default function InfoTransaction() {
       setCategory(infoTransaction.category);
       setAccount(infoTransaction.account);
       setAmount(toDecimal(dinero(infoTransaction.amount)));
-      setDate(new Date(infoTransaction.date));
+      setDate(dayjs(new Date(infoTransaction.date)));
       setNotes(infoTransaction.notes);
       setTags(infoTransaction.tags);
     }
@@ -258,7 +273,7 @@ export default function InfoTransaction() {
   return accounts.status === 'loading' ||
     categories.status === 'loading' ||
     transactions.status === 'loading' ? (
-    <div>Loading</div>
+    <Loading />
   ) : (
     <Grid item xs={12}>
       <AddContainer>
@@ -295,38 +310,56 @@ export default function InfoTransaction() {
         >
           <SelectHeader>
             {t('INFO_TRANSACTION.AVAILABLE_CATEGORIES')}
+            <SelectHeaderButton to={pages.categories.add[transactionType]}>
+              <AddButtonSvg as={PlusIcon} />
+            </SelectHeaderButton>
           </SelectHeader>
-          <Search>
-            <SearchInput
-              placeholder={t('INFO_TRANSACTION.SEARCH_CATEGORY')}
-            ></SearchInput>
-            <SearchImg src={searchIcon} alt="search" />
-          </Search>
-          <AddButton to={pages.categories.add[transactionType]}>
-            <AddButtonSvg as={PlusIcon} />
-            {t('INFO_TRANSACTION.ADD_CATEGORY')}
-          </AddButton>
+          <SearchField
+            placeholder={t('INFO_TRANSACTION.SEARCH_CATEGORY')}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <CancelSearchSvg as={CancelSearchIcon} />
+                </InputAdornment>
+              ),
+            }}
+          />
           {renderCategories(filteredCategories)}
         </TextInputField>
         <TextInputField
           margin="normal"
           required
           select
-          label={t('INFO_TRANSACTION.CASH')}
+          label={t('INFO_TRANSACTION.ACCOUNT')}
           value={account}
           onChange={(event) => setAccount(event.target.value)}
         >
-          <SelectHeader>{t('INFO_TRANSACTION.AVAILABLE_CASH')}</SelectHeader>
-          <Search>
-            <SearchInput
-              placeholder={t('INFO_TRANSACTION.SEARCH_CASH')}
-            ></SearchInput>
-            <SearchImg src={searchIcon} alt="search" />
-          </Search>
-          <AddAccount to={pages.cash.add.card}>
-            <AddButtonSvg as={PlusIcon} />
-            {t('INFO_TRANSACTION.ADD_CASH')}
-          </AddAccount>
+          <SelectHeader>
+            {t('INFO_TRANSACTION.AVAILABLE_ACCOUNTS')}
+            <SelectHeaderButton to={pages.accounts.add.card}>
+              <AddButtonSvg as={PlusIcon} />
+            </SelectHeaderButton>
+          </SelectHeader>
+          <SearchField
+            placeholder={t('INFO_TRANSACTION.SEARCH_ACCOUNT')}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <CancelSearchSvg as={CancelSearchIcon} />
+                </InputAdornment>
+              ),
+            }}
+          />
           {renderAccounts(notArchivedAccounts, t)}
         </TextInputField>
         <TextInputField
@@ -343,7 +376,7 @@ export default function InfoTransaction() {
         <DateField
           required
           label={t('INFO_TRANSACTION.DATE')}
-          defaultValue={dayjs(date)}
+          value={date}
           onChange={(value) => setDate(value)}
         />
         <TextInputField
@@ -371,7 +404,7 @@ export default function InfoTransaction() {
                 category,
                 account,
                 amount,
-                date.toISOString(),
+                date,
                 notes,
                 tags,
                 infoTransaction,

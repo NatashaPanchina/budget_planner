@@ -95,11 +95,36 @@ export function renderAccounts(accounts, t) {
             <CardName>{account.description}</CardName>
             <CardBalanceContainer>
               <CardBalance>{formatDineroOutput(balance, 'USD')}</CardBalance>
-              <CurrentBalance>{t('CASH.CURRENT_BALANCE')}</CurrentBalance>
+              <CurrentBalance>{t('ACCOUNTS.CURRENT_BALANCE')}</CurrentBalance>
             </CardBalanceContainer>
           </Card>
         </CardView>
       </MenuItem>
     );
   });
+}
+
+//для транзакций нужно убрать s на конце, a для
+// all сделать по умолчанию expense
+export function createFiltertype(filterType) {
+  switch (filterType) {
+    case 'expenses':
+      return 'expense';
+    case 'incomes':
+      return 'income';
+    case 'transfers':
+      return 'transfer';
+    default:
+      return 'expense';
+  }
+}
+
+export function createFilterAccount(accounts, filterAccount) {
+  if (!accounts.length) return '';
+  if (filterAccount === 'all') return accounts[0].id;
+  const currentAccount = accounts.find(
+    (account) => account.id === filterAccount,
+  ).id;
+  if (!currentAccount) return '';
+  return currentAccount.id;
 }

@@ -1,37 +1,28 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
-import { categoryIcons } from '../../../utils/constants/icons.js';
-import {
-  renderNotes,
-  createFilterType,
-  filterCategories,
-} from '../utils/index.js';
+import { renderNotes } from '../utils/index.js';
 
-import searchIcon from '../../../assets/icons/shared/search.svg';
-import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
+import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
+import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { ReactComponent as AddIcon } from '../../../assets/icons/shared/add.svg';
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
 import { ReactComponent as ArchiveIcon } from '../../../assets/icons/shared/archive.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
 
 import {
-  AddButton,
-  AddButtonSvg,
+  CancelSearchSvg,
   MobItemButtonSvg,
-  Search,
-  SearchImg,
-  SearchInput,
+  SearchField,
   ToggleMenu,
 } from '../../../theme/global.js';
 import {
   CategoriesListItem,
   CategoriesDescription,
-  CategoriesSvg,
   EditButtons,
   EditButtonSvg,
   ListItemContainer,
@@ -41,70 +32,52 @@ import {
   DeleteSvg,
 } from '../Categories.styled.js';
 import { pages } from '../../../utils/constants/pages.js';
-import { MenuItem } from '@mui/material';
+import { InputAdornment, MenuItem } from '@mui/material';
+import { useCategoriesSearch } from '../../../hooks/useSearch.js';
+import NoResultsFound from '../../noResults/NoResultsFound.js';
+import CategorySvg from '../../shared/CategorySvg.js';
 
-function CategoriesList({ notArchivedCategories, archiveCategory }) {
+function CategoriesList({ categories, archiveCategory }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const filterType = createFilterType(useParams().filterType);
   const [clickedCategory, setClickedCategory] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [query, setQuery] = useState('');
 
+  const searchData = useCategoriesSearch(query, categories, false);
   return (
     <>
-      <Search>
-        <SearchInput
-          type="text"
-          placeholder={t('CATEGORIES.SEARCH_CATEGORY')}
-        ></SearchInput>
-        <SearchImg src={searchIcon} alt="search" />
-      </Search>
-
-      <AddButton
-        to={pages.categories.add[filterType === 'all' ? 'expense' : filterType]}
-      >
-        <AddButtonSvg as={PlusIcon} />
-        {t('CATEGORIES.ADD_CATEGORY')}
-      </AddButton>
-
-      {filterCategories(filterType, notArchivedCategories).map(
-        (category, index) => {
-          let Icon = categoryIcons[category.icon];
+      <SearchField
+        placeholder={t('CATEGORIES.SEARCH_CATEGORY')}
+        value={query}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+          endAdornment: query ? (
+            <InputAdornment position="end" onClick={() => setQuery('')}>
+              <CancelSearchSvg as={CancelSearchIcon} />
+            </InputAdornment>
+          ) : null,
+        }}
+        onChange={(event) => setQuery(event.target.value)}
+        autoComplete="off"
+      />
+      {searchData.length ? (
+        searchData.map((category, index) => {
           return (
             <React.Fragment key={category.id}>
               <ListItemContainer>
                 <Link to={`${pages.categories.info.main}/${category.id}`}>
                   <CategoriesListItem>
                     <CategoriesDescription>
-                      <CategoriesSvg
-                        width="38"
-                        height="38"
-                        viewBox="0 0 38 38"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <circle
-                          cx="19"
-                          cy="19"
-                          r="19"
-                          fill={`url(#${index})`}
-                        ></circle>
-                        <Icon height="24" width="24" x="7" y="7" />
-                        <defs>
-                          <linearGradient
-                            id={index}
-                            x1="0"
-                            y1="0"
-                            x2="38"
-                            y2="38"
-                            gradientUnits="userSpaceOnUse"
-                          >
-                            <stop stopColor={category.color[0]} />
-                            <stop offset="1" stopColor={category.color[1]} />
-                          </linearGradient>
-                        </defs>
-                      </CategoriesSvg>
+                      <CategorySvg
+                        category={category}
+                        fillName={`category${index}`}
+                      />
                       {category.description}
                     </CategoriesDescription>
                     {renderNotes(category.notes)}
@@ -156,15 +129,19 @@ function CategoriesList({ notArchivedCategories, archiveCategory }) {
               </ListItemContainer>
             </React.Fragment>
           );
-        },
+        })
+      ) : (
+        <NoResultsFound query={query} />
       )}
+      {}
     </>
   );
 }
 
 CategoriesList.propTypes = {
-  notArchivedCategories: PropTypes.array,
+  categories: PropTypes.array,
   archiveCategory: PropTypes.func,
+  filterType: PropTypes.string,
 };
 
 export default CategoriesList;

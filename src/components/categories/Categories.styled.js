@@ -165,13 +165,6 @@ export const IncomeSvg = styled(Svg)((props) => ({
   )})`,
 }));
 
-export const CommonFilter = styled('span')(() => ({
-  display: 'flex',
-  '@media (min-width: 600px)': {
-    display: 'none',
-  },
-}));
-
 export const CategoriesTitleContainer = styled(FlexContainer)((props) => ({
   marginBottom: props.theme.spacing(4),
   borderBottom: `1px solid ${props.theme.colors.border.title}`,
@@ -254,16 +247,6 @@ export const CategoriesListItem = styled('div')((props) => ({
 
 export const CategoriesDescription = styled(FlexContainer)(() => ({
   gridArea: 'desc',
-}));
-
-export const CategoriesSvg = styled('svg')((props) => ({
-  marginLeft: props.theme.spacing(2),
-  marginRight: props.theme.spacing(2),
-  minWidth: 38,
-  '@media (min-width: 600px)': {
-    marginLeft: props.theme.spacing(5),
-    marginRight: props.theme.spacing(4),
-  },
 }));
 
 export const EditButtons = styled(FlexContainer)((props) => ({

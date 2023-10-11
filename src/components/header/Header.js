@@ -11,14 +11,12 @@ import {
   changeLanguage,
   changeMode,
 } from '../../actions/Actions';
-import { hideElement, useOutsideClick } from '../../hooks/useOutsideClick';
 
 import { ReactComponent as LogoCatIcon } from '../../assets/icons/navigation/logoCat.svg';
 import { ReactComponent as LogoTitleIcon } from '../../assets/icons/navigation/logoTitle.svg';
 import { ReactComponent as CurrencyDollarIcon } from '../../assets/icons/shared/currencyDollar.svg';
 import { ReactComponent as LightModeIcon } from '../../assets/icons/shared/lightMode.svg';
 import { ReactComponent as DarkModeIcon } from '../../assets/icons/shared/darkMode.svg';
-import searchIcon from '../../assets/icons/shared/globalSearch.svg';
 import { ReactComponent as LogoutIcon } from '../../assets/icons/shared/logOut.svg';
 import { ReactComponent as AvatarIcon } from '../../assets/icons/shared/avatar.svg';
 
@@ -29,33 +27,23 @@ import {
   Logo,
   LogoTitle,
   Title,
-  GlobalSearch,
-  GlobalSearchInput,
-  GlobalSearchImg,
   ThemeContainer,
   Container,
-  CurrentLng,
-  LanguagesMenu,
   LanguagesMenuItem,
   Svg,
   SvgMode,
   Profile,
   LogOut,
   Username,
+  LanguagesMenu,
 } from './Header.styled';
 import { languages } from '../../utils/constants/languages';
 import { mode } from '../../utils/constants/mode';
+import GlobalSearch from './globalSearch/GlobalSearch';
 
-function renderLanguagesMenu(languages, setLanguage, dispatch) {
+function renderLanguagesMenu(languages) {
   return languages.map((language, index) => (
-    <LanguagesMenuItem
-      key={index}
-      onClick={() => {
-        setLanguage(language);
-        localStorage.setItem('language', language);
-        dispatch(changeLanguage(language));
-      }}
-    >
+    <LanguagesMenuItem key={index} value={language}>
       {language}
     </LanguagesMenuItem>
   ));
@@ -64,12 +52,13 @@ function renderLanguagesMenu(languages, setLanguage, dispatch) {
 //lookup map
 function renderHeaderTitles(t) {
   return {
+    '/search': t('HEADER.SEARCH'),
     '/dashboard': t('HEADER.DASHBOARD'),
     '/transactions': t('HEADER.TRANSACTIONS'),
-    '/cash': t('HEADER.CASH'),
+    '/accounts': t('HEADER.ACCOUNTS'),
     '/newTransaction': t('HEADER.NEW_TRANSACTION'),
     '/categories': t('HEADER.CATEGORIES'),
-    '/analysis': t('HEADER.ANALYSIS'),
+    '/analysis': t('HEADER.CASH_FLOW'),
   };
 }
 
@@ -86,21 +75,16 @@ export default function Header() {
       paddingRight: 6,
     },
   };
-
   const header = useSelector((state) => state.header);
   const dispatch = useDispatch();
-
   const [headerTitle, setHeaderTitle] = useState('');
   const [id, setId] = useState('');
   const [username, setUsername] = useState('User');
   const [language, setLanguage] = useState(header.language);
   const [currency, setCurrency] = useState('$');
   const [headerMode, setHeaderMode] = useState(header.mode);
-
   const { t } = useTranslation();
   const location = useLocation();
-  const languageRef = useOutsideClick(hideElement);
-
   const titles = renderHeaderTitles(t);
   const path = location.pathname.match(/\/(\w)*/)[0];
 
@@ -142,26 +126,23 @@ export default function Header() {
           </Grid>
           <Grid item sm={2} md={3} lg={3}>
             <FlexContainer>
-              <GlobalSearch>
-                <GlobalSearchInput
-                  type="text"
-                  placeholder={t('HEADER.SEARCH_EVERYTHING')}
-                ></GlobalSearchInput>
-                <GlobalSearchImg src={searchIcon} alt="search" />
-              </GlobalSearch>
+              <GlobalSearch />
             </FlexContainer>
           </Grid>
           <Grid item sm={3} md={3} lg={2}>
             <ThemeContainer>
-              <Container
-                onClick={(event) => {
-                  languageRef.current.classList.toggle('none');
-                  event.stopPropagation();
-                }}
-              >
-                <CurrentLng>{language}</CurrentLng>
-                <LanguagesMenu ref={languageRef} className="none">
-                  {renderLanguagesMenu(languages, setLanguage, dispatch)}
+              <Container>
+                <LanguagesMenu
+                  select
+                  value={language}
+                  onChange={(event) => {
+                    const newLanguage = event.target.value;
+                    setLanguage(newLanguage);
+                    localStorage.setItem('language', newLanguage);
+                    dispatch(changeLanguage(newLanguage));
+                  }}
+                >
+                  {renderLanguagesMenu(languages)}
                 </LanguagesMenu>
               </Container>
               <Container>
@@ -171,23 +152,22 @@ export default function Header() {
                   <Svg as={CurrencyDollarIcon} />
                 )}
               </Container>
-              <Container
-                onClick={() => {
-                  setHeaderMode(
-                    headerMode === mode.light ? mode.dark : mode.light,
-                  );
-                  localStorage.setItem(
-                    'mode',
-                    headerMode === mode.light ? mode.dark : mode.light,
-                  );
-                  dispatch(
-                    changeMode(
-                      headerMode === mode.light ? mode.dark : mode.light,
-                    ),
-                  );
-                }}
-              >
+              <Container>
                 <SvgMode
+                  onClick={() => {
+                    setHeaderMode(
+                      headerMode === mode.light ? mode.dark : mode.light,
+                    );
+                    localStorage.setItem(
+                      'mode',
+                      headerMode === mode.light ? mode.dark : mode.light,
+                    );
+                    dispatch(
+                      changeMode(
+                        headerMode === mode.light ? mode.dark : mode.light,
+                      ),
+                    );
+                  }}
                   as={headerMode === mode.light ? DarkModeIcon : LightModeIcon}
                 />
               </Container>
