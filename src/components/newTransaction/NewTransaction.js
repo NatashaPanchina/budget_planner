@@ -33,8 +33,10 @@ import {
 } from '../../theme/global';
 import { getMobileTitle } from './utils';
 import Loading from '../loading/Loading';
+import { names } from '../../utils/constants/currencies';
 
 function renderTransactionForm(
+  mainCurrency,
   transactionType,
   categories,
   accounts,
@@ -45,6 +47,7 @@ function renderTransactionForm(
     case 'expense':
       return (
         <ExpenseTransactionForm
+          mainCurrency={mainCurrency}
           categories={categories}
           accounts={accounts}
           addNewTransaction={addNewTransaction}
@@ -77,12 +80,14 @@ function renderTransactionForm(
 export default function NewTransaction() {
   const categories = useSelector((state) => state.categories);
   const accounts = useSelector((state) => state.accounts);
+  const header = useSelector((state) => state.header);
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
   const { transactionType, transactionAccount } = useParams();
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [filteredAccounts, setFilteredAccounts] = useState([]);
+  const [mainCurrency, setMainCurrency] = useState(names.USD);
 
   useEffect(() => {
     dispatch(fetchCategoriesData());
@@ -107,6 +112,14 @@ export default function NewTransaction() {
       setFilteredAccounts(notArchivedAccounts);
     }
   }, [accounts.status, accounts.accounts]);
+
+  useEffect(() => {
+    if (header.status === 'succeeded') {
+      if (!header.profile) {
+        setMainCurrency(header.profile.currency);
+      }
+    }
+  }, [header.status, header.profile]);
 
   return (
     <Grid item xs={12}>
@@ -138,10 +151,13 @@ export default function NewTransaction() {
           <BackSvg as={BackIcon} />
         </Back>
         <MobHeaderTitle>{getMobileTitle(transactionType, t)}</MobHeaderTitle>
-        {accounts.status === 'loading' || categories.status === 'loading' ? (
+        {header.status === 'loading' ||
+        accounts.status === 'loading' ||
+        categories.status === 'loading' ? (
           <Loading />
         ) : (
           renderTransactionForm(
+            mainCurrency,
             transactionType,
             filteredCategories,
             filteredAccounts,

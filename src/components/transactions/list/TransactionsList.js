@@ -165,7 +165,10 @@ function TransactionsList({
                         </div>
                       </TransactionInfo>
                       <Amount $amountType={transaction.transactionType}>
-                        {formatDineroOutput(dinero(transaction.amount), 'USD')}
+                        {formatDineroOutput(
+                          dinero(transaction.amount),
+                          transaction.amount.currency.code,
+                        )}
                       </Amount>
                       <TransactionDate>
                         {dateFormatter.format(new Date(transaction.date))}

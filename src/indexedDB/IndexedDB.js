@@ -48,6 +48,10 @@ export function idbOpen() {
       categories.createIndex('notes', 'notes');
       categories.createIndex('tags', 'tags');
 
+      idb.createObjectStore('rates', {
+        keyPath: 'date',
+      });
+
       if (process.env.NODE_ENV !== 'production') {
         loadJSON().then((data) => {
           idbInitFromJson(profile, data.profile, 'profile');
@@ -89,6 +93,21 @@ export const idbAddItem = (newItem, nameObjectStore) => {
         resolve(addRequest.result);
       };
       addRequest.onerror = () => reject('idbAddItem Error');
+    });
+  });
+};
+
+export const idbGetItem = (id, nameObjectStore) => {
+  return new Promise((resolve, reject) => {
+    idbOpen().then((idb) => {
+      const objectStore = idb
+        .transaction(nameObjectStore, 'readwrite')
+        .objectStore(nameObjectStore);
+      const getRequest = objectStore.get(id);
+      getRequest.onsuccess = () => {
+        resolve(getRequest.result);
+      };
+      getRequest.onerror = () => reject('idbGetItem Error');
     });
   });
 };
