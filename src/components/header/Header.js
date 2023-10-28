@@ -146,7 +146,7 @@ export default function Header() {
                 </LanguagesMenu>
               </Container>
               <Container>
-                {currency === 'USD' ? (
+                {currency === names.USD ? (
                   <Svg as={CurrencyDollarIcon} />
                 ) : (
                   <Svg as={CurrencyDollarIcon} />
