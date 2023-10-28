@@ -216,7 +216,7 @@ function ExpenseTransactionForm({
         name="numberformat"
         value={amount}
         onChange={(event) => setAmount(event.target.value)}
-        inputProps={{ currency: currency }}
+        inputProps={{ currency }}
         InputProps={{
           inputComponent: NumericFormatCustom,
         }}
