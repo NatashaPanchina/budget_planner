@@ -81,7 +81,7 @@ export default function Header() {
   const [id, setId] = useState('');
   const [username, setUsername] = useState('User');
   const [language, setLanguage] = useState(header.language);
-  const [currency, setCurrency] = useState('USD');
+  const [currency, setCurrency] = useState(names.USD);
   const [headerMode, setHeaderMode] = useState(header.mode);
   const { t } = useTranslation();
   const location = useLocation();
@@ -146,7 +146,7 @@ export default function Header() {
                 </LanguagesMenu>
               </Container>
               <Container>
-                {currency === 'USD' ? (
+                {currency === names.USD ? (
                   <Svg as={CurrencyDollarIcon} />
                 ) : (
                   <Svg as={CurrencyDollarIcon} />
