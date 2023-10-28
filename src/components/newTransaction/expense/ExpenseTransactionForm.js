@@ -73,35 +73,36 @@ const doneEventClick = async (
   const transactionAccount = filteredAccounts.find(
     (filteredAccount) => filteredAccount.id === account,
   );
-  if (transactionAccount) {
-    const previousBalance = transactionAccount.balance;
-    const previousBalanceDinero = dinero(previousBalance);
-    let newBalance = previousBalance;
-    if (previousBalance.currency.code === currency) {
-      newBalance = toSnapshot(subtract(previousBalanceDinero, newAmount));
-    } else {
-      const to = previousBalance.currency.code;
-      const convertedAmount = await convertCash(
-        date.format('YYYY-MM-DD'),
-        Number(toDecimal(newAmount)),
-        currency,
-        to,
-      );
-      const convertedDinero = dineroFromFloat({
-        amount: convertedAmount,
-        currency: currencies[to],
-        scale: 2,
-      });
-      newBalance = toSnapshot(subtract(previousBalanceDinero, convertedDinero));
-    }
-    dispatch(
-      editAccount(transactionAccount.id, {
-        ...transactionAccount,
-        balance: newBalance,
-      }),
-    );
-    idbAddItem({ ...transactionAccount, balance: newBalance }, 'accounts');
+  if (!transactionAccount) {
+    return;
   }
+  const previousBalance = transactionAccount.balance;
+  const previousBalanceDinero = dinero(previousBalance);
+  let newBalance = previousBalance;
+  if (previousBalance.currency.code === currency) {
+    newBalance = toSnapshot(subtract(previousBalanceDinero, newAmount));
+  } else {
+    const to = previousBalance.currency.code;
+    const convertedAmount = await convertCash(
+      date.format('YYYY-MM-DD'),
+      Number(toDecimal(newAmount)),
+      currency,
+      to,
+    );
+    const convertedDinero = dineroFromFloat({
+      amount: convertedAmount,
+      currency: currencies[to],
+      scale: 2,
+    });
+    newBalance = toSnapshot(subtract(previousBalanceDinero, convertedDinero));
+  }
+  dispatch(
+    editAccount(transactionAccount.id, {
+      ...transactionAccount,
+      balance: newBalance,
+    }),
+  );
+  idbAddItem({ ...transactionAccount, balance: newBalance }, 'accounts');
 };
 
 function ExpenseTransactionForm({
