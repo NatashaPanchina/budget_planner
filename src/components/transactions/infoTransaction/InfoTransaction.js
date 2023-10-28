@@ -15,8 +15,11 @@ import {
   editAccount,
 } from '../../../actions/Actions.js';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
-import { dineroFromFloat } from '../../../utils/format/cash';
-import { renderCategories, renderAccounts } from '../utils';
+import {
+  dineroFromFloat,
+  formatDineroOutput,
+} from '../../../utils/format/cash';
+import { renderCategories, renderAccounts, renderCurrencies } from '../utils';
 
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
@@ -52,6 +55,7 @@ import dayjs from 'dayjs';
 import { NumericFormatCustom } from '../../../utils/format/cash';
 import { toStringDate } from '../../../utils/format/date/index.js';
 import Loading from '../../loading/Loading.js';
+import { currencies, names } from '../../../utils/constants/currencies.js';
 
 function createNewBalance(prevTransaction, newTransaction, accounts) {
   const prevAccount = accounts.find(
@@ -207,8 +211,9 @@ export default function InfoTransaction() {
   const [transactionType, setTransactionType] = useState('expense');
   const [category, setCategory] = useState('');
   const [account, setAccount] = useState('');
+  const [currency, setCurrency] = useState(names.USD);
   const [amount, setAmount] = useState(
-    toDecimal(dinero({ amount: 0, currency: USD })),
+    toDecimal(dinero({ amount: 0, currency: currencies[currency] })),
   );
   const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
@@ -251,7 +256,12 @@ export default function InfoTransaction() {
       setTransactionType(infoTransaction.transactionType);
       setCategory(infoTransaction.category);
       setAccount(infoTransaction.account);
-      setAmount(toDecimal(dinero(infoTransaction.amount)));
+      setCurrency(infoTransaction.amount.currency.code);
+      const transactionAmount = formatDineroOutput(
+        dinero(infoTransaction.amount),
+        infoTransaction.amount.currency.code,
+      );
+      setAmount(transactionAmount);
       setDate(dayjs(new Date(infoTransaction.date)));
       setNotes(infoTransaction.notes);
       setTags(infoTransaction.tags);
@@ -365,10 +375,22 @@ export default function InfoTransaction() {
         <TextInputField
           margin="normal"
           required
+          select
+          fullWidth
+          label={t('INFO_TRANSACTION.CURRENCY')}
+          value={currency}
+          onChange={(event) => setCurrency(event.target.value)}
+        >
+          {renderCurrencies(names)}
+        </TextInputField>
+        <TextInputField
+          margin="normal"
+          required
           label={t('INFO_TRANSACTION.AMOUNT')}
           name="numberformat"
           value={amount}
           onChange={(event) => setAmount(event.target.value)}
+          inputProps={{ currency: currency }}
           InputProps={{
             inputComponent: NumericFormatCustom,
           }}

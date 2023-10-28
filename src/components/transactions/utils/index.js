@@ -128,3 +128,15 @@ export function createFilterAccount(accounts, filterAccount) {
   if (!currentAccount) return '';
   return currentAccount.id;
 }
+
+export const renderCurrencies = (names) => {
+  let results = [];
+  for (let currencyName in names) {
+    results.push(
+      <MenuItem key={names[currencyName]} value={names[currencyName]}>
+        {names[currencyName]}
+      </MenuItem>,
+    );
+  }
+  return results;
+};
