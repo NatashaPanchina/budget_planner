@@ -40,6 +40,7 @@ import {
 import { languages } from '../../utils/constants/languages';
 import { mode } from '../../utils/constants/mode';
 import GlobalSearch from './globalSearch/GlobalSearch';
+import { names } from '../../utils/constants/currencies';
 
 function renderLanguagesMenu(languages) {
   return languages.map((language, index) => (
