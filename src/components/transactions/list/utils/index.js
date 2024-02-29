@@ -7,6 +7,7 @@ import { Notes, NotesSvg } from '../../Transactions.styled';
 import { createFiltertype } from '../../utils';
 import { idbAddItem, idbDeleteItem } from '../../../../indexedDB/IndexedDB';
 import { USD } from '@dinero.js/currencies';
+import { deleteTransaction, editAccount } from '../../../../actions/Actions';
 
 export function createNewBalance(transaction, accounts) {
   const account = accounts.find(
@@ -59,13 +60,7 @@ export function filterByAccounts(transactions, filterAccount) {
       );
 }
 
-export const deleteClick = (
-  transaction,
-  accounts,
-  editAccount,
-  deleteTransaction,
-  dispatch,
-) => {
+export const deleteClick = (transaction, accounts, dispatch) => {
   const newBalance = createNewBalance(transaction, accounts);
   const transactionAccount = accounts.find(
     (account) => transaction.account === account.id,

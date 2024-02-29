@@ -170,6 +170,8 @@ export const Card = styled('div', {
   shouldForwardProp: (prop) =>
     prop !== '$cardBackground' && prop !== '$from' && prop !== '$to',
 })((props) => ({
+  cursor: 'pointer',
+  minHeight: 197,
   height: 197,
   width: 310,
   borderRadius: props.theme.borderRadius,

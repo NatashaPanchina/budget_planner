@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactComponent as CheckMarkIcon } from '../../../assets/icons/shared/checkMark.svg';
 import notesIcon from '../../../assets/icons/shared/notes.svg';
-import { styled } from '@mui/material';
+import { MenuItem, styled } from '@mui/material';
 
 const CashNotes = styled('div')((props) => ({
   marginTop: props.theme.spacing(2),
@@ -192,3 +192,15 @@ export function renderNotes(notes) {
     );
   }
 }
+
+export const renderCurrencies = (names) => {
+  let results = [];
+  for (let currencyName in names) {
+    results.push(
+      <MenuItem key={names[currencyName]} value={names[currencyName]}>
+        {names[currencyName]}
+      </MenuItem>,
+    );
+  }
+  return results;
+};

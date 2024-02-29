@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { fetchAccountsData, archiveAccount } from '../../actions/Actions.js';
+import {
+  fetchAccountsData,
+  fetchCategoriesData,
+} from '../../actions/Actions.js';
 import AccountsChart from './pieChart/AccountsChart.js';
 
 import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.svg';
@@ -33,15 +36,20 @@ import {
   FilterTooltip,
   MobileFilterButton,
   SortButtonsContainer,
+  InfoDialog,
 } from '../../theme/global.js';
 import { pages } from '../../utils/constants/pages.js';
 import { Grid } from '@mui/material';
 import { createAccountFilter, createLocaleAccountType } from './utils/index.js';
 import AccountsList from './list/AccountsList.js';
 import Loading from '../loading/Loading.js';
+import AddAccount from './addAccount/AddAccount.js';
 
-export default function Cash() {
+export default function Accounts() {
   const { status, accounts } = useSelector((state) => state.accounts);
+  const categories = useSelector((state) => state.categories);
+  const header = useSelector((state) => state.header);
+
   const dispatch = useDispatch();
   const filterAccount = createAccountFilter(useParams().filterCash);
   const localeFilterAccount = createLocaleAccountType(filterAccount);
@@ -50,12 +58,16 @@ export default function Cash() {
     (account) => account.archived === false,
   );
   const archivedAccounts = accounts.filter((account) => account.archived);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAccountsData());
+    dispatch(fetchCategoriesData());
   }, [dispatch]);
 
-  return status === 'loading' ? (
+  return status === 'loading' ||
+    header.status === 'loading' ||
+    categories.status === 'loading' ? (
     <Loading />
   ) : (
     <>
@@ -80,13 +92,7 @@ export default function Cash() {
             <FilterSvg as={FilterIcon} />
           </MobileFilterButton>
           <FilterTooltip title={t(`ACCOUNTS.ADD_ALL`)} arrow>
-            <AddButton
-              to={
-                pages.accounts.add[
-                  filterAccount === 'all' ? 'card' : filterAccount
-                ]
-              }
-            >
+            <AddButton onClick={() => setOpenDialog(true)}>
               <FilterSvg as={AddIcon} />
               <FilterTitle>{t(`ACCOUNTS.ADD_ALL`)}</FilterTitle>
             </AddButton>
@@ -101,6 +107,12 @@ export default function Cash() {
           </CustomTooltip>
         </FilterButtonsContainer>
       </Header>
+      <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <AddAccount
+          categories={categories.categories}
+          setOpenDialog={setOpenDialog}
+        />
+      </InfoDialog>
       <Grid item xs={12} sm={12} md={4} lg={4}>
         <MoreInformationContainer>
           <TotalBalance>{t('ACCOUNTS.TOTAL_BALANCE')}</TotalBalance>
@@ -121,8 +133,8 @@ export default function Cash() {
         </CashTitleContainer>
         <AccountsList
           accounts={accounts}
-          archiveAccount={archiveAccount}
           localeFilterAccount={localeFilterAccount}
+          categories={categories.categories}
         />
       </Grid>
     </>

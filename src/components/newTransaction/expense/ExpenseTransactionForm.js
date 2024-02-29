@@ -2,12 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { v4 as uuidv4 } from 'uuid';
-import { dinero, toSnapshot, toDecimal, subtract } from 'dinero.js';
+import { dinero, toDecimal } from 'dinero.js';
 import dayjs from 'dayjs';
-import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
-import { pages } from '../../../utils/constants/pages';
-import { dineroFromFloat } from '../../../utils/format/cash';
 import {
   renderCategories,
   renderAccounts,
@@ -32,78 +28,16 @@ import {
   SearchField,
   CancelSearchSvg,
   SelectHeaderButton,
+  AmountFieldsContainer,
+  CurrencyInputField,
+  NumberInputField,
+  InfoDialog,
 } from '../../../theme/global.js';
 import { InputAdornment } from '@mui/material';
-import { toStringDate } from '../../../utils/format/date/index.js';
 import { currencies, names } from '../../../utils/constants/currencies.js';
-import { convertCash } from '../../../utils/rates/index.js';
-
-const doneEventClick = async (
-  currency,
-  amount,
-  transactionType,
-  category,
-  account,
-  date,
-  notes,
-  tags,
-  filteredAccounts,
-  dispatch,
-  addNewTransaction,
-  editAccount,
-) => {
-  const newAmount = dineroFromFloat({
-    amount,
-    currency: currencies[currency],
-    scale: 2,
-  });
-  const newTransaction = {
-    id: uuidv4(),
-    transactionType,
-    category,
-    account,
-    amount: toSnapshot(newAmount),
-    formatAmount: toDecimal(newAmount),
-    date: toStringDate(new Date(date.format())),
-    notes,
-    tags,
-  };
-  dispatch(addNewTransaction(newTransaction));
-  idbAddItem(newTransaction, 'transactions');
-  const transactionAccount = filteredAccounts.find(
-    (filteredAccount) => filteredAccount.id === account,
-  );
-  if (!transactionAccount) {
-    return;
-  }
-  const previousBalance = transactionAccount.balance;
-  const previousBalanceDinero = dinero(previousBalance);
-  let newBalance = previousBalance;
-  if (previousBalance.currency.code === currency) {
-    newBalance = toSnapshot(subtract(previousBalanceDinero, newAmount));
-  } else {
-    const to = previousBalance.currency.code;
-    const convertedAmount = await convertCash(
-      date.format('YYYY-MM-DD'),
-      Number(toDecimal(newAmount)),
-      currency,
-      to,
-    );
-    const convertedDinero = dineroFromFloat({
-      amount: convertedAmount,
-      currency: currencies[to],
-      scale: 2,
-    });
-    newBalance = toSnapshot(subtract(previousBalanceDinero, convertedDinero));
-  }
-  dispatch(
-    editAccount(transactionAccount.id, {
-      ...transactionAccount,
-      balance: newBalance,
-    }),
-  );
-  idbAddItem({ ...transactionAccount, balance: newBalance }, 'accounts');
-};
+import { doneEventClick } from './utils/index.js';
+import AddCategory from '../../categories/addCategory/AddCategory.js';
+import AddAccount from '../../accounts/addAccount/AddAccount.js';
 
 function ExpenseTransactionForm({
   mainCurrency,
@@ -111,6 +45,7 @@ function ExpenseTransactionForm({
   accounts,
   addNewTransaction,
   editAccount,
+  setOpenDialog,
 }) {
   const dispatch = useDispatch();
 
@@ -127,6 +62,8 @@ function ExpenseTransactionForm({
   const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState([]);
+  const [openCategoryDialog, setOpenCategoryDialog] = useState(false);
+  const [openAccountDialog, setOpenAccountDialog] = useState(false);
 
   useEffect(() => {
     setFilteredAccounts(accounts);
@@ -137,6 +74,31 @@ function ExpenseTransactionForm({
 
   return (
     <>
+      <AmountFieldsContainer>
+        <CurrencyInputField
+          margin="normal"
+          required
+          select
+          fullWidth
+          label={t('NEW_TRANSACTION.CURRENCY')}
+          value={currency}
+          onChange={(event) => setCurrency(event.target.value)}
+        >
+          {renderCurrencies(names)}
+        </CurrencyInputField>
+        <NumberInputField
+          margin="normal"
+          required
+          label={t('NEW_TRANSACTION.AMOUNT')}
+          name="numberformat"
+          value={amount}
+          onChange={(event) => setAmount(event.target.value)}
+          inputProps={{ currency }}
+          InputProps={{
+            inputComponent: NumericFormatCustom,
+          }}
+        />
+      </AmountFieldsContainer>
       <TextInputField
         margin="normal"
         required
@@ -147,8 +109,11 @@ function ExpenseTransactionForm({
       >
         <SelectHeader>
           {t('NEW_TRANSACTION.AVAILABLE_CATEGORIES')}
-          <SelectHeaderButton to={pages.categories.add[transactionType]}>
-            <AddButtonSvg as={PlusIcon} />
+          <SelectHeaderButton>
+            <AddButtonSvg
+              onClick={() => setOpenCategoryDialog(true)}
+              as={PlusIcon}
+            />
           </SelectHeaderButton>
         </SelectHeader>
         <SearchField
@@ -178,8 +143,11 @@ function ExpenseTransactionForm({
       >
         <SelectHeader>
           {t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}
-          <SelectHeaderButton to={pages.accounts.add.card}>
-            <AddButtonSvg as={PlusIcon} />
+          <SelectHeaderButton>
+            <AddButtonSvg
+              onClick={() => setOpenAccountDialog(true)}
+              as={PlusIcon}
+            />
           </SelectHeaderButton>
         </SelectHeader>
         <SearchField
@@ -199,29 +167,6 @@ function ExpenseTransactionForm({
         />
         {renderAccounts(filteredAccounts, t)}
       </TextInputField>
-      <TextInputField
-        margin="normal"
-        required
-        select
-        fullWidth
-        label={t('NEW_TRANSACTION.CURRENCY')}
-        value={currency}
-        onChange={(event) => setCurrency(event.target.value)}
-      >
-        {renderCurrencies(names)}
-      </TextInputField>
-      <TextInputField
-        margin="normal"
-        required
-        label={t('NEW_TRANSACTION.AMOUNT')}
-        name="numberformat"
-        value={amount}
-        onChange={(event) => setAmount(event.target.value)}
-        inputProps={{ currency }}
-        InputProps={{
-          inputComponent: NumericFormatCustom,
-        }}
-      />
       <DateField
         required
         label={t('NEW_TRANSACTION.DATE')}
@@ -244,8 +189,7 @@ function ExpenseTransactionForm({
       />
       <AddFormButtonsContainer>
         <DoneButton
-          to={`${pages.transactions[`${transactionType}s`]}/all`}
-          onClick={() =>
+          onClick={() => {
             doneEventClick(
               currency,
               amount,
@@ -259,17 +203,34 @@ function ExpenseTransactionForm({
               dispatch,
               addNewTransaction,
               editAccount,
-            )
-          }
+              mainCurrency,
+            );
+            setOpenDialog(false);
+          }}
         >
           <ButtonSvg as={DoneIcon} />
           <ButtonTitle>{t('NEW_TRANSACTION.DONE')}</ButtonTitle>
         </DoneButton>
-        <CancelButton to={`${pages.transactions[`${transactionType}s`]}/all`}>
+        <CancelButton onClick={() => setOpenDialog(false)}>
           <ButtonSvg as={CancelIcon} />
           <ButtonTitle>{t('NEW_TRANSACTION.CANCEL')}</ButtonTitle>
         </CancelButton>
       </AddFormButtonsContainer>
+      <InfoDialog
+        open={openCategoryDialog}
+        onClose={() => setOpenCategoryDialog(false)}
+      >
+        <AddCategory setOpenDialog={setOpenCategoryDialog} />
+      </InfoDialog>
+      <InfoDialog
+        open={openAccountDialog}
+        onClose={() => setOpenAccountDialog(false)}
+      >
+        <AddAccount
+          categories={categories}
+          setOpenDialog={setOpenAccountDialog}
+        />
+      </InfoDialog>
     </>
   );
 }
@@ -280,6 +241,7 @@ ExpenseTransactionForm.propTypes = {
   accounts: PropTypes.array,
   addNewTransaction: PropTypes.func,
   editAccount: PropTypes.func,
+  setOpenDialog: PropTypes.func,
 };
 
 export default ExpenseTransactionForm;

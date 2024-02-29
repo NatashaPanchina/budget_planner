@@ -1,4 +1,3 @@
-import { NavLink } from 'react-router-dom';
 import { AddButton, BackLink, BackLinkSvg } from '../../theme/global';
 import { alpha, styled } from '@mui/material';
 
@@ -7,23 +6,19 @@ export const FlexContainer = styled('div')(() => ({
   alignItems: 'center',
 }));
 
-export const HeaderTitle = styled(NavLink)((props) => ({
+export const HeaderTitle = styled('div')(() => ({
   height: 60,
   width: '33.3%',
-  color: props.theme.colors.text.darker,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   fontSize: '0.875rem',
-  '&.active': {
-    borderBottom: `2px solid ${props.theme.colors.main.violet}`,
-  },
+  cursor: 'pointer',
 }));
 
 export const HeaderTitleLink = styled(HeaderTitle, {
-  shouldForwardProp: (prop) => prop !== '$linkType',
+  shouldForwardProp: (prop) => prop !== '$isActive' && prop !== '$linkType',
 })((props) => ({
-  fill: 'url(#not_active)',
   '&:hover': {
     color: props.theme.colors[props.$linkType],
     fill: `url(#${props.$linkType}_active)`,
@@ -34,16 +29,23 @@ export const HeaderTitleLink = styled(HeaderTitle, {
       )})`,
     },
   },
-  '&.active': {
-    color: props.theme.colors[props.$linkType],
-    fill: `url(#${props.$linkType}_active)`,
-    '& svg': {
-      filter: `drop-shadow( 0px 3px 5px ${alpha(
-        props.theme.colors.linear[props.$linkType].from,
-        0.4,
-      )})`,
-    },
+  color: props.$isActive
+    ? props.theme.colors[props.$linkType]
+    : props.theme.colors.text.darker,
+  fill: props.$isActive
+    ? `url(#${props.$linkType}_active)`
+    : 'url(#not_active)',
+  '& svg': {
+    filter: props.$isActive
+      ? `drop-shadow( 0px 3px 5px ${alpha(
+          props.theme.colors.linear[props.$linkType].from,
+          0.4,
+        )})`
+      : '',
   },
+  borderBottom: props.$isActive
+    ? `2px solid ${props.theme.colors.main.violet}`
+    : '',
 }));
 
 export const Back = styled(BackLink)(() => ({

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { dinero } from 'dinero.js';
@@ -14,7 +14,7 @@ import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/t
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delete.svg';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteClick, renderNotes } from './utils';
 import { pages } from '../../../utils/constants/pages';
 import {
@@ -41,6 +41,7 @@ import {
 } from '../Transactions.styled';
 import {
   CancelSearchSvg,
+  InfoDialog,
   SearchField,
   ToggleMenu,
 } from '../../../theme/global';
@@ -49,14 +50,12 @@ import { useTransactionsSearch } from '../../../hooks/useSearch';
 import NoResultsFound from '../../noResults/NoResultsFound';
 import CategorySvg from '../../shared/CategorySvg';
 import AccountSvg from '../../shared/AccountSvg';
+import { names } from '../../../utils/constants/currencies';
+import InfoTransaction from '../infoTransaction/InfoTransaction';
 
-function TransactionsList({
-  transactions,
-  accounts,
-  categories,
-  deleteTransaction,
-  editAccount,
-}) {
+function TransactionsList({ transactions, accounts, categories }) {
+  const header = useSelector((state) => state.header);
+  const mainCurrency = header.profile ? header.profile.currency : names.USD;
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { filterAccount } = useParams();
@@ -64,7 +63,7 @@ function TransactionsList({
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [query, setQuery] = useState('');
-
+  const [openDialog, setOpenDialog] = useState(false);
   const searchData = useTransactionsSearch(query, transactions);
 
   return (
@@ -109,6 +108,15 @@ function TransactionsList({
         onChange={(event) => setQuery(event.target.value)}
         autoComplete="off"
       />
+      <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <InfoTransaction
+          clickedTransaction={clickedTransaction.id}
+          transactions={transactions}
+          accounts={accounts}
+          categories={categories}
+          setOpenDialog={setOpenDialog}
+        />
+      </InfoDialog>
       {searchData.length ? (
         <>
           <Description>
@@ -137,71 +145,70 @@ function TransactionsList({
                   {dateFormatter.format(new Date(transaction.date))}
                 </MobTransactionDate>
                 <ListItemContainer>
-                  <Link
-                    to={`${pages.transactions.info.main}/${transaction.id}`}
+                  <TransactionItem
+                    onClick={() => {
+                      setClickedTransaction(transaction);
+                      setOpenDialog(true);
+                    }}
                   >
-                    <TransactionItem>
-                      <Category>
-                        <CategorySvg
-                          category={transactionCategory}
-                          fillName={`transactionCategory${index}`}
-                        />
-                        {transactionCategory.description}
-                      </Category>
-                      <Account>
-                        <AccountSvg account={transactionAccount} />
-                        {transactionAccount.description}
-                      </Account>
-                      <TransactionInfo>
-                        <CategorySvg
-                          category={transactionCategory}
-                          fillName={`mobTransactionCategory${index}`}
-                        />
-                        <div>
-                          <div>{transactionCategory.description}</div>
-                          <TransactionInfoAccount>
-                            {transactionAccount.description}
-                          </TransactionInfoAccount>
-                        </div>
-                      </TransactionInfo>
-                      <Amount $amountType={transaction.transactionType}>
-                        {formatDineroOutput(
-                          dinero(transaction.amount),
-                          transaction.amount.currency.code,
-                        )}
-                      </Amount>
-                      <TransactionDate>
-                        {dateFormatter.format(new Date(transaction.date))}
-                      </TransactionDate>
-                      {renderNotes(transaction.notes)}
-                    </TransactionItem>
-                  </Link>
+                    <Category>
+                      <CategorySvg
+                        category={transactionCategory}
+                        fillName={`transactionCategory${index}`}
+                      />
+                      {transactionCategory.description}
+                    </Category>
+                    <Account>
+                      <AccountSvg account={transactionAccount} />
+                      {transactionAccount.description}
+                    </Account>
+                    <TransactionInfo>
+                      <CategorySvg
+                        category={transactionCategory}
+                        fillName={`mobTransactionCategory${index}`}
+                      />
+                      <div>
+                        <div>{transactionCategory.description}</div>
+                        <TransactionInfoAccount>
+                          {transactionAccount.description}
+                        </TransactionInfoAccount>
+                      </div>
+                    </TransactionInfo>
+                    <Amount $amountType={transaction.transactionType}>
+                      {formatDineroOutput(
+                        dinero(transaction.amount),
+                        transaction.amount.currency.code,
+                      )}
+                    </Amount>
+                    <TransactionDate>
+                      {dateFormatter.format(new Date(transaction.date))}
+                    </TransactionDate>
+                    {renderNotes(transaction.notes)}
+                  </TransactionItem>
                   <ItemButtonsContainer>
                     <ToggleMenu
                       anchorEl={anchorEl}
                       open={open}
                       onClose={() => setAnchorEl(null)}
                     >
-                      <MenuItem onClick={() => setAnchorEl(null)}>
-                        <EditLinkContainer
-                          to={`${pages.transactions.info.main}/${clickedTransaction.id}`}
-                        >
+                      <MenuItem
+                        onClick={() => {
+                          setAnchorEl(null);
+                          setOpenDialog(true);
+                        }}
+                      >
+                        <EditLinkContainer>
                           <EditButtonSvg as={EditIcon} />
                           {t('TRANSACTIONS.EDIT')}
                         </EditLinkContainer>
                       </MenuItem>
-                      <DeleteMenuItem onClick={() => setAnchorEl(null)}>
-                        <FlexContainer
-                          onClick={() =>
-                            deleteClick(
-                              clickedTransaction,
-                              accounts,
-                              editAccount,
-                              deleteTransaction,
-                              dispatch,
-                            )
-                          }
-                        >
+                      <DeleteMenuItem
+                        onClick={() => {
+                          setAnchorEl(null);
+                          deleteClick(clickedTransaction, accounts, dispatch);
+                        }}
+                      >
+                        <FlexContainer>
                           <DeleteButtonSvg as={DeleteIcon} />
                           {t('TRANSACTIONS.DELETE')}
                         </FlexContainer>
@@ -231,8 +238,6 @@ TransactionsList.propTypes = {
   transactions: PropTypes.array,
   accounts: PropTypes.array,
   categories: PropTypes.array,
-  deleteTransaction: PropTypes.func,
-  editAccount: PropTypes.func,
 };
 
 export default TransactionsList;

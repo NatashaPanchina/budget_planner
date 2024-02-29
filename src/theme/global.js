@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Dialog,
   Menu,
   Popover,
   TextField,
@@ -136,7 +137,7 @@ export const CancelSearchSvg = styled('svg')(() => ({
   },
 }));
 
-export const AddButton = styled(Link)((props) => ({
+export const AddButton = styled('div')((props) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -271,14 +272,11 @@ export const AddFormHeader = styled('div')((props) => ({
   display: 'none',
   '@media (min-width: 600px)': {
     display: 'flex',
-    top: props.theme.spacing(14),
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: props.theme.spacing(8),
     borderBottom: `1px solid ${props.theme.colors.border.title}`,
-    position: 'sticky',
-    zIndex: 9,
     backgroundColor: props.theme.colors.background.body,
     boxSizing: 'border-box',
     color: props.theme.colors.text.primary,
@@ -321,7 +319,7 @@ export const SelectHeader = styled('div')((props) => ({
   color: props.theme.colors.text.primary,
 }));
 
-export const SelectHeaderButton = styled(Link)((props) => ({
+export const SelectHeaderButton = styled('div')((props) => ({
   position: 'absolute',
   right: 0,
   fill: props.theme.colors.main.violet,
@@ -474,20 +472,18 @@ export const ColorsPaletteButton = styled('button')((props) => ({
 }));
 
 export const AddFormButtonsContainer = styled('div')((props) => ({
-  position: 'fixed',
+  position: 'sticky',
   bottom: props.theme.spacing(5),
   width: '100%',
   marginTop: props.theme.spacing(7),
+  marginBottom: props.theme.spacing(5),
   display: 'flex',
   marginLeft: 'auto',
   marginRight: 'auto',
   borderRadius: props.theme.borderRadius,
-  '@media (min-width: 600px)': {
-    position: 'static',
-  },
 }));
 
-export const AddFormButton = styled(Link)((props) => ({
+export const AddFormButton = styled('div')((props) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -501,7 +497,6 @@ export const AddFormButton = styled(Link)((props) => ({
     width: 200,
     height: 40,
     borderRadius: props.theme.borderRadius,
-    marginBottom: props.theme.spacing(7),
   },
 }));
 
@@ -714,5 +709,101 @@ export const NoSearchResultsContainer = styled('div')(() => ({
 export const NoSearchResultsSvg = styled('svg')((props) => ({
   '& path': {
     fill: props.theme.colors.text.ordinary,
+  },
+}));
+
+export const InfoDialog = styled(Dialog)((props) => ({
+  '& .MuiPaper-root': {
+    '&.MuiDialog-paper': {
+      background: props.theme.colors.background.body,
+      margin: 0,
+      maxHeight: '100%',
+      paddingLeft: props.theme.spacing(2),
+      paddingRight: props.theme.spacing(2),
+      width: `calc(100% - ${props.theme.spacing(2 * 2)})`,
+      '@media (min-width: 768px)': {
+        margin: props.theme.spacing(8),
+        maxHeight: `calc(100% - ${props.theme.spacing(8 * 2)})`,
+        width: `calc(75% - ${props.theme.spacing(2 * 2)})`,
+      },
+      '@media (min-width: 1000px)': {
+        width: `calc(50% - ${props.theme.spacing(2 * 2)})`,
+      },
+      '&::-webkit-scrollbar': {
+        width: 5,
+      },
+      '&::-webkit-scrollbar-thumb': {
+        background: props.theme.colors.text.ordinary,
+        borderRadius: props.theme.borderRadius * 2,
+      },
+    },
+  },
+}));
+
+export const HeaderDialog = styled('div')((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: `calc(100% - ${props.theme.spacing(5 * 2)})`,
+  padding: props.theme.spacing(5),
+  fontSize: '1.2rem',
+}));
+
+export const AmountFieldsContainer = styled('div')((props) => ({
+  display: 'grid',
+  gridTemplateColumns: '1fr',
+  alignItems: 'center',
+  '@media (min-width: 600px)': {
+    columnGap: props.theme.spacing(2),
+    gridTemplateColumns: `25% calc(75% - ${props.theme.spacing(2)})`,
+  },
+}));
+
+export const NumberInputField = styled(TextInputField)(() => ({
+  gridColumn: '1 / 2',
+  gridRow: '1 / 2',
+  '& .MuiOutlinedInput-root': {
+    '& .MuiInputBase-input': {
+      fontSize: '1.5rem',
+    },
+  },
+  '@media (min-width: 600px)': {
+    gridColumn: '2 / 3',
+    gridRow: '1 / 2',
+  },
+}));
+
+export const CurrencyInputField = styled(TextInputField)(() => ({
+  gridColumn: '1 / 2',
+  gridRow: '2 / 3',
+  '@media (min-width: 600px)': {
+    gridColumn: '1 / 2',
+    gridRow: '1 / 2',
+    '& .MuiOutlinedInput-root': {
+      '& .MuiInputBase-input': {
+        fontSize: '1.5rem',
+      },
+    },
+  },
+}));
+
+export const ArchiveButton = styled('div')((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'absolute',
+  right: props.theme.spacing(2),
+}));
+
+export const ArchiveButtonSvg = styled('svg')((props) => ({
+  cursor: 'pointer',
+  height: 35,
+  width: 35,
+  '& path': {
+    fill: props.theme.colors.expense,
+  },
+  '&:hover circle': {
+    fill: props.theme.colors.background.ordinary,
+    transition: 'fill 0.4s ease-out',
   },
 }));

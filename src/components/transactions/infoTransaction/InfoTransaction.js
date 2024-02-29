@@ -1,378 +1,111 @@
 import React, { useEffect, useState } from 'react';
-
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-import { dinero, toSnapshot, toDecimal, subtract, add } from 'dinero.js';
-import { USD } from '@dinero.js/currencies';
-
-import {
-  fetchCategoriesData,
-  fetchAccountsData,
-  fetchTransactionsData,
-  editTransaction,
-  editAccount,
-} from '../../../actions/Actions.js';
-import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
-import {
-  dineroFromFloat,
-  formatDineroOutput,
-} from '../../../utils/format/cash';
+import { dinero, toDecimal } from 'dinero.js';
 import { renderCategories, renderAccounts, renderCurrencies } from '../utils';
-
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
-import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
-
-import { pages } from '../../../utils/constants/pages.js';
+import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/hoverDelete.svg';
 import {
   AddButtonSvg,
-  AddContainer,
   AddFormButtonsContainer,
-  AddFormHeader,
-  BackLink,
-  BackLinkSvg,
+  AmountFieldsContainer,
+  ArchiveButton,
+  ArchiveButtonSvg,
   ButtonSvg,
   ButtonTitle,
   CancelButton,
   CancelSearchSvg,
+  CurrencyInputField,
   DateField,
   DoneButton,
-  MobHeaderTitle,
+  FilterTooltip,
+  HeaderDialog,
+  InfoDialog,
+  NumberInputField,
   SearchField,
   SelectHeader,
   SelectHeaderButton,
   TextInputField,
 } from '../../../theme/global.js';
-import { Back, BackSvg } from '../../newTransaction/NewTransaction.styled.js';
-import { Grid, InputAdornment } from '@mui/material';
-
+import { InputAdornment } from '@mui/material';
 import dayjs from 'dayjs';
 import { NumericFormatCustom } from '../../../utils/format/cash';
-import { toStringDate } from '../../../utils/format/date/index.js';
-import Loading from '../../loading/Loading.js';
 import { currencies, names } from '../../../utils/constants/currencies.js';
+import { doneEventHandler } from './utils/index.js';
+import AddAccount from '../../accounts/addAccount/AddAccount.js';
+import AddCategory from '../../categories/addCategory/AddCategory.js';
 
-function createNewBalance(prevTransaction, newTransaction, accounts) {
-  const prevAccount = accounts.find(
-    (account) => account.id === prevTransaction.account,
-  );
-  const newAccount = accounts.find(
-    (account) => account.id === newTransaction.account,
-  );
-
-  if (!newAccount || !prevAccount) {
-    return {
-      prevAccountBalance: toSnapshot(dinero({ amount: 0, currency: USD })),
-      newAccountBalance: toSnapshot(dinero({ amount: 0, currency: USD })),
-    };
-  }
-
-  switch (newTransaction.transactionType) {
-    case 'income':
-      //если это один и тот же счет
-      if (prevAccount === newAccount) {
-        const prevAccountBalance = subtract(
-          dinero(prevAccount.balance),
-          dinero(prevTransaction.amount),
-        );
-        return {
-          prevAccountBalance: toSnapshot(prevAccountBalance),
-          newAccountBalance: toSnapshot(
-            add(prevAccountBalance, dinero(newTransaction.amount)),
-          ),
-        };
-      } else {
-        return {
-          prevAccountBalance: toSnapshot(
-            subtract(
-              dinero(prevAccount.balance),
-              dinero(prevTransaction.amount),
-            ),
-          ),
-          newAccountBalance: toSnapshot(
-            add(dinero(newAccount.balance), dinero(newTransaction.amount)),
-          ),
-        };
-      }
-    case 'expense':
-      if (prevAccount === newAccount) {
-        const prevAccountBalance = add(
-          dinero(prevAccount.balance),
-          dinero(prevTransaction.amount),
-        );
-        return {
-          prevAccountBalance: toSnapshot(prevAccountBalance),
-          newAccountBalance: toSnapshot(
-            subtract(prevAccountBalance, dinero(newTransaction.amount)),
-          ),
-        };
-      } else {
-        return {
-          prevAccountBalance: toSnapshot(
-            add(dinero(prevAccount.balance), dinero(prevTransaction.amount)),
-          ),
-          newAccountBalance: toSnapshot(
-            subtract(dinero(newAccount.balance), dinero(newTransaction.amount)),
-          ),
-        };
-      }
-    default:
-      return {
-        prevAccountBalance: prevAccount.balance,
-        newAccountBalance: newAccount.balance,
-      };
-  }
-}
-
-const doneEventHandler = (
+function InfoTransaction({
   clickedTransaction,
-  id,
-  transactionType,
-  category,
-  account,
-  amount,
-  dateObj,
-  notes,
-  tags,
-  prevTransaction,
-  editTransaction,
-  editAccount,
+  transactions,
   accounts,
-  dispatch,
-) => {
-  const newAmount = dineroFromFloat({ amount, currency: USD, scale: 2 });
-  const date = toStringDate(new Date(dateObj.format()));
-
-  const newTransaction = {
-    id,
-    transactionType,
-    category,
-    account,
-    amount: toSnapshot(newAmount),
-    formatAmount: toDecimal(newAmount),
-    date,
-    notes,
-    tags,
-  };
-  dispatch(editTransaction(clickedTransaction, newTransaction));
-  idbAddItem(newTransaction, 'transactions');
-
-  const balance = createNewBalance(prevTransaction, newTransaction, accounts);
-
-  const prevTransactionAccount = accounts.find(
-    (account) => account.id === prevTransaction.account,
-  );
-  if (prevTransactionAccount) {
-    dispatch(
-      editAccount({
-        ...prevTransactionAccount,
-        balance: balance.prevAccountBalance,
-      }),
-    );
-    idbAddItem(
-      { ...prevTransactionAccount, balance: balance.prevAccountBalance },
-      'accounts',
-    );
-  }
-
-  const newTransactionAccount = accounts.find(
-    (account) => account.id === newTransaction.account,
-  );
-  if (newTransactionAccount) {
-    dispatch(
-      editAccount({
-        ...newTransactionAccount,
-        balance: balance.newAccountBalance,
-      }),
-    );
-    idbAddItem(
-      { ...newTransactionAccount, balance: balance.newAccountBalance },
-      'accounts',
-    );
-  }
-};
-
-export default function InfoTransaction() {
-  const transactions = useSelector((state) => state.transactions);
-  const accounts = useSelector((state) => state.accounts);
-  const categories = useSelector((state) => state.categories);
+  categories,
+  setOpenDialog,
+}) {
+  const header = useSelector((state) => state.header);
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
-
-  const clickedTransaction = useParams().transactionId;
-
-  let [id, setId] = useState('');
+  const mainCurrency = header.profile ? header.profile.currency : names.USD;
+  const [id, setId] = useState('');
   const [transactionType, setTransactionType] = useState('expense');
   const [category, setCategory] = useState('');
   const [account, setAccount] = useState('');
-  const [currency, setCurrency] = useState(names.USD);
+  const [currency, setCurrency] = useState(mainCurrency);
   const [amount, setAmount] = useState(
     toDecimal(dinero({ amount: 0, currency: currencies[currency] })),
   );
   const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState([]);
+  const [openCategoryDialog, setOpenCategoryDialog] = useState(false);
+  const [openAccountDialog, setOpenAccountDialog] = useState(false);
 
-  const [transactionsData, setTransactionsData] = useState([]);
-  const [categoriesData, setCategoriesData] = useState([]);
-  const [accountsData, setAccountsData] = useState([]);
-
-  const notArchivedCategories = categoriesData.filter(
+  const notArchivedCategories = categories.filter(
       (category) => category.archived === false,
     ),
-    notArchivedAccounts = accountsData.filter(
+    notArchivedAccounts = accounts.filter(
       (account) => account.archived === false,
     );
   const filteredCategories = notArchivedCategories.filter(
     (category) => category.type === transactionType,
   );
-  const infoTransaction = transactionsData.find(
+  const infoTransaction = transactions.find(
     (transaction) => transaction.id === clickedTransaction,
   );
 
   useEffect(() => {
-    dispatch(fetchCategoriesData());
-    dispatch(fetchAccountsData());
-    dispatch(fetchTransactionsData());
-  }, [dispatch]);
+    const selectedTransaction = transactions.find(
+      (item) => item.id === clickedTransaction,
+    );
+    if (!selectedTransaction) return;
+    setId(selectedTransaction.id);
+    setTransactionType(selectedTransaction.transactionType);
+    setCategory(selectedTransaction.category);
+    setAccount(selectedTransaction.account);
+    setCurrency(selectedTransaction.amount.currency.code);
+    setAmount(toDecimal(dinero(selectedTransaction.amount)));
+    setDate(dayjs(new Date(selectedTransaction.date)));
+    setNotes(selectedTransaction.notes);
+    setTags(selectedTransaction.tags);
+  }, [clickedTransaction]);
 
-  useEffect(() => {
-    if (transactions.status === 'succeeded') {
-      setTransactionsData(transactions.transactions);
-
-      const infoTransaction = transactions.transactions.find(
-        (transaction) => transaction.id === clickedTransaction,
-      );
-
-      if (!infoTransaction) return;
-
-      setId(infoTransaction.id);
-      setTransactionType(infoTransaction.transactionType);
-      setCategory(infoTransaction.category);
-      setAccount(infoTransaction.account);
-      setCurrency(infoTransaction.amount.currency.code);
-      const transactionAmount = formatDineroOutput(
-        dinero(infoTransaction.amount),
-        infoTransaction.amount.currency.code,
-      );
-      setAmount(transactionAmount);
-      setDate(dayjs(new Date(infoTransaction.date)));
-      setNotes(infoTransaction.notes);
-      setTags(infoTransaction.tags);
-    }
-  }, [transactions.status, transactions.transactions, clickedTransaction]);
-
-  useEffect(() => {
-    if (categories.status === 'succeeded') {
-      setCategoriesData(categories.categories);
-    }
-  }, [categories.status, categories.categories]);
-
-  useEffect(() => {
-    if (accounts.status === 'succeeded') {
-      setAccountsData(accounts.accounts);
-    }
-  }, [accounts.status, accounts.accounts]);
-
-  return accounts.status === 'loading' ||
-    categories.status === 'loading' ||
-    transactions.status === 'loading' ? (
-    <Loading />
-  ) : (
-    <Grid item xs={12}>
-      <AddContainer>
-        <AddFormHeader>
-          <BackLink
-            to={`${pages.transactions[`${transactionType}s`]}/${account}`}
-          >
-            <BackLinkSvg as={BackIcon} />
-          </BackLink>
-          {t('INFO_TRANSACTION.TITLE')}
-        </AddFormHeader>
-        <Back to={`${pages.transactions[`${transactionType}s`]}/${account}`}>
-          <BackSvg as={BackIcon} />
-        </Back>
-        <MobHeaderTitle $titleType={transactionType}>
-          {t('INFO_TRANSACTION.TITLE')}
-        </MobHeaderTitle>
-        <TextInputField
-          margin="normal"
-          required
-          label={t('INFO_TRANSACTION.TYPE')}
-          value={t(`INFO_TRANSACTION.${transactionType.toUpperCase()}`)}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <TextInputField
-          margin="normal"
-          required
-          select
-          label={t('INFO_TRANSACTION.CATEGORY')}
-          value={category}
-          onChange={(event) => setCategory(event.target.value)}
-        >
-          <SelectHeader>
-            {t('INFO_TRANSACTION.AVAILABLE_CATEGORIES')}
-            <SelectHeaderButton to={pages.categories.add[transactionType]}>
-              <AddButtonSvg as={PlusIcon} />
-            </SelectHeaderButton>
-          </SelectHeader>
-          <SearchField
-            placeholder={t('INFO_TRANSACTION.SEARCH_CATEGORY')}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <CancelSearchSvg as={CancelSearchIcon} />
-                </InputAdornment>
-              ),
-            }}
-          />
-          {renderCategories(filteredCategories)}
-        </TextInputField>
-        <TextInputField
-          margin="normal"
-          required
-          select
-          label={t('INFO_TRANSACTION.ACCOUNT')}
-          value={account}
-          onChange={(event) => setAccount(event.target.value)}
-        >
-          <SelectHeader>
-            {t('INFO_TRANSACTION.AVAILABLE_ACCOUNTS')}
-            <SelectHeaderButton to={pages.accounts.add.card}>
-              <AddButtonSvg as={PlusIcon} />
-            </SelectHeaderButton>
-          </SelectHeader>
-          <SearchField
-            placeholder={t('INFO_TRANSACTION.SEARCH_ACCOUNT')}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <CancelSearchSvg as={CancelSearchIcon} />
-                </InputAdornment>
-              ),
-            }}
-          />
-          {renderAccounts(notArchivedAccounts, t)}
-        </TextInputField>
-        <TextInputField
+  return (
+    <>
+      <HeaderDialog>
+        {t('INFO_TRANSACTION.TITLE')}
+        <FilterTooltip title={t('TRANSACTIONS.DELETE')} arrow>
+          <ArchiveButton>
+            <ArchiveButtonSvg as={DeleteIcon} />
+          </ArchiveButton>
+        </FilterTooltip>
+      </HeaderDialog>
+      <AmountFieldsContainer>
+        <CurrencyInputField
           margin="normal"
           required
           select
@@ -382,72 +115,172 @@ export default function InfoTransaction() {
           onChange={(event) => setCurrency(event.target.value)}
         >
           {renderCurrencies(names)}
-        </TextInputField>
-        <TextInputField
+        </CurrencyInputField>
+        <NumberInputField
           margin="normal"
           required
           label={t('INFO_TRANSACTION.AMOUNT')}
           name="numberformat"
           value={amount}
           onChange={(event) => setAmount(event.target.value)}
-          inputProps={{ currency: currency }}
+          inputProps={{ currency }}
           InputProps={{
             inputComponent: NumericFormatCustom,
           }}
         />
-        <DateField
-          required
-          label={t('INFO_TRANSACTION.DATE')}
-          value={date}
-          onChange={(value) => setDate(value)}
+      </AmountFieldsContainer>
+      <TextInputField
+        margin="normal"
+        required
+        label={t('INFO_TRANSACTION.TYPE')}
+        value={t(`INFO_TRANSACTION.${transactionType.toUpperCase()}`)}
+        InputProps={{
+          readOnly: true,
+        }}
+      />
+      <TextInputField
+        margin="normal"
+        required
+        select
+        label={t('INFO_TRANSACTION.CATEGORY')}
+        value={category}
+        onChange={(event) => setCategory(event.target.value)}
+      >
+        <SelectHeader>
+          {t('INFO_TRANSACTION.AVAILABLE_CATEGORIES')}
+          <SelectHeaderButton>
+            <AddButtonSvg
+              onClick={() => setOpenCategoryDialog(true)}
+              as={PlusIcon}
+            />
+          </SelectHeaderButton>
+        </SelectHeader>
+        <SearchField
+          placeholder={t('INFO_TRANSACTION.SEARCH_CATEGORY')}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <CancelSearchSvg as={CancelSearchIcon} />
+              </InputAdornment>
+            ),
+          }}
         />
-        <TextInputField
-          margin="normal"
-          multiline
-          label={t('INFO_TRANSACTION.NOTES')}
-          placeholder="Tap here to make some notes"
-          defaultValue={notes}
-          onChange={(event) => setNotes(event.target.value)}
+        {renderCategories(filteredCategories)}
+      </TextInputField>
+      <TextInputField
+        margin="normal"
+        required
+        select
+        label={t('INFO_TRANSACTION.ACCOUNT')}
+        value={account}
+        onChange={(event) => setAccount(event.target.value)}
+      >
+        <SelectHeader>
+          {t('INFO_TRANSACTION.AVAILABLE_ACCOUNTS')}
+          <SelectHeaderButton>
+            <AddButtonSvg
+              onClick={() => setOpenAccountDialog(true)}
+              as={PlusIcon}
+            />
+          </SelectHeaderButton>
+        </SelectHeader>
+        <SearchField
+          placeholder={t('INFO_TRANSACTION.SEARCH_ACCOUNT')}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <CancelSearchSvg as={CancelSearchIcon} />
+              </InputAdornment>
+            ),
+          }}
         />
-        <TextInputField
-          margin="normal"
-          multiline
-          label={t('INFO_TRANSACTION.TAGS')}
-          onChange={(event) => setTags(event.target.value)}
+        {renderAccounts(notArchivedAccounts, t)}
+      </TextInputField>
+      <DateField
+        required
+        label={t('INFO_TRANSACTION.DATE')}
+        value={date}
+        onChange={(value) => setDate(value)}
+      />
+      <TextInputField
+        margin="normal"
+        multiline
+        label={t('INFO_TRANSACTION.NOTES')}
+        placeholder="Tap here to make some notes"
+        defaultValue={notes}
+        onChange={(event) => setNotes(event.target.value)}
+      />
+      <TextInputField
+        margin="normal"
+        multiline
+        label={t('INFO_TRANSACTION.TAGS')}
+        onChange={(event) => setTags(event.target.value)}
+      />
+      <AddFormButtonsContainer>
+        <DoneButton
+          onClick={() => {
+            doneEventHandler(
+              clickedTransaction,
+              id,
+              transactionType,
+              category,
+              account,
+              currency,
+              amount,
+              date,
+              notes,
+              tags,
+              infoTransaction,
+              accounts,
+              dispatch,
+              mainCurrency,
+            );
+            setOpenDialog(false);
+          }}
+        >
+          <ButtonSvg as={DoneIcon} />
+          <ButtonTitle>{t('NEW_TRANSACTION.DONE')}</ButtonTitle>
+        </DoneButton>
+        <CancelButton onClick={() => setOpenDialog(false)}>
+          <ButtonSvg as={CancelIcon} />
+          <ButtonTitle>{t('NEW_TRANSACTION.CANCEL')}</ButtonTitle>
+        </CancelButton>
+      </AddFormButtonsContainer>
+      <InfoDialog
+        open={openCategoryDialog}
+        onClose={() => setOpenCategoryDialog(false)}
+      >
+        <AddCategory setOpenDialog={setOpenCategoryDialog} />
+      </InfoDialog>
+      <InfoDialog
+        open={openAccountDialog}
+        onClose={() => setOpenAccountDialog(false)}
+      >
+        <AddAccount
+          categories={categories}
+          setOpenDialog={setOpenAccountDialog}
         />
-        <AddFormButtonsContainer>
-          <DoneButton
-            to={`${pages.transactions[`${transactionType}s`]}/${account}`}
-            onClick={() =>
-              doneEventHandler(
-                clickedTransaction,
-                id,
-                transactionType,
-                category,
-                account,
-                amount,
-                date,
-                notes,
-                tags,
-                infoTransaction,
-                editTransaction,
-                editAccount,
-                accountsData,
-                dispatch,
-              )
-            }
-          >
-            <ButtonSvg as={DoneIcon} />
-            <ButtonTitle>{t('NEW_TRANSACTION.DONE')}</ButtonTitle>
-          </DoneButton>
-          <CancelButton
-            to={`${pages.transactions[`${transactionType}s`]}/${account}`}
-          >
-            <ButtonSvg as={CancelIcon} />
-            <ButtonTitle>{t('NEW_TRANSACTION.CANCEL')}</ButtonTitle>
-          </CancelButton>
-        </AddFormButtonsContainer>
-      </AddContainer>
-    </Grid>
+      </InfoDialog>
+    </>
   );
 }
+
+InfoTransaction.propTypes = {
+  clickedTransaction: PropTypes.string,
+  transactions: PropTypes.array,
+  accounts: PropTypes.array,
+  categories: PropTypes.array,
+  setOpenDialog: PropTypes.func,
+};
+
+export default InfoTransaction;

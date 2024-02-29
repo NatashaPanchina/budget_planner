@@ -1,24 +1,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 import { renderNotes } from '../utils/index.js';
-
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { ReactComponent as AddIcon } from '../../../assets/icons/shared/add.svg';
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
 import { ReactComponent as ArchiveIcon } from '../../../assets/icons/shared/archive.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
-
 import {
   CancelSearchSvg,
   MobItemButtonSvg,
   SearchField,
   ToggleMenu,
+  InfoDialog,
 } from '../../../theme/global.js';
 import {
   CategoriesListItem,
@@ -31,21 +28,23 @@ import {
   DeleteMenuItem,
   DeleteSvg,
 } from '../Categories.styled.js';
-import { pages } from '../../../utils/constants/pages.js';
 import { InputAdornment, MenuItem } from '@mui/material';
 import { useCategoriesSearch } from '../../../hooks/useSearch.js';
 import NoResultsFound from '../../noResults/NoResultsFound.js';
 import CategorySvg from '../../shared/CategorySvg.js';
+import { archiveCategory } from '../../../actions/Actions.js';
+import InfoCategory from '../infoCategory/InfoCategory.js';
 
-function CategoriesList({ categories, archiveCategory }) {
+function CategoriesList({ categories }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [clickedCategory, setClickedCategory] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [query, setQuery] = useState('');
-
+  const [openDialog, setOpenDialog] = useState(false);
   const searchData = useCategoriesSearch(query, categories, false);
+
   return (
     <>
       <SearchField
@@ -66,23 +65,33 @@ function CategoriesList({ categories, archiveCategory }) {
         onChange={(event) => setQuery(event.target.value)}
         autoComplete="off"
       />
+      <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <InfoCategory
+          clickedCategory={clickedCategory.id}
+          categories={categories}
+          setOpenDialog={setOpenDialog}
+        />
+      </InfoDialog>
       {searchData.length ? (
         searchData.map((category, index) => {
           return (
             <React.Fragment key={category.id}>
               <ListItemContainer>
-                <Link to={`${pages.categories.info.main}/${category.id}`}>
-                  <CategoriesListItem>
-                    <CategoriesDescription>
-                      <CategorySvg
-                        category={category}
-                        fillName={`category${index}`}
-                      />
-                      {category.description}
-                    </CategoriesDescription>
-                    {renderNotes(category.notes)}
-                  </CategoriesListItem>
-                </Link>
+                <CategoriesListItem
+                  onClick={() => {
+                    setClickedCategory(category);
+                    setOpenDialog(true);
+                  }}
+                >
+                  <CategoriesDescription>
+                    <CategorySvg
+                      category={category}
+                      fillName={`category${index}`}
+                    />
+                    {category.description}
+                  </CategoriesDescription>
+                  {renderNotes(category.notes)}
+                </CategoriesListItem>
                 <EditButtons>
                   <ToggleMenu
                     anchorEl={anchorEl}
@@ -95,10 +104,13 @@ function CategoriesList({ categories, archiveCategory }) {
                         {t('CATEGORIES.ADD_SUB')}
                       </FlexContainer>
                     </MenuItem>
-                    <MenuItem onClick={() => setAnchorEl(null)}>
-                      <EditLinkContainer
-                        to={`${pages.categories.info.main}/${clickedCategory.id}`}
-                      >
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl(null);
+                        setOpenDialog(true);
+                      }}
+                    >
+                      <EditLinkContainer>
                         <EditButtonSvg as={EditIcon} />
                         {t('CATEGORIES.EDIT')}
                       </EditLinkContainer>
@@ -133,15 +145,12 @@ function CategoriesList({ categories, archiveCategory }) {
       ) : (
         <NoResultsFound query={query} />
       )}
-      {}
     </>
   );
 }
 
 CategoriesList.propTypes = {
   categories: PropTypes.array,
-  archiveCategory: PropTypes.func,
-  filterType: PropTypes.string,
 };
 
 export default CategoriesList;
