@@ -7,9 +7,6 @@ export const pages = {
     expenses: '/transactions/expenses',
     incomes: '/transactions/incomes',
     transfers: '/transactions/transfers',
-    info: {
-      main: '/transactions/infoTransaction',
-    },
   },
   accounts: {
     main: '/accounts',
@@ -25,9 +22,6 @@ export const pages = {
     add: {
       card: '/accounts/addAccount/card',
       cash: '/accounts/addAccount/cash',
-    },
-    info: {
-      main: '/accounts/infoAccount',
     },
   },
   newTransaction: {
@@ -50,9 +44,6 @@ export const pages = {
     add: {
       expense: '/categories/addCategory/expense',
       income: '/categories/addCategory/income',
-    },
-    info: {
-      main: '/categories/infoCategory',
     },
   },
   analysis: {

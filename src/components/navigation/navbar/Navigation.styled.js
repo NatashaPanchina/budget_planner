@@ -292,3 +292,27 @@ export const MobMenu = styled(FlexContainer)((props) => ({
     display: 'none',
   },
 }));
+
+export const NewTransactionlink = styled('div')((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  color: props.theme.colors.text.darker,
+  fill: props.theme.colors.text.darker,
+  height: 50,
+  width: '100%',
+  '&:hover': {
+    color: props.theme.colors.main.violet,
+    fill: props.theme.colors.main.violet,
+    backgroundColor: props.theme.colors.background.navigation,
+    borderRadius: props.theme.borderRadius,
+  },
+  '@media (min-width: 600px)': {
+    width: 'inherit',
+    justifyContent: 'center',
+  },
+  '@media (min-width: 1200px)': {
+    justifyContent: 'flex-start',
+  },
+}));

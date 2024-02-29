@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { v4 as uuidv4 } from 'uuid';
-import { USD } from '@dinero.js/currencies';
-import { dinero, toDecimal, toSnapshot } from 'dinero.js';
-import { pages } from '../../../utils/constants/pages';
+import { dinero, toDecimal } from 'dinero.js';
 import { colors } from '../../../utils/constants/colors';
 import {
   NumericFormatCustom,
-  dineroFromFloat,
   formatNumberOutput,
 } from '../../../utils/format/cash';
-import { renderSelectedColor, renderColors, createAccountType } from '../utils';
-import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
+import { renderSelectedColor, renderColors } from '../utils';
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
@@ -37,60 +32,29 @@ import {
   DateField,
   ColorsPopoverPalette,
   PopoverField,
+  NumberInputField,
+  CurrencyInputField,
+  AmountFieldsContainer,
 } from '../../../theme/global';
 import dayjs from 'dayjs';
-import { MenuItem } from '@mui/material';
-import { toStringDate } from '../../../utils/format/date';
+import { currencies, names } from '../../../utils/constants/currencies';
+import { renderCurrencies } from '../../transactions/utils';
+import { cardDoneHandler } from './utils';
 
-const doneEventHandler = (
-  accountType,
-  description,
-  currency,
-  balance,
-  selectedColor,
-  dateObj,
-  notes,
-  tags,
-  addNewAccount,
-  dispatch,
-) => {
-  const date = toStringDate(new Date(dateObj.format()));
-  const newBalance = dineroFromFloat({
-    amount: balance,
-    currency: USD,
-    scale: 2,
-  });
-  const newAccount = {
-    id: uuidv4(),
-    archived: false,
-    type: accountType,
-    description,
-    currency,
-    formatBalance: toDecimal(newBalance),
-    balance: toSnapshot(newBalance),
-    color: selectedColor,
-    date,
-    notes,
-    tags,
-  };
-  dispatch(addNewAccount(newAccount));
-  idbAddItem(newAccount, 'accounts');
-};
-
-function CardForm({ accountType, addNewAccount }) {
+function CardForm({ categories, setOpenDialog }) {
   const dispatch = useDispatch();
+  const header = useSelector((state) => state.header);
+  const mainCurrency = header.profile ? header.profile.currency : names.USD;
   const { t } = useTranslation();
   const [description, setDescription] = useState('');
-  const [currency, setCurrency] = useState('USD');
+  const [currency, setCurrency] = useState(mainCurrency);
   const [balance, setBalance] = useState(
-    toDecimal(dinero({ amount: 0, currency: USD })),
+    toDecimal(dinero({ amount: 0, currency: currencies.USD })),
   );
   const [selectedColor, setSelectedColor] = useState(colors.green[700]);
   const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState(['']);
-  const cashType = createAccountType(accountType);
-
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -103,15 +67,40 @@ function CardForm({ accountType, addNewAccount }) {
       >
         <CardName>{description}</CardName>
         <CardBalanceContainer>
-          <CardBalance>{formatNumberOutput(balance, 'USD')}</CardBalance>
+          <CardBalance>{formatNumberOutput(balance, currency)}</CardBalance>
           <CurrentBalance>{t('ADD_ACCOUNT.CURRENT_BALANCE')}</CurrentBalance>
         </CardBalanceContainer>
       </CardView>
+      <AmountFieldsContainer>
+        <CurrencyInputField
+          margin="normal"
+          required
+          select
+          fullWidth
+          label={t('ADD_ACCOUNT.CURRENCY')}
+          value={currency}
+          onChange={(event) => setCurrency(event.target.value)}
+        >
+          {renderCurrencies(names)}
+        </CurrencyInputField>
+        <NumberInputField
+          margin="normal"
+          required
+          label={t('ADD_ACCOUNT.BALANCE')}
+          name="numberformat"
+          value={balance}
+          onChange={(event) => setBalance(event.target.value)}
+          inputProps={{ currency }}
+          InputProps={{
+            inputComponent: NumericFormatCustom,
+          }}
+        />
+      </AmountFieldsContainer>
       <TextInputField
         margin="normal"
         required
         label={t('ADD_ACCOUNT.TYPE')}
-        value={t(`ADD_ACCOUNT.TYPE_${accountType.toUpperCase()}`)}
+        value={t(`ADD_ACCOUNT.TYPE_CARD`)}
         InputProps={{
           readOnly: true,
         }}
@@ -124,28 +113,6 @@ function CardForm({ accountType, addNewAccount }) {
         placeholder={t('ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
         defaultValue={description}
         onChange={(event) => setDescription(event.target.value)}
-      />
-      <TextInputField
-        margin="normal"
-        required
-        select
-        fullWidth
-        label={t('ADD_ACCOUNT.CURRENCY')}
-        value={currency}
-        onChange={(event) => setCurrency(event.target.value)}
-      >
-        <MenuItem value="USD">USD</MenuItem>
-      </TextInputField>
-      <TextInputField
-        margin="normal"
-        required
-        label={t('ADD_ACCOUNT.BALANCE')}
-        name="numberformat"
-        value={balance}
-        onChange={(event) => setBalance(event.target.value)}
-        InputProps={{
-          inputComponent: NumericFormatCustom,
-        }}
       />
       <PopoverField
         margin="normal"
@@ -195,10 +162,8 @@ function CardForm({ accountType, addNewAccount }) {
       />
       <AddFormButtonsContainer>
         <DoneButton
-          to={pages.accounts[cashType]}
-          onClick={() =>
-            doneEventHandler(
-              accountType,
+          onClick={() => {
+            cardDoneHandler(
               description,
               currency,
               balance,
@@ -206,15 +171,17 @@ function CardForm({ accountType, addNewAccount }) {
               date,
               notes,
               tags,
-              addNewAccount,
+              categories,
               dispatch,
-            )
-          }
+              mainCurrency,
+            );
+            setOpenDialog(false);
+          }}
         >
           <ButtonSvg as={DoneIcon} />
           <ButtonTitle>{t('ADD_ACCOUNT.DONE')}</ButtonTitle>
         </DoneButton>
-        <CancelButton to={pages.accounts[cashType]}>
+        <CancelButton onClick={() => setOpenDialog(false)}>
           <ButtonSvg as={CancelIcon} />
           <ButtonTitle>{t('ADD_ACCOUNT.CANCEL')}</ButtonTitle>
         </CancelButton>
@@ -224,8 +191,8 @@ function CardForm({ accountType, addNewAccount }) {
 }
 
 CardForm.propTypes = {
-  accountType: PropTypes.string,
-  addNewAccount: PropTypes.func,
+  categories: PropTypes.array,
+  setOpenDialog: PropTypes.func,
 };
 
 export default CardForm;

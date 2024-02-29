@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { v4 as uuidv4 } from 'uuid';
 import { colors } from '../../../utils/constants/colors.js';
 import { categoryIcons } from '../../../utils/constants/icons.js';
-import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 import { renderColors, renderIcons, renderSelectedColor } from '../utils';
 ('../../../hooks/useOutsideClick.js');
 import {
@@ -28,43 +25,15 @@ import {
   CategoriesIcons,
   IconsButtonContainer,
 } from '../Categories.styled.js';
-import { pages } from '../../../utils/constants/pages.js';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import dayjs from 'dayjs';
-import { toStringDate } from '../../../utils/format/date/index.js';
+import { doneEventHandler } from './utils/index.js';
 
-const doneEventHandler = (
-  categoryType,
-  description,
-  selectedColor,
-  icon,
-  dateObj,
-  notes,
-  tags,
-  addNewCategory,
-  dispatch,
-) => {
-  const date = toStringDate(new Date(dateObj.format()));
-  const newCategory = {
-    id: uuidv4(),
-    archived: false,
-    type: categoryType,
-    description: description,
-    color: selectedColor,
-    icon,
-    date,
-    notes,
-    tags,
-  };
-  dispatch(addNewCategory(newCategory));
-  idbAddItem(newCategory, 'categories');
-};
-
-function CategoryForm({ addNewCategory }) {
+function CategoryForm({ type, setOpenDialog }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { categoryType } = useParams();
+  const categoryType = type;
   const [description, setDescription] = useState('');
   const [selectedColor, setSelectedColor] = useState(colors.green[600]);
   const [icon, setIcon] = useState(0);
@@ -169,8 +138,7 @@ function CategoryForm({ addNewCategory }) {
       />
       <AddFormButtonsContainer>
         <DoneButton
-          to={pages.categories[`${categoryType}s`]}
-          onClick={() =>
+          onClick={() => {
             doneEventHandler(
               categoryType,
               description,
@@ -179,15 +147,15 @@ function CategoryForm({ addNewCategory }) {
               date,
               notes,
               tags,
-              addNewCategory,
               dispatch,
-            )
-          }
+            );
+            setOpenDialog(false);
+          }}
         >
           <ButtonSvg as={DoneIcon} />
           <ButtonTitle>{t('ADD_CATEGORY.DONE')}</ButtonTitle>
         </DoneButton>
-        <CancelButton to={pages.categories[`${categoryType}s`]}>
+        <CancelButton onClick={() => setOpenDialog(false)}>
           <ButtonSvg as={CancelIcon} />
           <ButtonTitle>{t('ADD_CATEGORY.CANCEL')}</ButtonTitle>
         </CancelButton>
@@ -197,7 +165,8 @@ function CategoryForm({ addNewCategory }) {
 }
 
 CategoryForm.propTypes = {
-  addNewCategory: PropTypes.func,
+  type: PropTypes.string,
+  setOpenDialog: PropTypes.func,
 };
 
 export default CategoryForm;

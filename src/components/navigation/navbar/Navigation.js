@@ -31,12 +31,14 @@ import {
   ProfileSvg,
   HiddenLinkContainer,
   MobMenu,
+  NewTransactionlink,
 } from './Navigation.styled';
 import MobNavigation from './MobNavigation';
-import { CustomTooltip } from '../../../theme/global';
+import { CustomTooltip, InfoDialog } from '../../../theme/global';
 import { animated, useTransition } from '@react-spring/web';
 import Menu from '../menu/Menu';
 import { useSelector } from 'react-redux';
+import NewTransaction from '../../newTransaction/NewTransaction';
 
 const animatedMenu = (style, username, setToggleMenu) => {
   return (
@@ -69,7 +71,10 @@ export default function Navigation() {
       config: { duration: 100 },
     },
   });
+  const [transactionType, setTransactionType] = useState('expense');
+  const [openDialog, setOpenDialog] = useState(false);
   const mobRef = useRef(null);
+
   return (
     <>
       <NavigationContainer>
@@ -82,12 +87,12 @@ export default function Navigation() {
             arrow
             placement="right"
           >
-            <LinkContainer>
-              <Link to={pages.dashboard}>
+            <HiddenLinkContainer>
+              <Link to="/">
                 <Svg as={DashboardIcon} />
                 <LinkTitle>{t('NAVIGATION.DASHBOARD')}</LinkTitle>
               </Link>
-            </LinkContainer>
+            </HiddenLinkContainer>
           </CustomTooltip>
           <CustomTooltip
             title={t('NAVIGATION.TRANSACTIONS')}
@@ -118,11 +123,11 @@ export default function Navigation() {
             arrow
             placement="right"
           >
-            <NewTransactionLinkContainer>
-              <Link to={pages.newTransaction.main}>
+            <NewTransactionLinkContainer onClick={() => setOpenDialog(true)}>
+              <NewTransactionlink>
                 <NewTransactionSvg as={NewTransactionIcon} />
                 <LinkTitle>{t('NAVIGATION.NEW_TRANSACTION')}</LinkTitle>
-              </Link>
+              </NewTransactionlink>
             </NewTransactionLinkContainer>
           </CustomTooltip>
           <NewTransactionButton
@@ -135,8 +140,17 @@ export default function Navigation() {
             className="none"
             onClick={() => mobRef.current.classList.toggle('none')}
           >
-            <MobNavigation />
+            <MobNavigation
+              setTransactionType={setTransactionType}
+              setOpenDialog={setOpenDialog}
+            />
           </MobileNavigationContainer>
+          <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
+            <NewTransaction
+              setOpenDialog={setOpenDialog}
+              type={transactionType}
+            />
+          </InfoDialog>
           <CustomTooltip
             title={t('NAVIGATION.CATEGORIES')}
             arrow
@@ -191,8 +205,10 @@ export default function Navigation() {
         </Nav>
       </NavigationContainer>
       {transitions((style, toggleMenu) => {
-        if (toggleMenu)
-          return animatedMenu(style, header.profile.username, setToggleMenu);
+        const displayName = header.profile
+          ? header.profile.displayName
+          : 'Anonymous';
+        if (toggleMenu) return animatedMenu(style, displayName, setToggleMenu);
       })}
     </>
   );

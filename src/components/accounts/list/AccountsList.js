@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { dinero } from 'dinero.js';
 import { formatDineroOutput } from '../../../utils/format/cash';
@@ -16,6 +15,7 @@ import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/searc
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 
 import {
+  InfoDialog,
   CancelSearchSvg,
   SearchField,
   ToggleMenu,
@@ -34,24 +34,25 @@ import {
   DeleteMenuItem,
   DeleteSvg,
 } from '../Accounts.styled';
-import { pages } from '../../../utils/constants/pages';
 import { InputAdornment, MenuItem } from '@mui/material';
 import { useAccountsSearch } from '../../../hooks/useSearch';
 import NoResultsFound from '../../noResults/NoResultsFound';
+import { archiveAccount } from '../../../actions/Actions.js';
+import InfoAccount from '../infoAccount/InfoAccount.js';
 
-function archiveEventButton(account, archiveAccount, dispatch) {
+function archiveEventButton(account, dispatch) {
   dispatch(archiveAccount(account.id));
   idbAddItem({ ...account, archived: true }, 'accounts');
 }
 
-function AccountsList({ accounts, archiveAccount, localeFilterAccount }) {
+function AccountsList({ accounts, localeFilterAccount, categories }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [clickedAccount, setClickedAccount] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [query, setQuery] = useState('');
-
+  const [openDialog, setOpenDialog] = useState(false);
   const searchData = useAccountsSearch(query, accounts, false);
 
   return (
@@ -74,50 +75,61 @@ function AccountsList({ accounts, archiveAccount, localeFilterAccount }) {
         onChange={(event) => setQuery(event.target.value)}
         autoComplete="off"
       />
+      <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <InfoAccount
+          clickedAccount={clickedAccount.id}
+          accounts={accounts}
+          categories={categories}
+          setOpenDialog={setOpenDialog}
+        />
+      </InfoDialog>
       {searchData.length ? (
         searchData.map((account) => {
           const balance = dinero(account.balance);
           return (
             <CashListItem key={account.id}>
-              <Link to={`${pages.accounts.info.main}/${account.id}`}>
-                <Card
-                  $cardBackground={cardBackground}
-                  $from={account.color[0]}
-                  $to={account.color[1]}
-                  className={`${account.description}`}
-                >
-                  <CardName>{account.description}</CardName>
-                  <CardBalanceContainer>
-                    <CardBalance>
-                      {formatDineroOutput(balance, 'USD')}
-                    </CardBalance>
-                    <CurrentBalance>
-                      {t('ACCOUNTS.CURRENT_BALANCE')}
-                    </CurrentBalance>
-                  </CardBalanceContainer>
-                </Card>
-                {renderNotes(account.notes)}
-              </Link>
+              <Card
+                $cardBackground={cardBackground}
+                $from={account.color[0]}
+                $to={account.color[1]}
+                className={`${account.description}`}
+                onClick={() => {
+                  setClickedAccount(account);
+                  setOpenDialog(true);
+                }}
+              >
+                <CardName>{account.description}</CardName>
+                <CardBalanceContainer>
+                  <CardBalance>
+                    {formatDineroOutput(balance, account.balance.currency.code)}
+                  </CardBalance>
+                  <CurrentBalance>
+                    {t('ACCOUNTS.CURRENT_BALANCE')}
+                  </CurrentBalance>
+                </CardBalanceContainer>
+              </Card>
+              {renderNotes(account.notes)}
               <div>
                 <ToggleMenu
                   anchorEl={anchorEl}
                   open={open}
                   onClose={() => setAnchorEl(null)}
                 >
-                  <MenuItem onClick={() => setAnchorEl(null)}>
+                  <MenuItem
+                    onClick={() => {
+                      setAnchorEl(null);
+                      setOpenDialog(true);
+                    }}
+                  >
                     <FlexContainer>
-                      <CardButtonlink
-                        to={`${pages.accounts.info.main}/${clickedAccount.id}`}
-                      >
+                      <CardButtonlink>
                         <CardButtonSvg as={EditIcon} /> {t('ACCOUNTS.EDIT')}
                       </CardButtonlink>
                     </FlexContainer>
                   </MenuItem>
                   <MenuItem onClick={() => setAnchorEl(null)}>
                     <FlexContainer>
-                      <CardButtonlink
-                        to={`${pages.newTransaction.transfer}/${clickedAccount.id}`}
-                      >
+                      <CardButtonlink>
                         <CardButtonSvg as={TransferIcon} />{' '}
                         {t('ACCOUNTS.NEW_TRANSFER')}
                       </CardButtonlink>
@@ -126,11 +138,7 @@ function AccountsList({ accounts, archiveAccount, localeFilterAccount }) {
                   <DeleteMenuItem onClick={() => setAnchorEl(null)}>
                     <FlexContainer
                       onClick={() =>
-                        archiveEventButton(
-                          clickedAccount,
-                          archiveAccount,
-                          dispatch,
-                        )
+                        archiveEventButton(clickedAccount, dispatch)
                       }
                     >
                       <DeleteSvg as={ArchiveIcon} />
@@ -158,9 +166,9 @@ function AccountsList({ accounts, archiveAccount, localeFilterAccount }) {
 
 AccountsList.propTypes = {
   accounts: PropTypes.array,
-  archiveAccount: PropTypes.func,
   filterAccount: PropTypes.string,
   localeFilterAccount: PropTypes.string,
+  categories: PropTypes.array,
 };
 
 export default AccountsList;

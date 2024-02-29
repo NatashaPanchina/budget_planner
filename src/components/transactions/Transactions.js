@@ -9,8 +9,6 @@ import {
   fetchTransactionsData,
   fetchAccountsData,
   fetchCategoriesData,
-  deleteTransaction,
-  editAccount,
 } from '../../actions/Actions';
 
 import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.svg';
@@ -30,9 +28,6 @@ import {
   SortButtonsContainer,
   MobileFilterButton,
 } from '../../theme/global.js';
-import { useParams } from 'react-router-dom';
-import { pages } from '../../utils/constants/pages.js';
-import { createFilterAccount, createFiltertype } from './utils/index.js';
 import Loading from '../loading/Loading.js';
 
 export default function Transactions() {
@@ -44,9 +39,6 @@ export default function Transactions() {
   const [categoriesData, setCategoriesData] = useState([]);
   const [transactionsData, setTransactionsData] = useState([]);
   const { t } = useTranslation();
-  const { filterAccount, filterType } = useParams();
-  const transactionsType = createFiltertype(filterType);
-  const transactionsAccount = createFilterAccount(accountsData, filterAccount);
 
   useEffect(() => {
     dispatch(fetchAccountsData());
@@ -100,9 +92,7 @@ export default function Transactions() {
             <FilterSvg as={FilterIcon} />
           </MobileFilterButton>
           <FilterTooltip title={t('TRANSACTIONS.NEW_TRANSACTION')} arrow>
-            <AddButton
-              to={`${pages.newTransaction[transactionsType]}/${transactionsAccount}`}
-            >
+            <AddButton>
               <FilterSvg as={AddIcon} />
               <FilterTitle>{t('TRANSACTIONS.NEW_TRANSACTION')}</FilterTitle>
             </AddButton>
@@ -121,8 +111,6 @@ export default function Transactions() {
             transactions={transactionsData}
             accounts={accountsData}
             categories={categoriesData}
-            deleteTransaction={deleteTransaction}
-            editAccount={editAccount}
           />
         </div>
       </Grid>

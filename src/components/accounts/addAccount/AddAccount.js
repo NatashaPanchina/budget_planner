@@ -1,70 +1,75 @@
-import React from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-import { addNewAccount } from '../../../actions/Actions';
-import { createAccountType, createLocaleAccountType } from '../utils';
+import { createAccountFilter, createLocaleAccountType } from '../utils';
 import AccountForm from './AccountForm.js';
-
-import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
-
 import {
-  AddContainer,
   AddFormHeader,
   AddFormHeaderTitles,
-  BackLink,
-  BackLinkSvg,
   MobHeaderTitle,
 } from '../../../theme/global';
-import { pages } from '../../../utils/constants/pages';
-import { Back, BackSvg } from '../Accounts.styled';
-import { Grid, styled } from '@mui/material';
+import { styled } from '@mui/material';
 
-const TitleLink = styled(NavLink)((props) => ({
+const TitleLink = styled('div', {
+  shouldForwardProp: (prop) => prop !== '$isActive',
+})((props) => ({
+  cursor: 'pointer',
   height: 60,
   width: '33.3%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   boxSizing: 'border-box',
-  color: props.theme.colors.text.darker,
+  color: props.$isActive
+    ? props.theme.colors.main.violet
+    : props.theme.colors.text.darker,
   '&:hover': {
     color: props.theme.colors.main.violet,
   },
-  '&.active': {
-    color: props.theme.colors.main.violet,
-    borderBottom: `2px solid ${props.theme.colors.main.violet}`,
-  },
+  borderBottom: props.$isActive
+    ? `2px solid ${props.theme.colors.main.violet}`
+    : '',
 }));
 
-export default function AddAccount() {
+function AddAccount({ categories, setOpenDialog }) {
   const { t } = useTranslation();
-  const { accountType } = useParams();
+  const type = createAccountFilter(useParams().filterCash);
+  const [accountType, setAccountType] = useState(type);
 
   return (
-    <Grid item xs={12}>
-      <AddContainer>
-        <Back to={pages.accounts[createAccountType(accountType)]}>
-          <BackSvg as={BackIcon} />
-        </Back>
-        <MobHeaderTitle>
-          {t(`ADD_ACCOUNT.${createLocaleAccountType(accountType)}`)}
-        </MobHeaderTitle>
-        <AddFormHeader>
-          <BackLink to={pages.accounts[createAccountType(accountType)]}>
-            <BackLinkSvg as={BackIcon} />
-          </BackLink>
-          <AddFormHeaderTitles>
-            <TitleLink to={pages.accounts.add.card}>
-              {t('ADD_ACCOUNT.CARD')}
-            </TitleLink>
-            <TitleLink to={pages.accounts.add.cash}>
-              {t('ADD_ACCOUNT.CASH')}
-            </TitleLink>
-          </AddFormHeaderTitles>
-        </AddFormHeader>
-        <AccountForm addNewAccount={addNewAccount} />
-      </AddContainer>
-    </Grid>
+    <>
+      <MobHeaderTitle>
+        {t(`ADD_ACCOUNT.${createLocaleAccountType(accountType)}`)}
+      </MobHeaderTitle>
+      <AddFormHeader>
+        <AddFormHeaderTitles>
+          <TitleLink
+            $isActive={accountType === 'card' || accountType === 'all'}
+            onClick={() => setAccountType('card')}
+          >
+            {t('ADD_ACCOUNT.CARD')}
+          </TitleLink>
+          <TitleLink
+            $isActive={accountType === 'cash'}
+            onClick={() => setAccountType('cash')}
+          >
+            {t('ADD_ACCOUNT.CASH')}
+          </TitleLink>
+        </AddFormHeaderTitles>
+      </AddFormHeader>
+      <AccountForm
+        categories={categories}
+        setOpenDialog={setOpenDialog}
+        type={accountType}
+      />
+    </>
   );
 }
+
+AddAccount.propTypes = {
+  categories: PropTypes.array,
+  setOpenDialog: PropTypes.func,
+};
+
+export default AddAccount;

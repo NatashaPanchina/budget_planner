@@ -1,53 +1,23 @@
-import { alpha, styled } from '@mui/material';
+import { styled } from '@mui/material';
 import { BackLink, BackLinkSvg } from '../../theme/global';
-import { NavLink } from 'react-router-dom';
 
-export const TitleLink = styled(NavLink)((props) => ({
+export const AddCategoryTitle = styled('div', {
+  shouldForwardProp: (prop) => prop !== '$isActive',
+})((props) => ({
   height: 60,
   width: '33.3%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   boxSizing: 'border-box',
-  color: props.theme.colors.text.darker,
-}));
-
-export const TitleLinkSvg = styled('svg')((props) => ({
-  height: 35,
-  width: 35,
-  minWidth: 35,
-  marginRight: props.theme.spacing(2),
-  fill: 'inherit',
-  '& circle': {
-    fill: 'inherit',
-    transition: 'fill 0.3s ease-out',
-  },
-}));
-
-export const AddCategoryTitle = styled(TitleLink, {
-  shouldForwardProp: (prop) => prop !== '$titleType',
-})((props) => ({
-  fill: 'url(#not_active)',
-  '&.active': {
-    borderBottom: `2px solid ${props.theme.colors.main.violet}`,
-    color: props.theme.colors[props.$titleType],
-    fill: `url(#${props.$titleType}_active)`,
-    '& svg': {
-      filter: `drop-shadow( 0px 3px 5px ${alpha(
-        props.theme.colors.linear[props.$titleType].from,
-        0.4,
-      )})`,
-    },
-  },
+  borderBottom: props.$isActive
+    ? `2px solid ${props.theme.colors.main.violet}`
+    : '',
+  color: props.$isActive
+    ? props.theme.colors.main.violet
+    : props.theme.colors.text.darker,
   '&:hover': {
-    color: props.theme.colors[props.$titleType],
-    fill: `url(#${props.$titleType}_active)`,
-    '& svg': {
-      filter: `drop-shadow( 0px 3px 5px ${alpha(
-        props.theme.colors.linear[props.$titleType].from,
-        0.4,
-      )})`,
-    },
+    color: props.theme.colors.main.violet,
   },
 }));
 

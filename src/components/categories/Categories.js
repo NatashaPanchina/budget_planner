@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { fetchCategoriesData, archiveCategory } from '../../actions/Actions.js';
-import { createFilterType, createLocaleCategories } from './utils/index.js';
+import { fetchCategoriesData } from '../../actions/Actions.js';
+import { createLocaleCategories } from './utils/index.js';
 import CategoriesBar from './barChart/CategoriesBar.js';
 import CategoriesList from './list/CategoriesList.js';
 
@@ -41,11 +41,13 @@ import {
   FilterTooltip,
   MobileFilterButton,
   SortButtonsContainer,
+  InfoDialog,
 } from '../../theme/global.js';
 import { pages } from '../../utils/constants/pages.js';
 import { Grid } from '@mui/material';
 import { CountInfo } from '../transactions/Transactions.styled.js';
 import Loading from '../loading/Loading.js';
+import AddCategory from './addCategory/AddCategory.js';
 
 function createBarData(keys, allCount, expenseCount, incomeCount) {
   if (!keys) return [];
@@ -70,7 +72,6 @@ export default function Categories() {
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
-  const filterType = createFilterType(useParams().filterType);
   const notArchivedCategories = categories.filter(
     (category) => category.archived === false,
   );
@@ -80,6 +81,7 @@ export default function Categories() {
     (category) => category.type === 'expense',
   ).length;
   const incomeCount = allCount - expenseCount;
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCategoriesData());
@@ -110,13 +112,7 @@ export default function Categories() {
             <FilterSvg as={FilterIcon} />
           </MobileFilterButton>
           <FilterTooltip title={t('CATEGORIES.ADD_CATEGORY')} arrow>
-            <AddButton
-              to={
-                pages.categories.add[
-                  filterType === 'all' ? 'expense' : filterType
-                ]
-              }
-            >
+            <AddButton onClick={() => setOpenDialog(true)}>
               <FilterSvg as={AddIcon} />
               <FilterTitle>{t('CATEGORIES.ADD_CATEGORY')}</FilterTitle>
             </AddButton>
@@ -131,6 +127,9 @@ export default function Categories() {
           </CustomTooltip>
         </FilterButtonsContainer>
       </Header>
+      <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <AddCategory setOpenDialog={setOpenDialog} />
+      </InfoDialog>
       <Grid item xs={12} sm={12} md={3} lg={3}>
         <MoreInformationContainer>
           <CategoriesBar
@@ -189,10 +188,7 @@ export default function Categories() {
             {t('CATEGORIES.INCOMES')}
           </CategoriesTitleLink>
         </CategoriesTitleContainer>
-        <CategoriesList
-          categories={categories}
-          archiveCategory={archiveCategory}
-        />
+        <CategoriesList categories={categories} />
       </Grid>
     </>
   );

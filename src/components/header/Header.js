@@ -79,7 +79,6 @@ export default function Header() {
   const header = useSelector((state) => state.header);
   const dispatch = useDispatch();
   const [headerTitle, setHeaderTitle] = useState('');
-  const [id, setId] = useState('');
   const [username, setUsername] = useState('User');
   const [language, setLanguage] = useState(header.language);
   const [currency, setCurrency] = useState(names.USD);
@@ -96,7 +95,6 @@ export default function Header() {
   useEffect(() => {
     if (header.status === 'succeeded') {
       if (!header.profile) return;
-      setId(header.profile.id);
       setUsername(header.profile.username);
       setCurrency(header.profile.currency);
     }

@@ -9,7 +9,7 @@ import {
 import TransactionsAnalysis from './transactions/TransactionsAnalysis';
 import Loading from '../loading/Loading';
 
-export default function Analysis() {
+export default function CashFlow() {
   const categories = useSelector((state) => state.categories);
   const accounts = useSelector((state) => state.accounts);
   const transactions = useSelector((state) => state.transactions);

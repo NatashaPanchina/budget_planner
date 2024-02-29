@@ -1,29 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
-
 import CashForm from './CashForm.js';
 import CardForm from './CardForm.js';
 
-function AccountForm({ addNewAccount }) {
-  const { accountType } = useParams();
-
-  switch (accountType) {
+function AccountForm({ categories, setOpenDialog, type }) {
+  switch (type) {
     case 'card':
-      return (
-        <CardForm accountType={accountType} addNewAccount={addNewAccount} />
-      );
+      return <CardForm categories={categories} setOpenDialog={setOpenDialog} />;
     case 'cash':
-      return (
-        <CashForm accountType={accountType} addNewAccount={addNewAccount} />
-      );
+      return <CashForm categories={categories} setOpenDialog={setOpenDialog} />;
     default:
-      return <CardForm addNewAccount={addNewAccount} />;
+      return <CardForm categories={categories} setOpenDialog={setOpenDialog} />;
   }
 }
 
 AccountForm.propTypes = {
-  addNewAccount: PropTypes.func,
+  categories: PropTypes.array,
+  setOpenDialog: PropTypes.func,
+  type: PropTypes.string,
 };
 
 export default AccountForm;

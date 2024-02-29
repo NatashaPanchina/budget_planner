@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { MenuItem, alpha, css, styled } from '@mui/material';
 
 export const FlexContainer = styled('div')(() => ({
@@ -243,6 +243,7 @@ export const CategoriesListItem = styled('div')((props) => ({
   alignItems: 'center',
   color: props.theme.colors.text.primary,
   position: 'relative',
+  cursor: 'pointer',
 }));
 
 export const CategoriesDescription = styled(FlexContainer)(() => ({
@@ -255,7 +256,7 @@ export const EditButtons = styled(FlexContainer)((props) => ({
   right: 0,
 }));
 
-export const EditLinkContainer = styled(Link)((props) => ({
+export const EditLinkContainer = styled('div')((props) => ({
   display: 'flex',
   alignItems: 'center',
   width: '100%',

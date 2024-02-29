@@ -1,67 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-import { addNewCategory } from '../../../actions/Actions.js';
-
 import CategoryForm from './CategoryForm.js';
-
-import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
-import { ReactComponent as ExpenseIcon } from '../../../assets/icons/shared/newExpense.svg';
-import { ReactComponent as IncomeIcon } from '../../../assets/icons/shared/newIncome.svg';
-
 import {
-  AddContainer,
   AddFormHeader,
   AddFormHeaderTitles,
-  BackLink,
-  BackLinkSvg,
   MobHeaderTitle,
 } from '../../../theme/global.js';
-import { pages } from '../../../utils/constants/pages.js';
-import {
-  Back,
-  BackSvg,
-  TitleLinkSvg,
-  AddCategoryTitle,
-} from '../AddCategory.styled.js';
-import { Grid } from '@mui/material';
+import { AddCategoryTitle } from '../AddCategory.styled.js';
+import { createFilterType } from '../utils/index.js';
 
-export default function AddCategory() {
+function AddCategory({ setOpenDialog }) {
   const { t } = useTranslation();
-
-  const { categoryType } = useParams();
+  const type = createFilterType(useParams().filterType);
+  const [categoryType, setCategoryType] = useState(
+    type === 'all' ? 'expense' : type,
+  );
 
   return (
-    <Grid item xs={12}>
-      <AddContainer>
-        <Back to={pages.categories[`${categoryType}s`]}>
-          <BackSvg as={BackIcon} />
-        </Back>
-        <MobHeaderTitle $titleType={categoryType}>
-          {t('ADD_CATEGORY.TITLE')}
-        </MobHeaderTitle>
-        <AddFormHeader>
-          <BackLink to={pages.categories[`${categoryType}s`]}>
-            <BackLinkSvg as={BackIcon} />
-          </BackLink>
-          <AddFormHeaderTitles>
-            <AddCategoryTitle
-              to={pages.categories.add.expense}
-              $titleType="expense"
-            >
-              <TitleLinkSvg as={ExpenseIcon} /> {t('ADD_CATEGORY.EXPENSE')}
-            </AddCategoryTitle>
-            <AddCategoryTitle
-              to={pages.categories.add.income}
-              $titleType="income"
-            >
-              <TitleLinkSvg as={IncomeIcon} /> {t('ADD_CATEGORY.INCOME')}
-            </AddCategoryTitle>
-          </AddFormHeaderTitles>
-        </AddFormHeader>
-        <CategoryForm addNewCategory={addNewCategory} />
-      </AddContainer>
-    </Grid>
+    <>
+      <MobHeaderTitle $titleType={categoryType}>
+        {t('ADD_CATEGORY.TITLE')}
+      </MobHeaderTitle>
+      <AddFormHeader>
+        <AddFormHeaderTitles>
+          <AddCategoryTitle
+            $isActive={categoryType === 'expense'}
+            onClick={() => setCategoryType('expense')}
+          >
+            {t('ADD_CATEGORY.EXPENSE')}
+          </AddCategoryTitle>
+          <AddCategoryTitle
+            $isActive={categoryType === 'income'}
+            onClick={() => setCategoryType('income')}
+          >
+            {t('ADD_CATEGORY.INCOME')}
+          </AddCategoryTitle>
+        </AddFormHeaderTitles>
+      </AddFormHeader>
+      <CategoryForm type={categoryType} setOpenDialog={setOpenDialog} />
+    </>
   );
 }
+
+AddCategory.propTypes = {
+  setOpenDialog: PropTypes.func,
+};
+
+export default AddCategory;
