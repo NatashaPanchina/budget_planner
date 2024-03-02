@@ -11,8 +11,6 @@ import {
   FlexContainer,
   ListItemContainer,
 } from '../../../../categories/Categories.styled';
-import { Link } from 'react-router-dom';
-import { pages } from '../../../../../utils/constants/pages';
 import { renderNotes } from '../../../../categories/utils';
 import { MobItemButtonSvg, ToggleMenu } from '../../../../../theme/global';
 import { MenuItem } from '@mui/material';
@@ -39,18 +37,16 @@ function CategoriesPage({ categories, query }) {
       return (
         <React.Fragment key={category.id}>
           <ListItemContainer>
-            <Link to={`${pages.categories.info.main}/${category.id}`}>
-              <CategoriesListItem>
-                <CategoriesDescription>
-                  <CategorySvg
-                    category={category}
-                    fillName={`category${index}`}
-                  />
-                  {category.description}
-                </CategoriesDescription>
-                {renderNotes(category.notes)}
-              </CategoriesListItem>
-            </Link>
+            <CategoriesListItem>
+              <CategoriesDescription>
+                <CategorySvg
+                  category={category}
+                  fillName={`category${index}`}
+                />
+                {category.description}
+              </CategoriesDescription>
+              {renderNotes(category.notes)}
+            </CategoriesListItem>
             <EditButtons>
               <ToggleMenu
                 anchorEl={anchorEl}
@@ -64,9 +60,7 @@ function CategoriesPage({ categories, query }) {
                   </FlexContainer>
                 </MenuItem>
                 <MenuItem onClick={() => setAnchorEl(null)}>
-                  <EditLinkContainer
-                    to={`${pages.categories.info.main}/${clickedCategory.id}`}
-                  >
+                  <EditLinkContainer>
                     <EditButtonSvg as={EditIcon} />
                     {t('CATEGORIES.EDIT')}
                   </EditLinkContainer>

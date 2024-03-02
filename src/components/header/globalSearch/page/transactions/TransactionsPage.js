@@ -19,8 +19,6 @@ import {
   TransactionItem,
 } from '../../../../transactions/Transactions.styled';
 import { dateFormatter } from '../../../../../utils/format/date';
-import { Link } from 'react-router-dom';
-import { pages } from '../../../../../utils/constants/pages';
 import { formatDineroOutput } from '../../../../../utils/format/cash';
 import { dinero } from 'dinero.js';
 import { deleteClick, renderNotes } from '../../../../transactions/list/utils';
@@ -61,40 +59,38 @@ function TransactionsPage({ transactions, accounts, categories, query }) {
             {dateFormatter.format(new Date(transaction.date))}
           </MobTransactionDate>
           <ListItemContainer>
-            <Link to={`${pages.transactions.info.main}/${transaction.id}`}>
-              <TransactionItem>
-                <Category>
-                  <CategorySvg
-                    category={transactionCategory}
-                    fillName={`transactionCategory${index}`}
-                  />
-                  {transactionCategory.description}
-                </Category>
-                <Account>
-                  <AccountSvg account={transactionAccount} />
-                  {transactionAccount.description}
-                </Account>
-                <TransactionInfo>
-                  <CategorySvg
-                    category={transactionCategory}
-                    fillName={`mobTransactionCategory${index}`}
-                  />
-                  <div>
-                    <div>{transactionCategory.description}</div>
-                    <TransactionInfoAccount>
-                      {transactionAccount.description}
-                    </TransactionInfoAccount>
-                  </div>
-                </TransactionInfo>
-                <Amount $amountType={transaction.transactionType}>
-                  {formatDineroOutput(dinero(transaction.amount), 'USD')}
-                </Amount>
-                <TransactionDate>
-                  {dateFormatter.format(new Date(transaction.date))}
-                </TransactionDate>
-                {renderNotes(transaction.notes)}
-              </TransactionItem>
-            </Link>
+            <TransactionItem>
+              <Category>
+                <CategorySvg
+                  category={transactionCategory}
+                  fillName={`transactionCategory${index}`}
+                />
+                {transactionCategory.description}
+              </Category>
+              <Account>
+                <AccountSvg account={transactionAccount} />
+                {transactionAccount.description}
+              </Account>
+              <TransactionInfo>
+                <CategorySvg
+                  category={transactionCategory}
+                  fillName={`mobTransactionCategory${index}`}
+                />
+                <div>
+                  <div>{transactionCategory.description}</div>
+                  <TransactionInfoAccount>
+                    {transactionAccount.description}
+                  </TransactionInfoAccount>
+                </div>
+              </TransactionInfo>
+              <Amount $amountType={transaction.transactionType}>
+                {formatDineroOutput(dinero(transaction.amount), 'USD')}
+              </Amount>
+              <TransactionDate>
+                {dateFormatter.format(new Date(transaction.date))}
+              </TransactionDate>
+              {renderNotes(transaction.notes)}
+            </TransactionItem>
             <ItemButtonsContainer>
               <ToggleMenu
                 anchorEl={anchorEl}
@@ -102,9 +98,7 @@ function TransactionsPage({ transactions, accounts, categories, query }) {
                 onClose={() => setAnchorEl(null)}
               >
                 <MenuItem onClick={() => setAnchorEl(null)}>
-                  <EditLinkContainer
-                    to={`${pages.transactions.info.main}/${clickedTransaction.id}`}
-                  >
+                  <EditLinkContainer>
                     <EditButtonSvg as={EditIcon} />
                     {t('TRANSACTIONS.EDIT')}
                   </EditLinkContainer>

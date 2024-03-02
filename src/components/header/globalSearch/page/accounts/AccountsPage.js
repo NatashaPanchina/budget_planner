@@ -12,8 +12,6 @@ import {
   FlexContainer,
   ToggleButtonSvg,
 } from '../../../../accounts/Accounts.styled';
-import { Link } from 'react-router-dom';
-import { pages } from '../../../../../utils/constants/pages';
 import { dinero } from 'dinero.js';
 import { formatDineroOutput } from '../../../../../utils/format/cash';
 import { CurrentBalance } from '../../GlobalSearch.styled';
@@ -43,21 +41,19 @@ function AccountsPage({ accounts, query }) {
       const balance = dinero(account.balance);
       return (
         <CashListItemWrapper key={account.id}>
-          <Link to={`${pages.accounts.info.main}/${account.id}`}>
-            <Card
-              $cardBackground={cardBackground}
-              $from={account.color[0]}
-              $to={account.color[1]}
-              className={`${account.description}`}
-            >
-              <CardName>{account.description}</CardName>
-              <CardBalanceContainer>
-                <CardBalance>{formatDineroOutput(balance, 'USD')}</CardBalance>
-                <CurrentBalance>{t('ACCOUNTS.CURRENT_BALANCE')}</CurrentBalance>
-              </CardBalanceContainer>
-            </Card>
-            {renderNotes(account.notes)}
-          </Link>
+          <Card
+            $cardBackground={cardBackground}
+            $from={account.color[0]}
+            $to={account.color[1]}
+            className={`${account.description}`}
+          >
+            <CardName>{account.description}</CardName>
+            <CardBalanceContainer>
+              <CardBalance>{formatDineroOutput(balance, 'USD')}</CardBalance>
+              <CurrentBalance>{t('ACCOUNTS.CURRENT_BALANCE')}</CurrentBalance>
+            </CardBalanceContainer>
+          </Card>
+          {renderNotes(account.notes)}
           <div>
             <ToggleMenu
               anchorEl={anchorEl}
@@ -66,18 +62,14 @@ function AccountsPage({ accounts, query }) {
             >
               <MenuItem onClick={() => setAnchorEl(null)}>
                 <FlexContainer>
-                  <CardButtonlink
-                    to={`${pages.accounts.info.main}/${clickedAccount.id}`}
-                  >
+                  <CardButtonlink>
                     <CardButtonSvg as={EditIcon} /> {t('ACCOUNTS.EDIT')}
                   </CardButtonlink>
                 </FlexContainer>
               </MenuItem>
               <MenuItem onClick={() => setAnchorEl(null)}>
                 <FlexContainer>
-                  <CardButtonlink
-                    to={`${pages.newTransaction.transfer}/${clickedAccount.id}`}
-                  >
+                  <CardButtonlink>
                     <CardButtonSvg as={TransferIcon} />{' '}
                     {t('ACCOUNTS.NEW_TRANSFER')}
                   </CardButtonlink>

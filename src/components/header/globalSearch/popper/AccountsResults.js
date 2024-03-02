@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { dinero } from 'dinero.js';
 import { renderNotes } from '../utils';
-import { Link } from 'react-router-dom';
-import { pages } from '../../../../utils/constants/pages';
 import cardBackground from '../../../../assets/icons/shared/cardBackground.svg';
 import {
   Card,
@@ -24,21 +22,19 @@ function AccountsResults({ accounts, query }) {
       const balance = dinero(account.balance);
       return (
         <CashListItem key={account.id}>
-          <Link to={`${pages.accounts.info.main}/${account.id}`}>
-            <Card
-              $cardBackground={cardBackground}
-              $from={account.color[0]}
-              $to={account.color[1]}
-              className={`${account.description}`}
-            >
-              <CardName>{account.description}</CardName>
-              <CardBalanceContainer>
-                <CardBalance>{formatDineroOutput(balance, 'USD')}</CardBalance>
-                <CurrentBalance>{t('ACCOUNTS.CURRENT_BALANCE')}</CurrentBalance>
-              </CardBalanceContainer>
-            </Card>
-            {renderNotes(account.notes)}
-          </Link>
+          <Card
+            $cardBackground={cardBackground}
+            $from={account.color[0]}
+            $to={account.color[1]}
+            className={`${account.description}`}
+          >
+            <CardName>{account.description}</CardName>
+            <CardBalanceContainer>
+              <CardBalance>{formatDineroOutput(balance, 'USD')}</CardBalance>
+              <CurrentBalance>{t('ACCOUNTS.CURRENT_BALANCE')}</CurrentBalance>
+            </CardBalanceContainer>
+          </Card>
+          {renderNotes(account.notes)}
         </CashListItem>
       );
     })
