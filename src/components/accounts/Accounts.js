@@ -44,12 +44,13 @@ import { createAccountFilter, createLocaleAccountType } from './utils/index.js';
 import AccountsList from './list/AccountsList.js';
 import Loading from '../loading/Loading.js';
 import AddAccount from './addAccount/AddAccount.js';
+import { names } from '../../utils/constants/currencies.js';
 
 export default function Accounts() {
   const { status, accounts } = useSelector((state) => state.accounts);
   const categories = useSelector((state) => state.categories);
   const header = useSelector((state) => state.header);
-
+  const mainCurrency = header.profile ? header.profile.currency : names.USD;
   const dispatch = useDispatch();
   const filterAccount = createAccountFilter(useParams().filterCash);
   const localeFilterAccount = createLocaleAccountType(filterAccount);
@@ -116,7 +117,10 @@ export default function Accounts() {
       <Grid item xs={12} sm={12} md={4} lg={4}>
         <MoreInformationContainer>
           <TotalBalance>{t('ACCOUNTS.TOTAL_BALANCE')}</TotalBalance>
-          <AccountsChart data={notArchivedAccounts} />
+          <AccountsChart
+            mainCurrency={mainCurrency}
+            data={notArchivedAccounts}
+          />
         </MoreInformationContainer>
       </Grid>
       <Grid item xs={12} sm={12} md={8} lg={8}>

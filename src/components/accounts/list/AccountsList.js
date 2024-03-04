@@ -19,6 +19,8 @@ import {
   CancelSearchSvg,
   SearchField,
   ToggleMenu,
+  NoResultsContainer,
+  NoResults,
 } from '../../../theme/global';
 import {
   Card,
@@ -83,7 +85,13 @@ function AccountsList({ accounts, localeFilterAccount, categories }) {
           setOpenDialog={setOpenDialog}
         />
       </InfoDialog>
-      {searchData.length ? (
+      {accounts.length === 0 ? (
+        <NoResultsContainer>
+          <NoResults>
+            <div>Oops. You don t have any accounts yet:c</div>
+          </NoResults>
+        </NoResultsContainer>
+      ) : searchData.length ? (
         searchData.map((account) => {
           const balance = dinero(account.balance);
           return (

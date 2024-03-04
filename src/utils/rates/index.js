@@ -1,14 +1,21 @@
+import dayjs from 'dayjs';
 import { idbAddItem, idbGetItem } from '../../indexedDB/IndexedDB';
-import { names } from '../constants/currencies';
 import { accessKey } from '../constants/rates';
 
-const fetchRate = async (date) => {
+const getPrevDate = (date) => {
+  if (!date) return;
+  let result = new Date(date);
+  result.setDate(result.getDate() - 1);
+  return dayjs(result).format('YYYY-MM-DD');
+};
+
+const fetchRate = async (date, mainCurrency) => {
   const result = await idbGetItem(date, 'rates');
   if (result) {
     return result;
   } else {
     const response = await fetch(
-      `http://apilayer.net/api/historical?access_key=${accessKey}&date=${date}&currencies=EUR,RUB,KZT&source=USD&format=1`,
+      `https://api.currencyapi.com/v3/historical?apikey=${accessKey}&base_currency=${mainCurrency}&date=${date}`,
     );
     const rates = await response.json();
     return {
@@ -18,25 +25,41 @@ const fetchRate = async (date) => {
   }
 };
 
-export const getRate = async (date, currency) => {
-  const result = await fetchRate(date);
+export const getRate = async (date, from, mainCurrency) => {
+  const result = await fetchRate(date, mainCurrency);
   if (!result) {
     return 1;
   }
-  idbAddItem(result, 'rates');
-  const rate = result.rates.quotes[`USD${currency}`];
+  await idbAddItem(result, 'rates');
+  const rate = result.rates.data[from].value;
   if (!rate) {
     return 1;
   }
   return rate;
 };
 
-export const convertCash = async (date, amount, from, to) => {
+//there is only main currency rates in db
+//so we need to check 'from' and 'to' before calc
+//for example mainCurrency = 'kzt'
+export const convertCash = async (date, amount, from, to, mainCurrency) => {
+  const prevDate = getPrevDate(date);
   if (from === to) return amount;
-  const fromRate = await getRate(date, from);
-  const toRate = await getRate(date, to);
-  let result = amount / fromRate;
-  if (to === names.USD) return result;
-  result = result * toRate;
+  let result = amount;
+  let fromRate = 1;
+  let toRate = 1;
+  //to === 'kzt'
+  if (to === mainCurrency && from !== mainCurrency) {
+    fromRate = await getRate(prevDate, from, to);
+    result = amount / fromRate;
+  } else if (to !== mainCurrency && from === mainCurrency) {
+    //to !== 'kzt'
+    toRate = await getRate(prevDate, to, from);
+    result = amount * toRate;
+  } else {
+    //to !== 'kzt' from !== 'kzt'
+    fromRate = await getRate(prevDate, from, mainCurrency);
+    toRate = await getRate(prevDate, to, mainCurrency);
+    result = (amount / fromRate) * toRate;
+  }
   return result;
 };

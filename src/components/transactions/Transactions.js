@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Grid } from '@mui/material';
-
 import AccountsSlider from './slider/AccountsSlider.js';
 import TransactionsList from './list/TransactionsList.js';
 import {
@@ -10,12 +9,10 @@ import {
   fetchAccountsData,
   fetchCategoriesData,
 } from '../../actions/Actions';
-
 import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.svg';
 import { ReactComponent as SortIcon } from '../../assets/icons/shared/sort.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
-
 import {
   Header,
   HeaderTitle,
@@ -29,12 +26,15 @@ import {
   MobileFilterButton,
 } from '../../theme/global.js';
 import Loading from '../loading/Loading.js';
+import { names } from '../../utils/constants/currencies.js';
 
 export default function Transactions() {
+  const header = useSelector((state) => state.header);
   const transactions = useSelector((state) => state.transactions);
   const accounts = useSelector((state) => state.accounts);
   const categories = useSelector((state) => state.categories);
   const dispatch = useDispatch();
+  const mainCurrency = header.profile ? header.profile.currency : names.USD;
   const [accountsData, setAccountsData] = useState([]);
   const [categoriesData, setCategoriesData] = useState([]);
   const [transactionsData, setTransactionsData] = useState([]);
@@ -65,7 +65,8 @@ export default function Transactions() {
     transactions.transactions,
   ]);
 
-  return accounts.status === 'loading' ||
+  return header.status === 'loading' ||
+    accounts.status === 'loading' ||
     categories.status === 'loading' ||
     transactions.status === 'loading' ? (
     <Loading />
@@ -101,6 +102,7 @@ export default function Transactions() {
       </Header>
       <Grid item xs={12} sm={12} md={3} lg={3}>
         <AccountsSlider
+          mainCurrency={mainCurrency}
           transactions={transactionsData}
           accounts={accountsData}
         />

@@ -42,6 +42,8 @@ import {
 import {
   CancelSearchSvg,
   InfoDialog,
+  NoResults,
+  NoResultsContainer,
   SearchField,
   ToggleMenu,
 } from '../../../theme/global';
@@ -117,7 +119,13 @@ function TransactionsList({ transactions, accounts, categories }) {
           setOpenDialog={setOpenDialog}
         />
       </InfoDialog>
-      {searchData.length ? (
+      {transactions.length === 0 ? (
+        <NoResultsContainer>
+          <NoResults>
+            <div>Oops. You don t have any transactions yet:c</div>
+          </NoResults>
+        </NoResultsContainer>
+      ) : searchData.length ? (
         <>
           <Description>
             <DescriptionCategory>

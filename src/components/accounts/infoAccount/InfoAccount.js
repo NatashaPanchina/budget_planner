@@ -6,6 +6,7 @@ import { dinero, toDecimal } from 'dinero.js';
 import { colors } from '../../../utils/constants/colors.js';
 import {
   NumericFormatCustom,
+  formatDineroOutput,
   formatNumberOutput,
 } from '../../../utils/format/cash';
 import {
@@ -56,6 +57,7 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
   const mainCurrency = header.profile ? header.profile.currency : names.USD;
   const { t } = useTranslation();
   const [id, setId] = useState('');
+  const [creationDate, setCreationDate] = useState(Date.now());
   const [accountType, setAccountType] = useState('');
   const [description, setDescription] = useState('');
   const [currency, setCurrency] = useState(names.USD);
@@ -78,10 +80,11 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
     if (!selectedAccount) return;
     const balance = selectedAccount.balance;
     setId(selectedAccount.id);
+    setCreationDate(selectedAccount.creationDate);
     setAccountType(selectedAccount.type);
     setDescription(selectedAccount.description);
     setCurrency(balance.currency.code);
-    setBalance(toDecimal(dinero(balance)));
+    setBalance(formatDineroOutput(dinero(balance), balance.currency.code));
     setSelectedColor(selectedAccount.color);
     setDate(dayjs(new Date(selectedAccount.date)));
     setNotes(selectedAccount.notes);
@@ -202,8 +205,11 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
         <DoneButton
           onClick={() => {
             doneEventHandler(
+              categories,
+              accounts,
               clickedAccount,
               id,
+              creationDate,
               accountType,
               description,
               currency,
@@ -213,6 +219,7 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
               notes,
               tags,
               dispatch,
+              mainCurrency,
             );
             setOpenDialog(false);
           }}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { dinero } from 'dinero.js';
 import { renderNotes } from '../utils';
@@ -13,31 +13,51 @@ import {
 } from '../GlobalSearch.styled';
 import { formatDineroOutput } from '../../../../utils/format/cash';
 import { useTranslation } from 'react-i18next';
+import { InfoDialog } from '../../../../theme/global';
+import InfoAccount from '../../../accounts/infoAccount/InfoAccount';
 
-function AccountsResults({ accounts, query }) {
+function AccountsResults({ accounts, categories, query }) {
   const { t } = useTranslation();
+  const [clickedAccount, setClickedAccount] = useState('');
+  const [openDialog, setOpenDialog] = useState(false);
 
   return accounts.length ? (
-    accounts.map((account) => {
-      const balance = dinero(account.balance);
-      return (
-        <CashListItem key={account.id}>
-          <Card
-            $cardBackground={cardBackground}
-            $from={account.color[0]}
-            $to={account.color[1]}
-            className={`${account.description}`}
-          >
-            <CardName>{account.description}</CardName>
-            <CardBalanceContainer>
-              <CardBalance>{formatDineroOutput(balance, 'USD')}</CardBalance>
-              <CurrentBalance>{t('ACCOUNTS.CURRENT_BALANCE')}</CurrentBalance>
-            </CardBalanceContainer>
-          </Card>
-          {renderNotes(account.notes)}
-        </CashListItem>
-      );
-    })
+    <>
+      <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <InfoAccount
+          clickedAccount={clickedAccount.id}
+          accounts={accounts}
+          categories={categories}
+          setOpenDialog={setOpenDialog}
+        />
+      </InfoDialog>
+      {accounts.map((account) => {
+        const balance = account.balance;
+        return (
+          <CashListItem key={account.id}>
+            <Card
+              $cardBackground={cardBackground}
+              $from={account.color[0]}
+              $to={account.color[1]}
+              className={`${account.description}`}
+              onClick={() => {
+                setClickedAccount(account);
+                setOpenDialog(true);
+              }}
+            >
+              <CardName>{account.description}</CardName>
+              <CardBalanceContainer>
+                <CardBalance>
+                  {formatDineroOutput(dinero(balance), balance.currency.code)}
+                </CardBalance>
+                <CurrentBalance>{t('ACCOUNTS.CURRENT_BALANCE')}</CurrentBalance>
+              </CardBalanceContainer>
+            </Card>
+            {renderNotes(account.notes)}
+          </CashListItem>
+        );
+      })}
+    </>
   ) : (
     <div>{`${t('SEARCH.NO_RESULTS')} ${query}`}</div>
   );
@@ -45,6 +65,7 @@ function AccountsResults({ accounts, query }) {
 
 AccountsResults.propTypes = {
   accounts: PropTypes.array,
+  categories: PropTypes.array,
   query: PropTypes.string,
 };
 

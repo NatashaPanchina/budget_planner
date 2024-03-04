@@ -99,12 +99,7 @@ export default function GlobalSearch() {
         }}
         autoComplete="off"
       />
-      <GlobalSearchPopper
-        open={open}
-        anchorEl={anchorEl}
-        onClick={() => setAnchorEl(null)}
-        ref={popperRef}
-      >
+      <GlobalSearchPopper open={open} anchorEl={anchorEl} ref={popperRef}>
         {transactions.status === 'loading' ||
         categories.status === 'loading' ||
         accounts.status === 'loading' ? (
@@ -147,6 +142,7 @@ export default function GlobalSearch() {
             <div>
               <AccountsResults
                 accounts={sliceData(searchAccounts, 3)}
+                categories={categoriesData}
                 query={query}
               />
             </div>

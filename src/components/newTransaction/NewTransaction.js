@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import {
-  fetchCategoriesData,
-  fetchAccountsData,
-  addNewTransaction,
-  editAccount,
-} from '../../actions/Actions';
+import { fetchCategoriesData, fetchAccountsData } from '../../actions/Actions';
 import ExpenseTransactionForm from './expense/ExpenseTransactionForm';
 import IncomeTransactionForm from './income/IncomeTransactionForm';
 
@@ -28,8 +23,6 @@ function renderTransactionForm(
   transactionType,
   categories,
   accounts,
-  addNewTransaction,
-  editAccount,
   setOpenDialog,
 ) {
   switch (transactionType) {
@@ -39,8 +32,6 @@ function renderTransactionForm(
           mainCurrency={mainCurrency}
           categories={categories}
           accounts={accounts}
-          addNewTransaction={addNewTransaction}
-          editAccount={editAccount}
           setOpenDialog={setOpenDialog}
         />
       );
@@ -50,8 +41,6 @@ function renderTransactionForm(
           mainCurrency={mainCurrency}
           categories={categories}
           accounts={accounts}
-          addNewTransaction={addNewTransaction}
-          editAccount={editAccount}
           setOpenDialog={setOpenDialog}
         />
       );
@@ -68,8 +57,6 @@ function renderTransactionForm(
           mainCurrency={mainCurrency}
           categories={categories}
           accounts={accounts}
-          addNewTransaction={addNewTransaction}
-          editAccount={editAccount}
           setOpenDialog={setOpenDialog}
         />
       );
@@ -81,7 +68,6 @@ function NewTransaction({ setOpenDialog, type }) {
   const accounts = useSelector((state) => state.accounts);
   const header = useSelector((state) => state.header);
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
   const [transactionType, setTransactionType] = useState(
     type ? type : 'expense',
@@ -162,8 +148,6 @@ function NewTransaction({ setOpenDialog, type }) {
           transactionType,
           filteredCategories,
           filteredAccounts,
-          addNewTransaction,
-          editAccount,
           setOpenDialog,
         )
       )}

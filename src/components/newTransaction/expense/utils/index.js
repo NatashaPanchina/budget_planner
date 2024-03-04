@@ -5,6 +5,7 @@ import { toStringDate } from '../../../../utils/format/date';
 import { idbAddItem } from '../../../../indexedDB/IndexedDB';
 import { convertCash } from '../../../../utils/rates';
 import { v4 as uuidv4 } from 'uuid';
+import { addNewTransaction, editAccount } from '../../../../actions/Actions';
 
 export const doneEventClick = async (
   currency,
@@ -17,20 +18,39 @@ export const doneEventClick = async (
   tags,
   filteredAccounts,
   dispatch,
-  addNewTransaction,
-  editAccount,
+  mainCurrency,
 ) => {
   const newAmount = dineroFromFloat({
     amount,
     currency: currencies[currency],
     scale: 2,
   });
+
+  let mainCurrencyAmount = newAmount;
+
+  if (currency !== mainCurrency) {
+    const convertedAmount = await convertCash(
+      date.format('YYYY-MM-DD'),
+      Number(toDecimal(newAmount)),
+      currency,
+      mainCurrency,
+      mainCurrency,
+    );
+    mainCurrencyAmount = dineroFromFloat({
+      amount: convertedAmount,
+      currency: currencies[mainCurrency],
+      scale: 2,
+    });
+  }
+
   const newTransaction = {
     id: uuidv4(),
+    creationDate: Date.now(),
     transactionType,
     category,
     account,
     amount: toSnapshot(newAmount),
+    mainCurrencyAmount: toSnapshot(mainCurrencyAmount),
     formatAmount: toDecimal(newAmount),
     date: toStringDate(new Date(date.format())),
     notes,
@@ -38,12 +58,14 @@ export const doneEventClick = async (
   };
   dispatch(addNewTransaction(newTransaction));
   idbAddItem(newTransaction, 'transactions');
+
   const transactionAccount = filteredAccounts.find(
     (filteredAccount) => filteredAccount.id === account,
   );
   if (!transactionAccount) {
     return;
   }
+
   const previousBalance = transactionAccount.balance;
   const previousBalanceDinero = dinero(previousBalance);
   let newBalance = previousBalance;
@@ -56,7 +78,9 @@ export const doneEventClick = async (
       Number(toDecimal(newAmount)),
       currency,
       to,
+      mainCurrency,
     );
+    console.log('convertedAmount', convertedAmount);
     const convertedDinero = dineroFromFloat({
       amount: convertedAmount,
       currency: currencies[to],
@@ -64,11 +88,32 @@ export const doneEventClick = async (
     });
     newBalance = toSnapshot(subtract(previousBalanceDinero, convertedDinero));
   }
-  dispatch(
-    editAccount(transactionAccount.id, {
-      ...transactionAccount,
-      balance: newBalance,
-    }),
-  );
-  idbAddItem({ ...transactionAccount, balance: newBalance }, 'accounts');
+
+  let newMainCurrencyBalance = newBalance;
+
+  if (newBalance.currency.code !== mainCurrency) {
+    const convertedBalance = await convertCash(
+      date.format('YYYY-MM-DD'),
+      Number(toDecimal(dinero(newBalance))),
+      newBalance.currency.code,
+      mainCurrency,
+      mainCurrency,
+    );
+    newMainCurrencyBalance = toSnapshot(
+      dineroFromFloat({
+        amount: convertedBalance,
+        currency: currencies[mainCurrency],
+        scale: 2,
+      }),
+    );
+  }
+
+  const newAccount = {
+    ...transactionAccount,
+    balance: newBalance,
+    formatBalance: toDecimal(dinero(newBalance)),
+    mainCurrencyBalance: newMainCurrencyBalance,
+  };
+  dispatch(editAccount(transactionAccount.id, newAccount));
+  idbAddItem(newAccount, 'accounts');
 };

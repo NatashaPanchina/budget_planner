@@ -12,12 +12,23 @@ function initialMode() {
     : 'light';
 }
 
+function initialLanguage() {
+  const userLocale =
+    navigator.languages && navigator.languages.length
+      ? navigator.languages[0]
+      : navigator.language;
+  return userLocale.includes('ru') ? 'RU' : 'EN';
+}
+
 const initialState = {
   status: 'idle',
   error: null,
   mode: localStorage.getItem('mode') || initialMode(),
-  language: localStorage.getItem('language') || 'EN',
-  profile: {},
+  language: localStorage.getItem('language') || initialLanguage(),
+  profile: {
+    displayName: 'Anonymous',
+    currency: 'USD',
+  },
 };
 
 const header = (state = initialState, { type, payload }) => {
