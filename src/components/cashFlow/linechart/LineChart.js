@@ -9,6 +9,8 @@ import { Chart, ChartsInfoContainer } from '../CashFlow.styled';
 import { formatNumberOutput } from '../../../utils/format/cash';
 import { chartsColors } from '../../../utils/constants/chartsColors';
 import { useSelector } from 'react-redux';
+import { names } from '../../../utils/constants/currencies';
+import { formatAxisAmount } from '../utils/axis';
 
 function LineChart({
   transactions,
@@ -17,10 +19,13 @@ function LineChart({
   isDetailed,
   date,
 }) {
-  const { mode } = useSelector((state) => state.header);
+  const header = useSelector((state) => state.header);
+  const mode = header.mode;
+  const mainCurrency = header.profile ? header.profile.currency : names.USD;
   const commonData = createData(
     { transactions, categories, chartFilter, isDetailed, date },
     'line',
+    mainCurrency,
   );
 
   return (
@@ -54,18 +59,11 @@ function LineChart({
           colors={{ datum: 'color[1]' }}
           margin={{ top: 10, right: 40, bottom: 50, left: 80 }}
           xScale={{ type: 'point' }}
+          enableArea={true}
+          areaOpacity={0.05}
           enablePoints={false}
           axisLeft={{
-            format: (value) => `${Number(value).toLocaleString('en-US')}`,
-          }}
-          axisBottom={{
-            orient: 'bottom',
-            tickSize: 5,
-            tickPadding: 10,
-            tickRotation: 0,
-            legend: 'date',
-            legendOffset: 40,
-            legendPosition: 'middle',
+            format: (value) => formatAxisAmount(value),
           }}
           lineWidth={2}
           useMesh={true}
@@ -74,7 +72,12 @@ function LineChart({
               serieId,
               data: { yFormatted },
             },
-          }) => renderTooltip(serieId, formatNumberOutput(yFormatted, 'USD'))}
+          }) =>
+            renderTooltip(
+              serieId,
+              formatNumberOutput(yFormatted, names[mainCurrency]),
+            )
+          }
         />
       </Chart>
       <Legends data={commonData} chartType="line" />

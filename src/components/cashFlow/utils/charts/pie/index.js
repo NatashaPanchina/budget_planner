@@ -1,12 +1,21 @@
 import { dinero, add, toDecimal } from 'dinero.js';
-import { USD } from '@dinero.js/currencies';
+import { currencies } from '../../../../../utils/constants/currencies';
 
-export function createPieData({ transactions, categories, chartFilter, date }) {
+export function createPieData(
+  { transactions, categories, chartFilter, date },
+  mainCurrency,
+) {
   switch (chartFilter) {
     case 'expenses':
-      return createData(transactions, categories, date, 'expense');
+      return createData(
+        transactions,
+        categories,
+        date,
+        mainCurrency,
+        'expense',
+      );
     case 'incomes':
-      return createData(transactions, categories, date, 'income');
+      return createData(transactions, categories, date, mainCurrency, 'income');
     case 'transfers':
       return [];
     default:
@@ -14,10 +23,16 @@ export function createPieData({ transactions, categories, chartFilter, date }) {
   }
 }
 
-function createData(transactions, categories, date, transactionFilter) {
+function createData(
+  transactions,
+  categories,
+  date,
+  mainCurrency,
+  transactionFilter,
+) {
   let result = [];
 
-  let filterCategories = categories.filter(
+  const filterCategories = categories.filter(
     (category) => category.type === transactionFilter,
   );
 
@@ -26,23 +41,25 @@ function createData(transactions, categories, date, transactionFilter) {
       (transaction) => transaction.category === category.id,
     );
     if (filteredTransactions.length) {
+      const totalSum = toDecimal(
+        transactions
+          .filter((transaction) => {
+            const transactionDate = new Date(transaction.date);
+            return (
+              transaction.category === category.id &&
+              transactionDate >= date.from &&
+              transactionDate <= date.to
+            );
+          })
+          .reduce(
+            (sum, transaction) =>
+              add(sum, dinero(transaction.mainCurrencyAmount)),
+            dinero({ amount: 0, currency: currencies[mainCurrency] }),
+          ),
+      );
       let dataItem = {
         category,
-        sum: toDecimal(
-          transactions
-            .filter((transaction) => {
-              const transactionDate = new Date(transaction.date);
-              return (
-                transaction.category === category.id &&
-                transactionDate >= date.from &&
-                transactionDate <= date.to
-              );
-            })
-            .reduce(
-              (sum, transaction) => add(sum, dinero(transaction.amount)),
-              dinero({ amount: 0, currency: USD }),
-            ),
-        ),
+        sum: totalSum,
       };
       result.push(dataItem);
     }

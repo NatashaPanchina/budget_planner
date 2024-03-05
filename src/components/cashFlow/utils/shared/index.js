@@ -1,10 +1,9 @@
 import React from 'react';
 import { add, dinero, toDecimal } from 'dinero.js';
-import { USD } from '@dinero.js/currencies';
-
 import { formatNumberOutput } from '../../../../utils/format/cash';
 import { styled } from '@mui/material';
 import { AccountsMenuItem } from '../../transactions/TransactionsAnalysis.styled';
+import { currencies } from '../../../../utils/constants/currencies';
 
 export function createLocaleTransactions(NAME, count) {
   const lastNumber = Number(String(count).match(/\d$/g)[0]);
@@ -71,42 +70,16 @@ export function renderAccounts(t, accounts) {
   return result;
 }
 
-export function filterTransactions(
-  transactions,
-  accounts,
-  date,
-  accountFilter,
-) {
-  if (accountFilter === 'All accounts') {
-    return transactions.filter((transaction) => {
-      const transactionDate = new Date(transaction.date);
-      return transactionDate >= date.from && transactionDate <= date.to;
-    });
-  }
-  return transactions.filter((transaction) => {
-    const transactionDate = new Date(transaction.date);
-    const transactionAccount = accounts.find(
-      (account) => account.id === transaction.account,
-    );
-    if (!transactionAccount) return null;
-    return (
-      transactionDate >= date.from &&
-      transactionDate <= date.to &&
-      transactionAccount.description === accountFilter
-    );
-  });
-}
-
 export function filterByType(transactions, type) {
   return transactions.filter(
     (transaction) => transaction.transactionType === type,
   );
 }
 
-export function createSum(values) {
+export function createSum(values, mainCurrency) {
   return values.reduce(
-    (sum, value) => add(sum, dinero(value.amount)),
-    dinero({ amount: 0, currency: USD }),
+    (sum, value) => add(sum, dinero(value.mainCurrencyAmount)),
+    dinero({ amount: 0, currency: currencies[mainCurrency] }),
   );
 }
 
@@ -114,11 +87,47 @@ export function filterArchivedAccounts(accounts) {
   return accounts.filter((account) => account.archived === false);
 }
 
-export function createAverageAmount(date, sum) {
+export function createAverageAmount(date, sum, mainCurrency) {
   switch (date.during) {
     case 'month':
-      return formatNumberOutput((Number(toDecimal(sum)) / 4).toFixed(2), 'USD');
+      return formatNumberOutput(
+        (Number(toDecimal(sum)) / 4).toFixed(2),
+        mainCurrency,
+      );
     default:
-      return formatNumberOutput(0, 'USD');
+      return formatNumberOutput(0, mainCurrency);
+  }
+}
+
+export const filterByDate = (transactions, date) => {
+  return transactions.filter((transaction) => {
+    const transactionDate = new Date(transaction.date);
+    return transactionDate >= date.from && transactionDate <= date.to;
+  });
+};
+
+export function filterByAccount(transactions, accounts, accountFilter) {
+  if (accountFilter === 'All accounts') {
+    return transactions;
+  }
+  return transactions.filter((transaction) => {
+    const transactionAccount = accounts.find(
+      (account) => account.id === transaction.account,
+    );
+    if (!transactionAccount) return null;
+    return transactionAccount.description === accountFilter;
+  });
+}
+
+export function createTypeFilter(chartFilter) {
+  switch (chartFilter) {
+    case 'expenses':
+      return 'expense';
+    case 'incomes':
+      return 'income';
+    case 'transfers':
+      return 'transfer';
+    default:
+      return 'expense';
   }
 }

@@ -3,16 +3,16 @@ import { createBarData } from './bar';
 import { createPieData } from './pie';
 import { createTableData } from './table';
 
-export function createData(data, chartType) {
+export function createData(data, chartType, mainCurrency) {
   switch (chartType) {
     case 'line':
-      return createLineData(data);
+      return createLineData(data, mainCurrency);
     case 'bar':
-      return createBarData(data);
+      return createBarData(data, mainCurrency);
     case 'pie':
-      return createPieData(data);
+      return createPieData(data, mainCurrency);
     case 'table':
-      return createTableData(data);
+      return createTableData(data, mainCurrency);
     default:
       return [];
   }
