@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { add, dinero, toSnapshot } from 'dinero.js';
-import { USD } from '@dinero.js/currencies';
+import { dinero, toSnapshot } from 'dinero.js';
 
 import { formatDineroOutput } from '../../../utils/format/cash';
 
@@ -20,6 +19,8 @@ import {
 } from '../Transactions.styled';
 import Carousel from 'react-material-ui-carousel';
 import { styled } from '@mui/system';
+import { currencies } from '../../../utils/constants/currencies';
+import { getTotalBalance } from '../utils';
 
 const CustomCarousel = styled(Carousel)(() => ({
   '& .MuiIconButton-root': {
@@ -30,18 +31,20 @@ const CustomCarousel = styled(Carousel)(() => ({
   },
 }));
 
-function Slider({ filterType, notArchivedAccounts }) {
+function Slider({ mainCurrency, filterType, notArchivedAccounts }) {
   const { t } = useTranslation();
   const { filterAccount } = useParams();
   const [currentSlide, setCurrentSlide] = useState(1);
-  const accountsTotalBalance = toSnapshot(
-    notArchivedAccounts.reduce(
-      (sum, account) => add(sum, dinero(account.balance)),
-      dinero({ amount: 0, currency: USD }),
-    ),
+  const [totalBalance, setTotalBalance] = useState(
+    dinero({ amount: 0, currency: currencies[mainCurrency] }),
   );
+
   const slides = [
-    { id: 'all', color: ['#D38BFF', '#6D73FF'], balance: accountsTotalBalance },
+    {
+      id: 'all',
+      color: ['#D38BFF', '#6D73FF'],
+      balance: toSnapshot(totalBalance),
+    },
     ...notArchivedAccounts,
   ];
 
@@ -50,12 +53,18 @@ function Slider({ filterType, notArchivedAccounts }) {
     if (index != -1) setCurrentSlide(index);
   }, []);
 
+  useEffect(() => {
+    getTotalBalance(mainCurrency, notArchivedAccounts).then((result) => {
+      setTotalBalance(result);
+    });
+  }, [mainCurrency, notArchivedAccounts]);
+
   return (
     <CustomCarousel
       indicators={true}
       autoPlay={false}
       swipe={true}
-      animation="fade"
+      animation="slide"
       index={currentSlide}
     >
       {slides.map((account) => (
@@ -73,7 +82,10 @@ function Slider({ filterType, notArchivedAccounts }) {
             </CardName>
             <CardBalanceContainer>
               <CardBalance>
-                {formatDineroOutput(dinero(account.balance), 'USD')}
+                {formatDineroOutput(
+                  dinero(account.balance),
+                  account.balance.currency.code,
+                )}
               </CardBalance>
               <CurrentBalance>
                 {t('TRANSACTIONS.CURRENT_BALANCE')}
@@ -87,6 +99,7 @@ function Slider({ filterType, notArchivedAccounts }) {
 }
 
 Slider.propTypes = {
+  mainCurrency: PropTypes.string,
   filterType: PropTypes.string,
   notArchivedAccounts: PropTypes.array,
 };

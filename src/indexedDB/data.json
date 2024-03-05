@@ -1,7 +1,14 @@
 {
   "profile": {
     "id": "7bd41b93-5361-45f7-8161-5fc8fc939042",
-    "username": "Natasha",
+    "providerId": "google.com",
+    "displayName": "Natalie",
+    "email": "pancnatasha@gmail.com",
+    "emailVerified": true,
+    "createdAt": "1706171362457",
+    "lastLoginAt": "1706189250431",
+    "phoneNumber": null,
+    "photoURL": null,
     "currency": "USD"
   },
   "accounts": {
@@ -9,11 +16,20 @@
     "accounts": [
       {
         "id": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
+        "creationDate": 1699722082303,
         "archived": false,
         "type": "card",
         "description": "Sberbank",
-        "currency": "USD",
         "formatBalance": "2500.00",
+        "mainCurrencyBalance": {
+          "amount": 250000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
         "balance": {
           "amount": 250000,
           "currency": {
@@ -35,11 +51,20 @@
       },
       {
         "id": "c3da7abe-3d29-4e8e-b350-ea13915a7d72",
+        "creationDate": 1699722082303,
         "archived": false,
         "type": "cash",
         "description": "Wallet",
-        "currency": "USD",
         "formatBalance": "900.70",
+        "mainCurrencyBalance": {
+          "amount": 90070,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
         "balance": {
           "amount": 90070,
           "currency": {
@@ -66,6 +91,44 @@
     "categories": [
       {
         "id": "656e20e0-72c6-494a-848b-e3ac9c0bf147",
+        "creationDate": 1699722082303,
+        "visible": false,
+        "archived": false,
+        "type": "income",
+        "description": "Balance adjustment",
+        "color": [
+          "#45E9FF",
+          "#4579FF"
+        ],
+        "icon": 91,
+        "date": "06/14/2023",
+        "notes": "",
+        "tags": [
+          ""
+        ]
+      },
+      {
+        "id": "656e20e0-72c6-494a-848b-e3ac9c0bf147",
+        "creationDate": 1699722082303,
+        "visible": false,
+        "archived": false,
+        "type": "expense",
+        "description": "Balance adjustment",
+        "color": [
+          "#45E9FF",
+          "#4579FF"
+        ],
+        "icon": 91,
+        "date": "06/14/2023",
+        "notes": "",
+        "tags": [
+          ""
+        ]
+      },
+      {
+        "id": "656e20e0-72c6-494a-848b-e3ac9c0bf147",
+        "creationDate": 1699722082303,
+        "visible": true,
         "archived": false,
         "type": "income",
         "description": "Salary",
@@ -82,6 +145,8 @@
       },
       {
         "id": "8bad08aa-3cb0-42f1-bb4d-49622e7826b1",
+        "creationDate": 1699722082303,
+        "visible": true,
         "archived": false,
         "type": "income",
         "description": "Gift",
@@ -98,6 +163,8 @@
       },
       {
         "id": "d9361853-bfe4-4dbf-afb0-937ab2240a60",
+        "creationDate": 1699722082303,
+        "visible": true,
         "archived": false,
         "type": "expense",
         "description": "Medicine",
@@ -114,6 +181,8 @@
       },
       {
         "id": "9c62223b-fbdf-4ef6-bfd0-358c96ebf774",
+        "creationDate": 1699722082303,
+        "visible": true,
         "archived": false,
         "type": "expense",
         "description": "Utilities",
@@ -130,6 +199,8 @@
       },
       {
         "id": "fb2451f7-8f40-4a77-9fff-828e9a3dc58d",
+        "creationDate": 1699722082303,
+        "visible": true,
         "archived": false,
         "type": "expense",
         "description": "Gym",
@@ -146,6 +217,8 @@
       },
       {
         "id": "26ca0704-7530-4f15-bea8-e802cf0cecea",
+        "creationDate": 1699722082303,
+        "visible": true,
         "archived": false,
         "type": "expense",
         "description": "Food",
@@ -162,6 +235,8 @@
       },
       {
         "id": "fc1c9621-934f-40e4-a29b-8fca89a6e538",
+        "creationDate": 1699722082303,
+        "visible": true,
         "archived": false,
         "type": "expense",
         "description": "Education",
@@ -178,6 +253,8 @@
       },
       {
         "id": "8bd8eadc-2599-44f5-a155-e92d1ce2d523",
+        "creationDate": 1699722082303,
+        "visible": true,
         "archived": false,
         "type": "expense",
         "description": "Games",
@@ -194,6 +271,8 @@
       },
       {
         "id": "e4be4656-14e9-4691-b4eb-4713316d147f",
+        "creationDate": 1699722082303,
+        "visible": true,
         "archived": false,
         "type": "expense",
         "description": "Children",
@@ -215,10 +294,20 @@
     "transactions": [
       {
         "id": "561bed15-5693-4b6b-8f4d-3ddc074e0c85",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "d9361853-bfe4-4dbf-afb0-937ab2240a60",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 15000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 15000,
           "currency": {
             "code": "USD",
@@ -236,10 +325,20 @@
       },
       {
         "id": "9744a1d1-cfa8-4122-9845-973b95de4590",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "d9361853-bfe4-4dbf-afb0-937ab2240a60",
         "account": "c3da7abe-3d29-4e8e-b350-ea13915a7d72",
         "amount": {
+          "amount": 25000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 25000,
           "currency": {
             "code": "USD",
@@ -257,10 +356,20 @@
       },
       {
         "id": "f38572a1-f347-4ce1-9c75-3d4810ffb384",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "d9361853-bfe4-4dbf-afb0-937ab2240a60",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 5000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 5000,
           "currency": {
             "code": "USD",
@@ -278,10 +387,20 @@
       },
       {
         "id": "699b845b-1154-4b34-aa22-1494f510a1b6",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "8bd8eadc-2599-44f5-a155-e92d1ce2d523",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 24000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 24000,
           "currency": {
             "code": "USD",
@@ -299,10 +418,20 @@
       },
       {
         "id": "a8c4f413-d065-4b0d-8970-2f4717bb0b6d",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "8bd8eadc-2599-44f5-a155-e92d1ce2d523",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 5000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 5000,
           "currency": {
             "code": "USD",
@@ -320,10 +449,20 @@
       },
       {
         "id": "d1e3237b-04ee-4654-a153-d721ffc18ccb",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "8bd8eadc-2599-44f5-a155-e92d1ce2d523",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 13000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 13000,
           "currency": {
             "code": "USD",
@@ -341,10 +480,20 @@
       },
       {
         "id": "29538c68-d1b8-4c9d-8646-43a8f809801d",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "fb2451f7-8f40-4a77-9fff-828e9a3dc58d",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 20000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 20000,
           "currency": {
             "code": "USD",
@@ -362,10 +511,20 @@
       },
       {
         "id": "e2536c4b-757a-4b6a-b340-e55f365738b0",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "26ca0704-7530-4f15-bea8-e802cf0cecea",
         "account": "c3da7abe-3d29-4e8e-b350-ea13915a7d72",
         "amount": {
+          "amount": 25000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 25000,
           "currency": {
             "code": "USD",
@@ -383,10 +542,20 @@
       },
       {
         "id": "91cf317e-5603-4ade-b073-695ac812e3cc",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "26ca0704-7530-4f15-bea8-e802cf0cecea",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 10000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 10000,
           "currency": {
             "code": "USD",
@@ -404,10 +573,20 @@
       },
       {
         "id": "ef3eca3a-a503-4528-847f-9afa6359077e",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "26ca0704-7530-4f15-bea8-e802cf0cecea",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 42000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 42000,
           "currency": {
             "code": "USD",
@@ -425,10 +604,20 @@
       },
       {
         "id": "1224b077-f32c-437a-97a5-0209198db24c",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "26ca0704-7530-4f15-bea8-e802cf0cecea",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 25000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 25000,
           "currency": {
             "code": "USD",
@@ -446,10 +635,20 @@
       },
       {
         "id": "a00f6f72-4777-44d7-aeeb-f36429d5d1df",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "fc1c9621-934f-40e4-a29b-8fca89a6e538",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 30000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 30000,
           "currency": {
             "code": "USD",
@@ -467,10 +666,20 @@
       },
       {
         "id": "ea40ddeb-14c5-43a0-877d-30947554792f",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "fc1c9621-934f-40e4-a29b-8fca89a6e538",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 15000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 15000,
           "currency": {
             "code": "USD",
@@ -488,10 +697,20 @@
       },
       {
         "id": "4987ff4d-b02c-474b-b7a3-23fe7325a870",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "fc1c9621-934f-40e4-a29b-8fca89a6e538",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 40000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 40000,
           "currency": {
             "code": "USD",
@@ -509,10 +728,20 @@
       },
       {
         "id": "98820bf4-15b0-452e-8364-9c5ff19c8a0b",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "fc1c9621-934f-40e4-a29b-8fca89a6e538",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 15000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 15000,
           "currency": {
             "code": "USD",
@@ -530,10 +759,20 @@
       },
       {
         "id": "7d246f83-6532-4eea-98a0-2978be114789",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "9c62223b-fbdf-4ef6-bfd0-358c96ebf774",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 5000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 5000,
           "currency": {
             "code": "USD",
@@ -551,10 +790,20 @@
       },
       {
         "id": "6797457d-ffcb-4ae6-9a7f-43de65c755ce",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "9c62223b-fbdf-4ef6-bfd0-358c96ebf774",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 25000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 25000,
           "currency": {
             "code": "USD",
@@ -572,10 +821,20 @@
       },
       {
         "id": "396f879a-1383-4887-a564-8d9e624fd827",
+        "creationDate": 1699722082303,
         "transactionType": "expense",
         "category": "9c62223b-fbdf-4ef6-bfd0-358c96ebf774",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 10000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 10000,
           "currency": {
             "code": "USD",
@@ -593,10 +852,20 @@
       },
       {
         "id": "01b5b210-8883-4f02-a89a-3e77664f6e8c",
+        "creationDate": 1699722082303,
         "transactionType": "income",
         "category": "656e20e0-72c6-494a-848b-e3ac9c0bf147",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 300000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 300000,
           "currency": {
             "code": "USD",
@@ -614,10 +883,20 @@
       },
       {
         "id": "d54cf1d9-5672-46ae-81b1-7e3403dab21b",
+        "creationDate": 1699722082303,
         "transactionType": "income",
         "category": "656e20e0-72c6-494a-848b-e3ac9c0bf147",
         "account": "c3da7abe-3d29-4e8e-b350-ea13915a7d72",
         "amount": {
+          "amount": 50000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 50000,
           "currency": {
             "code": "USD",
@@ -635,10 +914,20 @@
       },
       {
         "id": "31287fa2-3e1f-44a5-b124-d3d2f490b601",
+        "creationDate": 1699722082303,
         "transactionType": "income",
         "category": "8bad08aa-3cb0-42f1-bb4d-49622e7826b1",
         "account": "b41b8e1d-4552-432a-9864-4f4a9971cdb2",
         "amount": {
+          "amount": 50000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "mainCurrencyAmount": {
           "amount": 50000,
           "currency": {
             "code": "USD",

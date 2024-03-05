@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+
 import { dinero, toDecimal } from 'dinero.js';
-import { renderCategories, renderAccounts, renderCurrencies } from '../utils';
+
+import {
+  renderCategories,
+  renderAccounts,
+  renderCurrencies,
+} from '../utils/index.js';
+
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/hoverDelete.svg';
+
 import {
   AddButtonSvg,
   AddFormButtonsContainer,
@@ -33,12 +42,16 @@ import {
   TextInputField,
 } from '../../../theme/global.js';
 import { InputAdornment } from '@mui/material';
+
 import dayjs from 'dayjs';
-import { NumericFormatCustom } from '../../../utils/format/cash';
+import {
+  NumericFormatCustom,
+  formatDineroOutput,
+} from '../../../utils/format/cash/index.js';
 import { currencies, names } from '../../../utils/constants/currencies.js';
 import { doneEventHandler } from './utils/index.js';
-import AddAccount from '../../accounts/addAccount/AddAccount.js';
 import AddCategory from '../../categories/addCategory/AddCategory.js';
+import AddAccount from '../../accounts/addAccount/AddAccount.js';
 
 function InfoTransaction({
   clickedTransaction,
@@ -47,15 +60,16 @@ function InfoTransaction({
   categories,
   setOpenDialog,
 }) {
-  const header = useSelector((state) => state.header);
-  const dispatch = useDispatch();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const header = useSelector((state) => state.header);
   const mainCurrency = header.profile ? header.profile.currency : names.USD;
   const [id, setId] = useState('');
+  const [creationDate, setCreationDate] = useState(Date.now());
   const [transactionType, setTransactionType] = useState('expense');
   const [category, setCategory] = useState('');
   const [account, setAccount] = useState('');
-  const [currency, setCurrency] = useState(mainCurrency);
+  const [currency, setCurrency] = useState(names.USD);
   const [amount, setAmount] = useState(
     toDecimal(dinero({ amount: 0, currency: currencies[currency] })),
   );
@@ -82,13 +96,15 @@ function InfoTransaction({
     const selectedTransaction = transactions.find(
       (item) => item.id === clickedTransaction,
     );
+    const amount = selectedTransaction.amount;
     if (!selectedTransaction) return;
     setId(selectedTransaction.id);
+    setCreationDate(selectedTransaction.creationDate);
     setTransactionType(selectedTransaction.transactionType);
     setCategory(selectedTransaction.category);
     setAccount(selectedTransaction.account);
-    setCurrency(selectedTransaction.amount.currency.code);
-    setAmount(toDecimal(dinero(selectedTransaction.amount)));
+    setCurrency(amount.currency.code);
+    setAmount(formatDineroOutput(dinero(amount), amount.currency.code));
     setDate(dayjs(new Date(selectedTransaction.date)));
     setNotes(selectedTransaction.notes);
     setTags(selectedTransaction.tags);
@@ -232,6 +248,7 @@ function InfoTransaction({
             doneEventHandler(
               clickedTransaction,
               id,
+              creationDate,
               transactionType,
               category,
               account,

@@ -8,8 +8,10 @@ import {
 } from '../../actions/Actions';
 import TransactionsAnalysis from './transactions/TransactionsAnalysis';
 import Loading from '../loading/Loading';
+import { names } from '../../utils/constants/currencies';
 
 export default function CashFlow() {
+  const header = useSelector((state) => state.header);
   const categories = useSelector((state) => state.categories);
   const accounts = useSelector((state) => state.accounts);
   const transactions = useSelector((state) => state.transactions);
@@ -40,7 +42,8 @@ export default function CashFlow() {
     transactions.transactions,
   ]);
 
-  return categories.status === 'loading' ||
+  return header.status === 'loading' ||
+    categories.status === 'loading' ||
     accounts.status === 'loading' ||
     transactions.status === 'loading' ? (
     <Loading />
@@ -49,6 +52,8 @@ export default function CashFlow() {
       transactions={transactionsData}
       categories={categoriesData}
       accounts={accountsData}
+      mainCurrency={header.profile ? header.profile.currency : names.USD}
+      language={header.language}
     />
   );
 }

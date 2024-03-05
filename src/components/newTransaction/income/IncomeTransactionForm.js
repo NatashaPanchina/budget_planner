@@ -35,20 +35,17 @@ import {
 import dayjs from 'dayjs';
 import { InputAdornment } from '@mui/material';
 import { currencies, names } from '../../../utils/constants/currencies.js';
-import { doneEventClick } from '../expense/utils/index.js';
 import AddAccount from '../../accounts/addAccount/AddAccount.js';
 import AddCategory from '../../categories/addCategory/AddCategory.js';
+import { doneEventClick } from './utils/index.js';
 
 function IncomeTransactionForm({
   mainCurrency,
   categories,
   accounts,
-  addNewTransaction,
-  editAccount,
   setOpenDialog,
 }) {
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [filteredAccounts, setFilteredAccounts] = useState([]);
@@ -201,8 +198,7 @@ function IncomeTransactionForm({
               tags,
               filteredAccounts,
               dispatch,
-              addNewTransaction,
-              editAccount,
+              mainCurrency,
             );
             setOpenDialog(false);
           }}
@@ -238,8 +234,6 @@ IncomeTransactionForm.propTypes = {
   mainCurrency: PropTypes.string,
   categories: PropTypes.array,
   accounts: PropTypes.array,
-  addNewTransaction: PropTypes.func,
-  editAccount: PropTypes.func,
   setOpenDialog: PropTypes.func,
 };
 

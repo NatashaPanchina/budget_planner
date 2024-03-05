@@ -1,17 +1,15 @@
 import { dinero, add, isZero, compare } from 'dinero.js';
-import { USD } from '@dinero.js/currencies';
+import { currencies } from '../../../../../utils/constants/currencies';
 
-export function createTableData({
-  transactions,
-  categories,
-  tableFilter,
-  date,
-}) {
+export function createTableData(
+  { transactions, categories, tableFilter, date },
+  mainCurrency,
+) {
   switch (tableFilter) {
     case 'expenses':
-      return createExpensesData(transactions, categories, date);
+      return createExpensesData(transactions, categories, date, mainCurrency);
     case 'incomes':
-      return createIncomesData(transactions, categories, date);
+      return createIncomesData(transactions, categories, date, mainCurrency);
     case 'transfers':
       return [];
     case 'accounts':
@@ -21,10 +19,10 @@ export function createTableData({
   }
 }
 
-function createExpensesData(transactions, categories, date) {
+function createExpensesData(transactions, categories, date, mainCurrency) {
   let expensesData = [];
   categories.forEach((category) => {
-    let dataItem = {
+    const dataItem = {
       category,
       sum: transactions
         .filter((transaction) => {
@@ -37,8 +35,9 @@ function createExpensesData(transactions, categories, date) {
           );
         })
         .reduce(
-          (sum, transaction) => add(sum, dinero(transaction.amount)),
-          dinero({ amount: 0, currency: USD }),
+          (sum, transaction) =>
+            add(sum, dinero(transaction.mainCurrencyAmount)),
+          dinero({ amount: 0, currency: currencies[mainCurrency] }),
         ),
     };
     if (!isZero(dataItem.sum)) expensesData.push(dataItem);
@@ -47,10 +46,10 @@ function createExpensesData(transactions, categories, date) {
   return expensesData.sort((a, b) => compare(b.sum, a.sum));
 }
 
-function createIncomesData(transactions, categories, date) {
+function createIncomesData(transactions, categories, date, mainCurrency) {
   let incomesData = [];
   categories.forEach((category) => {
-    let dataItem = {
+    const dataItem = {
       category,
       sum: transactions
         .filter((transaction) => {
@@ -63,8 +62,9 @@ function createIncomesData(transactions, categories, date) {
           );
         })
         .reduce(
-          (sum, transaction) => add(sum, dinero(transaction.amount)),
-          dinero({ amount: 0, currency: USD }),
+          (sum, transaction) =>
+            add(sum, dinero(transaction.mainCurrencyAmount)),
+          dinero({ amount: 0, currency: currencies[mainCurrency] }),
         ),
     };
     if (!isZero(dataItem.sum)) incomesData.push(dataItem);

@@ -23,7 +23,7 @@ import {
 } from '../Transactions.styled.js';
 import { Grid } from '@mui/material';
 
-function AccountsSlider({ transactions, accounts }) {
+function AccountsSlider({ mainCurrency, transactions, accounts }) {
   const { t } = useTranslation();
 
   const notArchivedAccounts = accounts.filter(
@@ -52,6 +52,7 @@ function AccountsSlider({ transactions, accounts }) {
       <Grid item xs={12} sm={5} md={12}>
         <MoreInfoHeader>{t('TRANSACTIONS.CURRENT_ACCOUNT')}</MoreInfoHeader>
         <Slider
+          mainCurrency={mainCurrency}
           filterType={filterType}
           notArchivedAccounts={notArchivedAccounts}
         />
@@ -116,6 +117,7 @@ function AccountsSlider({ transactions, accounts }) {
 }
 
 AccountsSlider.propTypes = {
+  mainCurrency: PropTypes.string,
   transactions: PropTypes.array,
   accounts: PropTypes.array,
 };

@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dinero, toDecimal, add } from 'dinero.js';
-import { USD } from '@dinero.js/currencies';
 import { ResponsivePie } from '@nivo/pie';
 import { linearGradientDef } from '@nivo/core';
-
 import AccountsChartLegends from './AccountsChartLegends.js';
 import {
   formatDineroOutput,
@@ -18,8 +16,9 @@ import {
   TooltipValue,
   LegendsContainer,
 } from '../Accounts.styled.js';
+import { currencies, names } from '../../../utils/constants/currencies.js';
 
-export function renderTooltip(id, formattedValue) {
+export function renderTooltip(id, balance) {
   return (
     <Tooltip>
       <TooltipSvg
@@ -36,7 +35,10 @@ export function renderTooltip(id, formattedValue) {
           fill={`url(#${id.replaceAll(' ', '_')})`}
         ></circle>
       </TooltipSvg>
-      {id}:<TooltipValue>{formattedValue}</TooltipValue>
+      {id}:
+      <TooltipValue>
+        {formatDineroOutput(dinero(balance), balance.currency.code)}
+      </TooltipValue>
     </Tooltip>
   );
 }
@@ -65,7 +67,7 @@ function renderMatchs(accounts) {
   });
 }
 
-const CenteredBalance = function (totalBalance) {
+const CenteredBalance = function (totalBalance, mainCurrency) {
   return function centeredMetric({ centerX, centerY }) {
     return (
       <CenterText
@@ -74,33 +76,34 @@ const CenteredBalance = function (totalBalance) {
         textAnchor="middle"
         alignmentBaseline="middle"
       >
-        {formatDineroOutput(totalBalance, 'USD')}
+        {formatDineroOutput(totalBalance, mainCurrency)}
       </CenterText>
     );
   };
 };
 
-function AccountsChart({ data }) {
-  const accounts = data.map((account) => {
+function AccountsChart({ mainCurrency, data }) {
+  const chartsData = data.map((account) => {
     return {
       ...account,
-      balance: toDecimal(dinero(account.balance)),
+      convertedBalance: toDecimal(dinero(account.mainCurrencyBalance)),
     };
   });
-
-  let totalBalance = data.reduce(
-    (sum, account) => add(sum, dinero(account.balance)),
-    dinero({ amount: 0, currency: USD }),
+  const totalBalance = data.reduce(
+    (sum, account) => add(sum, dinero(account.mainCurrencyBalance)),
+    dinero({ amount: 0, currency: currencies[mainCurrency] }),
   );
 
   return (
     <>
       <PieChartContainer>
         <ResponsivePie
-          data={accounts}
+          data={chartsData}
           colors={{ datum: 'data.color[0]' }}
-          value="balance"
-          valueFormat={(value) => formatNumberOutput(value, 'USD')}
+          value="convertedBalance"
+          valueFormat={(value) =>
+            formatNumberOutput(value, names[mainCurrency])
+          }
           id="description"
           margin={{
             top: 10,
@@ -117,22 +120,23 @@ function AccountsChart({ data }) {
           sortByValue={true}
           defs={renderGradientDefs(data)}
           fill={renderMatchs(data)}
-          tooltip={({ datum: { id, formattedValue, color } }) =>
-            renderTooltip(id, formattedValue, color)
+          tooltip={({ datum: { id, data, color } }) =>
+            renderTooltip(id, data.balance, color)
           }
           layers={[
             'arcs',
             'arcLabels',
             'arcLinkLabels',
             'legends',
-            CenteredBalance(totalBalance),
+            CenteredBalance(totalBalance, mainCurrency),
           ]}
         />
       </PieChartContainer>
       <LegendsContainer>
         <AccountsChartLegends
-          data={accounts}
+          data={chartsData}
           totalBalance={toDecimal(totalBalance)}
+          mainCurrency={mainCurrency}
         />
       </LegendsContainer>
     </>
@@ -140,6 +144,7 @@ function AccountsChart({ data }) {
 }
 
 AccountsChart.propTypes = {
+  mainCurrency: PropTypes.string,
   data: PropTypes.array,
 };
 

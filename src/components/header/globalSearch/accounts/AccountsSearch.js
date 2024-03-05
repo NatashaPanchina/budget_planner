@@ -46,6 +46,7 @@ export default function AccountsSearch() {
       setAccountsData(accounts);
     }
   }, [status, accounts]);
+
   return (
     <>
       <Header>

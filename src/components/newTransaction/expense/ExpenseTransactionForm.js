@@ -43,12 +43,9 @@ function ExpenseTransactionForm({
   mainCurrency,
   categories,
   accounts,
-  addNewTransaction,
-  editAccount,
   setOpenDialog,
 }) {
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [filteredAccounts, setFilteredAccounts] = useState([]);
@@ -201,8 +198,6 @@ function ExpenseTransactionForm({
               tags,
               filteredAccounts,
               dispatch,
-              addNewTransaction,
-              editAccount,
               mainCurrency,
             );
             setOpenDialog(false);
@@ -239,8 +234,6 @@ ExpenseTransactionForm.propTypes = {
   mainCurrency: PropTypes.string,
   categories: PropTypes.array,
   accounts: PropTypes.array,
-  addNewTransaction: PropTypes.func,
-  editAccount: PropTypes.func,
   setOpenDialog: PropTypes.func,
 };
 

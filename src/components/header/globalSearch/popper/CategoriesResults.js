@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { categoryIcons } from '../../../../utils/constants/icons';
 import {
@@ -7,21 +7,35 @@ import {
   CategoriesSvg,
   ListItemContainer,
 } from '../GlobalSearch.styled';
-import { Link } from 'react-router-dom';
-import { pages } from '../../../../utils/constants/pages';
 import { renderNotes } from '../utils';
 import { useTranslation } from 'react-i18next';
+import { InfoDialog } from '../../../../theme/global';
+import InfoCategory from '../../../categories/infoCategory/InfoCategory';
 
 function CategoriesResults({ categories, query }) {
   const { t } = useTranslation();
+  const [clickedCategory, setClickedCategory] = useState('');
+  const [openDialog, setOpenDialog] = useState(false);
 
   return categories.length ? (
-    categories.map((category, index) => {
-      const Icon = categoryIcons[category.icon];
-      return (
-        <ListItemContainer key={category.id}>
-          <Link to={`${pages.categories.info.main}/${category.id}`}>
-            <CategoriesListItem>
+    <>
+      <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <InfoCategory
+          clickedCategory={clickedCategory.id}
+          categories={categories}
+          setOpenDialog={setOpenDialog}
+        />
+      </InfoDialog>
+      {categories.map((category, index) => {
+        const Icon = categoryIcons[category.icon];
+        return (
+          <ListItemContainer key={category.id}>
+            <CategoriesListItem
+              onClick={() => {
+                setClickedCategory(category);
+                setOpenDialog(true);
+              }}
+            >
               <CategoriesDescription>
                 <CategoriesSvg
                   width="38"
@@ -55,10 +69,10 @@ function CategoriesResults({ categories, query }) {
               </CategoriesDescription>
               {renderNotes(category.notes)}
             </CategoriesListItem>
-          </Link>
-        </ListItemContainer>
-      );
-    })
+          </ListItemContainer>
+        );
+      })}
+    </>
   ) : (
     <div>{`${t('SEARCH.NO_RESULTS')} ${query}`}</div>
   );

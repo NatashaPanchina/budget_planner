@@ -11,10 +11,12 @@ import {
   FlexContainer,
   ListItemContainer,
 } from '../../../../categories/Categories.styled';
-import { Link } from 'react-router-dom';
-import { pages } from '../../../../../utils/constants/pages';
 import { renderNotes } from '../../../../categories/utils';
-import { MobItemButtonSvg, ToggleMenu } from '../../../../../theme/global';
+import {
+  InfoDialog,
+  MobItemButtonSvg,
+  ToggleMenu,
+} from '../../../../../theme/global';
 import { MenuItem } from '@mui/material';
 import { idbAddItem } from '../../../../../indexedDB/IndexedDB';
 import { useDispatch } from 'react-redux';
@@ -26,6 +28,7 @@ import { ReactComponent as EditIcon } from '../../../../../assets/icons/shared/e
 import { ReactComponent as ArchiveIcon } from '../../../../../assets/icons/shared/archive.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../../../assets/icons/shared/toggleEdit.svg';
 import CategorySvg from '../../../../shared/CategorySvg';
+import InfoCategory from '../../../../categories/infoCategory/InfoCategory';
 
 function CategoriesPage({ categories, query }) {
   const dispatch = useDispatch();
@@ -33,14 +36,27 @@ function CategoriesPage({ categories, query }) {
   const [clickedCategory, setClickedCategory] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [openDialog, setOpenDialog] = useState(false);
 
   return categories.length ? (
-    categories.map((category, index) => {
-      return (
-        <React.Fragment key={category.id}>
-          <ListItemContainer>
-            <Link to={`${pages.categories.info.main}/${category.id}`}>
-              <CategoriesListItem>
+    <>
+      <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <InfoCategory
+          clickedCategory={clickedCategory.id}
+          categories={categories}
+          setOpenDialog={setOpenDialog}
+        />
+      </InfoDialog>
+      {categories.map((category, index) => {
+        return (
+          <React.Fragment key={category.id}>
+            <ListItemContainer>
+              <CategoriesListItem
+                onClick={() => {
+                  setClickedCategory(category);
+                  setOpenDialog(true);
+                }}
+              >
                 <CategoriesDescription>
                   <CategorySvg
                     category={category}
@@ -50,54 +66,57 @@ function CategoriesPage({ categories, query }) {
                 </CategoriesDescription>
                 {renderNotes(category.notes)}
               </CategoriesListItem>
-            </Link>
-            <EditButtons>
-              <ToggleMenu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={() => setAnchorEl(null)}
-              >
-                <MenuItem onClick={() => setAnchorEl(null)}>
-                  <FlexContainer>
-                    <EditButtonSvg as={AddIcon} />
-                    {t('CATEGORIES.ADD_SUB')}
-                  </FlexContainer>
-                </MenuItem>
-                <MenuItem onClick={() => setAnchorEl(null)}>
-                  <EditLinkContainer
-                    to={`${pages.categories.info.main}/${clickedCategory.id}`}
-                  >
-                    <EditButtonSvg as={EditIcon} />
-                    {t('CATEGORIES.EDIT')}
-                  </EditLinkContainer>
-                </MenuItem>
-                <DeleteMenuItem onClick={() => setAnchorEl(null)}>
-                  <FlexContainer
+              <EditButtons>
+                <ToggleMenu
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={() => setAnchorEl(null)}
+                >
+                  <MenuItem onClick={() => setAnchorEl(null)}>
+                    <FlexContainer>
+                      <EditButtonSvg as={AddIcon} />
+                      {t('CATEGORIES.ADD_SUB')}
+                    </FlexContainer>
+                  </MenuItem>
+                  <MenuItem
                     onClick={() => {
-                      dispatch(archiveCategory(clickedCategory.id));
-                      idbAddItem(
-                        { ...clickedCategory, archived: true },
-                        'categories',
-                      );
+                      setAnchorEl(null);
+                      setOpenDialog(true);
                     }}
                   >
-                    <DeleteSvg as={ArchiveIcon} />
-                    {t('CATEGORIES.ARCHIVE')}
-                  </FlexContainer>
-                </DeleteMenuItem>
-              </ToggleMenu>
-              <MobItemButtonSvg
-                as={ToggleEditIcon}
-                onClick={(event) => {
-                  setClickedCategory(category);
-                  setAnchorEl(event.currentTarget);
-                }}
-              />
-            </EditButtons>
-          </ListItemContainer>
-        </React.Fragment>
-      );
-    })
+                    <EditLinkContainer>
+                      <EditButtonSvg as={EditIcon} />
+                      {t('CATEGORIES.EDIT')}
+                    </EditLinkContainer>
+                  </MenuItem>
+                  <DeleteMenuItem onClick={() => setAnchorEl(null)}>
+                    <FlexContainer
+                      onClick={() => {
+                        dispatch(archiveCategory(clickedCategory.id));
+                        idbAddItem(
+                          { ...clickedCategory, archived: true },
+                          'categories',
+                        );
+                      }}
+                    >
+                      <DeleteSvg as={ArchiveIcon} />
+                      {t('CATEGORIES.ARCHIVE')}
+                    </FlexContainer>
+                  </DeleteMenuItem>
+                </ToggleMenu>
+                <MobItemButtonSvg
+                  as={ToggleEditIcon}
+                  onClick={(event) => {
+                    setClickedCategory(category);
+                    setAnchorEl(event.currentTarget);
+                  }}
+                />
+              </EditButtons>
+            </ListItemContainer>
+          </React.Fragment>
+        );
+      })}
+    </>
   ) : (
     <div>
       {t('SEARCH.NO_RESULTS')} {query}

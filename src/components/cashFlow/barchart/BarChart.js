@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ResponsiveBar } from '@nivo/bar';
-
 import {
   createDescriptions,
   createGradientColors,
@@ -15,55 +14,22 @@ import { Chart, ChartsInfoContainer } from '../CashFlow.styled';
 import { formatNumberOutput } from '../../../utils/format/cash';
 import { chartsColors } from '../../../utils/constants/chartsColors';
 import { useSelector } from 'react-redux';
+import { formatAxisAmount } from '../utils/axis';
+import { names } from '../../../utils/constants/currencies';
+import { renderKeys } from './utils';
 
-function renderKeys(chartFilter, isDetailed, transactions, categories, date) {
-  switch (chartFilter) {
-    case 'expensesToIncomes':
-      return ['expenses', 'incomes'];
-    case 'expenses':
-      if (isDetailed) {
-        return Array.from(
-          new Set(
-            transactions
-              .filter((transaction) => {
-                const transactionDate = new Date(transaction.date);
-                return (
-                  transaction.transactionType === 'expense' &&
-                  transactionDate <= date.to &&
-                  transactionDate >= date.from
-                );
-              })
-              .map((transaction) => {
-                return categories.find(
-                  (category) => category.id === transaction.category,
-                ).description;
-              }),
-          ),
-        );
-      }
-      return ['expenses'];
-    case 'incomes':
-      if (isDetailed) {
-        return Array.from(
-          new Set(
-            transactions
-              .filter((transaction) => transaction.transactionType === 'income')
-              .map((transaction) => {
-                return categories.find(
-                  (category) => category.id === transaction.category,
-                ).description;
-              }),
-          ),
-        );
-      }
-      return ['incomes'];
-    default:
-      return [chartFilter];
-  }
-}
-
-function BarChart({ transactions, categories, chartFilter, isDetailed, date }) {
-  const { mode } = useSelector((state) => state.header);
+function BarChart({
+  transactions,
+  categories,
+  chartFilter,
+  isCompare,
+  isDetailed,
+  date,
+  comparedDate,
+}) {
+  const header = useSelector((state) => state.header);
+  const mode = header.mode;
+  const mainCurrency = header.profile ? header.profile.currency : names.USD;
 
   const keys = renderKeys(
     chartFilter,
@@ -71,10 +37,21 @@ function BarChart({ transactions, categories, chartFilter, isDetailed, date }) {
     transactions,
     categories,
     date,
+    isCompare,
+    comparedDate,
   );
   const commonData = createData(
-    { transactions, categories, chartFilter, isDetailed, date },
+    {
+      transactions,
+      categories,
+      chartFilter,
+      isCompare,
+      isDetailed,
+      date,
+      comparedDate,
+    },
     'bar',
+    mainCurrency,
   );
 
   return (
@@ -104,6 +81,16 @@ function BarChart({ transactions, categories, chartFilter, isDetailed, date }) {
               },
             },
           }}
+          markers={[
+            {
+              axis: 'y',
+              value: 0,
+              lineStyle: {
+                stroke: chartsColors[mode].marker,
+                strokeWidth: 1,
+              },
+            },
+          ]}
           margin={{
             top: 10,
             right: 40,
@@ -113,26 +100,26 @@ function BarChart({ transactions, categories, chartFilter, isDetailed, date }) {
           data={commonData}
           keys={keys}
           indexBy="date"
-          valueFormat={(value) => formatNumberOutput(value, 'USD')}
+          valueFormat={(value) => formatNumberOutput(value, mainCurrency)}
           colors={({ id, data }) => String(data[`${id}Color`][1])}
-          defs={renderGradients(createGradientColors(categories))}
-          fill={renderMatchs(createDescriptions(categories))}
+          defs={renderGradients(
+            createGradientColors(categories, date, comparedDate),
+          )}
+          fill={renderMatchs(
+            createDescriptions(categories, date, comparedDate),
+          )}
           padding={0.35}
           enableLabel={false}
           enableGridX={true}
           valueScale={{ type: 'linear' }}
           indexScale={{ type: 'band', round: true }}
           axisLeft={{
-            format: (value) => `${Number(value).toLocaleString('en-US')}`,
-          }}
-          axisBottom={{
-            tickPadding: 10,
-            legend: 'date',
-            legendOffset: 40,
-            legendPosition: 'middle',
+            format: (value) => formatAxisAmount(value),
           }}
           groupMode={
-            chartFilter === 'expensesToIncomes' ? 'grouped' : 'stacked'
+            chartFilter === 'expensesToIncomes' || isCompare
+              ? 'grouped'
+              : 'stacked'
           }
           innerPadding={chartFilter === 'expensesToIncomes' ? 3.5 : 0}
           tooltip={({ id, formattedValue, color }) =>
@@ -149,8 +136,10 @@ BarChart.propTypes = {
   transactions: PropTypes.array,
   categories: PropTypes.array,
   chartFilter: PropTypes.string,
+  isCompare: PropTypes.bool,
   isDetailed: PropTypes.bool,
   date: PropTypes.object,
+  comparedDate: PropTypes.object,
 };
 
 export default BarChart;

@@ -432,3 +432,8 @@ export const ToggleChartButton = styled(FlexContainer, {
     color: props.theme.colors.text.primary,
   },
 }));
+
+export const CalendarChartButton = styled(ToggleChartButton)((props) => ({
+  backgroundColor: alpha(props.theme.colors.main.violet, 0.1),
+  color: props.theme.colors.main.violet,
+}));

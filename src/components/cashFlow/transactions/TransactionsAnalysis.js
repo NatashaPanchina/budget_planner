@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { subtract, dinero, lessThan } from 'dinero.js';
-import { USD } from '@dinero.js/currencies';
 import { useTranslation } from 'react-i18next';
-
 import { formatDineroOutput } from '../../../utils/format/cash';
 import {
   renderAccounts,
-  filterTransactions,
   filterByType,
   createSum,
   filterArchivedAccounts,
   createAverageAmount,
   createLocaleTransactions,
+  filterByDate,
+  filterByAccount,
 } from '../utils/shared';
 import { dateFormatter } from '../../../utils/format/date';
 import LineChart from '../linechart/LineChart';
@@ -39,6 +38,7 @@ import {
   AccountsFieldFilter,
   AnalysisHeader,
   AverageInfoSvg,
+  CalendarChartButton,
   ChartButton,
   ChartHeader,
   ChartSvg,
@@ -57,36 +57,75 @@ import {
   TotalTransactionsSvg,
 } from './TransactionsAnalysis.styled.js';
 import { Grid, InputAdornment } from '@mui/material';
+import { currencies } from '../../../utils/constants/currencies.js';
 
-function TransactionsAnalysis({ transactions, categories, accounts }) {
+function TransactionsAnalysis({
+  transactions,
+  categories,
+  accounts,
+  mainCurrency,
+  language,
+}) {
   const { t } = useTranslation();
 
   const [date] = useState({
-    from: new Date('6/1/2023'),
-    to: new Date('6/30/2023'),
+    from: new Date('06/01/2023'),
+    to: new Date('06/30/2023'),
     during: 'month',
   });
+  const [lastDate] = useState({
+    from: new Date('05/01/2023'),
+    to: new Date('05/31/2023'),
+    during: 'month',
+  });
+  const [barDate] = useState({
+    from: new Date('06/01/2023'),
+    to: new Date('06/30/2023'),
+    during: 'month',
+  });
+  const [barPrevDate] = useState({
+    from: new Date('05/01/2023'),
+    to: new Date('05/31/2023'),
+    during: 'month',
+  });
+  const [isBarChartCompared] = useState(true);
   const [accountFilter, setAccountFilter] = useState('All accounts');
   const [lineChartFilter, setLineChartFilter] = useState('expensesToIncomes');
   const [isLineChartDetailed, setIsLineChartDetailed] = useState(false);
-  const [barChartFilter, setBarChartFilter] = useState('expensesToIncomes');
+  const [barChartFilter, setBarChartFilter] = useState('savings');
   const [isBarChartDetailed, setIsBarChartDetailed] = useState(false);
   const [pieChartFilter, setPieChartFilter] = useState('expenses');
   const [tableFilter, setTableFilter] = useState('expenses');
   const notArchivedAccounts = filterArchivedAccounts(accounts);
-  const filteredTransactions = filterTransactions(
+  const filteredTransactions = filterByAccount(
     transactions,
     notArchivedAccounts,
-    date,
     accountFilter,
   );
-  const expenses = filterByType(filteredTransactions, 'expense');
-  const incomes = filterByType(filteredTransactions, 'income');
-  const expensesSum = createSum(expenses);
-  const incomesSum = createSum(incomes);
+  const expenses = filterByType(
+    filterByDate(filteredTransactions, date),
+    'expense',
+  );
+  const lastExpenses = filterByType(
+    filterByDate(filteredTransactions, lastDate),
+    'expense',
+  );
+  const incomes = filterByType(
+    filterByDate(filteredTransactions, date),
+    'income',
+  );
+  const lastIncomes = filterByType(
+    filterByDate(filteredTransactions, lastDate),
+    'income',
+  );
+  const expensesSum = createSum(expenses, mainCurrency);
+  const incomesSum = createSum(incomes, mainCurrency);
   const savings = subtract(incomesSum, expensesSum);
-  const averageExpense = createAverageAmount(date, expensesSum);
-  const averageIncome = createAverageAmount(date, incomesSum);
+  const lastExpensesSum = createSum(lastExpenses, mainCurrency);
+  const lastIncomesSum = createSum(lastIncomes, mainCurrency);
+  const lastSavings = subtract(lastIncomesSum, lastExpensesSum);
+  const averageExpense = createAverageAmount(date, expensesSum, mainCurrency);
+  const averageIncome = createAverageAmount(date, incomesSum, mainCurrency);
 
   return (
     <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -120,7 +159,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           <div>
             <div>{t('ANALYSIS.TOTAL_EXPENSES')}:</div>
             <CommonInfoAmount>
-              {formatDineroOutput(expensesSum, 'USD')}
+              {formatDineroOutput(expensesSum, mainCurrency)}
             </CommonInfoAmount>
             <div>
               {expenses.length}{' '}
@@ -133,7 +172,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           <div>
             <div>{t('ANALYSIS.TOTAL_INCOMES')}:</div>
             <CommonInfoAmount>
-              {formatDineroOutput(incomesSum, 'USD')}
+              {formatDineroOutput(incomesSum, mainCurrency)}
             </CommonInfoAmount>
             <div>
               {incomes.length}{' '}
@@ -142,7 +181,10 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           </div>
         </CommonInfoItem>
         <CommonInfoItem $itemType="savings" $background={backgroundIcon}>
-          {lessThan(savings, dinero({ amount: 0, currency: USD })) ? (
+          {lessThan(
+            savings,
+            dinero({ amount: 0, currency: currencies[mainCurrency] }),
+          ) ? (
             <CommonInfoSvg as={NegativeBalanceIcon} />
           ) : (
             <CommonInfoSvg as={PositiveBalanceIcon} />
@@ -150,7 +192,7 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           <div>
             <div>{t('ANALYSIS.TOTAL_SAVINGS')}:</div>
             <CommonInfoAmount>
-              {formatDineroOutput(savings, 'USD')}
+              {formatDineroOutput(savings, mainCurrency)}
             </CommonInfoAmount>
           </div>
         </CommonInfoItem>
@@ -242,6 +284,12 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
         <ChartSvg as={BarChartIcon} />
         <ChartHeader>
           <ChartButton
+            $isActive={barChartFilter === 'savings'}
+            onClick={() => setBarChartFilter('savings')}
+          >
+            {t('ANALYSIS.SAVINGS')}
+          </ChartButton>
+          <ChartButton
             $isActive={barChartFilter === 'expensesToIncomes'}
             onClick={() => setBarChartFilter('expensesToIncomes')}
           >
@@ -267,25 +315,25 @@ function TransactionsAnalysis({ transactions, categories, accounts }) {
           </ChartButton>
         </ChartHeader>
         <ToggleButtonsContainer>
-          <ToggleChartButton
-            $isActive={!isBarChartDetailed}
-            onClick={() => setIsBarChartDetailed(false)}
-          >
-            {t('ANALYSIS.TOTAL')}
-          </ToggleChartButton>
+          <CalendarChartButton>
+            <FilterSvg as={CalendarIcon} />
+            June Vs May
+          </CalendarChartButton>
           <ToggleChartButton
             $isActive={isBarChartDetailed}
-            onClick={() => setIsBarChartDetailed(true)}
+            onClick={() => setIsBarChartDetailed(!isBarChartDetailed)}
           >
-            {t('ANALYSIS.BY_CATEGORIES')}
+            {t('ANALYSIS.GROUPED')}
           </ToggleChartButton>
         </ToggleButtonsContainer>
         <BarChart
           transactions={filteredTransactions}
           categories={categories}
           chartFilter={barChartFilter}
+          isCompare={isBarChartCompared}
           isDetailed={isBarChartDetailed}
-          date={date}
+          date={barDate}
+          comparedDate={barPrevDate}
         />
       </ChartsContainer>
       <ChartsContainer>
@@ -354,6 +402,8 @@ TransactionsAnalysis.propTypes = {
   transactions: PropTypes.array,
   categories: PropTypes.array,
   accounts: PropTypes.array,
+  mainCurrency: PropTypes.string,
+  language: PropTypes.string,
 };
 
 export default TransactionsAnalysis;

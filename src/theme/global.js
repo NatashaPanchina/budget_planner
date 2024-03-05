@@ -807,3 +807,13 @@ export const ArchiveButtonSvg = styled('svg')((props) => ({
     transition: 'fill 0.4s ease-out',
   },
 }));
+
+export const NoResultsContainer = styled('div')((props) => ({
+  justifyContent: 'center',
+  fontSize: '0.9rem',
+  padding: props.theme.spacing(4),
+}));
+
+export const NoResults = styled('div')(() => ({
+  textAlign: 'center',
+}));

@@ -1,1 +1,1 @@
-export const accessKey = 'afe8560b49c0f408bb1e521dbf39f189';
+export const accessKey = 'cur_live_B3RX2jqy2UZoagpCI8heK5staq2UeeX6Jn3G6BEN';

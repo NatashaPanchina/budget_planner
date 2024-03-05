@@ -38,8 +38,8 @@ const Svg = styled('svg')((props) => ({
   minWidth: 14,
 }));
 
-function Legends({ data, chartType, keys, chartFilter }) {
-  let legendsData = createDataLegends(data, chartType, keys, chartFilter);
+function Legends({ data, chartType, keys }) {
+  let legendsData = createDataLegends(data, chartType, keys);
 
   return (
     <Container>

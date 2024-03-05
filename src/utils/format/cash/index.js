@@ -4,7 +4,7 @@ import { NumericFormat } from 'react-number-format';
 import { dinero, toDecimal } from 'dinero.js';
 import { names, symbols } from '../../constants/currencies';
 
-const getFormatProps = (currency) => {
+export const getFormatProps = (currency) => {
   switch (currency) {
     case names.USD:
       return {
@@ -36,10 +36,7 @@ const getFormatProps = (currency) => {
       };
     default:
       return {
-        thousandSeparator: ',',
-        decimalSeparator: '.',
-        prefix: `${symbols.USD} `,
-        placeholder: '0.00',
+        placeholder: '0',
       };
   }
 };
@@ -70,6 +67,8 @@ NumericFormatCustom.propTypes = {
 };
 
 export const formatDineroOutput = (dineroObject, currency) => {
+  if (!dineroObject || !currency) return '0.00';
+
   switch (currency) {
     case names.USD:
       return toDecimal(dineroObject, ({ value }) => {
@@ -105,6 +104,8 @@ export const formatDineroOutput = (dineroObject, currency) => {
 };
 
 export const formatNumberOutput = (number, currency) => {
+  if (!number || !currency) return '0.00';
+
   switch (currency) {
     case names.USD:
       return Number(number).toLocaleString('en-US', {
@@ -127,11 +128,13 @@ export const formatNumberOutput = (number, currency) => {
         currency: currency,
       });
     default:
-      return 0;
+      return '0.00';
   }
 };
 
 export const dineroFromFloat = ({ amount: float, currency, scale }) => {
+  if (!currency) return null;
+
   const factor = currency.base ** currency.exponent || scale;
   const amount = Math.round(float * factor);
 

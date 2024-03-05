@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Amount,
   CategorySvg,
-  ItemButtonsContainer,
   ListItemContainer,
   MobTransactionDate,
   TransactionInfo,
@@ -11,40 +10,56 @@ import {
   TransactionItem,
 } from '../GlobalSearch.styled';
 import { categoryIcons } from '../../../../utils/constants/icons';
-import { Link } from 'react-router-dom';
-import { pages } from '../../../../utils/constants/pages';
 import { dateFormatter } from '../../../../utils/format/date';
 import { formatDineroOutput } from '../../../../utils/format/cash';
 import { dinero } from 'dinero.js';
 import { renderNotes } from '../utils';
 import { useTranslation } from 'react-i18next';
+import { InfoDialog } from '../../../../theme/global';
+import InfoTransaction from '../../../transactions/infoTransaction/InfoTransaction';
 
 function TransactionsResults({ transactions, categories, accounts, query }) {
   const { t } = useTranslation();
+  const [clickedTransaction, setClickedTransaction] = useState('');
+  const [openDialog, setOpenDialog] = useState(false);
 
   return transactions.length ? (
-    transactions.map((transaction, index) => {
-      const transactionCategory = categories.find(
-        (category) => category.id === transaction.category,
-      );
-      const transactionAccount = accounts.find(
-        (account) => account.id === transaction.account,
-      );
+    <>
+      <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <InfoTransaction
+          clickedTransaction={clickedTransaction.id}
+          transactions={transactions}
+          accounts={accounts}
+          categories={categories}
+          setOpenDialog={setOpenDialog}
+        />
+      </InfoDialog>
+      {transactions.map((transaction, index) => {
+        const transactionCategory = categories.find(
+          (category) => category.id === transaction.category,
+        );
+        const transactionAccount = accounts.find(
+          (account) => account.id === transaction.account,
+        );
 
-      if (!transactionCategory || !transactionAccount) {
-        return null;
-      }
+        if (!transactionCategory || !transactionAccount) {
+          return null;
+        }
 
-      const Icon = categoryIcons[transactionCategory.icon];
+        const Icon = categoryIcons[transactionCategory.icon];
 
-      return (
-        <div key={transaction.id}>
-          <ListItemContainer>
-            <Link to={`${pages.transactions.info.main}/${transaction.id}`}>
+        return (
+          <div key={transaction.id}>
+            <ListItemContainer>
               <MobTransactionDate>
                 {dateFormatter.format(new Date(transaction.date))}
               </MobTransactionDate>
-              <TransactionItem>
+              <TransactionItem
+                onClick={() => {
+                  setClickedTransaction(transaction);
+                  setOpenDialog(true);
+                }}
+              >
                 <TransactionInfo>
                   <CategorySvg
                     width="38"
@@ -85,16 +100,18 @@ function TransactionsResults({ transactions, categories, accounts, query }) {
                   </div>
                 </TransactionInfo>
                 <Amount $amountType={transaction.transactionType}>
-                  {formatDineroOutput(dinero(transaction.amount), 'USD')}
+                  {formatDineroOutput(
+                    dinero(transaction.amount),
+                    transaction.amount.currency.code,
+                  )}
                 </Amount>
                 {renderNotes(transaction.notes)}
               </TransactionItem>
-            </Link>
-            <ItemButtonsContainer></ItemButtonsContainer>
-          </ListItemContainer>
-        </div>
-      );
-    })
+            </ListItemContainer>
+          </div>
+        );
+      })}
+    </>
   ) : (
     <div>{`${t('SEARCH.NO_RESULTS')} ${query}`}</div>
   );

@@ -1,21 +1,19 @@
 import { dinero, add, toDecimal } from 'dinero.js';
-import { USD } from '@dinero.js/currencies';
-
 import { createPeriod } from '../../period';
 import { chartsColors } from '../../../../../utils/constants/chartsColors';
+import { currencies } from '../../../../../utils/constants/currencies';
 
-export function createLineData({
-  transactions,
-  categories,
-  chartFilter,
-  isDetailed,
-  date,
-}) {
-  let period = createPeriod(date);
-  let dateFormatter = new Intl.DateTimeFormat('en-US', {
+export function createLineData(
+  { transactions, categories, chartFilter, isDetailed, date },
+  mainCurrency,
+) {
+  const period = createPeriod(date);
+
+  const dateFormatter = new Intl.DateTimeFormat('en-US', {
     month: 'short',
     day: 'numeric',
   });
+
   switch (chartFilter) {
     case 'expensesToIncomes':
       return [
@@ -25,6 +23,7 @@ export function createLineData({
           categories,
           period,
           dateFormatter,
+          mainCurrency,
           'expense',
         ),
         ...createData(
@@ -33,6 +32,7 @@ export function createLineData({
           categories,
           period,
           dateFormatter,
+          mainCurrency,
           'income',
         ),
       ];
@@ -43,6 +43,7 @@ export function createLineData({
         categories,
         period,
         dateFormatter,
+        mainCurrency,
         'expense',
       );
     case 'incomes':
@@ -52,6 +53,7 @@ export function createLineData({
         categories,
         period,
         dateFormatter,
+        mainCurrency,
         'income',
       );
     case 'transfers':
@@ -67,6 +69,7 @@ function createData(
   categories,
   period,
   dateFormatter,
+  mainCurrency,
   transactionFilter,
 ) {
   if (isDetailed) {
@@ -75,6 +78,7 @@ function createData(
       categories,
       period,
       dateFormatter,
+      mainCurrency,
       transactionFilter,
     );
   }
@@ -82,6 +86,7 @@ function createData(
     transactions,
     period,
     dateFormatter,
+    mainCurrency,
     transactionFilter,
   );
 }
@@ -90,12 +95,14 @@ function createSimpleData(
   transactions,
   period,
   dateFormatter,
+  mainCurrency,
   transactionFilter,
 ) {
-  let color =
+  const color =
     transactionFilter === 'expense'
       ? chartsColors.expenses
       : chartsColors.incomes;
+
   return [
     {
       id: `${transactionFilter}s`,
@@ -114,8 +121,9 @@ function createSimpleData(
                 );
               })
               .reduce(
-                (sum, transaction) => add(sum, dinero(transaction.amount)),
-                dinero({ amount: 0, currency: USD }),
+                (sum, transaction) =>
+                  add(sum, dinero(transaction.mainCurrencyAmount)),
+                dinero({ amount: 0, currency: currencies[mainCurrency] }),
               ),
           ),
         };
@@ -129,6 +137,7 @@ function createDetailedData(
   categories,
   period,
   dateFormatter,
+  mainCurrency,
   transactionFilter,
 ) {
   let result = [];
@@ -158,8 +167,9 @@ function createDetailedData(
                   );
                 })
                 .reduce(
-                  (sum, transaction) => add(sum, dinero(transaction.amount)),
-                  dinero({ amount: 0, currency: USD }),
+                  (sum, transaction) =>
+                    add(sum, dinero(transaction.mainCurrencyAmount)),
+                  dinero({ amount: 0, currency: currencies[mainCurrency] }),
                 ),
             ),
           };

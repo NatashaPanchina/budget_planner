@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatNumberOutput } from '../../../utils/format/cash';
+import {
+  formatDineroOutput,
+  formatNumberOutput,
+} from '../../../utils/format/cash';
 import { styled } from '@mui/material';
+import { names } from '../../../utils/constants/currencies';
+import { dinero } from 'dinero.js';
 
 const LegendsContainer = styled('div')((props) => ({
   display: 'grid',
@@ -36,14 +41,16 @@ const Balance = styled('span')((props) => ({
   },
 }));
 
-function AccountsChartLegends({ data, totalBalance }) {
-  const sortedData = data.slice().sort((a, b) => b.balance - a.balance);
+function AccountsChartLegends({ data, totalBalance, mainCurrency }) {
+  const sortedData = data
+    .slice()
+    .sort((a, b) => b.convertedBalance - a.convertedBalance);
 
   return (
     <LegendsContainer>
       <span></span>
       <span>Total</span>
-      <Balance>{formatNumberOutput(totalBalance, 'USD')}</Balance>
+      <Balance>{formatNumberOutput(totalBalance, names[mainCurrency])}</Balance>
       <LegendsProcent>100.00%</LegendsProcent>
       {sortedData.map((value, index) => {
         return (
@@ -74,9 +81,17 @@ function AccountsChartLegends({ data, totalBalance }) {
               </defs>
             </LegendsSvg>
             <span>{value.description}</span>
-            <Balance>{formatNumberOutput(value.balance, 'USD')}</Balance>
+            <Balance>
+              {formatDineroOutput(
+                dinero(value.balance),
+                value.balance.currency.code,
+              )}
+            </Balance>
             <LegendsProcent $textColor={value.color[1]}>
-              {((value.balance * 100) / totalBalance).toFixed(2)} %
+              {((Number(value.convertedBalance) * 100) / totalBalance).toFixed(
+                2,
+              )}{' '}
+              %
             </LegendsProcent>
           </React.Fragment>
         );
@@ -88,6 +103,7 @@ function AccountsChartLegends({ data, totalBalance }) {
 AccountsChartLegends.propTypes = {
   data: PropTypes.array,
   totalBalance: PropTypes.string,
+  mainCurrency: PropTypes.string,
 };
 
 export default AccountsChartLegends;

@@ -1,4 +1,5 @@
 export function createPeriod(date) {
+  if (!date) return null;
   switch (date.during) {
     case 'week':
       return weekPeriod(date);

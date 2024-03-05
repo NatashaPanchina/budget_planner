@@ -39,12 +39,15 @@ import AccountsPage from './accounts/AccountsPage';
 import { sliceData } from '../utils';
 import { filterQuery } from '../../../../utils/format/search';
 import Loading from '../../../loading/Loading';
+import { names } from '../../../../utils/constants/currencies';
 
 function GlobalSearchPage() {
   const { t } = useTranslation();
   const transactions = useSelector((state) => state.transactions);
   const accounts = useSelector((state) => state.accounts);
   const categories = useSelector((state) => state.categories);
+  const header = useSelector((state) => state.header);
+  const mainCurrency = header.profile ? header.profile.currency : names.USD;
   const dispatch = useDispatch();
   const [transactionsData, setTransactionsData] = useState([]);
   const [categoriesData, setCategoriesData] = useState([]);
@@ -130,7 +133,8 @@ function GlobalSearchPage() {
           autoComplete="off"
         />
       </Grid>
-      {transactions.status === 'loading' ||
+      {header.status === 'loading' ||
+      transactions.status === 'loading' ||
       categories.status === 'loading' ||
       accounts.status === 'loading' ? (
         <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -158,6 +162,7 @@ function GlobalSearchPage() {
               transactions={sliceData(searchTransactions)}
               categories={categoriesData}
               accounts={accountsData}
+              mainCurrency={mainCurrency}
               query={query}
             />
           </Grid>
@@ -201,6 +206,7 @@ function GlobalSearchPage() {
             <CashWrapper>
               <AccountsPage
                 accounts={sliceData(searchAccounts)}
+                categories={categoriesData}
                 query={query}
               />
             </CashWrapper>

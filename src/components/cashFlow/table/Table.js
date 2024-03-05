@@ -2,22 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { dinero, toDecimal, add } from 'dinero.js';
-import { USD } from '@dinero.js/currencies';
-
 import { categoryIcons } from '../../../utils/constants/icons';
 import { formatDineroOutput } from '../../../utils/format/cash';
 import { createData } from '../utils/charts';
 import { styled } from '@mui/material';
+import { currencies, names } from '../../../utils/constants/currencies';
+import { useSelector } from 'react-redux';
 
 const TableContainer = styled('div')((props) => ({
-  height: 450,
+  height: 500,
   overflowY: 'auto',
   '&::-webkit-scrollbar': {
     width: 5,
   },
   '&::-webkit-scrollbar-thumb': {
-    background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
+    background: props.theme.colors.background.ordinary,
     borderRadius: props.theme.borderRadius * 2,
+  },
+  '@media (min-width: 600px)': {
+    height: 450,
   },
 }));
 
@@ -121,12 +124,13 @@ const MobPercent = styled('div')((props) => ({
   },
 }));
 
-function renderTable(t, data, tableFilter) {
-  let totalSum = data.reduce(
+function renderTable(t, data, tableFilter, mainCurrency) {
+  const totalSum = data.reduce(
     (sum, category) => add(sum, category.sum),
-    dinero({ amount: 0, currency: USD }),
+    dinero({ amount: 0, currency: currencies[mainCurrency] }),
   );
-  let floatTotalSum = Number(toDecimal(totalSum));
+  const floatTotalSum = Number(toDecimal(totalSum));
+
   return (
     <>
       <TableDescriptionItem>
@@ -142,12 +146,12 @@ function renderTable(t, data, tableFilter) {
         <CategoryInfoAmount
           $amountType={tableFilter.slice(0, tableFilter.length - 1)}
         >
-          {formatDineroOutput(totalSum, 'USD')}
+          {formatDineroOutput(totalSum, mainCurrency)}
           <MobPercent>100.00%</MobPercent>
         </CategoryInfoAmount>
       </TableItem>
       {data.map((item) => {
-        let Icon = categoryIcons[item.category.icon];
+        const Icon = categoryIcons[item.category.icon];
         return (
           <TableItem key={item.category.id}>
             <CategoryInfo>
@@ -190,7 +194,7 @@ function renderTable(t, data, tableFilter) {
             <CategoryInfoAmount
               $amountType={tableFilter.slice(0, tableFilter.length - 1)}
             >
-              {formatDineroOutput(item.sum, 'USD')}
+              {formatDineroOutput(item.sum, mainCurrency)}
               <MobPercent>
                 {((toDecimal(item.sum) * 100) / floatTotalSum).toFixed(2)}%
               </MobPercent>
@@ -204,13 +208,19 @@ function renderTable(t, data, tableFilter) {
 
 function Table({ transactions, categories, tableFilter, date }) {
   const { t } = useTranslation();
-
-  let data = createData(
+  const header = useSelector((state) => state.header);
+  const mainCurrency = header.profile ? header.profile.currency : names.USD;
+  const data = createData(
     { transactions, categories, tableFilter, date },
     'table',
+    mainCurrency,
   );
 
-  return <TableContainer>{renderTable(t, data, tableFilter)}</TableContainer>;
+  return (
+    <TableContainer>
+      {renderTable(t, data, tableFilter, mainCurrency)}
+    </TableContainer>
+  );
 }
 
 Table.propTypes = {

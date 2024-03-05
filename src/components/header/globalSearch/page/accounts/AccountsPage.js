@@ -12,13 +12,11 @@ import {
   FlexContainer,
   ToggleButtonSvg,
 } from '../../../../accounts/Accounts.styled';
-import { Link } from 'react-router-dom';
-import { pages } from '../../../../../utils/constants/pages';
 import { dinero } from 'dinero.js';
 import { formatDineroOutput } from '../../../../../utils/format/cash';
 import { CurrentBalance } from '../../GlobalSearch.styled';
 import { renderNotes } from '../../../../accounts/utils';
-import { ToggleMenu } from '../../../../../theme/global';
+import { InfoDialog, ToggleMenu } from '../../../../../theme/global';
 import { MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -30,82 +28,100 @@ import { ReactComponent as ArchiveIcon } from '../../../../../assets/icons/share
 import { ReactComponent as ToggleEditIcon } from '../../../../../assets/icons/shared/toggleEdit.svg';
 import cardBackground from '../../../../../assets/icons/shared/cardBackground.svg';
 import { CashListItemWrapper } from '../GlobalSearchPage.styled';
+import InfoAccount from '../../../../accounts/infoAccount/InfoAccount';
 
-function AccountsPage({ accounts, query }) {
+function AccountsPage({ accounts, categories, query }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [clickedAccount, setClickedAccount] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [openDialog, setOpenDialog] = useState(false);
 
   return accounts.length ? (
-    accounts.map((account) => {
-      const balance = dinero(account.balance);
-      return (
-        <CashListItemWrapper key={account.id}>
-          <Link to={`${pages.accounts.info.main}/${account.id}`}>
+    <>
+      {' '}
+      <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <InfoAccount
+          clickedAccount={clickedAccount.id}
+          accounts={accounts}
+          categories={categories}
+          setOpenDialog={setOpenDialog}
+        />
+      </InfoDialog>
+      {accounts.map((account) => {
+        const balance = dinero(account.balance);
+        return (
+          <CashListItemWrapper key={account.id}>
             <Card
               $cardBackground={cardBackground}
               $from={account.color[0]}
               $to={account.color[1]}
               className={`${account.description}`}
+              onClick={() => {
+                setClickedAccount(account);
+                setOpenDialog(true);
+              }}
             >
               <CardName>{account.description}</CardName>
               <CardBalanceContainer>
-                <CardBalance>{formatDineroOutput(balance, 'USD')}</CardBalance>
+                <CardBalance>
+                  {formatDineroOutput(balance, account.balance.currency.code)}
+                </CardBalance>
                 <CurrentBalance>{t('ACCOUNTS.CURRENT_BALANCE')}</CurrentBalance>
               </CardBalanceContainer>
             </Card>
             {renderNotes(account.notes)}
-          </Link>
-          <div>
-            <ToggleMenu
-              anchorEl={anchorEl}
-              open={open}
-              onClose={() => setAnchorEl(null)}
-            >
-              <MenuItem onClick={() => setAnchorEl(null)}>
-                <FlexContainer>
-                  <CardButtonlink
-                    to={`${pages.accounts.info.main}/${clickedAccount.id}`}
-                  >
-                    <CardButtonSvg as={EditIcon} /> {t('ACCOUNTS.EDIT')}
-                  </CardButtonlink>
-                </FlexContainer>
-              </MenuItem>
-              <MenuItem onClick={() => setAnchorEl(null)}>
-                <FlexContainer>
-                  <CardButtonlink
-                    to={`${pages.newTransaction.transfer}/${clickedAccount.id}`}
-                  >
-                    <CardButtonSvg as={TransferIcon} />{' '}
-                    {t('ACCOUNTS.NEW_TRANSFER')}
-                  </CardButtonlink>
-                </FlexContainer>
-              </MenuItem>
-              <DeleteMenuItem onClick={() => setAnchorEl(null)}>
-                <FlexContainer
+            <div>
+              <ToggleMenu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={() => setAnchorEl(null)}
+              >
+                <MenuItem
                   onClick={() => {
-                    dispatch(archiveAccount(account.id));
-                    idbAddItem({ ...account, archived: true }, 'accounts');
+                    setAnchorEl(null);
+                    setOpenDialog(true);
                   }}
                 >
-                  <DeleteSvg as={ArchiveIcon} />
-                  {t('ACCOUNTS.ARCHIVE')}
-                </FlexContainer>
-              </DeleteMenuItem>
-            </ToggleMenu>
-            <ToggleButtonSvg
-              as={ToggleEditIcon}
-              onClick={(event) => {
-                setClickedAccount(account);
-                setAnchorEl(event.currentTarget);
-              }}
-            />
-          </div>
-        </CashListItemWrapper>
-      );
-    })
+                  <FlexContainer>
+                    <CardButtonlink>
+                      <CardButtonSvg as={EditIcon} /> {t('ACCOUNTS.EDIT')}
+                    </CardButtonlink>
+                  </FlexContainer>
+                </MenuItem>
+                <MenuItem onClick={() => setAnchorEl(null)}>
+                  <FlexContainer>
+                    <CardButtonlink>
+                      <CardButtonSvg as={TransferIcon} />{' '}
+                      {t('ACCOUNTS.NEW_TRANSFER')}
+                    </CardButtonlink>
+                  </FlexContainer>
+                </MenuItem>
+                <DeleteMenuItem onClick={() => setAnchorEl(null)}>
+                  <FlexContainer
+                    onClick={() => {
+                      dispatch(archiveAccount(account.id));
+                      idbAddItem({ ...account, archived: true }, 'accounts');
+                    }}
+                  >
+                    <DeleteSvg as={ArchiveIcon} />
+                    {t('ACCOUNTS.ARCHIVE')}
+                  </FlexContainer>
+                </DeleteMenuItem>
+              </ToggleMenu>
+              <ToggleButtonSvg
+                as={ToggleEditIcon}
+                onClick={(event) => {
+                  setClickedAccount(account);
+                  setAnchorEl(event.currentTarget);
+                }}
+              />
+            </div>
+          </CashListItemWrapper>
+        );
+      })}
+    </>
   ) : (
     <div>
       {t('SEARCH.NO_RESULTS')} {query}
@@ -115,6 +131,7 @@ function AccountsPage({ accounts, query }) {
 
 AccountsPage.propTypes = {
   accounts: PropTypes.array,
+  categories: PropTypes.array,
   query: PropTypes.string,
 };
 
