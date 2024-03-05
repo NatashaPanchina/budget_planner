@@ -1,22 +1,13 @@
-import { MenuItem, TextField, alpha, css, styled } from '@mui/material';
+import { MenuItem, TextField, alpha, styled } from '@mui/material';
+import { Header } from '../../../theme/global';
 
-const FlexContainer = styled('div')(() => ({
+export const FlexContainer = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
 }));
 
-export const AnalysisHeader = styled(FlexContainer)((props) => ({
-  justifyContent: 'center',
-  flexWrap: 'wrap',
-  padding: `${props.theme.spacing(2)} 0`,
-  position: 'sticky',
-  top: 0,
-  zIndex: 9,
-  backgroundColor: props.theme.colors.background.body,
-  '@media (min-width: 768px)': {
-    top: props.theme.spacing(14),
-    flexWrap: 'nowrap',
-  },
+export const AnalysisHeader = styled(Header)(() => ({
+  position: 'static',
 }));
 
 export const HeaderTitle = styled(FlexContainer)(() => ({
@@ -25,24 +16,6 @@ export const HeaderTitle = styled(FlexContainer)(() => ({
   fontSize: '1.3rem',
   '@media (min-width: 768px)': {
     display: 'block',
-    width: '33.33%',
-  },
-}));
-
-export const Filter = styled(FlexContainer)((props) => ({
-  position: 'relative',
-  justifyContent: 'center',
-  borderRadius: props.theme.borderRadius * 1.5,
-  height: 'fit-content',
-  width: `calc(50% - ${props.theme.spacing(2 * 2)})`,
-  padding: props.theme.spacing(2),
-  fontSize: '0.875rem',
-  color: props.theme.colors.text.darker,
-  cursor: 'pointer',
-  '&:hover': {
-    color: props.theme.colors.text.primary,
-  },
-  '@media (min-width: 768px)': {
     width: '33.33%',
   },
 }));
@@ -65,18 +38,14 @@ export const AccountsFieldFilter = styled(TextField)((props) => ({
   '& .MuiOutlinedInput-root': {
     paddingLeft: 0,
     '& fieldset': {
-      border: `1px solid ${props.theme.colors.background.body}`,
+      border: `1px solid ${props.theme.colors.background.primary}`,
       padding: 0,
       boxShadow: 'none',
     },
-    '&:hover fieldset': {
-      border: `1px solid ${props.theme.colors.background.body}`,
-    },
     '&.Mui-focused fieldset': {
-      border: `1px solid ${props.theme.colors.background.body}`,
+      border: `1px solid ${props.theme.colors.background.primary}`,
     },
     '& .MuiInputBase-input': {
-      backgroundColor: props.theme.colors.background.body,
       fontSize: '0.875rem',
       padding: 0,
       display: 'flex',
@@ -98,133 +67,88 @@ export const AccountsMenuItem = styled(MenuItem)((props) => ({
 
 export const Container = styled('div')((props) => ({
   boxSizing: 'border-box',
-  border: `1px solid ${props.theme.colors.border.item}`,
   borderRadius: props.theme.borderRadius,
   backgroundColor: props.theme.colors.background.primary,
-  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   position: 'relative',
 }));
 
-export const CommonInfoContainer = styled(Container)((props) => ({
+export const CommonInfoContainer = styled('div')((props) => ({
   display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
-  rowGap: props.theme.spacing(4),
-  justifyContent: 'center',
+  gridTemplateAreas: '"saldo saldo" "expense income"',
+  marginBottom: props.theme.spacing(7),
   width: '100%',
-  paddingTop: props.theme.spacing(5),
-  paddingBottom: props.theme.spacing(5),
+  position: 'relative',
+  background: props.theme.colors.background.primary,
   '@media (min-width: 600px)': {
-    gridTemplateColumns: '1fr 1fr 1fr',
-    rowGap: 0,
-    paddingBottom: 0,
+    background: 'none',
+    rowGap: props.theme.spacing(3),
+    columnGap: props.theme.spacing(3),
+    gridTemplateAreas:
+      '"transactions transactions transactions" "saldo income expense"',
+  },
+  '@media (min-width: 900px)': {
+    height: 520,
+    rowGap: props.theme.spacing(4),
+    columnGap: 0,
+    gridTemplateAreas: '"transactions" "saldo" "income" "expense"',
   },
 }));
 
-export const CommonInfoItemDiv = styled('div')((props) => ({
-  justifySelf: 'center',
-  width: '80%',
-  boxSizing: 'border-box',
-  borderRadius: props.theme.borderRadius,
-  textAlign: 'center',
-  padding: props.theme.spacing(4),
-  color: props.theme.colors.white,
-  fontSize: '0.75rem',
-  '@media (min-width: 768px)': {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: `${props.theme.spacing(5)} ${props.theme.spacing(4)}`,
+export const CommonInfoItemDiv = styled(FlexContainer)((props) => ({
+  padding: props.theme.spacing(3),
+  width: `calc(100% - ${props.theme.spacing(3 * 2)})`,
+  '@media (min-width: 600px)': {
+    padding: 0,
   },
 }));
 
-export const CommonInfoItem = styled(CommonInfoItemDiv, {
-  shouldForwardProp: (prop) => prop !== '$itemType' && prop !== '$background',
-})((props) => {
-  switch (props.$itemType) {
-    case 'totalExpense':
-      return css`
-        background:
-          url(${props.$background}) 0% 0% / 40% no-repeat,
-          linear-gradient(
-            to bottom right,
-            ${props.theme.colors.linear.expense.from},
-            ${props.theme.colors.linear.expense.to}
-          );
-        box-shadow: 0px 5px 20px
-          ${alpha(props.theme.colors.linear.expense.from, 0.4)};
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
-        @media (min-width: 600px) {
-          grid-column: 1 / 2;
-          grid-row: 1 / 2;
-        }
-      `;
-    case 'totalIncome':
-      return css`
-        background:
-          url(${props.$background}) 0% 0% / 40% no-repeat,
-          linear-gradient(
-            to bottom right,
-            ${props.theme.colors.linear.income.from},
-            ${props.theme.colors.linear.income.to}
-          );
-        box-shadow: 0px 5px 20px
-          ${alpha(props.theme.colors.linear.income.from, 0.4)};
-        grid-column: 1 / 2;
-        grid-row: 2 / 3;
-        @media (min-width: 600px) {
-          grid-column: 2 / 3;
-          grid-row: 1 / 2;
-        }
-      `;
-    case 'savings':
-      return css`
-        background:
-          url(${props.$background}) 0% 0% / 40% no-repeat,
-          linear-gradient(
-            to bottom right,
-            ${props.theme.colors.linear.saldo.from},
-            ${props.theme.colors.linear.saldo.to}
-          );
-        box-shadow: 0px 5px 20px
-          ${alpha(props.theme.colors.linear.saldo.from, 0.4)};
-        grid-column: 1 / 2;
-        grid-row: 3 / 4;
-        @media (min-width: 600px) {
-          grid-column: 3 / 4;
-          grid-row: 1 / 2;
-        }
-      `;
-    default:
-      return css`
-        background:
-          url(${props.$background}) 0% 0% / 40% no-repeat,
-          linear-gradient(
-            to bottom right,
-            ${props.theme.colors.linear.expense.from},
-            ${props.theme.colors.linear.expense.to}
-          );
-        box-shadow: 0px 5px 20px
-          ${alpha(props.theme.colors.linear.expense.from, 0.4)};
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
-        @media (min-width: 600px) {
-          grid-column: 1 / 2;
-          grid-row: 1 / 2;
-        }
-      `;
-  }
-});
+export const CommonInfoItem = styled('div', {
+  shouldForwardProp: (prop) => prop !== '$type',
+})((props) => ({
+  gridArea: props.$type,
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  display: 'flex',
+  '@media (min-width: 600px)': {
+    padding: props.theme.spacing(3),
+    margin: 0,
+    maxWidth: '100%',
+    display: 'block',
+    border: `1px solid ${props.theme.colors.border.item}`,
+    boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
+    borderRadius: props.theme.borderRadius,
+    backgroundColor: props.theme.colors.background.primary,
+  },
+}));
 
 export const CommonInfoSvg = styled('svg')((props) => ({
-  width: 30,
-  height: 30,
-  minWidth: 30,
+  width: 40,
+  height: 40,
+  marginRight: props.theme.spacing(2),
   '@media (min-width: 768px)': {
-    width: 40,
-    height: 40,
-    minWidth: 40,
+    width: 50,
+    height: 50,
+    minWidth: 50,
     marginRight: props.theme.spacing(3),
+  },
+}));
+
+export const AverageInfoContainer = styled('div')((props) => ({
+  display: 'grid',
+  gridTemplateAreas: '"income expense"',
+  marginBottom: props.theme.spacing(7),
+  width: '100%',
+  position: 'relative',
+  background: props.theme.colors.background.primary,
+  '@media (min-width: 600px)': {
+    background: 'none',
+    rowGap: props.theme.spacing(3),
+    columnGap: props.theme.spacing(3),
+  },
+  '@media (min-width: 900px)': {
+    rowGap: props.theme.spacing(6),
+    columnGap: 0,
+    gridTemplateAreas: '"income" "expense"',
   },
 }));
 
@@ -232,6 +156,10 @@ export const AverageInfoSvg = styled('svg')((props) => ({
   width: '90%',
   height: 70,
   minWidth: 50,
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
   '@media (min-width: 768px)': {
     width: '70%',
     minWidth: 35,
@@ -242,136 +170,30 @@ export const AverageInfoSvg = styled('svg')((props) => ({
   },
 }));
 
-export const TotalTransactionsSvg = styled('svg')((props) => ({
-  width: 35,
-  height: 35,
-  minWidth: 35,
-  marginTop: props.theme.spacing(6),
-  marginBottom: props.theme.spacing(2),
-  '@media (min-width: 1000px)': {
-    margin: 0,
-    marginRight: props.theme.spacing(3),
-  },
-}));
-
-export const CommonInfoTitle = styled('div')((props) => ({
-  fontSize: '0.75rem',
-  color: props.theme.colors.text.darker,
-}));
-
 const InfoAmount = styled('div')(() => ({
   fontSize: '1.1rem',
   lineHeight: '2',
 }));
 
-export const CommonInfoAmount = styled(InfoAmount, {
-  shouldForwardProp: (prop) => prop !== '$amountType',
-})((props) => {
-  switch (props.$amountType) {
-    case 'all':
-      return css`
-        color: ${props.theme.colors.main.violet};
-      `;
-    case 'expense':
-      return css`
-        color: ${props.theme.colors.expense};
-      `;
-    case 'income':
-      return css`
-        color: ${props.theme.colors.income};
-      `;
-    default:
-      return css`
-        color: ${props.theme.colors.white};
-      `;
-  }
-});
-
-const CommonCalcDiv = styled('div')((props) => ({
-  justifySelf: 'center',
-  textAlign: 'center',
-  width: '80%',
-  padding: props.theme.spacing(4),
-  '@media (min-width: 768px)': {
-    padding: `${props.theme.spacing(6)} ${props.theme.spacing(4)}`,
-  },
-  '@media (min-width: 1000px)': {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-}));
-
-export const CommonCalcItem = styled(CommonCalcDiv, {
-  shouldForwardProp: (prop) => prop !== '$itemType',
-})((props) => {
-  switch (props.$itemType) {
-    case 'averageExpense':
-      return css`
-        grid-column: 2 / 3;
-        grid-row: 1 / 2;
-        @media (min-width: 600px) {
-          grid-column: 1 / 2;
-          grid-row: 2 / 3;
-        }
-      `;
-    case 'averageIncome':
-      return css`
-        grid-column: 2 / 3;
-        grid-row: 2 / 3;
-        @media (min-width: 600px) {
-          grid-column: 2 / 3;
-          grid-row: 2 / 3;
-        }
-      `;
-    case 'totalCount':
-      return css`
-        grid-column: 2 / 3;
-        grid-row: 3 / 4;
-        @media (min-width: 600px) {
-          grid-column: 3 / 4;
-          grid-row: 2 / 3;
-        }
-      `;
-    default:
-      return css`
-        grid-column: 2 / 3;
-        grid-row: 1 / 2;
-        @media (min-width: 600px) {
-          grid-column: 1 / 2;
-          grid-row: 2 / 3;
-        }
-      `;
-  }
-});
-
 export const ChartsContainer = styled('div')((props) => ({
-  marginTop: props.theme.spacing(7),
+  marginBottom: props.theme.spacing(7),
   width: '100%',
+  maxHeight: 600,
   border: `1px solid ${props.theme.colors.border.item}`,
+  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   borderRadius: props.theme.borderRadius,
   backgroundColor: props.theme.colors.background.primary,
-  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   position: 'relative',
-}));
-
-export const ChartSvg = styled('svg')((props) => ({
-  display: 'none',
-  '@media (min-width: 768px)': {
-    display: 'flex',
-    position: 'absolute',
-    top: props.theme.spacing(5),
-    left: props.theme.spacing(5),
-    width: 35,
-    height: 35,
-    minWidth: 35,
+  '@media (min-width: 600px)': {
+    height: 520,
+    maxHeight: 520,
   },
 }));
 
 export const ChartHeader = styled(FlexContainer)((props) => ({
   overflowX: 'scroll',
-  width: `calc(100% - ${props.theme.spacing(5 * 2)})`,
-  padding: props.theme.spacing(5),
+  width: `calc(100% - ${props.theme.spacing(3 * 2)})`,
+  padding: props.theme.spacing(3),
   borderBottom: `1px solid ${props.theme.colors.border.title}`,
   '&::-webkit-scrollbar': {
     width: 1,
@@ -382,8 +204,9 @@ export const ChartHeader = styled(FlexContainer)((props) => ({
     borderRadius: props.theme.borderRadius,
   },
   '@media (min-width: 600px)': {
-    overflow: 'hidden',
     justifyContent: 'center',
+    width: `calc(100% - ${props.theme.spacing(5 * 2)})`,
+    padding: props.theme.spacing(5),
   },
 }));
 
@@ -391,27 +214,23 @@ export const ChartButton = styled(FlexContainer, {
   shouldForwardProp: (prop) => prop !== '$isActive',
 })((props) => ({
   cursor: 'pointer',
-  fontSize: '0.875rem',
-  height: 35,
   borderRadius: props.theme.borderRadius,
-  paddingLeft: props.theme.spacing(4),
-  paddingRight: props.theme.spacing(4),
+  padding: `${props.theme.spacing(1)} ${props.theme.spacing(4)}`,
   marginLeft: props.theme.spacing(4),
   marginRight: props.theme.spacing(4),
   whiteSpace: 'nowrap',
-  color: props.theme.colors.white,
-  background: `linear-gradient(to bottom right, ${alpha(
-    props.theme.colors.linear.main.from,
-    0.8,
-  )}, ${alpha(props.theme.colors.linear.main.to, 0.8)})`,
-  opacity: props.$isActive ? 1 : 0.5,
+  color: props.$isActive
+    ? props.theme.colors.main.violet
+    : props.theme.colors.text.primary,
+  opacity: props.$isActive ? 1 : 0.4,
   '&:hover': {
     opacity: 1,
     transition: 'opacity 0.3s ease-out',
   },
 }));
 
-export const ToggleButtonsContainer = styled(FlexContainer)(() => ({
+export const ToggleButtonsContainer = styled(FlexContainer)((props) => ({
+  margin: `${props.theme.spacing(5)} ${props.theme.spacing(7)}`,
   justifyContent: 'center',
 }));
 
@@ -420,14 +239,15 @@ export const ToggleChartButton = styled(FlexContainer, {
 })((props) => ({
   cursor: 'pointer',
   backgroundColor: props.theme.colors.background.primary,
+  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
+  borderRadius: props.theme.borderRadius * 2,
   fontSize: '0.875rem',
   color: props.$isActive
     ? props.theme.colors.text.primary
     : props.theme.colors.text.darker,
-  height: 50,
   justifyContent: 'center',
-  paddingLeft: props.theme.spacing(2),
-  paddingRight: props.theme.spacing(2),
+  padding: props.theme.spacing(2),
+  margin: `0px ${props.theme.spacing(3)}`,
   '&:hover': {
     color: props.theme.colors.text.primary,
   },
@@ -436,4 +256,83 @@ export const ToggleChartButton = styled(FlexContainer, {
 export const CalendarChartButton = styled(ToggleChartButton)((props) => ({
   backgroundColor: alpha(props.theme.colors.main.violet, 0.1),
   color: props.theme.colors.main.violet,
+}));
+
+export const CountTransactionsItem = styled(CommonInfoItem)((props) => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr 1fr',
+    gridArea: 'transactions',
+    columnGap: props.theme.spacing(3),
+  },
+  '@media (min-width: 900px)': {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gridArea: 'transactions',
+  },
+}));
+
+export const CountItemHeader = styled('div')((props) => ({
+  fontSize: '0.95rem',
+  color: props.theme.colors.text.darker,
+}));
+
+export const CountNumber = styled('div', {
+  shouldForwardProp: (prop) => prop !== '$type',
+})((props) => ({
+  marginLeft: props.theme.spacing(1),
+  color: props.theme.colors[props.$type],
+}));
+
+export const CommonInfoHeader = styled('div')((props) => ({
+  width: `100%`,
+  paddingBottom: props.theme.spacing(3),
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'block',
+  },
+}));
+
+export const MobCommonInfoHeader = styled('div')(() => ({
+  fontSize: '0.85rem',
+  '@media (min-width: 600px)': {
+    display: 'none',
+  },
+}));
+
+export const CalcInfoAmount = styled(InfoAmount, {
+  shouldForwardProp: (prop) => prop !== '$type',
+})((props) => ({
+  color: props.theme.colors[props.$type],
+}));
+
+export const RatesContainer = styled('div')(() => ({
+  display: 'block',
+  fontSize: '0.85rem',
+  '@media (min-width: 600px)': {
+    fontSize: '1rem',
+  },
+  '@media (min-width: 1000px)': {
+    display: 'flex',
+    alignItems: 'center',
+  },
+}));
+
+export const RatesSvg = styled('svg')(() => ({
+  width: 16,
+  height: 16,
+}));
+
+export const RatesInfo = styled('div')((props) => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'block',
+    color: props.theme.colors.text.ordinary,
+    fontSize: '0.9rem',
+    marginLeft: props.theme.spacing(1),
+  },
+  '@media (min-width: 1000px)': {
+    marginLeft: props.theme.spacing(1),
+  },
 }));

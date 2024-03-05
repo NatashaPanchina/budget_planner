@@ -93,9 +93,9 @@ function BarChart({
           ]}
           margin={{
             top: 10,
-            right: 40,
-            bottom: 50,
-            left: 80,
+            right: 20,
+            bottom: 20,
+            left: 50,
           }}
           data={commonData}
           keys={keys}

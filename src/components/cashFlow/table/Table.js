@@ -32,32 +32,12 @@ const TableDescriptionItem = styled('div')((props) => ({
   paddingLeft: props.theme.spacing(3),
   marginLeft: props.theme.spacing(2),
   marginRight: props.theme.spacing(2),
-  marginTop: props.theme.spacing(5),
   fontSize: '0.875rem',
   color: props.theme.colors.text.ordinary,
-  '@media (min-width: 600px)': {
-    gridTemplateColumns: '1.5fr 1fr 1.5fr',
-  },
-  '@media (min-width: 768px)': {
-    padding: props.theme.spacing(5),
-    marginLeft: props.theme.spacing(5),
-    marginRight: props.theme.spacing(5),
-  },
-}));
-
-const PercentageDescription = styled('span')(() => ({
-  display: 'none',
-  '@media (min-width: 600px)': {
-    display: 'flex',
-    justifySelf: 'end',
-  },
 }));
 
 const SumDescription = styled('span')(() => ({
   justifySelf: 'end',
-  '@media (min-width: 768px)': {
-    justifySelf: 'center',
-  },
 }));
 
 const TableItem = styled('div')((props) => ({
@@ -65,41 +45,49 @@ const TableItem = styled('div')((props) => ({
   gridTemplateColumns: '1fr 1fr',
   gap: props.theme.spacing(3),
   alignItems: 'center',
-  padding: props.theme.spacing(4),
-  paddingLeft: props.theme.spacing(3),
+  padding: props.theme.spacing(3),
+  paddingLeft: props.theme.spacing(2),
   marginBottom: props.theme.spacing(2),
   marginLeft: props.theme.spacing(2),
   marginRight: props.theme.spacing(2),
   background: props.theme.colors.background.body,
   border: `1px solid ${props.theme.colors.border.item}`,
   borderRadius: props.theme.borderRadius,
-  '@media (min-width: 600px)': {
-    gridTemplateColumns: '1.5fr 1fr 1.5fr',
-  },
-  '@media (min-width: 768px)': {
-    padding: props.theme.spacing(5),
-    marginBottom: props.theme.spacing(4),
-    marginLeft: props.theme.spacing(5),
-    marginRight: props.theme.spacing(5),
-  },
+}));
+
+const TotalTableItem = styled('div')((props) => ({
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: props.theme.spacing(3),
+  alignItems: 'center',
+  padding: props.theme.spacing(2),
+  paddingLeft: props.theme.spacing(3),
+  marginBottom: props.theme.spacing(2),
+  marginLeft: props.theme.spacing(2),
+  marginRight: props.theme.spacing(4),
 }));
 
 const CategoryInfo = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
+  '@media (min-width: 600px)': {
+    fontSize: '0.9rem',
+  },
 }));
 
 const CategoryInfoSvg = styled('svg')((props) => ({
   marginRight: props.theme.spacing(3),
   minWidth: 38,
+  '@media (min-width: 600px)': {
+    minWidth: 30,
+    height: 30,
+    marginRight: props.theme.spacing(1),
+  },
 }));
 
 const Amount = styled('div')(() => ({
   justifySelf: 'end',
   textAlign: 'right',
-  '@media (min-width: 768px)': {
-    justifySelf: 'center',
-  },
 }));
 
 const CategoryInfoAmount = styled(Amount, {
@@ -108,20 +96,9 @@ const CategoryInfoAmount = styled(Amount, {
   color: props.theme.colors[props.$amountType],
 }));
 
-const Percent = styled('div')(() => ({
-  display: 'none',
-  justifySelf: 'end',
-  '@media (min-width: 600px)': {
-    display: 'flex',
-  },
-}));
-
-const MobPercent = styled('div')((props) => ({
+const Percent = styled('div')((props) => ({
   color: props.theme.colors.text.darker,
   fontSize: '0.8125rem',
-  '@media (min-width: 600px)': {
-    display: 'none',
-  },
 }));
 
 function renderTable(t, data, tableFilter, mainCurrency) {
@@ -135,21 +112,17 @@ function renderTable(t, data, tableFilter, mainCurrency) {
     <>
       <TableDescriptionItem>
         <span>{t('ANALYSIS.CATEGORY')}</span>
-        <PercentageDescription>
-          {t('ANALYSIS.PERCENTAGE')}
-        </PercentageDescription>
         <SumDescription>{t('ANALYSIS.SUM')}</SumDescription>
       </TableDescriptionItem>
-      <TableItem>
+      <TotalTableItem>
         <div>{t('ANALYSIS.TOTAL_TABLE')}</div>
-        <Percent>100.00%</Percent>
         <CategoryInfoAmount
           $amountType={tableFilter.slice(0, tableFilter.length - 1)}
         >
           {formatDineroOutput(totalSum, mainCurrency)}
-          <MobPercent>100.00%</MobPercent>
+          <Percent>100.00%</Percent>
         </CategoryInfoAmount>
-      </TableItem>
+      </TotalTableItem>
       {data.map((item) => {
         const Icon = categoryIcons[item.category.icon];
         return (
@@ -188,16 +161,13 @@ function renderTable(t, data, tableFilter, mainCurrency) {
               </CategoryInfoSvg>
               {item.category.description}
             </CategoryInfo>
-            <Percent>
-              {((toDecimal(item.sum) * 100) / floatTotalSum).toFixed(2)}%
-            </Percent>
             <CategoryInfoAmount
               $amountType={tableFilter.slice(0, tableFilter.length - 1)}
             >
               {formatDineroOutput(item.sum, mainCurrency)}
-              <MobPercent>
+              <Percent>
                 {((toDecimal(item.sum) * 100) / floatTotalSum).toFixed(2)}%
-              </MobPercent>
+              </Percent>
             </CategoryInfoAmount>
           </TableItem>
         );

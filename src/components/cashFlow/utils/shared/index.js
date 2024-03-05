@@ -131,3 +131,12 @@ export function createTypeFilter(chartFilter) {
       return 'expense';
   }
 }
+
+export const getCashRate = (currentData, comparedData) => {
+  if (!currentData && !comparedData) return 0;
+  const current = Number(currentData);
+  const compared = Number(comparedData);
+  if (current === 0 && compared === 0) return 0;
+  if (compared === 0) return 100;
+  return ((current / compared) * 100 - 100).toFixed(2);
+};

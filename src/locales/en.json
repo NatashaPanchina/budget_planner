@@ -278,7 +278,7 @@
       "LESS_THAN_FIVE": "transactions",
       "MORE_THAN_FIVE": "transactions"
     },
-    "TOTAL_INCOMES": "Total Incomes",
+    "TOTAL_INCOME": "Total Incomes",
     "TOTAL_SAVINGS": "Total Savings",
     "TOTAL_TRANSACTIONS": "Total Transactions",
     "AVERAGE_WEEKLY_EXPENSE": "Average Weekly Expense",
@@ -286,13 +286,15 @@
     "SAVINGS": "Savings",
     "EXPENSES_TO_INCOMES": "Expenses To Incomes",
     "EXPENSES": "Expenses",
-    "INCOMES": "Incomes",
+    "INCOMES": "Income",
     "TRANSFERS": "Transfers",
     "TOTAL": "Total",
     "GROUPED": "Grouped",
     "TOTAL_TABLE": "Total",
     "CATEGORY": "Category",
     "PERCENTAGE": "Percentage",
-    "SUM": "Sum"
+    "SUM": "Sum",
+    "MORE_THAN": "more than ",
+    "LESS_THAN": "less than "
   }
 }

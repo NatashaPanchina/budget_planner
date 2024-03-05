@@ -10,13 +10,10 @@ const Container = styled('div')((props) => ({
   flexWrap: 'wrap',
   width: `calc(100% - ${props.theme.spacing(5 * 2)})`,
   fontSize: '0.875rem',
-  padding: props.theme.spacing(5),
-  paddingBottom: 0,
+  paddingLeft: props.theme.spacing(5),
+  paddingRight: props.theme.spacing(5),
   '@media (min-width: 768px)': {
-    display: 'block',
-    padding: 0,
-    paddingRight: props.theme.spacing(5),
-    width: `calc(30% - ${props.theme.spacing(5)})`,
+    paddingTop: 0,
   },
 }));
 
@@ -26,11 +23,6 @@ const ContainerItem = styled('div')((props) => ({
   margin: props.theme.spacing(2),
   marginLeft: 0,
   marginRight: props.theme.spacing(7),
-  '@media (min-width: 768px)': {
-    margin: 0,
-    marginTop: props.theme.spacing(3),
-    marginBottom: props.theme.spacing(3),
-  },
 }));
 
 const Svg = styled('svg')((props) => ({
