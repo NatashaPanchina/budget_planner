@@ -278,7 +278,7 @@
       "LESS_THAN_FIVE": "транзакции",
       "MORE_THAN_FIVE": "транзакций"
     },
-    "TOTAL_INCOMES": "Всего доходов",
+    "TOTAL_INCOME": "Всего доходов",
     "TOTAL_SAVINGS": "Сальдо",
     "TOTAL_TRANSACTIONS": "Всего транзакций",
     "AVERAGE_WEEKLY_EXPENSE": "Средний еженедельный расход",
@@ -293,6 +293,8 @@
     "TOTAL_TABLE": "Всего",
     "CATEGORY": "Категория",
     "PERCENTAGE": "Процент",
-    "SUM": "Сумма"
+    "SUM": "Сумма",
+    "MORE_THAN": "больше чем в ",
+    "LESS_THAN": "меньше чем в "
   }
 }

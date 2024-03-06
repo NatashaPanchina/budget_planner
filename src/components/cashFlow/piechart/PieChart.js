@@ -10,7 +10,7 @@ import {
 import { createData } from '../utils/charts';
 import Legends from '../legends/Legends';
 import { renderTooltip } from '../utils/tooltip';
-import { Chart, ChartsInfoContainer } from '../CashFlow.styled';
+import { ChartsInfoContainer, Pie } from '../CashFlow.styled';
 import {
   formatDineroOutput,
   formatNumberOutput,
@@ -66,7 +66,7 @@ function PieChart({ transactions, categories, chartFilter, date }) {
 
   return (
     <ChartsInfoContainer>
-      <Chart>
+      <Pie>
         <ResponsivePie
           theme={{
             labels: {
@@ -85,10 +85,10 @@ function PieChart({ transactions, categories, chartFilter, date }) {
           }
           id="category.description"
           margin={{
-            top: 30,
-            right: 100,
-            bottom: 30,
-            left: 100,
+            top: 10,
+            right: 10,
+            bottom: 10,
+            left: 10,
           }}
           innerRadius={0.65}
           padAngle={0.7}
@@ -112,7 +112,7 @@ function PieChart({ transactions, categories, chartFilter, date }) {
             CenteredBalance(totalAmount, mainCurrency),
           ]}
         />
-      </Chart>
+      </Pie>
       <Legends data={commonData} chartType="pie" />
     </ChartsInfoContainer>
   );
