@@ -30,7 +30,7 @@ import {
   CancelSearchSvg,
 } from '../../../theme/global';
 import { pages } from '../../../utils/constants/pages';
-import { Grid, InputAdornment, MenuItem, styled } from '@mui/material';
+import { Dialog, Grid, InputAdornment, MenuItem, styled } from '@mui/material';
 import {
   CategoriesDescription,
   CategoriesListItem,
@@ -46,6 +46,7 @@ import { useCategoriesSearch } from '../../../hooks/useSearch';
 import Loading from '../../loading/Loading';
 import NoResultsFound from '../../noResults/NoResultsFound';
 import CategorySvg from '../../shared/CategorySvg';
+import DeleteAlert from '../../alerts/DeleteAlert';
 
 const ArchivedCount = styled('div')((props) => ({
   fontSize: '0.875rem',
@@ -54,87 +55,6 @@ const ArchivedCount = styled('div')((props) => ({
   display: 'flex',
   alignItems: 'center',
 }));
-
-function renderCategories(
-  clickedCategory,
-  setClickedCategory,
-  anchorEl,
-  setAnchorEl,
-  open,
-  categories,
-  transactions,
-  restoreCategory,
-  deleteCategory,
-  deleteTransaction,
-  dispatch,
-  t,
-) {
-  return (
-    <>
-      <ArchivedCount>
-        {categories.length}{' '}
-        {t(createLocaleCategories('CATEGORIES_TRASH', categories.length))}
-      </ArchivedCount>
-      {categories.map((category, index) => {
-        return (
-          <CategoriesListItem key={category.id}>
-            <CategoriesDescription>
-              <CategorySvg category={category} fillName={`category${index}`} />
-              {category.description}
-            </CategoriesDescription>
-            <EditButtons>
-              <ToggleMenu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={() => setAnchorEl(null)}
-              >
-                <MenuItem onClick={() => setAnchorEl(null)}>
-                  <FlexContainer
-                    onClick={() => {
-                      dispatch(restoreCategory(clickedCategory.id));
-                      idbAddItem(
-                        { ...clickedCategory, archived: false },
-                        'categories',
-                      );
-                    }}
-                  >
-                    <EditButtonSvg as={RestoreIcon} />
-                    {t('CATEGORIES_TRASH.RESTORE')}
-                  </FlexContainer>
-                </MenuItem>
-                <DeleteMenuItem onClick={() => setAnchorEl(null)}>
-                  <FlexContainer
-                    onClick={() => {
-                      transactions.forEach((transaction) => {
-                        if (transaction.category === clickedCategory.id) {
-                          dispatch(deleteTransaction(transaction.id));
-                          idbDeleteItem(transaction.id, 'transactions');
-                        }
-                      });
-                      dispatch(deleteCategory(clickedCategory.id));
-                      idbDeleteItem(clickedCategory.id, 'categories');
-                    }}
-                  >
-                    <DeleteSvg as={DeleteIcon} />
-                    {t('CATEGORIES_TRASH.DELETE')}
-                  </FlexContainer>
-                </DeleteMenuItem>
-              </ToggleMenu>
-              <MobItemButtonSvg
-                as={ToggleEditIcon}
-                onClick={(event) => {
-                  setClickedCategory(category);
-                  setAnchorEl(event.currentTarget);
-                }}
-              />
-            </EditButtons>
-            {renderNotes(category.notes)}
-          </CategoriesListItem>
-        );
-      })}
-    </>
-  );
-}
 
 export default function CategoriesTrash() {
   const categories = useSelector((state) => state.categories);
@@ -145,8 +65,18 @@ export default function CategoriesTrash() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [query, setQuery] = useState('');
-
   const searchData = useCategoriesSearch(query, categories.categories, true);
+  const [openDelAlert, setOpenDelAlert] = useState(false);
+  const deleteCallback = () => {
+    transactions.transactions.forEach((transaction) => {
+      if (transaction.category === clickedCategory.id) {
+        dispatch(deleteTransaction(transaction.id));
+        idbDeleteItem(transaction.id, 'transactions');
+      }
+    });
+    dispatch(deleteCategory(clickedCategory.id));
+    idbDeleteItem(clickedCategory.id, 'categories');
+  };
 
   useEffect(() => {
     dispatch(fetchCategoriesData());
@@ -195,24 +125,76 @@ export default function CategoriesTrash() {
           autoComplete="off"
         />
         {searchData.length ? (
-          renderCategories(
-            clickedCategory,
-            setClickedCategory,
-            anchorEl,
-            setAnchorEl,
-            open,
-            searchData,
-            transactions.transactions,
-            restoreCategory,
-            deleteCategory,
-            deleteTransaction,
-            dispatch,
-            t,
-          )
+          <>
+            <ArchivedCount>
+              {searchData.length}{' '}
+              {t(createLocaleCategories('CATEGORIES_TRASH', searchData.length))}
+            </ArchivedCount>
+            {searchData.map((category, index) => {
+              return (
+                <CategoriesListItem key={category.id}>
+                  <CategoriesDescription>
+                    <CategorySvg
+                      category={category}
+                      fillName={`category${index}`}
+                    />
+                    {category.description}
+                  </CategoriesDescription>
+                  <EditButtons>
+                    <ToggleMenu
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={() => setAnchorEl(null)}
+                    >
+                      <MenuItem onClick={() => setAnchorEl(null)}>
+                        <FlexContainer
+                          onClick={() => {
+                            dispatch(restoreCategory(clickedCategory.id));
+                            idbAddItem(
+                              { ...clickedCategory, archived: false },
+                              'categories',
+                            );
+                          }}
+                        >
+                          <EditButtonSvg as={RestoreIcon} />
+                          {t('CATEGORIES_TRASH.RESTORE')}
+                        </FlexContainer>
+                      </MenuItem>
+                      <DeleteMenuItem
+                        onClick={() => {
+                          setAnchorEl(null);
+                          setOpenDelAlert(true);
+                        }}
+                      >
+                        <FlexContainer>
+                          <DeleteSvg as={DeleteIcon} />
+                          {t('CATEGORIES_TRASH.DELETE')}
+                        </FlexContainer>
+                      </DeleteMenuItem>
+                    </ToggleMenu>
+                    <MobItemButtonSvg
+                      as={ToggleEditIcon}
+                      onClick={(event) => {
+                        setClickedCategory(category);
+                        setAnchorEl(event.currentTarget);
+                      }}
+                    />
+                  </EditButtons>
+                  {renderNotes(category.notes)}
+                </CategoriesListItem>
+              );
+            })}
+          </>
         ) : (
           <NoResultsFound query={query} />
         )}
       </TrashContainer>
+      <Dialog open={openDelAlert} onClose={() => setOpenDelAlert(false)}>
+        <DeleteAlert
+          setOpen={setOpenDelAlert}
+          deleteCallback={deleteCallback}
+        />
+      </Dialog>
     </Grid>
   );
 }

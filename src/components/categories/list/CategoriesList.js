@@ -28,12 +28,13 @@ import {
   DeleteMenuItem,
   DeleteSvg,
 } from '../Categories.styled.js';
-import { InputAdornment, MenuItem } from '@mui/material';
+import { Dialog, InputAdornment, MenuItem } from '@mui/material';
 import { useCategoriesSearch } from '../../../hooks/useSearch.js';
 import NoResultsFound from '../../noResults/NoResultsFound.js';
 import CategorySvg from '../../shared/CategorySvg.js';
 import { archiveCategory } from '../../../actions/Actions.js';
 import InfoCategory from '../infoCategory/InfoCategory.js';
+import ArchiveAlert from '../../alerts/ArchiveAlert.js';
 
 function CategoriesList({ categories }) {
   const dispatch = useDispatch();
@@ -44,6 +45,11 @@ function CategoriesList({ categories }) {
   const [query, setQuery] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
   const searchData = useCategoriesSearch(query, categories, false);
+  const [openDelAlert, setOpenDelAlert] = useState(false);
+  const archiveCallback = () => {
+    dispatch(archiveCategory(clickedCategory.id));
+    idbAddItem({ ...clickedCategory, archived: true }, 'categories');
+  };
 
   return (
     <>
@@ -115,16 +121,13 @@ function CategoriesList({ categories }) {
                         {t('CATEGORIES.EDIT')}
                       </EditLinkContainer>
                     </MenuItem>
-                    <DeleteMenuItem onClick={() => setAnchorEl(null)}>
-                      <FlexContainer
-                        onClick={() => {
-                          dispatch(archiveCategory(clickedCategory.id));
-                          idbAddItem(
-                            { ...clickedCategory, archived: true },
-                            'categories',
-                          );
-                        }}
-                      >
+                    <DeleteMenuItem
+                      onClick={() => {
+                        setAnchorEl(null);
+                        setOpenDelAlert(true);
+                      }}
+                    >
+                      <FlexContainer>
                         <DeleteSvg as={ArchiveIcon} />
                         {t('CATEGORIES.ARCHIVE')}
                       </FlexContainer>
@@ -145,6 +148,12 @@ function CategoriesList({ categories }) {
       ) : (
         <NoResultsFound query={query} />
       )}
+      <Dialog open={openDelAlert} onClose={() => setOpenDelAlert(false)}>
+        <ArchiveAlert
+          setOpen={setOpenDelAlert}
+          archiveCallback={archiveCallback}
+        />
+      </Dialog>
     </>
   );
 }

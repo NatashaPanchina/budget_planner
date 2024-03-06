@@ -33,11 +33,16 @@ import {
 } from '../Categories.styled.js';
 import dayjs from 'dayjs';
 import { doneEventHandler } from './utils/index.js';
+import { archiveCategory } from '../../../actions/Actions.js';
+import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
+import { Dialog } from '@mui/material';
+import ArchiveAlert from '../../alerts/ArchiveAlert.js';
 
 function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [id, setId] = useState('');
+  const [creationDate, setCreationDate] = useState(Date.now());
   const [categoryType, setCategoryType] = useState('expense');
   const [description, setDescription] = useState('');
   const [selectedColor, setSelectedColor] = useState(colors.green[600]);
@@ -46,11 +51,31 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState(['']);
   const SelectedIcon = categoryIcons[icon];
-
   const [anchorColorsEl, setAnchorColorsEl] = useState(null);
   const [anchorIconsEl, setAnchorIconsEl] = useState(null);
   const openColors = Boolean(anchorColorsEl);
   const openIcons = Boolean(anchorIconsEl);
+  const [openDelAlert, setOpenDelAlert] = useState(false);
+  const archiveCallback = () => {
+    setOpenDialog(false);
+    dispatch(archiveCategory(clickedCategory));
+    idbAddItem(
+      {
+        id,
+        creationDate,
+        visible: true,
+        type: categoryType,
+        description,
+        color: selectedColor,
+        icon,
+        date,
+        notes,
+        tags,
+        archived: true,
+      },
+      'categories',
+    );
+  };
 
   useEffect(() => {
     const selectedCategory = categories.find(
@@ -58,6 +83,7 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
     );
     if (!selectedCategory) return;
     setId(selectedCategory.id);
+    setCreationDate(selectedCategory.creationDate);
     setCategoryType(selectedCategory.type);
     setDescription(selectedCategory.description);
     setSelectedColor(selectedCategory.color);
@@ -72,7 +98,11 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
       <HeaderDialog>
         {t('INFO_CATEGORY.CATEGORY_INFORMATION')}
         <FilterTooltip title={t('CATEGORIES.ARCHIVE')} arrow>
-          <ArchiveButton>
+          <ArchiveButton
+            onClick={() => {
+              setOpenDelAlert(true);
+            }}
+          >
             <ArchiveButtonSvg as={ArchiveIcon} />
           </ArchiveButton>
         </FilterTooltip>
@@ -190,6 +220,12 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
           <ButtonTitle>{t('INFO_CATEGORY.CANCEL')}</ButtonTitle>
         </CancelButton>
       </AddFormButtonsContainer>
+      <Dialog open={openDelAlert} onClose={() => setOpenDelAlert(false)}>
+        <ArchiveAlert
+          setOpen={setOpenDelAlert}
+          archiveCallback={archiveCallback}
+        />
+      </Dialog>
     </>
   );
 }

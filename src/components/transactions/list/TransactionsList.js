@@ -47,13 +47,14 @@ import {
   SearchField,
   ToggleMenu,
 } from '../../../theme/global';
-import { InputAdornment, MenuItem } from '@mui/material';
+import { Dialog, InputAdornment, MenuItem } from '@mui/material';
 import { useTransactionsSearch } from '../../../hooks/useSearch';
 import NoResultsFound from '../../noResults/NoResultsFound';
 import CategorySvg from '../../shared/CategorySvg';
 import AccountSvg from '../../shared/AccountSvg';
 import { names } from '../../../utils/constants/currencies';
 import InfoTransaction from '../infoTransaction/InfoTransaction';
+import DeleteAlert from '../../alerts/DeleteAlert';
 
 function TransactionsList({ transactions, accounts, categories }) {
   const header = useSelector((state) => state.header);
@@ -67,6 +68,9 @@ function TransactionsList({ transactions, accounts, categories }) {
   const [query, setQuery] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
   const searchData = useTransactionsSearch(query, transactions);
+  const [openDelAlert, setOpenDelAlert] = useState(false);
+  const deleteCallback = () =>
+    deleteClick(clickedTransaction, accounts, dispatch, mainCurrency);
 
   return (
     <>
@@ -213,7 +217,7 @@ function TransactionsList({ transactions, accounts, categories }) {
                       <DeleteMenuItem
                         onClick={() => {
                           setAnchorEl(null);
-                          deleteClick(clickedTransaction, accounts, dispatch);
+                          setOpenDelAlert(true);
                         }}
                       >
                         <FlexContainer>
@@ -238,6 +242,12 @@ function TransactionsList({ transactions, accounts, categories }) {
       ) : (
         <NoResultsFound query={query} />
       )}
+      <Dialog open={openDelAlert} onClose={() => setOpenDelAlert(false)}>
+        <DeleteAlert
+          setOpen={setOpenDelAlert}
+          deleteCallback={deleteCallback}
+        />
+      </Dialog>
     </>
   );
 }
