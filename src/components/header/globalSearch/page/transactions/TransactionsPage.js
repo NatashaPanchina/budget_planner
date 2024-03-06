@@ -23,16 +23,16 @@ import { formatDineroOutput } from '../../../../../utils/format/cash';
 import { dinero } from 'dinero.js';
 import { deleteClick, renderNotes } from '../../../../transactions/list/utils';
 import { InfoDialog, ToggleMenu } from '../../../../../theme/global';
-import { MenuItem } from '@mui/material';
+import { Dialog, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { deleteTransaction, editAccount } from '../../../../../actions/Actions';
 import { ReactComponent as ToggleEditIcon } from '../../../../../assets/icons/shared/toggleEdit.svg';
 import { ReactComponent as EditIcon } from '../../../../../assets/icons/shared/edit.svg';
 import { ReactComponent as DeleteIcon } from '../../../../../assets/icons/shared/delete.svg';
 import CategorySvg from '../../../../shared/CategorySvg';
 import AccountSvg from '../../../../shared/AccountSvg';
 import InfoTransaction from '../../../../transactions/infoTransaction/InfoTransaction';
+import DeleteAlert from '../../../../alerts/DeleteAlert';
 
 function TransactionsPage({
   transactions,
@@ -47,6 +47,9 @@ function TransactionsPage({
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openDelAlert, setOpenDelAlert] = useState(false);
+  const deleteCallback = () =>
+    deleteClick(clickedTransaction, accounts, dispatch, mainCurrency);
 
   return transactions.length ? (
     <>
@@ -134,18 +137,13 @@ function TransactionsPage({
                       {t('TRANSACTIONS.EDIT')}
                     </EditLinkContainer>
                   </MenuItem>
-                  <DeleteMenuItem onClick={() => setAnchorEl(null)}>
-                    <FlexContainer
-                      onClick={() =>
-                        deleteClick(
-                          clickedTransaction,
-                          accounts,
-                          editAccount,
-                          deleteTransaction,
-                          dispatch,
-                        )
-                      }
-                    >
+                  <DeleteMenuItem
+                    onClick={() => {
+                      setAnchorEl(null);
+                      setOpenDelAlert(true);
+                    }}
+                  >
+                    <FlexContainer>
                       <DeleteButtonSvg as={DeleteIcon} />
                       {t('TRANSACTIONS.DELETE')}
                     </FlexContainer>
@@ -163,6 +161,12 @@ function TransactionsPage({
           </div>
         );
       })}
+      <Dialog open={openDelAlert} onClose={() => setOpenDelAlert(false)}>
+        <DeleteAlert
+          setOpen={setOpenDelAlert}
+          deleteCallback={deleteCallback}
+        />
+      </Dialog>
     </>
   ) : (
     <div>

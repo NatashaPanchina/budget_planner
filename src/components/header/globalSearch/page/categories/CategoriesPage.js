@@ -17,7 +17,7 @@ import {
   MobItemButtonSvg,
   ToggleMenu,
 } from '../../../../../theme/global';
-import { MenuItem } from '@mui/material';
+import { Dialog, MenuItem } from '@mui/material';
 import { idbAddItem } from '../../../../../indexedDB/IndexedDB';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -29,6 +29,7 @@ import { ReactComponent as ArchiveIcon } from '../../../../../assets/icons/share
 import { ReactComponent as ToggleEditIcon } from '../../../../../assets/icons/shared/toggleEdit.svg';
 import CategorySvg from '../../../../shared/CategorySvg';
 import InfoCategory from '../../../../categories/infoCategory/InfoCategory';
+import ArchiveAlert from '../../../../alerts/ArchiveAlert';
 
 function CategoriesPage({ categories, query }) {
   const dispatch = useDispatch();
@@ -37,6 +38,11 @@ function CategoriesPage({ categories, query }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openDelAlert, setOpenDelAlert] = useState(false);
+  const archiveCallback = () => {
+    dispatch(archiveCategory(clickedCategory.id));
+    idbAddItem({ ...clickedCategory, archived: true }, 'categories');
+  };
 
   return categories.length ? (
     <>
@@ -89,16 +95,13 @@ function CategoriesPage({ categories, query }) {
                       {t('CATEGORIES.EDIT')}
                     </EditLinkContainer>
                   </MenuItem>
-                  <DeleteMenuItem onClick={() => setAnchorEl(null)}>
-                    <FlexContainer
-                      onClick={() => {
-                        dispatch(archiveCategory(clickedCategory.id));
-                        idbAddItem(
-                          { ...clickedCategory, archived: true },
-                          'categories',
-                        );
-                      }}
-                    >
+                  <DeleteMenuItem
+                    onClick={() => {
+                      setAnchorEl(null);
+                      setOpenDelAlert(true);
+                    }}
+                  >
+                    <FlexContainer>
                       <DeleteSvg as={ArchiveIcon} />
                       {t('CATEGORIES.ARCHIVE')}
                     </FlexContainer>
@@ -116,6 +119,12 @@ function CategoriesPage({ categories, query }) {
           </React.Fragment>
         );
       })}
+      <Dialog open={openDelAlert} onClose={() => setOpenDelAlert(false)}>
+        <ArchiveAlert
+          setOpen={setOpenDelAlert}
+          archiveCallback={archiveCallback}
+        />
+      </Dialog>
     </>
   ) : (
     <div>
