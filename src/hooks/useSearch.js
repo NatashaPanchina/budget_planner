@@ -14,25 +14,157 @@ import {
   createFilterType,
   filterCategories,
 } from '../components/categories/utils';
+import { sortByDate } from '../utils/sort';
 
-export const useTransactionsSearch = (query, transactions) => {
+const sortTransactions = (
+  transactions,
+  sort,
+  type,
+  accounts,
+  categories,
+  currencies,
+  amount,
+  notes,
+) => {
+  let result = transactions;
+
+  if (type !== 'All') {
+    result = transactions.filter(
+      (transaction) => transaction.transactionType === type,
+    );
+  }
+
+  if (accounts) {
+    result = result.filter((transaction) => {
+      for (const description in accounts) {
+        const account = accounts[description];
+        if (account.checked && transaction.account === account.id) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
+
+  if (categories) {
+    result = result.filter((transaction) => {
+      for (const description in categories) {
+        const category = categories[description];
+        if (category.checked && transaction.category === category.id) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
+
+  if (currencies) {
+    result = result.filter((transaction) => {
+      for (const description in currencies) {
+        const currency = currencies[description];
+        if (currency && transaction.amount.currency.code === description) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
+
+  if (amount) {
+    if (amount.from !== null && amount.to !== null) {
+      const from = amount.from;
+      const to = amount.to;
+      result = result.filter((transaction) => {
+        const transactionAmount = Number(transaction.formatAmount);
+        return transactionAmount >= from && transactionAmount <= to;
+      });
+    }
+  }
+
+  if (notes !== 'All') {
+    result = result.filter((transaction) => {
+      if (notes === 'false' && transaction.notes.length === 0) return true;
+      if (notes === 'true' && transaction.notes.length > 0) return true;
+      return false;
+    });
+  }
+
+  switch (sort) {
+    case 'By date':
+      return sortByDate(result);
+    case 'By adding':
+      return result
+        .slice()
+        .sort((a, b) =>
+          a.creationDate < b.creationDate
+            ? 1
+            : a.creationDate > b.creationDate
+            ? -1
+            : 0,
+        );
+    default:
+      return result;
+  }
+};
+
+export const useTransactionsSearch = (query, transactions, filters) => {
   const { filterAccount, filterType } = useParams();
   const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const { sort, type, accounts, categories, currencies, amount, notes } =
+    filters;
 
   useEffect(() => {
-    const filtered = filterQuery(query);
-    if (filtered) {
-      idbSearchItems(filtered, 'transactions').then((result) => {
-        setFilteredTransactions(
-          filterByType(filterByAccounts(result, filterAccount), filterType),
+    console.log('useEffect');
+    const filteredQuery = filterQuery(query);
+    if (filteredQuery) {
+      idbSearchItems(filteredQuery, 'transactions').then((result) => {
+        let sortedTransactions = filterByType(
+          filterByAccounts(result, filterAccount),
+          filterType,
         );
+        sortedTransactions = sortTransactions(
+          sortedTransactions,
+          sort,
+          type,
+          accounts,
+          categories,
+          currencies,
+          amount,
+          notes,
+        );
+        setFilteredTransactions(sortedTransactions);
       });
     } else {
-      setFilteredTransactions(
-        filterByType(filterByAccounts(transactions, filterAccount), filterType),
+      let sortedTransactions = filterByType(
+        filterByAccounts(transactions, filterAccount),
+        filterType,
       );
+      sortedTransactions = sortTransactions(
+        sortedTransactions,
+        sort,
+        type,
+        accounts,
+        categories,
+        currencies,
+        amount,
+        notes,
+      );
+      setFilteredTransactions(sortedTransactions);
     }
-  }, [transactions, filterType, filterAccount, query]);
+  }, [
+    transactions,
+    filterType,
+    filterAccount,
+    query,
+    sort,
+    type,
+    accounts,
+    categories,
+    currencies,
+    amount.from,
+    amount.to,
+    notes,
+  ]);
 
   return filteredTransactions;
 };

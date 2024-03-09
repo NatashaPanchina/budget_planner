@@ -19,16 +19,6 @@ export const pages = {
       cards: '/accounts/trash/cards',
       cash: '/accounts/trash/cash',
     },
-    add: {
-      card: '/accounts/addAccount/card',
-      cash: '/accounts/addAccount/cash',
-    },
-  },
-  newTransaction: {
-    main: '/newTransaction',
-    expense: '/newTransaction/expense',
-    income: '/newTransaction/income',
-    transfer: '/newTransaction/transfer',
   },
   categories: {
     main: '/categories',
@@ -40,10 +30,6 @@ export const pages = {
       all: '/categories/trash/all',
       expenses: '/categories/trash/expenses',
       incomes: '/categories/trash/incomes',
-    },
-    add: {
-      expense: '/categories/addCategory/expense',
-      income: '/categories/addCategory/income',
     },
   },
   analysis: {

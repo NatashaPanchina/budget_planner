@@ -25,6 +25,7 @@ import {
   IDB_FETCH_TRANSACTIONS_INIT,
   IDB_FETCH_TRANSACTIONS_SUCCESS,
   CHANGE_MODE,
+  UPDATE_TRANSACTIONS_FILTERS,
 } from './ActionTypes';
 import { idbOpen } from '../indexedDB/IndexedDB';
 
@@ -39,6 +40,13 @@ export const changeMode = (mode) => {
   return {
     type: CHANGE_MODE,
     payload: mode,
+  };
+};
+
+export const updateTransactionsFilters = (filters) => {
+  return {
+    type: UPDATE_TRANSACTIONS_FILTERS,
+    payload: filters,
   };
 };
 

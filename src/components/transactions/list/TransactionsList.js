@@ -57,6 +57,7 @@ import InfoTransaction from '../infoTransaction/InfoTransaction';
 import DeleteAlert from '../../alerts/DeleteAlert';
 
 function TransactionsList({ transactions, accounts, categories }) {
+  const filters = useSelector((state) => state.transactions.filters);
   const header = useSelector((state) => state.header);
   const mainCurrency = header.profile ? header.profile.currency : names.USD;
   const dispatch = useDispatch();
@@ -67,7 +68,7 @@ function TransactionsList({ transactions, accounts, categories }) {
   const open = Boolean(anchorEl);
   const [query, setQuery] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
-  const searchData = useTransactionsSearch(query, transactions);
+  const searchData = useTransactionsSearch(query, transactions, filters);
   const [openDelAlert, setOpenDelAlert] = useState(false);
   const deleteCallback = () =>
     deleteClick(clickedTransaction, accounts, dispatch, mainCurrency);

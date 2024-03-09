@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Grid } from '@mui/material';
+import { Drawer, Grid, MenuItem } from '@mui/material';
 import AccountsSlider from './slider/AccountsSlider.js';
 import TransactionsList from './list/TransactionsList.js';
 import {
   fetchTransactionsData,
   fetchAccountsData,
   fetchCategoriesData,
+  updateTransactionsFilters,
 } from '../../actions/Actions';
 import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.svg';
 import { ReactComponent as SortIcon } from '../../assets/icons/shared/sort.svg';
@@ -24,11 +25,14 @@ import {
   FilterTooltip,
   SortButtonsContainer,
   MobileFilterButton,
+  ToggleMenu,
 } from '../../theme/global.js';
 import Loading from '../loading/Loading.js';
 import { names } from '../../utils/constants/currencies.js';
+import AllFilters from './filters/AllFilters.js';
 
 export default function Transactions() {
+  const filters = useSelector((state) => state.transactions.filters);
   const header = useSelector((state) => state.header);
   const transactions = useSelector((state) => state.transactions);
   const accounts = useSelector((state) => state.accounts);
@@ -39,6 +43,9 @@ export default function Transactions() {
   const [categoriesData, setCategoriesData] = useState([]);
   const [transactionsData, setTransactionsData] = useState([]);
   const { t } = useTranslation();
+  const [openFilters, setOpenFilters] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     dispatch(fetchAccountsData());
@@ -76,7 +83,7 @@ export default function Transactions() {
         <HeaderTitle>{t('TRANSACTIONS.TRANSACTIONS_HEADER')}</HeaderTitle>
         <FilterButtonsContainer>
           <SortButtonsContainer>
-            <FilterButton>
+            <FilterButton onClick={() => setOpenFilters(true)}>
               <FilterSvg as={FilterIcon} />
               <FilterTitle>{t('TRANSACTIONS.FILTER_KEY')}</FilterTitle>
             </FilterButton>
@@ -84,12 +91,49 @@ export default function Transactions() {
               <FilterSvg as={CalendarIcon} />
               <FilterTitle>{t('TRANSACTIONS.FILTER_DATE')}</FilterTitle>
             </FilterButton>
-            <FilterButton>
+            <FilterButton
+              onClick={(event) => {
+                setAnchorEl(event.currentTarget);
+              }}
+            >
               <FilterSvg as={SortIcon} />
-              <FilterTitle>Filter</FilterTitle>
+              <FilterTitle>
+                {filters.sort === 'By date'
+                  ? t('TRANSACTIONS_FILTERS.BY_DATE')
+                  : t('TRANSACTIONS_FILTERS.BY_ADDING')}
+              </FilterTitle>
             </FilterButton>
+            <ToggleMenu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={() => setAnchorEl(null)}
+            >
+              <MenuItem
+                onClick={() => {
+                  setAnchorEl(null);
+                  dispatch(
+                    updateTransactionsFilters({ ...filters, sort: 'By date' }),
+                  );
+                }}
+              >
+                {t('TRANSACTIONS_FILTERS.BY_DATE')}
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setAnchorEl(null);
+                  dispatch(
+                    updateTransactionsFilters({
+                      ...filters,
+                      sort: 'By adding',
+                    }),
+                  );
+                }}
+              >
+                {t('TRANSACTIONS_FILTERS.BY_ADDING')}
+              </MenuItem>
+            </ToggleMenu>
           </SortButtonsContainer>
-          <MobileFilterButton>
+          <MobileFilterButton onClick={() => setOpenFilters(true)}>
             <FilterSvg as={FilterIcon} />
           </MobileFilterButton>
           <FilterTooltip title={t('TRANSACTIONS.NEW_TRANSACTION')} arrow>
@@ -100,6 +144,17 @@ export default function Transactions() {
           </FilterTooltip>
         </FilterButtonsContainer>
       </Header>
+      <Drawer
+        anchor="right"
+        open={openFilters}
+        onClose={() => setOpenFilters(false)}
+      >
+        <AllFilters
+          accounts={accountsData}
+          categories={categoriesData}
+          setOpenFilters={setOpenFilters}
+        />
+      </Drawer>
       <Grid item xs={12} sm={12} md={3} lg={3}>
         <AccountsSlider
           mainCurrency={mainCurrency}

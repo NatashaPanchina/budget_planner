@@ -1,8 +1,11 @@
 import React from 'react';
 import {
+  Checkbox,
   Dialog,
+  FormControlLabel,
   Menu,
   Popover,
+  Radio,
   TextField,
   Tooltip,
   alpha,
@@ -210,18 +213,15 @@ export const HeaderTitle = styled('div')((props) => ({
 }));
 
 export const MobHeaderTitle = styled('div')((props) => ({
-  height: 60,
-  width: '100vw',
   color: props.theme.colors.text.primary,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  zIndex: 150,
   backgroundColor: props.theme.colors.background.body,
-  '@media (min-width: 768px)': {
+  width: `calc(100% - ${props.theme.spacing(3 * 2)})`,
+  padding: props.theme.spacing(3),
+  fontSize: '1.2rem',
+  '@media (min-width: 600px)': {
     display: 'none',
   },
 }));
@@ -816,4 +816,101 @@ export const NoResultsContainer = styled('div')((props) => ({
 
 export const NoResults = styled('div')(() => ({
   textAlign: 'center',
+}));
+
+export const AllFiltersContainer = styled('div')((props) => ({
+  backgroundColor: props.theme.colors.background.primary,
+  padding: `${props.theme.spacing(6)} ${props.theme.spacing(8)}`,
+  width: `calc(100% - ${props.theme.spacing(8 * 2)})`,
+  color: props.theme.colors.text.primary,
+  position: 'relative',
+}));
+
+export const AllFiltersHeader = styled('div')(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  fontSize: '1.3rem',
+}));
+
+export const FilterContainer = styled('div')((props) => ({
+  padding: `${props.theme.spacing(4)} 0`,
+}));
+
+export const AllFiltersTitle = styled('div')((props) => ({
+  fontWeight: 600,
+  marginBottom: props.theme.spacing(4),
+}));
+
+export const LabelContainer = styled(FormControlLabel)((props) => ({
+  padding: `0 0 ${props.theme.spacing(3)} 0`,
+  '& .MuiTypography-root': {
+    fontSize: '0.9rem',
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+    WebkitFontSmoothing: 'antialiased',
+    MozOsxFontSmoothing: 'grayscale',
+  },
+  '&.MuiFormControlLabel-root': {
+    marginLeft: 0,
+  },
+}));
+
+export const RadioContainer = styled(Radio)((props) => ({
+  color: props.theme.colors.text.darker,
+  '&.Mui-checked': {
+    color: props.theme.colors.main.violet,
+  },
+  '&.MuiButtonBase-root': {
+    padding: 0,
+    paddingRight: props.theme.spacing(2),
+  },
+}));
+
+export const CheckboxContainer = styled(Checkbox)((props) => ({
+  color: props.theme.colors.text.darker,
+  '&.Mui-checked': {
+    color: props.theme.colors.main.violet,
+  },
+  '&.MuiButtonBase-root': {
+    padding: 0,
+    paddingRight: props.theme.spacing(2),
+  },
+}));
+
+export const ShowButton = styled(DoneButton)(() => ({
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  position: 'sticky',
+  bottom: 20,
+}));
+
+export const FilterSection = styled('div')((props) => ({
+  maxHeight: 200,
+  overflowY: 'auto',
+  '&::-webkit-scrollbar': {
+    width: 5,
+  },
+  '&::-webkit-scrollbar-thumb': {
+    background: props.theme.colors.background.ordinary,
+    borderRadius: props.theme.borderRadius * 2,
+  },
+}));
+
+export const FilterSearch = styled(SearchField)((props) => ({
+  '& .MuiOutlinedInput-root': {
+    '& .MuiInputBase-input': {
+      padding: props.theme.spacing(2),
+    },
+  },
+}));
+
+export const ResetButton = styled('div')((props) => ({
+  color: props.theme.colors.main.violet,
+  fontSize: '0.95rem',
+  cursor: 'pointer',
+  marginLeft: props.theme.spacing(10),
+  '&:hover': {
+    color: props.theme.colors.main.purple,
+  },
 }));
