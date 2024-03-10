@@ -41,7 +41,7 @@ import {
   SelectHeaderButton,
   TextInputField,
 } from '../../../theme/global.js';
-import { InputAdornment } from '@mui/material';
+import { Dialog, InputAdornment } from '@mui/material';
 
 import dayjs from 'dayjs';
 import {
@@ -52,6 +52,8 @@ import { currencies, names } from '../../../utils/constants/currencies.js';
 import { doneEventHandler } from './utils/index.js';
 import AddCategory from '../../categories/addCategory/AddCategory.js';
 import AddAccount from '../../accounts/addAccount/AddAccount.js';
+import { deleteClick } from '../list/utils/index.js';
+import DeleteAlert from '../../alerts/DeleteAlert.js';
 
 function InfoTransaction({
   clickedTransaction,
@@ -64,6 +66,7 @@ function InfoTransaction({
   const dispatch = useDispatch();
   const header = useSelector((state) => state.header);
   const mainCurrency = header.profile ? header.profile.currency : names.USD;
+  const [transaction, setTransaction] = useState(null);
   const [id, setId] = useState('');
   const [creationDate, setCreationDate] = useState(Date.now());
   const [transactionType, setTransactionType] = useState('expense');
@@ -78,6 +81,11 @@ function InfoTransaction({
   const [tags, setTags] = useState([]);
   const [openCategoryDialog, setOpenCategoryDialog] = useState(false);
   const [openAccountDialog, setOpenAccountDialog] = useState(false);
+  const [openDelAlert, setOpenDelAlert] = useState(false);
+  const deleteCallback = () => {
+    setOpenDialog(false);
+    deleteClick(transaction, accounts, dispatch, mainCurrency);
+  };
 
   const notArchivedCategories = categories.filter(
       (category) => category.archived === false,
@@ -98,6 +106,7 @@ function InfoTransaction({
     );
     const amount = selectedTransaction.amount;
     if (!selectedTransaction) return;
+    setTransaction(selectedTransaction);
     setId(selectedTransaction.id);
     setCreationDate(selectedTransaction.creationDate);
     setTransactionType(selectedTransaction.transactionType);
@@ -115,7 +124,11 @@ function InfoTransaction({
       <HeaderDialog>
         {t('INFO_TRANSACTION.TITLE')}
         <FilterTooltip title={t('TRANSACTIONS.DELETE')} arrow>
-          <ArchiveButton>
+          <ArchiveButton
+            onClick={() => {
+              setOpenDelAlert(true);
+            }}
+          >
             <ArchiveButtonSvg as={DeleteIcon} />
           </ArchiveButton>
         </FilterTooltip>
@@ -288,6 +301,12 @@ function InfoTransaction({
           setOpenDialog={setOpenAccountDialog}
         />
       </InfoDialog>
+      <Dialog open={openDelAlert} onClose={() => setOpenDelAlert(false)}>
+        <DeleteAlert
+          setOpen={setOpenDelAlert}
+          deleteCallback={deleteCallback}
+        />
+      </Dialog>
     </>
   );
 }

@@ -111,12 +111,12 @@ export default function Navigation() {
             arrow
             placement="right"
           >
-            <HiddenLinkContainer>
+            <LinkContainer>
               <Link to={pages.accounts.main}>
                 <Svg as={AccountsIcon} />
                 <LinkTitle>{t('NAVIGATION.ACCOUNTS')}</LinkTitle>
               </Link>
-            </HiddenLinkContainer>
+            </LinkContainer>
           </CustomTooltip>
           <CustomTooltip
             title={t('NAVIGATION.NEW_TRANSACTION')}

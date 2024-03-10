@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { dinero } from 'dinero.js';
 import { formatDineroOutput } from '../../../utils/format/cash';
@@ -36,18 +36,16 @@ import {
   DeleteMenuItem,
   DeleteSvg,
 } from '../Accounts.styled';
-import { InputAdornment, MenuItem } from '@mui/material';
+import { Dialog, InputAdornment, MenuItem } from '@mui/material';
 import { useAccountsSearch } from '../../../hooks/useSearch';
 import NoResultsFound from '../../noResults/NoResultsFound';
 import { archiveAccount } from '../../../actions/Actions.js';
 import InfoAccount from '../infoAccount/InfoAccount.js';
-
-function archiveEventButton(account, dispatch) {
-  dispatch(archiveAccount(account.id));
-  idbAddItem({ ...account, archived: true }, 'accounts');
-}
+import ArchiveAlert from '../../alerts/ArchiveAlert.js';
 
 function AccountsList({ accounts, localeFilterAccount, categories }) {
+  const filters = useSelector((state) => state.accounts.filters);
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [clickedAccount, setClickedAccount] = useState('');
@@ -55,7 +53,12 @@ function AccountsList({ accounts, localeFilterAccount, categories }) {
   const open = Boolean(anchorEl);
   const [query, setQuery] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
-  const searchData = useAccountsSearch(query, accounts, false);
+  const searchData = useAccountsSearch(query, accounts, false, filters);
+  const [openDelAlert, setOpenDelAlert] = useState(false);
+  const archiveCallback = () => {
+    dispatch(archiveAccount(clickedAccount.id));
+    idbAddItem({ ...clickedAccount, archived: true }, 'accounts');
+  };
 
   return (
     <>
@@ -143,12 +146,13 @@ function AccountsList({ accounts, localeFilterAccount, categories }) {
                       </CardButtonlink>
                     </FlexContainer>
                   </MenuItem>
-                  <DeleteMenuItem onClick={() => setAnchorEl(null)}>
-                    <FlexContainer
-                      onClick={() =>
-                        archiveEventButton(clickedAccount, dispatch)
-                      }
-                    >
+                  <DeleteMenuItem
+                    onClick={() => {
+                      setAnchorEl(null);
+                      setOpenDelAlert(true);
+                    }}
+                  >
+                    <FlexContainer>
                       <DeleteSvg as={ArchiveIcon} />
                       {t('ACCOUNTS.ARCHIVE')}
                     </FlexContainer>
@@ -168,6 +172,12 @@ function AccountsList({ accounts, localeFilterAccount, categories }) {
       ) : (
         <NoResultsFound query={query} />
       )}
+      <Dialog open={openDelAlert} onClose={() => setOpenDelAlert(false)}>
+        <ArchiveAlert
+          setOpen={setOpenDelAlert}
+          archiveCallback={archiveCallback}
+        />
+      </Dialog>
     </>
   );
 }

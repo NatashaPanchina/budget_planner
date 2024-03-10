@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { fetchCategoriesData } from '../../actions/Actions.js';
-import { createLocaleCategories } from './utils/index.js';
+import {
+  fetchCategoriesData,
+  updateCategoriesFilters,
+} from '../../actions/Actions.js';
+import { createLocaleCategories, getFiltersTitle } from './utils/index.js';
 import CategoriesBar from './barChart/CategoriesBar.js';
 import CategoriesList from './list/CategoriesList.js';
 
@@ -42,12 +45,14 @@ import {
   MobileFilterButton,
   SortButtonsContainer,
   InfoDialog,
+  ToggleMenu,
 } from '../../theme/global.js';
 import { pages } from '../../utils/constants/pages.js';
-import { Grid } from '@mui/material';
+import { Drawer, Grid, MenuItem } from '@mui/material';
 import { CountInfo } from '../transactions/Transactions.styled.js';
 import Loading from '../loading/Loading.js';
 import AddCategory from './addCategory/AddCategory.js';
+import AllFilters from './filters/AllFilters.js';
 
 function createBarData(keys, allCount, expenseCount, incomeCount) {
   if (!keys) return [];
@@ -68,9 +73,10 @@ function createBarData(keys, allCount, expenseCount, incomeCount) {
 }
 
 export default function Categories() {
-  const { status, categories } = useSelector((state) => state.categories);
+  const { status, categories, filters } = useSelector(
+    (state) => state.categories,
+  );
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
   const notArchivedCategories = categories.filter(
     (category) => category.archived === false,
@@ -82,6 +88,9 @@ export default function Categories() {
   ).length;
   const incomeCount = allCount - expenseCount;
   const [openDialog, setOpenDialog] = useState(false);
+  const [openFilters, setOpenFilters] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     dispatch(fetchCategoriesData());
@@ -95,7 +104,7 @@ export default function Categories() {
         <HeaderTitle>{t('CATEGORIES.CATEGORIES_TITLE')}</HeaderTitle>
         <FilterButtonsContainer>
           <SortButtonsContainer>
-            <FilterButton>
+            <FilterButton onClick={() => setOpenFilters(true)}>
               <FilterSvg as={FilterIcon} />
               <FilterTitle>{t('CATEGORIES.FILTER_KEY')}</FilterTitle>
             </FilterButton>
@@ -103,12 +112,58 @@ export default function Categories() {
               <FilterSvg as={CalendarIcon} />
               <FilterTitle>{t('CATEGORIES.FILTER_DATE')}</FilterTitle>
             </FilterButton>
-            <FilterButton>
+            <FilterButton
+              onClick={(event) => {
+                setAnchorEl(event.currentTarget);
+              }}
+            >
               <FilterSvg as={SortIcon} />
-              <FilterTitle>Filter</FilterTitle>
+              <FilterTitle>{t(getFiltersTitle(filters.sort))}</FilterTitle>
             </FilterButton>
+            <ToggleMenu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={() => setAnchorEl(null)}
+            >
+              <MenuItem
+                onClick={() => {
+                  setAnchorEl(null);
+                  dispatch(
+                    updateCategoriesFilters({ ...filters, sort: 'By date' }),
+                  );
+                }}
+              >
+                {t('CATEGORIES_FILTERS.BY_DATE')}
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setAnchorEl(null);
+                  dispatch(
+                    updateCategoriesFilters({
+                      ...filters,
+                      sort: 'By adding',
+                    }),
+                  );
+                }}
+              >
+                {t('CATEGORIES_FILTERS.BY_ADDING')}
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setAnchorEl(null);
+                  dispatch(
+                    updateCategoriesFilters({
+                      ...filters,
+                      sort: 'By alphabet',
+                    }),
+                  );
+                }}
+              >
+                {t('CATEGORIES_FILTERS.BY_ALPHABET')}
+              </MenuItem>
+            </ToggleMenu>
           </SortButtonsContainer>
-          <MobileFilterButton>
+          <MobileFilterButton onClick={() => setOpenFilters(true)}>
             <FilterSvg as={FilterIcon} />
           </MobileFilterButton>
           <FilterTooltip title={t('CATEGORIES.ADD_CATEGORY')} arrow>
@@ -127,6 +182,13 @@ export default function Categories() {
           </CustomTooltip>
         </FilterButtonsContainer>
       </Header>
+      <Drawer
+        anchor="right"
+        open={openFilters}
+        onClose={() => setOpenFilters(false)}
+      >
+        <AllFilters setOpenFilters={setOpenFilters} />
+      </Drawer>
       <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <AddCategory setOpenDialog={setOpenDialog} />
       </InfoDialog>

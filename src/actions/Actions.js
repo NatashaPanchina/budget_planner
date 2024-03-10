@@ -25,6 +25,9 @@ import {
   IDB_FETCH_TRANSACTIONS_INIT,
   IDB_FETCH_TRANSACTIONS_SUCCESS,
   CHANGE_MODE,
+  UPDATE_TRANSACTIONS_FILTERS,
+  UPDATE_ACCOUNTS_FILTERS,
+  UPDATE_CATEGORIES_FILTERS,
 } from './ActionTypes';
 import { idbOpen } from '../indexedDB/IndexedDB';
 
@@ -39,6 +42,13 @@ export const changeMode = (mode) => {
   return {
     type: CHANGE_MODE,
     payload: mode,
+  };
+};
+
+export const updateTransactionsFilters = (filters) => {
+  return {
+    type: UPDATE_TRANSACTIONS_FILTERS,
+    payload: filters,
   };
 };
 
@@ -60,6 +70,13 @@ export const deleteTransaction = (id) => {
   return {
     type: DELETE_TRANSACTION,
     payload: id,
+  };
+};
+
+export const updateCategoriesFilters = (filters) => {
+  return {
+    type: UPDATE_CATEGORIES_FILTERS,
+    payload: filters,
   };
 };
 
@@ -95,6 +112,13 @@ export const deleteCategory = (id) => {
   return {
     type: DELETE_CATEGORY,
     payload: id,
+  };
+};
+
+export const updateAccountsFilters = (filters) => {
+  return {
+    type: UPDATE_ACCOUNTS_FILTERS,
+    payload: filters,
   };
 };
 

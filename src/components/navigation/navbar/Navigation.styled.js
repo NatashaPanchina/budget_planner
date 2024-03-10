@@ -161,7 +161,7 @@ export const SettingsLinkContainer = styled('div')((props) => ({
     left: 0,
     bottom: 0,
     backgroundColor: props.theme.colors.background.primary,
-    fill: props.theme.colors.text.darker,
+    fill: props.theme.colors.svg.pending,
     '&:hover': {
       fill: props.theme.colors.main.violet,
     },
@@ -214,7 +214,7 @@ export const NewTransactionSvg = styled('svg')((props) => ({
 export const Link = styled(NavLink)((props) => ({
   display: 'flex',
   color: props.theme.colors.text.darker,
-  fill: props.theme.colors.text.darker,
+  fill: props.theme.colors.svg.pending,
   height: 50,
   width: '100%',
   alignItems: 'center',
@@ -247,6 +247,7 @@ export const SettingsLink = styled(NavLink)((props) => ({
   height: 'inherit',
   width: 'inherit',
   color: props.theme.colors.text.darker,
+  fill: props.theme.colors.svg.pending,
   '&:hover': {
     color: props.theme.colors.main.violet,
     fill: props.theme.colors.main.violet,

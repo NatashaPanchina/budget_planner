@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { dinero, toDecimal } from 'dinero.js';
+import { dinero, toDecimal, toSnapshot } from 'dinero.js';
 import { colors } from '../../../utils/constants/colors.js';
 import {
   NumericFormatCustom,
+  dineroFromFloat,
   formatDineroOutput,
   formatNumberOutput,
 } from '../../../utils/format/cash';
@@ -50,6 +51,11 @@ import {
 import dayjs from 'dayjs';
 import { doneEventHandler } from './utils/index.js';
 import { currencies, names } from '../../../utils/constants/currencies.js';
+import ArchiveAlert from '../../alerts/ArchiveAlert.js';
+import { Dialog } from '@mui/material';
+import { archiveAccount } from '../../../actions/Actions.js';
+import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
+import { toStringDate } from '../../../utils/format/date/index.js';
 
 function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
   const dispatch = useDispatch();
@@ -69,9 +75,34 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState(['']);
   const cashLocalType = createLocaleAccountType(accountType);
-
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [openDelAlert, setOpenDelAlert] = useState(false);
+  const archiveCallback = () => {
+    setOpenDialog(false);
+    dispatch(archiveAccount(clickedAccount));
+    const newBalance = dineroFromFloat({
+      amount: balance,
+      currency: currencies[currency],
+      scale: 2,
+    });
+    idbAddItem(
+      {
+        id,
+        creationDate,
+        type: accountType,
+        description,
+        formatBalance: balance,
+        balance: toSnapshot(newBalance),
+        color: selectedColor,
+        date: toStringDate(new Date(date.format())),
+        notes,
+        tags,
+        archived: true,
+      },
+      'accounts',
+    );
+  };
 
   useEffect(() => {
     const selectedAccount = accounts.find(
@@ -96,7 +127,11 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
       <HeaderDialog>
         {t(`INFO_ACCOUNT.${cashLocalType}_INFORMATION`)}
         <FilterTooltip title={t('ACCOUNTS.ARCHIVE')} arrow>
-          <ArchiveButton>
+          <ArchiveButton
+            onClick={() => {
+              setOpenDelAlert(true);
+            }}
+          >
             <ArchiveButtonSvg as={ArchiveIcon} />
           </ArchiveButton>
         </FilterTooltip>
@@ -232,6 +267,12 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
           <ButtonTitle>{t('INFO_ACCOUNT.CANCEL')}</ButtonTitle>
         </CancelButton>
       </AddFormButtonsContainer>
+      <Dialog open={openDelAlert} onClose={() => setOpenDelAlert(false)}>
+        <ArchiveAlert
+          setOpen={setOpenDelAlert}
+          archiveCallback={archiveCallback}
+        />
+      </Dialog>
     </>
   );
 }

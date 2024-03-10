@@ -31,10 +31,13 @@ import {
 import { useGlobalTransactionsSearch } from '../../../../hooks/useSearch';
 import TransactionsPage from '../page/transactions/TransactionsPage';
 import Loading from '../../../loading/Loading';
+import { names } from '../../../../utils/constants/currencies';
 
 export default function TransactionsSearch() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const header = useSelector((state) => state.header);
+  const mainCurrency = header.profile ? header.profile.currency : names.USD;
   const transactions = useSelector((state) => state.transactions);
   const accounts = useSelector((state) => state.accounts);
   const categories = useSelector((state) => state.categories);
@@ -114,7 +117,8 @@ export default function TransactionsSearch() {
           onChange={(event) => setQuery(event.target.value)}
           autoComplete="off"
         />
-        {transactions.status === 'loading' ||
+        {header.status === 'loading' ||
+        transactions.status === 'loading' ||
         categories.status === 'loading' ||
         accounts.status === 'loading' ? (
           <Loading />
@@ -123,6 +127,7 @@ export default function TransactionsSearch() {
             transactions={searchTransactions}
             categories={categoriesData}
             accounts={accountsData}
+            mainCurrency={mainCurrency}
             query={query}
           />
         )}

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   MobileExpenseLink,
   MobileIncomeLink,
@@ -6,25 +7,46 @@ import {
   MobileNavigationBackground,
   MobileTransferLink,
 } from './Navigation.styled';
-import { pages } from '../../../utils/constants/pages';
 
 import { ReactComponent as ExpenseIcon } from '../../../assets/icons/navigation/mobExpense.svg';
 import { ReactComponent as IncomeIcon } from '../../../assets/icons/navigation/mobIncome.svg';
 import { ReactComponent as TransferIcon } from '../../../assets/icons/navigation/mobTransfer.svg';
 
-export default function MobNavigation() {
+function MobNavigation({ setTransactionType, setOpenDialog }) {
   return (
     <>
       <MobileNavigationBackground></MobileNavigationBackground>
-      <MobileTransferLink to={`${pages.newTransaction.transfer}/all`}>
+      <MobileTransferLink
+        onClick={() => {
+          setTransactionType('transfer');
+          setOpenDialog(true);
+        }}
+      >
         <MobileLinkSvg as={TransferIcon} />
       </MobileTransferLink>
-      <MobileExpenseLink to={`${pages.newTransaction.expense}/all`}>
+      <MobileExpenseLink
+        onClick={() => {
+          setTransactionType('expense');
+          setOpenDialog(true);
+        }}
+      >
         <MobileLinkSvg as={ExpenseIcon} />
       </MobileExpenseLink>
-      <MobileIncomeLink to={`${pages.newTransaction.income}/all`}>
+      <MobileIncomeLink
+        onClick={() => {
+          setTransactionType('income');
+          setOpenDialog(true);
+        }}
+      >
         <MobileLinkSvg as={IncomeIcon} />
       </MobileIncomeLink>
     </>
   );
 }
+
+MobNavigation.propTypes = {
+  setTransactionType: PropTypes.func,
+  setOpenDialog: PropTypes.func,
+};
+
+export default MobNavigation;

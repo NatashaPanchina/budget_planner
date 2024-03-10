@@ -17,7 +17,7 @@ import { formatDineroOutput } from '../../../../../utils/format/cash';
 import { CurrentBalance } from '../../GlobalSearch.styled';
 import { renderNotes } from '../../../../accounts/utils';
 import { InfoDialog, ToggleMenu } from '../../../../../theme/global';
-import { MenuItem } from '@mui/material';
+import { Dialog, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { archiveAccount } from '../../../../../actions/Actions';
@@ -29,6 +29,7 @@ import { ReactComponent as ToggleEditIcon } from '../../../../../assets/icons/sh
 import cardBackground from '../../../../../assets/icons/shared/cardBackground.svg';
 import { CashListItemWrapper } from '../GlobalSearchPage.styled';
 import InfoAccount from '../../../../accounts/infoAccount/InfoAccount';
+import ArchiveAlert from '../../../../alerts/ArchiveAlert';
 
 function AccountsPage({ accounts, categories, query }) {
   const dispatch = useDispatch();
@@ -37,6 +38,11 @@ function AccountsPage({ accounts, categories, query }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openDelAlert, setOpenDelAlert] = useState(false);
+  const archiveCallback = () => {
+    dispatch(archiveAccount(clickedAccount.id));
+    idbAddItem({ ...clickedAccount, archived: true }, 'accounts');
+  };
 
   return accounts.length ? (
     <>
@@ -98,13 +104,13 @@ function AccountsPage({ accounts, categories, query }) {
                     </CardButtonlink>
                   </FlexContainer>
                 </MenuItem>
-                <DeleteMenuItem onClick={() => setAnchorEl(null)}>
-                  <FlexContainer
-                    onClick={() => {
-                      dispatch(archiveAccount(account.id));
-                      idbAddItem({ ...account, archived: true }, 'accounts');
-                    }}
-                  >
+                <DeleteMenuItem
+                  onClick={() => {
+                    setAnchorEl(null);
+                    setOpenDelAlert(true);
+                  }}
+                >
+                  <FlexContainer>
                     <DeleteSvg as={ArchiveIcon} />
                     {t('ACCOUNTS.ARCHIVE')}
                   </FlexContainer>
@@ -121,6 +127,12 @@ function AccountsPage({ accounts, categories, query }) {
           </CashListItemWrapper>
         );
       })}
+      <Dialog open={openDelAlert} onClose={() => setOpenDelAlert(false)}>
+        <ArchiveAlert
+          setOpen={setOpenDelAlert}
+          archiveCallback={archiveCallback}
+        />
+      </Dialog>
     </>
   ) : (
     <div>

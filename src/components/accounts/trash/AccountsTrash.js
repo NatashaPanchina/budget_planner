@@ -2,14 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
 import { dinero } from 'dinero.js';
-
 import { formatDineroOutput } from '../../../utils/format/cash';
 import {
   createAccountFilter,
   createLocaleAccountType,
-  filterAccounts,
   renderNotes,
 } from '../utils';
 import { idbAddItem, idbDeleteItem } from '../../../indexedDB/IndexedDB';
@@ -20,16 +17,13 @@ import {
   deleteAccount,
   deleteTransaction,
 } from '../../../actions/Actions';
-
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 import { ReactComponent as RestoreIcon } from '../../../assets/icons/shared/restore.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delete.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
-
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
-
 import {
   BackLink,
   BackLinkSvg,
@@ -55,10 +49,11 @@ import {
   DeleteSvg,
 } from '../Accounts.styled';
 import { pages } from '../../../utils/constants/pages';
-import { Grid, InputAdornment, MenuItem, styled } from '@mui/material';
+import { Dialog, Grid, InputAdornment, MenuItem, styled } from '@mui/material';
 import { useAccountsSearch } from '../../../hooks/useSearch';
 import Loading from '../../loading/Loading';
 import NoResultsFound from '../../noResults/NoResultsFound';
+import DeleteAlert from '../../alerts/DeleteAlert';
 
 const ArchivedCount = styled('div')((props) => ({
   fontSize: '0.875rem',
@@ -81,13 +76,19 @@ export default function AccountsTrash() {
   const open = Boolean(anchorEl);
   const { t } = useTranslation();
   const filterType = createAccountFilter(useParams().filterCash);
-  const archivedAccounts = filterAccounts(
-    filterType,
-    accounts.accounts.filter((account) => account.archived),
-  );
   const [query, setQuery] = useState('');
-
   const searchData = useAccountsSearch(query, accounts.accounts, true);
+  const [openDelAlert, setOpenDelAlert] = useState(false);
+  const deleteCallback = () => {
+    transactions.transactions.forEach((transaction) => {
+      if (transaction.account === clickedAccount.id) {
+        dispatch(deleteTransaction(transaction.id));
+        idbDeleteItem(transaction.id, 'transactions');
+      }
+    });
+    dispatch(deleteAccount(clickedAccount.id));
+    idbDeleteItem(clickedAccount.id, 'accounts');
+  };
 
   useEffect(() => {
     dispatch(fetchAccountsData());
@@ -138,10 +139,10 @@ export default function AccountsTrash() {
           <>
             <ArchivedCount>
               {t(`ACCOUNTS_TRASH.${createLocaleAccountType(filterType)}_COUNT`)}
-              {archivedAccounts.length}
+              {searchData.length}
             </ArchivedCount>
             {searchData.map((account) => {
-              const balance = dinero(account.balance);
+              const balance = account.balance;
               return (
                 <CashListItem key={account.id}>
                   <div>
@@ -153,7 +154,10 @@ export default function AccountsTrash() {
                       <CardName>{account.description}</CardName>
                       <CardBalanceContainer>
                         <CardBalance>
-                          {formatDineroOutput(balance, 'USD')}
+                          {formatDineroOutput(
+                            dinero(balance),
+                            balance.currency.code,
+                          )}
                         </CardBalance>
                         <CurrentBalance>
                           {t('ACCOUNTS_TRASH.CURRENT_BALANCE')}
@@ -182,19 +186,13 @@ export default function AccountsTrash() {
                           {t('ACCOUNTS_TRASH.RESTORE')}
                         </FlexContainer>
                       </MenuItem>
-                      <DeleteMenuItem onClick={() => setAnchorEl(null)}>
-                        <FlexContainer
-                          onClick={() => {
-                            transactions.transactions.forEach((transaction) => {
-                              if (transaction.account === clickedAccount.id) {
-                                dispatch(deleteTransaction(transaction.id));
-                                idbDeleteItem(transaction.id, 'transactions');
-                              }
-                            });
-                            dispatch(deleteAccount(clickedAccount.id));
-                            idbDeleteItem(clickedAccount.id, 'accounts');
-                          }}
-                        >
+                      <DeleteMenuItem
+                        onClick={() => {
+                          setAnchorEl(null);
+                          setOpenDelAlert(true);
+                        }}
+                      >
+                        <FlexContainer>
                           <DeleteSvg as={DeleteIcon} />
                           {t('ACCOUNTS_TRASH.DELETE')}
                         </FlexContainer>
@@ -215,6 +213,12 @@ export default function AccountsTrash() {
         ) : (
           <NoResultsFound query={query} />
         )}
+        <Dialog open={openDelAlert} onClose={() => setOpenDelAlert(false)}>
+          <DeleteAlert
+            setOpen={setOpenDelAlert}
+            deleteCallback={deleteCallback}
+          />
+        </Dialog>
       </TrashContainer>
     </Grid>
   );

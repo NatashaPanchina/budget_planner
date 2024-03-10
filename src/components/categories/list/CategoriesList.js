@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 import { renderNotes } from '../utils/index.js';
@@ -28,14 +28,16 @@ import {
   DeleteMenuItem,
   DeleteSvg,
 } from '../Categories.styled.js';
-import { InputAdornment, MenuItem } from '@mui/material';
+import { Dialog, InputAdornment, MenuItem } from '@mui/material';
 import { useCategoriesSearch } from '../../../hooks/useSearch.js';
 import NoResultsFound from '../../noResults/NoResultsFound.js';
 import CategorySvg from '../../shared/CategorySvg.js';
 import { archiveCategory } from '../../../actions/Actions.js';
 import InfoCategory from '../infoCategory/InfoCategory.js';
+import ArchiveAlert from '../../alerts/ArchiveAlert.js';
 
 function CategoriesList({ categories }) {
+  const filters = useSelector((state) => state.categories.filters);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [clickedCategory, setClickedCategory] = useState('');
@@ -43,7 +45,12 @@ function CategoriesList({ categories }) {
   const open = Boolean(anchorEl);
   const [query, setQuery] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
-  const searchData = useCategoriesSearch(query, categories, false);
+  const searchData = useCategoriesSearch(query, categories, false, filters);
+  const [openDelAlert, setOpenDelAlert] = useState(false);
+  const archiveCallback = () => {
+    dispatch(archiveCategory(clickedCategory.id));
+    idbAddItem({ ...clickedCategory, archived: true }, 'categories');
+  };
 
   return (
     <>
@@ -115,16 +122,13 @@ function CategoriesList({ categories }) {
                         {t('CATEGORIES.EDIT')}
                       </EditLinkContainer>
                     </MenuItem>
-                    <DeleteMenuItem onClick={() => setAnchorEl(null)}>
-                      <FlexContainer
-                        onClick={() => {
-                          dispatch(archiveCategory(clickedCategory.id));
-                          idbAddItem(
-                            { ...clickedCategory, archived: true },
-                            'categories',
-                          );
-                        }}
-                      >
+                    <DeleteMenuItem
+                      onClick={() => {
+                        setAnchorEl(null);
+                        setOpenDelAlert(true);
+                      }}
+                    >
+                      <FlexContainer>
                         <DeleteSvg as={ArchiveIcon} />
                         {t('CATEGORIES.ARCHIVE')}
                       </FlexContainer>
@@ -145,6 +149,12 @@ function CategoriesList({ categories }) {
       ) : (
         <NoResultsFound query={query} />
       )}
+      <Dialog open={openDelAlert} onClose={() => setOpenDelAlert(false)}>
+        <ArchiveAlert
+          setOpen={setOpenDelAlert}
+          archiveCallback={archiveCallback}
+        />
+      </Dialog>
     </>
   );
 }

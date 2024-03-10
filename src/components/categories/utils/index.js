@@ -181,3 +181,16 @@ export function createLocaleCategories(NAME, count) {
     return `${NAME}.CATEGORIES.MORE_THAN_FIVE`;
   }
 }
+
+export const getFiltersTitle = (sort) => {
+  switch (sort) {
+    case 'By date':
+      return 'CATEGORIES_FILTERS.BY_DATE';
+    case 'By adding':
+      return 'CATEGORIES_FILTERS.BY_ADDING';
+    case 'By alphabet':
+      return 'CATEGORIES_FILTERS.BY_ALPHABET';
+    default:
+      return 'By date';
+  }
+};

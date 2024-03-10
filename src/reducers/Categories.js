@@ -7,11 +7,17 @@ import {
   RESTORE_CATEGORY,
   DELETE_CATEGORY,
   EDIT_CATEGORY,
+  UPDATE_CATEGORIES_FILTERS,
 } from '../actions/ActionTypes';
 
 const initialState = {
   status: 'idle',
   error: null,
+  filters: {
+    sort: 'By date',
+    type: 'All',
+    notes: 'All',
+  },
   categories: [],
 };
 
@@ -33,6 +39,11 @@ const categories = (state = initialState, { type, payload }) => {
         ...state,
         status: 'failed',
         error: payload.message,
+      };
+    case UPDATE_CATEGORIES_FILTERS:
+      return {
+        ...state,
+        filters: payload,
       };
     case ADD_NEW_CATEGORY:
       return {
