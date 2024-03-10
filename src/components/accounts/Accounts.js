@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import {
   fetchAccountsData,
   fetchCategoriesData,
+  updateAccountsFilters,
 } from '../../actions/Actions.js';
 import AccountsChart from './pieChart/AccountsChart.js';
 
@@ -37,17 +38,19 @@ import {
   MobileFilterButton,
   SortButtonsContainer,
   InfoDialog,
+  ToggleMenu,
 } from '../../theme/global.js';
 import { pages } from '../../utils/constants/pages.js';
-import { Grid } from '@mui/material';
+import { Drawer, Grid, MenuItem } from '@mui/material';
 import { createAccountFilter, createLocaleAccountType } from './utils/index.js';
 import AccountsList from './list/AccountsList.js';
 import Loading from '../loading/Loading.js';
 import AddAccount from './addAccount/AddAccount.js';
 import { names } from '../../utils/constants/currencies.js';
+import AllFilters from './filters/AllFilters.js';
 
 export default function Accounts() {
-  const { status, accounts } = useSelector((state) => state.accounts);
+  const { status, accounts, filters } = useSelector((state) => state.accounts);
   const categories = useSelector((state) => state.categories);
   const header = useSelector((state) => state.header);
   const mainCurrency = header.profile ? header.profile.currency : names.USD;
@@ -60,6 +63,9 @@ export default function Accounts() {
   );
   const archivedAccounts = accounts.filter((account) => account.archived);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openFilters, setOpenFilters] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     dispatch(fetchAccountsData());
@@ -76,7 +82,7 @@ export default function Accounts() {
         <HeaderTitle>{t('ACCOUNTS.ACCOUNTS_TITLE')}</HeaderTitle>
         <FilterButtonsContainer>
           <SortButtonsContainer>
-            <FilterButton>
+            <FilterButton onClick={() => setOpenFilters(true)}>
               <FilterSvg as={FilterIcon} />
               <FilterTitle>{t('ACCOUNTS.FILTER_KEY')}</FilterTitle>
             </FilterButton>
@@ -84,9 +90,17 @@ export default function Accounts() {
               <FilterSvg as={CalendarIcon} />
               <FilterTitle>{t('ACCOUNTS.FILTER_DATE')}</FilterTitle>
             </FilterButton>
-            <FilterButton>
+            <FilterButton
+              onClick={(event) => {
+                setAnchorEl(event.currentTarget);
+              }}
+            >
               <FilterSvg as={SortIcon} />
-              <FilterTitle>Filter</FilterTitle>
+              <FilterTitle>
+                {filters.sort === 'By date'
+                  ? t('ACCOUNTS_FILTERS.BY_DATE')
+                  : t('ACCOUNTS_FILTERS.BY_ADDING')}
+              </FilterTitle>
             </FilterButton>
           </SortButtonsContainer>
           <MobileFilterButton>
@@ -108,6 +122,40 @@ export default function Accounts() {
           </CustomTooltip>
         </FilterButtonsContainer>
       </Header>
+      <ToggleMenu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => setAnchorEl(null)}
+      >
+        <MenuItem
+          onClick={() => {
+            setAnchorEl(null);
+            dispatch(updateAccountsFilters({ ...filters, sort: 'By date' }));
+          }}
+        >
+          {t('ACCOUNTS_FILTERS.BY_DATE')}
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setAnchorEl(null);
+            dispatch(
+              updateAccountsFilters({
+                ...filters,
+                sort: 'By adding',
+              }),
+            );
+          }}
+        >
+          {t('ACCOUNTS_FILTERS.BY_ADDING')}
+        </MenuItem>
+      </ToggleMenu>
+      <Drawer
+        anchor="right"
+        open={openFilters}
+        onClose={() => setOpenFilters(false)}
+      >
+        <AllFilters setOpenFilters={setOpenFilters} />
+      </Drawer>
       <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <AddAccount
           categories={categories.categories}

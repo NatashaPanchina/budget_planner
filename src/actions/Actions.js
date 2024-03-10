@@ -26,6 +26,7 @@ import {
   IDB_FETCH_TRANSACTIONS_SUCCESS,
   CHANGE_MODE,
   UPDATE_TRANSACTIONS_FILTERS,
+  UPDATE_ACCOUNTS_FILTERS,
 } from './ActionTypes';
 import { idbOpen } from '../indexedDB/IndexedDB';
 
@@ -103,6 +104,13 @@ export const deleteCategory = (id) => {
   return {
     type: DELETE_CATEGORY,
     payload: id,
+  };
+};
+
+export const updateAccountsFilters = (filters) => {
+  return {
+    type: UPDATE_ACCOUNTS_FILTERS,
+    payload: filters,
   };
 };
 

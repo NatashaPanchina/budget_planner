@@ -14,7 +14,7 @@ import {
   createFilterType,
   filterCategories,
 } from '../components/categories/utils';
-import { sortByDate } from '../utils/sort';
+import { sortByAdding, sortByDate } from '../utils/sort';
 
 const sortTransactions = (
   transactions,
@@ -186,31 +186,103 @@ export const useGlobalTransactionsSearch = (query, transactions) => {
   return filteredTransactions;
 };
 
-export const useAccountsSearch = (query, accounts, isArchived) => {
-  const filterAccount = createAccountFilter(useParams().filterCash);
+const sortAccounts = (accounts, sort, type, currencies, balance, notes) => {
+  let result = accounts;
 
+  if (type !== 'All') {
+    result = accounts.filter((account) => account.type === type);
+  }
+
+  if (currencies) {
+    result = result.filter((account) => {
+      for (const description in currencies) {
+        const currency = currencies[description];
+        if (currency && account.balance.currency.code === description) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
+
+  if (balance) {
+    if (balance.from !== null && balance.to !== null) {
+      const from = balance.from;
+      const to = balance.to;
+      result = result.filter((account) => {
+        const accountBalance = Number(account.formatBalance);
+        return accountBalance >= from && accountBalance <= to;
+      });
+    }
+  }
+
+  if (notes !== 'All') {
+    result = result.filter((account) => {
+      if (notes === 'false' && account.notes.length === 0) return true;
+      if (notes === 'true' && account.notes.length > 0) return true;
+      return false;
+    });
+  }
+
+  switch (sort) {
+    case 'By date':
+      return sortByDate(result);
+    case 'By adding':
+      return sortByAdding(result);
+    default:
+      return result;
+  }
+};
+
+export const useAccountsSearch = (query, accounts, isArchived, filters) => {
+  const filterAccount = createAccountFilter(useParams().filterCash);
+  const { sort, type, currencies, balance, notes } = filters;
   const [filteredAccounts, setFilteredAccounts] = useState([]);
 
   useEffect(() => {
     const filtered = filterQuery(query);
     if (filtered) {
       idbSearchItems(filtered, 'accounts').then((result) => {
-        setFilteredAccounts(
-          filterAccounts(
-            filterAccount,
-            result.filter((account) => account.archived === isArchived),
-          ),
+        let sortedAccounts = filterAccounts(
+          filterAccount,
+          result.filter((account) => account.archived === isArchived),
         );
+        sortedAccounts = sortAccounts(
+          sortedAccounts,
+          sort,
+          type,
+          currencies,
+          balance,
+          notes,
+        );
+        setFilteredAccounts(sortedAccounts);
       });
     } else {
-      setFilteredAccounts(
-        filterAccounts(
-          filterAccount,
-          accounts.filter((account) => account.archived === isArchived),
-        ),
+      let sortedAccounts = filterAccounts(
+        filterAccount,
+        accounts.filter((account) => account.archived === isArchived),
       );
+      sortedAccounts = sortAccounts(
+        sortedAccounts,
+        sort,
+        type,
+        currencies,
+        balance,
+        notes,
+      );
+      setFilteredAccounts(sortedAccounts);
     }
-  }, [accounts, filterAccount, query]);
+  }, [
+    accounts,
+    filterAccount,
+    query,
+    sort,
+    type,
+    currencies,
+    balance.from,
+    balance.to,
+    notes,
+  ]);
 
   return filteredAccounts;
 };

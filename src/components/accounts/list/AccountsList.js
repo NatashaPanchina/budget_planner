@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { dinero } from 'dinero.js';
 import { formatDineroOutput } from '../../../utils/format/cash';
@@ -44,6 +44,8 @@ import InfoAccount from '../infoAccount/InfoAccount.js';
 import ArchiveAlert from '../../alerts/ArchiveAlert.js';
 
 function AccountsList({ accounts, localeFilterAccount, categories }) {
+  const filters = useSelector((state) => state.accounts.filters);
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [clickedAccount, setClickedAccount] = useState('');
@@ -51,7 +53,7 @@ function AccountsList({ accounts, localeFilterAccount, categories }) {
   const open = Boolean(anchorEl);
   const [query, setQuery] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
-  const searchData = useAccountsSearch(query, accounts, false);
+  const searchData = useAccountsSearch(query, accounts, false, filters);
   const [openDelAlert, setOpenDelAlert] = useState(false);
   const archiveCallback = () => {
     dispatch(archiveAccount(clickedAccount.id));

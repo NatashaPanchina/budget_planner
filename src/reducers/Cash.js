@@ -7,11 +7,19 @@ import {
   EDIT_ACCOUNT,
   ARCHIVE_ACCOUNT,
   RESTORE_ACCOUNT,
+  UPDATE_ACCOUNTS_FILTERS,
 } from '../actions/ActionTypes';
 
 const initialState = {
   status: 'idle',
   error: null,
+  filters: {
+    sort: 'By date',
+    type: 'All',
+    currencies: null,
+    balance: { from: null, to: null },
+    notes: 'All',
+  },
   accounts: [],
 };
 
@@ -33,6 +41,11 @@ const accounts = (state = initialState, { type, payload }) => {
         ...state,
         status: 'failed',
         error: payload.message,
+      };
+    case UPDATE_ACCOUNTS_FILTERS:
+      return {
+        ...state,
+        filters: payload,
       };
     case ADD_NEW_ACCOUNT:
       return {

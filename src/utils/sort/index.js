@@ -12,3 +12,16 @@ export const sortByDate = (data) => {
     return 0;
   });
 };
+
+export const sortByAdding = (data) => {
+  if (!data) return [];
+  return data
+    .slice()
+    .sort((a, b) =>
+      a.creationDate < b.creationDate
+        ? 1
+        : a.creationDate > b.creationDate
+        ? -1
+        : 0,
+    );
+};
