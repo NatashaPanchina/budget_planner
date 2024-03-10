@@ -1,5 +1,12 @@
 export const lightTheme = {
   components: {
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          background: '#fff',
+        },
+      },
+    },
     MuiDialog: {
       styleOverrides: {
         paper: {
@@ -199,6 +206,13 @@ export const lightTheme = {
 
 export const darkTheme = {
   components: {
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          background: '#333232',
+        },
+      },
+    },
     MuiDialog: {
       styleOverrides: {
         paper: {

@@ -103,7 +103,7 @@ export default function Accounts() {
               </FilterTitle>
             </FilterButton>
           </SortButtonsContainer>
-          <MobileFilterButton>
+          <MobileFilterButton onClick={() => setOpenFilters(true)}>
             <FilterSvg as={FilterIcon} />
           </MobileFilterButton>
           <FilterTooltip title={t(`ACCOUNTS.ADD_ALL`)} arrow>

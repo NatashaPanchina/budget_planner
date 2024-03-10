@@ -25,3 +25,16 @@ export const sortByAdding = (data) => {
         : 0,
     );
 };
+
+export const sortByAlphabet = (data) => {
+  if (!data) return [];
+  return data
+    .slice()
+    .sort((a, b) =>
+      a.description > b.description
+        ? 1
+        : a.description < b.description
+        ? -1
+        : 0,
+    );
+};

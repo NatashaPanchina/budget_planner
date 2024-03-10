@@ -245,6 +245,23 @@
     "DONE": "Done",
     "CANCEL": "Cancel"
   },
+  "CATEGORIES_FILTERS": {
+    "ALL_FILTERS": "All filters",
+    "RESET_FILTERS": "Reset filters",
+    "SORT": "Sort",
+    "BY_DATE": "By date",
+    "BY_ADDING": "By adding",
+    "BY_ALPHABET": "By alphabet",
+    "DATE": "Date",
+    "TYPE": "Type",
+    "ALL": "All",
+    "EXPENSE": "Expense",
+    "INCOME": "Income",
+    "NOTES": "Notes",
+    "WITH_NOTES": "With notes",
+    "WITHOUT_NOTES": "Without notes",
+    "SHOW": "Show"
+  },
   "CATEGORIES": {
     "TOTAL": "Total",
     "CATEGORIES": {
@@ -256,7 +273,7 @@
     "EXPENSES": "Expenses",
     "INCOMES": "Incomes",
     "CATEGORIES_TITLE": "Categories",
-    "FILTER_KEY": "By default",
+    "FILTER_KEY": "All filters",
     "FILTER_DATE": "All time",
     "SEARCH_CATEGORY": "Search for categories",
     "ADD_CATEGORY": "New category",

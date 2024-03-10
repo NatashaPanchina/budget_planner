@@ -14,7 +14,7 @@ import {
   createFilterType,
   filterCategories,
 } from '../components/categories/utils';
-import { sortByAdding, sortByDate } from '../utils/sort';
+import { sortByAdding, sortByAlphabet, sortByDate } from '../utils/sort';
 
 const sortTransactions = (
   transactions,
@@ -308,31 +308,58 @@ export const useGlobalAccountsSearch = (query, accounts) => {
   return filteredAccounts;
 };
 
-export const useCategoriesSearch = (query, categories, isArchived) => {
-  const filterType = createFilterType(useParams().filterType);
+const sortCategories = (categories, sort, type, notes) => {
+  let result = categories;
 
+  if (type !== 'All') {
+    result = categories.filter((category) => category.type === type);
+  }
+
+  if (notes !== 'All') {
+    result = result.filter((category) => {
+      if (notes === 'false' && category.notes.length === 0) return true;
+      if (notes === 'true' && category.notes.length > 0) return true;
+      return false;
+    });
+  }
+
+  switch (sort) {
+    case 'By date':
+      return sortByDate(result);
+    case 'By adding':
+      return sortByAdding(result);
+    case 'By alphabet':
+      return sortByAlphabet(result);
+    default:
+      return result;
+  }
+};
+
+export const useCategoriesSearch = (query, categories, isArchived, filters) => {
+  const filterType = createFilterType(useParams().filterType);
+  const { sort, type, notes } = filters;
   const [filteredCategories, setFilteredCategories] = useState([]);
 
   useEffect(() => {
     const filtered = filterQuery(query);
     if (filtered) {
       idbSearchItems(filtered, 'categories').then((result) => {
-        setFilteredCategories(
-          filterCategories(
-            filterType,
-            result.filter((category) => category.archived === isArchived),
-          ),
+        let sortedCategories = filterCategories(
+          filterType,
+          result.filter((category) => category.archived === isArchived),
         );
+        sortedCategories = sortCategories(sortedCategories, sort, type, notes);
+        setFilteredCategories(sortedCategories);
       });
     } else {
-      setFilteredCategories(
-        filterCategories(
-          filterType,
-          categories.filter((category) => category.archived === isArchived),
-        ),
+      let sortedCategories = filterCategories(
+        filterType,
+        categories.filter((category) => category.archived === isArchived),
       );
+      sortedCategories = sortCategories(sortedCategories, sort, type, notes);
+      setFilteredCategories(sortedCategories);
     }
-  }, [categories, filterType, query]);
+  }, [categories, filterType, query, sort, type, notes]);
 
   return filteredCategories;
 };

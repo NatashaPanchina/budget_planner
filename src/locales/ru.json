@@ -245,6 +245,23 @@
     "DONE": "Готово",
     "CANCEL": "Отмена"
   },
+  "CATEGORIES_FILTERS": {
+    "ALL_FILTERS": "Все фильтры",
+    "RESET_FILTERS": "Сбросить фильтры",
+    "SORT": "Сортировать",
+    "BY_DATE": "По дате",
+    "BY_ADDING": "По добавлению",
+    "BY_ALPHABET": "По алфавиту",
+    "DATE": "Дата",
+    "TYPE": "Тип",
+    "ALL": "Все",
+    "EXPENSE": "Расход",
+    "INCOME": "Доход",
+    "NOTES": "Заметки",
+    "WITH_NOTES": "С заметками",
+    "WITHOUT_NOTES": "Без заметок",
+    "SHOW": "Показать"
+  },
   "CATEGORIES": {
     "TOTAL": "Всего",
     "CATEGORIES": {
@@ -256,7 +273,7 @@
     "EXPENSES": "Расходы",
     "INCOMES": "Доходы",
     "CATEGORIES_TITLE": "Категории",
-    "FILTER_KEY": "По умолчанию",
+    "FILTER_KEY": "Все фильтры",
     "FILTER_DATE": "Все время",
     "SEARCH_CATEGORY": "Поиск по категориям",
     "ADD_CATEGORY": "Новая категория",

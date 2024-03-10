@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 import { renderNotes } from '../utils/index.js';
@@ -37,6 +37,7 @@ import InfoCategory from '../infoCategory/InfoCategory.js';
 import ArchiveAlert from '../../alerts/ArchiveAlert.js';
 
 function CategoriesList({ categories }) {
+  const filters = useSelector((state) => state.categories.filters);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [clickedCategory, setClickedCategory] = useState('');
@@ -44,7 +45,7 @@ function CategoriesList({ categories }) {
   const open = Boolean(anchorEl);
   const [query, setQuery] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
-  const searchData = useCategoriesSearch(query, categories, false);
+  const searchData = useCategoriesSearch(query, categories, false, filters);
   const [openDelAlert, setOpenDelAlert] = useState(false);
   const archiveCallback = () => {
     dispatch(archiveCategory(clickedCategory.id));
