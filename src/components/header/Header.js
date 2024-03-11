@@ -60,6 +60,7 @@ function renderHeaderTitles(t) {
     '/newTransaction': t('HEADER.NEW_TRANSACTION'),
     '/categories': t('HEADER.CATEGORIES'),
     '/analysis': t('HEADER.CASH_FLOW'),
+    '/settings': t('HEADER.SETTINGS'),
   };
 }
 
@@ -94,15 +95,20 @@ export default function Header() {
 
   useEffect(() => {
     if (header.status === 'succeeded') {
+      setHeaderMode(header.mode);
       if (!header.profile) return;
       setUsername(header.profile.username);
       setCurrency(header.profile.currency);
     }
-  }, [header.status, header.profile]);
+  }, [header.status, header.profile, header.mode]);
 
   useEffect(() => {
     setHeaderTitle(titles[path]);
   }, [path, titles]);
+
+  useEffect(() => {
+    setLanguage(header.language);
+  }, [header.language]);
 
   return (
     <>

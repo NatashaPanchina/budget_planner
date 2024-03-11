@@ -12,6 +12,16 @@ import AccountsTrash from '../components/accounts/trash/AccountsTrash';
 import Categories from '../components/categories/Categories';
 import CategoriesTrash from '../components/categories/trash/CategoriesTrash';
 import CashFlow from '../components/cashFlow/CashFlow';
+import Settings from '../components/settings/Settings';
+import Account from '../components/settings/options/account/Account';
+import Devices from '../components/settings/options/devices/Devices';
+import Security from '../components/settings/options/security/Security';
+import Appearance from '../components/settings/options/appearance/Appearance';
+import Language from '../components/settings/options/language/Language';
+import MainCurrency from '../components/settings/options/mainCurrency/MainCurrency';
+import Notifications from '../components/settings/options/notifications/Notifications';
+import DataBackup from '../components/settings/options/databackup/DataBackup';
+import StorageUsage from '../components/settings/options/storageusage/StorageUsage';
 
 export const router = createBrowserRouter([
   {
@@ -85,6 +95,48 @@ export const router = createBrowserRouter([
       {
         path: 'analysis',
         element: <CashFlow />,
+      },
+      {
+        path: 'settings',
+        element: <Settings />,
+        children: [
+          {
+            path: 'account',
+            element: <Account />,
+          },
+          {
+            path: 'devices',
+            element: <Devices />,
+          },
+          {
+            path: 'security',
+            element: <Security />,
+          },
+          {
+            path: 'appearance',
+            element: <Appearance />,
+          },
+          {
+            path: 'language',
+            element: <Language />,
+          },
+          {
+            path: 'mainCurrency',
+            element: <MainCurrency />,
+          },
+          {
+            path: 'notifications',
+            element: <Notifications />,
+          },
+          {
+            path: 'dataBackup',
+            element: <DataBackup />,
+          },
+          {
+            path: 'storageUsage',
+            element: <StorageUsage />,
+          },
+        ],
       },
     ],
   },

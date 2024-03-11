@@ -8,6 +8,7 @@ export const FlexContainer = styled('div')(() => ({
 }));
 
 export const MoreInformationContainer = styled(FlexContainer)((props) => ({
+  display: 'none',
   flexWrap: 'wrap',
   maxHeight: 200,
   marginTop: props.theme.spacing(5),
@@ -17,6 +18,7 @@ export const MoreInformationContainer = styled(FlexContainer)((props) => ({
   backgroundColor: props.theme.colors.background.primary,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   '@media (min-width: 600px)': {
+    display: 'flex',
     height: 250,
     maxHeight: 250,
     zIndex: 200,

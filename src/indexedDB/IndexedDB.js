@@ -280,3 +280,25 @@ export const idbSearchItems = (query, nameObjectStore) => {
       return new Promise((resolve) => resolve([]));
   }
 };
+
+export const clearIdb = (
+  objectStores = ['transactions', 'accounts', 'categories'],
+) => {
+  return new Promise((resolve) => {
+    idbOpen().then((idb) => {
+      let promises = [];
+      const names = objectStores;
+      names.forEach((name) => {
+        promises.push(
+          new Promise((resolve, reject) => {
+            const transaction = idb.transaction(name, 'readwrite');
+            const clearRequest = transaction.objectStore(name).clear();
+            clearRequest.onsuccess = () => resolve();
+            clearRequest.onerror = () => reject('Idb Clear Error');
+          }),
+        );
+      });
+      Promise.all(promises).then(resolve);
+    });
+  });
+};

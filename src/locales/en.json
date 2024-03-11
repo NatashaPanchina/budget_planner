@@ -7,7 +7,8 @@
     "NEW_TRANSACTION": "New Transaction",
     "CATEGORIES": "Categories",
     "CASH_FLOW": "Cash Flow",
-    "SEARCH_EVERYTHING": "Search for everything"
+    "SEARCH_EVERYTHING": "Search for everything",
+    "SETTINGS": "Settings"
   },
   "SEARCH": {
     "TITLE": "Global Search",
@@ -359,5 +360,101 @@
     "SUM": "Sum",
     "MORE_THAN": "more than ",
     "LESS_THAN": "less than "
+  },
+  "SETTINGS": {
+    "SETTINGS": "Settings",
+    "SEARCH_SETTINGS": "Search by settings",
+    "ACCOUNT_SETTINGS": "Accounts settings",
+    "ACCOUNT": "Account",
+    "DEVICES": "Devices",
+    "SECURITY": "Security",
+    "APP_SETTINGS": "App settings",
+    "APPEARANCE": "Appearance",
+    "LANGUAGE": "Language",
+    "MAIN_CURRENCY": "Main currency",
+    "NOTIFICATIONS": "Notifications",
+    "DATA_AND_STORAGE": "Data and storage",
+    "DATA_BACKUP": "Data backup",
+    "DATA_USAGE": "Storage usage",
+    "HELP": "Help",
+    "LOG_OUT": "Log out",
+    "ACCOUNT_INFO": {
+      "MY_ACCOUNT": "My account",
+      "UPLOAD_PHOTO": "Upload a new photo",
+      "ACCOUNT_INFORMATION": "Account information",
+      "EDIT": "Edit",
+      "AUTH": "Authentification",
+      "USER_NAME": "User name",
+      "JOINED": "Joined",
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "DELETING_ACCOUNT": "Deleting account",
+      "DELETE_ACCOUNT": "Delete my account"
+    },
+    "DEVICES_INFO": {
+      "DEVICES": "Devices",
+      "ALL_DEVICES_DESCRIPTION": "Here are all the devices that are currently logged in with your account. You can log out of each one individually or all other devices.",
+      "CHANGE_PASSWORD_DESCRIPTION": "If you see an entry you don't recognize, log out of that device and change your account password immediately.",
+      "CURRENT_DEVICE": "Current device",
+      "OTHER_DEVICES": "Other devices",
+      "LOG_OUT": "Log out of all known devices",
+      "LOG_OUT_DESCRIPTION": "You'll have to log back in on all logged out devices.",
+      "LOG_OUT_BUTTON": "Log out all known devices"
+    },
+    "SECURITY_INFO": {
+      "SECURITY": "Security",
+      "TWO_STEP_VERIFICATION": "2-step verification",
+      "ADDITIONAL_TWO_STEP": "Protect your account with an extra layer of security. Once configured, you'll be required to enter your password and complete one additional step in order to sign in.",
+      "TWO_STEP_VERIFICATION_DISABLED": "2-step verification disabled",
+      "ENABLE": "Enable",
+      "APP_LOCK": "Application lock",
+      "APP_LOCK_INFO": "App lock allows you to keep your data safe confidentiality. To launch the application, you will need to enter the password code.",
+      "APP_LOCK_DISABLED": "Application lock disabled"
+    },
+    "APPEARANCE_INFO": {
+      "APPEARANCE": "Appearance",
+      "MODE": "Mode",
+      "LIGHT": "Light",
+      "DARK": "Dark",
+      "SYSTEM": "System",
+      "FONT_SIZE": "Font size"
+    },
+    "LANGUAGE_INFO": {
+      "LANGUAGE": "Language",
+      "SELECT_LANGUAGE": "Select language"
+    },
+    "MAIN_CURRENCY_INFO": {
+      "MAIN_CURRENCY": "Main currency",
+      "CHOOSE_CURRENCY": "All calculations and financial transactions will be performed in the main currency. Choose the currency in which it will be most convenient for you to track your financial activities.",
+      "EUR": "EUR",
+      "USD": "USD",
+      "RUB": "RUB",
+      "KZT": "KZT"
+    },
+    "NOTIFICATIONS_INFO": {
+      "NOTIFICATIONS": "Notifications",
+      "ALLOW_NOTIFICATIONS": "Allow notifications",
+      "SOUNDS": "Sounds",
+      "CHOOSE_NOTIFICATIONS": "Choose what kind of notifications you want to receive.",
+      "SOUND": "Sound",
+      "BY_DEFAULT": "By default",
+      "TURN_OFF_SOUNDS": "Turn off  all notifications sounds"
+    },
+    "DATA_BACKUP_INFO": {
+      "DATA_BACKUP": "Data backup",
+      "DATA_BACKUP_DESCRIPTION": "By default, all your data is stored in your browser. Backup allows you not to lose data if your phone or computer is broken. Or if you want to run the application on another device.",
+      "LAST_BACKUP": "Last data backup",
+      "DATABASE": "Database",
+      "BACKUP_DATE": "Backup date",
+      "DATA_SIZE": "Data size",
+      "WEEKLY": "Weekly"
+    },
+    "STORAGE_USAGE_INFO": {
+      "STORAGE_USAGE": "Storage usage",
+      "STORAGE_USAGE_DESCRIPTION": "All your data is stored in your browser and occupies a certain place in memory. Here you can track and manage your application's data.",
+      "DELETING_DATA": "Deleting data",
+      "DELETING_DESCRIPTION": "Be careful. After deletion, you will lose access to all your data.",
+      "DELETE_ALL": "Delete all my data"
+    }
   }
 }

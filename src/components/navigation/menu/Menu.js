@@ -180,7 +180,7 @@ function Menu({ username, setToggleMenu }) {
             <div>{t('MENU.CASH_FLOW')}</div>
           </div>
         </ItemLink>
-        <ItemLink to="/" onClick={() => setToggleMenu(false)}>
+        <ItemLink to={pages.settings.main} onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={SettingsIcon} />

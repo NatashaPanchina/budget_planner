@@ -189,7 +189,7 @@ export default function Navigation() {
             placement="right"
           >
             <SettingsLinkContainer>
-              <SettingsLink to="/">
+              <SettingsLink to={pages.settings.main}>
                 <Svg as={SettingsIcon} />
                 <LinkTitle>{t('NAVIGATION.SETTINGS')}</LinkTitle>
               </SettingsLink>

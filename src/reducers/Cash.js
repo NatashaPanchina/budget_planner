@@ -8,6 +8,7 @@ import {
   ARCHIVE_ACCOUNT,
   RESTORE_ACCOUNT,
   UPDATE_ACCOUNTS_FILTERS,
+  RESET_ACCOUNTS,
 } from '../actions/ActionTypes';
 
 const initialState = {
@@ -77,6 +78,11 @@ const accounts = (state = initialState, { type, payload }) => {
       return {
         ...state,
         accounts: state.accounts.filter((account) => account.id !== payload),
+      };
+    case RESET_ACCOUNTS:
+      return {
+        ...state,
+        accounts: payload,
       };
     default:
       return state;

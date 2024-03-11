@@ -8,6 +8,7 @@ import {
   DELETE_CATEGORY,
   EDIT_CATEGORY,
   UPDATE_CATEGORIES_FILTERS,
+  RESET_CATEGORIES,
 } from '../actions/ActionTypes';
 
 const initialState = {
@@ -77,6 +78,11 @@ const categories = (state = initialState, { type, payload }) => {
         categories: state.categories.filter(
           (category) => category.id !== payload,
         ),
+      };
+    case RESET_CATEGORIES:
+      return {
+        ...state,
+        categories: payload,
       };
     default:
       return state;
