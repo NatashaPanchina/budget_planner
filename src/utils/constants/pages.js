@@ -35,4 +35,16 @@ export const pages = {
   analysis: {
     main: '/analysis',
   },
+  settings: {
+    main: '/settings/account',
+    account: 'account',
+    devices: 'devices',
+    security: 'security',
+    appearance: 'appearance',
+    language: 'language',
+    mainCurrency: 'mainCurrency',
+    notifications: 'notifications',
+    dataBackup: 'dataBackup',
+    storageUsage: 'storageUsage',
+  },
 };

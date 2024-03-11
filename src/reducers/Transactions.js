@@ -5,6 +5,7 @@ import {
   IDB_FETCH_TRANSACTIONS_FAILURE,
   IDB_FETCH_TRANSACTIONS_INIT,
   IDB_FETCH_TRANSACTIONS_SUCCESS,
+  RESET_TRANSACTIONS,
   UPDATE_TRANSACTIONS_FILTERS,
 } from '../actions/ActionTypes';
 
@@ -62,6 +63,11 @@ const transactions = (state = initialState, { type, payload }) => {
         transactions: state.transactions.filter(
           (transaction) => transaction.id !== payload,
         ),
+      };
+    case RESET_TRANSACTIONS:
+      return {
+        ...state,
+        transactions: payload,
       };
     default:
       return state;

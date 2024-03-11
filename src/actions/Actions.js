@@ -28,8 +28,38 @@ import {
   UPDATE_TRANSACTIONS_FILTERS,
   UPDATE_ACCOUNTS_FILTERS,
   UPDATE_CATEGORIES_FILTERS,
+  RESET_TRANSACTIONS,
+  RESET_CATEGORIES,
+  RESET_ACCOUNTS,
 } from './ActionTypes';
 import { idbOpen } from '../indexedDB/IndexedDB';
+
+export const resetTransactions = () => {
+  return (dispatch) => {
+    dispatch({
+      type: RESET_TRANSACTIONS,
+      payload: [],
+    });
+  };
+};
+
+export const resetCategories = () => {
+  return (dispatch) => {
+    dispatch({
+      type: RESET_CATEGORIES,
+      payload: [],
+    });
+  };
+};
+
+export const resetAccounts = () => {
+  return (dispatch) => {
+    dispatch({
+      type: RESET_ACCOUNTS,
+      payload: [],
+    });
+  };
+};
 
 export const changeLanguage = (language) => {
   return {

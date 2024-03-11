@@ -139,6 +139,7 @@ export const BarChartInfoItem = styled('div')((props) => ({
 }));
 
 export const Svg = styled('svg')((props) => ({
+  display: 'none',
   height: 40,
   width: 40,
   minWidth: 40,
@@ -146,6 +147,9 @@ export const Svg = styled('svg')((props) => ({
     props.theme.colors.linear.expense.from,
     0.4,
   )})`,
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
   '@media (min-width: 768px)': {
     marginRight: props.theme.spacing(3),
   },
