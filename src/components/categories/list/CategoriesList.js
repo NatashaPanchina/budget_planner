@@ -16,6 +16,8 @@ import {
   SearchField,
   ToggleMenu,
   InfoDialog,
+  NoResultsContainer,
+  NoResults,
 } from '../../../theme/global.js';
 import {
   CategoriesListItem,
@@ -79,7 +81,13 @@ function CategoriesList({ categories }) {
           setOpenDialog={setOpenDialog}
         />
       </InfoDialog>
-      {searchData.length ? (
+      {categories.length === 0 ? (
+        <NoResultsContainer>
+          <NoResults>
+            <div>{t('CATEGORIES.NO_CATEGORIES')}</div>
+          </NoResults>
+        </NoResultsContainer>
+      ) : searchData.length ? (
         searchData.map((category, index) => {
           return (
             <React.Fragment key={category.id}>

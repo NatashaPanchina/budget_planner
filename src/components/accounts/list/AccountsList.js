@@ -91,7 +91,7 @@ function AccountsList({ accounts, localeFilterAccount, categories }) {
       {accounts.length === 0 ? (
         <NoResultsContainer>
           <NoResults>
-            <div>Oops. You don t have any accounts yet:c</div>
+            <div>{t('ACCOUNTS.NO_ACCOUNTS')}</div>
           </NoResults>
         </NoResultsContainer>
       ) : searchData.length ? (

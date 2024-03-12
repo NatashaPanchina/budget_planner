@@ -127,7 +127,7 @@ function TransactionsList({ transactions, accounts, categories }) {
       {transactions.length === 0 ? (
         <NoResultsContainer>
           <NoResults>
-            <div>Oops. You don t have any transactions yet:c</div>
+            <div>{t('TRANSACTIONS.NO_TRANSACTIONS')}</div>
           </NoResults>
         </NoResultsContainer>
       ) : searchData.length ? (

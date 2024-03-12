@@ -810,12 +810,15 @@ export const ArchiveButtonSvg = styled('svg')((props) => ({
 
 export const NoResultsContainer = styled('div')((props) => ({
   justifyContent: 'center',
-  fontSize: '0.9rem',
   padding: props.theme.spacing(4),
 }));
 
 export const NoResults = styled('div')(() => ({
+  fontSize: '1.2rem',
   textAlign: 'center',
+  '@media (min-width: 600px)': {
+    fontSize: '0.9rem',
+  },
 }));
 
 export const AllFiltersContainer = styled('div')((props) => ({

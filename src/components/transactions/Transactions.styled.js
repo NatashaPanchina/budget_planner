@@ -152,6 +152,10 @@ export const ExpenseCountSvg = styled('svg')((props) => ({
     props.theme.colors.linear.expense.from,
     0.4,
   )})`,
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
   '@media (min-width: 900px)': {
     marginRight: props.theme.spacing(3),
   },
@@ -164,6 +168,10 @@ export const IncomeCountSvg = styled('svg')((props) => ({
     props.theme.colors.linear.income.from,
     0.4,
   )})`,
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
   '@media (min-width: 900px)': {
     marginRight: props.theme.spacing(3),
   },
@@ -176,6 +184,10 @@ export const TransferCountSvg = styled('svg')((props) => ({
     props.theme.colors.linear.transfer.from,
     0.4,
   )})`,
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
   '@media (min-width: 900px)': {
     marginRight: props.theme.spacing(3),
   },

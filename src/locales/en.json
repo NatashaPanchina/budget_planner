@@ -72,7 +72,7 @@
       "LESS_THAN_FIVE": "transactions",
       "MORE_THAN_FIVE": "transactions"
     },
-    "NO_TRANSACTIONS": "There are no transactions here yet",
+    "NO_TRANSACTIONS": "Oops. You don't have any transactions yet",
     "EDIT": "Edit",
     "DELETE": "Delete"
   },
@@ -162,7 +162,8 @@
     "EDIT": "Edit",
     "NEW_TRANSFER": "New transfer",
     "ARCHIVE": "Archive",
-    "ARCHIVED": "Archived accounts"
+    "ARCHIVED": "Archived accounts",
+    "NO_ACCOUNTS": "Oops. You don't have any accounts yet"
   },
   "ADD_ACCOUNT": {
     "TYPE": "Type",
@@ -281,7 +282,8 @@
     "ADD_SUB": "Add a subcategory",
     "EDIT": "Edit",
     "ARCHIVE": "Archive",
-    "ARCHIVED": "Archived categories"
+    "ARCHIVED": "Archived categories",
+    "NO_CATEGORIES": "Oops. You don't have any categories yet"
   },
   "ADD_CATEGORY": {
     "TITLE": "New Category",
