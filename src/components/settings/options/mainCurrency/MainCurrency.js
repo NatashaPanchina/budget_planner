@@ -9,9 +9,11 @@ import {
 } from '../../Settings.styled';
 import { useTranslation } from 'react-i18next';
 import { RadioGroup } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 export default function MainCurrency() {
   const { t } = useTranslation();
+  const header = useSelector((state) => state.header);
 
   return (
     <MobContainer>
@@ -19,7 +21,7 @@ export default function MainCurrency() {
       <TextContainer>
         {t('SETTINGS.MAIN_CURRENCY_INFO.CHOOSE_CURRENCY')}
       </TextContainer>
-      <RadioGroup defaultValue="USD">
+      <RadioGroup value={header.profile.currency}>
         <BorderContainer>
           <LabelContainer
             value="USD"

@@ -21,6 +21,7 @@ import {
 import { dateFormatter } from '../../../../utils/format/date';
 import { useNavigate } from 'react-router-dom';
 import { pages } from '../../../../utils/constants/pages';
+import { logOut } from '../../../auth/utils';
 
 const Svg = styled('svg')((props) => ({
   paddingRight: props.theme.spacing(2),
@@ -65,7 +66,13 @@ function Account() {
           <UploadPhoto>{t('SETTINGS.ACCOUNT_INFO.UPLOAD_PHOTO')}</UploadPhoto>
         </Button>
       </SingleContainer>
-      <SignOutButton>Sign out from account</SignOutButton>
+      <SignOutButton
+        onClick={() => {
+          logOut(dispatch, navigate);
+        }}
+      >
+        Sign out from account
+      </SignOutButton>
       <Title>{t('SETTINGS.ACCOUNT_INFO.ACCOUNT_INFORMATION')}</Title>
       <MultilineContainer>
         <ItemContainer>

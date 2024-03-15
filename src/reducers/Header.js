@@ -4,6 +4,9 @@ import {
   IDB_FETCH_PROFILE_FAILURE,
   CHANGE_LANGUAGE,
   CHANGE_MODE,
+  UPDATE_PROFILE,
+  UPDATE_DISPLAY_NAME,
+  UPDATE_MAIN_CURRENCY,
 } from '../actions/ActionTypes';
 
 function initialMode() {
@@ -43,6 +46,12 @@ const header = (state = initialState, { type, payload }) => {
       return { ...state, language: payload };
     case CHANGE_MODE:
       return { ...state, mode: payload };
+    case UPDATE_PROFILE:
+      return { ...state, profile: payload };
+    case UPDATE_DISPLAY_NAME:
+      return { ...state, profile: { ...state.profile, payload } };
+    case UPDATE_MAIN_CURRENCY:
+      return { ...state, profile: { ...state.profile, payload } };
     default:
       return state;
   }

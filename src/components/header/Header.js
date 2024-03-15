@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
@@ -14,7 +14,6 @@ import {
 
 import { ReactComponent as LogoCatIcon } from '../../assets/icons/navigation/logoCat.svg';
 import { ReactComponent as LogoTitleIcon } from '../../assets/icons/navigation/logoTitle.svg';
-import { ReactComponent as CurrencyDollarIcon } from '../../assets/icons/shared/currencyDollar.svg';
 import { ReactComponent as LightModeIcon } from '../../assets/icons/shared/lightMode.svg';
 import { ReactComponent as DarkModeIcon } from '../../assets/icons/shared/darkMode.svg';
 import { ReactComponent as LogoutIcon } from '../../assets/icons/shared/logOut.svg';
@@ -36,11 +35,14 @@ import {
   LogOut,
   Username,
   LanguagesMenu,
+  SvgCurrency,
+  SignIn,
 } from './Header.styled';
 import { languages } from '../../utils/constants/languages';
 import { mode } from '../../utils/constants/mode';
 import GlobalSearch from './globalSearch/GlobalSearch';
-import { names } from '../../utils/constants/currencies';
+import { icons, names } from '../../utils/constants/currencies';
+import { logOut } from '../auth/utils';
 
 function renderLanguagesMenu(languages) {
   return languages.map((language, index) => (
@@ -79,8 +81,9 @@ export default function Header() {
   };
   const header = useSelector((state) => state.header);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [headerTitle, setHeaderTitle] = useState('');
-  const [username, setUsername] = useState('User');
+  const [displayName, setDisplayName] = useState('');
   const [language, setLanguage] = useState(header.language);
   const [currency, setCurrency] = useState(names.USD);
   const [headerMode, setHeaderMode] = useState(header.mode);
@@ -97,7 +100,7 @@ export default function Header() {
     if (header.status === 'succeeded') {
       setHeaderMode(header.mode);
       if (!header.profile) return;
-      setUsername(header.profile.username);
+      setDisplayName(header.profile.displayName);
       setCurrency(header.profile.currency);
     }
   }, [header.status, header.profile, header.mode]);
@@ -151,11 +154,7 @@ export default function Header() {
                 </LanguagesMenu>
               </Container>
               <Container>
-                {currency === names.USD ? (
-                  <Svg as={CurrencyDollarIcon} />
-                ) : (
-                  <Svg as={CurrencyDollarIcon} />
-                )}
+                <SvgCurrency as={icons[currency]} />
               </Container>
               <Container>
                 <SvgMode
@@ -180,13 +179,23 @@ export default function Header() {
           </Grid>
           <Grid item xs={6} sm={2} md={2} lg={2}>
             <FlexContainer>
-              <Profile>
-                <Svg as={AvatarIcon} />
-                <Username>{username}</Username>
-              </Profile>
-              <LogOut>
-                <Svg as={LogoutIcon} />
-              </LogOut>
+              {displayName ? (
+                <>
+                  <Profile>
+                    <Svg as={AvatarIcon} />
+                    <Username>{displayName}</Username>
+                  </Profile>
+                  <LogOut
+                    onClick={() => {
+                      logOut(dispatch, navigate);
+                    }}
+                  >
+                    <Svg as={LogoutIcon} />
+                  </LogOut>
+                </>
+              ) : (
+                <SignIn to={pages.signin}>Sign in</SignIn>
+              )}
             </FlexContainer>
           </Grid>
         </Grid>

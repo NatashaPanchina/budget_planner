@@ -10,6 +10,44 @@
     "SEARCH_EVERYTHING": "Search for everything",
     "SETTINGS": "Settings"
   },
+  "ENTER_NAME": {
+    "WELCOME": "Welcome to Neko Budget app! Let's set up your account. First enter your name:",
+    "YOUR_NAME": "Your name",
+    "NEXT": "Next"
+  },
+  "MAIN_CURRENCY": {
+    "SELECT_MAIN_CURRENCY": "For now, please select your main currency. It will be used for all calculations and cash flows in the app.",
+    "FINISH": "Finish"
+  },
+  "SIGN_IN": {
+    "SIGN_IN": "Sign in",
+    "SIGN_IN_WITH_GOOGLE": "Sign in with Google account",
+    "SIGN_IN_WITH_TWITTER": "Sign in with Twitter account",
+    "OR": "Or",
+    "EMAIL_ADDRESS": "Your Email address",
+    "PASSWORD": "Password",
+    "SIGN_IN_WITH_EMAIL": "Sign in with email",
+    "CONTINUE_WITHOUT_ACCOUNT": "Continue using servises without account",
+    "HAVE_AN_ACCOUNT": "Don't have an account yet?",
+    "SIGN_UP": "Sign up"
+  },
+  "SIGN_UP": {
+    "SIGN_UP": "Sign up",
+    "SIGN_UP_WITH_GOOGLE": "Sign up with Google account",
+    "SIGN_UP_WITH_TWITTER": "Sign up with Twitter account",
+    "OR": "Or",
+    "EMAIL_ADDRESS": "Your Email address",
+    "PASSWORD": "Password",
+    "SIGN_UP_WITH_EMAIL": "Sign up with email",
+    "CONTINUE_WITHOUT_ACCOUNT": "Continue using servises without account",
+    "HAVE_AN_ACCOUNT": "Already have an account?",
+    "SIGN_IN": "Sign in"
+  },
+  "DELETE_ACCOUNT": {
+    "DELETING_INFO": "You should confirm that it is actually you in order to delete your Neko Budget account. Please take a signing in again.",
+    "SIGN_IN_WITH_GOOGLE": "Sign in with Google account",
+    "SIGN_IN_WITH_EMAIL": "Sign in with email"
+  },
   "SEARCH": {
     "TITLE": "Global Search",
     "SEARCH_EVERYTHING": "Search for everything",

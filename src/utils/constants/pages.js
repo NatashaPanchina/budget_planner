@@ -1,5 +1,9 @@
 export const pages = {
   home: '/',
+  signup: '/signup',
+  signin: '/signin',
+  enterName: '/enterName',
+  selectMainCurrency: '/selectMainCurrency',
   dashboard: '/dashboard',
   transactions: {
     main: '/transactions',
@@ -47,4 +51,5 @@ export const pages = {
     dataBackup: 'dataBackup',
     storageUsage: 'storageUsage',
   },
+  accountDeleting: '/accountDeleting',
 };

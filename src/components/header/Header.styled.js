@@ -1,5 +1,6 @@
 import { MenuItem, alpha, styled } from '@mui/material';
 import { TextInputField } from '../../theme/global';
+import { Link } from 'react-router-dom';
 
 export const FlexContainer = styled('div')(() => ({
   display: 'flex',
@@ -152,4 +153,19 @@ export const LogOut = styled(FlexContainer)(() => ({
   '@media (min-width: 900px)': {
     display: 'flex',
   },
+}));
+
+export const SvgCurrency = styled('svg')(() => ({
+  height: 20,
+  width: 20,
+}));
+
+export const SignIn = styled(Link)((props) => ({
+  textAlign: 'center',
+  padding: `${props.theme.spacing(1)} ${props.theme.spacing(2)}`,
+  border: `1px solid ${props.theme.colors.main.violet}`,
+  textDecoration: 'none',
+  color: props.theme.colors.main.violet,
+  borderRadius: props.theme.borderRadius,
+  marginLeft: 'auto',
 }));
