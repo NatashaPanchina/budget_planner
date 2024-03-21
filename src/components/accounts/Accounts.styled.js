@@ -151,7 +151,7 @@ export const CashTitleLink = styled(NavLink)((props) => ({
   },
 }));
 
-export const CashListItem = styled(FlexContainer)((props) => ({
+export const CashListItem = styled('div')((props) => ({
   position: 'relative',
   justifyContent: 'center',
   alignItems: 'start',
@@ -241,6 +241,9 @@ export const NumericInput = styled('input')((props) => ({
 }));
 
 export const ToggleButtonSvg = styled(MobItemButtonSvg)(() => ({
+  position: 'absolute',
+  top: 0,
+  right: 0,
   height: 30,
   width: 30,
   padding: 0,

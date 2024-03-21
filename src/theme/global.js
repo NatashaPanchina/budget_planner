@@ -78,16 +78,27 @@ export const ArchivedTrash = styled('div')(() => ({
 export const Trash = styled('svg')((props) => ({
   height: 35,
   width: 35,
-  '& circle': {
-    fill: props.theme.colors.background.primary,
+  '& path': {
+    fill: props.theme.colors.text.darkest,
   },
-  filter: `drop-shadow(0px 4px 4px ${props.theme.colors.boxShadow})`,
-  '&:hover': {
-    filter: `drop-shadow(0px 4px 4px ${alpha(
-      props.theme.colors.main.violet,
-      0.2,
-    )})`,
-    transition: 'filter 0.3s ease-out',
+  '& circle': {
+    fill: 'none',
+  },
+  '@media (min-width: 600px)': {
+    '& path': {
+      fill: props.theme.colors.main.violet,
+    },
+    '& circle': {
+      fill: props.theme.colors.background.primary,
+    },
+    filter: `drop-shadow(0px 4px 4px ${props.theme.colors.boxShadow})`,
+    '&:hover': {
+      filter: `drop-shadow(0px 4px 4px ${alpha(
+        props.theme.colors.main.violet,
+        0.2,
+      )})`,
+      transition: 'filter 0.3s ease-out',
+    },
   },
 }));
 
@@ -145,24 +156,21 @@ export const AddButton = styled('div')((props) => ({
   alignItems: 'center',
   justifyContent: 'center',
   color: 'inherit',
-  fill: props.theme.colors.white,
+  fill: props.theme.colors.text.darkest,
   cursor: 'pointer',
   height: 35,
   width: 35,
-  marginRight: props.theme.spacing(2),
-  background: `linear-gradient(to bottom right, ${props.theme.colors.linear.main.from}, ${props.theme.colors.linear.main.to})`,
-  boxShadow: `0px 5px 15px ${alpha(props.theme.colors.linear.main.to, 0.2)}`,
-  borderRadius: '50%',
   '@media (min-width: 600px)': {
-    opacity: 0.8,
     marginRight: props.theme.spacing(5),
+    fill: props.theme.colors.white,
+    background: props.theme.colors.main.violet,
+    boxShadow: `0px 5px 15px ${alpha(props.theme.colors.main.violet, 0.2)}`,
+    borderRadius: '50%',
+    opacity: 0.8,
     color: props.theme.colors.white,
     '&:hover': {
       opacity: 1,
-      boxShadow: `0px 4px 10px ${alpha(
-        props.theme.colors.linear.main.to,
-        0.4,
-      )}`,
+      boxShadow: `0px 4px 10px ${alpha(props.theme.colors.main.violet, 0.4)}`,
       transition: 'all 0.3s ease-out',
     },
   },
@@ -189,15 +197,17 @@ export const Header = styled('div')((props) => ({
   top: 0,
   zIndex: 9,
   alignItems: 'center',
-  height: 60,
-  width: '100%',
+  width: `calc(100% - ${props.theme.spacing(2 * 2)})`,
   justifyContent: 'space-between',
   backgroundColor: props.theme.colors.background.body,
-  paddingLeft: props.theme.spacing(2),
+  padding: props.theme.spacing(2),
+  '@media (min-width: 600px)': {
+    justifyContent: 'center',
+  },
   '@media (min-width: 768px)': {
     position: 'relative',
-    justifyContent: 'center',
-    height: 70,
+    padding: props.theme.spacing(3),
+    width: `calc(100% - ${props.theme.spacing(3 * 2)})`,
   },
 }));
 
@@ -207,7 +217,9 @@ export const TrashHeader = styled(Header)(() => ({
 
 export const HeaderTitle = styled('div')((props) => ({
   fontSize: '1.3rem',
-  '@media (min-width: 768px)': {
+  paddingRight: props.theme.spacing(4),
+  '@media (min-width: 900px)': {
+    paddingRight: 0,
     marginRight: props.theme.spacing(14),
   },
 }));
@@ -484,6 +496,7 @@ export const AddFormButtonsContainer = styled('div')((props) => ({
 }));
 
 export const AddFormButton = styled('div')((props) => ({
+  cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -545,6 +558,7 @@ export const ButtonSvg = styled('svg')(() => ({
 }));
 
 export const FilterButtonsContainer = styled('div')(() => ({
+  cursor: 'pointer',
   display: 'flex',
   '@media (min-width: 768px)': {
     position: 'absolute',
@@ -556,6 +570,7 @@ export const FilterButtonsContainer = styled('div')(() => ({
 }));
 
 export const SortButtonsContainer = styled('div')(() => ({
+  cursor: 'pointer',
   display: 'none',
   '@media (min-width: 600px)': {
     display: 'flex',
@@ -563,16 +578,14 @@ export const SortButtonsContainer = styled('div')(() => ({
 }));
 
 export const MobileFilterButton = styled('div')((props) => ({
+  cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   height: 35,
   width: 35,
   marginRight: props.theme.spacing(2),
-  backgroundColor: props.theme.colors.background.primary,
-  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
-  borderRadius: '50%',
-  fill: props.theme.colors.main.violet,
+  fill: props.theme.colors.text.darkest,
   '@media (min-width: 600px)': {
     display: 'none',
   },
@@ -793,6 +806,7 @@ export const ArchiveButton = styled('div')((props) => ({
   justifyContent: 'center',
   position: 'absolute',
   right: props.theme.spacing(2),
+  cursor: 'pointer',
 }));
 
 export const ArchiveButtonSvg = styled('svg')((props) => ({

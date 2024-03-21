@@ -118,6 +118,7 @@ export const lightTheme = {
           margin: '8px 0px',
           paddingTop: 8,
           paddingBottom: 8,
+          color: '#000',
           '&:hover': {
             background: '#EAEAEA',
             transition: 'background 0.4s ease-out',
@@ -140,6 +141,7 @@ export const lightTheme = {
     text: {
       primary: '#000',
       darker: '#989393',
+      darkest: '#373737',
       ordinary: '#ADADAD',
     },
     placeholder: '#D1D1D1',
@@ -153,7 +155,7 @@ export const lightTheme = {
     boxShadow: '#F3F3F3',
     tooltipShadow: '#E9E9E9',
     svg: {
-      pending: '#B8B7B7',
+      pending: '#D0D0D0',
       hover: '#989393',
     },
     button: {
@@ -325,6 +327,7 @@ export const darkTheme = {
           margin: '8px 0px',
           paddingTop: 8,
           paddingBottom: 8,
+          color: '#fff',
           '&:hover': {
             background: '#515151',
             transition: 'background 0.4s ease-out',
@@ -341,12 +344,13 @@ export const darkTheme = {
   },
   colors: {
     main: {
-      violet: '#6D73FF',
+      violet: '#8085fd',
       purple: '#B67FFF',
     },
     text: {
       primary: '#fff',
       darker: '#989393',
+      darkest: '#EEEEEE',
       ordinary: '#818181',
     },
     placeholder: '#6D6D6D',

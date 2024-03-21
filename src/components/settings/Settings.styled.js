@@ -65,14 +65,17 @@ export const MainContainer = styled('div')((props) => ({
   marginTop: props.theme.spacing(5),
   marginBottom: props.theme.spacing(5),
   padding: `${props.theme.spacing(5)} ${props.theme.spacing(2)}`,
+  height: `calc(100% - ${props.theme.spacing(5 * 2 + 5)})`,
   backgroundColor: props.theme.colors.background.primary,
   borderRadius: props.theme.borderRadius,
   ' @media (min-width: 600px)': {
     display: 'block',
     padding: props.theme.spacing(5),
+    marginBottom: 0,
   },
   ' @media (min-width: 768px)': {
     padding: props.theme.spacing(8),
+    height: `calc(100% - ${props.theme.spacing(8 * 2 + 5)})`,
   },
 }));
 
