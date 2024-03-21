@@ -16,7 +16,7 @@ export const Svg = styled('svg')((props) => ({
 function CategorySvg({ category, fillName }) {
   //console.log(category);
   if (!category) return null;
-  let Icon = categoryIcons[category.icon];
+  const Icon = categoryIcons[category.icon];
   return (
     <Svg
       width="38"

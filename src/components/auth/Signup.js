@@ -33,6 +33,7 @@ import { useDispatch } from 'react-redux';
 import { fetchProfileData, updateHeaderProfile } from '../../actions/Actions';
 import { useTranslation } from 'react-i18next';
 import { signUpAnonym } from './utils';
+import { names } from '../../utils/constants/currencies';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -59,7 +60,7 @@ export default function Signup() {
           phoneNumber: response.user.phoneNumber,
           photoURL: response.user.photoURL,
           id: response.user.uid,
-          currency: 'USD',
+          currency: names.USD,
         };
         dispatch(updateHeaderProfile(data));
         await idbAddItem(data, 'profile');
@@ -88,7 +89,7 @@ export default function Signup() {
           phoneNumber: auth.currentUser.phoneNumber,
           photoURL: auth.currentUser.photoURL,
           id: auth.currentUser.uid,
-          currency: 'USD',
+          currency: names.USD,
         };
         dispatch(updateHeaderProfile(data));
         await idbAddItem(data, 'profile');

@@ -78,10 +78,11 @@ function CategoriesItems({
         <div>{t('INFO_TRANSACTION.NO_CATEGORIES')}</div>
       ) : (
         categories.map((category, index) => {
-          let Icon = AdjustmentIcon;
-          if (category.description !== 'Balance adjustment') {
-            Icon = categoryIcons[category.icon];
-          }
+          const Icon =
+            category.description === 'Balance adjustment'
+              ? AdjustmentIcon
+              : categoryIcons[category.icon];
+
           return (
             <CategoriesMenuItem key={category.id} value={category.id}>
               <InfoContainer>

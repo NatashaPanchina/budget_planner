@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 function CurrenciesItems({ names, currency, setCurrency }) {
   const { t } = useTranslation();
 
-  let results = [];
+  const results = [];
   for (let currencyName in names) {
     results.push(
       <MenuItem key={names[currencyName]} value={names[currencyName]}>

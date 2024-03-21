@@ -35,7 +35,7 @@ const CurrencyField = styled(TextField)((props) => ({
 }));
 
 function CurrenciesItems({ names, currency, setCurrency }) {
-  let results = [];
+  const results = [];
   for (let currencyName in names) {
     results.push(
       <MenuItem key={names[currencyName]} value={names[currencyName]}>
