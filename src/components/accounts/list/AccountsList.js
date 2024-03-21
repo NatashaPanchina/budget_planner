@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { dinero } from 'dinero.js';
 import { formatDineroOutput } from '../../../utils/format/cash';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
-import { renderNotes } from '../utils';
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
 import { ReactComponent as TransferIcon } from '../../../assets/icons/shared/transfer.svg';
 import { ReactComponent as ArchiveIcon } from '../../../assets/icons/shared/archive.svg';
@@ -42,6 +41,7 @@ import NoResultsFound from '../../noResults/NoResultsFound';
 import { archiveAccount } from '../../../actions/Actions.js';
 import InfoAccount from '../infoAccount/InfoAccount.js';
 import ArchiveAlert from '../../alerts/ArchiveAlert.js';
+import Notes from '../../shared/Notes.js';
 
 function AccountsList({ accounts, localeFilterAccount, categories }) {
   const filters = useSelector((state) => state.accounts.filters);
@@ -119,7 +119,7 @@ function AccountsList({ accounts, localeFilterAccount, categories }) {
                   </CurrentBalance>
                 </CardBalanceContainer>
               </Card>
-              {renderNotes(account.notes)}
+              <Notes notes={account.notes} />
               <div>
                 <ToggleMenu
                   anchorEl={anchorEl}

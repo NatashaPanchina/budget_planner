@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
-import { renderNotes } from '../utils/index.js';
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { ReactComponent as AddIcon } from '../../../assets/icons/shared/add.svg';
@@ -37,6 +36,7 @@ import CategorySvg from '../../shared/CategorySvg.js';
 import { archiveCategory } from '../../../actions/Actions.js';
 import InfoCategory from '../infoCategory/InfoCategory.js';
 import ArchiveAlert from '../../alerts/ArchiveAlert.js';
+import Notes from '../../shared/Notes.js';
 
 function CategoriesList({ categories }) {
   const filters = useSelector((state) => state.categories.filters);
@@ -105,7 +105,7 @@ function CategoriesList({ categories }) {
                     />
                     {category.description}
                   </CategoriesDescription>
-                  {renderNotes(category.notes)}
+                  <Notes notes={category.notes} />
                 </CategoriesListItem>
                 <EditButtons>
                   <ToggleMenu

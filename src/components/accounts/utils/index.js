@@ -1,20 +1,6 @@
 import React from 'react';
 import { ReactComponent as CheckMarkIcon } from '../../../assets/icons/shared/checkMark.svg';
-import notesIcon from '../../../assets/icons/shared/notes.svg';
 import { MenuItem, styled } from '@mui/material';
-
-const CashNotes = styled('div')((props) => ({
-  marginTop: props.theme.spacing(2),
-  fontSize: '0.875rem',
-  color: props.theme.colors.text.darker,
-  display: 'flex',
-  alignItems: 'center',
-}));
-
-const NotesImg = styled('img')((props) => ({
-  height: 15,
-  marginRight: props.theme.spacing(1),
-}));
 
 const ColorContainer = styled('div')(() => ({
   width: '100%',
@@ -180,17 +166,6 @@ export function filterAccounts(filterAccount, accounts) {
   return filterAccount === 'all'
     ? accounts
     : accounts.filter((account) => account.type === filterAccount);
-}
-
-export function renderNotes(notes) {
-  if (notes) {
-    return (
-      <CashNotes>
-        <NotesImg src={notesIcon} alt="notes" />
-        {notes}
-      </CashNotes>
-    );
-  }
 }
 
 export const renderCurrencies = (names) => {

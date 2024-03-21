@@ -29,7 +29,6 @@ import {
   ColorsPaletteButton,
   ColorsPaletteButtonContainer,
   ColorsPopoverPalette,
-  CurrencyInputField,
   DateField,
   DoneButton,
   NumberInputField,
@@ -38,8 +37,8 @@ import {
 } from '../../../theme/global';
 import dayjs from 'dayjs';
 import { currencies, names } from '../../../utils/constants/currencies.js';
-import { renderCurrencies } from '../../transactions/utils/index.js';
 import { cashDoneEventHandler } from './utils/index.js';
+import CurrenciesItems from '../../transactions/utils/currencies/CurrenciesItems.js';
 
 function CashForm({ categories, setOpenDialog }) {
   const dispatch = useDispatch();
@@ -73,17 +72,11 @@ function CashForm({ categories, setOpenDialog }) {
         </CardBalanceContainer>
       </CardView>
       <AmountFieldsContainer>
-        <CurrencyInputField
-          margin="normal"
-          required
-          select
-          fullWidth
-          label={t('ADD_ACCOUNT.CURRENCY')}
-          value={currency}
-          onChange={(event) => setCurrency(event.target.value)}
-        >
-          {renderCurrencies(names)}
-        </CurrencyInputField>
+        <CurrenciesItems
+          names={names}
+          currency={currency}
+          setCurrency={setCurrency}
+        />
         <NumberInputField
           margin="normal"
           required

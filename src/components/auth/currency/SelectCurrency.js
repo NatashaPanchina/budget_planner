@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { names } from '../../../utils/constants/currencies';
-import { TextField, styled } from '@mui/material';
-import { renderCurrencies } from '../../transactions/utils';
 import {
   Container,
   FlexContainer,
@@ -21,38 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { updateMainCurrency } from '../../../actions/Actions';
 import { useDispatch } from 'react-redux';
-
-const CurrencyField = styled(TextField)((props) => ({
-  width: '100%',
-  backgroundColor: props.theme.colors.background.primary,
-  borderRadius: props.theme.borderRadius,
-  '& label': {
-    color: props.theme.colors.text.darker,
-  },
-  '& label.Mui-focused': {
-    color: props.theme.colors.main.violet,
-  },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderRadius: props.theme.borderRadius,
-      border: `1px solid ${props.theme.colors.border.item}`,
-    },
-    '&:hover fieldset': {
-      border: `1px solid ${props.theme.colors.text.darker}`,
-    },
-    '&.Mui-focused fieldset': {
-      border: `1px solid ${props.theme.colors.main.violet}`,
-    },
-    '& .MuiInputBase-input': {
-      color: props.theme.colors.text.primary,
-      borderRadius: props.theme.borderRadius,
-      backgroundColor: props.theme.colors.background.primary,
-    },
-    '& .MuiSelect-icon': {
-      fill: props.theme.colors.main.violet,
-    },
-  },
-}));
+import CurrenciesItems from '../utils/currencies/CurrenciesItems';
 
 const updateCurrency = async (currency, auth, navigate, dispatch) => {
   if (!currency) return 'This field should not be empty';
@@ -85,16 +52,11 @@ export default function SelectCurrency() {
       </LogoContainer>
       <SelectContainer>
         <TextInfo>{t('MAIN_CURRENCY.SELECT_MAIN_CURRENCY')}</TextInfo>
-        <CurrencyField
-          margin="normal"
-          required
-          select
-          fullWidth
-          value={currency}
-          onChange={(event) => setCurrency(event.target.value)}
-        >
-          {renderCurrencies(names)}
-        </CurrencyField>
+        <CurrenciesItems
+          names={names}
+          currency={currency}
+          setCurrency={setCurrency}
+        />
         <NextLinkContainer
           onClick={() => updateCurrency(currency, auth, navigate, dispatch)}
         >

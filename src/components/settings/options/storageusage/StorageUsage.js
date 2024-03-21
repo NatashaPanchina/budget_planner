@@ -40,10 +40,10 @@ export default function StorageUsage() {
         </TextContainer>
         <div>15.0 Mb</div>
         <Title>{t('SETTINGS.STORAGE_USAGE_INFO.DELETING_DATA')}</Title>
+        <TextContainer>
+          {t('SETTINGS.STORAGE_USAGE_INFO.DELETING_DESCRIPTION')}
+        </TextContainer>
         <SingleContainer>
-          <TextContainer>
-            {t('SETTINGS.STORAGE_USAGE_INFO.DELETING_DESCRIPTION')}
-          </TextContainer>
           <DeleteButton
             onClick={() => {
               setOpen(true);

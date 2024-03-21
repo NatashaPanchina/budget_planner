@@ -4,11 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { dinero } from 'dinero.js';
 import { formatDineroOutput } from '../../../utils/format/cash';
-import {
-  createAccountFilter,
-  createLocaleAccountType,
-  renderNotes,
-} from '../utils';
+import { createAccountFilter, createLocaleAccountType } from '../utils';
 import { idbAddItem, idbDeleteItem } from '../../../indexedDB/IndexedDB';
 import {
   fetchAccountsData,
@@ -54,6 +50,7 @@ import { useAccountsSearch } from '../../../hooks/useSearch';
 import Loading from '../../loading/Loading';
 import NoResultsFound from '../../noResults/NoResultsFound';
 import DeleteAlert from '../../alerts/DeleteAlert';
+import Notes from '../../shared/Notes';
 
 const ArchivedCount = styled('div')((props) => ({
   fontSize: '0.875rem',
@@ -164,7 +161,7 @@ export default function AccountsTrash() {
                         </CurrentBalance>
                       </CardBalanceContainer>
                     </Card>
-                    {renderNotes(account.notes)}
+                    <Notes notes={account.notes} />
                   </div>
                   <div>
                     <ToggleMenu

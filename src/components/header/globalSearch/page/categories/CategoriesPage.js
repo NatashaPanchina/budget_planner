@@ -11,7 +11,6 @@ import {
   FlexContainer,
   ListItemContainer,
 } from '../../../../categories/Categories.styled';
-import { renderNotes } from '../../../../categories/utils';
 import {
   InfoDialog,
   MobItemButtonSvg,
@@ -22,7 +21,6 @@ import { idbAddItem } from '../../../../../indexedDB/IndexedDB';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { archiveCategory } from '../../../../../actions/Actions';
-
 import { ReactComponent as AddIcon } from '../../../../../assets/icons/shared/add.svg';
 import { ReactComponent as EditIcon } from '../../../../../assets/icons/shared/edit.svg';
 import { ReactComponent as ArchiveIcon } from '../../../../../assets/icons/shared/archive.svg';
@@ -30,6 +28,7 @@ import { ReactComponent as ToggleEditIcon } from '../../../../../assets/icons/sh
 import CategorySvg from '../../../../shared/CategorySvg';
 import InfoCategory from '../../../../categories/infoCategory/InfoCategory';
 import ArchiveAlert from '../../../../alerts/ArchiveAlert';
+import Notes from '../../../../shared/Notes';
 
 function CategoriesPage({ categories, query }) {
   const dispatch = useDispatch();
@@ -70,7 +69,7 @@ function CategoriesPage({ categories, query }) {
                   />
                   {category.description}
                 </CategoriesDescription>
-                {renderNotes(category.notes)}
+                <Notes notes={category.notes} />
               </CategoriesListItem>
               <EditButtons>
                 <ToggleMenu

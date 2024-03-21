@@ -1,11 +1,8 @@
 import React from 'react';
-import { CheckboxContainer, LabelContainer } from '../../../../theme/global';
+import PropTypes from 'prop-types';
+import { CheckboxContainer, LabelContainer } from '../../../../../theme/global';
 
-export const renderCurrencies = (
-  currencies,
-  currencyTypes,
-  setCurrencyTypes,
-) => {
+function CurrenciesList({ currencies, currencyTypes, setCurrencyTypes }) {
   return currencies.map((currency, index) => {
     return (
       <div key={index}>
@@ -32,4 +29,12 @@ export const renderCurrencies = (
       </div>
     );
   });
+}
+
+CurrenciesList.propTypes = {
+  currencies: PropTypes.array,
+  currencyTypes: PropTypes.object,
+  setCurrencyTypes: PropTypes.func,
 };
+
+export default CurrenciesList;

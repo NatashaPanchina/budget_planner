@@ -27,10 +27,6 @@ export const ShowAll = styled(Link)((props) => ({
 
 export const CashWrapper = styled('div')(() => ({
   display: 'block',
-  '@media (min-width: 600px)': {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
 }));
 
 export const CashListItemWrapper = styled(CashListItem)((props) => ({

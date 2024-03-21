@@ -245,7 +245,7 @@ export const CategoriesSvg = styled('svg')((props) => ({
   minWidth: 38,
 }));
 
-export const CashListItem = styled(FlexContainer)((props) => ({
+export const CashListItem = styled('div')((props) => ({
   position: 'relative',
   alignItems: 'start',
   marginTop: props.theme.spacing(3),

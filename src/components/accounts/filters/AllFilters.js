@@ -15,13 +15,13 @@ import {
   TextInputField,
 } from '../../../theme/global';
 import { RadioGroup, styled } from '@mui/material';
-import { renderCurrencies } from './utils';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { useTranslation } from 'react-i18next';
 import { NumericFormatCustom } from '../../../utils/format/cash';
 import { updateAccountsFilters } from '../../../actions/Actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { FlexContainer } from '../Accounts.styled';
+import CurrenciesList from './utils/currencies/CurrenciesList';
 
 const AmountContainer = styled('div')(() => ({
   maxWidth: 150,
@@ -117,7 +117,11 @@ function AllFilters({ setOpenFilters }) {
           <div></div>
         )}
         <FilterSection>
-          {renderCurrencies(currencies, currencyTypes, setCurrencyTypes)}
+          <CurrenciesList
+            currencies={currencies}
+            currencyTypes={currencyTypes}
+            setCurrencyTypes={setCurrencyTypes}
+          />
         </FilterSection>
       </FilterContainer>
       <FilterContainer>

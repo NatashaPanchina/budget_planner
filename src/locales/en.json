@@ -39,7 +39,7 @@
     "EMAIL_ADDRESS": "Your Email address",
     "PASSWORD": "Password",
     "SIGN_UP_WITH_EMAIL": "Sign up with email",
-    "CONTINUE_WITHOUT_ACCOUNT": "Continue using servises without account",
+    "CONTINUE_WITHOUT_ACCOUNT": "Continue without account",
     "HAVE_AN_ACCOUNT": "Already have an account?",
     "SIGN_IN": "Sign in"
   },
@@ -159,7 +159,9 @@
     "NOTES": "Notes",
     "TAGS": "Tags",
     "DONE": "Done",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "NO_CATEGORIES": "You don't have any categories yet",
+    "NO_ACCOUNTS": "You don't have any accounts yet"
   },
   "ACCOUNTS_FILTERS": {
     "ALL_FILTERS": "All filters",

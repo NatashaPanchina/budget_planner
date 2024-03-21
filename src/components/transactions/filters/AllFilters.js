@@ -16,12 +16,14 @@ import {
 } from '../../../theme/global';
 import { RadioGroup, styled } from '@mui/material';
 import { FlexContainer } from '../Transactions.styled';
-import { renderAccounts, renderCategories, renderCurrencies } from './utils';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { useTranslation } from 'react-i18next';
 import { NumericFormatCustom } from '../../../utils/format/cash';
 import { updateTransactionsFilters } from '../../../actions/Actions';
 import { useDispatch, useSelector } from 'react-redux';
+import CurrenciesList from './utils/currencies/CurrenciesList';
+import CategorieList from './utils/categories/CategoriesList';
+import AccountsList from './utils/accounts/AccountsList';
 
 const AmountContainer = styled('div')(() => ({
   maxWidth: 150,
@@ -125,7 +127,11 @@ function AllFilters({ accounts, categories, setOpenFilters }) {
           <div></div>
         )}
         <FilterSection>
-          {renderAccounts(notArchivedAccounts, accountTypes, setAccountTypes)}
+          <AccountsList
+            accounts={notArchivedAccounts}
+            accountTypes={accountTypes}
+            setAccountTypes={setAccountTypes}
+          />
         </FilterSection>
       </FilterContainer>
       <FilterContainer>
@@ -143,11 +149,11 @@ function AllFilters({ accounts, categories, setOpenFilters }) {
           <div></div>
         )}
         <FilterSection>
-          {renderCategories(
-            notArchivedCategories,
-            categoryTypes,
-            setCategoryTypes,
-          )}
+          <CategorieList
+            categories={notArchivedCategories}
+            categoryTypes={categoryTypes}
+            setCategoryTypes={setCategoryTypes}
+          />
         </FilterSection>
       </FilterContainer>
       <FilterContainer>
@@ -165,7 +171,11 @@ function AllFilters({ accounts, categories, setOpenFilters }) {
           <div></div>
         )}
         <FilterSection>
-          {renderCurrencies(currencies, currencyTypes, setCurrencyTypes)}
+          <CurrenciesList
+            currencies={currencies}
+            currencyTypes={currencyTypes}
+            setCurrencyTypes={setCurrencyTypes}
+          />
         </FilterSection>
       </FilterContainer>
       <FilterContainer>

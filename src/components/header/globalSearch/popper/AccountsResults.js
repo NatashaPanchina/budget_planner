@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { dinero } from 'dinero.js';
-import { renderNotes } from '../utils';
 import cardBackground from '../../../../assets/icons/shared/cardBackground.svg';
 import {
   Card,
@@ -15,6 +14,7 @@ import { formatDineroOutput } from '../../../../utils/format/cash';
 import { useTranslation } from 'react-i18next';
 import { InfoDialog } from '../../../../theme/global';
 import InfoAccount from '../../../accounts/infoAccount/InfoAccount';
+import Notes from '../../../shared/Notes';
 
 function AccountsResults({ accounts, categories, query }) {
   const { t } = useTranslation();
@@ -53,7 +53,7 @@ function AccountsResults({ accounts, categories, query }) {
                 <CurrentBalance>{t('ACCOUNTS.CURRENT_BALANCE')}</CurrentBalance>
               </CardBalanceContainer>
             </Card>
-            {renderNotes(account.notes)}
+            <Notes notes={account.notes} />
           </CashListItem>
         );
       })}

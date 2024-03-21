@@ -4,19 +4,10 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { dinero, toDecimal } from 'dinero.js';
 import dayjs from 'dayjs';
-import {
-  renderCategories,
-  renderAccounts,
-  renderCurrencies,
-} from '../../transactions/utils';
 import { NumericFormatCustom } from '../../../utils/format/cash';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/done.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
-import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
-import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
-import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import {
-  AddButtonSvg,
   AddFormButtonsContainer,
   CancelButton,
   DoneButton,
@@ -24,20 +15,17 @@ import {
   ButtonTitle,
   TextInputField,
   DateField,
-  SelectHeader,
-  SearchField,
-  CancelSearchSvg,
-  SelectHeaderButton,
   AmountFieldsContainer,
-  CurrencyInputField,
   NumberInputField,
   InfoDialog,
 } from '../../../theme/global.js';
-import { InputAdornment } from '@mui/material';
 import { currencies, names } from '../../../utils/constants/currencies.js';
 import { doneEventClick } from './utils/index.js';
 import AddCategory from '../../categories/addCategory/AddCategory.js';
 import AddAccount from '../../accounts/addAccount/AddAccount.js';
+import CurrenciesItems from '../../transactions/utils/currencies/CurrenciesItems.js';
+import AccountsItems from '../../transactions/utils/accounts/AccountsItems.js';
+import CategoriesItems from '../../transactions/utils/categories/CategoriesItems.js';
 
 function ExpenseTransactionForm({
   mainCurrency,
@@ -72,17 +60,11 @@ function ExpenseTransactionForm({
   return (
     <>
       <AmountFieldsContainer>
-        <CurrencyInputField
-          margin="normal"
-          required
-          select
-          fullWidth
-          label={t('NEW_TRANSACTION.CURRENCY')}
-          value={currency}
-          onChange={(event) => setCurrency(event.target.value)}
-        >
-          {renderCurrencies(names)}
-        </CurrencyInputField>
+        <CurrenciesItems
+          names={names}
+          currency={currency}
+          setCurrency={setCurrency}
+        />
         <NumberInputField
           margin="normal"
           required
@@ -96,74 +78,18 @@ function ExpenseTransactionForm({
           }}
         />
       </AmountFieldsContainer>
-      <TextInputField
-        margin="normal"
-        required
-        select
-        label={t('NEW_TRANSACTION.CATEGORY')}
-        value={category}
-        onChange={(event) => setCategory(event.target.value)}
-      >
-        <SelectHeader>
-          {t('NEW_TRANSACTION.AVAILABLE_CATEGORIES')}
-          <SelectHeaderButton>
-            <AddButtonSvg
-              onClick={() => setOpenCategoryDialog(true)}
-              as={PlusIcon}
-            />
-          </SelectHeaderButton>
-        </SelectHeader>
-        <SearchField
-          placeholder={t('NEW_TRANSACTION.SEARCH_CATEGORY')}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <CancelSearchSvg as={CancelSearchIcon} />
-              </InputAdornment>
-            ),
-          }}
-        />
-        {renderCategories(filteredCategories)}
-      </TextInputField>
-      <TextInputField
-        margin="normal"
-        required
-        select
-        label={t('NEW_TRANSACTION.ACCOUNT')}
-        value={account}
-        onChange={(event) => setAccount(event.target.value)}
-      >
-        <SelectHeader>
-          {t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}
-          <SelectHeaderButton>
-            <AddButtonSvg
-              onClick={() => setOpenAccountDialog(true)}
-              as={PlusIcon}
-            />
-          </SelectHeaderButton>
-        </SelectHeader>
-        <SearchField
-          placeholder={t('NEW_TRANSACTION.SEARCH_ACCOUNTS')}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <CancelSearchSvg as={CancelSearchIcon} />
-              </InputAdornment>
-            ),
-          }}
-        />
-        {renderAccounts(filteredAccounts, t)}
-      </TextInputField>
+      <CategoriesItems
+        categories={filteredCategories}
+        category={category}
+        setCategory={setCategory}
+        setOpenCategoryDialog={setOpenCategoryDialog}
+      />
+      <AccountsItems
+        accounts={filteredAccounts}
+        account={account}
+        setAccount={setAccount}
+        setOpenAccountDialog={setOpenAccountDialog}
+      />
       <DateField
         required
         label={t('NEW_TRANSACTION.DATE')}

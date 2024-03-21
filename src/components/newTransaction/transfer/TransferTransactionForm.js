@@ -2,32 +2,23 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { dinero, toDecimal } from 'dinero.js';
-import { renderAccounts } from '../../transactions/utils';
-import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
-import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
-import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
 import {
-  AddButtonSvg,
   AddFormButtonsContainer,
   ButtonSvg,
   ButtonTitle,
   CancelButton,
-  CancelSearchSvg,
   DateField,
   DoneButton,
   NumberInputField,
-  SearchField,
-  SelectHeader,
-  SelectHeaderButton,
   TextInputField,
 } from '../../../theme/global';
 import { NumericFormatCustom } from '../../../utils/format/cash';
 import dayjs from 'dayjs';
-import { InputAdornment } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { currencies } from '../../../utils/constants/currencies';
+import AccountsItems from '../../transactions/utils/accounts/AccountsItems';
 
 function TransferTransactionForm({ accounts, setOpenDialog }) {
   const { transactionAccount } = useParams();
@@ -65,68 +56,20 @@ function TransferTransactionForm({ accounts, setOpenDialog }) {
           inputComponent: NumericFormatCustom,
         }}
       />
-      <TextInputField
-        margin="normal"
-        required
-        select
-        label={t('NEW_TRANSACTION.ORIGIN_ACCOUNT')}
-        value={originAccount}
-        onChange={(event) => setOriginAccount(event.target.value)}
-      >
-        <SelectHeader>
-          {t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}
-          <SelectHeaderButton>
-            <AddButtonSvg as={PlusIcon} />
-          </SelectHeaderButton>
-        </SelectHeader>
-        <SearchField
-          placeholder={t('NEW_TRANSACTION.SEARCH_ACCOUNTS')}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <CancelSearchSvg as={CancelSearchIcon} />
-              </InputAdornment>
-            ),
-          }}
-        />
-        {renderAccounts(filteredAccounts, t)}
-      </TextInputField>
-      <TextInputField
-        margin="normal"
-        required
-        select
-        label={t('NEW_TRANSACTION.DESTINATION_ACCOUNT')}
-        value={destAccount}
-        onChange={(event) => setDestAccount(event.target.value)}
-      >
-        <SelectHeader>
-          {t('NEW_TRANSACTION.AVAILABLE_ACCOUNTS')}
-          <SelectHeaderButton>
-            <AddButtonSvg as={PlusIcon} />
-          </SelectHeaderButton>
-        </SelectHeader>
-        <SearchField
-          placeholder={t('NEW_TRANSACTION.SEARCH_ACCOUNTS')}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <CancelSearchSvg as={CancelSearchIcon} />
-              </InputAdornment>
-            ),
-          }}
-        />
-        {renderAccounts(filteredAccounts, t)}
-      </TextInputField>
+      <AccountsItems
+        accounts={filteredAccounts}
+        account={originAccount}
+        setAccount={setOriginAccount}
+        setOpenAccountDialog={() => null}
+        fieldLabel="NEW_TRANSACTION.ORIGIN_ACCOUNT"
+      />
+      <AccountsItems
+        accounts={filteredAccounts}
+        account={originAccount}
+        setAccount={setOriginAccount}
+        setOpenAccountDialog={() => null}
+        fieldLabel="NEW_TRANSACTION.DESTINATION_ACCOUNT"
+      />
       <DateField
         required
         label={t('NEW_TRANSACTION.DATE')}

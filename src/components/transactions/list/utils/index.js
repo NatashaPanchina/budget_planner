@@ -1,9 +1,4 @@
-import React from 'react';
-
 import { add, dinero, subtract, toDecimal, toSnapshot } from 'dinero.js';
-
-import { ReactComponent as NotesIcon } from '../../../../assets/icons/shared/notes.svg';
-import { Notes, NotesSvg } from '../../Transactions.styled';
 import { createFiltertype } from '../../utils';
 import { idbAddItem, idbDeleteItem } from '../../../../indexedDB/IndexedDB';
 import { USD } from '@dinero.js/currencies';
@@ -54,17 +49,6 @@ const createNewBalance = async (transaction, accounts, mainCurrency) => {
       return toSnapshot(accountBalance);
   }
 };
-
-export function renderNotes(notes) {
-  if (notes) {
-    return (
-      <Notes>
-        <NotesSvg as={NotesIcon} />
-        {notes}
-      </Notes>
-    );
-  }
-}
 
 export function filterByType(transactions, filterType) {
   const transactionType = createFiltertype(filterType);

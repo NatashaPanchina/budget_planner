@@ -1,26 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
 import { dinero, toDecimal } from 'dinero.js';
-
-import {
-  renderCategories,
-  renderAccounts,
-  renderCurrencies,
-} from '../utils/index.js';
-
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
-import { ReactComponent as PlusIcon } from '../../../assets/icons/shared/plus.svg';
-import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
-import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/hoverDelete.svg';
-
 import {
-  AddButtonSvg,
   AddFormButtonsContainer,
   AmountFieldsContainer,
   ArchiveButton,
@@ -28,21 +14,15 @@ import {
   ButtonSvg,
   ButtonTitle,
   CancelButton,
-  CancelSearchSvg,
-  CurrencyInputField,
   DateField,
   DoneButton,
   FilterTooltip,
   HeaderDialog,
   InfoDialog,
   NumberInputField,
-  SearchField,
-  SelectHeader,
-  SelectHeaderButton,
   TextInputField,
 } from '../../../theme/global.js';
-import { Dialog, InputAdornment } from '@mui/material';
-
+import { Dialog } from '@mui/material';
 import dayjs from 'dayjs';
 import {
   NumericFormatCustom,
@@ -54,6 +34,9 @@ import AddCategory from '../../categories/addCategory/AddCategory.js';
 import AddAccount from '../../accounts/addAccount/AddAccount.js';
 import { deleteClick } from '../list/utils/index.js';
 import DeleteAlert from '../../alerts/DeleteAlert.js';
+import CurrenciesItems from '../utils/currencies/CurrenciesItems.js';
+import CategoriesItems from '../utils/categories/CategoriesItems.js';
+import AccountsItems from '../utils/accounts/AccountsItems.js';
 
 function InfoTransaction({
   clickedTransaction,
@@ -134,17 +117,11 @@ function InfoTransaction({
         </FilterTooltip>
       </HeaderDialog>
       <AmountFieldsContainer>
-        <CurrencyInputField
-          margin="normal"
-          required
-          select
-          fullWidth
-          label={t('INFO_TRANSACTION.CURRENCY')}
-          value={currency}
-          onChange={(event) => setCurrency(event.target.value)}
-        >
-          {renderCurrencies(names)}
-        </CurrencyInputField>
+        <CurrenciesItems
+          names={names}
+          currency={currency}
+          setCurrency={setCurrency}
+        />
         <NumberInputField
           margin="normal"
           required
@@ -167,74 +144,18 @@ function InfoTransaction({
           readOnly: true,
         }}
       />
-      <TextInputField
-        margin="normal"
-        required
-        select
-        label={t('INFO_TRANSACTION.CATEGORY')}
-        value={category}
-        onChange={(event) => setCategory(event.target.value)}
-      >
-        <SelectHeader>
-          {t('INFO_TRANSACTION.AVAILABLE_CATEGORIES')}
-          <SelectHeaderButton>
-            <AddButtonSvg
-              onClick={() => setOpenCategoryDialog(true)}
-              as={PlusIcon}
-            />
-          </SelectHeaderButton>
-        </SelectHeader>
-        <SearchField
-          placeholder={t('INFO_TRANSACTION.SEARCH_CATEGORY')}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <CancelSearchSvg as={CancelSearchIcon} />
-              </InputAdornment>
-            ),
-          }}
-        />
-        {renderCategories(filteredCategories)}
-      </TextInputField>
-      <TextInputField
-        margin="normal"
-        required
-        select
-        label={t('INFO_TRANSACTION.ACCOUNT')}
-        value={account}
-        onChange={(event) => setAccount(event.target.value)}
-      >
-        <SelectHeader>
-          {t('INFO_TRANSACTION.AVAILABLE_ACCOUNTS')}
-          <SelectHeaderButton>
-            <AddButtonSvg
-              onClick={() => setOpenAccountDialog(true)}
-              as={PlusIcon}
-            />
-          </SelectHeaderButton>
-        </SelectHeader>
-        <SearchField
-          placeholder={t('INFO_TRANSACTION.SEARCH_ACCOUNT')}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <CancelSearchSvg as={CancelSearchIcon} />
-              </InputAdornment>
-            ),
-          }}
-        />
-        {renderAccounts(notArchivedAccounts, t)}
-      </TextInputField>
+      <CategoriesItems
+        categories={filteredCategories}
+        category={category}
+        setCategory={setCategory}
+        setOpenCategoryDialog={setOpenCategoryDialog}
+      />
+      <AccountsItems
+        accounts={notArchivedAccounts}
+        account={account}
+        setAccount={setAccount}
+        setOpenAccountDialog={setOpenAccountDialog}
+      />
       <DateField
         required
         label={t('INFO_TRANSACTION.DATE')}
