@@ -33,13 +33,12 @@ import {
   ColorsPopoverPalette,
   PopoverField,
   NumberInputField,
-  CurrencyInputField,
   AmountFieldsContainer,
 } from '../../../theme/global';
 import dayjs from 'dayjs';
 import { currencies, names } from '../../../utils/constants/currencies';
-import { renderCurrencies } from '../../transactions/utils';
 import { cardDoneHandler } from './utils';
+import CurrenciesItems from '../../transactions/utils/currencies/CurrenciesItems';
 
 function CardForm({ categories, setOpenDialog }) {
   const dispatch = useDispatch();
@@ -72,17 +71,11 @@ function CardForm({ categories, setOpenDialog }) {
         </CardBalanceContainer>
       </CardView>
       <AmountFieldsContainer>
-        <CurrencyInputField
-          margin="normal"
-          required
-          select
-          fullWidth
-          label={t('ADD_ACCOUNT.CURRENCY')}
-          value={currency}
-          onChange={(event) => setCurrency(event.target.value)}
-        >
-          {renderCurrencies(names)}
-        </CurrencyInputField>
+        <CurrenciesItems
+          names={names}
+          currency={currency}
+          setCurrency={setCurrency}
+        />
         <NumberInputField
           margin="normal"
           required

@@ -302,3 +302,29 @@ export const clearIdb = (
     });
   });
 };
+
+export const idbUpdateItem = (id, newData, nameObjectStore) => {
+  return new Promise((resolve, reject) => {
+    idbOpen().then((idb) => {
+      const objectStore = idb
+        .transaction(nameObjectStore, 'readwrite')
+        .objectStore(nameObjectStore);
+      const cursorRequest = objectStore.openCursor();
+      cursorRequest.onsuccess = (event) => {
+        const cursor = event.target.result;
+        if (cursor) {
+          if (cursor.value.id === id) {
+            const updateRequest = cursor.update({
+              ...cursor.value,
+              ...newData,
+            });
+            updateRequest.onsuccess = () => resolve();
+            updateRequest.onerror = () => reject('idbUpdateItem Error');
+          }
+          cursor.continue();
+        }
+      };
+      cursorRequest.onerror = () => reject('idbUpdateCursor Error');
+    });
+  });
+};

@@ -21,7 +21,7 @@ import {
 import { dateFormatter } from '../../../../../utils/format/date';
 import { formatDineroOutput } from '../../../../../utils/format/cash';
 import { dinero } from 'dinero.js';
-import { deleteClick, renderNotes } from '../../../../transactions/list/utils';
+import { deleteClick } from '../../../../transactions/list/utils';
 import { InfoDialog, ToggleMenu } from '../../../../../theme/global';
 import { Dialog, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -33,6 +33,7 @@ import CategorySvg from '../../../../shared/CategorySvg';
 import AccountSvg from '../../../../shared/AccountSvg';
 import InfoTransaction from '../../../../transactions/infoTransaction/InfoTransaction';
 import DeleteAlert from '../../../../alerts/DeleteAlert';
+import Notes from '../../../../shared/Notes';
 
 function TransactionsPage({
   transactions,
@@ -118,7 +119,7 @@ function TransactionsPage({
                 <TransactionDate>
                   {dateFormatter.format(new Date(transaction.date))}
                 </TransactionDate>
-                {renderNotes(transaction.notes)}
+                <Notes notes={transaction.notes} />
               </TransactionItem>
               <ItemButtonsContainer>
                 <ToggleMenu

@@ -10,6 +10,44 @@
     "SEARCH_EVERYTHING": "Ищите все, что угодно",
     "SETTINGS": "Настройки"
   },
+  "ENTER_NAME": {
+    "WELCOME": "Добро пожаловать в приложение Neko Budget! Давайте заполним данные для вашего аккаунта. Для начала введите свое имя:",
+    "YOUR_NAME": "Ваше имя",
+    "NEXT": "Дальше"
+  },
+  "MAIN_CURRENCY": {
+    "SELECT_MAIN_CURRENCY": "Теперь, выберите валюту, в которой вам будет удобнее всего  отслеживать вашу финансовую деятельность. В этой валюте будут  производиться все вычисления и операции с финансами.",
+    "FINISH": "Закончить"
+  },
+  "SIGN_IN": {
+    "SIGN_IN": "Вход",
+    "SIGN_IN_WITH_GOOGLE": "Войти с помощью Google",
+    "SIGN_IN_WITH_TWITTER": "Войти с помощью Twitter",
+    "OR": "Или",
+    "EMAIL_ADDRESS": "Ваш Email адрес",
+    "PASSWORD": "Пароль",
+    "SIGN_IN_WITH_EMAIL": "Войти с помощью Email",
+    "CONTINUE_WITHOUT_ACCOUNT": "Продолжить без аккаунта",
+    "HAVE_AN_ACCOUNT": "Еще нет аккаунта?",
+    "SIGN_UP": "Зарегистрируйтесь"
+  },
+  "SIGN_UP": {
+    "SIGN_UP": "Регистрация",
+    "SIGN_UP_WITH_GOOGLE": "Регистрация с помощью Google",
+    "SIGN_UP_WITH_TWITTER": "Регистрация с помощью Twitter",
+    "OR": "Или",
+    "EMAIL_ADDRESS": "Ваш Email адрес",
+    "PASSWORD": "Пароль",
+    "SIGN_UP_WITH_EMAIL": "Регистрация с помощью Email",
+    "CONTINUE_WITHOUT_ACCOUNT": "Продолжить без аккаунта",
+    "HAVE_AN_ACCOUNT": "Уже есть аккаунт?",
+    "SIGN_IN": "Войти"
+  },
+  "DELETE_ACCOUNT": {
+    "DELETING_INFO": "Для того чтобы удалить ваш Neko Budget аккаунт вам необходимо подтвердить что это действительно вы. Пожалуйста, повторно войдите в свой аккаунт.",
+    "SIGN_IN_WITH_GOOGLE": "Войти с помощью Google",
+    "SIGN_IN_WITH_EMAIL": "Войти с помощью Email"
+  },
   "SEARCH": {
     "TITLE": "Глобальный поиск",
     "SEARCH_EVERYTHING": "Ищите все, что угодно",
@@ -72,7 +110,7 @@
       "LESS_THAN_FIVE": "транзакции",
       "MORE_THAN_FIVE": "транзакций"
     },
-    "NO_TRANSACTIONS": "Здесь пока нет ни одной транзакции",
+    "NO_TRANSACTIONS": "Упс. У вас еще нет ни одной зарегистрированной транзакции",
     "EDIT": "Редактировать",
     "DELETE": "Удалить"
   },
@@ -121,7 +159,9 @@
     "NOTES": "Заметки",
     "TAGS": "Теги",
     "DONE": "Готово",
-    "CANCEL": "Отмена"
+    "CANCEL": "Отмена",
+    "NO_CATEGORIES": "У вас еще нет ни одной добавленной категории",
+    "NO_ACCOUNTS": "У вас еще нет ни одних зарегистрированных денежных средств"
   },
   "ACCOUNTS_FILTERS": {
     "ALL_FILTERS": "Все фильтры",
@@ -162,7 +202,8 @@
     "EDIT": "Изменить",
     "NEW_TRANSFER": "Новый перевод",
     "ARCHIVE": "Архивировать",
-    "ARCHIVED": "Архив"
+    "ARCHIVED": "Архив",
+    "NO_ACCOUNTS": "Упс. У вас еще нет ни одних зарегистрированных денежных средств"
   },
   "ADD_ACCOUNT": {
     "TYPE": "Тип",
@@ -281,7 +322,8 @@
     "ADD_SUB": "Добавить подкатегорию",
     "EDIT": "Редактировать",
     "ARCHIVE": "Архивировать",
-    "ARCHIVED": "Архив"
+    "ARCHIVED": "Архив",
+    "NO_CATEGORIES": "Упс. У вас еще нет ни одной добавленной категории"
   },
   "ADD_CATEGORY": {
     "TITLE": "Новая категория",

@@ -31,6 +31,9 @@ import {
   RESET_TRANSACTIONS,
   RESET_CATEGORIES,
   RESET_ACCOUNTS,
+  UPDATE_PROFILE,
+  UPDATE_DISPLAY_NAME,
+  UPDATE_MAIN_CURRENCY,
 } from './ActionTypes';
 import { idbOpen } from '../indexedDB/IndexedDB';
 
@@ -72,6 +75,33 @@ export const changeMode = (mode) => {
   return {
     type: CHANGE_MODE,
     payload: mode,
+  };
+};
+
+export const updateHeaderProfile = (user) => {
+  return (dispatch) => {
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: user,
+    });
+  };
+};
+
+export const updateDisplayName = (name) => {
+  return (dispatch) => {
+    dispatch({
+      type: UPDATE_DISPLAY_NAME,
+      payload: name,
+    });
+  };
+};
+
+export const updateMainCurrency = (currency) => {
+  return (dispatch) => {
+    dispatch({
+      type: UPDATE_MAIN_CURRENCY,
+      payload: currency,
+    });
   };
 };
 

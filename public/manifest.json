@@ -1,0 +1,37 @@
+{
+    "name": "Neko Budget",
+    "short_name": "Neko Budget",
+    "description": "Neko Budget is a budgeting app that helps you allocate your budget correctly, track your essentials, and reach your savings goals.",
+    "theme_color": "#262626",
+    "background_color": "#fff",
+    "start_url": "/",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "maskable_icon.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "logo192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "logo256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "logo384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "logo512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

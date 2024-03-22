@@ -15,7 +15,7 @@ import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.sv
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delete.svg';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteClick, renderNotes } from './utils';
+import { deleteClick } from './utils';
 import { pages } from '../../../utils/constants/pages';
 import {
   Account,
@@ -55,6 +55,7 @@ import AccountSvg from '../../shared/AccountSvg';
 import { names } from '../../../utils/constants/currencies';
 import InfoTransaction from '../infoTransaction/InfoTransaction';
 import DeleteAlert from '../../alerts/DeleteAlert';
+import Notes from '../../shared/Notes';
 
 function TransactionsList({ transactions, accounts, categories }) {
   const filters = useSelector((state) => state.transactions.filters);
@@ -127,7 +128,7 @@ function TransactionsList({ transactions, accounts, categories }) {
       {transactions.length === 0 ? (
         <NoResultsContainer>
           <NoResults>
-            <div>Oops. You don t have any transactions yet:c</div>
+            <div>{t('TRANSACTIONS.NO_TRANSACTIONS')}</div>
           </NoResults>
         </NoResultsContainer>
       ) : searchData.length ? (
@@ -196,7 +197,7 @@ function TransactionsList({ transactions, accounts, categories }) {
                     <TransactionDate>
                       {dateFormatter.format(new Date(transaction.date))}
                     </TransactionDate>
-                    {renderNotes(transaction.notes)}
+                    <Notes notes={transaction.notes} />
                   </TransactionItem>
                   <ItemButtonsContainer>
                     <ToggleMenu

@@ -10,11 +10,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { inputGlobalStyles } from './theme/global';
 import { router } from './routes';
+import { initializeApp } from 'firebase/app';
+import firebaseConfigs from './configs/firebaseConfigs';
 
 function App() {
   const { i18n } = useTranslation();
   const header = useSelector((state) => state.header);
   const { language } = header;
+
+  initializeApp(firebaseConfigs);
 
   useEffect(() => {
     i18n.changeLanguage(language);

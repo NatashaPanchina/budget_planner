@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
-import { createLocaleCategories, renderNotes } from '../utils';
+import { createLocaleCategories } from '../utils';
 import { idbAddItem, idbDeleteItem } from '../../../indexedDB/IndexedDB';
 import {
   fetchCategoriesData,
@@ -11,14 +10,12 @@ import {
   deleteCategory,
   deleteTransaction,
 } from '../../../actions/Actions';
-
 import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.svg';
 import { ReactComponent as RestoreIcon } from '../../../assets/icons/shared/restore.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delete.svg';
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
-
 import {
   BackLink,
   BackLinkSvg,
@@ -47,6 +44,7 @@ import Loading from '../../loading/Loading';
 import NoResultsFound from '../../noResults/NoResultsFound';
 import CategorySvg from '../../shared/CategorySvg';
 import DeleteAlert from '../../alerts/DeleteAlert';
+import Notes from '../../shared/Notes';
 
 const ArchivedCount = styled('div')((props) => ({
   fontSize: '0.875rem',
@@ -180,7 +178,7 @@ export default function CategoriesTrash() {
                       }}
                     />
                   </EditButtons>
-                  {renderNotes(category.notes)}
+                  <Notes notes={category.notes} />
                 </CategoriesListItem>
               );
             })}

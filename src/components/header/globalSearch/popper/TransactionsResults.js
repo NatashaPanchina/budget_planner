@@ -13,10 +13,10 @@ import { categoryIcons } from '../../../../utils/constants/icons';
 import { dateFormatter } from '../../../../utils/format/date';
 import { formatDineroOutput } from '../../../../utils/format/cash';
 import { dinero } from 'dinero.js';
-import { renderNotes } from '../utils';
 import { useTranslation } from 'react-i18next';
 import { InfoDialog } from '../../../../theme/global';
 import InfoTransaction from '../../../transactions/infoTransaction/InfoTransaction';
+import Notes from '../../../shared/Notes';
 
 function TransactionsResults({ transactions, categories, accounts, query }) {
   const { t } = useTranslation();
@@ -105,7 +105,7 @@ function TransactionsResults({ transactions, categories, accounts, query }) {
                     transaction.amount.currency.code,
                   )}
                 </Amount>
-                {renderNotes(transaction.notes)}
+                <Notes notes={transaction.notes} />
               </TransactionItem>
             </ListItemContainer>
           </div>

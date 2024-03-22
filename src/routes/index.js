@@ -22,11 +22,17 @@ import MainCurrency from '../components/settings/options/mainCurrency/MainCurren
 import Notifications from '../components/settings/options/notifications/Notifications';
 import DataBackup from '../components/settings/options/databackup/DataBackup';
 import StorageUsage from '../components/settings/options/storageusage/StorageUsage';
+import Signup from '../components/auth/Signup';
+import SelectCurrency from '../components/auth/currency/SelectCurrency';
+import EnterName from '../components/auth/entername/EnterName';
+import Signin from '../components/auth/Signin';
+import PrivateRoute from './PrivateRoute';
+import DeletingAccount from '../components/settings/options/account/DeletingAccount';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: <PrivateRoute Component={Root} />,
     children: [
       {
         path: '/',
@@ -139,6 +145,26 @@ export const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: '/signup',
+    element: <Signup />,
+  },
+  {
+    path: '/selectMainCurrency',
+    element: <SelectCurrency />,
+  },
+  {
+    path: '/enterName',
+    element: <EnterName />,
+  },
+  {
+    path: '/signin',
+    element: <Signin />,
+  },
+  {
+    path: '/accountDeleting',
+    element: <DeletingAccount />,
   },
   {
     path: '*',

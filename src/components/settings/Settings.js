@@ -26,7 +26,7 @@ import { CancelSearchSvg, SearchField } from '../../theme/global';
 const SettingsOptions = styled('div')((props) => ({
   position: 'sticky',
   top: props.theme.spacing(14),
-  height: `calc(100vh - ${props.theme.spacing(14)})`,
+  height: `calc(100vh - ${props.theme.spacing(14 + 5 + 8)})`,
   overflowY: 'auto',
   '&::-webkit-scrollbar': {
     width: 0,
@@ -34,6 +34,7 @@ const SettingsOptions = styled('div')((props) => ({
   paddingTop: props.theme.spacing(5),
   paddingBottom: props.theme.spacing(8),
   '@media (min-width: 600px)': {
+    height: `calc(100vh - ${props.theme.spacing(14 + 5)})`,
     paddingBottom: 0,
   },
 }));

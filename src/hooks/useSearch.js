@@ -234,7 +234,18 @@ const sortAccounts = (accounts, sort, type, currencies, balance, notes) => {
   }
 };
 
-export const useAccountsSearch = (query, accounts, isArchived, filters) => {
+export const useAccountsSearch = (
+  query,
+  accounts,
+  isArchived,
+  filters = {
+    sort: 'By date',
+    type: 'All',
+    currencies: null,
+    balance: { from: null, to: null },
+    notes: 'All',
+  },
+) => {
   const filterAccount = createAccountFilter(useParams().filterCash);
   const { sort, type, currencies, balance, notes } = filters;
   const [filteredAccounts, setFilteredAccounts] = useState([]);
@@ -335,7 +346,12 @@ const sortCategories = (categories, sort, type, notes) => {
   }
 };
 
-export const useCategoriesSearch = (query, categories, isArchived, filters) => {
+export const useCategoriesSearch = (
+  query,
+  categories,
+  isArchived,
+  filters = { sort: 'By date', type: 'All', notes: 'All' },
+) => {
   const filterType = createFilterType(useParams().filterType);
   const { sort, type, notes } = filters;
   const [filteredCategories, setFilteredCategories] = useState([]);

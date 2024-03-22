@@ -21,6 +21,8 @@ import {
 import { dateFormatter } from '../../../../utils/format/date';
 import { useNavigate } from 'react-router-dom';
 import { pages } from '../../../../utils/constants/pages';
+import { logOut } from '../../../auth/utils';
+import { alpha } from '@mui/material';
 
 const Svg = styled('svg')((props) => ({
   paddingRight: props.theme.spacing(2),
@@ -38,6 +40,10 @@ const SignOutButton = styled(DeleteButton)((props) => ({
   marginLeft: props.theme.spacing(3),
   '@media (min-width: 768px)': {
     marginLeft: props.theme.spacing(8),
+  },
+  '&:hover': {
+    boxShadow: `0px 4px 10px ${alpha(props.theme.colors.expense, 0.2)}`,
+    transition: 'box-shadow 0.3s ease-out',
   },
 }));
 
@@ -65,7 +71,13 @@ function Account() {
           <UploadPhoto>{t('SETTINGS.ACCOUNT_INFO.UPLOAD_PHOTO')}</UploadPhoto>
         </Button>
       </SingleContainer>
-      <SignOutButton>Sign out from account</SignOutButton>
+      <SignOutButton
+        onClick={() => {
+          logOut(dispatch, navigate);
+        }}
+      >
+        Sign out from account
+      </SignOutButton>
       <Title>{t('SETTINGS.ACCOUNT_INFO.ACCOUNT_INFORMATION')}</Title>
       <MultilineContainer>
         <ItemContainer>

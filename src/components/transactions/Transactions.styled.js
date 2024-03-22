@@ -50,29 +50,34 @@ export const Card = styled(Link, {
   shouldForwardProp: (prop) =>
     prop !== '$background' && prop !== '$from' && prop !== '$to',
 })((props) => ({
+  position: 'relative',
   display: 'block',
-  height: 197,
-  width: 310,
+  paddingTop: '60%',
+  width: '100%',
+  marginLeft: props.theme.spacing(5),
+  marginRight: props.theme.spacing(5),
   borderRadius: props.theme.borderRadius,
   background: `url(${props.$background}) 0% 0% / cover no-repeat, linear-gradient(90deg, ${props.$from} 0%, ${props.$to} 100%)`,
   boxShadow: `0px 10px 30px ${alpha(props.$from, 0.3)}`,
   color: props.theme.colors.white,
   '@media (min-width: 600px)': {
-    height: 171,
-    width: 269,
+    marginLeft: props.theme.spacing(4),
+    marginRight: props.theme.spacing(4),
     boxShadow: `0px 10px 25px ${alpha(props.$from, 0.3)}`,
   },
   '@media (min-width: 900px)': {
-    height: 130,
-    width: 205,
     boxShadow: `0px 10px 20px ${alpha(props.$from, 0.3)}`,
+  },
+  '@media (min-width: 1400px)': {
+    marginLeft: props.theme.spacing(5),
+    marginRight: props.theme.spacing(5),
   },
 }));
 
 export const CardName = styled('div')((props) => ({
+  position: 'absolute',
+  top: 0,
   fontSize: '1rem',
-  width: '100%',
-  height: '10%',
   paddingTop: props.theme.spacing(2),
   paddingLeft: props.theme.spacing(4),
   '@media (min-width: 900px)': {
@@ -81,9 +86,11 @@ export const CardName = styled('div')((props) => ({
 }));
 
 export const CardBalanceContainer = styled(FlexContainer)(() => ({
+  position: 'absolute',
+  top: '45%',
+  width: '100%',
   flexDirection: 'column',
   justifyContent: 'center',
-  height: '74%',
 }));
 
 export const CardBalance = styled('div')(() => ({
@@ -122,7 +129,11 @@ export const CountTransactionsContainer = styled(FlexContainer)((props) => ({
 }));
 
 export const CountTransactionsBlock = styled('div')((props) => ({
-  width: '40%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textAlign: 'center',
+  width: '45%',
   marginBottom: props.theme.spacing(5),
   marginLeft: 'auto',
   marginRight: 'auto',
@@ -133,7 +144,9 @@ export const CountTransactionsBlock = styled('div')((props) => ({
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   borderRadius: props.theme.borderRadius,
   fontSize: '0.875rem',
-  textAlign: 'center',
+  '@media (min-width: 600px)': {
+    display: 'block',
+  },
   '@media (min-width: 900px)': {
     display: 'flex',
     alignItems: 'center',
@@ -142,43 +155,44 @@ export const CountTransactionsBlock = styled('div')((props) => ({
     paddingBottom: props.theme.spacing(5),
     paddingTop: props.theme.spacing(5),
     width: '90%',
+    maxWidth: 260,
   },
 }));
 
-export const ExpenseCountSvg = styled('svg')((props) => ({
+const MoreSvg = styled('svg')((props) => ({
   height: 40,
   width: 40,
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  '@media (min-width: 900px)': {
+    marginLeft: 0,
+    marginRight: props.theme.spacing(3),
+  },
+}));
+
+export const ExpenseCountSvg = styled(MoreSvg)((props) => ({
   filter: `drop-shadow( 0px 3px 5px ${alpha(
     props.theme.colors.linear.expense.from,
     0.4,
   )})`,
-  '@media (min-width: 900px)': {
-    marginRight: props.theme.spacing(3),
-  },
 }));
 
-export const IncomeCountSvg = styled('svg')((props) => ({
-  height: 40,
-  width: 40,
+export const IncomeCountSvg = styled(MoreSvg)((props) => ({
   filter: `drop-shadow( 0px 3px 5px ${alpha(
     props.theme.colors.linear.income.from,
     0.4,
   )})`,
-  '@media (min-width: 900px)': {
-    marginRight: props.theme.spacing(3),
-  },
 }));
 
-export const TransferCountSvg = styled('svg')((props) => ({
-  height: 40,
-  width: 40,
+export const TransferCountSvg = styled(MoreSvg)((props) => ({
   filter: `drop-shadow( 0px 3px 5px ${alpha(
     props.theme.colors.linear.transfer.from,
     0.4,
   )})`,
-  '@media (min-width: 900px)': {
-    marginRight: props.theme.spacing(3),
-  },
 }));
 
 const CountTransactions = styled('div')(() => ({
@@ -248,6 +262,7 @@ export const MobTransactionDate = styled(FlexContainer)((props) => ({
 
 export const ListItemContainer = styled('div')(() => ({
   position: 'relative',
+  cursor: 'pointer',
 }));
 
 export const TransactionItem = styled('div')((props) => ({

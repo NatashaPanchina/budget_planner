@@ -15,7 +15,6 @@ import {
 import { dinero } from 'dinero.js';
 import { formatDineroOutput } from '../../../../../utils/format/cash';
 import { CurrentBalance } from '../../GlobalSearch.styled';
-import { renderNotes } from '../../../../accounts/utils';
 import { InfoDialog, ToggleMenu } from '../../../../../theme/global';
 import { Dialog, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -30,6 +29,7 @@ import cardBackground from '../../../../../assets/icons/shared/cardBackground.sv
 import { CashListItemWrapper } from '../GlobalSearchPage.styled';
 import InfoAccount from '../../../../accounts/infoAccount/InfoAccount';
 import ArchiveAlert from '../../../../alerts/ArchiveAlert';
+import Notes from '../../../../shared/Notes';
 
 function AccountsPage({ accounts, categories, query }) {
   const dispatch = useDispatch();
@@ -77,7 +77,7 @@ function AccountsPage({ accounts, categories, query }) {
                 <CurrentBalance>{t('ACCOUNTS.CURRENT_BALANCE')}</CurrentBalance>
               </CardBalanceContainer>
             </Card>
-            {renderNotes(account.notes)}
+            <Notes notes={account.notes} />
             <div>
               <ToggleMenu
                 anchorEl={anchorEl}

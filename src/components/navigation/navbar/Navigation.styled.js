@@ -109,12 +109,13 @@ export const MobileNavigationBackground = styled(FlexContainer)((props) => ({
   height: '100%',
 }));
 
-export const MobileNavigationLink = styled(NavLink)(() => ({
+export const MobileNavigationLink = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   opacity: 'initial',
   position: 'absolute',
+  cursor: 'pointer',
 }));
 
 export const MobileTransferLink = styled(MobileNavigationLink)((props) => ({

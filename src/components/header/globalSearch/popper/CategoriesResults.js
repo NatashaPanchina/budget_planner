@@ -7,10 +7,10 @@ import {
   CategoriesSvg,
   ListItemContainer,
 } from '../GlobalSearch.styled';
-import { renderNotes } from '../utils';
 import { useTranslation } from 'react-i18next';
 import { InfoDialog } from '../../../../theme/global';
 import InfoCategory from '../../../categories/infoCategory/InfoCategory';
+import Notes from '../../../shared/Notes';
 
 function CategoriesResults({ categories, query }) {
   const { t } = useTranslation();
@@ -67,7 +67,7 @@ function CategoriesResults({ categories, query }) {
                 </CategoriesSvg>
                 {category.description}
               </CategoriesDescription>
-              {renderNotes(category.notes)}
+              <Notes notes={category.notes} />
             </CategoriesListItem>
           </ListItemContainer>
         );

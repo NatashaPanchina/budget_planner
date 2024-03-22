@@ -3,9 +3,34 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Budget planner</title>
+    <meta name="theme-color" content="#262626" />
+    <title>Neko budget</title>
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <style>
+      .preloader {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(109.86deg, #b67fff -2.35%, #6d73ff 81.35%);
+      }
+      .preloader img {
+        width: 100px;
+        height: 100px;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="preloader">
+        <img src="%PUBLIC_URL%/logo.svg" />
+      </div>
+    </div>
   </body>
 </html>

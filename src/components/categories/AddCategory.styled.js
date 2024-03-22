@@ -4,6 +4,7 @@ import { BackLink, BackLinkSvg } from '../../theme/global';
 export const AddCategoryTitle = styled('div', {
   shouldForwardProp: (prop) => prop !== '$isActive',
 })((props) => ({
+  cursor: 'pointer',
   height: 60,
   width: '33.3%',
   display: 'flex',
