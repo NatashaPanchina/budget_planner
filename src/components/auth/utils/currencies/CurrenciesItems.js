@@ -35,14 +35,6 @@ const CurrencyField = styled(TextField)((props) => ({
 }));
 
 function CurrenciesItems({ names, currency, setCurrency }) {
-  const results = [];
-  for (let currencyName in names) {
-    results.push(
-      <MenuItem key={names[currencyName]} value={names[currencyName]}>
-        {names[currencyName]}
-      </MenuItem>,
-    );
-  }
   return (
     <CurrencyField
       margin="normal"
@@ -52,7 +44,11 @@ function CurrenciesItems({ names, currency, setCurrency }) {
       value={currency}
       onChange={(event) => setCurrency(event.target.value)}
     >
-      {results}
+      {Object.values(names).map((currencyName) => (
+        <MenuItem key={currencyName} value={currencyName}>
+          {currencyName}
+        </MenuItem>
+      ))}
     </CurrencyField>
   );
 }
