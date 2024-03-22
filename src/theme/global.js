@@ -332,9 +332,13 @@ export const SelectHeader = styled('div')((props) => ({
 }));
 
 export const SelectHeaderButton = styled('div')((props) => ({
+  cursor: 'pointer',
   position: 'absolute',
   right: 0,
   fill: props.theme.colors.main.violet,
+  '&:hover': {
+    fill: props.theme.colors.main.purple,
+  },
 }));
 
 export const TextInputField = styled(TextField)((props) => ({

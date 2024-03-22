@@ -202,11 +202,15 @@ export const SelectContainer = styled(FlexContainer)((props) => ({
   },
 }));
 
-export const NextLinkContainer = styled('div')(() => ({
+export const NextLinkContainer = styled('div')((props) => ({
+  cursor: 'pointer',
   textDecoration: 'none',
   position: 'absolute',
   bottom: 0,
   width: '100%',
+  '&:hover': {
+    color: alpha(props.theme.colors.white, 0.7),
+  },
 }));
 
 export const TextInfo = styled('div')(() => ({

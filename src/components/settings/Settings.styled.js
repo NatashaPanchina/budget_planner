@@ -1,4 +1,4 @@
-import { FormControlLabel, Radio, Switch, styled } from '@mui/material';
+import { FormControlLabel, Radio, Switch, alpha, styled } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 export const MainOption = styled('div')((props) => ({
@@ -29,6 +29,9 @@ export const OptionsContainer = styled('div')((props) => ({
     paddingLeft: props.theme.spacing(4),
     color: props.theme.colors.text.darker,
     backgroundColor: props.theme.colors.background.body,
+  },
+  '&:hover': {
+    color: props.theme.colors.text.darkest,
   },
 }));
 
@@ -161,11 +164,19 @@ export const EditButton = styled(Button)((props) => ({
   paddingRight: props.theme.spacing(3),
   borderRadius: props.theme.borderRadius,
   width: 'fit-content',
+  '&:hover': {
+    boxShadow: `0px 4px 10px ${alpha(props.theme.colors.main.violet, 0.2)}`,
+    transition: 'box-shadow 0.3s ease-out',
+  },
 }));
 
 export const DeleteButton = styled(EditButton)((props) => ({
   border: `1px solid ${props.theme.colors.expense}`,
   color: props.theme.colors.expense,
+  '&:hover': {
+    boxShadow: `0px 4px 10px ${alpha(props.theme.colors.expense, 0.2)}`,
+    transition: 'box-shadow 0.3s ease-out',
+  },
 }));
 
 export const TextContainer = styled('div')((props) => ({
