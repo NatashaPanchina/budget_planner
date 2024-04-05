@@ -1,3 +1,9 @@
+import { initializeApp } from 'firebase/app';
+import {
+  initializeAppCheck,
+  ReCaptchaEnterpriseProvider,
+} from 'firebase/app-check';
+
 const firebaseConfigs = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -8,4 +14,15 @@ const firebaseConfigs = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
-export default firebaseConfigs;
+const app = initializeApp(firebaseConfigs);
+
+if (process.env.NODE_ENV !== 'production') {
+  self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+}
+
+initializeAppCheck(app, {
+  provider: new ReCaptchaEnterpriseProvider(
+    process.env.REACT_APP_RECAPTCHA_KEY,
+  ),
+  isTokenAutoRefreshEnabled: true,
+});
