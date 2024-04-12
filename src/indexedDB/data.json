@@ -9,7 +9,8 @@
     "lastLoginAt": "1706189250431",
     "phoneNumber": null,
     "photoURL": null,
-    "currency": "USD"
+    "currency": "USD",
+    "backupDate": 1699722082303
   },
   "accounts": {
     "fetching": false,

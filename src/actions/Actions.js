@@ -34,6 +34,7 @@ import {
   UPDATE_PROFILE,
   UPDATE_DISPLAY_NAME,
   UPDATE_MAIN_CURRENCY,
+  IDB_FETCH_TRANSACTIONS_FAILURE,
 } from './ActionTypes';
 import { idbOpen } from '../indexedDB/IndexedDB';
 
@@ -245,7 +246,7 @@ export const fetchTransactionsData = () => {
   return fetchData('transactions', {
     init: IDB_FETCH_TRANSACTIONS_INIT,
     success: IDB_FETCH_TRANSACTIONS_SUCCESS,
-    failure: IDB_FETCH_CATEGORIES_FAILURE,
+    failure: IDB_FETCH_TRANSACTIONS_FAILURE,
   });
 };
 

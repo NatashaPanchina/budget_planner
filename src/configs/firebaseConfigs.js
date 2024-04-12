@@ -3,6 +3,8 @@ import {
   initializeAppCheck,
   ReCaptchaEnterpriseProvider,
 } from 'firebase/app-check';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfigs = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -16,6 +18,8 @@ const firebaseConfigs = {
 
 const app = initializeApp(firebaseConfigs);
 
+export const auth = getAuth(app);
+
 if (process.env.NODE_ENV !== 'production') {
   self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
 }
@@ -26,3 +30,5 @@ initializeAppCheck(app, {
   ),
   isTokenAutoRefreshEnabled: true,
 });
+
+export const db = getFirestore(app);
