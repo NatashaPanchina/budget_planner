@@ -55,7 +55,12 @@ export const signUpAnonym = async (auth, dispatch, navigate) => {
   }
 };
 
-export const signInWithPassword = async (email, password, navigate) => {
+export const signInWithPassword = async (
+  email,
+  password,
+  navigate,
+  dispatch,
+) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
     if (auth.currentUser !== null) {
@@ -69,8 +74,13 @@ export const signInWithPassword = async (email, password, navigate) => {
           lastLoginAt: auth.currentUser.metadata.lastLoginAt,
         },
       }).then(() => {
+        dispatch(
+          updateHeaderProfile({
+            ...result.profileData,
+            lastLoginAt: auth.currentUser.metadata.lastLoginAt,
+          }),
+        );
         navigate(pages.transactions.main);
-        console.log('doesn t navigate (?)');
       });
     }
   } catch (error) {
@@ -80,7 +90,11 @@ export const signInWithPassword = async (email, password, navigate) => {
   }
 };
 
-export const signInWithGooglePopup = async (googleProvider, navigate) => {
+export const signInWithGooglePopup = async (
+  googleProvider,
+  navigate,
+  dispatch,
+) => {
   try {
     const response = await signInWithPopup(auth, googleProvider);
     if (response !== null) {
@@ -93,6 +107,12 @@ export const signInWithGooglePopup = async (googleProvider, navigate) => {
           lastLoginAt: auth.currentUser.metadata.lastLoginAt,
         },
       }).then(() => {
+        dispatch(
+          updateHeaderProfile({
+            ...result.profileData,
+            lastLoginAt: auth.currentUser.metadata.lastLoginAt,
+          }),
+        );
         navigate(pages.transactions.main);
       });
     }

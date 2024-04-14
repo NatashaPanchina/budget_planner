@@ -58,7 +58,9 @@ export default function Signin() {
       <SignInContainer>
         <SignInTitle>{t('SIGN_IN.SIGN_IN')}</SignInTitle>
         <SignInWithAcc
-          onClick={() => signInWithGooglePopup(googleProvider, navigate)}
+          onClick={() =>
+            signInWithGooglePopup(googleProvider, navigate, dispatch)
+          }
         >
           {t('SIGN_IN.SIGN_IN_WITH_GOOGLE')} <ProviderSvg as={GoogleIcon} />
         </SignInWithAcc>
@@ -82,7 +84,7 @@ export default function Signin() {
         />
         <MainButton
           onClick={() => {
-            signInWithPassword(email, password, navigate);
+            signInWithPassword(email, password, navigate, dispatch);
           }}
         >
           {t('SIGN_IN.SIGN_IN_WITH_EMAIL')}

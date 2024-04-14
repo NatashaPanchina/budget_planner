@@ -83,7 +83,6 @@ export const updateIDB = (data) => {
         'rates',
       ];
       names.forEach((name) => {
-        console.log(data[`${name}Data`]);
         promises.push(
           new Promise((resolve, reject) => {
             const transaction = idb.transaction(name, 'readwrite');
