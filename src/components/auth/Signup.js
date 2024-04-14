@@ -39,7 +39,6 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { t } = useTranslation();
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const googleProvider = new GoogleAuthProvider();
@@ -61,9 +60,10 @@ export default function Signup() {
           photoURL: response.user.photoURL,
           id: response.user.uid,
           currency: names.USD,
+          backupDate: Date.now(),
         };
         dispatch(updateHeaderProfile(data));
-        await idbAddItem(data, 'profile');
+        idbAddItem(data, 'profile');
         navigate(pages.enterName);
       }
     } catch (error) {
@@ -90,9 +90,10 @@ export default function Signup() {
           photoURL: auth.currentUser.photoURL,
           id: auth.currentUser.uid,
           currency: names.USD,
+          backupDate: Date.now(),
         };
         dispatch(updateHeaderProfile(data));
-        await idbAddItem(data, 'profile');
+        idbAddItem(data, 'profile');
         navigate(pages.enterName);
       }
     } catch (error) {

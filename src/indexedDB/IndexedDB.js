@@ -54,10 +54,10 @@ export function idbOpen() {
 
       if (process.env.NODE_ENV !== 'production') {
         loadJSON().then((data) => {
-          idbInitFromJson(profile, data.profile, 'profile');
-          idbInitFromJson(accounts, data.accounts.accounts);
-          idbInitFromJson(transactions, data.transactions.transactions);
-          idbInitFromJson(categories, data.categories.categories);
+          idbInit(profile, data.profile, 'profile');
+          idbInit(accounts, data.accounts.accounts);
+          idbInit(transactions, data.transactions.transactions);
+          idbInit(categories, data.categories.categories);
         });
       }
     };
@@ -66,13 +66,39 @@ export function idbOpen() {
   });
 }
 
-//в будущем здесь будет асинхронный запрос json файла с сервера
 async function loadJSON() {
   const data = dataJSON;
   return data;
 }
 
-function idbInitFromJson(objectStore, data, nameObjectStore) {
+export const updateIDB = (data) => {
+  return new Promise((resolve) => {
+    idbOpen().then((idb) => {
+      const promises = [];
+      const names = [
+        'profile',
+        'accounts',
+        'transactions',
+        'categories',
+        'rates',
+      ];
+      names.forEach((name) => {
+        promises.push(
+          new Promise((resolve, reject) => {
+            const transaction = idb.transaction(name, 'readwrite');
+            const objectStore = transaction.objectStore(name);
+            idbInit(objectStore, data[`${name}Data`], name);
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = () => reject('updateIDB Error');
+          }),
+        );
+      });
+      Promise.all(promises).then(resolve);
+    });
+  });
+};
+
+function idbInit(objectStore, data, nameObjectStore) {
   if (nameObjectStore === 'profile') {
     objectStore.put(data);
   } else {
@@ -124,6 +150,29 @@ export const idbDeleteItem = (id, nameObjectStore) => {
       };
       deleteRequest.onerror = () => reject('idbDeleteItem Error');
     });
+  });
+};
+
+export const getAllData = (nameObjectStore) => {
+  return new Promise((resolve, reject) => {
+    idbOpen().then(
+      (idb) => {
+        const objectStore = idb
+          .transaction(nameObjectStore, 'readonly')
+          .objectStore(nameObjectStore);
+        const resultData = [];
+        objectStore.openCursor().onsuccess = (event) => {
+          const cursor = event.target.result;
+          if (cursor) {
+            resultData.push(cursor.value);
+            cursor.continue();
+          } else {
+            resolve(resultData);
+          }
+        };
+      },
+      () => reject('IDBGetAllData Error'),
+    );
   });
 };
 

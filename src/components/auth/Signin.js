@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import { GoogleAuthProvider } from 'firebase/auth';
 import {
   Container,
   FlexContainer,
@@ -25,14 +20,17 @@ import {
 import { ReactComponent as LogoCatIcon } from '../../assets/icons/navigation/logoCat.svg';
 import { ReactComponent as LogoTitleIcon } from '../../assets/icons/navigation/logoTitle.svg';
 import { ReactComponent as GoogleIcon } from '../../assets/icons/shared/google.svg';
-import { idbAddItem } from '../../indexedDB/IndexedDB';
 import { useNavigate } from 'react-router-dom';
 import { pages } from '../../utils/constants/pages';
 import { useDispatch } from 'react-redux';
-import { fetchProfileData, updateHeaderProfile } from '../../actions/Actions';
+import { fetchProfileData } from '../../actions/Actions';
 import { useTranslation } from 'react-i18next';
-import { signUpAnonym } from './utils';
-import { names } from '../../utils/constants/currencies';
+import {
+  signInWithGooglePopup,
+  signInWithPassword,
+  signUpAnonym,
+} from './utils';
+import { auth } from '../../configs/firebaseConfigs';
 
 export default function Signin() {
   const [email, setEmail] = useState('');
@@ -43,61 +41,6 @@ export default function Signin() {
   const navigate = useNavigate();
   const googleProvider = new GoogleAuthProvider();
   googleProvider.setCustomParameters({ prompt: 'select_account' });
-  const auth = getAuth();
-  const signInWithGooglePopup = async () => {
-    try {
-      const response = await signInWithPopup(auth, googleProvider);
-      if (response !== null) {
-        const data = {
-          providerId: response.providerId,
-          displayName: response.user.displayName,
-          email: response.user.email,
-          emailVerified: response.user.emailVerified,
-          createdAt: response.user.metadata.createdAt,
-          lastLoginAt: response.user.metadata.lastLoginAt,
-          phoneNumber: response.user.phoneNumber,
-          photoURL: response.user.photoURL,
-          id: response.user.uid,
-          currency: names.USD,
-        };
-        dispatch(updateHeaderProfile(data));
-        await idbAddItem(data, 'profile');
-        navigate(pages.transactions.main);
-      }
-    } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log('Error ocured: ', errorCode, errorMessage);
-    }
-  };
-
-  const signInWithPassword = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      if (auth.currentUser !== null) {
-        const data = {
-          providerId: auth.currentUser.providerId,
-          displayName: auth.currentUser.displayName,
-          email: auth.currentUser.email,
-          password,
-          emailVerified: auth.currentUser.emailVerified,
-          createdAt: auth.currentUser.metadata.createdAt,
-          lastLoginAt: auth.currentUser.metadata.lastLoginAt,
-          phoneNumber: auth.currentUser.phoneNumber,
-          photoURL: auth.currentUser.photoURL,
-          id: auth.currentUser.uid,
-          currency: names.USD,
-        };
-        dispatch(updateHeaderProfile(data));
-        await idbAddItem(data, 'profile');
-        navigate(pages.transactions.main);
-      }
-    } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log('Error ocured: ', errorCode, errorMessage);
-    }
-  };
 
   useEffect(() => {
     //to init indexeddb
@@ -114,7 +57,11 @@ export default function Signin() {
       </LogoContainer>
       <SignInContainer>
         <SignInTitle>{t('SIGN_IN.SIGN_IN')}</SignInTitle>
-        <SignInWithAcc onClick={() => signInWithGooglePopup()}>
+        <SignInWithAcc
+          onClick={() =>
+            signInWithGooglePopup(googleProvider, navigate, dispatch)
+          }
+        >
           {t('SIGN_IN.SIGN_IN_WITH_GOOGLE')} <ProviderSvg as={GoogleIcon} />
         </SignInWithAcc>
         <OrdinaryText>{t('SIGN_IN.OR')}</OrdinaryText>
@@ -135,7 +82,11 @@ export default function Signin() {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-        <MainButton onClick={() => signInWithPassword()}>
+        <MainButton
+          onClick={() => {
+            signInWithPassword(email, password, navigate, dispatch);
+          }}
+        >
           {t('SIGN_IN.SIGN_IN_WITH_EMAIL')}
         </MainButton>
         <SignInWithoutAcc

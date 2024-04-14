@@ -1,21 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   BorderContainer,
   Button,
+  EditButton,
   FirstTitle,
   ItemContainer,
   ItemTitle,
   MobContainer,
   MultilineContainer,
+  SingleContainer,
   TextContainer,
   Title,
 } from '../../Settings.styled';
 import { useTranslation } from 'react-i18next';
+import Loading from '../../../loading/Loading';
+import { auth } from '../../../../configs/firebaseConfigs';
+import { onAuthStateChanged } from 'firebase/auth';
+import { backUpData } from './utils';
+import { dateFormatter } from '../../../../utils/format/date';
+import { updateHeaderProfile } from '../../../../actions/Actions';
+import { idbAddItem } from '../../../../indexedDB/IndexedDB';
 
 export default function DataBackup() {
   const { t } = useTranslation();
+  const header = useSelector((state) => state.header);
+  const dispatch = useDispatch();
+  const [uid, setUid] = useState(null);
+  const [backUpDate, setBackUpDate] = useState(header.profile.backupDate);
 
-  return (
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUid(user.uid);
+      } else {
+        setUid(null);
+      }
+    });
+  }, [auth]);
+
+  return header.status === 'loading' ? (
+    <Loading />
+  ) : (
     <MobContainer>
       <FirstTitle>{t('SETTINGS.DATA_BACKUP_INFO.DATA_BACKUP')}</FirstTitle>
       <TextContainer>
@@ -32,7 +58,7 @@ export default function DataBackup() {
         <ItemContainer>
           <div>
             <ItemTitle>{t('SETTINGS.DATA_BACKUP_INFO.BACKUP_DATE')}</ItemTitle>
-            <div>11.11.2023</div>
+            <div>{dateFormatter.format(backUpDate)}</div>
           </div>
         </ItemContainer>
         <ItemContainer>
@@ -46,6 +72,23 @@ export default function DataBackup() {
         {t('SETTINGS.DATA_BACKUP_INFO.DATA_BACKUP')}
         <Button>{t('SETTINGS.DATA_BACKUP_INFO.WEEKLY')}</Button>
       </BorderContainer>
+      <SingleContainer>
+        <EditButton
+          onClick={() => {
+            setBackUpDate(Date.now());
+            backUpData(uid, backUpDate);
+            dispatch(
+              updateHeaderProfile({
+                ...header.profile,
+                backUpDate,
+              }),
+            );
+            idbAddItem({ ...header.profile, backUpDate }, 'profile');
+          }}
+        >
+          Backup manually
+        </EditButton>
+      </SingleContainer>
     </MobContainer>
   );
 }
