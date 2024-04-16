@@ -144,13 +144,7 @@ export const CountTransactionsBlock = styled('div')((props) => ({
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   borderRadius: props.theme.borderRadius,
   fontSize: '0.875rem',
-  '@media (min-width: 600px)': {
-    display: 'block',
-  },
   '@media (min-width: 900px)': {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     textAlign: 'left',
     paddingBottom: props.theme.spacing(5),
     paddingTop: props.theme.spacing(5),
@@ -162,12 +156,7 @@ export const CountTransactionsBlock = styled('div')((props) => ({
 const MoreSvg = styled('svg')((props) => ({
   height: 40,
   width: 40,
-  display: 'none',
-  '@media (min-width: 600px)': {
-    display: 'flex',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
+  marginRight: props.theme.spacing(2),
   '@media (min-width: 900px)': {
     marginLeft: 0,
     marginRight: props.theme.spacing(3),
@@ -212,7 +201,7 @@ export const TransactionsTitleContainer = styled(FlexContainer)((props) => ({
   marginBottom: props.theme.spacing(4),
   borderBottom: `1px solid ${props.theme.colors.border.title}`,
   position: 'sticky',
-  top: props.theme.spacing(14),
+  top: props.theme.spacing(12),
   zIndex: 9,
   backgroundColor: props.theme.colors.background.body,
 }));

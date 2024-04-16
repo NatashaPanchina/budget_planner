@@ -185,17 +185,23 @@ function TransactionsAnalysis({
         <CommonInfoContainer>
           <CountTransactionsItem>
             <FlexContainer>
-              <CountItemHeader>Total transactions: </CountItemHeader>
+              <CountItemHeader>
+                {t('ANALYSIS.TOTAL_TRANSACTIONS')}:
+              </CountItemHeader>
               <CountNumber $type="saldo">
                 {filterByDate(filteredTransactions, date).length}
               </CountNumber>
             </FlexContainer>
             <FlexContainer>
-              <CountItemHeader>Incomes transactions: </CountItemHeader>
+              <CountItemHeader>
+                {t('ANALYSIS.INCOME_TRANSACTIONS')}:{' '}
+              </CountItemHeader>
               <CountNumber $type="income"> {incomes.length}</CountNumber>
             </FlexContainer>
             <FlexContainer>
-              <CountItemHeader>Expenses transactions: </CountItemHeader>
+              <CountItemHeader>
+                {t('ANALYSIS.EXPENSES_TRANSACTIONS')}:{' '}
+              </CountItemHeader>
               <CountNumber $type="expense">{expenses.length}</CountNumber>
             </FlexContainer>
           </CountTransactionsItem>

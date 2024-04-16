@@ -140,3 +140,11 @@ export const dineroFromFloat = ({ amount: float, currency, scale }) => {
 
   return dinero({ amount, currency, scale });
 };
+
+export const isCashCorrect = (cash) => {
+  if (!cash) return false;
+  const numberCash = Number(cash);
+  if (!numberCash) return false;
+  if (numberCash <= 0) return false;
+  return true;
+};

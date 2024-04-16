@@ -14,11 +14,12 @@ import {
   NumberInputField,
   TextInputField,
 } from '../../../theme/global';
-import { NumericFormatCustom } from '../../../utils/format/cash';
+import { NumericFormatCustom, isCashCorrect } from '../../../utils/format/cash';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
 import { currencies } from '../../../utils/constants/currencies';
 import AccountsItems from '../../transactions/utils/accounts/AccountsItems';
+import { isDateCorrect } from '../../../utils/format/date';
 
 function TransferTransactionForm({ accounts, setOpenDialog }) {
   const { transactionAccount } = useParams();
@@ -28,11 +29,15 @@ function TransferTransactionForm({ accounts, setOpenDialog }) {
   const [originAccount, setOriginAccount] = useState('');
   const [destAccount, setDestAccount] = useState('');
   const [amount, setAmount] = useState(
-    toDecimal(dinero({ amount: 0, currency: currencies.USD })),
+    toDecimal(dinero({ amount: 1000, currency: currencies.USD })),
   );
   const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState([]);
+
+  const isCash = isCashCorrect(amount);
+  const isDate = isDateCorrect(date);
+  const isAccount = Boolean(filteredAccounts.length);
 
   useEffect(() => {
     setFilteredAccounts(accounts);
@@ -46,6 +51,8 @@ function TransferTransactionForm({ accounts, setOpenDialog }) {
   return (
     <>
       <NumberInputField
+        error={!isCash}
+        helperText={isCash ? '' : t('NEW_TRANSACTION.AMOUNT_GREATER_ZERO')}
         margin="normal"
         required
         label={t('NEW_TRANSACTION.AMOUNT')}
@@ -71,6 +78,12 @@ function TransferTransactionForm({ accounts, setOpenDialog }) {
         fieldLabel="NEW_TRANSACTION.DESTINATION_ACCOUNT"
       />
       <DateField
+        slotProps={{
+          textField: {
+            helperText: isDate ? '' : t('NEW_TRANSACTION.DATE_CANT_BE_MORE'),
+          },
+        }}
+        $isError={!isDate}
         required
         label={t('NEW_TRANSACTION.DATE')}
         value={date}
@@ -91,7 +104,12 @@ function TransferTransactionForm({ accounts, setOpenDialog }) {
         onChange={(event) => setTags(event.target.value)}
       />
       <AddFormButtonsContainer>
-        <DoneButton onClick={() => setOpenDialog(false)}>
+        <DoneButton
+          onClick={() => {
+            if (!isCash || !isDate || !isAccount) return;
+            setOpenDialog(false);
+          }}
+        >
           <ButtonSvg as={DoneIcon} />
           <ButtonTitle>{t('NEW_TRANSACTION.DONE')}</ButtonTitle>
         </DoneButton>

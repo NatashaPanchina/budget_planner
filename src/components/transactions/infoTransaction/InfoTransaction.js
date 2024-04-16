@@ -27,6 +27,7 @@ import dayjs from 'dayjs';
 import {
   NumericFormatCustom,
   formatDineroOutput,
+  isCashCorrect,
 } from '../../../utils/format/cash/index.js';
 import { currencies, names } from '../../../utils/constants/currencies.js';
 import { doneEventHandler } from './utils/index.js';
@@ -37,6 +38,7 @@ import DeleteAlert from '../../alerts/DeleteAlert.js';
 import CurrenciesItems from '../utils/currencies/CurrenciesItems.js';
 import CategoriesItems from '../utils/categories/CategoriesItems.js';
 import AccountsItems from '../utils/accounts/AccountsItems.js';
+import { isDateCorrect } from '../../../utils/format/date/index.js';
 
 function InfoTransaction({
   clickedTransaction,
@@ -57,7 +59,7 @@ function InfoTransaction({
   const [account, setAccount] = useState('');
   const [currency, setCurrency] = useState(names.USD);
   const [amount, setAmount] = useState(
-    toDecimal(dinero({ amount: 0, currency: currencies[currency] })),
+    toDecimal(dinero({ amount: 1000, currency: currencies[currency] })),
   );
   const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
@@ -82,6 +84,10 @@ function InfoTransaction({
   const infoTransaction = transactions.find(
     (transaction) => transaction.id === clickedTransaction,
   );
+  const isCash = isCashCorrect(amount);
+  const isDate = isDateCorrect(date);
+  const isCategory = Boolean(filteredCategories.length);
+  const isAccount = Boolean(notArchivedAccounts.length);
 
   useEffect(() => {
     const selectedTransaction = transactions.find(
@@ -123,6 +129,8 @@ function InfoTransaction({
           setCurrency={setCurrency}
         />
         <NumberInputField
+          error={!isCash}
+          helperText={isCash ? '' : t('NEW_TRANSACTION.AMOUNT_GREATER_ZERO')}
           margin="normal"
           required
           label={t('INFO_TRANSACTION.AMOUNT')}
@@ -157,6 +165,12 @@ function InfoTransaction({
         setOpenAccountDialog={setOpenAccountDialog}
       />
       <DateField
+        slotProps={{
+          textField: {
+            helperText: isDate ? '' : t('NEW_TRANSACTION.DATE_CANT_BE_MORE'),
+          },
+        }}
+        $isError={!isDate}
         required
         label={t('INFO_TRANSACTION.DATE')}
         value={date}
@@ -179,6 +193,7 @@ function InfoTransaction({
       <AddFormButtonsContainer>
         <DoneButton
           onClick={() => {
+            if (!isCash || !isDate || !isAccount || !isCategory) return;
             doneEventHandler(
               clickedTransaction,
               id,

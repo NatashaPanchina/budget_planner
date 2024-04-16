@@ -158,6 +158,7 @@ export default function Accounts() {
       </Drawer>
       <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <AddAccount
+          accounts={accounts}
           categories={categories.categories}
           setOpenDialog={setOpenDialog}
         />

@@ -114,7 +114,6 @@ export const useTransactionsSearch = (query, transactions, filters) => {
     filters;
 
   useEffect(() => {
-    console.log('useEffect');
     const filteredQuery = filterQuery(query);
     if (filteredQuery) {
       idbSearchItems(filteredQuery, 'transactions').then((result) => {

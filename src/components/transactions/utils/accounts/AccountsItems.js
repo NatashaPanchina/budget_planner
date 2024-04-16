@@ -36,6 +36,10 @@ function AccountsItems({
 
   return (
     <TextInputField
+      error={accounts.length ? false : true}
+      helperText={
+        accounts.length ? '' : t('NEW_TRANSACTION.NO_ACCOUNT_SELECTED')
+      }
       margin="normal"
       required
       select

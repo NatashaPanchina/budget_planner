@@ -43,14 +43,8 @@ export const BarChartInfo = styled(FlexContainer)((props) => ({
 
 export const BarChartContainer = styled('div')(() => ({
   display: 'none',
-  '@media (min-width: 600px)': {
-    display: 'block',
-    width: '20%',
-    height: 200,
-    marginLeft: 0,
-    marginRight: 'auto',
-  },
   '@media (min-width: 900px)': {
+    display: 'block',
     width: '80%',
     height: '40%',
     marginLeft: 'auto',
@@ -114,6 +108,9 @@ export const CountInfo = styled(CountTransactions)((props) => {
 });
 
 export const BarChartInfoItem = styled('div')((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   width: '40%',
   marginLeft: 'auto',
   marginRight: 'auto',
@@ -126,9 +123,6 @@ export const BarChartInfoItem = styled('div')((props) => ({
   textAlign: 'center',
   fontSize: '0.875rem',
   '@media (min-width: 768px)': {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     textAlign: 'left',
     padding: `${props.theme.spacing(5)} ${props.theme.spacing(3)}`,
   },
@@ -173,7 +167,7 @@ export const CategoriesTitleContainer = styled(FlexContainer)((props) => ({
   marginBottom: props.theme.spacing(4),
   borderBottom: `1px solid ${props.theme.colors.border.title}`,
   position: 'sticky',
-  top: props.theme.spacing(14),
+  top: props.theme.spacing(12),
   zIndex: 9,
   backgroundColor: props.theme.colors.background.body,
 }));

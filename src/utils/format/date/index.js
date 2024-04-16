@@ -49,3 +49,10 @@ export const getLanguageLocale = (language) => {
       return 'en-US';
   }
 };
+
+export const isDateCorrect = (date) => {
+  if (!date) return false;
+  const currentDate = new Date();
+  if (date > currentDate) return false;
+  return true;
+};
