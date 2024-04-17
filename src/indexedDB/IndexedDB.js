@@ -100,6 +100,7 @@ export const updateIDB = (data) => {
 
 function idbInit(objectStore, data, nameObjectStore) {
   if (nameObjectStore === 'profile') {
+    //onerror reject сделать
     objectStore.put(data);
   } else {
     for (let key in data) {

@@ -29,7 +29,16 @@
     "SIGN_IN_WITH_EMAIL": "Войти с помощью Email",
     "CONTINUE_WITHOUT_ACCOUNT": "Продолжить без аккаунта",
     "HAVE_AN_ACCOUNT": "Еще нет аккаунта?",
-    "SIGN_UP": "Зарегистрируйтесь"
+    "SIGN_UP": "Зарегистрируйтесь",
+    "INVALID": {
+      "EMAIL": "Некорректный email",
+      "EMAIL_OR_PASSWORD": "Неверный email или пароль",
+      "USER_DISABLED": "Пользователь был отключен",
+      "NO_USER": "Не существует пользователя с таким email",
+      "PASSWORD": "Неверный пароль",
+      "TRY_LATER": "Операция не прошла. Попробуйте позже",
+      "FAILED_LOG_IN": "Не удалось выполнить вход"
+    }
   },
   "SIGN_UP": {
     "SIGN_UP": "Регистрация",
@@ -41,7 +50,17 @@
     "SIGN_UP_WITH_EMAIL": "Регистрация с помощью Email",
     "CONTINUE_WITHOUT_ACCOUNT": "Продолжить без аккаунта",
     "HAVE_AN_ACCOUNT": "Уже есть аккаунт?",
-    "SIGN_IN": "Войти"
+    "SIGN_IN": "Войти",
+    "INVALID": {
+      "EMAIL": "Некорректный email",
+      "EMAIL_OR_PASSWORD": "Неверный email или пароль",
+      "USER_DISABLED": "Пользователь был отключен",
+      "NO_USER": "Не существует пользователя с таким email",
+      "PASSWORD": "Неверный пароль",
+      "TRY_LATER": "Операция не прошла. Попробуйте позже",
+      "FAILED_LOG_IN": "Не удалось выполнить вход",
+      "EMAIL_USED": "Email уже занят"
+    }
   },
   "DELETE_ACCOUNT": {
     "DELETING_INFO": "Для того чтобы удалить ваш Neko Budget аккаунт вам необходимо подтвердить что это действительно вы. Пожалуйста, повторно войдите в свой аккаунт.",

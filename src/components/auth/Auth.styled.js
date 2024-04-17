@@ -122,6 +122,11 @@ export const TextInputField = styled(TextField)((props) => ({
   '& label.Mui-focused': {
     color: props.theme.colors.main.violet,
   },
+  '& .MuiFormHelperText-root': {
+    backgroundColor: props.theme.colors.background.body,
+    marginLeft: 0,
+    marginRight: 0,
+  },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       borderRadius: props.theme.borderRadius,
@@ -215,4 +220,11 @@ export const NextLinkContainer = styled('div')((props) => ({
 
 export const TextInfo = styled('div')(() => ({
   width: '100%',
+}));
+
+export const ErrorHelperText = styled('div', {
+  shouldForwardProp: (prop) => prop !== '$isShowError',
+})((props) => ({
+  display: props.$isShowError ? 'block' : 'none',
+  color: props.theme.colors.error,
 }));

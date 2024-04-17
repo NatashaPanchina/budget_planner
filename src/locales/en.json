@@ -29,7 +29,16 @@
     "SIGN_IN_WITH_EMAIL": "Sign in with email",
     "CONTINUE_WITHOUT_ACCOUNT": "Continue using servises without account",
     "HAVE_AN_ACCOUNT": "Don't have an account yet?",
-    "SIGN_UP": "Sign up"
+    "SIGN_UP": "Sign up",
+    "INVALID": {
+      "EMAIL": "Invalid email",
+      "EMAIL_OR_PASSWORD": "Invalid email or password",
+      "USER_DISABLED": "The user has been disabled",
+      "NO_USER": "There is no user with that email",
+      "PASSWORD": "Invalid password",
+      "TRY_LATER": "Invalid operation. Try later",
+      "FAILED_LOG_IN": "Failed to log in"
+    }
   },
   "SIGN_UP": {
     "SIGN_UP": "Sign up",
@@ -41,7 +50,17 @@
     "SIGN_UP_WITH_EMAIL": "Sign up with email",
     "CONTINUE_WITHOUT_ACCOUNT": "Continue without account",
     "HAVE_AN_ACCOUNT": "Already have an account?",
-    "SIGN_IN": "Sign in"
+    "SIGN_IN": "Sign in",
+    "INVALID": {
+      "EMAIL": "Invalid email",
+      "EMAIL_OR_PASSWORD": "Invalid email or password",
+      "USER_DISABLED": "The user has been disabled",
+      "NO_USER": "There is no user with that email",
+      "PASSWORD": "Invalid password",
+      "TRY_LATER": "Invalid operation. Try later",
+      "FAILED_LOG_IN": "Failed to log in",
+      "EMAIL_USED": "Email already in use"
+    }
   },
   "DELETE_ACCOUNT": {
     "DELETING_INFO": "You should confirm that it is actually you in order to delete your Neko Budget account. Please take a signing in again.",
