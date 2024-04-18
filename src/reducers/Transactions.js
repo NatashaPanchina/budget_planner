@@ -8,11 +8,13 @@ import {
   RESET_TRANSACTIONS,
   UPDATE_TRANSACTIONS_FILTERS,
 } from '../actions/ActionTypes';
+import { getCurrentMonth } from '../utils/format/date';
 
 const initialState = {
   status: 'idle',
   error: null,
   filters: {
+    date: getCurrentMonth(),
     sort: 'By date',
     type: 'All',
     accounts: null,

@@ -22,6 +22,19 @@ export const getCurrentMonth = () => {
   };
 };
 
+export const getLastMonth = () => {
+  let from = new Date();
+  from.setMonth(from.getMonth() - 1);
+  from.setDate(1);
+  let to = new Date();
+  to.setDate(0);
+  return {
+    from,
+    to,
+    during: 'month',
+  };
+};
+
 export const convertPeriod = (date, during, language) => {
   const locale = getLanguageLocale(language);
 

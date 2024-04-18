@@ -13,7 +13,11 @@ import {
   filterByAccount,
   getCashRate,
 } from '../utils/shared';
-import { convertPeriod } from '../../../utils/format/date';
+import {
+  convertPeriod,
+  getCurrentMonth,
+  getLastMonth,
+} from '../../../utils/format/date';
 import LineChart from '../linechart/LineChart';
 import BarChart from '../barchart/BarChart';
 import PieChart from '../piechart/PieChart';
@@ -78,26 +82,16 @@ function TransactionsAnalysis({
 }) {
   const { t } = useTranslation();
 
-  const [date] = useState({
-    from: new Date('06/01/2023'),
-    to: new Date('06/30/2023'),
-    during: 'month',
-  });
-  const [lastDate] = useState({
-    from: new Date('05/01/2023'),
-    to: new Date('05/31/2023'),
-    during: 'month',
-  });
-  const [barDate] = useState({
-    from: new Date('06/01/2023'),
-    to: new Date('06/30/2023'),
-    during: 'month',
-  });
-  const [barPrevDate] = useState({
-    from: new Date('05/01/2023'),
-    to: new Date('05/31/2023'),
-    during: 'month',
-  });
+  const [date] = useState(getCurrentMonth());
+  const [lastDate] = useState(getLastMonth());
+  const formattedDate = convertPeriod(date.from, date.during, language);
+  const formattedLastDate = convertPeriod(
+    lastDate.from,
+    lastDate.during,
+    language,
+  );
+  const [barDate] = useState(getCurrentMonth());
+  const [barPrevDate] = useState(getLastMonth());
   const [isBarChartCompared] = useState(true);
   const [accountFilter, setAccountFilter] = useState('All accounts');
   const [lineChartFilter, setLineChartFilter] = useState('expensesToIncomes');
@@ -171,9 +165,7 @@ function TransactionsAnalysis({
             </FilterButton>
             <FilterButton>
               <FilterSvg as={CalendarIcon} />
-              <FilterTitle>
-                {convertPeriod(date.from, date.during, language)}
-              </FilterTitle>
+              <FilterTitle>{formattedDate}</FilterTitle>
             </FilterButton>
           </SortButtonsContainer>
           <MobileFilterButton>
@@ -233,9 +225,16 @@ function TransactionsAnalysis({
                     {savingsRate} %
                   </FlexContainer>
                   {savingsRate < 0 ? (
-                    <RatesInfo> {t('ANALYSIS.LESS_THAN')}May</RatesInfo>
+                    <RatesInfo>
+                      {' '}
+                      {t('ANALYSIS.LESS_THAN')}
+                      {formattedLastDate}
+                    </RatesInfo>
                   ) : (
-                    <RatesInfo>{t('ANALYSIS.MORE_THAN')}May</RatesInfo>
+                    <RatesInfo>
+                      {t('ANALYSIS.MORE_THAN')}
+                      {formattedLastDate}
+                    </RatesInfo>
                   )}
                 </RatesContainer>
               </div>
@@ -262,9 +261,16 @@ function TransactionsAnalysis({
                     {incomesRate} %
                   </FlexContainer>
                   {incomesRate < 0 ? (
-                    <RatesInfo> {t('ANALYSIS.LESS_THAN')}May</RatesInfo>
+                    <RatesInfo>
+                      {' '}
+                      {t('ANALYSIS.LESS_THAN')}
+                      {formattedLastDate}
+                    </RatesInfo>
                   ) : (
-                    <RatesInfo>{t('ANALYSIS.MORE_THAN')}May</RatesInfo>
+                    <RatesInfo>
+                      {t('ANALYSIS.MORE_THAN')}
+                      {formattedLastDate}
+                    </RatesInfo>
                   )}
                 </RatesContainer>
               </div>
@@ -291,9 +297,17 @@ function TransactionsAnalysis({
                     {`${expensesRate} % `}
                   </FlexContainer>
                   {expensesRate < 0 ? (
-                    <RatesInfo> {t('ANALYSIS.LESS_THAN')}May</RatesInfo>
+                    <RatesInfo>
+                      {' '}
+                      {t('ANALYSIS.LESS_THAN')}
+                      {formattedLastDate}
+                    </RatesInfo>
                   ) : (
-                    <RatesInfo> {t('ANALYSIS.MORE_THAN')}May</RatesInfo>
+                    <RatesInfo>
+                      {' '}
+                      {t('ANALYSIS.MORE_THAN')}
+                      {formattedLastDate}
+                    </RatesInfo>
                   )}
                 </RatesContainer>
               </div>
@@ -332,7 +346,7 @@ function TransactionsAnalysis({
           <ToggleButtonsContainer>
             <CalendarChartButton>
               <FilterSvg as={CalendarIcon} />
-              June Vs May
+              {formattedDate} Vs {formattedLastDate}
             </CalendarChartButton>
             <ToggleChartButton
               $isActive={isBarChartDetailed}
@@ -377,7 +391,7 @@ function TransactionsAnalysis({
           <ToggleButtonsContainer>
             <CalendarChartButton>
               <FilterSvg as={CalendarIcon} />
-              {convertPeriod(date.from, date.during, language)}
+              {formattedDate}
             </CalendarChartButton>
           </ToggleButtonsContainer>
           <PieChart
@@ -471,7 +485,7 @@ function TransactionsAnalysis({
           <ToggleButtonsContainer>
             <CalendarChartButton>
               <FilterSvg as={CalendarIcon} />
-              {convertPeriod(date.from, date.during, language)}
+              {formattedDate}
             </CalendarChartButton>
             <ToggleChartButton
               $isActive={isLineChartDetailed}
