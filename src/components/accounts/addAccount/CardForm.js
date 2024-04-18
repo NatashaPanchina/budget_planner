@@ -7,6 +7,7 @@ import { colors } from '../../../utils/constants/colors';
 import {
   NumericFormatCustom,
   formatNumberOutput,
+  isCashCorrect,
 } from '../../../utils/format/cash';
 import { renderSelectedColor, renderColors } from '../utils';
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
@@ -39,8 +40,13 @@ import dayjs from 'dayjs';
 import { currencies, names } from '../../../utils/constants/currencies';
 import { cardDoneHandler } from './utils';
 import CurrenciesItems from '../../transactions/utils/currencies/CurrenciesItems';
+import { isDateCorrect } from '../../../utils/format/date';
+import {
+  isDescriptionCorrect,
+  isDescriptionUnique,
+} from '../../../utils/format/description';
 
-function CardForm({ categories, setOpenDialog }) {
+function CardForm({ accounts, categories, setOpenDialog }) {
   const dispatch = useDispatch();
   const header = useSelector((state) => state.header);
   const mainCurrency = header.profile ? header.profile.currency : names.USD;
@@ -48,7 +54,7 @@ function CardForm({ categories, setOpenDialog }) {
   const [description, setDescription] = useState('');
   const [currency, setCurrency] = useState(mainCurrency);
   const [balance, setBalance] = useState(
-    toDecimal(dinero({ amount: 0, currency: currencies.USD })),
+    toDecimal(dinero({ amount: 1000, currency: currencies.USD })),
   );
   const [selectedColor, setSelectedColor] = useState(colors.green[700]);
   const [date, setDate] = useState(dayjs(new Date()));
@@ -56,6 +62,13 @@ function CardForm({ categories, setOpenDialog }) {
   const [tags, setTags] = useState(['']);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const [isDescription, setIsDescription] = useState(
+    isDescriptionCorrect(description),
+  );
+  const isBalance = isCashCorrect(balance);
+  const isDate = isDateCorrect(date);
+  const descHelperText = `ADD_ACCOUNT.DESCRIPTION_CANT_BE.${isDescription.status.toUpperCase()}`;
 
   return (
     <>
@@ -77,6 +90,8 @@ function CardForm({ categories, setOpenDialog }) {
           setCurrency={setCurrency}
         />
         <NumberInputField
+          error={!isBalance}
+          helperText={isBalance ? '' : t('ADD_ACCOUNT.BALANCE_GREATER_ZERO')}
           margin="normal"
           required
           label={t('ADD_ACCOUNT.BALANCE')}
@@ -99,13 +114,18 @@ function CardForm({ categories, setOpenDialog }) {
         }}
       />
       <TextInputField
+        error={!isDescription.correct}
+        helperText={isDescription.correct ? '' : t(descHelperText)}
         margin="normal"
         required
         multiline
         label={t('ADD_ACCOUNT.DESCRIPTION')}
         placeholder={t('ADD_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
         defaultValue={description}
-        onChange={(event) => setDescription(event.target.value)}
+        onChange={(event) => {
+          setDescription(event.target.value);
+          setIsDescription(isDescriptionCorrect(event.target.value));
+        }}
       />
       <PopoverField
         margin="normal"
@@ -133,6 +153,12 @@ function CardForm({ categories, setOpenDialog }) {
         </ColorsPaletteButtonContainer>
       </ColorsPopoverPalette>
       <DateField
+        slotProps={{
+          textField: {
+            helperText: isDate ? '' : t('ADD_ACCOUNT.DATE_CANT_BE_MORE'),
+          },
+        }}
+        $isError={!isDate}
         required
         label={t('ADD_ACCOUNT.DATE')}
         value={date}
@@ -156,6 +182,15 @@ function CardForm({ categories, setOpenDialog }) {
       <AddFormButtonsContainer>
         <DoneButton
           onClick={() => {
+            if (!isBalance || !isDescription.correct || !isDate) return;
+            if (!isDescriptionUnique(description, null, accounts)) {
+              setIsDescription({
+                status: 'unique',
+                correct: false,
+                result: description,
+              });
+              return;
+            }
             cardDoneHandler(
               description,
               currency,
@@ -184,6 +219,7 @@ function CardForm({ categories, setOpenDialog }) {
 }
 
 CardForm.propTypes = {
+  accounts: PropTypes.array,
   categories: PropTypes.array,
   setOpenDialog: PropTypes.func,
 };

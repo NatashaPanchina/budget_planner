@@ -9,6 +9,7 @@ import {
   dineroFromFloat,
   formatDineroOutput,
   formatNumberOutput,
+  isCashCorrect,
 } from '../../../utils/format/cash';
 import {
   renderSelectedColor,
@@ -55,7 +56,14 @@ import ArchiveAlert from '../../alerts/ArchiveAlert.js';
 import { Dialog } from '@mui/material';
 import { archiveAccount } from '../../../actions/Actions.js';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
-import { toStringDate } from '../../../utils/format/date/index.js';
+import {
+  isDateCorrect,
+  toStringDate,
+} from '../../../utils/format/date/index.js';
+import {
+  isDescriptionCorrect,
+  isDescriptionUnique,
+} from '../../../utils/format/description/index.js';
 
 function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
   const dispatch = useDispatch();
@@ -65,10 +73,11 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
   const [id, setId] = useState('');
   const [creationDate, setCreationDate] = useState(Date.now());
   const [accountType, setAccountType] = useState('');
+  const [prevDescription, setPrevDescription] = useState('');
   const [description, setDescription] = useState('');
   const [currency, setCurrency] = useState(names.USD);
   const [balance, setBalance] = useState(
-    toDecimal(dinero({ amount: 0, currency: currencies[currency] })),
+    toDecimal(dinero({ amount: 1000, currency: currencies[currency] })),
   );
   const [selectedColor, setSelectedColor] = useState(colors.green[800]);
   const [date, setDate] = useState(dayjs(new Date()));
@@ -78,6 +87,14 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [openDelAlert, setOpenDelAlert] = useState(false);
+
+  const [isDescription, setIsDescription] = useState(
+    isDescriptionCorrect(description),
+  );
+  const isBalance = isCashCorrect(balance);
+  const isDate = isDateCorrect(date);
+  const descHelperText = `ADD_ACCOUNT.DESCRIPTION_CANT_BE.${isDescription.status.toUpperCase()}`;
+
   const archiveCallback = () => {
     setOpenDialog(false);
     dispatch(archiveAccount(clickedAccount));
@@ -113,6 +130,7 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
     setId(selectedAccount.id);
     setCreationDate(selectedAccount.creationDate);
     setAccountType(selectedAccount.type);
+    setPrevDescription(selectedAccount.description);
     setDescription(selectedAccount.description);
     setCurrency(balance.currency.code);
     setBalance(formatDineroOutput(dinero(balance), balance.currency.code));
@@ -120,6 +138,7 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
     setDate(dayjs(new Date(selectedAccount.date)));
     setNotes(selectedAccount.notes);
     setTags(selectedAccount.tags);
+    setIsDescription(isDescriptionCorrect(selectedAccount.description));
   }, [clickedAccount]);
 
   return (
@@ -160,6 +179,8 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
           {renderCurrencies(names)}
         </CurrencyInputField>
         <NumberInputField
+          error={!isBalance}
+          helperText={isBalance ? '' : t('ADD_ACCOUNT.BALANCE_GREATER_ZERO')}
           margin="normal"
           required
           label={t('INFO_ACCOUNT.BALANCE')}
@@ -182,13 +203,18 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
         }}
       />
       <TextInputField
+        error={!isDescription.correct}
+        helperText={isDescription.correct ? '' : t(descHelperText)}
         margin="normal"
         required
         multiline
         label={t('INFO_ACCOUNT.DESCRIPTION')}
         placeholder={t('INFO_ACCOUNT.DESCRIPTION_PLACEHOLDER')}
         defaultValue={description}
-        onChange={(event) => setDescription(event.target.value)}
+        onChange={(event) => {
+          setDescription(event.target.value);
+          setIsDescription(isDescriptionCorrect(event.target.value));
+        }}
       />
       <PopoverField
         margin="normal"
@@ -216,6 +242,12 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
         </ColorsPaletteButtonContainer>
       </ColorsPopoverPalette>
       <DateField
+        slotProps={{
+          textField: {
+            helperText: isDate ? '' : t('ADD_ACCOUNT.DATE_CANT_BE_MORE'),
+          },
+        }}
+        $isError={!isDate}
         required
         label={t('INFO_ACCOUNT.DATE')}
         value={date}
@@ -239,6 +271,15 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
       <AddFormButtonsContainer>
         <DoneButton
           onClick={() => {
+            if (!isBalance || !isDescription.correct || !isDate) return;
+            if (!isDescriptionUnique(description, prevDescription, accounts)) {
+              setIsDescription({
+                status: 'unique',
+                correct: false,
+                result: description,
+              });
+              return;
+            }
             doneEventHandler(
               categories,
               accounts,

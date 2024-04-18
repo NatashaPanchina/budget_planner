@@ -43,6 +43,10 @@ function CategoriesItems({
 
   return (
     <TextInputField
+      error={categories.length ? false : true}
+      helperText={
+        categories.length ? '' : t('NEW_TRANSACTION.NO_CATEGORY_SELECTED')
+      }
       margin="normal"
       required
       select

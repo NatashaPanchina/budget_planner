@@ -37,6 +37,11 @@ import { archiveCategory } from '../../../actions/Actions.js';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 import { Dialog } from '@mui/material';
 import ArchiveAlert from '../../alerts/ArchiveAlert.js';
+import { isDateCorrect } from '../../../utils/format/date/index.js';
+import {
+  isDescriptionCorrect,
+  isDescriptionUnique,
+} from '../../../utils/format/description/index.js';
 
 function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
   const dispatch = useDispatch();
@@ -44,6 +49,7 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
   const [id, setId] = useState('');
   const [creationDate, setCreationDate] = useState(Date.now());
   const [categoryType, setCategoryType] = useState('expense');
+  const [prevDescription, setPrevDescription] = useState('');
   const [description, setDescription] = useState('');
   const [selectedColor, setSelectedColor] = useState(colors.green[600]);
   const [icon, setIcon] = useState(0);
@@ -56,6 +62,13 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
   const openColors = Boolean(anchorColorsEl);
   const openIcons = Boolean(anchorIconsEl);
   const [openDelAlert, setOpenDelAlert] = useState(false);
+
+  const [isDescription, setIsDescription] = useState(
+    isDescriptionCorrect(description),
+  );
+  const isDate = isDateCorrect(date);
+  const descHelperText = `ADD_CATEGORY.DESCRIPTION_CANT_BE.${isDescription.status.toUpperCase()}`;
+
   const archiveCallback = () => {
     setOpenDialog(false);
     dispatch(archiveCategory(clickedCategory));
@@ -85,12 +98,14 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
     setId(selectedCategory.id);
     setCreationDate(selectedCategory.creationDate);
     setCategoryType(selectedCategory.type);
+    setPrevDescription(selectedCategory.description);
     setDescription(selectedCategory.description);
     setSelectedColor(selectedCategory.color);
     setIcon(selectedCategory.icon);
     setDate(dayjs(new Date(selectedCategory.date)));
     setNotes(selectedCategory.notes);
     setTags(selectedCategory.tags);
+    setIsDescription(isDescriptionCorrect(selectedCategory.description));
   }, [clickedCategory]);
 
   return (
@@ -117,13 +132,18 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
         }}
       />
       <TextInputField
+        error={!isDescription.correct}
+        helperText={isDescription.correct ? '' : t(descHelperText)}
         margin="normal"
         required
         multiline
         label={t('INFO_CATEGORY.DESCRIPTION')}
         placeholder={t('INFO_CATEGORY.DESCRIPTION_PLACEHOLDER')}
         value={description}
-        onChange={(event) => setDescription(event.target.value)}
+        onChange={(event) => {
+          setDescription(event.target.value);
+          setIsDescription(isDescriptionCorrect(event.target.value));
+        }}
       />
       <PopoverField
         margin="normal"
@@ -174,6 +194,12 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
         </IconsButtonContainer>
       </ColorsPopoverPalette>
       <DateField
+        slotProps={{
+          textField: {
+            helperText: isDate ? '' : t('ADD_CATEGORY.DATE_CANT_BE_MORE'),
+          },
+        }}
+        $isError={!isDate}
         required
         label={t('INFO_CATEGORY.DATE')}
         value={date}
@@ -197,6 +223,17 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
       <AddFormButtonsContainer>
         <DoneButton
           onClick={() => {
+            if (!isDate || !isDescription.correct) return;
+            if (
+              !isDescriptionUnique(description, prevDescription, categories)
+            ) {
+              setIsDescription({
+                status: 'unique',
+                correct: false,
+                result: description,
+              });
+              return;
+            }
             doneEventHandler(
               clickedCategory,
               id,

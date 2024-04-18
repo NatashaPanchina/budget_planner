@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from 'firebase/auth';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import {
   Container,
+  ErrorHelperText,
   FlexContainer,
   FooterMessage,
   FooterMessageLink,
@@ -26,82 +21,32 @@ import {
 import { ReactComponent as LogoCatIcon } from '../../assets/icons/navigation/logoCat.svg';
 import { ReactComponent as LogoTitleIcon } from '../../assets/icons/navigation/logoTitle.svg';
 import { ReactComponent as GoogleIcon } from '../../assets/icons/shared/google.svg';
-import { idbAddItem } from '../../indexedDB/IndexedDB';
 import { useNavigate } from 'react-router-dom';
 import { pages } from '../../utils/constants/pages';
 import { useDispatch } from 'react-redux';
-import { fetchProfileData, updateHeaderProfile } from '../../actions/Actions';
+import { fetchProfileData } from '../../actions/Actions';
 import { useTranslation } from 'react-i18next';
-import { signUpAnonym } from './utils';
-import { names } from '../../utils/constants/currencies';
+import {
+  signUpAnonym,
+  signUpWithGooglePopup,
+  signUpWithPassword,
+} from './utils';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSignUpCorrect, setIsSignUpCorrect] = useState({
+    status: '',
+    correct: true,
+  });
+  const signUpHelperText = `SIGN_UP.INVALID.${isSignUpCorrect.status.toUpperCase()}`;
+
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const googleProvider = new GoogleAuthProvider();
   googleProvider.setCustomParameters({ prompt: 'select_account' });
   const auth = getAuth();
-
-  const signInWithGooglePopup = async () => {
-    try {
-      const response = await signInWithPopup(auth, googleProvider);
-      if (response !== null) {
-        const data = {
-          providerId: response.providerId,
-          displayName: response.user.displayName,
-          email: response.user.email,
-          emailVerified: response.user.emailVerified,
-          createdAt: response.user.metadata.createdAt,
-          lastLoginAt: response.user.metadata.lastLoginAt,
-          phoneNumber: response.user.phoneNumber,
-          photoURL: response.user.photoURL,
-          id: response.user.uid,
-          currency: names.USD,
-          backupDate: Date.now(),
-        };
-        dispatch(updateHeaderProfile(data));
-        idbAddItem(data, 'profile');
-        navigate(pages.enterName);
-      }
-    } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log('Error ocured: ', errorCode, errorMessage);
-    }
-  };
-
-  const signUpWithPassword = async () => {
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      await sendEmailVerification(auth.currentUser);
-      if (auth.currentUser !== null) {
-        const data = {
-          providerId: auth.currentUser.providerId,
-          displayName: auth.currentUser.displayName,
-          email: auth.currentUser.email,
-          password,
-          emailVerified: auth.currentUser.emailVerified,
-          createdAt: auth.currentUser.metadata.createdAt,
-          lastLoginAt: auth.currentUser.metadata.lastLoginAt,
-          phoneNumber: auth.currentUser.phoneNumber,
-          photoURL: auth.currentUser.photoURL,
-          id: auth.currentUser.uid,
-          currency: names.USD,
-          backupDate: Date.now(),
-        };
-        dispatch(updateHeaderProfile(data));
-        idbAddItem(data, 'profile');
-        navigate(pages.enterName);
-      }
-    } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log('Error ocured: ', errorCode, errorMessage);
-    }
-  };
 
   useEffect(() => {
     dispatch(fetchProfileData());
@@ -117,7 +62,16 @@ export default function Signup() {
       </LogoContainer>
       <SignInContainer>
         <SignInTitle>{t('SIGN_UP.SIGN_UP')}</SignInTitle>
-        <SignInWithAcc onClick={() => signInWithGooglePopup()}>
+        <SignInWithAcc
+          onClick={() =>
+            signUpWithGooglePopup(
+              googleProvider,
+              dispatch,
+              navigate,
+              setIsSignUpCorrect,
+            )
+          }
+        >
           {t('SIGN_UP.SIGN_UP_WITH_GOOGLE')}
           <ProviderSvg as={GoogleIcon} />
         </SignInWithAcc>
@@ -139,7 +93,20 @@ export default function Signup() {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-        <MainButton onClick={() => signUpWithPassword()}>
+        <ErrorHelperText $isShowError={!isSignUpCorrect.correct}>
+          {t(signUpHelperText)}
+        </ErrorHelperText>
+        <MainButton
+          onClick={() =>
+            signUpWithPassword(
+              email,
+              password,
+              dispatch,
+              navigate,
+              setIsSignUpCorrect,
+            )
+          }
+        >
           {t('SIGN_UP.SIGN_UP_WITH_EMAIL')}
         </MainButton>
         <SignInWithoutAcc

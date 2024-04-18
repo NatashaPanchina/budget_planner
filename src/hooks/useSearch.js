@@ -25,8 +25,14 @@ const sortTransactions = (
   currencies,
   amount,
   notes,
+  date,
 ) => {
   let result = transactions;
+
+  result = transactions.filter((transaction) => {
+    const transactionDate = new Date(transaction.date);
+    return transactionDate >= date.from && transactionDate <= date.to;
+  });
 
   if (type !== 'All') {
     result = transactions.filter(
@@ -110,11 +116,10 @@ const sortTransactions = (
 export const useTransactionsSearch = (query, transactions, filters) => {
   const { filterAccount, filterType } = useParams();
   const [filteredTransactions, setFilteredTransactions] = useState([]);
-  const { sort, type, accounts, categories, currencies, amount, notes } =
+  const { date, sort, type, accounts, categories, currencies, amount, notes } =
     filters;
 
   useEffect(() => {
-    console.log('useEffect');
     const filteredQuery = filterQuery(query);
     if (filteredQuery) {
       idbSearchItems(filteredQuery, 'transactions').then((result) => {
@@ -131,6 +136,7 @@ export const useTransactionsSearch = (query, transactions, filters) => {
           currencies,
           amount,
           notes,
+          date,
         );
         setFilteredTransactions(sortedTransactions);
       });
@@ -148,6 +154,7 @@ export const useTransactionsSearch = (query, transactions, filters) => {
         currencies,
         amount,
         notes,
+        date,
       );
       setFilteredTransactions(sortedTransactions);
     }
@@ -164,6 +171,7 @@ export const useTransactionsSearch = (query, transactions, filters) => {
     amount.from,
     amount.to,
     notes,
+    date,
   ]);
 
   return filteredTransactions;

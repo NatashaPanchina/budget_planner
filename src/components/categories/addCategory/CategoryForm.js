@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../../utils/constants/colors.js';
 import { categoryIcons } from '../../../utils/constants/icons.js';
@@ -29,9 +29,16 @@ import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMa
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import dayjs from 'dayjs';
 import { doneEventHandler } from './utils/index.js';
+import { isDateCorrect } from '../../../utils/format/date/index.js';
+import {
+  isDescriptionCorrect,
+  isDescriptionUnique,
+} from '../../../utils/format/description/index.js';
+import Loading from '../../loading/Loading.js';
 
 function CategoryForm({ type, setOpenDialog }) {
   const dispatch = useDispatch();
+  const { status, categories } = useSelector((state) => state.categories);
   const { t } = useTranslation();
   const categoryType = type;
   const [description, setDescription] = useState('');
@@ -47,7 +54,15 @@ function CategoryForm({ type, setOpenDialog }) {
   const openColors = Boolean(anchorColorsEl);
   const openIcons = Boolean(anchorIconsEl);
 
-  return (
+  const [isDescription, setIsDescription] = useState(
+    isDescriptionCorrect(description),
+  );
+  const isDate = isDateCorrect(date);
+  const descHelperText = `ADD_CATEGORY.DESCRIPTION_CANT_BE.${isDescription.status.toUpperCase()}`;
+
+  return status === 'Loading' ? (
+    <Loading />
+  ) : (
     <>
       <TextInputField
         margin="normal"
@@ -59,13 +74,18 @@ function CategoryForm({ type, setOpenDialog }) {
         }}
       />
       <TextInputField
+        error={!isDescription.correct}
+        helperText={isDescription.correct ? '' : t(descHelperText)}
         margin="normal"
         required
         multiline
         label={t('ADD_CATEGORY.DESCRIPTION')}
         placeholder={t('ADD_CATEGORY.DESCRIPTION_PLACEHOLDER')}
         defaultValue={description}
-        onChange={(event) => setDescription(event.target.value)}
+        onChange={(event) => {
+          setDescription(event.target.value);
+          setIsDescription(isDescriptionCorrect(event.target.value));
+        }}
       />
       <PopoverField
         margin="normal"
@@ -116,6 +136,12 @@ function CategoryForm({ type, setOpenDialog }) {
         </IconsButtonContainer>
       </ColorsPopoverPalette>
       <DateField
+        slotProps={{
+          textField: {
+            helperText: isDate ? '' : t('ADD_CATEGORY.DATE_CANT_BE_MORE'),
+          },
+        }}
+        $isError={!isDate}
         required
         label={t('ADD_CATEGORY.DATE')}
         value={date}
@@ -139,6 +165,15 @@ function CategoryForm({ type, setOpenDialog }) {
       <AddFormButtonsContainer>
         <DoneButton
           onClick={() => {
+            if (!isDate || !isDescription.correct) return;
+            if (!isDescriptionUnique(description, null, categories)) {
+              setIsDescription({
+                status: 'unique',
+                correct: false,
+                result: description,
+              });
+              return;
+            }
             doneEventHandler(
               categoryType,
               description,

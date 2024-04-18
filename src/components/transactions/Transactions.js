@@ -30,6 +30,7 @@ import {
 import Loading from '../loading/Loading.js';
 import { names } from '../../utils/constants/currencies.js';
 import AllFilters from './filters/AllFilters.js';
+import { convertPeriod } from '../../utils/format/date/index.js';
 
 export default function Transactions() {
   const filters = useSelector((state) => state.transactions.filters);
@@ -39,6 +40,7 @@ export default function Transactions() {
   const categories = useSelector((state) => state.categories);
   const dispatch = useDispatch();
   const mainCurrency = header.profile ? header.profile.currency : names.USD;
+  const language = header.language;
   const [accountsData, setAccountsData] = useState([]);
   const [categoriesData, setCategoriesData] = useState([]);
   const [transactionsData, setTransactionsData] = useState([]);
@@ -46,6 +48,11 @@ export default function Transactions() {
   const [openFilters, setOpenFilters] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const formattedDate = convertPeriod(
+    filters.date.to,
+    filters.date.during,
+    language,
+  );
 
   useEffect(() => {
     dispatch(fetchAccountsData());
@@ -89,7 +96,7 @@ export default function Transactions() {
             </FilterButton>
             <FilterButton>
               <FilterSvg as={CalendarIcon} />
-              <FilterTitle>{t('TRANSACTIONS.FILTER_DATE')}</FilterTitle>
+              <FilterTitle>{formattedDate}</FilterTitle>
             </FilterButton>
             <FilterButton
               onClick={(event) => {

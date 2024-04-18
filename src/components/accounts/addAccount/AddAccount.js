@@ -32,7 +32,7 @@ const TitleLink = styled('div', {
     : '',
 }));
 
-function AddAccount({ categories, setOpenDialog }) {
+function AddAccount({ accounts, categories, setOpenDialog }) {
   const { t } = useTranslation();
   const type = createAccountFilter(useParams().filterCash);
   const [accountType, setAccountType] = useState(type);
@@ -59,6 +59,7 @@ function AddAccount({ categories, setOpenDialog }) {
         </AddFormHeaderTitles>
       </AddFormHeader>
       <AccountForm
+        accounts={accounts}
         categories={categories}
         setOpenDialog={setOpenDialog}
         type={accountType}
@@ -68,6 +69,7 @@ function AddAccount({ categories, setOpenDialog }) {
 }
 
 AddAccount.propTypes = {
+  accounts: PropTypes.array,
   categories: PropTypes.array,
   setOpenDialog: PropTypes.func,
 };

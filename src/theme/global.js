@@ -351,6 +351,11 @@ export const TextInputField = styled(TextField)((props) => ({
   '& label.Mui-focused': {
     color: props.theme.colors.main.violet,
   },
+  '& .MuiFormHelperText-root': {
+    backgroundColor: props.theme.colors.background.body,
+    marginLeft: 0,
+    marginRight: 0,
+  },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       borderRadius: props.theme.borderRadius,
@@ -384,21 +389,35 @@ export const PopoverField = styled(TextInputField)(() => ({
   },
 }));
 
-export const DateField = styled(DatePicker)((props) => ({
+export const DateField = styled(DatePicker, {
+  shouldForwardProp: (prop) => prop !== '$isError',
+})((props) => ({
   width: '100%',
   marginTop: props.theme.spacing(4),
   marginBottom: props.theme.spacing(2),
   borderRadius: props.theme.borderRadius,
   '& label': {
-    color: props.theme.colors.text.darker,
+    color: props.$isError
+      ? props.theme.colors.error
+      : props.theme.colors.text.darker,
   },
   '& label.Mui-focused': {
     color: props.theme.colors.main.violet,
   },
+  '& .MuiFormHelperText-root': {
+    backgroundColor: props.theme.colors.background.body,
+    marginLeft: 0,
+    marginRight: 0,
+    color: props.theme.colors.error,
+  },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       borderRadius: props.theme.borderRadius,
-      border: `1px solid ${props.theme.colors.border.item}`,
+      border: `1px solid ${
+        props.$isError
+          ? props.theme.colors.error
+          : props.theme.colors.border.item
+      }`,
       boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
     },
     '&:hover fieldset': {

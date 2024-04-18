@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GoogleAuthProvider } from 'firebase/auth';
 import {
   Container,
+  ErrorHelperText,
   FlexContainer,
   FooterMessage,
   FooterMessageLink,
@@ -35,7 +36,11 @@ import { auth } from '../../configs/firebaseConfigs';
 export default function Signin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [isSignInCorrect, setIsSignInCorrect] = useState({
+    status: '',
+    correct: true,
+  });
+  const signInHelperText = `SIGN_IN.INVALID.${isSignInCorrect.status.toUpperCase()}`;
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -59,7 +64,12 @@ export default function Signin() {
         <SignInTitle>{t('SIGN_IN.SIGN_IN')}</SignInTitle>
         <SignInWithAcc
           onClick={() =>
-            signInWithGooglePopup(googleProvider, navigate, dispatch)
+            signInWithGooglePopup(
+              googleProvider,
+              navigate,
+              dispatch,
+              setIsSignInCorrect,
+            )
           }
         >
           {t('SIGN_IN.SIGN_IN_WITH_GOOGLE')} <ProviderSvg as={GoogleIcon} />
@@ -82,9 +92,18 @@ export default function Signin() {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
+        <ErrorHelperText $isShowError={!isSignInCorrect.correct}>
+          {t(signInHelperText)}
+        </ErrorHelperText>
         <MainButton
           onClick={() => {
-            signInWithPassword(email, password, navigate, dispatch);
+            signInWithPassword(
+              email,
+              password,
+              navigate,
+              dispatch,
+              setIsSignInCorrect,
+            );
           }}
         >
           {t('SIGN_IN.SIGN_IN_WITH_EMAIL')}
