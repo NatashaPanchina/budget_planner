@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../../utils/constants/colors.js';
-import { categoryIcons } from '../../../utils/constants/icons.js';
 import { renderColors, renderIcons, renderSelectedColor } from '../utils';
 ('../../../hooks/useOutsideClick.js');
 import {
@@ -43,11 +42,10 @@ function CategoryForm({ type, setOpenDialog }) {
   const categoryType = type;
   const [description, setDescription] = useState('');
   const [selectedColor, setSelectedColor] = useState(colors.green[600]);
-  const [icon, setIcon] = useState(0);
+  const [icon, setIcon] = useState(127827);
   const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState(['']);
-  const SelectedIcon = categoryIcons[icon];
 
   const [anchorColorsEl, setAnchorColorsEl] = useState(null);
   const [anchorIconsEl, setAnchorIconsEl] = useState(null);
@@ -118,7 +116,7 @@ function CategoryForm({ type, setOpenDialog }) {
         label={t('INFO_CATEGORY.ICON')}
         InputProps={{
           readOnly: true,
-          startAdornment: renderSelectedColor(selectedColor, SelectedIcon),
+          startAdornment: renderSelectedColor(selectedColor, icon),
         }}
         onClick={(event) => setAnchorIconsEl(event.currentTarget)}
       />
@@ -128,7 +126,7 @@ function CategoryForm({ type, setOpenDialog }) {
         onClose={() => setAnchorIconsEl(null)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       >
-        <CategoriesIcons>{renderIcons(categoryIcons, setIcon)}</CategoriesIcons>
+        <CategoriesIcons>{renderIcons(setIcon, icon)}</CategoriesIcons>
         <IconsButtonContainer>
           <IconsButton onClick={() => setAnchorIconsEl(null)}>
             {t('INFO_CATEGORY.OK')}

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { dinero, toDecimal, add } from 'dinero.js';
-import { categoryIcons } from '../../../utils/constants/icons';
 import { formatDineroOutput } from '../../../utils/format/cash';
 import { createData } from '../utils/charts';
 import { styled } from '@mui/material';
@@ -75,14 +74,24 @@ const CategoryInfo = styled('div')(() => ({
   },
 }));
 
-const CategoryInfoSvg = styled('svg')((props) => ({
+export const SvgContainer = styled('div')((props) => ({
+  position: 'relative',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: 38,
+  height: 38,
   marginRight: props.theme.spacing(3),
   minWidth: 38,
   '@media (min-width: 600px)': {
     minWidth: 30,
     height: 30,
-    marginRight: props.theme.spacing(1),
+    marginRight: props.theme.spacing(2),
   },
+}));
+
+const Emoji = styled('div')(() => ({
+  position: 'absolute',
 }));
 
 const Amount = styled('div')(() => ({
@@ -124,41 +133,44 @@ function renderTable(t, data, tableFilter, mainCurrency) {
         </CategoryInfoAmount>
       </TotalTableItem>
       {data.map((item) => {
-        const Icon = categoryIcons[item.category.icon];
         return (
           <TableItem key={item.category.id}>
             <CategoryInfo>
-              <CategoryInfoSvg
-                width="38"
-                height="38"
-                viewBox="0 0 38 38"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="19"
-                  cy="19"
-                  r="19"
-                  fill={`url(#${item.category.description.replaceAll(
-                    ' ',
-                    '_',
-                  )})`}
-                ></circle>
-                <Icon height="24" width="24" x="7" y="7" />
-                <defs>
-                  <linearGradient
-                    id={item.category.description.replaceAll(' ', '_')}
-                    x1="0"
-                    y1="0"
-                    x2="17"
-                    y2="17"
-                    gradientUnits="userSpaceOnUse"
+              <div>
+                <SvgContainer>
+                  <svg
+                    width="38"
+                    height="38"
+                    viewBox="0 0 38 38"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <stop stopColor={item.category.color[0]} />
-                    <stop offset="1" stopColor={item.category.color[1]} />
-                  </linearGradient>
-                </defs>
-              </CategoryInfoSvg>
+                    <circle
+                      cx="19"
+                      cy="19"
+                      r="19"
+                      fill={`url(#${item.category.description.replaceAll(
+                        ' ',
+                        '_',
+                      )})`}
+                    ></circle>
+                    <defs>
+                      <linearGradient
+                        id={item.category.description.replaceAll(' ', '_')}
+                        x1="0"
+                        y1="0"
+                        x2="17"
+                        y2="17"
+                        gradientUnits="userSpaceOnUse"
+                      >
+                        <stop stopColor={item.category.color[0]} />
+                        <stop offset="1" stopColor={item.category.color[1]} />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <Emoji>{String.fromCodePoint(item.category.icon)}</Emoji>
+                </SvgContainer>
+              </div>
               {item.category.description}
             </CategoryInfo>
             <CategoryInfoAmount

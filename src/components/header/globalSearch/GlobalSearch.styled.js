@@ -292,3 +292,19 @@ export const BackLink = styled(Link)(() => ({
   display: 'flex',
   alignItems: 'center',
 }));
+
+export const SvgContainer = styled('div')((props) => ({
+  position: 'relative',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: 38,
+  height: 38,
+  minWidth: 38,
+  marginLeft: props.theme.spacing(2),
+  marginRight: props.theme.spacing(2),
+}));
+
+export const Emoji = styled('div')(() => ({
+  position: 'absolute',
+}));

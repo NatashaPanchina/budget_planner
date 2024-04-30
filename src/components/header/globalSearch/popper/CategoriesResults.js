@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { categoryIcons } from '../../../../utils/constants/icons';
 import {
   CategoriesDescription,
   CategoriesListItem,
   CategoriesSvg,
+  Emoji,
   ListItemContainer,
+  SvgContainer,
 } from '../GlobalSearch.styled';
 import { useTranslation } from 'react-i18next';
 import { InfoDialog } from '../../../../theme/global';
@@ -27,7 +28,6 @@ function CategoriesResults({ categories, query }) {
         />
       </InfoDialog>
       {categories.map((category, index) => {
-        const Icon = categoryIcons[category.icon];
         return (
           <ListItemContainer key={category.id}>
             <CategoriesListItem
@@ -37,34 +37,38 @@ function CategoriesResults({ categories, query }) {
               }}
             >
               <CategoriesDescription>
-                <CategoriesSvg
-                  width="38"
-                  height="38"
-                  viewBox="0 0 38 38"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    cx="19"
-                    cy="19"
-                    r="19"
-                    fill={`url(#popperCategory${index})`}
-                  ></circle>
-                  <Icon height="24" width="24" x="7" y="7" />
-                  <defs>
-                    <linearGradient
-                      id={`popperCategory${index}`}
-                      x1="0"
-                      y1="0"
-                      x2="38"
-                      y2="38"
-                      gradientUnits="userSpaceOnUse"
+                <div>
+                  <SvgContainer>
+                    <CategoriesSvg
+                      width="38"
+                      height="38"
+                      viewBox="0 0 38 38"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <stop stopColor={category.color[0]} />
-                      <stop offset="1" stopColor={category.color[1]} />
-                    </linearGradient>
-                  </defs>
-                </CategoriesSvg>
+                      <circle
+                        cx="19"
+                        cy="19"
+                        r="19"
+                        fill={`url(#popperCategory${index})`}
+                      ></circle>
+                      <defs>
+                        <linearGradient
+                          id={`popperCategory${index}`}
+                          x1="0"
+                          y1="0"
+                          x2="38"
+                          y2="38"
+                          gradientUnits="userSpaceOnUse"
+                        >
+                          <stop stopColor={category.color[0]} />
+                          <stop offset="1" stopColor={category.color[1]} />
+                        </linearGradient>
+                      </defs>
+                    </CategoriesSvg>
+                    <Emoji>{String.fromCodePoint(category.icon)}</Emoji>
+                  </SvgContainer>
+                </div>
                 {category.description}
               </CategoriesDescription>
               <Notes notes={category.notes} />

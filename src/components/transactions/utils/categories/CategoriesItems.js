@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { categoryIcons } from '../../../../utils/constants/icons';
 import { InputAdornment, MenuItem, styled } from '@mui/material';
-import { ReactComponent as AdjustmentIcon } from '../../../../assets/icons/shared/adjustment.svg';
 import { useTranslation } from 'react-i18next';
 import {
   AddButtonSvg,
@@ -27,10 +25,19 @@ const InfoContainer = styled('div')((props) => ({
   color: props.theme.colors.text.primary,
 }));
 
-const CategoriesItemSvg = styled('svg')((props) => ({
+export const SvgContainer = styled('div')((props) => ({
+  position: 'relative',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
   width: 34,
   height: 34,
   marginRight: props.theme.spacing(3),
+  minWidth: 34,
+}));
+
+const Emoji = styled('div')(() => ({
+  position: 'absolute',
 }));
 
 function CategoriesItems({
@@ -82,40 +89,39 @@ function CategoriesItems({
         <div>{t('INFO_TRANSACTION.NO_CATEGORIES')}</div>
       ) : (
         categories.map((category, index) => {
-          const Icon =
-            category.description === 'Balance adjustment'
-              ? AdjustmentIcon
-              : categoryIcons[category.icon];
-
           return (
             <CategoriesMenuItem key={category.id} value={category.id}>
               <InfoContainer>
-                <CategoriesItemSvg
-                  viewBox="0 0 34 34"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    cx="17"
-                    cy="17"
-                    r="17"
-                    fill={`url(#${index})`}
-                  ></circle>
-                  <Icon height="20" width="20" x="7" y="7" />
-                  <defs>
-                    <linearGradient
-                      id={index}
-                      x1="0"
-                      y1="0"
-                      x2="34"
-                      y2="34"
-                      gradientUnits="userSpaceOnUse"
+                <div>
+                  <SvgContainer>
+                    <svg
+                      viewBox="0 0 34 34"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <stop stopColor={category.color[0]} />
-                      <stop offset="1" stopColor={category.color[1]} />
-                    </linearGradient>
-                  </defs>
-                </CategoriesItemSvg>
+                      <circle
+                        cx="17"
+                        cy="17"
+                        r="17"
+                        fill={`url(#${index})`}
+                      ></circle>
+                      <defs>
+                        <linearGradient
+                          id={index}
+                          x1="0"
+                          y1="0"
+                          x2="34"
+                          y2="34"
+                          gradientUnits="userSpaceOnUse"
+                        >
+                          <stop stopColor={category.color[0]} />
+                          <stop offset="1" stopColor={category.color[1]} />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                    <Emoji>{String.fromCodePoint(category.icon)}</Emoji>
+                  </SvgContainer>
+                </div>
                 {category.description}
               </InfoContainer>
             </CategoriesMenuItem>

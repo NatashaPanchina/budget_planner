@@ -122,8 +122,8 @@ function BarChart({
               : 'stacked'
           }
           innerPadding={chartFilter === 'expensesToIncomes' ? 3.5 : 0}
-          tooltip={({ id, formattedValue, color }) =>
-            renderTooltip(id, formattedValue, color)
+          tooltip={({ id, formattedValue }) =>
+            renderTooltip(id, formattedValue)
           }
         />
       </Chart>

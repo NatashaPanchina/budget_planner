@@ -1,48 +1,94 @@
 import React from 'react';
 import { ReactComponent as CheckMarkIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { styled } from '@mui/material';
+import { categoriesEmoji } from '../../../utils/constants/icons';
 
 const ColorContainer = styled('div')(() => ({
   width: '100%',
 }));
 
-const IconContainer = styled('div')(() => ({
-  width: '100%',
-}));
-
-const IconSvg = styled('svg')((props) => ({
-  margin: props.theme.spacing(1.5),
+const IconContainer = styled('div', {
+  shouldForwardProp: (prop) => prop !== '$isActive',
+})((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: `${props.theme.spacing(1.5)} ${props.theme.spacing(3)}`,
+  width: `calc(11.11% - ${props.theme.spacing(3 * 2)})`,
+  minHeight: 40,
   cursor: 'pointer',
-  '& path': {
-    fill: props.theme.colors.text.primary,
+  borderRadius: '50%',
+  background: props.$isActive ? props.theme.colors.main.violet : '',
+  fontSize: 25,
+  '&:hover': {
+    fontSize: 27,
+    transition: 'font-size 0.2s ease-out',
+  },
+  '@media (min-width: 600px)': {
+    fontSize: 20,
+    minHeight: 35,
+    '&:hover': {
+      fontSize: 22,
+      transition: 'font-size 0.2s ease-out',
+    },
+    width: `calc(12.5% - ${props.theme.spacing(3 * 2)})`,
   },
 }));
 
-export function renderSelectedColor(selectedColor, Icon) {
+const EmojiIcon = styled('div')(() => ({
+  fontSize: 'inherit',
+}));
+
+const EmojiTitle = styled('div')((props) => ({
+  width: '100%',
+  paddingLeft: props.theme.spacing(3),
+  paddingRight: props.theme.spacing(3),
+  paddingTop: props.theme.spacing(1),
+}));
+
+const SvgContainer = styled('div')(() => ({
+  position: 'relative',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: 38,
+  height: 38,
+  minWidth: 38,
+}));
+
+const Emoji = styled('div')(() => ({
+  position: 'absolute',
+}));
+
+export function renderSelectedColor(selectedColor, icon) {
   return selectedColor ? (
-    <svg
-      width="34"
-      height="34"
-      viewBox="0 0 34 34"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <circle cx="17" cy="17" r="17" fill={`url(#selectedColor)`}></circle>
-      {Icon ? <Icon height="20" width="20" x="7" y="7" /> : ''}
-      <defs>
-        <linearGradient
-          id="selectedColor"
-          x1="0"
-          y1="0"
-          x2="34"
-          y2="34"
-          gradientUnits="userSpaceOnUse"
+    <div>
+      <SvgContainer>
+        <svg
+          width="34"
+          height="34"
+          viewBox="0 0 34 34"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <stop stopColor={selectedColor[0]} />
-          <stop offset="1" stopColor={selectedColor[1]} />
-        </linearGradient>
-      </defs>
-    </svg>
+          <circle cx="17" cy="17" r="17" fill={`url(#selectedColor)`}></circle>
+          <defs>
+            <linearGradient
+              id="selectedColor"
+              x1="0"
+              y1="0"
+              x2="34"
+              y2="34"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor={selectedColor[0]} />
+              <stop offset="1" stopColor={selectedColor[1]} />
+            </linearGradient>
+          </defs>
+        </svg>
+        {icon ? <Emoji>{String.fromCodePoint(icon)}</Emoji> : null}
+      </SvgContainer>
+    </div>
   ) : (
     <div>No selected color</div>
   );
@@ -111,14 +157,26 @@ export function renderColors(colors, setSelectedColor, initialColor) {
   return result;
 }
 
-export function renderIcons(icons, setIcon) {
-  return icons.map((Icon, index) => {
-    return (
-      <IconContainer key={index}>
-        <IconSvg as={Icon} id={index} onClick={() => setIcon(index)} />
-      </IconContainer>
-    );
+export function renderIcons(setIcon, selectedIcon = 128522) {
+  const result = [];
+
+  categoriesEmoji.forEach((group) => {
+    if (group.length !== 0) {
+      result.push(<EmojiTitle key={group[0].type}>{group[0].type}</EmojiTitle>);
+    }
+
+    group.forEach((icon) => {
+      result.push(
+        <IconContainer key={icon.id} $isActive={icon.id === selectedIcon}>
+          <EmojiIcon id={icon.id} onClick={() => setIcon(icon.id)}>
+            {String.fromCodePoint(icon.value)}
+          </EmojiIcon>
+        </IconContainer>,
+      );
+    });
   });
+
+  return result;
 }
 
 export function toggleElement(ref) {

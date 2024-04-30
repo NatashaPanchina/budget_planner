@@ -18,7 +18,7 @@ import {
 import { styled } from '@mui/material';
 import { currencies, names } from '../../../utils/constants/currencies';
 import { useSelector } from 'react-redux';
-import { add, dinero, toDecimal } from 'dinero.js';
+import { add, dinero } from 'dinero.js';
 import { createTypeFilter } from '../utils/shared';
 
 const CenterText = styled('text')((props) => ({
@@ -72,6 +72,7 @@ function PieChart({ transactions, categories, chartFilter, date }) {
             labels: {
               text: {
                 fill: '#fff',
+                fontSize: 16,
               },
             },
           }}
@@ -97,12 +98,12 @@ function PieChart({ transactions, categories, chartFilter, date }) {
           activeOuterRadiusOffset={8}
           sortByValue={true}
           enableArcLabels={true}
-          arcLabel={(datum) =>
-            `${((datum.value * 100) / toDecimal(totalAmount)).toFixed(2)}%`
-          }
+          arcLabel={(datum) => {
+            return `${String.fromCodePoint(datum.data.category.icon)}`;
+          }}
           arcLabelsSkipAngle={20}
-          tooltip={({ datum: { id, formattedValue, color } }) =>
-            renderTooltip(id, formattedValue, color)
+          tooltip={({ datum: { id, formattedValue, value } }) =>
+            renderTooltip(id, formattedValue, value, totalAmount)
           }
           layers={[
             'arcs',
