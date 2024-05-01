@@ -4,13 +4,13 @@ import { ResponsiveLine } from '@nivo/line';
 
 import { createData } from '../utils/charts';
 import Legends from '../legends/Legends';
-import { renderTooltip } from '../utils/tooltip';
 import { Chart, ChartsInfoContainer } from '../CashFlow.styled';
 import { formatNumberOutput } from '../../../utils/format/cash';
 import { chartsColors } from '../../../utils/constants/chartsColors';
 import { useSelector } from 'react-redux';
 import { names } from '../../../utils/constants/currencies';
 import { formatAxisAmount } from '../utils/axis';
+import Tooltip from '../utils/tooltip/Tooltip';
 
 function LineChart({
   transactions,
@@ -72,12 +72,15 @@ function LineChart({
               serieId,
               data: { yFormatted },
             },
-          }) =>
-            renderTooltip(
-              serieId,
-              formatNumberOutput(yFormatted, names[mainCurrency]),
-            )
-          }
+          }) => (
+            <Tooltip
+              id={serieId}
+              formattedValue={formatNumberOutput(
+                yFormatted,
+                names[mainCurrency],
+              )}
+            />
+          )}
         />
       </Chart>
       <Legends data={commonData} chartType="line" />

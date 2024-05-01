@@ -9,7 +9,6 @@ import {
 } from '../utils/gradients';
 import { createData } from '../utils/charts';
 import Legends from '../legends/Legends';
-import { renderTooltip } from '../utils/tooltip';
 import { ChartsInfoContainer, Pie } from '../CashFlow.styled';
 import {
   formatDineroOutput,
@@ -20,6 +19,7 @@ import { currencies, names } from '../../../utils/constants/currencies';
 import { useSelector } from 'react-redux';
 import { add, dinero } from 'dinero.js';
 import { createTypeFilter } from '../utils/shared';
+import Tooltip from '../utils/tooltip/Tooltip';
 
 const CenterText = styled('text')((props) => ({
   fill: props.theme.colors.text.primary,
@@ -102,9 +102,14 @@ function PieChart({ transactions, categories, chartFilter, date }) {
             return `${String.fromCodePoint(datum.data.category.icon)}`;
           }}
           arcLabelsSkipAngle={20}
-          tooltip={({ datum: { id, formattedValue, value } }) =>
-            renderTooltip(id, formattedValue, value, totalAmount)
-          }
+          tooltip={({ datum: { id, formattedValue, value } }) => (
+            <Tooltip
+              id={id}
+              formattedValue={formattedValue}
+              value={value}
+              totalAmount={totalAmount}
+            />
+          )}
           layers={[
             'arcs',
             'arcLabels',

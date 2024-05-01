@@ -9,7 +9,6 @@ import {
 } from '../utils/gradients';
 import { createData } from '../utils/charts';
 import Legends from '../legends/Legends';
-import { renderTooltip } from '../utils/tooltip';
 import { Chart, ChartsInfoContainer } from '../CashFlow.styled';
 import { formatNumberOutput } from '../../../utils/format/cash';
 import { chartsColors } from '../../../utils/constants/chartsColors';
@@ -17,6 +16,7 @@ import { useSelector } from 'react-redux';
 import { formatAxisAmount } from '../utils/axis';
 import { names } from '../../../utils/constants/currencies';
 import { renderKeys } from './utils';
+import Tooltip from '../utils/tooltip/Tooltip';
 
 function BarChart({
   transactions,
@@ -122,9 +122,9 @@ function BarChart({
               : 'stacked'
           }
           innerPadding={chartFilter === 'expensesToIncomes' ? 3.5 : 0}
-          tooltip={({ id, formattedValue }) =>
-            renderTooltip(id, formattedValue)
-          }
+          tooltip={({ id, formattedValue }) => (
+            <Tooltip id={id} formattedValue={formattedValue} />
+          )}
         />
       </Chart>
       <Legends data={commonData} chartType="bar" keys={keys} />

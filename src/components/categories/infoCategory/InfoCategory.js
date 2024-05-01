@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../../utils/constants/colors.js';
-import { renderColors, renderIcons, renderSelectedColor } from '../utils';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
 import { ReactComponent as ArchiveIcon } from '../../../assets/icons/shared/hoverArchive.svg';
@@ -41,6 +40,9 @@ import {
   isDescriptionCorrect,
   isDescriptionUnique,
 } from '../../../utils/format/description/index.js';
+import Icons from '../utils/icons/Icons.js';
+import SelectedColor from '../utils/color/SelectedColor.js';
+import Colors from '../utils/color/Colors.js';
 
 function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
   const dispatch = useDispatch();
@@ -149,7 +151,7 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
         label={t('INFO_CATEGORY.COLOR')}
         InputProps={{
           readOnly: true,
-          startAdornment: renderSelectedColor(selectedColor),
+          startAdornment: <SelectedColor selectedColor={selectedColor} />,
         }}
         onClick={(event) => setAnchorColorsEl(event.currentTarget)}
       />
@@ -160,7 +162,11 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       >
         <ColorsPalette>
-          {renderColors(colors, setSelectedColor, selectedColor)}
+          <Colors
+            colors={colors}
+            setSelectedColor={setSelectedColor}
+            initialColor={selectedColor}
+          />
         </ColorsPalette>
         <ColorsPaletteButtonContainer>
           <ColorsPaletteButton onClick={() => setAnchorColorsEl(null)}>
@@ -174,7 +180,9 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
         label={t('INFO_CATEGORY.ICON')}
         InputProps={{
           readOnly: true,
-          startAdornment: renderSelectedColor(selectedColor, icon),
+          startAdornment: (
+            <SelectedColor selectedColor={selectedColor} icon={icon} />
+          ),
         }}
         onClick={(event) => setAnchorIconsEl(event.currentTarget)}
       />
@@ -184,7 +192,10 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
         onClose={() => setAnchorIconsEl(null)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       >
-        <CategoriesIcons>{renderIcons(setIcon, icon)}</CategoriesIcons>
+        <CategoriesIcons>
+          {' '}
+          <Icons setIcon={setIcon} icon={icon} />
+        </CategoriesIcons>
         <IconsButtonContainer>
           <IconsButton onClick={() => setAnchorIconsEl(null)}>
             {t('INFO_CATEGORY.OK')}

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../../utils/constants/colors.js';
-import { renderColors, renderIcons, renderSelectedColor } from '../utils';
 ('../../../hooks/useOutsideClick.js');
 import {
   AddFormButtonsContainer,
@@ -34,6 +33,9 @@ import {
   isDescriptionUnique,
 } from '../../../utils/format/description/index.js';
 import Loading from '../../loading/Loading.js';
+import Colors from '../utils/color/Colors.js';
+import SelectedColor from '../utils/color/SelectedColor.js';
+import Icons from '../utils/icons/Icons.js';
 
 function CategoryForm({ type, setOpenDialog }) {
   const dispatch = useDispatch();
@@ -91,7 +93,7 @@ function CategoryForm({ type, setOpenDialog }) {
         label={t('INFO_CATEGORY.COLOR')}
         InputProps={{
           readOnly: true,
-          startAdornment: renderSelectedColor(selectedColor),
+          startAdornment: <SelectedColor selectedColor={selectedColor} />,
         }}
         onClick={(event) => setAnchorColorsEl(event.currentTarget)}
       />
@@ -102,7 +104,11 @@ function CategoryForm({ type, setOpenDialog }) {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       >
         <ColorsPalette>
-          {renderColors(colors, setSelectedColor, selectedColor)}
+          <Colors
+            colors={colors}
+            setSelectedColor={setSelectedColor}
+            initialColor={selectedColor}
+          />
         </ColorsPalette>
         <ColorsPaletteButtonContainer>
           <ColorsPaletteButton onClick={() => setAnchorColorsEl(null)}>
@@ -116,7 +122,9 @@ function CategoryForm({ type, setOpenDialog }) {
         label={t('INFO_CATEGORY.ICON')}
         InputProps={{
           readOnly: true,
-          startAdornment: renderSelectedColor(selectedColor, icon),
+          startAdornment: (
+            <SelectedColor selectedColor={selectedColor} icon={icon} />
+          ),
         }}
         onClick={(event) => setAnchorIconsEl(event.currentTarget)}
       />
@@ -126,7 +134,9 @@ function CategoryForm({ type, setOpenDialog }) {
         onClose={() => setAnchorIconsEl(null)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       >
-        <CategoriesIcons>{renderIcons(setIcon, icon)}</CategoriesIcons>
+        <CategoriesIcons>
+          <Icons setIcon={setIcon} icon={icon} />
+        </CategoriesIcons>
         <IconsButtonContainer>
           <IconsButton onClick={() => setAnchorIconsEl(null)}>
             {t('INFO_CATEGORY.OK')}
