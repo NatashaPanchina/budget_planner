@@ -510,10 +510,12 @@
     "MAIN_CURRENCY_INFO": {
       "MAIN_CURRENCY": "Main currency",
       "CHOOSE_CURRENCY": "All calculations and financial transactions will be performed in the main currency. Choose the currency in which it will be most convenient for you to track your financial activities.",
-      "EUR": "EUR",
-      "USD": "USD",
-      "RUB": "RUB",
-      "KZT": "KZT"
+      "EUR": "EUR (Euro)",
+      "USD": "USD (Dollar)",
+      "RUB": "RUB (Ruble)",
+      "KZT": "KZT (Tenge)",
+      "BYN": "BYN (Ruble)",
+      "CNY": "CNY (Yuan)"
     },
     "NOTIFICATIONS_INFO": {
       "NOTIFICATIONS": "Notifications",

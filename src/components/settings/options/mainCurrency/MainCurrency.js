@@ -10,6 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { RadioGroup } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { names } from '../../../../utils/constants/currencies';
 
 export default function MainCurrency() {
   const { t } = useTranslation();
@@ -22,34 +23,15 @@ export default function MainCurrency() {
         {t('SETTINGS.MAIN_CURRENCY_INFO.CHOOSE_CURRENCY')}
       </TextContainer>
       <RadioGroup value={header.profile.currency}>
-        <BorderContainer>
-          <LabelContainer
-            value="USD"
-            control={<RadioContainer />}
-            label={t('SETTINGS.MAIN_CURRENCY_INFO.USD')}
-          />
-        </BorderContainer>
-        <BorderContainer>
-          <LabelContainer
-            value="EUR"
-            control={<RadioContainer />}
-            label={t('SETTINGS.MAIN_CURRENCY_INFO.EUR')}
-          />
-        </BorderContainer>
-        <BorderContainer>
-          <LabelContainer
-            value="RUB"
-            control={<RadioContainer />}
-            label={t('SETTINGS.MAIN_CURRENCY_INFO.RUB')}
-          />
-        </BorderContainer>
-        <BorderContainer>
-          <LabelContainer
-            value="KZT"
-            control={<RadioContainer />}
-            label={t('SETTINGS.MAIN_CURRENCY_INFO.KZT')}
-          />
-        </BorderContainer>
+        {Object.values(names).map((currency) => (
+          <BorderContainer key={currency}>
+            <LabelContainer
+              value={currency}
+              control={<RadioContainer />}
+              label={t(`SETTINGS.MAIN_CURRENCY_INFO.${currency}`)}
+            />
+          </BorderContainer>
+        ))}
       </RadioGroup>
     </MobContainer>
   );
