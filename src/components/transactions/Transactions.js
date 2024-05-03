@@ -167,6 +167,7 @@ export default function Transactions() {
           mainCurrency={mainCurrency}
           transactions={transactionsData}
           accounts={accountsData}
+          filters={filters}
         />
       </Grid>
       <Grid item xs={12} sm={12} md={9} lg={9}>

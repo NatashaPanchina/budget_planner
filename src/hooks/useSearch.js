@@ -15,6 +15,7 @@ import {
   filterCategories,
 } from '../components/categories/utils';
 import { sortByAdding, sortByAlphabet, sortByDate } from '../utils/sort';
+import { toStringDate } from '../utils/format/date';
 
 const sortTransactions = (
   transactions,
@@ -30,12 +31,15 @@ const sortTransactions = (
   let result = transactions;
 
   result = transactions.filter((transaction) => {
-    const transactionDate = new Date(transaction.date);
-    return transactionDate >= date.from && transactionDate <= date.to;
+    const transactionDate = transaction.date;
+    return (
+      transactionDate >= toStringDate(date.from) &&
+      transactionDate <= toStringDate(date.to)
+    );
   });
 
   if (type !== 'All') {
-    result = transactions.filter(
+    result = result.filter(
       (transaction) => transaction.transactionType === type,
     );
   }

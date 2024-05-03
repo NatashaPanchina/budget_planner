@@ -19,6 +19,10 @@ function weekPeriod() {
 function monthPeriod(date) {
   const month = date.from.getMonth() + 1;
   const year = date.from.getFullYear();
+  const currentMonth = new Date();
+  const nextMonth = new Date();
+  nextMonth.setMonth(currentMonth.getMonth() + 1);
+  nextMonth.setDate(0);
   return [
     {
       from: date.from,
@@ -34,7 +38,7 @@ function monthPeriod(date) {
     },
     {
       from: new Date(month + '/22/' + year),
-      to: date.to,
+      to: new Date(month + `/${nextMonth.getDate()}/` + year),
     },
   ];
 }

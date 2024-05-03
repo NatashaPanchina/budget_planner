@@ -22,20 +22,27 @@ import {
   TotalCountTransactions,
 } from '../Transactions.styled.js';
 import { Grid } from '@mui/material';
+import { toStringDate } from '../../../utils/format/date/index.js';
 
-function AccountsSlider({ mainCurrency, transactions, accounts }) {
+function AccountsSlider({ mainCurrency, transactions, accounts, filters }) {
   const { t } = useTranslation();
-
+  const { date } = filters;
   const notArchivedAccounts = accounts.filter(
     (account) => account.archived === false,
   );
   const { filterType, filterAccount } = useParams();
-
   const filteredTransactions =
     filterAccount === 'all'
-      ? transactions
+      ? transactions.filter(
+          (transaction) =>
+            transaction.date >= toStringDate(date.from) &&
+            transaction.date <= toStringDate(date.to),
+        )
       : transactions.filter(
-          (transaction) => transaction.account === filterAccount,
+          (transaction) =>
+            transaction.account === filterAccount &&
+            transaction.date >= toStringDate(date.from) &&
+            transaction.date <= toStringDate(date.to),
         );
   const allTransactions = filteredTransactions.length;
   const expensesTransactions = filteredTransactions.filter(
@@ -120,6 +127,7 @@ AccountsSlider.propTypes = {
   mainCurrency: PropTypes.string,
   transactions: PropTypes.array,
   accounts: PropTypes.array,
+  filters: PropTypes.object,
 };
 
 export default AccountsSlider;
