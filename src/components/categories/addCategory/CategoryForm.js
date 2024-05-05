@@ -135,7 +135,7 @@ function CategoryForm({ type, setOpenDialog }) {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       >
         <CategoriesIcons>
-          <Icons setIcon={setIcon} icon={icon} />
+          <Icons setIcon={setIcon} selectedIcon={icon} />
         </CategoriesIcons>
         <IconsButtonContainer>
           <IconsButton onClick={() => setAnchorIconsEl(null)}>

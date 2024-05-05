@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { categoriesEmoji } from '../../../../utils/constants/icons';
+import { emojis } from '../../../../utils/constants/icons';
 import { styled } from '@mui/material';
 
 const IconContainer = styled('div', {
@@ -45,22 +45,19 @@ const EmojiTitle = styled('div')((props) => ({
 function Icons({ setIcon, selectedIcon }) {
   const result = [];
 
-  categoriesEmoji.forEach((group) => {
-    if (group.length !== 0) {
-      result.push(<EmojiTitle key={group[0].type}>{group[0].type}</EmojiTitle>);
-    }
+  for (let key in emojis) {
+    result.push(<EmojiTitle key={key}>{key}</EmojiTitle>);
 
-    group.forEach((icon) => {
+    emojis[key].forEach((emoji) => {
       result.push(
-        <IconContainer key={icon.id} $isActive={icon.id === selectedIcon}>
-          <EmojiIcon id={icon.id} onClick={() => setIcon(icon.id)}>
-            {String.fromCodePoint(icon.value)}
+        <IconContainer key={emoji} $isActive={emoji === selectedIcon}>
+          <EmojiIcon id={emoji} onClick={() => setIcon(emoji)}>
+            {String.fromCodePoint(emoji)}
           </EmojiIcon>
         </IconContainer>,
       );
     });
-  });
-
+  }
   return result;
 }
 

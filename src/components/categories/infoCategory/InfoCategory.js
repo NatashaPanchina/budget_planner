@@ -194,7 +194,7 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
       >
         <CategoriesIcons>
           {' '}
-          <Icons setIcon={setIcon} icon={icon} />
+          <Icons setIcon={setIcon} selectedIcon={icon} />
         </CategoriesIcons>
         <IconsButtonContainer>
           <IconsButton onClick={() => setAnchorIconsEl(null)}>
