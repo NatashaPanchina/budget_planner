@@ -1,7 +1,9 @@
 import { styled } from '@mui/material';
+import PropTypes from 'prop-types';
+import { toDecimal } from 'dinero.js';
 import React from 'react';
 
-const Tooltip = styled('div')((props) => ({
+const TooltipContainer = styled('div')((props) => ({
   padding: props.theme.spacing(3),
   display: 'flex',
   alignItems: 'center',
@@ -20,9 +22,9 @@ const TooltipValue = styled('span')((props) => ({
   marginLeft: props.theme.spacing(1.5),
 }));
 
-export function renderTooltip(id, formattedValue) {
+function Tooltip({ id, formattedValue, value, totalAmount }) {
   return (
-    <Tooltip>
+    <TooltipContainer>
       <TooltipSvg
         width="20"
         height="20"
@@ -38,6 +40,18 @@ export function renderTooltip(id, formattedValue) {
         ></circle>
       </TooltipSvg>
       {id}:<TooltipValue>{formattedValue}</TooltipValue>
-    </Tooltip>
+      {value && totalAmount
+        ? ` (${((value * 100) / toDecimal(totalAmount)).toFixed(2)}%)`
+        : ''}
+    </TooltipContainer>
   );
 }
+
+Tooltip.propTypes = {
+  id: PropTypes.string,
+  formattedValue: PropTypes.string,
+  value: PropTypes.number,
+  totalAmount: PropTypes.object,
+};
+
+export default Tooltip;

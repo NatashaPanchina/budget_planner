@@ -245,6 +245,7 @@ function AllFilters({ accounts, categories, setOpenFilters }) {
         onClick={() => {
           dispatch(
             updateTransactionsFilters({
+              date: filters.date,
               sort: sortType,
               type,
               accounts: accountTypes,

@@ -4,6 +4,7 @@ import { formatNumberOutput } from '../../../../utils/format/cash';
 import { styled } from '@mui/material';
 import { AccountsMenuItem } from '../../transactions/TransactionsAnalysis.styled';
 import { currencies } from '../../../../utils/constants/currencies';
+import { toStringDate } from '../../../../utils/format/date';
 
 export function createLocaleTransactions(NAME, count) {
   const lastNumber = Number(String(count).match(/\d$/g)[0]);
@@ -101,8 +102,11 @@ export function createAverageAmount(date, sum, mainCurrency) {
 
 export const filterByDate = (transactions, date) => {
   return transactions.filter((transaction) => {
-    const transactionDate = new Date(transaction.date);
-    return transactionDate >= date.from && transactionDate <= date.to;
+    const transactionDate = transaction.date;
+    return (
+      transactionDate >= toStringDate(date.from) &&
+      transactionDate <= toStringDate(date.to)
+    );
   });
 };
 

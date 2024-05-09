@@ -1,5 +1,6 @@
 import { dinero, add, toDecimal } from 'dinero.js';
 import { currencies } from '../../../../../utils/constants/currencies';
+import { toStringDate } from '../../../../../utils/format/date';
 
 export function createPieData(
   { transactions, categories, chartFilter, date },
@@ -44,11 +45,11 @@ function createData(
       const totalSum = toDecimal(
         transactions
           .filter((transaction) => {
-            const transactionDate = new Date(transaction.date);
+            const transactionDate = transaction.date;
             return (
               transaction.category === category.id &&
-              transactionDate >= date.from &&
-              transactionDate <= date.to
+              transactionDate >= toStringDate(date.from) &&
+              transactionDate <= toStringDate(date.to)
             );
           })
           .reduce(
@@ -57,11 +58,13 @@ function createData(
             dinero({ amount: 0, currency: currencies[mainCurrency] }),
           ),
       );
-      let dataItem = {
-        category,
-        sum: totalSum,
-      };
-      result.push(dataItem);
+      if (totalSum !== '0.00') {
+        const dataItem = {
+          category,
+          sum: totalSum,
+        };
+        result.push(dataItem);
+      }
     }
   });
   return result;

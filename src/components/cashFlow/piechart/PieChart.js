@@ -9,7 +9,6 @@ import {
 } from '../utils/gradients';
 import { createData } from '../utils/charts';
 import Legends from '../legends/Legends';
-import { renderTooltip } from '../utils/tooltip';
 import { ChartsInfoContainer, Pie } from '../CashFlow.styled';
 import {
   formatDineroOutput,
@@ -18,8 +17,10 @@ import {
 import { styled } from '@mui/material';
 import { currencies, names } from '../../../utils/constants/currencies';
 import { useSelector } from 'react-redux';
-import { add, dinero, toDecimal } from 'dinero.js';
+import { add, dinero } from 'dinero.js';
 import { createTypeFilter } from '../utils/shared';
+import Tooltip from '../utils/tooltip/Tooltip';
+import { toStringDate } from '../../../utils/format/date';
 
 const CenterText = styled('text')((props) => ({
   fill: props.theme.colors.text.primary,
@@ -52,11 +53,11 @@ function PieChart({ transactions, categories, chartFilter, date }) {
   const filter = createTypeFilter(chartFilter);
   const totalAmount = transactions
     .filter((transaction) => {
-      const transactionDate = new Date(transaction.date);
+      const transactionDate = transaction.date;
       return (
         transaction.transactionType === filter &&
-        transactionDate >= date.from &&
-        transactionDate <= date.to
+        transactionDate >= toStringDate(date.from) &&
+        transactionDate <= toStringDate(date.to)
       );
     })
     .reduce(
@@ -72,6 +73,7 @@ function PieChart({ transactions, categories, chartFilter, date }) {
             labels: {
               text: {
                 fill: '#fff',
+                fontSize: 16,
               },
             },
           }}
@@ -97,13 +99,18 @@ function PieChart({ transactions, categories, chartFilter, date }) {
           activeOuterRadiusOffset={8}
           sortByValue={true}
           enableArcLabels={true}
-          arcLabel={(datum) =>
-            `${((datum.value * 100) / toDecimal(totalAmount)).toFixed(2)}%`
-          }
+          arcLabel={(datum) => {
+            return `${String.fromCodePoint(datum.data.category.icon)}`;
+          }}
           arcLabelsSkipAngle={20}
-          tooltip={({ datum: { id, formattedValue, color } }) =>
-            renderTooltip(id, formattedValue, color)
-          }
+          tooltip={({ datum: { id, formattedValue, value } }) => (
+            <Tooltip
+              id={id}
+              formattedValue={formattedValue}
+              value={value}
+              totalAmount={totalAmount}
+            />
+          )}
           layers={[
             'arcs',
             'arcLabels',

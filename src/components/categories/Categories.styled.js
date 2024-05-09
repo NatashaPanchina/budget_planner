@@ -190,9 +190,15 @@ export const CategoriesTitleLink = styled(NavLink)((props) => ({
 }));
 
 export const CategoriesIcons = styled('div')((props) => ({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(9, 11.11%)',
+  display: 'flex',
+  flexWrap: 'wrap',
+  gridTemplateColumns: 'repeat(8, 12.5%)',
+  gridAutoRows: 40,
   padding: props.theme.spacing(3),
+  '@media (min-width: 600px)': {
+    gridTemplateColumns: 'repeat(9, 11.11%)',
+    padding: props.theme.spacing(3),
+  },
 }));
 
 export const IconsButtonContainer = styled(FlexContainer)((props) => ({

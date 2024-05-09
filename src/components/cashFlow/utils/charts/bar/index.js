@@ -2,7 +2,7 @@ import { dinero, add, toDecimal, subtract } from 'dinero.js';
 import { createPeriod } from '../../period';
 import { chartsColors } from '../../../../../utils/constants/chartsColors';
 import { currencies } from '../../../../../utils/constants/currencies';
-import { convertPeriod } from '../../../../../utils/format/date';
+import { convertPeriod, toStringDate } from '../../../../../utils/format/date';
 
 export function createBarData(
   {
@@ -140,11 +140,11 @@ function createSimpleData(
     return currentPeriod.map((date) => {
       const expenses = transactions
         .filter((transaction) => {
-          const transactionDate = new Date(transaction.date);
+          const transactionDate = transaction.date;
           return (
             transaction.transactionType === 'expense' &&
-            transactionDate >= date.from &&
-            transactionDate <= date.to
+            transactionDate >= toStringDate(date.from) &&
+            transactionDate <= toStringDate(date.to)
           );
         })
         .reduce(
@@ -154,11 +154,11 @@ function createSimpleData(
         );
       const incomes = transactions
         .filter((transaction) => {
-          const transactionDate = new Date(transaction.date);
+          const transactionDate = transaction.date;
           return (
             transaction.transactionType === 'income' &&
-            transactionDate >= date.from &&
-            transactionDate <= date.to
+            transactionDate >= toStringDate(date.from) &&
+            transactionDate <= toStringDate(date.to)
           );
         })
         .reduce(
@@ -180,11 +180,11 @@ function createSimpleData(
       [`${filter}s`]: toDecimal(
         transactions
           .filter((transaction) => {
-            const transactionDate = new Date(transaction.date);
+            const transactionDate = transaction.date;
             return (
               transaction.transactionType === transactionFilter &&
-              transactionDate >= date.from &&
-              transactionDate <= date.to
+              transactionDate >= toStringDate(date.from) &&
+              transactionDate <= toStringDate(date.to)
             );
           })
           .reduce(
@@ -224,11 +224,11 @@ function createDetailedData(
             [category.description]: toDecimal(
               filteredTransactions
                 .filter((transaction) => {
-                  const transactionDate = new Date(transaction.date);
+                  const transactionDate = transaction.date;
                   return (
                     transaction.category === category.id &&
-                    transactionDate >= date.from &&
-                    transactionDate <= date.to
+                    transactionDate >= toStringDate(date.from) &&
+                    transactionDate <= toStringDate(date.to)
                   );
                 })
                 .reduce(
@@ -257,11 +257,11 @@ function createExpensesToIncomesData(
       incomes: toDecimal(
         transactions
           .filter((transaction) => {
-            const transactionDate = new Date(transaction.date);
+            const transactionDate = transaction.date;
             return (
               transaction.transactionType === 'income' &&
-              transactionDate >= date.from &&
-              transactionDate <= date.to
+              transactionDate >= toStringDate(date.from) &&
+              transactionDate <= toStringDate(date.to)
             );
           })
           .reduce(
@@ -274,11 +274,11 @@ function createExpensesToIncomesData(
       expenses: toDecimal(
         transactions
           .filter((transaction) => {
-            const transactionDate = new Date(transaction.date);
+            const transactionDate = transaction.date;
             return (
               transaction.transactionType === 'expense' &&
-              transactionDate >= date.from &&
-              transactionDate <= date.to
+              transactionDate >= toStringDate(date.from) &&
+              transactionDate <= toStringDate(date.to)
             );
           })
           .reduce(
@@ -310,11 +310,11 @@ function createComparedData(
 
       const currentExpenses = transactions
         .filter((transaction) => {
-          const transactionDate = new Date(transaction.date);
+          const transactionDate = transaction.date;
           return (
             transaction.transactionType === 'expense' &&
-            transactionDate >= currentDate.from &&
-            transactionDate <= currentDate.to
+            transactionDate >= toStringDate(currentDate.from) &&
+            transactionDate <= toStringDate(currentDate.to)
           );
         })
         .reduce(
@@ -325,11 +325,11 @@ function createComparedData(
 
       const currentIncomes = transactions
         .filter((transaction) => {
-          const transactionDate = new Date(transaction.date);
+          const transactionDate = transaction.date;
           return (
             transaction.transactionType === 'income' &&
-            transactionDate >= currentDate.from &&
-            transactionDate <= currentDate.to
+            transactionDate >= toStringDate(currentDate.from) &&
+            transactionDate <= toStringDate(currentDate.to)
           );
         })
         .reduce(
@@ -344,11 +344,11 @@ function createComparedData(
 
       const comparedExpenses = transactions
         .filter((transaction) => {
-          const transactionDate = new Date(transaction.date);
+          const transactionDate = transaction.date;
           return (
             transaction.transactionType === 'expense' &&
-            transactionDate >= comparedDate.from &&
-            transactionDate <= comparedDate.to
+            transactionDate >= toStringDate(comparedDate.from) &&
+            transactionDate <= toStringDate(comparedDate.to)
           );
         })
         .reduce(
@@ -359,11 +359,11 @@ function createComparedData(
 
       const comparedIncomes = transactions
         .filter((transaction) => {
-          const transactionDate = new Date(transaction.date);
+          const transactionDate = transaction.date;
           return (
             transaction.transactionType === 'income' &&
-            transactionDate >= comparedDate.from &&
-            transactionDate <= comparedDate.to
+            transactionDate >= toStringDate(comparedDate.from) &&
+            transactionDate <= toStringDate(comparedDate.to)
           );
         })
         .reduce(
@@ -401,11 +401,11 @@ function createComparedData(
 
       const currentExpenses = transactions
         .filter((transaction) => {
-          const transactionDate = new Date(transaction.date);
+          const transactionDate = transaction.date;
           return (
             transaction.transactionType === 'expense' &&
-            transactionDate >= currentDate.from &&
-            transactionDate <= currentDate.to
+            transactionDate >= toStringDate(currentDate.from) &&
+            transactionDate <= toStringDate(currentDate.to)
           );
         })
         .reduce(
@@ -416,11 +416,11 @@ function createComparedData(
 
       const comparedExpenses = transactions
         .filter((transaction) => {
-          const transactionDate = new Date(transaction.date);
+          const transactionDate = transaction.date;
           return (
             transaction.transactionType === 'expense' &&
-            transactionDate >= comparedDate.from &&
-            transactionDate <= comparedDate.to
+            transactionDate >= toStringDate(comparedDate.from) &&
+            transactionDate <= toStringDate(comparedDate.to)
           );
         })
         .reduce(
@@ -457,11 +457,11 @@ function createComparedData(
 
       const currentIncomes = transactions
         .filter((transaction) => {
-          const transactionDate = new Date(transaction.date);
+          const transactionDate = transaction.date;
           return (
             transaction.transactionType === 'income' &&
-            transactionDate >= currentDate.from &&
-            transactionDate <= currentDate.to
+            transactionDate >= toStringDate(currentDate.from) &&
+            transactionDate <= toStringDate(currentDate.to)
           );
         })
         .reduce(
@@ -472,11 +472,11 @@ function createComparedData(
 
       const comparedIncomes = transactions
         .filter((transaction) => {
-          const transactionDate = new Date(transaction.date);
+          const transactionDate = transaction.date;
           return (
             transaction.transactionType === 'income' &&
-            transactionDate >= comparedDate.from &&
-            transactionDate <= comparedDate.to
+            transactionDate >= toStringDate(comparedDate.from) &&
+            transactionDate <= toStringDate(comparedDate.to)
           );
         })
         .reduce(

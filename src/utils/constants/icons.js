@@ -1,217 +1,176 @@
-import { ReactComponent as Airplane } from '../../assets/icons/category/airplane.svg';
-import { ReactComponent as Alcohol } from '../../assets/icons/category/alcohol.svg';
-import { ReactComponent as Alien } from '../../assets/icons/category/alien.svg';
-import { ReactComponent as Awards } from '../../assets/icons/category/awards.svg';
-import { ReactComponent as BabyClothes } from '../../assets/icons/category/babyClothes.svg';
-import { ReactComponent as BabyHead } from '../../assets/icons/category/babyHead.svg';
-import { ReactComponent as BabyStroller } from '../../assets/icons/category/babyStroller.svg';
-import { ReactComponent as Balloon } from '../../assets/icons/category/balloon.svg';
-import { ReactComponent as Bank } from '../../assets/icons/category/bank.svg';
-import { ReactComponent as BeardEmoji } from '../../assets/icons/category/beardEmoji.svg';
-import { ReactComponent as Bib } from '../../assets/icons/category/bib.svg';
-import { ReactComponent as Bicycle } from '../../assets/icons/category/bicycle.svg';
-import { ReactComponent as Books } from '../../assets/icons/category/books.svg';
-import { ReactComponent as Building } from '../../assets/icons/category/building.svg';
-import { ReactComponent as Bus } from '../../assets/icons/category/bus.svg';
-import { ReactComponent as Cake } from '../../assets/icons/category/cake.svg';
-import { ReactComponent as Camera } from '../../assets/icons/category/camera.svg';
-import { ReactComponent as Candies } from '../../assets/icons/category/candies.svg';
-import { ReactComponent as Car } from '../../assets/icons/category/car.svg';
-import { ReactComponent as Card } from '../../assets/icons/category/card.svg';
-import { ReactComponent as Cat } from '../../assets/icons/category/cat.svg';
-import { ReactComponent as Chart } from '../../assets/icons/category/chart.svg';
-import { ReactComponent as Check } from '../../assets/icons/category/check.svg';
-import { ReactComponent as Church } from '../../assets/icons/category/church.svg';
-import { ReactComponent as Clean } from '../../assets/icons/category/clean.svg';
-import { ReactComponent as Clothes } from '../../assets/icons/category/clothes.svg';
-import { ReactComponent as Coins } from '../../assets/icons/category/coins.svg';
-import { ReactComponent as Copy } from '../../assets/icons/category/copy.svg';
-import { ReactComponent as Cosmetics } from '../../assets/icons/category/cosmetics.svg';
-import { ReactComponent as Currency } from '../../assets/icons/category/currency.svg';
-import { ReactComponent as Description } from '../../assets/icons/category/description.svg';
-import { ReactComponent as Drugs } from '../../assets/icons/category/drugs.svg';
-import { ReactComponent as EatOut } from '../../assets/icons/category/eatOut.svg';
-import { ReactComponent as Education } from '../../assets/icons/category/education.svg';
-import { ReactComponent as Electricity } from '../../assets/icons/category/electricity.svg';
-import { ReactComponent as Ellipsis } from '../../assets/icons/category/ellipsis.svg';
-import { ReactComponent as Engagement } from '../../assets/icons/category/engagement.svg';
-import { ReactComponent as Film } from '../../assets/icons/category/film.svg';
-import { ReactComponent as Flower } from '../../assets/icons/category/flower.svg';
-import { ReactComponent as Forest } from '../../assets/icons/category/forest.svg';
-import { ReactComponent as Games } from '../../assets/icons/category/games.svg';
-import { ReactComponent as Gas } from '../../assets/icons/category/gas.svg';
-import { ReactComponent as Gift } from '../../assets/icons/category/gift.svg';
-import { ReactComponent as Grooming } from '../../assets/icons/category/grooming.svg';
-import { ReactComponent as Guitar } from '../../assets/icons/category/guitar.svg';
-import { ReactComponent as Health } from '../../assets/icons/category/health.svg';
-import { ReactComponent as Heart } from '../../assets/icons/category/heart.svg';
-import { ReactComponent as Helmet } from '../../assets/icons/category/helmet.svg';
-import { ReactComponent as Home } from '../../assets/icons/category/home.svg';
-import { ReactComponent as Idea } from '../../assets/icons/category/idea.svg';
-import { ReactComponent as Income } from '../../assets/icons/category/income.svg';
-import { ReactComponent as Island } from '../../assets/icons/category/island.svg';
-import { ReactComponent as Joker } from '../../assets/icons/category/joker.svg';
-import { ReactComponent as Language } from '../../assets/icons/category/language.svg';
-import { ReactComponent as Like } from '../../assets/icons/category/like.svg';
-import { ReactComponent as Location } from '../../assets/icons/category/location.svg';
-import { ReactComponent as Mail } from '../../assets/icons/category/mail.svg';
-import { ReactComponent as ManHair } from '../../assets/icons/category/manHair.svg';
-import { ReactComponent as Meat } from '../../assets/icons/category/meat.svg';
-import { ReactComponent as Medicine } from '../../assets/icons/category/medicine.svg';
-import { ReactComponent as Message } from '../../assets/icons/category/message.svg';
-import { ReactComponent as MoneyBills } from '../../assets/icons/category/moneyBills.svg';
-import { ReactComponent as Mortarboard } from '../../assets/icons/category/mortarboard.svg';
-import { ReactComponent as Mountain } from '../../assets/icons/category/mountain.svg';
-import { ReactComponent as Music } from '../../assets/icons/category/music.svg';
-import { ReactComponent as Oven } from '../../assets/icons/category/oven.svg';
-import { ReactComponent as Pacifier } from '../../assets/icons/category/pacifier.svg';
-import { ReactComponent as Painting } from '../../assets/icons/category/painting.svg';
-import { ReactComponent as Party } from '../../assets/icons/category/party.svg';
-import { ReactComponent as PartyEmoji } from '../../assets/icons/category/partyEmoji.svg';
-import { ReactComponent as Person } from '../../assets/icons/category/person.svg';
-import { ReactComponent as PetCat } from '../../assets/icons/category/petCat.svg';
-import { ReactComponent as PetDog } from '../../assets/icons/category/petDog.svg';
-import { ReactComponent as Pin } from '../../assets/icons/category/pin.svg';
-import { ReactComponent as PooEmoji } from '../../assets/icons/category/pooEmoji.svg';
-import { ReactComponent as Products } from '../../assets/icons/category/products.svg';
-import { ReactComponent as Profit } from '../../assets/icons/category/profit.svg';
-import { ReactComponent as Salary } from '../../assets/icons/category/salary.svg';
-import { ReactComponent as Santa } from '../../assets/icons/category/santa.svg';
-import { ReactComponent as Settings } from '../../assets/icons/category/settings.svg';
-import { ReactComponent as Shoes } from '../../assets/icons/category/shoes.svg';
-import { ReactComponent as Smartphone } from '../../assets/icons/category/smartphone.svg';
-import { ReactComponent as SmileEmoji } from '../../assets/icons/category/smileEmoji.svg';
-import { ReactComponent as Smoke } from '../../assets/icons/category/smoke.svg';
-import { ReactComponent as Sport } from '../../assets/icons/category/sport.svg';
-import { ReactComponent as Steam } from '../../assets/icons/category/steam.svg';
-import { ReactComponent as Store } from '../../assets/icons/category/store.svg';
-import { ReactComponent as Swim } from '../../assets/icons/category/swim.svg';
-import { ReactComponent as Tags } from '../../assets/icons/category/tags.svg';
-import { ReactComponent as Telephone } from '../../assets/icons/category/telephone.svg';
-import { ReactComponent as Tools } from '../../assets/icons/category/tools.svg';
-import { ReactComponent as Tooth } from '../../assets/icons/category/tooth.svg';
-import { ReactComponent as Transaction } from '../../assets/icons/category/transaction.svg';
-import { ReactComponent as Trash } from '../../assets/icons/category/trash.svg';
-import { ReactComponent as Travel } from '../../assets/icons/category/travel.svg';
-import { ReactComponent as TravelSuitcase } from '../../assets/icons/category/travelSuitcase.svg';
-import { ReactComponent as Trolleybus } from '../../assets/icons/category/trolleybus.svg';
-import { ReactComponent as Tv } from '../../assets/icons/category/tv.svg';
-import { ReactComponent as Underwear } from '../../assets/icons/category/underwear.svg';
-import { ReactComponent as Utilities } from '../../assets/icons/category/utilities.svg';
-import { ReactComponent as Veterinarian } from '../../assets/icons/category/veterinarian.svg';
-import { ReactComponent as Wallet } from '../../assets/icons/category/wallet.svg';
-import { ReactComponent as Wardrobe } from '../../assets/icons/category/wardrobe.svg';
-import { ReactComponent as Wedding } from '../../assets/icons/category/wedding.svg';
-import { ReactComponent as Whatsapp } from '../../assets/icons/category/whatsapp.svg';
-import { ReactComponent as Wifi } from '../../assets/icons/category/wifi.svg';
-import { ReactComponent as WomanHair } from '../../assets/icons/category/womanHair.svg';
-
-export const categoryIcons = [
-  Car,
-  Bicycle,
-  Trolleybus,
-  Bus,
-  Helmet,
-  Airplane,
-  Travel,
-  TravelSuitcase,
-  Island,
-  Clothes,
-  Wardrobe,
-  Underwear,
-  Shoes,
-  BabyClothes,
-  BabyHead,
-  Pacifier,
-  Bib,
-  BabyStroller,
-  Home,
-  Bank,
-  Church,
-  Building,
-  Store,
-  Utilities,
-  Oven,
-  Gas,
-  Electricity,
-  Tv,
-  Wifi,
-  Telephone,
-  Smartphone,
-  Tools,
-  Clean,
-  Sport,
-  Games,
-  Gift,
-  Swim,
-  Music,
-  Film,
-  Painting,
-  Books,
-  Camera,
-  Guitar,
-  Mountain,
-  Forest,
-  Flower,
-  Party,
-  Balloon,
-  Santa,
-  Person,
-  Wedding,
-  Engagement,
-  Cake,
-  EatOut,
-  Products,
-  Candies,
-  Alcohol,
-  Smoke,
-  Meat,
-  Health,
-  Drugs,
-  Medicine,
-  Tooth,
-  Cosmetics,
-  Grooming,
-  WomanHair,
-  ManHair,
-  Heart,
-  PooEmoji,
-  SmileEmoji,
-  PartyEmoji,
-  BeardEmoji,
-  Joker,
-  Alien,
-  Cat,
-  Like,
-  PetCat,
-  PetDog,
-  Veterinarian,
-  Education,
-  Mortarboard,
-  Awards,
-  Currency,
-  Wallet,
-  Profit,
-  MoneyBills,
-  Description,
-  Check,
-  Income,
-  Transaction,
-  Card,
-  Salary,
-  Chart,
-  Coins,
-  Copy,
-  Tags,
-  Mail,
-  Message,
-  Location,
-  Steam,
-  Whatsapp,
-  Settings,
-  Trash,
-  Language,
-  Pin,
-  Idea,
-  Ellipsis,
-];
+export const emojis = {
+  Smileys: [
+    128522, 128521, 128514, 128519, 128525, 128536, 129392, 128523, 128541,
+    129297, 129300, 129323, 129325, 128528, 128527, 128530, 128580, 128566,
+    128564, 129316, 128532, 128567, 129398, 129319, 129327, 129298, 129397,
+    129326, 129301, 129314, 129395, 128526, 128533, 128561, 128557, 128563,
+    129402, 128128, 128127, 128520, 128545, 129324, 128570, 128585,
+  ],
+  Emotion: [
+    128173, 128140, 128162, 128175, 128139, 128168, 128166, 128171, 128148,
+    128154, 128153, 128156, 128155, 128420, 129505, 128150, 129294, 129293,
+    10084, 128165, 128172, 128163, 128164,
+  ],
+  Body: [
+    128075, 9995, 128076, 129304, 128070, 128072, 128077, 128078, 128074,
+    128591, 129309, 128588, 128133, 9997, 128065, 128068, 128069, 128066,
+    128067, 128064, 128170, 129460, 129462, 129461, 129463, 129471, 129470,
+    129504, 129729, 129728,
+  ],
+  Person: [
+    128105, 128104, 128118, 128120, 128119, 128112, 128110, 128373, 129329,
+    129328, 129332, 129333,
+  ],
+  'Fantasy Person': [127877, 129499, 129498, 129497, 129500, 129503, 129464],
+  Activity: [
+    127939, 128135, 128131, 128111, 128378, 129495, 127947, 127948, 127938,
+    127943, 127946, 127940, 128675, 128693, 128692, 129337, 129336, 129338,
+    129340, 129341, 9975, 9977, 128716, 129496,
+  ],
+  Family: [
+    128143, 128108, 128106, 128109, 128107, 128145, 128100, 128101, 128483,
+    129730,
+  ],
+  Animals: [
+    128063, 128046, 128045, 128043, 128042, 128047, 128000, 128040, 128014,
+    128016, 128015, 128018, 128017, 128021, 128022, 128023, 128049, 128048,
+    128041, 128001, 128004, 128053, 128006, 128005, 128007, 128008, 128024,
+    128003, 128052, 128002, 128054, 128055, 128057, 128061, 128062, 128060,
+    128059, 128058, 129423, 129421, 129420, 129418, 129426, 129432, 129415,
+    129427, 129443, 129435, 129437, 129428, 129412, 129441, 129445, 129447,
+    129446, 129409,
+  ],
+  Bird: [
+    128035, 128020, 128036, 128037, 128039, 128038, 128019, 128330, 129449,
+    129442, 129444, 129436, 129434, 129411, 129413, 129417, 129414, 129727,
+  ],
+  Reptile: [
+    128056, 128013, 128034, 128010, 128009, 128050, 129422, 129429, 129430,
+  ],
+  Marine: [
+    128011, 128026, 128051, 128031, 128025, 128044, 128033, 128032, 129453,
+    129416,
+  ],
+  Bugs: [
+    128029, 128030, 128027, 128028, 128012, 128376, 128375, 129419, 129431,
+    129439, 129440, 129410, 129713, 129714, 129715, 129712,
+  ],
+  Flower: [
+    127801, 127799, 127802, 127989, 127804, 127803, 127800, 128174, 128144,
+    129344, 127794, 127795, 127796, 127797, 127806, 127808, 127793, 127810,
+    127811, 127809, 127807, 129716, 9752,
+  ],
+  Fruit: [
+    127827, 127826, 127825, 127819, 127818, 127817, 127821, 127816, 127822,
+    127815, 127813, 127820, 127823, 127824, 129373, 129381, 129389, 129744,
+    129746,
+  ],
+  Vegetable: [
+    127792, 127798, 127814, 127812, 127805, 129476, 129372, 129361, 129365,
+    129477, 129364, 129362, 129388, 129382, 129745, 129752, 129755, 129754,
+  ],
+  'Prepared Food': [
+    127859, 127858, 127791, 127790, 127789, 127829, 127830, 127828, 127831,
+    127871, 127839, 127838, 129480, 129479, 129478, 129472, 129474, 129391,
+    129386, 129387, 129366, 129367, 129369, 129368, 129374, 129370, 129363,
+    129384, 129385, 129360, 129379, 129747, 129748, 129749,
+  ],
+  'Asian Food': [
+    127834, 127833, 127832, 127857, 127835, 127840, 127842, 127841, 127844,
+    127843, 127845, 127837, 127836, 129377, 129376, 129390, 129375,
+  ],
+  'Sea Food': [129438, 129450, 129408, 129425, 129424],
+  'Sweet Food': [
+    127851, 127846, 127847, 127852, 127849, 127850, 127848, 127855, 127853,
+    127854, 127856, 127874, 129473, 129383,
+  ],
+  Drink: [
+    127866, 127870, 127865, 127861, 127867, 127868, 127862, 127863, 127864,
+    129347, 129346, 129481, 129380, 129475, 129371, 129482, 129483, 129750,
+    129751, 9749,
+  ],
+  Dishware: [127860, 127994, 127869, 128298, 129348, 129378, 129753],
+  'Travel and Places': [
+    127759, 127760, 129517, 128506, 127964, 127755, 127958, 127965, 127956,
+    127966, 127957, 128507, 9968,
+  ],
+  Buildings: [
+    127981, 127974, 127973, 127977, 127978, 127979, 127960, 127963, 127967,
+    127959, 127976, 127970, 127969, 127968, 127984, 127983, 128146, 128509,
+    128508,
+  ],
+  'Religious Place': [128332, 128331, 128333, 128725, 9962, 9961],
+  'Other Places': [
+    127905, 127906, 127751, 127753, 127749, 127747, 127748, 127914, 127745,
+    127904, 128136, 9978,
+  ],
+  Transport: [
+    127950, 127949, 128679, 128677, 128664, 128690, 128648, 128645, 128666,
+    128668, 128642, 128663, 128657, 128659, 128661, 128756, 128761, 128763,
+    129469, 9981, 128676, 128674, 128758, 9973, 128745, 128640, 128641, 128752,
+    128760, 129666, 9992,
+  ],
+  Time: [128718, 129523, 128368, 9203, 9200, 8986],
+  Weather: [
+    127754, 127761, 127746, 127752, 127756, 127776, 127763, 127783, 127787,
+    127769, 127784, 127786, 127765, 127777, 127774, 127771, 128167, 128293,
+    129680, 9889, 9730, 9748, 9924, 9925, 9729, 9732, 9969, 10052, 11088,
+  ],
+  Event: [
+    127873, 127875, 127879, 127872, 127881, 127903, 127880, 127883, 127882,
+    127895, 127887, 127886, 127876, 129511, 129512, 10024,
+  ],
+  Award: [127942, 127894, 127941],
+  Sport: [
+    127936, 127955, 127907, 127953, 127952, 127933, 127934, 127935, 127954,
+    127944, 127951, 127923, 127992, 128759, 129343, 129359, 129354, 129355,
+    9917, 9976, 9918, 9971,
+  ],
+  Game: [
+    127183, 126980, 127921, 127922, 127920, 127918, 127919, 128377, 128302,
+    129513, 129535, 129528, 129670, 129669, 129665, 9823,
+  ],
+  Art: [127912, 127917, 129525, 129526, 129698],
+  Clothing: [
+    127891, 127913, 127890, 128087, 128089, 128091, 128094, 128095, 128092,
+    128085, 128097, 128081, 128132, 128141, 128088, 128142, 128083, 128086,
+    128084, 128096, 128255, 128374, 128717, 129506, 129508, 129510, 129406,
+    129648, 129649, 129650, 129651,
+  ],
+  Sound: [128226, 128239, 128263, 128266, 128276, 128277],
+  Music: [
+    127897, 127908, 127926, 127932, 127925, 127911, 127930, 127927, 127929,
+    127928, 129345, 129685, 129687, 129688, 129672,
+  ],
+  Technique: [
+    128222, 128241, 9742, 128191, 128190, 128187, 128421, 128267, 128268,
+    129518, 9000, 127909, 127916, 127902, 128247, 128161, 128252, 128367,
+    128270, 128294,
+  ],
+  'Paper Book': [
+    127991, 128209, 128195, 128213, 128210, 128214, 128218, 128196, 128240,
+  ],
+  Money: [
+    128184, 128183, 128185, 128182, 128181, 128180, 128179, 128176, 129534,
+  ],
+  Mail: [128234, 128235, 128231, 128228, 128229, 128230, 128232, 9993],
+  Writing: [128221, 128397, 128394, 9999],
+  Office: [
+    128200, 128204, 128202, 128208, 128203, 128201, 128207, 128205, 128197,
+    128206, 128467, 128465, 128466, 9986,
+  ],
+  Lock: [128275, 128274, 128273],
+  Tool: [
+    127993, 128481, 128295, 128279, 128297, 128296, 128299, 128737, 128736,
+    129522, 129455, 129520, 129693, 129683, 9881, 9939, 9935, 9876, 9878,
+  ],
+  Science: [128225, 128301, 128300, 129514, 129516, 9879],
+  Medical: [128137, 128138, 129658, 129657, 129656],
+  Household: [
+    128705, 128727, 128715, 128722, 128703, 128719, 128701, 128682, 129524,
+    129519, 129527, 129530, 129529, 129532, 129533, 129531, 129701, 129699,
+    129696, 129681, 129682,
+  ],
+  'Other Objects': [128511, 128684, 129703, 129702, 9905, 9904],
+  Flags: [127987, 127884, 127937, 127988, 128681],
+};

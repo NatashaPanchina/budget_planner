@@ -1,5 +1,6 @@
 import { dinero, add, isZero, compare } from 'dinero.js';
 import { currencies } from '../../../../../utils/constants/currencies';
+import { toStringDate } from '../../../../../utils/format/date';
 
 export function createTableData(
   { transactions, categories, tableFilter, date },
@@ -26,12 +27,12 @@ function createExpensesData(transactions, categories, date, mainCurrency) {
       category,
       sum: transactions
         .filter((transaction) => {
-          const transactionDate = new Date(transaction.date);
+          const transactionDate = transaction.date;
           return (
             transaction.transactionType === 'expense' &&
             transaction.category === category.id &&
-            transactionDate >= date.from &&
-            transactionDate <= date.to
+            transactionDate >= toStringDate(date.from) &&
+            transactionDate <= toStringDate(date.to)
           );
         })
         .reduce(
@@ -53,12 +54,12 @@ function createIncomesData(transactions, categories, date, mainCurrency) {
       category,
       sum: transactions
         .filter((transaction) => {
-          const transactionDate = new Date(transaction.date);
+          const transactionDate = transaction.date;
           return (
             transaction.transactionType === 'income' &&
             transaction.category === category.id &&
-            transactionDate >= date.from &&
-            transactionDate <= date.to
+            transactionDate >= toStringDate(date.from) &&
+            transactionDate <= toStringDate(date.to)
           );
         })
         .reduce(
