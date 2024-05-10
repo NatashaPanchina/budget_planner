@@ -1,5 +1,5 @@
 import { doc, runTransaction, writeBatch } from 'firebase/firestore';
-import { db } from '../../configs/firebaseConfigs';
+import { auth, db } from '../../configs/firebaseConfigs';
 import { names } from '../constants/currencies';
 
 export const setDataToFB = async (
@@ -36,7 +36,16 @@ export const setDataToFB = async (
 
 export const getDataFromFB = async (uid) => {
   let profileData = {
-    displayName: 'Anonymous',
+    isAnonymous: auth.currentUser.isAnonymous,
+    providerId: auth.currentUser.providerId,
+    displayName: auth.currentUser.displayName,
+    email: auth.currentUser.email,
+    emailVerified: auth.currentUser.emailVerified,
+    createdAt: auth.currentUser.metadata.createdAt,
+    lastLoginAt: auth.currentUser.metadata.lastLoginAt,
+    phoneNumber: auth.currentUser.phoneNumber,
+    photoURL: auth.currentUser.photoURL,
+    id: auth.currentUser.uid,
     currency: names.USD,
     backupDate: Date.now(),
   };
