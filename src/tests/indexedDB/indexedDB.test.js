@@ -10,8 +10,8 @@ import {
   idbSearchItems,
   idbUpdateItem,
 } from '../../indexedDB/IndexedDB';
-import { mockCategory, mockTransaction } from './utils';
-import { mockDbData } from '../utils/dbData';
+import { mockCategory, mockTransaction } from './mocks';
+import { mockDbData } from '../mocks/dbData';
 
 describe('indexedDB', () => {
   it('open and init DB', () => {
