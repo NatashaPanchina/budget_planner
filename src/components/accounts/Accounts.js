@@ -15,12 +15,16 @@ import { ReactComponent as TrashIcon } from '../../assets/icons/shared/trash.svg
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
 import { ReactComponent as SortIcon } from '../../assets/icons/shared/sort.svg';
+import { ReactComponent as ToggleMenuIcon } from '../../assets/icons/shared/menuDots.svg';
 
 import {
   MoreInformationContainer,
   CashTitleContainer,
   CashTitleLink,
   TotalBalance,
+  FlexContainer,
+  MobTotalBalance,
+  MobBalance,
 } from './Accounts.styled.js';
 import {
   Header,
@@ -42,12 +46,17 @@ import {
 } from '../../theme/global.js';
 import { pages } from '../../utils/constants/pages.js';
 import { Drawer, Grid, MenuItem } from '@mui/material';
-import { createAccountFilter, createLocaleAccountType } from './utils/index.js';
+import {
+  createAccountFilter,
+  createLocaleAccountType,
+  getTotalBalance,
+} from './utils/index.js';
 import AccountsList from './list/AccountsList.js';
 import Loading from '../loading/Loading.js';
 import AddAccount from './addAccount/AddAccount.js';
 import { names } from '../../utils/constants/currencies.js';
 import AllFilters from './filters/AllFilters.js';
+import { formatDineroOutput } from '../../utils/format/cash/index.js';
 
 export default function Accounts() {
   const { status, accounts, filters } = useSelector((state) => state.accounts);
@@ -65,7 +74,10 @@ export default function Accounts() {
   const [openDialog, setOpenDialog] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [mobMenu, setMobMenu] = useState(null);
+  const openMobMenu = Boolean(mobMenu);
   const open = Boolean(anchorEl);
+  const totalBalance = getTotalBalance(notArchivedAccounts, mainCurrency);
 
   useEffect(() => {
     dispatch(fetchAccountsData());
@@ -103,9 +115,6 @@ export default function Accounts() {
               </FilterTitle>
             </FilterButton>
           </SortButtonsContainer>
-          <MobileFilterButton onClick={() => setOpenFilters(true)}>
-            <FilterSvg as={FilterIcon} />
-          </MobileFilterButton>
           <FilterTooltip title={t(`ACCOUNTS.ADD_ALL`)} arrow>
             <AddButton onClick={() => setOpenDialog(true)}>
               <FilterSvg as={AddIcon} />
@@ -120,6 +129,11 @@ export default function Accounts() {
               </NavLink>
             </ArchivedTrash>
           </CustomTooltip>
+          <MobileFilterButton
+            onClick={(event) => setMobMenu(event.currentTarget)}
+          >
+            <FilterSvg as={ToggleMenuIcon} />
+          </MobileFilterButton>
         </FilterButtonsContainer>
       </Header>
       <ToggleMenu
@@ -149,6 +163,36 @@ export default function Accounts() {
           {t('ACCOUNTS_FILTERS.BY_ADDING')}
         </MenuItem>
       </ToggleMenu>
+      <ToggleMenu
+        anchorEl={mobMenu}
+        open={openMobMenu}
+        onClose={() => setMobMenu(null)}
+      >
+        <MenuItem
+          onClick={() => {
+            setMobMenu(null);
+            setOpenDialog(true);
+          }}
+        >
+          <FlexContainer>{t(`ACCOUNTS.ADD_ALL`)}</FlexContainer>
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setMobMenu(null);
+            setOpenFilters(true);
+          }}
+        >
+          <FlexContainer>{t('ACCOUNTS.FILTER_KEY')}</FlexContainer>
+        </MenuItem>
+        <MenuItem onClick={() => setMobMenu(null)}>
+          <FlexContainer>{t('ACCOUNTS.FILTER_DATE')}</FlexContainer>
+        </MenuItem>
+        <MenuItem onClick={() => setMobMenu(null)}>
+          <NavLink to={pages.accounts.trash.main}>
+            <FlexContainer>{t('ACCOUNTS.ARCHIVED')}</FlexContainer>
+          </NavLink>
+        </MenuItem>
+      </ToggleMenu>
       <Drawer
         anchor="right"
         open={openFilters}
@@ -169,10 +213,17 @@ export default function Accounts() {
           <AccountsChart
             mainCurrency={mainCurrency}
             data={notArchivedAccounts}
+            totalBalance={totalBalance}
           />
         </MoreInformationContainer>
       </Grid>
       <Grid item xs={12} sm={12} md={8} lg={8}>
+        <MobTotalBalance>
+          {t('ACCOUNTS.TOTAL_BALANCE')}:
+          <MobBalance>
+            {formatDineroOutput(totalBalance, mainCurrency)}
+          </MobBalance>
+        </MobTotalBalance>
         <CashTitleContainer>
           <CashTitleLink to={pages.accounts.all}>
             {t('ACCOUNTS.FILTER_ALL')}

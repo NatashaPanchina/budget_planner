@@ -117,7 +117,6 @@ function NewTransaction({ setOpenDialog, type }) {
           $isActive={transactionType === 'expense'}
           onClick={() => setTransactionType('expense')}
         >
-          <HeaderSvg as={ExpenseIcon} />
           {t('NEW_TRANSACTION.TITLE.EXPENSE')}
         </HeaderTitleLink>
         <HeaderTitleLink
@@ -125,7 +124,6 @@ function NewTransaction({ setOpenDialog, type }) {
           $isActive={transactionType === 'income'}
           onClick={() => setTransactionType('income')}
         >
-          <HeaderSvg as={IncomeIcon} />
           {t('NEW_TRANSACTION.TITLE.INCOME')}
         </HeaderTitleLink>
         <HeaderTitleLink
@@ -133,7 +131,6 @@ function NewTransaction({ setOpenDialog, type }) {
           $isActive={transactionType === 'transfer'}
           onClick={() => setTransactionType('transfer')}
         >
-          <HeaderSvg as={TransferIcon} />
           {t('NEW_TRANSACTION.TITLE.TRANSFER')}
         </HeaderTitleLink>
       </AddFormHeader>

@@ -28,11 +28,15 @@ export const MoreInfoContainer = styled('div')((props) => ({
 }));
 
 export const MoreInfoHeader = styled(FlexContainer)((props) => ({
+  display: 'none',
   height: 40,
   justifyContent: 'center',
   textAlign: 'center',
   fontSize: '0.9375rem',
   color: props.theme.colors.text.darker,
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
   '@media (min-width: 768px)': {
     height: 50,
   },
@@ -94,9 +98,13 @@ export const CardBalanceContainer = styled(FlexContainer)(() => ({
 }));
 
 export const CardBalance = styled('div')(() => ({
-  fontSize: '1.2rem',
+  fontSize: '1.5rem',
+  fontWeight: 500,
   '@media (min-width: 900px)': {
-    fontSize: '1rem',
+    fontSize: '1.2rem',
+  },
+  '@media (min-width: 1200px)': {
+    fontSize: '1.6rem',
   },
 }));
 
@@ -107,6 +115,15 @@ export const CurrentBalance = styled('div')(() => ({
   },
 }));
 
+export const MobCount = styled('div')((props) => ({
+  fontSize: '0.8rem',
+  textAlign: 'end',
+  color: props.theme.colors.text.darker,
+  '@media (min-width: 600px)': {
+    display: 'none',
+  },
+}));
+
 export const TotalCountTransactions = styled(FlexContainer)((props) => ({
   height: 74,
   width: '40%',
@@ -114,6 +131,7 @@ export const TotalCountTransactions = styled(FlexContainer)((props) => ({
   justifyContent: 'center',
   marginLeft: 'auto',
   marginRight: 'auto',
+  color: props.theme.colors.text.darker,
   '@media (min-width: 900px)': {
     padding: props.theme.spacing(2),
     width: '100%',
@@ -121,8 +139,12 @@ export const TotalCountTransactions = styled(FlexContainer)((props) => ({
 }));
 
 export const CountTransactionsContainer = styled(FlexContainer)((props) => ({
+  display: 'none',
   flexWrap: 'wrap',
-  marginTop: props.theme.spacing(5),
+  '@media (min-width: 600px)': {
+    display: 'flex',
+    marginTop: props.theme.spacing(11),
+  },
   '@media (min-width: 900px)': {
     marginTop: 0,
   },
@@ -144,6 +166,7 @@ export const CountTransactionsBlock = styled('div')((props) => ({
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   borderRadius: props.theme.borderRadius,
   fontSize: '0.875rem',
+  color: props.theme.colors.text.darker,
   '@media (min-width: 900px)': {
     textAlign: 'left',
     paddingBottom: props.theme.spacing(5),
@@ -200,14 +223,12 @@ export const CountInfo = styled(CountTransactions, {
 export const TransactionsTitleContainer = styled(FlexContainer)((props) => ({
   marginBottom: props.theme.spacing(4),
   borderBottom: `1px solid ${props.theme.colors.border.title}`,
-  position: 'sticky',
-  top: props.theme.spacing(12),
   zIndex: 9,
   backgroundColor: props.theme.colors.background.body,
 }));
 
 export const TransactionsTitleLink = styled(NavLink)((props) => ({
-  color: props.theme.colors.text.darker,
+  color: props.theme.colors.text.ordinary,
   fontSize: '0.9375rem',
   height: 50,
   width: '25%',
@@ -219,7 +240,7 @@ export const TransactionsTitleLink = styled(NavLink)((props) => ({
   },
   '&.active': {
     color: props.theme.colors.text.primary,
-    borderBottom: `2px solid ${props.theme.colors.main.violet}`,
+    borderBottom: `2px solid ${props.theme.colors.main.gold}`,
   },
 }));
 
@@ -257,7 +278,7 @@ export const ListItemContainer = styled('div')(() => ({
 export const TransactionItem = styled('div')((props) => ({
   display: 'grid',
   gridTemplateAreas: '"description amount" "notes notes"',
-  gridTemplateColumns: '1.5fr 1fr 29px',
+  gridTemplateColumns: '1.5fr 1fr',
   gap: props.theme.spacing(3),
   alignItems: 'center',
   width: '100%',
@@ -306,11 +327,21 @@ export const TransactionInfo = styled(FlexContainer)(() => ({
   },
 }));
 
-export const TransactionInfoAccount = styled('div')(() => ({
-  fontSize: '0.8125rem',
+export const TransactionInfoAccount = styled('div')((props) => ({
+  fontSize: '0.9rem',
+  color: props.theme.colors.text.darker,
 }));
 
-export const Amount = styled('div', {
+const CommonAmount = styled('div')((props) => ({
+  marginLeft: 'auto',
+  marginRight: props.theme.spacing(2),
+  fontWeight: 500,
+  '@media (min-width: 600px)': {
+    marginLeft: 0,
+  },
+}));
+
+export const Amount = styled(CommonAmount, {
   shouldForwardProp: (prop) => prop !== '$amountType',
 })((props) => {
   switch (props.$amountType) {
@@ -362,9 +393,13 @@ export const DeleteMenuItem = styled(MenuItem)((props) => ({
 }));
 
 export const ItemButtonsContainer = styled(FlexContainer)((props) => ({
+  display: 'none',
   position: 'absolute',
   right: 0,
   top: props.theme.spacing(3),
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
 }));
 
 export const EditLinkContainer = styled(Link)((props) => ({
@@ -406,5 +441,12 @@ export const MobItemButtonSvg = styled('svg')((props) => ({
     '& circle': {
       fill: props.theme.colors.background.ordinary,
     },
+  },
+}));
+
+export const TransactionsSpan = styled('span')(() => ({
+  display: 'none',
+  '@media (min-width: 900px)': {
+    display: 'flex',
   },
 }));

@@ -38,16 +38,20 @@ import {
   DoneButton,
   FilterTooltip,
   HeaderDialog,
+  InfoContainer,
   NumberInputField,
   PopoverField,
   TextInputField,
 } from '../../../theme/global.js';
 import {
-  CardView,
   CardBalance,
   CardBalanceContainer,
   CardName,
   CurrentBalance,
+  CommonInfoHeader,
+  CalcInfoAmount,
+  Stripe,
+  InfoCardContainer,
 } from '../Accounts.styled.js';
 import dayjs from 'dayjs';
 import { doneEventHandler } from './utils/index.js';
@@ -64,6 +68,11 @@ import {
   isDescriptionCorrect,
   isDescriptionUnique,
 } from '../../../utils/format/description/index.js';
+import {
+  CardViewContainer,
+  CommonInfoContainer,
+  CommonInfoItem,
+} from './InfoAccount.styled.js';
 
 function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
   const dispatch = useDispatch();
@@ -142,7 +151,7 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
   }, [clickedAccount]);
 
   return (
-    <>
+    <InfoContainer>
       <HeaderDialog>
         {t(`INFO_ACCOUNT.${cashLocalType}_INFORMATION`)}
         <FilterTooltip title={t('ACCOUNTS.ARCHIVE')} arrow>
@@ -155,17 +164,35 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
           </ArchiveButton>
         </FilterTooltip>
       </HeaderDialog>
-      <CardView
-        $cardBackground={cardBackground}
-        $from={selectedColor[0]}
-        $to={selectedColor[1]}
-      >
-        <CardName>{description}</CardName>
-        <CardBalanceContainer>
-          <CardBalance>{formatNumberOutput(balance, currency)}</CardBalance>
-          <CurrentBalance>{t('INFO_ACCOUNT.CURRENT_BALANCE')}</CurrentBalance>
-        </CardBalanceContainer>
-      </CardView>
+      <InfoCardContainer>
+        <CommonInfoContainer>
+          <CommonInfoItem>
+            <CommonInfoHeader>Expenses</CommonInfoHeader>
+            <div>
+              <CalcInfoAmount>$ 500,00</CalcInfoAmount>
+              <Stripe $type="expense" />
+            </div>
+          </CommonInfoItem>
+          <CommonInfoItem>
+            <CommonInfoHeader>Income</CommonInfoHeader>
+            <div>
+              <CalcInfoAmount>$ 500,00</CalcInfoAmount>
+              <Stripe $type="income" />
+            </div>
+          </CommonInfoItem>
+        </CommonInfoContainer>
+        <CardViewContainer
+          $cardBackground={cardBackground}
+          $from={selectedColor[0]}
+          $to={selectedColor[1]}
+        >
+          <CardName>{description}</CardName>
+          <CardBalanceContainer>
+            <CardBalance>{formatNumberOutput(balance, currency)}</CardBalance>
+            <CurrentBalance>{t('INFO_ACCOUNT.CURRENT_BALANCE')}</CurrentBalance>
+          </CardBalanceContainer>
+        </CardViewContainer>
+      </InfoCardContainer>
       <AmountFieldsContainer>
         <CurrencyInputField
           margin="normal"
@@ -314,7 +341,7 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
           archiveCallback={archiveCallback}
         />
       </Dialog>
-    </>
+    </InfoContainer>
   );
 }
 

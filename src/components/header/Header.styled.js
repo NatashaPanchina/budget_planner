@@ -28,7 +28,7 @@ export const LogoContainer = styled(FlexContainer)((props) => ({
   height: 56,
   background: 'none',
   '@media (min-width: 600px)': {
-    width: 48,
+    width: 64,
     background: `linear-gradient(109.86deg, ${props.theme.colors.main.purple} -2.35%, ${props.theme.colors.main.violet} 81.35%)`,
   },
   '@media (min-width: 768px)': {
@@ -56,17 +56,6 @@ export const LogoTitle = styled('svg')((props) => ({
   '@media (min-width: 1200px)': {
     display: 'block',
     marginLeft: props.theme.spacing(2),
-  },
-}));
-
-export const Title = styled(FlexContainer)((props) => ({
-  '@media (min-width: 600px)': {
-    fontWeight: 450,
-    fontSize: '1.25rem',
-    paddingLeft: props.theme.spacing(5),
-  },
-  '@media (min-width: 768px)': {
-    color: 'inherit',
   },
 }));
 
@@ -137,7 +126,7 @@ export const SvgMode = styled(Svg)((props) => ({
 
 export const Profile = styled(FlexContainer)((props) => ({
   display: 'none',
-  '@media (min-width: 768px)': {
+  '@media (min-width: 600px)': {
     display: 'flex',
     paddingRight: props.theme.spacing(4),
     marginLeft: 'auto',
@@ -145,7 +134,11 @@ export const Profile = styled(FlexContainer)((props) => ({
 }));
 
 export const Username = styled('span')((props) => ({
+  display: 'none',
   marginLeft: props.theme.spacing(2),
+  '@media (min-width: 768px)': {
+    display: 'flex',
+  },
 }));
 
 export const LogOut = styled(FlexContainer)(() => ({

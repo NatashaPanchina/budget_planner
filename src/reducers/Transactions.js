@@ -17,7 +17,7 @@ const initialState = {
     date: getCurrentMonth(),
     sort: 'By date',
     type: 'All',
-    accounts: null,
+    accounts: [],
     categories: null,
     currencies: null,
     amount: { from: null, to: null },

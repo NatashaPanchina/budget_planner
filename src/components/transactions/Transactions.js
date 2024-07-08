@@ -14,6 +14,8 @@ import { ReactComponent as FilterIcon } from '../../assets/icons/shared/filter.s
 import { ReactComponent as SortIcon } from '../../assets/icons/shared/sort.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
+import { ReactComponent as ToggleMenuIcon } from '../../assets/icons/shared/menuDots.svg';
+
 import {
   Header,
   HeaderTitle,
@@ -31,6 +33,7 @@ import Loading from '../loading/Loading.js';
 import { names } from '../../utils/constants/currencies.js';
 import AllFilters from './filters/AllFilters.js';
 import { convertPeriod } from '../../utils/format/date/index.js';
+import { FlexContainer } from './Transactions.styled.js';
 
 export default function Transactions() {
   const filters = useSelector((state) => state.transactions.filters);
@@ -48,6 +51,8 @@ export default function Transactions() {
   const [openFilters, setOpenFilters] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [mobMenu, setMobMenu] = useState(null);
+  const openMobMenu = Boolean(mobMenu);
   const formattedDate = convertPeriod(
     filters.date.to,
     filters.date.during,
@@ -140,17 +145,43 @@ export default function Transactions() {
               </MenuItem>
             </ToggleMenu>
           </SortButtonsContainer>
-          <MobileFilterButton onClick={() => setOpenFilters(true)}>
-            <FilterSvg as={FilterIcon} />
-          </MobileFilterButton>
           <FilterTooltip title={t('TRANSACTIONS.NEW_TRANSACTION')} arrow>
             <AddButton>
               <FilterSvg as={AddIcon} />
               <FilterTitle>{t('TRANSACTIONS.NEW_TRANSACTION')}</FilterTitle>
             </AddButton>
           </FilterTooltip>
+          <MobileFilterButton
+            onClick={(event) => setMobMenu(event.currentTarget)}
+          >
+            <FilterSvg as={ToggleMenuIcon} />
+          </MobileFilterButton>
         </FilterButtonsContainer>
       </Header>
+      <ToggleMenu
+        anchorEl={mobMenu}
+        open={openMobMenu}
+        onClose={() => setMobMenu(null)}
+      >
+        <MenuItem
+          onClick={() => {
+            setMobMenu(null);
+          }}
+        >
+          <FlexContainer>{t('TRANSACTIONS.NEW_TRANSACTION')}</FlexContainer>
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setMobMenu(null);
+            setOpenFilters(true);
+          }}
+        >
+          <FlexContainer>{t('TRANSACTIONS.FILTER_KEY')}</FlexContainer>
+        </MenuItem>
+        <MenuItem onClick={() => setMobMenu(null)}>
+          <FlexContainer>{formattedDate}</FlexContainer>
+        </MenuItem>
+      </ToggleMenu>
       <Drawer
         anchor="right"
         open={openFilters}

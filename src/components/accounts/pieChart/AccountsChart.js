@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dinero, toDecimal, add } from 'dinero.js';
+import { dinero, toDecimal } from 'dinero.js';
 import { ResponsivePie } from '@nivo/pie';
 import { linearGradientDef } from '@nivo/core';
 import AccountsChartLegends from './AccountsChartLegends.js';
@@ -16,9 +16,9 @@ import {
   TooltipValue,
   LegendsContainer,
 } from '../Accounts.styled.js';
-import { currencies, names } from '../../../utils/constants/currencies.js';
+import { names } from '../../../utils/constants/currencies.js';
 
-export function renderTooltip(id, balance) {
+export const renderTooltip = (id, balance) => {
   return (
     <Tooltip>
       <TooltipSvg
@@ -41,9 +41,9 @@ export function renderTooltip(id, balance) {
       </TooltipValue>
     </Tooltip>
   );
-}
+};
 
-function renderGradientDefs(accounts) {
+const renderGradientDefs = (accounts) => {
   return accounts.map((account) => {
     return linearGradientDef(
       account.description.replaceAll(' ', ''),
@@ -56,16 +56,16 @@ function renderGradientDefs(accounts) {
       },
     );
   });
-}
+};
 
-function renderMatchs(accounts) {
+const renderMatchs = (accounts) => {
   return accounts.map((account) => {
     return {
       match: { id: account.description },
       id: account.description.replaceAll(' ', ''),
     };
   });
-}
+};
 
 const CenteredBalance = function (totalBalance, mainCurrency) {
   return function centeredMetric({ centerX, centerY }) {
@@ -82,17 +82,13 @@ const CenteredBalance = function (totalBalance, mainCurrency) {
   };
 };
 
-function AccountsChart({ mainCurrency, data }) {
+function AccountsChart({ mainCurrency, data, totalBalance }) {
   const chartsData = data.map((account) => {
     return {
       ...account,
       convertedBalance: toDecimal(dinero(account.mainCurrencyBalance)),
     };
   });
-  const totalBalance = data.reduce(
-    (sum, account) => add(sum, dinero(account.mainCurrencyBalance)),
-    dinero({ amount: 0, currency: currencies[mainCurrency] }),
-  );
 
   return (
     <>
@@ -112,8 +108,6 @@ function AccountsChart({ mainCurrency, data }) {
             left: 10,
           }}
           innerRadius={0.65}
-          padAngle={0.7}
-          cornerRadius={3}
           enableArcLinkLabels={false}
           activeOuterRadiusOffset={7}
           enableArcLabels={false}
@@ -146,6 +140,7 @@ function AccountsChart({ mainCurrency, data }) {
 AccountsChart.propTypes = {
   mainCurrency: PropTypes.string,
   data: PropTypes.array,
+  totalBalance: PropTypes.object,
 };
 
 export default AccountsChart;

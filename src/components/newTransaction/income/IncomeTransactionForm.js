@@ -156,13 +156,17 @@ function IncomeTransactionForm({
         open={openCategoryDialog}
         onClose={() => setOpenCategoryDialog(false)}
       >
-        <AddCategory setOpenDialog={setOpenCategoryDialog} />
+        <AddCategory
+          setOpenDialog={setOpenCategoryDialog}
+          type={transactionType}
+        />
       </InfoDialog>
       <InfoDialog
         open={openAccountDialog}
         onClose={() => setOpenAccountDialog(false)}
       >
         <AddAccount
+          accounts={accounts}
           categories={categories}
           setOpenDialog={setOpenAccountDialog}
         />

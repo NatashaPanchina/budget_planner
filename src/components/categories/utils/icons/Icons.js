@@ -40,6 +40,7 @@ const EmojiTitle = styled('div')((props) => ({
   paddingLeft: props.theme.spacing(3),
   paddingRight: props.theme.spacing(3),
   paddingTop: props.theme.spacing(1),
+  color: props.theme.colors.text.primary,
 }));
 
 function Icons({ setIcon, selectedIcon }) {

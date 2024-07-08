@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { ReactComponent as AvatarIcon } from '../../../assets/icons/shared/avatar.svg';
+import avatar from '../../../assets/imgs/profile_picture.png';
 import { ReactComponent as LogoutIcon } from '../../../assets/icons/shared/logOut.svg';
 import { ReactComponent as ProfileIcon } from '../../../assets/icons/navigation/mobProfile.svg';
 import { ReactComponent as SettingsIcon } from '../../../assets/icons/navigation/mobSettings.svg';
 import { ReactComponent as CurrencyIcon } from '../../../assets/icons/navigation/mobCurrency.svg';
-import { ReactComponent as DashboardIcon } from '../../../assets/icons/navigation/mobDashboard.svg';
 import { ReactComponent as TransactionsIcon } from '../../../assets/icons/navigation/mobTransactions.svg';
 import { ReactComponent as BudgetIcon } from '../../../assets/icons/navigation/mobBudget.svg';
 import { ReactComponent as AccountsIcon } from '../../../assets/icons/navigation/mobAccounts.svg';
@@ -21,6 +20,8 @@ import { ReactComponent as BackIcon } from '../../../assets/icons/shared/back.sv
 import { pages } from '../../../utils/constants/pages';
 import { useTranslation } from 'react-i18next';
 import { styled } from '@mui/material';
+import { logOut } from '../../auth/utils';
+import { useDispatch } from 'react-redux';
 
 const FlexContainer = styled('div')(() => ({
   display: 'flex',
@@ -31,6 +32,14 @@ const Container = styled('div')((props) => ({
   backgroundColor: props.theme.colors.background.body,
   width: `calc(100% - ${props.theme.spacing(2 * 2)})`,
   padding: props.theme.spacing(2),
+}));
+
+const Title = styled(FlexContainer)(() => ({
+  height: 56,
+  width: '100%',
+  justifyContent: 'center',
+  fontWeight: 500,
+  fontSize: '1.3rem',
 }));
 
 const ProfileContainer = styled(FlexContainer)(() => ({
@@ -49,24 +58,31 @@ const LogOut = styled(FlexContainer)(() => ({
 }));
 
 const LogOutSvg = styled('svg')(() => ({
-  height: 45,
-  width: 45,
+  height: 35,
+  width: 35,
 }));
 
-const AvatarSvg = styled('svg')((props) => ({
+const GithubSvg = styled('svg')(() => ({
+  height: 30,
+  width: 30,
+}));
+
+const ProfilePicture = styled('img')((props) => ({
   height: 60,
   width: 60,
-  marginRight: props.theme.spacing(2),
+  marginRight: props.theme.spacing(3),
 }));
 
 const Svg = styled('svg')(() => ({
-  height: 35,
-  width: 35,
+  height: 45,
+  width: 45,
 }));
 
 const BackSvg = styled('svg')(() => ({
   height: 45,
   width: 45,
+  position: 'absolute',
+  left: 0,
 }));
 
 const ItemsContainer = styled(FlexContainer)(() => ({
@@ -82,10 +98,9 @@ const ItemLink = styled(Link)((props) => ({
   marginBottom: props.theme.spacing(5),
   backgroundColor: props.theme.colors.background.primary,
   borderRadius: props.theme.borderRadius,
-  border: `1px solid ${props.theme.colors.border.title}`,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   width: '47%',
-  height: 100,
+  height: 120,
   color: props.theme.colors.text.primary,
 }));
 
@@ -95,22 +110,40 @@ const Contacts = styled(FlexContainer)(() => ({
   width: '100%',
 }));
 
+const Email = styled('div')((props) => ({
+  fontSize: '0.9rem',
+  color: props.theme.colors.text.darker,
+}));
+
 function Menu({ username, setToggleMenu }) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   return (
     <Container>
-      <BackSvg as={BackIcon} onClick={() => setToggleMenu(false)} />
+      <Title>
+        <BackSvg as={BackIcon} onClick={() => setToggleMenu(false)} />
+        {t('MENU.MENU')}
+      </Title>
       <ProfileContainer>
         <Profile>
-          <AvatarSvg as={AvatarIcon} />
-          {username}
+          <ProfilePicture alt="profile-picture" src={avatar} />
+          <div>
+            <div>{username}</div>
+            <Email>panchinanata25@gmail.com</Email>
+          </div>
         </Profile>
-        <LogOut>
+        <LogOut
+          onClick={() => {
+            logOut(dispatch, navigate);
+          }}
+        >
           <LogOutSvg as={LogoutIcon} />
         </LogOut>
       </ProfileContainer>
       <ItemsContainer>
-        <ItemLink to="/" onClick={() => setToggleMenu(false)}>
+        <ItemLink to={pages.profile} onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={ProfileIcon} />
@@ -118,20 +151,12 @@ function Menu({ username, setToggleMenu }) {
             <div>{t('MENU.PROFILE')}</div>
           </div>
         </ItemLink>
-        <ItemLink to="/" onClick={() => setToggleMenu(false)}>
+        <ItemLink to={pages.currency} onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={CurrencyIcon} />
             </div>
             <div>{t('MENU.CURRENCY')}</div>
-          </div>
-        </ItemLink>
-        <ItemLink to={pages.dashboard} onClick={() => setToggleMenu(false)}>
-          <div>
-            <div>
-              <Svg as={DashboardIcon} />
-            </div>
-            <div>{t('MENU.DASHBOARD')}</div>
           </div>
         </ItemLink>
         <ItemLink
@@ -169,7 +194,7 @@ function Menu({ username, setToggleMenu }) {
             <div>
               <Svg as={BudgetIcon} />
             </div>
-            <div>{t('MENU.BUDGET')}</div>
+            <div>{t('MENU.GOALS')}</div>
           </div>
         </ItemLink>
         <ItemLink to={pages.analysis.main} onClick={() => setToggleMenu(false)}>
@@ -177,7 +202,7 @@ function Menu({ username, setToggleMenu }) {
             <div>
               <Svg as={CashFlowIcon} />
             </div>
-            <div>{t('MENU.CASH_FLOW')}</div>
+            <div>{t('MENU.REPORTS')}</div>
           </div>
         </ItemLink>
         <ItemLink to={pages.settings.main} onClick={() => setToggleMenu(false)}>
@@ -215,7 +240,7 @@ function Menu({ username, setToggleMenu }) {
       </ItemsContainer>
       <Contacts>
         <Link to="https://github.com/NatashaPanchina/budget_planner/tree/main">
-          <Svg as={GithubIcon} />
+          <GithubSvg as={GithubIcon} />
         </Link>
       </Contacts>
     </Container>

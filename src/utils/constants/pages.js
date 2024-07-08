@@ -51,5 +51,7 @@ export const pages = {
     dataBackup: 'dataBackup',
     storageUsage: 'storageUsage',
   },
+  profile: '/settings/account',
+  currency: 'settings/mainCurrency',
   accountDeleting: '/accountDeleting',
 };

@@ -20,7 +20,7 @@ export const NavigationContainer = styled(FlexContainer)((props) => ({
   borderTop: `1px solid ${props.theme.colors.border.ordinary}`,
   '@media (min-width: 600px)': {
     display: 'block',
-    width: 48,
+    width: 64,
     padding: 0,
     height: `calc(100vh - ${props.theme.spacing(14)})`,
     marginTop: props.theme.spacing(14),
@@ -84,6 +84,8 @@ export const NewTransactionButton = styled(FlexContainer)(() => ({
   cursor: 'pointer',
   width: '20%',
   zIndex: 200,
+  position: 'relative',
+  top: -10,
   '@media (min-width: 600px)': {
     display: 'none',
   },
@@ -170,8 +172,8 @@ export const SettingsLinkContainer = styled('div')((props) => ({
 }));
 
 export const Svg = styled('svg')((props) => ({
-  width: 28,
-  height: 28,
+  width: 22,
+  height: 22,
   marginRight: props.theme.spacing(3),
   marginLeft: props.theme.spacing(3),
   fill: 'inherit',
@@ -187,8 +189,8 @@ export const Svg = styled('svg')((props) => ({
 }));
 
 export const NewTransactionSvg = styled('svg')((props) => ({
-  width: 45,
-  height: 45,
+  width: 50,
+  height: 50,
   marginLeft: 'auto',
   marginRight: 'auto',
   filter: `drop-shadow( 0px 3px 10px ${alpha(
@@ -223,13 +225,11 @@ export const Link = styled(NavLink)((props) => ({
   '&:hover': {
     color: props.theme.colors.main.violet,
     fill: props.theme.colors.main.violet,
-    backgroundColor: props.theme.colors.background.navigation,
     borderRadius: props.theme.borderRadius,
   },
   '&.active': {
     color: props.theme.colors.main.violet,
     fill: props.theme.colors.main.violet,
-    backgroundColor: props.theme.colors.background.navigation,
     borderRadius: props.theme.borderRadius,
   },
   '@media (min-width: 600px)': {
@@ -267,22 +267,6 @@ export const LinkTitle = styled('span')(() => ({
   '@media (min-width: 1200px)': {
     display: 'flex',
   },
-}));
-
-export const Profile = styled(FlexContainer)(() => ({
-  display: 'none',
-  '@media (min-width: 600px)': {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  '@media (min-width: 768px)': {
-    display: 'none',
-  },
-}));
-
-export const ProfileSvg = styled('svg')(() => ({
-  width: 35,
-  height: 35,
 }));
 
 export const MobMenu = styled(FlexContainer)((props) => ({

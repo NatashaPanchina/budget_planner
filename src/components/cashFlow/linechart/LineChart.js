@@ -60,7 +60,7 @@ function LineChart({
           margin={{ top: 10, right: 30, bottom: 30, left: 50 }}
           xScale={{ type: 'point' }}
           enableArea={true}
-          areaOpacity={0.05}
+          areaOpacity={0.1}
           enablePoints={false}
           axisLeft={{
             format: (value) => formatAxisAmount(value),

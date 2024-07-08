@@ -25,6 +25,8 @@ export const doneEventHandler = (
     date,
     notes,
     tags,
+    visible: true,
+    creationDate: Date.now(),
   };
   dispatch(editCategory(selectedCategory, newCategory));
   idbAddItem(newCategory, 'categories');

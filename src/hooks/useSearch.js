@@ -44,13 +44,13 @@ const sortTransactions = (
     );
   }
 
-  if (accounts) {
+  const sortedAccounts = accounts.filter((account) => account.checked);
+  if (sortedAccounts.length) {
+    console.log(sortedAccounts, 'Accounts');
     result = result.filter((transaction) => {
-      for (const description in accounts) {
-        const account = accounts[description];
-        if (account.checked && transaction.account === account.id) {
-          return true;
-        }
+      for (let account of sortedAccounts) {
+        console.log(transaction.account === account.id, 'equal');
+        if (transaction.account === account.id) return true;
       }
       return false;
     });

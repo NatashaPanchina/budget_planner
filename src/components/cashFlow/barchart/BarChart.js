@@ -87,6 +87,7 @@ function BarChart({
               value: 0,
               lineStyle: {
                 stroke: chartsColors[mode].marker,
+                strokeDasharray: '4 4',
                 strokeWidth: 1,
               },
             },
@@ -108,7 +109,8 @@ function BarChart({
           fill={renderMatchs(
             createDescriptions(categories, date, comparedDate),
           )}
-          padding={0.35}
+          borderRadius={8}
+          padding={0.6}
           enableLabel={false}
           enableGridX={true}
           valueScale={{ type: 'linear' }}
@@ -121,7 +123,7 @@ function BarChart({
               ? 'grouped'
               : 'stacked'
           }
-          innerPadding={chartFilter === 'expensesToIncomes' ? 3.5 : 0}
+          innerPadding={chartFilter === 'expensesToIncomes' ? 4.5 : 0}
           tooltip={({ id, formattedValue }) => (
             <Tooltip id={id} formattedValue={formattedValue} />
           )}

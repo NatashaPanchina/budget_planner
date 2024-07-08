@@ -69,7 +69,8 @@ export const inputGlobalStyles = (
 
 export const ArchivedTrash = styled('div')(() => ({
   position: 'relative',
-  '@media (min-width: 768px)': {
+  display: 'none',
+  '@media (min-width: 800px)': {
     display: 'flex',
     right: 0,
   },
@@ -117,7 +118,7 @@ export const SearchField = styled(TextField)((props) => ({
   width: '100%',
   background: props.theme.colors.background.search,
   borderRadius: props.theme.borderRadius,
-  marginBottom: props.theme.spacing(4),
+  marginBottom: props.theme.spacing(3),
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       border: `1px solid ${props.theme.colors.background.search}`,
@@ -132,9 +133,16 @@ export const SearchField = styled(TextField)((props) => ({
       color: props.theme.colors.text.primary,
       borderRadius: props.theme.borderRadius,
       backgroundColor: props.theme.colors.background.search,
+      paddingTop: props.theme.spacing(2),
+      paddingBottom: props.theme.spacing(2),
       '&::placeholder': {
         fontStyle: 'italic',
         color: props.theme.colors.text.darker,
+      },
+    },
+    '& .MuiInputAdornment-root': {
+      '& svg': {
+        height: 20,
       },
     },
   },
@@ -152,15 +160,13 @@ export const CancelSearchSvg = styled('svg')(() => ({
 }));
 
 export const AddButton = styled('div')((props) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: 'inherit',
-  fill: props.theme.colors.text.darkest,
-  cursor: 'pointer',
-  height: 35,
-  width: 35,
-  '@media (min-width: 600px)': {
+  display: 'none',
+  '@media (min-width: 800px)': {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 35,
+    height: 35,
     marginRight: props.theme.spacing(5),
     fill: props.theme.colors.white,
     background: props.theme.colors.main.violet,
@@ -194,20 +200,17 @@ export const AddButtonSvg = styled('svg')((props) => ({
 export const Header = styled('div')((props) => ({
   display: 'flex',
   position: 'sticky',
+  fontSize: '1.3rem',
+  fontWeight: 500,
   top: 0,
   zIndex: 9,
   alignItems: 'center',
-  width: `calc(100% - ${props.theme.spacing(2 * 2)})`,
-  justifyContent: 'space-between',
+  width: `calc(100% - ${props.theme.spacing(3 * 2)})`,
+  justifyContent: 'center',
   backgroundColor: props.theme.colors.background.body,
-  padding: props.theme.spacing(2),
-  '@media (min-width: 600px)': {
-    justifyContent: 'center',
-  },
+  padding: props.theme.spacing(4),
   '@media (min-width: 768px)': {
-    position: 'relative',
-    padding: props.theme.spacing(3),
-    width: `calc(100% - ${props.theme.spacing(3 * 2)})`,
+    top: props.theme.spacing(14),
   },
 }));
 
@@ -230,9 +233,13 @@ export const MobHeaderTitle = styled('div')((props) => ({
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: props.theme.colors.background.body,
-  width: `calc(100% - ${props.theme.spacing(3 * 2)})`,
-  padding: props.theme.spacing(3),
-  fontSize: '1.2rem',
+  width: `calc(100% - ${props.theme.spacing(4 * 2)})`,
+  padding: props.theme.spacing(4),
+  fontSize: '1.3rem',
+  fontWeight: 500,
+  position: 'sticky',
+  top: 0,
+  zIndex: 100,
   '@media (min-width: 600px)': {
     display: 'none',
   },
@@ -284,14 +291,18 @@ export const AddFormHeader = styled('div')((props) => ({
   display: 'none',
   '@media (min-width: 600px)': {
     display: 'flex',
-    height: 60,
+    position: 'sticky',
+    top: 0,
+    left: 0,
+    zIndex: 100,
+    padding: props.theme.spacing(4),
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: props.theme.spacing(8),
-    borderBottom: `1px solid ${props.theme.colors.border.title}`,
     backgroundColor: props.theme.colors.background.body,
     boxSizing: 'border-box',
     color: props.theme.colors.text.primary,
+    fontSize: '1.3rem',
+    fontWeight: 500,
   },
 }));
 
@@ -299,13 +310,11 @@ export const AddFormHeaderTitles = styled('div')((props) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderBottom: `1px solid ${props.theme.colors.border.title}`,
   width: '100%',
   background: props.theme.colors.background.body,
 }));
 
 export const BackLink = styled(Link)(() => ({
-  height: 60,
   position: 'absolute',
   left: 0,
   display: 'flex',
@@ -580,10 +589,48 @@ export const ButtonSvg = styled('svg')(() => ({
   },
 }));
 
+export const FilterItemsContainer = styled('div')(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  flexWrap: 'wrap',
+}));
+
+export const FilterItem = styled('div')((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  textAlign: 'center',
+  width: 'fit-content',
+  padding: `${props.theme.spacing(1)} ${props.theme.spacing(2)}`,
+  marginBottom: props.theme.spacing(2),
+  marginRight: props.theme.spacing(2),
+  borderRadius: props.theme.borderRadius * 2,
+  color: props.theme.colors.text.darker,
+  fontSize: '0.9rem',
+  backgroundColor: props.theme.colors.background.primary,
+  cursor: 'pointer',
+  fill: props.theme.colors.main.violet,
+  boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
+  '&:hover': {
+    fill: props.theme.colors.main.purple,
+    boxShadow: `0px 4px 10px ${alpha(props.theme.colors.main.violet, 0.2)}`,
+    transition: 'all 0.3s ease-out',
+  },
+}));
+
+export const FilterItemSvg = styled('svg')((props) => ({
+  marginLeft: props.theme.spacing(1),
+  width: 10,
+  height: 10,
+  fill: 'inherit',
+  '& path': {
+    fill: 'inherit',
+  },
+}));
+
 export const FilterButtonsContainer = styled('div')(() => ({
   cursor: 'pointer',
   display: 'flex',
-  '@media (min-width: 768px)': {
+  '@media (min-width: 800px)': {
     position: 'absolute',
     right: 0,
   },
@@ -595,21 +642,18 @@ export const FilterButtonsContainer = styled('div')(() => ({
 export const SortButtonsContainer = styled('div')(() => ({
   cursor: 'pointer',
   display: 'none',
-  '@media (min-width: 600px)': {
+  '@media (min-width: 800px)': {
     display: 'flex',
   },
 }));
 
 export const MobileFilterButton = styled('div')((props) => ({
   cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: 35,
-  width: 35,
-  marginRight: props.theme.spacing(2),
+  position: 'absolute',
+  right: 10,
+  top: 15,
   fill: props.theme.colors.text.darkest,
-  '@media (min-width: 600px)': {
+  '@media (min-width: 800px)': {
     display: 'none',
   },
 }));
@@ -652,8 +696,8 @@ export const FilterTitle = styled('span')(() => ({
 }));
 
 export const FilterSvg = styled('svg')((props) => ({
-  height: 22,
-  width: 22,
+  height: 18,
+  width: 18,
   fill: 'inherit',
   '& path': {
     fill: 'inherit',
@@ -780,9 +824,18 @@ export const HeaderDialog = styled('div')((props) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: `calc(100% - ${props.theme.spacing(5 * 2)})`,
-  padding: props.theme.spacing(5),
-  fontSize: '1.2rem',
+  width: `calc(100% - ${props.theme.spacing(4 * 2)})`,
+  padding: props.theme.spacing(4),
+  fontSize: '1.3rem',
+  fontWeight: 500,
+  position: 'sticky',
+  top: 0,
+  zIndex: 100,
+  backgroundColor: props.theme.colors.background.body,
+}));
+
+export const InfoContainer = styled('div')(() => ({
+  width: '100%',
 }));
 
 export const AmountFieldsContainer = styled('div')((props) => ({
@@ -862,15 +915,16 @@ export const AllFiltersContainer = styled('div')((props) => ({
   backgroundColor: props.theme.colors.background.primary,
   padding: `${props.theme.spacing(6)} ${props.theme.spacing(8)}`,
   width: `calc(100% - ${props.theme.spacing(8 * 2)})`,
-  color: props.theme.colors.text.primary,
+  color: props.theme.colors.text.darker,
   position: 'relative',
 }));
 
-export const AllFiltersHeader = styled('div')(() => ({
+export const AllFiltersHeader = styled('div')((props) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   fontSize: '1.3rem',
+  color: props.theme.colors.text.primary,
 }));
 
 export const FilterContainer = styled('div')((props) => ({
@@ -880,6 +934,7 @@ export const FilterContainer = styled('div')((props) => ({
 export const AllFiltersTitle = styled('div')((props) => ({
   fontWeight: 600,
   marginBottom: props.theme.spacing(4),
+  color: props.theme.colors.text.primary,
 }));
 
 export const LabelContainer = styled(FormControlLabel)((props) => ({
@@ -901,6 +956,9 @@ export const RadioContainer = styled(Radio)((props) => ({
   '&.Mui-checked': {
     color: props.theme.colors.main.violet,
   },
+  '&.Mui-checked + span': {
+    color: props.theme.colors.text.primary,
+  },
   '&.MuiButtonBase-root': {
     padding: 0,
     paddingRight: props.theme.spacing(2),
@@ -911,6 +969,9 @@ export const CheckboxContainer = styled(Checkbox)((props) => ({
   color: props.theme.colors.text.darker,
   '&.Mui-checked': {
     color: props.theme.colors.main.violet,
+  },
+  '&.Mui-checked + span': {
+    color: props.theme.colors.text.primary,
   },
   '&.MuiButtonBase-root': {
     padding: 0,

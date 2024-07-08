@@ -3,7 +3,7 @@ import dataJSON from './data.json';
 export const DATABASE_NAME = 'budget-planner';
 export const DB_VERSION = 1;
 
-export function idbOpen() {
+export const idbOpen = () => {
   return new Promise((resolve, reject) => {
     const openRequest = indexedDB.open(DATABASE_NAME, DB_VERSION);
 
@@ -64,12 +64,12 @@ export function idbOpen() {
 
     openRequest.onerror = () => reject('idbOpen Error');
   });
-}
+};
 
-async function loadJSON() {
+const loadJSON = async () => {
   const data = dataJSON;
   return data;
-}
+};
 
 export const updateIDB = (data) => {
   return new Promise((resolve) => {
@@ -98,7 +98,7 @@ export const updateIDB = (data) => {
   });
 };
 
-function idbInit(objectStore, data, nameObjectStore) {
+const idbInit = (objectStore, data, nameObjectStore) => {
   if (nameObjectStore === 'profile') {
     //onerror reject сделать
     objectStore.put(data);
@@ -107,7 +107,7 @@ function idbInit(objectStore, data, nameObjectStore) {
       objectStore.put(data[key]);
     }
   }
-}
+};
 
 export const idbAddItem = (newItem, nameObjectStore) => {
   return new Promise((resolve, reject) => {
@@ -257,9 +257,9 @@ const getPromises = (query, promises, dataResult) => {
 const searchTransactionsData = (query) => {
   return new Promise((resolve) => {
     idbOpen().then((idb) => {
-      let dataResult = [];
+      const dataResult = [];
       const indexes = ['type', 'amount', 'date', 'tags', 'notes'];
-      let promises = [];
+      const promises = [];
       getPromises(query, promises, dataResult).then(() => {
         const transactions = idb
           .transaction('transactions', 'readonly')
@@ -281,7 +281,7 @@ const searchAccountsData = (query) => {
       const accounts = idb
         .transaction('accounts', 'readonly')
         .objectStore('accounts');
-      let dataResult = [];
+      const dataResult = [];
       const indexes = [
         'type',
         'description',
@@ -290,7 +290,7 @@ const searchAccountsData = (query) => {
         'tags',
         'notes',
       ];
-      let promises = indexes.map((idx) =>
+      const promises = indexes.map((idx) =>
         getData(accounts.index(idx), query, dataResult),
       );
       Promise.all(promises).then(() => {
@@ -306,9 +306,9 @@ const searchCategoriesData = (query) => {
       const categories = idb
         .transaction('categories', 'readonly')
         .objectStore('categories');
-      let dataResult = [];
+      const dataResult = [];
       const indexes = ['type', 'description', 'date', 'tags', 'notes'];
-      let promises = indexes.map((idx) =>
+      const promises = indexes.map((idx) =>
         getData(categories.index(idx), query, dataResult),
       );
       Promise.all(promises).then(() => {
@@ -336,7 +336,7 @@ export const clearIdb = (
 ) => {
   return new Promise((resolve) => {
     idbOpen().then((idb) => {
-      let promises = [];
+      const promises = [];
       const names = objectStores;
       names.forEach((name) => {
         promises.push(

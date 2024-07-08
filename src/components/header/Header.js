@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 import { Grid } from '@mui/material';
 
 import { pages } from '../../utils/constants/pages';
@@ -25,7 +23,6 @@ import {
   LogoContainer,
   Logo,
   LogoTitle,
-  Title,
   ThemeContainer,
   Container,
   LanguagesMenuItem,
@@ -52,20 +49,6 @@ function renderLanguagesMenu(languages) {
   ));
 }
 
-//lookup map
-function renderHeaderTitles(t) {
-  return {
-    '/search': t('HEADER.SEARCH'),
-    '/dashboard': t('HEADER.DASHBOARD'),
-    '/transactions': t('HEADER.TRANSACTIONS'),
-    '/accounts': t('HEADER.ACCOUNTS'),
-    '/newTransaction': t('HEADER.NEW_TRANSACTION'),
-    '/categories': t('HEADER.CATEGORIES'),
-    '/analysis': t('HEADER.CASH_FLOW'),
-    '/settings': t('HEADER.SETTINGS'),
-  };
-}
-
 export default function Header() {
   const gridStyles = {
     paddingRight: 1,
@@ -82,15 +65,10 @@ export default function Header() {
   const header = useSelector((state) => state.header);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [headerTitle, setHeaderTitle] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [language, setLanguage] = useState(header.language);
   const [currency, setCurrency] = useState(names.USD);
   const [headerMode, setHeaderMode] = useState(header.mode);
-  const { t } = useTranslation();
-  const location = useLocation();
-  const titles = renderHeaderTitles(t);
-  const path = location.pathname.match(/\/(\w)*/)[0];
 
   useEffect(() => {
     dispatch(fetchProfileData());
@@ -104,10 +82,6 @@ export default function Header() {
       setCurrency(header.profile.currency);
     }
   }, [header.status, header.profile, header.mode]);
-
-  useEffect(() => {
-    setHeaderTitle(titles[path]);
-  }, [path, titles]);
 
   useEffect(() => {
     setLanguage(header.language);
@@ -129,10 +103,7 @@ export default function Header() {
               </LogoContainer>
             </NavLink>
           </Grid>
-          <Grid item sm={4} md={3} lg={3}>
-            <Title>{headerTitle}</Title>
-          </Grid>
-          <Grid item sm={2} md={3} lg={3}>
+          <Grid item sm={6} md={5} lg={5}>
             <FlexContainer>
               <GlobalSearch />
             </FlexContainer>
@@ -177,7 +148,7 @@ export default function Header() {
               </Container>
             </ThemeContainer>
           </Grid>
-          <Grid item xs={6} sm={2} md={2} lg={2}>
+          <Grid item xs={6} sm={2} md={3} lg={3}>
             <FlexContainer>
               {displayName ? (
                 <>

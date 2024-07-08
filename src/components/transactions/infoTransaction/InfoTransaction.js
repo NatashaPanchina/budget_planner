@@ -18,6 +18,7 @@ import {
   DoneButton,
   FilterTooltip,
   HeaderDialog,
+  InfoContainer,
   InfoDialog,
   NumberInputField,
   TextInputField,
@@ -109,7 +110,7 @@ function InfoTransaction({
   }, [clickedTransaction]);
 
   return (
-    <>
+    <InfoContainer>
       <HeaderDialog>
         {t('INFO_TRANSACTION.TITLE')}
         <FilterTooltip title={t('TRANSACTIONS.DELETE')} arrow>
@@ -243,7 +244,7 @@ function InfoTransaction({
           deleteCallback={deleteCallback}
         />
       </Dialog>
-    </>
+    </InfoContainer>
   );
 }
 

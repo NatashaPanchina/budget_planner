@@ -62,6 +62,19 @@
       "EMAIL_USED": "Email уже занят"
     }
   },
+  "FILTERS": {
+    "BY_DATE": "По дате",
+    "BY_ADDING": "По добавлению",
+    "BY_ALPHABET": "По алфавиту",
+    "EXPENSE": "Расход",
+    "INCOME": "Доход",
+    "WITH_NOTES": "С заметками",
+    "WITHOUT_NOTES": "Без заметок",
+    "FROM": "От",
+    "TO": "до",
+    "CARD": "Карта",
+    "CASH": "Наличные"
+  },
   "DELETE_ACCOUNT": {
     "DELETING_INFO": "Для того чтобы удалить ваш Neko Budget аккаунт вам необходимо подтвердить что это действительно вы. Пожалуйста, повторно войдите в свой аккаунт.",
     "SIGN_IN_WITH_GOOGLE": "Войти с помощью Google",
@@ -78,14 +91,15 @@
     "ACCOUNTS": "Денежные средства"
   },
   "MENU": {
+    "MENU": "Меню",
     "PROFILE": "Профиль",
     "CURRENCY": "Валюта",
     "DASHBOARD": "Главная",
     "TRANSACTIONS": "Транзакции",
     "ACCOUNTS": "Денежные средства",
     "CATEGORIES": "Категории",
-    "BUDGET": "Бюджет",
-    "CASH_FLOW": "Анализ",
+    "GOALS": "Цели",
+    "REPORTS": "Отчеты",
     "SETTINGS": "Настройки",
     "DEMO": "Демо",
     "HELP": "Помощь",
@@ -97,7 +111,7 @@
     "ACCOUNTS": "Денежные средства",
     "NEW_TRANSACTION": "Новая транзакция",
     "CATEGORIES": "Категории",
-    "BUDGET": "Бюджет",
+    "GOALS": "Цели",
     "CASH_FLOW": "Анализ",
     "MORE": "Еще",
     "SETTINGS": "Настройки"
@@ -215,7 +229,7 @@
     "SEARCH_CARD": "Поиск по картам",
     "SEARCH_CASH": "Поиск по наличным",
     "SEARCH_TRANSFER": "Поиск по переводам",
-    "ADD_ALL": "Новые денежные средства",
+    "ADD_ALL": "Добавить",
     "ADD_TRANSFER": "Новый перевод",
     "CURRENT_BALANCE": "Текущий баланс",
     "EDIT": "Изменить",
@@ -228,6 +242,7 @@
     "TYPE": "Тип",
     "TYPE_CARD": "Карта",
     "TYPE_CASH": "Наличные",
+    "ALL": "Денежные средства",
     "CARD": "Карта",
     "CASH": "Наличные",
     "CURRENT_BALANCE": "Текущий баланс",
@@ -416,8 +431,12 @@
     "DELETE": "Удалить"
   },
   "ANALYSIS": {
-    "CASH_FLOW": "Анализ транзакций",
+    "CASH_FLOW": "Отчеты",
+    "ALL_FILTERS": "Все фильтры",
     "ALL_ACCOUNTS": "Все денежные средства",
+    "WEEK": "Неделя",
+    "MONTH": "Месяц",
+    "YEAR": "Год",
     "TOTAL_EXPENSES": "Всего расходов",
     "TRANSACTIONS": {
       "ONE": "транзакция",
@@ -443,7 +462,9 @@
     "PERCENTAGE": "Процент",
     "SUM": "Сумма",
     "MORE_THAN": "больше чем в ",
-    "LESS_THAN": "меньше чем в "
+    "LESS_THAN": "меньше чем в ",
+    "YOUR_SAVINGS": "Ваш сальдо",
+    "EXPENSES_BY_CATEGORY": "Расходы по категориям"
   },
   "SETTINGS": {
     "SETTINGS": "Настройки",

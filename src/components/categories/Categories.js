@@ -18,6 +18,7 @@ import { ReactComponent as TrashIcon } from '../../assets/icons/shared/trash.svg
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
 import { ReactComponent as SortIcon } from '../../assets/icons/shared/sort.svg';
+import { ReactComponent as ToggleMenuIcon } from '../../assets/icons/shared/menuDots.svg';
 
 import {
   MoreInformationContainer,
@@ -28,6 +29,7 @@ import {
   CategoriesTitleLink,
   IncomeSvg,
   ExpenseSvg,
+  FlexContainer,
 } from './Categories.styled.js';
 import {
   Header,
@@ -89,6 +91,8 @@ export default function Categories() {
   const incomeCount = allCount - expenseCount;
   const [openDialog, setOpenDialog] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
+  const [mobMenu, setMobMenu] = useState(null);
+  const openMobMenu = Boolean(mobMenu);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -163,9 +167,6 @@ export default function Categories() {
               </MenuItem>
             </ToggleMenu>
           </SortButtonsContainer>
-          <MobileFilterButton onClick={() => setOpenFilters(true)}>
-            <FilterSvg as={FilterIcon} />
-          </MobileFilterButton>
           <FilterTooltip title={t('CATEGORIES.ADD_CATEGORY')} arrow>
             <AddButton onClick={() => setOpenDialog(true)}>
               <FilterSvg as={AddIcon} />
@@ -180,8 +181,43 @@ export default function Categories() {
               </NavLink>
             </ArchivedTrash>
           </CustomTooltip>
+          <MobileFilterButton
+            onClick={(event) => setMobMenu(event.currentTarget)}
+          >
+            <FilterSvg as={ToggleMenuIcon} />
+          </MobileFilterButton>
         </FilterButtonsContainer>
       </Header>
+      <ToggleMenu
+        anchorEl={mobMenu}
+        open={openMobMenu}
+        onClose={() => setMobMenu(null)}
+      >
+        <MenuItem
+          onClick={() => {
+            setMobMenu(null);
+            setOpenDialog(true);
+          }}
+        >
+          <FlexContainer>{t('CATEGORIES.ADD_CATEGORY')}</FlexContainer>
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setMobMenu(null);
+            setOpenFilters(true);
+          }}
+        >
+          <FlexContainer>{t('CATEGORIES.FILTER_KEY')}</FlexContainer>
+        </MenuItem>
+        <MenuItem onClick={() => setMobMenu(null)}>
+          <FlexContainer>{t('CATEGORIES.FILTER_DATE')}</FlexContainer>
+        </MenuItem>
+        <MenuItem onClick={() => setMobMenu(null)}>
+          <NavLink to={pages.categories.trash.main}>
+            <FlexContainer>{t('CATEGORIES.ARCHIVED')}</FlexContainer>
+          </NavLink>
+        </MenuItem>
+      </ToggleMenu>
       <Drawer
         anchor="right"
         open={openFilters}
