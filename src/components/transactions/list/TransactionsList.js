@@ -38,6 +38,7 @@ import {
   DescriptionCategory,
   DeleteButtonSvg,
   DeleteMenuItem,
+  MobCount,
 } from '../Transactions.styled';
 import {
   CancelSearchSvg,
@@ -56,6 +57,8 @@ import { names } from '../../../utils/constants/currencies';
 import InfoTransaction from '../infoTransaction/InfoTransaction';
 import DeleteAlert from '../../alerts/DeleteAlert';
 import Notes from '../../shared/Notes';
+import FilterItems from '../../shared/FilterItems';
+import { updateTransactionsFilters } from '../../../actions/Actions';
 
 function TransactionsList({ transactions, accounts, categories }) {
   const filters = useSelector((state) => state.transactions.filters);
@@ -116,6 +119,10 @@ function TransactionsList({ transactions, accounts, categories }) {
         onChange={(event) => setQuery(event.target.value)}
         autoComplete="off"
       />
+      {/* <FilterItems
+        filters={filters}
+        updateFilters={updateTransactionsFilters}
+      /> */}
       <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <InfoTransaction
           clickedTransaction={clickedTransaction.id}
@@ -125,6 +132,7 @@ function TransactionsList({ transactions, accounts, categories }) {
           setOpenDialog={setOpenDialog}
         />
       </InfoDialog>
+      <MobCount>{searchData.length} transactions</MobCount>
       {transactions.length === 0 ? (
         <NoResultsContainer>
           <NoResults>

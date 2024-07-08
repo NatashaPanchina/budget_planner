@@ -10,11 +10,13 @@ import {
   UPDATE_CATEGORIES_FILTERS,
   RESET_CATEGORIES,
 } from '../actions/ActionTypes';
+import { getCurrentMonth } from '../utils/format/date';
 
 const initialState = {
   status: 'idle',
   error: null,
   filters: {
+    date: getCurrentMonth(),
     sort: 'By date',
     type: 'All',
     notes: 'All',

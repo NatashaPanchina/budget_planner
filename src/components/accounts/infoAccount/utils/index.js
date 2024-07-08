@@ -116,7 +116,7 @@ export const doneEventHandler = async (
       type,
       description: 'Balance adjustment',
       color: ['#45E9FF', '#4579FF'],
-      icon: 91,
+      icon: 128736,
       date: toStringDate(new Date()),
       notes: '',
       tags: [''],

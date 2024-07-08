@@ -20,7 +20,7 @@
         "creationDate": 1699722082303,
         "archived": false,
         "type": "card",
-        "description": "Sberbank",
+        "description": "Bank",
         "formatBalance": "2500.00",
         "mainCurrencyBalance": {
           "amount": 250000,
@@ -84,6 +84,41 @@
         "tags": [
           ""
         ]
+      },
+      {
+        "id": "b41b8e1d-4552-432a-9864-4f4a9971cds7",
+        "creationDate": 1699722082303,
+        "archived": false,
+        "type": "card",
+        "description": "Paypal",
+        "formatBalance": "320.00",
+        "mainCurrencyBalance": {
+          "amount": 32000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "balance": {
+          "amount": 32000,
+          "currency": {
+            "code": "USD",
+            "base": 10,
+            "exponent": 2
+          },
+          "scale": 2
+        },
+        "color": [
+          "#45E9FF",
+          "#4579FF"
+        ],
+        "date": "06/14/2024",
+        "notes": "",
+        "tags": [
+          ""
+        ]
       }
     ]
   },
@@ -139,6 +174,24 @@
         ],
         "icon": 128184,
         "date": "06/14/2023",
+        "notes": "",
+        "tags": [
+          ""
+        ]
+      },
+      {
+        "id": "e168ccc1-8f05-472e-8827-dd9592660450",
+        "creationDate": 1699722082303,
+        "visible": true,
+        "archived": false,
+        "type": "income",
+        "description": "Awards",
+        "color": [
+          "#FF8FE9",
+          "#ED3CCA"
+        ],
+        "icon": 127941,
+        "date": "05/05/2024",
         "notes": "",
         "tags": [
           ""
@@ -318,7 +371,7 @@
           "scale": 2
         },
         "formatAmount": "150.00",
-        "date": "04/30/2024",
+        "date": "05/30/2024",
         "notes": "L-carnitine, Collagen, Vitamins B, C",
         "tags": [
           ""
@@ -349,7 +402,7 @@
           "scale": 2
         },
         "formatAmount": "250.00",
-        "date": "04/14/2024",
+        "date": "06/14/2024",
         "notes": "",
         "tags": [
           ""
@@ -380,7 +433,7 @@
           "scale": 2
         },
         "formatAmount": "50.00",
-        "date": "04/29/2024",
+        "date": "05/29/2024",
         "notes": "",
         "tags": [
           ""
@@ -411,7 +464,7 @@
           "scale": 2
         },
         "formatAmount": "240.00",
-        "date": "04/03/2024",
+        "date": "06/03/2024",
         "notes": "",
         "tags": [
           ""
@@ -442,7 +495,7 @@
           "scale": 2
         },
         "formatAmount": "50.00",
-        "date": "04/07/2024",
+        "date": "06/07/2024",
         "notes": "",
         "tags": [
           ""
@@ -473,7 +526,7 @@
           "scale": 2
         },
         "formatAmount": "130.00",
-        "date": "04/19/2024",
+        "date": "06/19/2024",
         "notes": "",
         "tags": [
           ""
@@ -504,7 +557,7 @@
           "scale": 2
         },
         "formatAmount": "200.00",
-        "date": "04/13/2024",
+        "date": "06/13/2024",
         "notes": "",
         "tags": [
           ""
@@ -535,7 +588,7 @@
           "scale": 2
         },
         "formatAmount": "250.00",
-        "date": "04/01/2024",
+        "date": "06/01/2024",
         "notes": "",
         "tags": [
           ""
@@ -566,7 +619,7 @@
           "scale": 2
         },
         "formatAmount": "100.00",
-        "date": "04/13/2024",
+        "date": "06/13/2024",
         "notes": "",
         "tags": [
           ""
@@ -597,7 +650,7 @@
           "scale": 2
         },
         "formatAmount": "420.00",
-        "date": "04/20/2024",
+        "date": "06/20/2024",
         "notes": "",
         "tags": [
           ""
@@ -628,7 +681,7 @@
           "scale": 2
         },
         "formatAmount": "250.00",
-        "date": "04/28/2024",
+        "date": "05/28/2024",
         "notes": "",
         "tags": [
           ""
@@ -659,7 +712,7 @@
           "scale": 2
         },
         "formatAmount": "300.00",
-        "date": "04/01/2024",
+        "date": "06/01/2024",
         "notes": "",
         "tags": [
           ""
@@ -690,7 +743,7 @@
           "scale": 2
         },
         "formatAmount": "150.00",
-        "date": "04/12/2024",
+        "date": "06/12/2024",
         "notes": "",
         "tags": [
           ""
@@ -721,7 +774,7 @@
           "scale": 2
         },
         "formatAmount": "400.00",
-        "date": "04/20/2024",
+        "date": "06/20/2024",
         "notes": "",
         "tags": [
           ""
@@ -752,7 +805,7 @@
           "scale": 2
         },
         "formatAmount": "150.00",
-        "date": "04/29/2024",
+        "date": "05/29/2024",
         "notes": "",
         "tags": [
           ""
@@ -783,7 +836,7 @@
           "scale": 2
         },
         "formatAmount": "50.00",
-        "date": "04/06/2024",
+        "date": "06/06/2024",
         "notes": "",
         "tags": [
           ""
@@ -814,7 +867,7 @@
           "scale": 2
         },
         "formatAmount": "250.00",
-        "date": "04/10/2024",
+        "date": "06/10/2024",
         "notes": "",
         "tags": [
           ""
@@ -845,7 +898,7 @@
           "scale": 2
         },
         "formatAmount": "100.00",
-        "date": "04/28/2024",
+        "date": "05/28/2024",
         "notes": "",
         "tags": [
           ""
@@ -876,7 +929,7 @@
           "scale": 2
         },
         "formatAmount": "3000.00",
-        "date": "04/13/2024",
+        "date": "06/13/2024",
         "notes": "",
         "tags": [
           ""
@@ -907,7 +960,7 @@
           "scale": 2
         },
         "formatAmount": "500.00",
-        "date": "04/21/2024",
+        "date": "06/21/2024",
         "notes": "",
         "tags": [
           ""
@@ -938,7 +991,7 @@
           "scale": 2
         },
         "formatAmount": "500.00",
-        "date": "04/20/2024",
+        "date": "06/20/2024",
         "notes": "",
         "tags": [
           ""

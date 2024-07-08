@@ -10,11 +10,13 @@ import {
   UPDATE_ACCOUNTS_FILTERS,
   RESET_ACCOUNTS,
 } from '../actions/ActionTypes';
+import { getCurrentMonth } from '../utils/format/date';
 
 const initialState = {
   status: 'idle',
   error: null,
   filters: {
+    date: getCurrentMonth(),
     sort: 'By date',
     type: 'All',
     currencies: null,

@@ -7,16 +7,16 @@ export const FlexContainer = styled('div')(() => ({
 }));
 
 export const MoreInformationContainer = styled('div')((props) => ({
-  display: 'flex',
+  display: 'none',
   flexWrap: 'wrap',
   marginBottom: props.theme.spacing(4),
   '@media (min-width: 900px)': {
     display: 'block',
     minWidth: 170,
-    height: `calc(100vh - ${props.theme.spacing(14)})`,
+    height: `calc(100vh - ${props.theme.spacing(28)})`,
     position: 'sticky',
-    top: props.theme.spacing(14),
-    zIndex: 200,
+    top: props.theme.spacing(28),
+    zIndex: 8,
     overflowY: 'auto',
     '&::-webkit-scrollbar': {
       width: 5,
@@ -33,7 +33,7 @@ export const BarChartInfo = styled(FlexContainer)((props) => ({
   width: '100%',
   '@media (min-width: 600px)': {
     marginTop: props.theme.spacing(5),
-    width: '70%',
+    width: '100%',
   },
   '@media (min-width: 900px)': {
     marginTop: 0,
@@ -77,7 +77,11 @@ export const TotalCategoriesCount = styled(FlexContainer)((props) => ({
   marginLeft: 'auto',
   marginRight: 'auto',
   paddingBottom: props.theme.spacing(2),
+  '@media (min-width: 768px)': {
+    width: '33.33%',
+  },
   '@media (min-width: 900px)': {
+    width: '100%',
     height: 74,
   },
 }));
@@ -111,7 +115,7 @@ export const BarChartInfoItem = styled('div')((props) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '40%',
+  width: '45%',
   marginLeft: 'auto',
   marginRight: 'auto',
   padding: props.theme.spacing(3),
@@ -123,8 +127,8 @@ export const BarChartInfoItem = styled('div')((props) => ({
   textAlign: 'center',
   fontSize: '0.875rem',
   '@media (min-width: 768px)': {
+    width: '30%',
     textAlign: 'left',
-    padding: `${props.theme.spacing(5)} ${props.theme.spacing(3)}`,
   },
   '@media (min-width: 900px)': {
     marginBottom: props.theme.spacing(5),
@@ -166,14 +170,12 @@ export const IncomeSvg = styled(Svg)((props) => ({
 export const CategoriesTitleContainer = styled(FlexContainer)((props) => ({
   marginBottom: props.theme.spacing(4),
   borderBottom: `1px solid ${props.theme.colors.border.title}`,
-  position: 'sticky',
-  top: props.theme.spacing(12),
   zIndex: 9,
   backgroundColor: props.theme.colors.background.body,
 }));
 
 export const CategoriesTitleLink = styled(NavLink)((props) => ({
-  height: 50,
+  height: 46,
   width: '33.33%',
   fontSize: '0.9375rem',
   display: 'flex',
@@ -185,7 +187,7 @@ export const CategoriesTitleLink = styled(NavLink)((props) => ({
   },
   '&.active': {
     color: props.theme.colors.text.primary,
-    borderBottom: `2px solid ${props.theme.colors.main.violet}`,
+    borderBottom: `2px solid ${props.theme.colors.main.gold}`,
   },
 }));
 
@@ -235,7 +237,7 @@ export const CategoriesListItem = styled('div')((props) => ({
   width: '100%',
   paddingTop: props.theme.spacing(2),
   paddingBottom: props.theme.spacing(2),
-  marginBottom: props.theme.spacing(4),
+  marginBottom: props.theme.spacing(3),
   background: props.theme.colors.background.primary,
   border: `1px solid ${props.theme.colors.border.item}`,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
@@ -255,9 +257,13 @@ export const CategoriesDescription = styled(FlexContainer)(() => ({
 }));
 
 export const EditButtons = styled(FlexContainer)((props) => ({
+  display: 'none',
   position: 'absolute',
   top: props.theme.spacing(4),
   right: 0,
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
 }));
 
 export const EditLinkContainer = styled('div')((props) => ({

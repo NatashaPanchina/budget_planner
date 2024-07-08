@@ -25,8 +25,9 @@ import CurrenciesList from './utils/currencies/CurrenciesList';
 import CategorieList from './utils/categories/CategoriesList';
 import AccountsList from './utils/accounts/AccountsList';
 
-const AmountContainer = styled('div')(() => ({
+const AmountContainer = styled('div')((props) => ({
   maxWidth: 150,
+  color: props.theme.colors.text.primary,
 }));
 
 const FirstAmountContainer = styled(AmountContainer)((props) => ({

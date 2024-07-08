@@ -5,7 +5,6 @@ export const AddCategoryTitle = styled('div', {
   shouldForwardProp: (prop) => prop !== '$isActive',
 })((props) => ({
   cursor: 'pointer',
-  height: 60,
   width: '33.3%',
   display: 'flex',
   alignItems: 'center',
@@ -20,6 +19,16 @@ export const AddCategoryTitle = styled('div', {
   '&:hover': {
     color: props.theme.colors.main.violet,
   },
+}));
+
+export const AddFormTitle = styled('div')((props) => ({
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderBottom: props.$isActive
+    ? `2px solid ${props.theme.colors.main.violet}`
+    : '',
 }));
 
 export const Back = styled(BackLink)(() => ({

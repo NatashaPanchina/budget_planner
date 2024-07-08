@@ -50,7 +50,7 @@ function Tooltip({ id, formattedValue, value, totalAmount }) {
 Tooltip.propTypes = {
   id: PropTypes.string,
   formattedValue: PropTypes.string,
-  value: PropTypes.number,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   totalAmount: PropTypes.object,
 };
 

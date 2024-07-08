@@ -62,6 +62,19 @@
       "EMAIL_USED": "Email already in use"
     }
   },
+  "FILTERS": {
+    "BY_DATE": "By date",
+    "BY_ADDING": "By adding",
+    "BY_ALPHABET": "By alphabet",
+    "EXPENSE": "Expense",
+    "INCOME": "Income",
+    "WITH_NOTES": "With notes",
+    "WITHOUT_NOTES": "Without notes",
+    "FROM": "From",
+    "TO": "to",
+    "CARD": "Card",
+    "CASH": "Cash"
+  },
   "DELETE_ACCOUNT": {
     "DELETING_INFO": "You should confirm that it is actually you in order to delete your Neko Budget account. Please take a signing in again.",
     "SIGN_IN_WITH_GOOGLE": "Sign in with Google account",
@@ -78,14 +91,15 @@
     "ACCOUNTS": "Accounts"
   },
   "MENU": {
+    "MENU": "Menu",
     "PROFILE": "Profile",
     "CURRENCY": "Currency",
     "DASHBOARD": "Dashboard",
     "TRANSACTIONS": "Transactions",
     "ACCOUNTS": "Accounts",
     "CATEGORIES": "Categories",
-    "BUDGET": "Budgets",
-    "CASH_FLOW": "Cash Flow",
+    "GOALS": "Goals",
+    "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "DEMO": "Demo",
     "HELP": "Help",
@@ -97,7 +111,7 @@
     "ACCOUNTS": "Accounts",
     "NEW_TRANSACTION": "New Transaction",
     "CATEGORIES": "Categories",
-    "BUDGET": "Budget",
+    "GOALS": "Goals",
     "CASH_FLOW": "Cash Flow",
     "MORE": "more",
     "SETTINGS": "Settings"
@@ -204,7 +218,7 @@
     "SHOW": "Show"
   },
   "ACCOUNTS": {
-    "TOTAL_BALANCE": "Total balance",
+    "TOTAL_BALANCE": "Your accounts total balance",
     "ACCOUNTS_TITLE": "Accounts",
     "FILTER_KEY": "All filters",
     "FILTER_DATE": "All time",
@@ -228,6 +242,7 @@
     "TYPE": "Type",
     "TYPE_CARD": "Card",
     "TYPE_CASH": "Cash",
+    "ALL": "New Account",
     "CARD": "New Card",
     "CASH": "New Cash",
     "CURRENT_BALANCE": "Current balance",
@@ -416,8 +431,12 @@
     "DELETE": "delete"
   },
   "ANALYSIS": {
-    "CASH_FLOW": "Cash Flow",
+    "CASH_FLOW": "Reports",
+    "ALL_FILTERS": "All filters",
     "ALL_ACCOUNTS": "All accounts",
+    "WEEK": "Week",
+    "MONTH": "Month",
+    "YEAR": "Year",
     "TOTAL_EXPENSES": "Total Expenses",
     "TRANSACTIONS": {
       "ONE": "transaction",
@@ -443,7 +462,9 @@
     "PERCENTAGE": "Percentage",
     "SUM": "Sum",
     "MORE_THAN": "more than ",
-    "LESS_THAN": "less than "
+    "LESS_THAN": "less than ",
+    "YOUR_SAVINGS": "Your Accounts Savings",
+    "EXPENSES_BY_CATEGORY": "Expenses By Category"
   },
   "SETTINGS": {
     "SETTINGS": "Settings",

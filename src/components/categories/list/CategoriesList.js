@@ -9,6 +9,7 @@ import { ReactComponent as AddIcon } from '../../../assets/icons/shared/add.svg'
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
 import { ReactComponent as ArchiveIcon } from '../../../assets/icons/shared/archive.svg';
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
+
 import {
   CancelSearchSvg,
   MobItemButtonSvg,
@@ -33,10 +34,14 @@ import { Dialog, InputAdornment, MenuItem } from '@mui/material';
 import { useCategoriesSearch } from '../../../hooks/useSearch.js';
 import NoResultsFound from '../../noResults/NoResultsFound.js';
 import CategorySvg from '../../shared/CategorySvg.js';
-import { archiveCategory } from '../../../actions/Actions.js';
+import {
+  archiveCategory,
+  updateCategoriesFilters,
+} from '../../../actions/Actions.js';
 import InfoCategory from '../infoCategory/InfoCategory.js';
 import ArchiveAlert from '../../alerts/ArchiveAlert.js';
 import Notes from '../../shared/Notes.js';
+import FilterItems from '../../shared/FilterItems.js';
 
 function CategoriesList({ categories }) {
   const filters = useSelector((state) => state.categories.filters);
@@ -74,6 +79,7 @@ function CategoriesList({ categories }) {
         onChange={(event) => setQuery(event.target.value)}
         autoComplete="off"
       />
+      <FilterItems filters={filters} updateFilters={updateCategoriesFilters} />
       <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <InfoCategory
           clickedCategory={clickedCategory.id}

@@ -20,6 +20,7 @@ import {
   MoreInfoContainer,
   MoreInfoHeader,
   TotalCountTransactions,
+  TransactionsSpan,
 } from '../Transactions.styled.js';
 import { Grid } from '@mui/material';
 import { toStringDate } from '../../../utils/format/date/index.js';
@@ -81,12 +82,14 @@ function AccountsSlider({ mainCurrency, transactions, accounts, filters }) {
               {t('TRANSACTIONS.FILTER_EXPENSES')}
               <CountInfo $countType="expense">
                 {expensesTransactions}{' '}
-                {t(
-                  createLocaleTransactions(
-                    'TRANSACTIONS',
-                    expensesTransactions,
-                  ),
-                )}
+                <TransactionsSpan>
+                  {t(
+                    createLocaleTransactions(
+                      'TRANSACTIONS',
+                      expensesTransactions,
+                    ),
+                  )}
+                </TransactionsSpan>
               </CountInfo>
             </div>
           </CountTransactionsBlock>
@@ -96,9 +99,14 @@ function AccountsSlider({ mainCurrency, transactions, accounts, filters }) {
               {t('TRANSACTIONS.FILTER_INCOMES')}
               <CountInfo $countType="income">
                 {incomesTransactions}{' '}
-                {t(
-                  createLocaleTransactions('TRANSACTIONS', incomesTransactions),
-                )}
+                <TransactionsSpan>
+                  {t(
+                    createLocaleTransactions(
+                      'TRANSACTIONS',
+                      incomesTransactions,
+                    ),
+                  )}
+                </TransactionsSpan>
               </CountInfo>
             </div>
           </CountTransactionsBlock>
@@ -108,12 +116,14 @@ function AccountsSlider({ mainCurrency, transactions, accounts, filters }) {
               {t('TRANSACTIONS.FILTER_TRANSFERS')}
               <CountInfo $countType="transfer">
                 {transfersTransactions}{' '}
-                {t(
-                  createLocaleTransactions(
-                    'TRANSACTIONS',
-                    transfersTransactions,
-                  ),
-                )}
+                <TransactionsSpan>
+                  {t(
+                    createLocaleTransactions(
+                      'TRANSACTIONS',
+                      transfersTransactions,
+                    ),
+                  )}
+                </TransactionsSpan>
               </CountInfo>
             </div>
           </CountTransactionsBlock>

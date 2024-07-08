@@ -37,7 +37,7 @@ export const mockTransaction = {
     scale: 2,
   },
   formatAmount: '3000.00',
-  date: '04/13/2024',
+  date: '06/13/2024',
   notes: '',
   tags: [''],
 };

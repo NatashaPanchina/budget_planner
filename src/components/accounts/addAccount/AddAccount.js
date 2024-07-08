@@ -15,7 +15,7 @@ const TitleLink = styled('div', {
   shouldForwardProp: (prop) => prop !== '$isActive',
 })((props) => ({
   cursor: 'pointer',
-  height: 60,
+  padding: props.theme.spacing(4),
   width: '33.3%',
   display: 'flex',
   alignItems: 'center',

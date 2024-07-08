@@ -30,6 +30,7 @@ const LegendsProcent = styled('span')((props) => ({
   alignSelf: 'center',
   justifySelf: 'end',
   color: props.$textColor,
+  fontWeight: 500,
 }));
 
 const Balance = styled('span')((props) => ({

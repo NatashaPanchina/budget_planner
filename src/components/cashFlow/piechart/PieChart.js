@@ -8,7 +8,6 @@ import {
   renderMatchs,
 } from '../utils/gradients';
 import { createData } from '../utils/charts';
-import Legends from '../legends/Legends';
 import { ChartsInfoContainer, Pie } from '../CashFlow.styled';
 import {
   formatDineroOutput,
@@ -24,6 +23,8 @@ import { toStringDate } from '../../../utils/format/date';
 
 const CenterText = styled('text')((props) => ({
   fill: props.theme.colors.text.primary,
+  fontWeight: 500,
+  fontSize: '1.3rem',
 }));
 
 const CenteredBalance = function (totalAmount, mainCurrency) {
@@ -93,8 +94,6 @@ function PieChart({ transactions, categories, chartFilter, date }) {
             left: 10,
           }}
           innerRadius={0.65}
-          padAngle={0.7}
-          cornerRadius={4}
           enableArcLinkLabels={false}
           activeOuterRadiusOffset={8}
           sortByValue={true}
@@ -120,7 +119,6 @@ function PieChart({ transactions, categories, chartFilter, date }) {
           ]}
         />
       </Pie>
-      <Legends data={commonData} chartType="pie" />
     </ChartsInfoContainer>
   );
 }

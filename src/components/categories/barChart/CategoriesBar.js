@@ -113,6 +113,7 @@ function CategoriesBar({ data }) {
         keys={keys}
         indexBy="type"
         colors={({ id, data }) => String(data[`${id}Color`])}
+        borderRadius={16}
         padding={0.2}
         defs={renderGradients(keys)}
         fill={renderMatchs(keys)}

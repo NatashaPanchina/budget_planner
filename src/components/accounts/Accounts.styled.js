@@ -17,12 +17,6 @@ export const MoreInformationContainer = styled(FlexContainer)((props) => ({
   textAlign: 'center',
   backgroundColor: props.theme.colors.background.primary,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
-  '@media (min-width: 600px)': {
-    display: 'flex',
-    height: 250,
-    maxHeight: 250,
-    zIndex: 200,
-  },
   '@media (min-width: 900px)': {
     display: 'block',
     height: '85vh',
@@ -62,6 +56,24 @@ export const TotalBalance = styled('div')((props) => ({
   },
 }));
 
+export const MobTotalBalance = styled(FlexContainer)((props) => ({
+  color: props.theme.colors.text.darker,
+  justifyContent: 'center',
+  '@media (min-width: 768px)': {
+    display: 'none',
+  },
+}));
+
+export const MobBalance = styled('span')((props) => ({
+  color: props.theme.colors.text.primary,
+  fontWeight: 500,
+  fontSize: '1.5rem',
+  marginLeft: props.theme.spacing(2),
+  '@media (min-width: 900px)': {
+    display: 'none',
+  },
+}));
+
 export const PieChartContainer = styled('div')((props) => ({
   display: 'none',
   '@media (min-width: 600px)': {
@@ -80,6 +92,8 @@ export const PieChartContainer = styled('div')((props) => ({
 
 export const CenterText = styled('text')((props) => ({
   fill: props.theme.colors.text.primary,
+  fontSize: '1.3rem',
+  fontWeight: 500,
 }));
 
 export const Tooltip = styled(FlexContainer)((props) => ({
@@ -128,8 +142,6 @@ export const LegendsContainer = styled(FlexContainer)((props) => ({
 export const CashTitleContainer = styled(FlexContainer)((props) => ({
   marginBottom: props.theme.spacing(4),
   borderBottom: `1px solid ${props.theme.colors.border.title}`,
-  position: 'sticky',
-  top: props.theme.spacing(12),
   zIndex: 9,
   backgroundColor: props.theme.colors.background.body,
 }));
@@ -147,11 +159,12 @@ export const CashTitleLink = styled(NavLink)((props) => ({
   },
   '&.active': {
     color: props.theme.colors.text.primary,
-    borderBottom: `2px solid ${props.theme.colors.main.violet}`,
+    borderBottom: `2px solid ${props.theme.colors.main.gold}`,
   },
 }));
 
 export const CashListItem = styled('div')((props) => ({
+  display: 'flex',
   position: 'relative',
   justifyContent: 'center',
   alignItems: 'start',
@@ -173,9 +186,9 @@ export const Card = styled('div', {
     prop !== '$cardBackground' && prop !== '$from' && prop !== '$to',
 })((props) => ({
   cursor: 'pointer',
-  minHeight: 197,
-  height: 197,
-  width: 310,
+  minHeight: 227,
+  height: 227,
+  width: 348,
   borderRadius: props.theme.borderRadius,
   background: `url(${props.$cardBackground}) 0% 0% / cover no-repeat, linear-gradient(90deg, ${props.$from} 0%, ${props.$to} 100%)`,
   boxShadow: `0px 7px 20px ${alpha(props.$from, 0.4)}`,
@@ -185,7 +198,10 @@ export const Card = styled('div', {
 export const CardView = styled(Card)((props) => ({
   marginLeft: 'auto',
   marginRight: 'auto',
-  marginBottom: props.theme.spacing(8),
+  '@media (min-width: 600px)': {
+    marginTop: props.theme.spacing(5),
+    marginBottom: props.theme.spacing(5),
+  },
 }));
 
 export const CardName = styled('div')((props) => ({
@@ -204,7 +220,8 @@ export const CardBalanceContainer = styled(FlexContainer)(() => ({
 }));
 
 export const CardBalance = styled('div')(() => ({
-  fontSize: '1.375rem',
+  fontSize: '1.5rem',
+  fontWeight: 500,
 }));
 
 export const CurrentBalance = styled('div')(() => ({
@@ -241,10 +258,88 @@ export const NumericInput = styled('input')((props) => ({
 }));
 
 export const ToggleButtonSvg = styled(MobItemButtonSvg)(() => ({
+  display: 'none',
   position: 'absolute',
   top: 0,
   right: 0,
   height: 30,
   width: 30,
   padding: 0,
+  '@media (min-width: 900px)': {
+    display: 'flex',
+    position: 'static',
+  },
+}));
+
+export const CommonInfoContainer = styled('div')((props) => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'block',
+    maxHeight: 227,
+    marginRight: props.theme.spacing(3),
+  },
+  '@media (min-width: 900px)': {
+    maxHeight: 227,
+  },
+}));
+
+export const CommonInfoItem = styled('div', {
+  shouldForwardProp: (prop) => prop !== '$type',
+})((props) => ({
+  marginTop: props.theme.spacing(3),
+  textAlign: 'center',
+  padding: `${props.theme.spacing(3)} ${props.theme.spacing(6)}`,
+  width: `calc(45% - ${props.theme.spacing(6 * 2)})`,
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  borderBottom:
+    props.$type === 'expense'
+      ? `1px solid ${props.theme.colors.text.darker}`
+      : 'none',
+  '@media (min-width: 600px)': {
+    width: 'auto',
+    margin: 0,
+    padding: `${props.theme.spacing(6)} ${props.theme.spacing(4)}`,
+    display: 'block',
+  },
+  '@media (min-width: 900px)': {
+    textAlign: 'left',
+  },
+}));
+
+export const CommonInfoHeader = styled('div')((props) => ({
+  width: `100%`,
+  fontSize: '0.85rem',
+  color: props.theme.colors.text.darker,
+  '@media (min-width: 900px)': {
+    textAlign: 'center',
+  },
+}));
+
+export const CalcInfoAmount = styled('div')((props) => ({
+  lineHeight: '2',
+  color: props.theme.colors.text.primary,
+  fontWeight: 500,
+  fontSize: '1.2rem',
+  marginRight: props.theme.spacing(2),
+}));
+
+export const Stripe = styled('div', {
+  shouldForwardProp: (prop) => prop !== '$type',
+})((props) => ({
+  height: 5,
+  width: '100%',
+  backgroundColor: props.theme.colors[props.$type],
+  borderRadius: props.theme.borderRadius * 2,
+  marginBottom: props.theme.spacing(1),
+}));
+
+export const InfoCardContainer = styled(FlexContainer)((props) => ({
+  justifyContent: 'center',
+  flexDirection: 'column-reverse',
+  marginBottom: props.theme.spacing(2),
+  '@media (min-width: 600px)': {
+    margin: 0,
+    flexDirection: 'row',
+  },
 }));

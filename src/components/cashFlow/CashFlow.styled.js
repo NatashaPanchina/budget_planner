@@ -1,7 +1,9 @@
 import { styled } from '@mui/material';
 
 export const ChartsInfoContainer = styled('div')((props) => ({
-  marginBottom: props.theme.spacing(3),
+  '@media (min-width: 600px)': {
+    marginBottom: props.theme.spacing(3),
+  },
   '@media (min-width: 768px)': {
     marginBottom: props.theme.spacing(7),
   },

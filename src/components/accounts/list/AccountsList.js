@@ -34,14 +34,23 @@ import {
   ToggleButtonSvg,
   DeleteMenuItem,
   DeleteSvg,
+  CommonInfoItem,
+  CommonInfoContainer,
+  CommonInfoHeader,
+  CalcInfoAmount,
+  Stripe,
 } from '../Accounts.styled';
 import { Dialog, InputAdornment, MenuItem } from '@mui/material';
 import { useAccountsSearch } from '../../../hooks/useSearch';
 import NoResultsFound from '../../noResults/NoResultsFound';
-import { archiveAccount } from '../../../actions/Actions.js';
+import {
+  archiveAccount,
+  updateAccountsFilters,
+} from '../../../actions/Actions.js';
 import InfoAccount from '../infoAccount/InfoAccount.js';
 import ArchiveAlert from '../../alerts/ArchiveAlert.js';
 import Notes from '../../shared/Notes.js';
+import FilterItems from '../../shared/FilterItems.js';
 
 function AccountsList({ accounts, localeFilterAccount, categories }) {
   const filters = useSelector((state) => state.accounts.filters);
@@ -80,6 +89,7 @@ function AccountsList({ accounts, localeFilterAccount, categories }) {
         onChange={(event) => setQuery(event.target.value)}
         autoComplete="off"
       />
+      <FilterItems filters={filters} updateFilters={updateAccountsFilters} />
       <InfoDialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <InfoAccount
           clickedAccount={clickedAccount.id}
@@ -99,6 +109,23 @@ function AccountsList({ accounts, localeFilterAccount, categories }) {
           const balance = dinero(account.balance);
           return (
             <CashListItem key={account.id}>
+              <CommonInfoContainer>
+                <CommonInfoItem $type="expense">
+                  <CommonInfoHeader>July Expenses</CommonInfoHeader>
+                  <CommonInfoHeader></CommonInfoHeader>
+                  <div>
+                    <CalcInfoAmount>$ 500.00</CalcInfoAmount>
+                    <Stripe $type="expense" />
+                  </div>
+                </CommonInfoItem>
+                <CommonInfoItem>
+                  <CommonInfoHeader>July Income</CommonInfoHeader>
+                  <div>
+                    <CalcInfoAmount>$ 500.00</CalcInfoAmount>
+                    <Stripe $type="income" />
+                  </div>
+                </CommonInfoItem>
+              </CommonInfoContainer>
               <Card
                 $cardBackground={cardBackground}
                 $from={account.color[0]}
@@ -120,52 +147,50 @@ function AccountsList({ accounts, localeFilterAccount, categories }) {
                 </CardBalanceContainer>
               </Card>
               <Notes notes={account.notes} />
-              <div>
-                <ToggleMenu
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={() => setAnchorEl(null)}
-                >
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorEl(null);
-                      setOpenDialog(true);
-                    }}
-                  >
-                    <FlexContainer>
-                      <CardButtonlink>
-                        <CardButtonSvg as={EditIcon} /> {t('ACCOUNTS.EDIT')}
-                      </CardButtonlink>
-                    </FlexContainer>
-                  </MenuItem>
-                  <MenuItem onClick={() => setAnchorEl(null)}>
-                    <FlexContainer>
-                      <CardButtonlink>
-                        <CardButtonSvg as={TransferIcon} />{' '}
-                        {t('ACCOUNTS.NEW_TRANSFER')}
-                      </CardButtonlink>
-                    </FlexContainer>
-                  </MenuItem>
-                  <DeleteMenuItem
-                    onClick={() => {
-                      setAnchorEl(null);
-                      setOpenDelAlert(true);
-                    }}
-                  >
-                    <FlexContainer>
-                      <DeleteSvg as={ArchiveIcon} />
-                      {t('ACCOUNTS.ARCHIVE')}
-                    </FlexContainer>
-                  </DeleteMenuItem>
-                </ToggleMenu>
-                <ToggleButtonSvg
-                  as={ToggleEditIcon}
-                  onClick={(event) => {
-                    setClickedAccount(account);
-                    setAnchorEl(event.currentTarget);
+              <ToggleMenu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={() => setAnchorEl(null)}
+              >
+                <MenuItem
+                  onClick={() => {
+                    setAnchorEl(null);
+                    setOpenDialog(true);
                   }}
-                />
-              </div>
+                >
+                  <FlexContainer>
+                    <CardButtonlink>
+                      <CardButtonSvg as={EditIcon} /> {t('ACCOUNTS.EDIT')}
+                    </CardButtonlink>
+                  </FlexContainer>
+                </MenuItem>
+                <MenuItem onClick={() => setAnchorEl(null)}>
+                  <FlexContainer>
+                    <CardButtonlink>
+                      <CardButtonSvg as={TransferIcon} />{' '}
+                      {t('ACCOUNTS.NEW_TRANSFER')}
+                    </CardButtonlink>
+                  </FlexContainer>
+                </MenuItem>
+                <DeleteMenuItem
+                  onClick={() => {
+                    setAnchorEl(null);
+                    setOpenDelAlert(true);
+                  }}
+                >
+                  <FlexContainer>
+                    <DeleteSvg as={ArchiveIcon} />
+                    {t('ACCOUNTS.ARCHIVE')}
+                  </FlexContainer>
+                </DeleteMenuItem>
+              </ToggleMenu>
+              <ToggleButtonSvg
+                as={ToggleEditIcon}
+                onClick={(event) => {
+                  setClickedAccount(account);
+                  setAnchorEl(event.currentTarget);
+                }}
+              />
             </CashListItem>
           );
         })

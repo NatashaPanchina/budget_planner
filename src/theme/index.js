@@ -93,6 +93,9 @@ export const lightTheme = {
     MuiMenu: {
       styleOverrides: {
         paper: {
+          '@media (max-width: 600px)': {
+            left: '10px !important',
+          },
           background: '#fff',
           border: '1px solid #D9D9D9',
           borderRadius: 8,
@@ -137,10 +140,11 @@ export const lightTheme = {
     main: {
       violet: '#6D73FF',
       purple: '#B67FFF',
+      gold: '#F0A330',
     },
     text: {
       primary: '#000',
-      darker: '#989393',
+      darker: '#ADADAD',
       darkest: '#373737',
       ordinary: '#ADADAD',
     },
@@ -148,11 +152,11 @@ export const lightTheme = {
     background: {
       body: '#F7F7FF',
       navigation: '#F3F3F3',
-      search: '#e8e9ff',
+      search: '#edeeff',
       primary: '#fff',
       ordinary: '#EAEAEA',
     },
-    boxShadow: '#F3F3F3',
+    boxShadow: '#efeded',
     tooltipShadow: '#E9E9E9',
     svg: {
       pending: '#D0D0D0',
@@ -171,7 +175,7 @@ export const lightTheme = {
     black: '#000',
     white: '#fff',
     expense: '#F4395B',
-    income: '#6EBD0A',
+    income: '#0ABB71',
     transfer: '#0DC3B4',
     saldo: '#419FFF',
     border: {
@@ -185,12 +189,12 @@ export const lightTheme = {
         to: '#6D73FF',
       },
       expense: {
-        from: '#ff58b2',
-        to: '#f73c5e',
+        from: '#F66969',
+        to: '#F4395B',
       },
       income: {
-        from: '#b8f56a',
-        to: '#76c314',
+        from: '#49D971',
+        to: '#0ABB71',
       },
       transfer: {
         from: '#31FFB5',
@@ -303,6 +307,9 @@ export const darkTheme = {
     MuiMenu: {
       styleOverrides: {
         paper: {
+          '@media (max-width: 600px)': {
+            left: '10px !important',
+          },
           background: '#333232',
           border: '1px solid #4B4B4B',
           borderRadius: 8,
@@ -347,6 +354,7 @@ export const darkTheme = {
     main: {
       violet: '#8085fd',
       purple: '#B67FFF',
+      gold: '#F0A330',
     },
     text: {
       primary: '#fff',
@@ -379,8 +387,8 @@ export const darkTheme = {
     },
     black: '#000',
     white: '#fff',
-    expense: '#FF3358',
-    income: '#6EBD0A',
+    expense: '#F4395B',
+    income: '#0ABB71',
     transfer: '#0DC3B4',
     saldo: '#419FFF',
     border: {
@@ -394,12 +402,12 @@ export const darkTheme = {
         to: '#6D73FF',
       },
       expense: {
-        from: '#ff58b2',
-        to: '#f73c5e',
+        from: '#F66969',
+        to: '#F4395B',
       },
       income: {
-        from: '#b8f56a',
-        to: '#76c314',
+        from: '#49D971',
+        to: '#0ABB71',
       },
       transfer: {
         from: '#31FFB5',

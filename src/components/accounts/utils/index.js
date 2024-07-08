@@ -1,12 +1,14 @@
 import React from 'react';
 import { ReactComponent as CheckMarkIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { MenuItem, styled } from '@mui/material';
+import { add, dinero } from 'dinero.js';
+import { currencies } from '../../../utils/constants/currencies';
 
 const ColorContainer = styled('div')(() => ({
   width: '100%',
 }));
 
-function showCheckMark(key) {
+const showCheckMark = (key) => {
   const allMarks = document.querySelectorAll('.checkMarkIcon');
   for (let mark of allMarks) {
     if (!mark.classList.contains('none')) {
@@ -14,10 +16,10 @@ function showCheckMark(key) {
     }
   }
   document.querySelector(`.${key}`).classList.toggle('none');
-}
+};
 
-export function renderColors(colors, setSelectedColor, initialColor) {
-  let result = [];
+export const renderColors = (colors, setSelectedColor, initialColor) => {
+  const result = [];
 
   const isInitialColor = (color) => {
     if (!initialColor) return false;
@@ -71,9 +73,9 @@ export function renderColors(colors, setSelectedColor, initialColor) {
     }
   }
   return result;
-}
+};
 
-export function renderSelectedColor(selectedColor) {
+export const renderSelectedColor = (selectedColor) => {
   return (
     <svg
       width="34"
@@ -105,13 +107,13 @@ export function renderSelectedColor(selectedColor) {
       </defs>
     </svg>
   );
-}
+};
 
-export function toggleElement(ref) {
+export const toggleElement = (ref) => {
   ref.current.classList.toggle('none');
-}
+};
 
-export function createAccountFilter(filterAccount) {
+export const createAccountFilter = (filterAccount) => {
   switch (filterAccount) {
     case 'cards':
       return 'card';
@@ -122,9 +124,9 @@ export function createAccountFilter(filterAccount) {
     default:
       return 'all';
   }
-}
+};
 
-export function createAccountType(accountType) {
+export const createAccountType = (accountType) => {
   switch (accountType) {
     case 'card':
       return 'cards';
@@ -133,9 +135,9 @@ export function createAccountType(accountType) {
     default:
       return 'all';
   }
-}
+};
 
-export function createLocaleAccountType(accountType) {
+export const createLocaleAccountType = (accountType) => {
   switch (accountType) {
     case 'card':
       return 'CARD';
@@ -146,9 +148,9 @@ export function createLocaleAccountType(accountType) {
     default:
       return 'ALL';
   }
-}
+};
 
-export function createLocaleAccount(NAME, count) {
+export const createLocaleAccount = (NAME, count) => {
   if (count === 0) {
     return `${NAME}.CASH.MORE_THAN_FIVE`;
   } else if (count === 1) {
@@ -160,13 +162,13 @@ export function createLocaleAccount(NAME, count) {
   } else {
     return `${NAME}.CASH.MORE_THAN_FIVE`;
   }
-}
+};
 
-export function filterAccounts(filterAccount, accounts) {
+export const filterAccounts = (filterAccount, accounts) => {
   return filterAccount === 'all'
     ? accounts
     : accounts.filter((account) => account.type === filterAccount);
-}
+};
 
 export const renderCurrencies = (names) => {
   let results = [];
@@ -178,4 +180,11 @@ export const renderCurrencies = (names) => {
     );
   }
   return results;
+};
+
+export const getTotalBalance = (data, mainCurrency) => {
+  return data.reduce(
+    (sum, account) => add(sum, dinero(account.mainCurrencyBalance)),
+    dinero({ amount: 0, currency: currencies[mainCurrency] }),
+  );
 };

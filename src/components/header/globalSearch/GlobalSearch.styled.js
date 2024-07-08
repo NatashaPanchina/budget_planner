@@ -37,7 +37,8 @@ export const GlobalSearchPopper = styled(Popper)((props) => ({
 export const GlobalSearchField = styled(SearchField)((props) => ({
   display: 'none',
   marginBottom: 0,
-  '@media (min-width: 768px)': {
+  marginLeft: props.theme.spacing(4),
+  '@media (min-width: 600px)': {
     display: 'flex',
     borderRadius: props.theme.borderRadius,
     backgroundColor: props.theme.colors.background.body,

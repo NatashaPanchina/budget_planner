@@ -23,6 +23,7 @@ import {
   ArchiveButtonSvg,
   HeaderDialog,
   FilterTooltip,
+  InfoContainer,
 } from '../../../theme/global.js';
 import {
   IconsButton,
@@ -109,7 +110,7 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
   }, [clickedCategory]);
 
   return (
-    <>
+    <InfoContainer>
       <HeaderDialog>
         {t('INFO_CATEGORY.CATEGORY_INFORMATION')}
         <FilterTooltip title={t('CATEGORIES.ARCHIVE')} arrow>
@@ -272,7 +273,7 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
           archiveCallback={archiveCallback}
         />
       </Dialog>
-    </>
+    </InfoContainer>
   );
 }
 
