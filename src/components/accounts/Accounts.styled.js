@@ -198,6 +198,7 @@ export const Card = styled('div', {
 export const CardView = styled(Card)((props) => ({
   marginLeft: 'auto',
   marginRight: 'auto',
+  marginBottom: props.theme.spacing(5),
   '@media (min-width: 600px)': {
     marginTop: props.theme.spacing(5),
     marginBottom: props.theme.spacing(5),

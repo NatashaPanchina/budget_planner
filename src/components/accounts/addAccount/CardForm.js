@@ -54,7 +54,7 @@ function CardForm({ accounts, categories, setOpenDialog }) {
   const [description, setDescription] = useState('');
   const [currency, setCurrency] = useState(mainCurrency);
   const [balance, setBalance] = useState(
-    toDecimal(dinero({ amount: 1000, currency: currencies.USD })),
+    toDecimal(dinero({ amount: 0, currency: currencies.USD })),
   );
   const [selectedColor, setSelectedColor] = useState(colors.green[700]);
   const [date, setDate] = useState(dayjs(new Date()));
@@ -102,6 +102,7 @@ function CardForm({ accounts, categories, setOpenDialog }) {
           InputProps={{
             inputComponent: NumericFormatCustom,
           }}
+          autoFocus
         />
       </AmountFieldsContainer>
       <TextInputField

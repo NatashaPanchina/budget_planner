@@ -270,7 +270,7 @@ export const ChartHeader = styled(FlexContainer)((props) => ({
   width: `calc(100% - ${props.theme.spacing(3 * 2)})`,
   padding: props.theme.spacing(3),
   paddingBottom: props.theme.spacing(5),
-  paddingTop: props.theme.spacing(7),
+  paddingTop: props.theme.spacing(10),
   fontWeight: 500,
   fontSize: '1.2rem',
   justifyContent: 'center',
@@ -357,8 +357,12 @@ export const MobCommonInfoHeader = styled('div')((props) => ({
   },
 }));
 
-export const CalcInfoAmount = styled(InfoAmount)((props) => ({
-  color: props.theme.colors.text.primary,
+export const CalcInfoAmount = styled(InfoAmount, {
+  shouldForwardProp: (prop) => prop !== '$type',
+})((props) => ({
+  color: props.$type
+    ? props.theme.colors[props.$type]
+    : props.theme.colors.text.primary,
   fontWeight: 500,
   fontSize: '1.4rem',
   marginRight: props.theme.spacing(2),

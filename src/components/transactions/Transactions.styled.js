@@ -282,7 +282,7 @@ export const TransactionItem = styled('div')((props) => ({
   gap: props.theme.spacing(3),
   alignItems: 'center',
   width: '100%',
-  marginBottom: props.theme.spacing(1),
+  marginBottom: props.theme.spacing(2),
   paddingTop: props.theme.spacing(2),
   paddingBottom: props.theme.spacing(2),
   fontSize: '1rem',
