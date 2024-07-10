@@ -29,7 +29,7 @@ function TransferTransactionForm({ accounts, setOpenDialog }) {
   const [originAccount, setOriginAccount] = useState('');
   const [destAccount, setDestAccount] = useState('');
   const [amount, setAmount] = useState(
-    toDecimal(dinero({ amount: 1000, currency: currencies.USD })),
+    toDecimal(dinero({ amount: 0, currency: currencies.USD })),
   );
   const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
@@ -62,6 +62,7 @@ function TransferTransactionForm({ accounts, setOpenDialog }) {
         InputProps={{
           inputComponent: NumericFormatCustom,
         }}
+        autoFocus
       />
       <AccountsItems
         accounts={filteredAccounts}

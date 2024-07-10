@@ -149,23 +149,34 @@ function TransactionsList({ transactions, accounts, categories }) {
             <span>{t('TRANSACTIONS.AMOUNT')}</span>
             <span>{t('TRANSACTIONS.DATE')}</span>
           </Description>
-          {searchData.map((transaction, index) => {
+          {searchData.map((transaction, index, array) => {
             const transactionCategory = categories.find(
               (category) => category.id === transaction.category,
             );
             const transactionAccount = accounts.find(
               (account) => account.id === transaction.account,
             );
-
             if (!transactionCategory || !transactionAccount) {
               return null;
             }
+            const transactionDate = dateFormatter.format(
+              new Date(transaction.date),
+            );
+            //for date title (grouping transactions by date)
+            const prevTransaction = index > 0 ? array[index - 1] : null;
+            const prevDate = prevTransaction
+              ? dateFormatter.format(new Date(prevTransaction.date))
+              : null;
 
             return (
               <div key={transaction.id}>
-                <MobTransactionDate>
-                  {dateFormatter.format(new Date(transaction.date))}
-                </MobTransactionDate>
+                {/** grouping transactions by date */}
+                {index === 0 && (
+                  <MobTransactionDate>{transactionDate}</MobTransactionDate>
+                )}
+                {prevDate && transactionDate !== prevDate ? (
+                  <MobTransactionDate>{transactionDate}</MobTransactionDate>
+                ) : null}
                 <ListItemContainer>
                   <TransactionItem
                     onClick={() => {

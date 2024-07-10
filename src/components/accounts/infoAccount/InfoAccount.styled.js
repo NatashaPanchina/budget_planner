@@ -4,12 +4,14 @@ import { CardView } from '../Accounts.styled';
 export const CommonInfoContainer = styled('div')((props) => ({
   display: 'flex',
   width: '100%',
+  marginTop: props.theme.spacing(2),
   '@media (min-width: 600px)': {
     width: 'auto',
     flexDirection: 'column',
     justifyContent: 'space-between',
     height: 227,
     maxHeight: 227,
+    marginTop: 0,
     marginRight: props.theme.spacing(5),
   },
   '@media (min-width: 900px)': {
@@ -39,6 +41,7 @@ export const CommonInfoItem = styled('div')((props) => ({
 }));
 
 export const CardViewContainer = styled(CardView)(() => ({
+  marginBottom: 0,
   '@media (min-width: 600px)': {
     marginLeft: 0,
     marginRight: 0,

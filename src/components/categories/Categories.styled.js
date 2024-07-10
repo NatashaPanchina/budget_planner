@@ -237,7 +237,7 @@ export const CategoriesListItem = styled('div')((props) => ({
   width: '100%',
   paddingTop: props.theme.spacing(2),
   paddingBottom: props.theme.spacing(2),
-  marginBottom: props.theme.spacing(3),
+  marginBottom: props.theme.spacing(2),
   background: props.theme.colors.background.primary,
   border: `1px solid ${props.theme.colors.border.item}`,
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,

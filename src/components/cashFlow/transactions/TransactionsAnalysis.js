@@ -94,7 +94,7 @@ function TransactionsAnalysis({
   const [barPrevDate] = useState(getLastMonth());
   const [isBarChartCompared] = useState(true);
   const [accountFilter, setAccountFilter] = useState('All accounts');
-  const [lineChartFilter, setLineChartFilter] = useState('expenses');
+  const [lineChartFilter, setLineChartFilter] = useState('expensesToIncomes');
   const [isLineChartDetailed, setIsLineChartDetailed] = useState(false);
   const [barChartFilter, setBarChartFilter] = useState('savings');
   const [isBarChartDetailed, setIsBarChartDetailed] = useState(false);
@@ -381,14 +381,14 @@ function TransactionsAnalysis({
               {t('ANALYSIS.AVERAGE_WEEKLY_INCOME')}:
             </AverangeInfoHeader>
             <AverageInfoSvg as={AverageIncomeIcon} />
-            <CalcInfoAmount>{averageIncome}</CalcInfoAmount>
+            <CalcInfoAmount $type="income">{averageIncome}</CalcInfoAmount>
           </AverageInfoItem>
           <AverageInfoItem>
             <AverangeInfoHeader>
               {t('ANALYSIS.AVERAGE_WEEKLY_EXPENSE')}:
             </AverangeInfoHeader>
             <AverageInfoSvg as={AverageExpenseIcon} />
-            <CalcInfoAmount>{averageExpense}</CalcInfoAmount>
+            <CalcInfoAmount $type="expense">{averageExpense}</CalcInfoAmount>
           </AverageInfoItem>
         </AverageInfoContainer>
       </Grid>

@@ -43,7 +43,7 @@ function ExpenseTransactionForm({
   const [account, setAccount] = useState('');
   const [currency, setCurrency] = useState(mainCurrency);
   const [amount, setAmount] = useState(
-    toDecimal(dinero({ amount: 1000, currency: currencies[currency] })),
+    toDecimal(dinero({ amount: 0, currency: currencies[currency] })),
   );
   const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
@@ -84,6 +84,7 @@ function ExpenseTransactionForm({
           InputProps={{
             inputComponent: NumericFormatCustom,
           }}
+          autoFocus
         />
       </AmountFieldsContainer>
       <CategoriesItems

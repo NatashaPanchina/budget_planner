@@ -26,7 +26,12 @@ const CustomCarousel = styled(Carousel)(() => ({
   '& .MuiIconButton-root': {
     top: 'calc(50% - 30px)!important',
     '& .css-aq8pb7-MuiSvgIcon-root': {
-      fontSize: '0.75rem',
+      fontSize: '0.6rem',
+    },
+    '@media (min-width: 768px)': {
+      '& .css-aq8pb7-MuiSvgIcon-root': {
+        fontSize: '0.75rem',
+      },
     },
   },
 }));
