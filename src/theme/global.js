@@ -4,6 +4,7 @@ import {
   Dialog,
   FormControlLabel,
   Menu,
+  MenuItem,
   Popover,
   Radio,
   TextField,
@@ -77,18 +78,19 @@ export const ArchivedTrash = styled('div')(() => ({
 }));
 
 export const Trash = styled('svg')((props) => ({
-  height: 35,
-  width: 35,
+  height: 32,
+  width: 32,
+  marginLeft: `-${props.theme.spacing(2)}`,
   '& path': {
-    fill: props.theme.colors.text.darkest,
+    fill: props.theme.colors.main.violet,
   },
   '& circle': {
     fill: 'none',
   },
-  '@media (min-width: 600px)': {
-    '& path': {
-      fill: props.theme.colors.main.violet,
-    },
+  '@media (min-width: 800px)': {
+    height: 35,
+    width: 35,
+    margin: 0,
     '& circle': {
       fill: props.theme.colors.background.primary,
     },
@@ -687,6 +689,14 @@ export const FilterButton = styled('div')((props) => ({
   },
 }));
 
+export const FilterMenuItem = styled(MenuItem)((props) => ({
+  '& a': {
+    textDecoration: 'none',
+    color: props.theme.colors.text.primary,
+  },
+  fill: props.theme.colors.main.violet,
+}));
+
 export const FilterTitle = styled('span')(() => ({
   display: 'none',
   '@media (min-width: 1000px)': {
@@ -702,7 +712,8 @@ export const FilterSvg = styled('svg')((props) => ({
   '& path': {
     fill: 'inherit',
   },
-  '@media (min-width: 600px)': {
+  marginRight: props.theme.spacing(2),
+  '@media (min-width: 800px)': {
     height: 18,
     width: 18,
     margin: `0px ${props.theme.spacing(1)}`,

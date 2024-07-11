@@ -104,6 +104,7 @@ function AddCategory({ setOpenDialog, type }) {
           setDescription(event.target.value);
           setIsDescription(isDescriptionCorrect(event.target.value));
         }}
+        autoFocus
       />
       <PopoverField
         margin="normal"
