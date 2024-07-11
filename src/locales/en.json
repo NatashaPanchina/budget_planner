@@ -290,7 +290,9 @@
     "TAGS": "Tags",
     "TAGS_PLACEHOLDER": "Click here to define some tags",
     "DONE": "Done",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "EXPENSES": "Expenses",
+    "INCOME": "Income"
   },
   "ACCOUNTS_TRASH": {
     "ARCHIVED_ACCOUNTS": "Archived Accounts",

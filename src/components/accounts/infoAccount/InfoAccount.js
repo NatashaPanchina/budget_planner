@@ -16,6 +16,8 @@ import {
   renderColors,
   createLocaleAccountType,
   renderCurrencies,
+  getMonthExpenses,
+  getMonthIncome,
 } from '../utils';
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
@@ -61,6 +63,8 @@ import { Dialog } from '@mui/material';
 import { archiveAccount } from '../../../actions/Actions.js';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 import {
+  convertPeriod,
+  getCurrentMonth,
   isDateCorrect,
   toStringDate,
 } from '../../../utils/format/date/index.js';
@@ -74,7 +78,13 @@ import {
   CommonInfoItem,
 } from './InfoAccount.styled.js';
 
-function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
+function InfoAccount({
+  clickedAccount,
+  accounts,
+  categories,
+  setOpenDialog,
+  transactions,
+}) {
   const dispatch = useDispatch();
   const header = useSelector((state) => state.header);
   const mainCurrency = header.profile ? header.profile.currency : names.USD;
@@ -96,13 +106,20 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [openDelAlert, setOpenDelAlert] = useState(false);
-
   const [isDescription, setIsDescription] = useState(
     isDescriptionCorrect(description),
   );
   const isBalance = isCashCorrect(balance);
   const isDate = isDateCorrect(date);
   const descHelperText = `ADD_ACCOUNT.DESCRIPTION_CANT_BE.${isDescription.status.toUpperCase()}`;
+  const expenses = getMonthExpenses(transactions, clickedAccount, mainCurrency);
+  const income = getMonthIncome(transactions, clickedAccount, mainCurrency);
+  const currentDate = getCurrentMonth();
+  const formattedDate = convertPeriod(
+    currentDate.from,
+    currentDate.during,
+    header.language,
+  );
 
   const archiveCallback = () => {
     setOpenDialog(false);
@@ -167,16 +184,24 @@ function InfoAccount({ clickedAccount, accounts, categories, setOpenDialog }) {
       <InfoCardContainer>
         <CommonInfoContainer>
           <CommonInfoItem>
-            <CommonInfoHeader>Expenses</CommonInfoHeader>
+            <CommonInfoHeader>
+              {formattedDate} {t('INFO_ACCOUNT.EXPENSES')}
+            </CommonInfoHeader>
             <div>
-              <CalcInfoAmount>$ 500,00</CalcInfoAmount>
+              <CalcInfoAmount>
+                {formatDineroOutput(expenses, mainCurrency)}
+              </CalcInfoAmount>
               <Stripe $type="expense" />
             </div>
           </CommonInfoItem>
           <CommonInfoItem>
-            <CommonInfoHeader>Income</CommonInfoHeader>
+            <CommonInfoHeader>
+              {formattedDate} {t('INFO_ACCOUNT.INCOME')}
+            </CommonInfoHeader>
             <div>
-              <CalcInfoAmount>$ 500,00</CalcInfoAmount>
+              <CalcInfoAmount>
+                {formatDineroOutput(income, mainCurrency)}
+              </CalcInfoAmount>
               <Stripe $type="income" />
             </div>
           </CommonInfoItem>
@@ -350,6 +375,7 @@ InfoAccount.propTypes = {
   accounts: PropTypes.array,
   categories: PropTypes.array,
   setOpenDialog: PropTypes.func,
+  transactions: PropTypes.array,
 };
 
 export default InfoAccount;

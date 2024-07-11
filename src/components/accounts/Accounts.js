@@ -63,6 +63,7 @@ import { formatDineroOutput } from '../../utils/format/cash/index.js';
 export default function Accounts() {
   const { status, accounts, filters } = useSelector((state) => state.accounts);
   const categories = useSelector((state) => state.categories);
+  const transactions = useSelector((state) => state.transactions);
   const header = useSelector((state) => state.header);
   const mainCurrency = header.profile ? header.profile.currency : names.USD;
   const dispatch = useDispatch();
@@ -87,7 +88,8 @@ export default function Accounts() {
 
   return status === 'loading' ||
     header.status === 'loading' ||
-    categories.status === 'loading' ? (
+    categories.status === 'loading' ||
+    transactions.status === 'loading' ? (
     <Loading />
   ) : (
     <>
@@ -256,6 +258,8 @@ export default function Accounts() {
           accounts={accounts}
           localeFilterAccount={localeFilterAccount}
           categories={categories.categories}
+          transactions={transactions.transactions}
+          mainCurrency={mainCurrency}
         />
       </Grid>
     </>

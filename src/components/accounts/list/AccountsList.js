@@ -51,10 +51,21 @@ import InfoAccount from '../infoAccount/InfoAccount.js';
 import ArchiveAlert from '../../alerts/ArchiveAlert.js';
 import Notes from '../../shared/Notes.js';
 import FilterItems from '../../shared/FilterItems.js';
+import { getMonthExpenses, getMonthIncome } from '../utils/index.js';
+import {
+  convertPeriod,
+  getCurrentMonth,
+} from '../../../utils/format/date/index.js';
 
-function AccountsList({ accounts, localeFilterAccount, categories }) {
+function AccountsList({
+  accounts,
+  localeFilterAccount,
+  categories,
+  transactions,
+  mainCurrency,
+}) {
   const filters = useSelector((state) => state.accounts.filters);
-
+  const header = useSelector((state) => state.header);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [clickedAccount, setClickedAccount] = useState('');
@@ -68,6 +79,8 @@ function AccountsList({ accounts, localeFilterAccount, categories }) {
     dispatch(archiveAccount(clickedAccount.id));
     idbAddItem({ ...clickedAccount, archived: true }, 'accounts');
   };
+  const date = getCurrentMonth();
+  const formattedDate = convertPeriod(date.from, date.during, header.language);
 
   return (
     <>
@@ -96,6 +109,7 @@ function AccountsList({ accounts, localeFilterAccount, categories }) {
           accounts={accounts}
           categories={categories}
           setOpenDialog={setOpenDialog}
+          transactions={transactions}
         />
       </InfoDialog>
       {accounts.length === 0 ? (
@@ -107,21 +121,35 @@ function AccountsList({ accounts, localeFilterAccount, categories }) {
       ) : searchData.length ? (
         searchData.map((account) => {
           const balance = dinero(account.balance);
+          const expenses = getMonthExpenses(
+            transactions,
+            account.id,
+            mainCurrency,
+          );
+          const income = getMonthIncome(transactions, account.id, mainCurrency);
           return (
             <CashListItem key={account.id}>
               <CommonInfoContainer>
                 <CommonInfoItem $type="expense">
-                  <CommonInfoHeader>July Expenses</CommonInfoHeader>
+                  <CommonInfoHeader>
+                    {formattedDate} {t('INFO_ACCOUNT.EXPENSES')}
+                  </CommonInfoHeader>
                   <CommonInfoHeader></CommonInfoHeader>
                   <div>
-                    <CalcInfoAmount>$ 500.00</CalcInfoAmount>
+                    <CalcInfoAmount>
+                      {formatDineroOutput(expenses, mainCurrency)}
+                    </CalcInfoAmount>
                     <Stripe $type="expense" />
                   </div>
                 </CommonInfoItem>
                 <CommonInfoItem>
-                  <CommonInfoHeader>July Income</CommonInfoHeader>
+                  <CommonInfoHeader>
+                    {formattedDate} {t('INFO_ACCOUNT.INCOME')}
+                  </CommonInfoHeader>
                   <div>
-                    <CalcInfoAmount>$ 500.00</CalcInfoAmount>
+                    <CalcInfoAmount>
+                      {formatDineroOutput(income, mainCurrency)}
+                    </CalcInfoAmount>
                     <Stripe $type="income" />
                   </div>
                 </CommonInfoItem>
@@ -212,6 +240,8 @@ AccountsList.propTypes = {
   filterAccount: PropTypes.string,
   localeFilterAccount: PropTypes.string,
   categories: PropTypes.array,
+  transactions: PropTypes.array,
+  mainCurrency: PropTypes.string,
 };
 
 export default AccountsList;

@@ -290,7 +290,9 @@
     "TAGS": "Теги",
     "TAGS_PLACEHOLDER": "",
     "DONE": "Готово",
-    "CANCEL": "Отмена"
+    "CANCEL": "Отмена",
+    "EXPENSES": "Расходы",
+    "INCOME": "Доход"
   },
   "ACCOUNTS_TRASH": {
     "ARCHIVED_ACCOUNTS": "Архив денежных средств",
