@@ -218,6 +218,7 @@
     "SHOW": "Показать"
   },
   "ACCOUNTS": {
+    "SEARCH": "Поиск денежных средств",
     "TOTAL_BALANCE": "Общий баланс",
     "ACCOUNTS_TITLE": "Денежные средства",
     "FILTER_KEY": "Все фильтры",
@@ -289,7 +290,9 @@
     "TAGS": "Теги",
     "TAGS_PLACEHOLDER": "",
     "DONE": "Готово",
-    "CANCEL": "Отмена"
+    "CANCEL": "Отмена",
+    "EXPENSES": "Расходы",
+    "INCOME": "Доход"
   },
   "ACCOUNTS_TRASH": {
     "ARCHIVED_ACCOUNTS": "Архив денежных средств",
@@ -352,6 +355,7 @@
     "SHOW": "Показать"
   },
   "CATEGORIES": {
+    "SEARCH": "Поиск по категориям",
     "TOTAL": "Всего",
     "CATEGORIES": {
       "ONE": "категория",

@@ -16,6 +16,7 @@ import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calend
 import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
 import { ReactComponent as SortIcon } from '../../assets/icons/shared/sort.svg';
 import { ReactComponent as ToggleMenuIcon } from '../../assets/icons/shared/menuDots.svg';
+import { ReactComponent as SearchIcon } from '../../assets/icons/shared/search.svg';
 
 import {
   MoreInformationContainer,
@@ -43,6 +44,7 @@ import {
   SortButtonsContainer,
   InfoDialog,
   ToggleMenu,
+  FilterMenuItem,
 } from '../../theme/global.js';
 import { pages } from '../../utils/constants/pages.js';
 import { Drawer, Grid, MenuItem } from '@mui/material';
@@ -61,6 +63,7 @@ import { formatDineroOutput } from '../../utils/format/cash/index.js';
 export default function Accounts() {
   const { status, accounts, filters } = useSelector((state) => state.accounts);
   const categories = useSelector((state) => state.categories);
+  const transactions = useSelector((state) => state.transactions);
   const header = useSelector((state) => state.header);
   const mainCurrency = header.profile ? header.profile.currency : names.USD;
   const dispatch = useDispatch();
@@ -74,8 +77,7 @@ export default function Accounts() {
   const [openDialog, setOpenDialog] = useState(false);
   const [openFilters, setOpenFilters] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [mobMenu, setMobMenu] = useState(null);
-  const openMobMenu = Boolean(mobMenu);
+  const [mobMenu, setMobMenu] = useState(false);
   const open = Boolean(anchorEl);
   const totalBalance = getTotalBalance(notArchivedAccounts, mainCurrency);
 
@@ -86,7 +88,8 @@ export default function Accounts() {
 
   return status === 'loading' ||
     header.status === 'loading' ||
-    categories.status === 'loading' ? (
+    categories.status === 'loading' ||
+    transactions.status === 'loading' ? (
     <Loading />
   ) : (
     <>
@@ -129,9 +132,7 @@ export default function Accounts() {
               </NavLink>
             </ArchivedTrash>
           </CustomTooltip>
-          <MobileFilterButton
-            onClick={(event) => setMobMenu(event.currentTarget)}
-          >
+          <MobileFilterButton onClick={() => setMobMenu(true)}>
             <FilterSvg as={ToggleMenuIcon} />
           </MobileFilterButton>
         </FilterButtonsContainer>
@@ -163,36 +164,54 @@ export default function Accounts() {
           {t('ACCOUNTS_FILTERS.BY_ADDING')}
         </MenuItem>
       </ToggleMenu>
-      <ToggleMenu
-        anchorEl={mobMenu}
-        open={openMobMenu}
-        onClose={() => setMobMenu(null)}
-      >
-        <MenuItem
+      <Drawer anchor="right" open={mobMenu} onClose={() => setMobMenu(false)}>
+        <FilterMenuItem
           onClick={() => {
-            setMobMenu(null);
+            setMobMenu(false);
+          }}
+        >
+          <FlexContainer>
+            <FilterSvg as={SearchIcon} />
+            {t('ACCOUNTS.SEARCH')}
+          </FlexContainer>
+        </FilterMenuItem>
+        <FilterMenuItem
+          onClick={() => {
+            setMobMenu(false);
             setOpenDialog(true);
           }}
         >
-          <FlexContainer>{t(`ACCOUNTS.ADD_ALL`)}</FlexContainer>
-        </MenuItem>
-        <MenuItem
+          <FlexContainer>
+            <FilterSvg as={AddIcon} />
+            {t(`ACCOUNTS.ADD_ALL`)}
+          </FlexContainer>
+        </FilterMenuItem>
+        <FilterMenuItem
           onClick={() => {
-            setMobMenu(null);
+            setMobMenu(false);
             setOpenFilters(true);
           }}
         >
-          <FlexContainer>{t('ACCOUNTS.FILTER_KEY')}</FlexContainer>
-        </MenuItem>
-        <MenuItem onClick={() => setMobMenu(null)}>
-          <FlexContainer>{t('ACCOUNTS.FILTER_DATE')}</FlexContainer>
-        </MenuItem>
-        <MenuItem onClick={() => setMobMenu(null)}>
+          <FlexContainer>
+            <FilterSvg as={FilterIcon} />
+            {t('ACCOUNTS.FILTER_KEY')}
+          </FlexContainer>
+        </FilterMenuItem>
+        <FilterMenuItem onClick={() => setMobMenu(false)}>
+          <FlexContainer>
+            <FilterSvg as={CalendarIcon} />
+            {t('ACCOUNTS.FILTER_DATE')}
+          </FlexContainer>
+        </FilterMenuItem>
+        <FilterMenuItem onClick={() => setMobMenu(false)}>
           <NavLink to={pages.accounts.trash.main}>
-            <FlexContainer>{t('ACCOUNTS.ARCHIVED')}</FlexContainer>
+            <FlexContainer>
+              <Trash as={TrashIcon} />
+              {t('ACCOUNTS.ARCHIVED')}
+            </FlexContainer>
           </NavLink>
-        </MenuItem>
-      </ToggleMenu>
+        </FilterMenuItem>
+      </Drawer>
       <Drawer
         anchor="right"
         open={openFilters}
@@ -239,6 +258,8 @@ export default function Accounts() {
           accounts={accounts}
           localeFilterAccount={localeFilterAccount}
           categories={categories.categories}
+          transactions={transactions.transactions}
+          mainCurrency={mainCurrency}
         />
       </Grid>
     </>

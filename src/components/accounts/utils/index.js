@@ -3,6 +3,7 @@ import { ReactComponent as CheckMarkIcon } from '../../../assets/icons/shared/ch
 import { MenuItem, styled } from '@mui/material';
 import { add, dinero } from 'dinero.js';
 import { currencies } from '../../../utils/constants/currencies';
+import { getCurrentMonth, toStringDate } from '../../../utils/format/date';
 
 const ColorContainer = styled('div')(() => ({
   width: '100%',
@@ -187,4 +188,29 @@ export const getTotalBalance = (data, mainCurrency) => {
     (sum, account) => add(sum, dinero(account.mainCurrencyBalance)),
     dinero({ amount: 0, currency: currencies[mainCurrency] }),
   );
+};
+
+export const getMonthCalcs = (transactions, accountId, mainCurrency, type) => {
+  const currentMonth = getCurrentMonth();
+
+  const filteredTransactions = transactions.filter((transaction) => {
+    return (
+      transaction.transactionType === type &&
+      transaction.account === accountId &&
+      transaction.date >= toStringDate(currentMonth.from) &&
+      transaction.date <= toStringDate(currentMonth.to)
+    );
+  });
+  return filteredTransactions.reduce(
+    (sum, transaction) => add(sum, dinero(transaction.mainCurrencyAmount)),
+    dinero({ amount: 0, currency: currencies[mainCurrency] }),
+  );
+};
+
+export const getMonthExpenses = (transactions, accountId, mainCurrency) => {
+  return getMonthCalcs(transactions, accountId, mainCurrency, 'expense');
+};
+
+export const getMonthIncome = (transactions, accountId, mainCurrency) => {
+  return getMonthCalcs(transactions, accountId, mainCurrency, 'income');
 };

@@ -15,6 +15,7 @@ import { ReactComponent as SortIcon } from '../../assets/icons/shared/sort.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/shared/calendar.svg';
 import { ReactComponent as AddIcon } from '../../assets/icons/shared/plus.svg';
 import { ReactComponent as ToggleMenuIcon } from '../../assets/icons/shared/menuDots.svg';
+import { ReactComponent as SearchIcon } from '../../assets/icons/shared/search.svg';
 
 import {
   Header,
@@ -28,6 +29,7 @@ import {
   SortButtonsContainer,
   MobileFilterButton,
   ToggleMenu,
+  FilterMenuItem,
 } from '../../theme/global.js';
 import Loading from '../loading/Loading.js';
 import { names } from '../../utils/constants/currencies.js';
@@ -51,8 +53,7 @@ export default function Transactions() {
   const [openFilters, setOpenFilters] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const [mobMenu, setMobMenu] = useState(null);
-  const openMobMenu = Boolean(mobMenu);
+  const [mobMenu, setMobMenu] = useState(false);
   const formattedDate = convertPeriod(
     filters.date.to,
     filters.date.during,
@@ -151,37 +152,50 @@ export default function Transactions() {
               <FilterTitle>{t('TRANSACTIONS.NEW_TRANSACTION')}</FilterTitle>
             </AddButton>
           </FilterTooltip>
-          <MobileFilterButton
-            onClick={(event) => setMobMenu(event.currentTarget)}
-          >
+          <MobileFilterButton onClick={() => setMobMenu(true)}>
             <FilterSvg as={ToggleMenuIcon} />
           </MobileFilterButton>
         </FilterButtonsContainer>
       </Header>
-      <ToggleMenu
-        anchorEl={mobMenu}
-        open={openMobMenu}
-        onClose={() => setMobMenu(null)}
-      >
-        <MenuItem
+      <Drawer anchor="right" open={mobMenu} onClose={() => setMobMenu(false)}>
+        <FilterMenuItem
           onClick={() => {
-            setMobMenu(null);
+            setMobMenu(false);
           }}
         >
-          <FlexContainer>{t('TRANSACTIONS.NEW_TRANSACTION')}</FlexContainer>
-        </MenuItem>
-        <MenuItem
+          <FlexContainer>
+            <FilterSvg as={SearchIcon} />
+            {t('TRANSACTIONS.SEARCH')}
+          </FlexContainer>
+        </FilterMenuItem>
+        <FilterMenuItem
           onClick={() => {
-            setMobMenu(null);
+            setMobMenu(false);
+          }}
+        >
+          <FlexContainer>
+            <FilterSvg as={AddIcon} />
+            {t('TRANSACTIONS.NEW_TRANSACTION')}
+          </FlexContainer>
+        </FilterMenuItem>
+        <FilterMenuItem
+          onClick={() => {
+            setMobMenu(false);
             setOpenFilters(true);
           }}
         >
-          <FlexContainer>{t('TRANSACTIONS.FILTER_KEY')}</FlexContainer>
-        </MenuItem>
-        <MenuItem onClick={() => setMobMenu(null)}>
-          <FlexContainer>{formattedDate}</FlexContainer>
-        </MenuItem>
-      </ToggleMenu>
+          <FlexContainer>
+            <FilterSvg as={FilterIcon} />
+            {t('TRANSACTIONS.FILTER_KEY')}
+          </FlexContainer>
+        </FilterMenuItem>
+        <FilterMenuItem onClick={() => setMobMenu(false)}>
+          <FlexContainer>
+            <FilterSvg as={CalendarIcon} />
+            {formattedDate}
+          </FlexContainer>
+        </FilterMenuItem>
+      </Drawer>
       <Drawer
         anchor="right"
         open={openFilters}

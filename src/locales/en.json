@@ -218,6 +218,7 @@
     "SHOW": "Show"
   },
   "ACCOUNTS": {
+    "SEARCH": "Search by accounts",
     "TOTAL_BALANCE": "Your accounts total balance",
     "ACCOUNTS_TITLE": "Accounts",
     "FILTER_KEY": "All filters",
@@ -289,7 +290,9 @@
     "TAGS": "Tags",
     "TAGS_PLACEHOLDER": "Click here to define some tags",
     "DONE": "Done",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "EXPENSES": "Expenses",
+    "INCOME": "Income"
   },
   "ACCOUNTS_TRASH": {
     "ARCHIVED_ACCOUNTS": "Archived Accounts",
@@ -352,6 +355,7 @@
     "SHOW": "Show"
   },
   "CATEGORIES": {
+    "SEARCH": "Search by categories",
     "TOTAL": "Total",
     "CATEGORIES": {
       "ONE": "category",
