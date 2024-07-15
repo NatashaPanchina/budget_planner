@@ -35,16 +35,40 @@ export const getLastMonth = () => {
   };
 };
 
+export const getLastDay = () => {
+  let date = new Date();
+  date.setDate(date.getDate() - 1);
+  return date;
+};
+
+const getStringDay = (date, locale) => {
+  const currentDate = dateFormatter.format(new Date());
+  const lastDate = dateFormatter.format(getLastDay());
+  const inputDate = dateFormatter.format(date);
+
+  if (currentDate === inputDate) return 'TODAY';
+  if (inputDate === lastDate) return 'YESTERDAY';
+
+  return date.toLocaleString(locale, {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+};
+
 export const convertPeriod = (date, during, language) => {
   const locale = getLanguageLocale(language);
-
   if (!date) return null;
 
   switch (during) {
+    case 'day':
+      return getStringDay(date, locale);
     case 'week':
       return date.getDate();
     case 'month':
       return date.toLocaleString(locale, { month: 'long' });
+    case 'month_year':
+      return date.toLocaleString(locale, { month: 'long', year: 'numeric' });
     case 'year':
       return date.getFullYear();
     default:

@@ -182,7 +182,7 @@ function TransactionsAnalysis({
       </PeriodsContainer>
       <CalendarContainer>
         <FilterCalendarSvg as={CalendarIcon} />
-        June, 2024
+        {convertPeriod(date.from, 'month_year', language)}
       </CalendarContainer>
       <Grid item xs={12} sm={12} md={4} lg={4}>
         <CountTransactionsItem>
