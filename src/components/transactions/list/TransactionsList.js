@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { dinero } from 'dinero.js';
 
 import { formatDineroOutput } from '../../../utils/format/cash';
-import { dateFormatter } from '../../../utils/format/date';
+import { convertPeriod, dateFormatter } from '../../../utils/format/date';
 
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
@@ -162,6 +162,16 @@ function TransactionsList({ transactions, accounts, categories }) {
             const transactionDate = dateFormatter.format(
               new Date(transaction.date),
             );
+            const date = convertPeriod(
+              new Date(transaction.date),
+              'day',
+              header.language,
+            );
+            const formattedDate =
+              date === 'YESTERDAY' || date === 'TODAY'
+                ? t(`TRANSACTIONS.${date}`)
+                : date;
+
             //for date title (grouping transactions by date)
             const prevTransaction = index > 0 ? array[index - 1] : null;
             const prevDate = prevTransaction
@@ -172,10 +182,10 @@ function TransactionsList({ transactions, accounts, categories }) {
               <div key={transaction.id}>
                 {/** grouping transactions by date */}
                 {index === 0 && (
-                  <MobTransactionDate>{transactionDate}</MobTransactionDate>
+                  <MobTransactionDate>{formattedDate}</MobTransactionDate>
                 )}
                 {prevDate && transactionDate !== prevDate ? (
-                  <MobTransactionDate>{transactionDate}</MobTransactionDate>
+                  <MobTransactionDate>{formattedDate}</MobTransactionDate>
                 ) : null}
                 <ListItemContainer>
                   <TransactionItem
@@ -213,9 +223,7 @@ function TransactionsList({ transactions, accounts, categories }) {
                         transaction.amount.currency.code,
                       )}
                     </Amount>
-                    <TransactionDate>
-                      {dateFormatter.format(new Date(transaction.date))}
-                    </TransactionDate>
+                    <TransactionDate>{formattedDate}</TransactionDate>
                     <Notes notes={transaction.notes} />
                   </TransactionItem>
                   <ItemButtonsContainer>
