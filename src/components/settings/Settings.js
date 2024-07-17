@@ -1,6 +1,7 @@
 import { Grid, InputAdornment, styled } from '@mui/material';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ReactComponent as CurrencySvg } from '../../assets/icons/settings/currency.svg';
 import { ReactComponent as AccountSvg } from '../../assets/icons/settings/profile.svg';
 import { ReactComponent as DevicesSvg } from '../../assets/icons/settings/devices.svg';
 import { ReactComponent as SecuritySvg } from '../../assets/icons/settings/security.svg';
@@ -13,27 +14,23 @@ import { ReactComponent as SearchIcon } from '../../assets/icons/shared/search.s
 import { ReactComponent as CancelSearchIcon } from '../../assets/icons/shared/cancelSearch.svg';
 import {
   FirstMainOption,
-  MainContainer,
   MainOption,
   OptionContainer,
   OptionSvg,
   OptionsContainer,
 } from './Settings.styled';
-import { Outlet } from 'react-router-dom';
 import { pages } from '../../utils/constants/pages';
-import { CancelSearchSvg, SearchField } from '../../theme/global';
+import { CancelSearchSvg, Header, SearchField } from '../../theme/global';
 
 const SettingsOptions = styled('div')((props) => ({
-  position: 'sticky',
-  top: props.theme.spacing(14),
-  height: `calc(100vh - ${props.theme.spacing(14 + 5 + 8)})`,
-  overflowY: 'auto',
-  '&::-webkit-scrollbar': {
-    width: 0,
-  },
-  paddingTop: props.theme.spacing(5),
-  paddingBottom: props.theme.spacing(8),
   '@media (min-width: 600px)': {
+    overflowY: 'auto',
+    '&::-webkit-scrollbar': {
+      width: 0,
+    },
+    paddingTop: props.theme.spacing(5),
+    position: 'sticky',
+    top: props.theme.spacing(14),
     height: `calc(100vh - ${props.theme.spacing(14 + 5)})`,
     paddingBottom: 0,
   },
@@ -44,26 +41,15 @@ const Search = styled(SearchField)(() => ({
   marginBottom: 0,
 }));
 
-const SettingsTitle = styled('div')(() => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: 60,
-  fontSize: '1.3rem',
-  '@media (min-width: 600px)': {
-    display: 'none',
-  },
-}));
-
 export default function Settings() {
   const { t } = useTranslation();
   const [query, setQuery] = useState('');
 
   return (
     <>
+      <Header>{t('SETTINGS.SETTINGS')}</Header>
       <Grid item xs={12} sm={3} md={3} lg={3}>
         <SettingsOptions>
-          <SettingsTitle>{t('SETTINGS.SETTINGS')}</SettingsTitle>
           <Search
             placeholder={t('SETTINGS.SEARCH_SETTINGS')}
             value={query}
@@ -108,7 +94,7 @@ export default function Settings() {
               {t('SETTINGS.LANGUAGE')}
             </OptionContainer>
             <OptionContainer to={pages.settings.mainCurrency}>
-              <OptionSvg as={NotificationsSvg} />
+              <OptionSvg as={CurrencySvg} />
               {t('SETTINGS.MAIN_CURRENCY')}
             </OptionContainer>
             <OptionContainer to={pages.settings.notifications}>
@@ -131,11 +117,11 @@ export default function Settings() {
           <MainOption>{t('SETTINGS.LOG_OUT')}</MainOption>
         </SettingsOptions>
       </Grid>
-      <Grid item xs={12} sm={9} md={9} lg={9}>
+      {/* <Grid item xs={12} sm={9} md={9} lg={9}>
         <MainContainer>
           <Outlet />
         </MainContainer>
-      </Grid>
+      </Grid> */}
     </>
   );
 }

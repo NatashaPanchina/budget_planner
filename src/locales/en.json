@@ -492,6 +492,7 @@
     "ACCOUNT_INFO": {
       "MY_ACCOUNT": "My account",
       "UPLOAD_PHOTO": "Upload a new photo",
+      "SIGN_OUT": "Sign out from account",
       "ACCOUNT_INFORMATION": "Account information",
       "EDIT": "Edit",
       "AUTH": "Authentification",

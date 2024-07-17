@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as DesktopSvg } from '../../../../assets/icons/shared/desktopDevice.svg';
 import { ReactComponent as MobileSvg } from '../../../../assets/icons/shared/mobileDevice.svg';
 import { styled } from '@mui/material';
+import { getDeviceInfo } from './utils';
 
 const Svg = styled('svg')((props) => ({
   width: 60,
@@ -31,6 +32,11 @@ const ItemBlock = styled(ItemContainer)((props) => ({
 
 export default function Devices() {
   const { t } = useTranslation();
+  const currentDevice = getDeviceInfo();
+  const OS = currentDevice.OS ? currentDevice.OS : 'Hidden';
+  const browser = currentDevice.browser ? currentDevice.browser : '';
+  const location = currentDevice.location;
+  console.log(window.navigator);
 
   return (
     <MobContainer>
@@ -46,8 +52,8 @@ export default function Devices() {
         <FlexContainer>
           <Svg as={DesktopSvg} />
           <div>
-            <div>Windows * Google Chrome</div>
-            <div>Almaty, Kazakhstan</div>
+            <div>{`${OS} * ${browser}`}</div>
+            <div>{location}</div>
           </div>
         </FlexContainer>
       </SingleContainer>

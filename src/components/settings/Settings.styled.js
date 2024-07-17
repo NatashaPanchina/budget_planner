@@ -83,9 +83,12 @@ export const MainContainer = styled('div')((props) => ({
 }));
 
 export const MobContainer = styled('div')((props) => ({
+  backgroundColor: props.theme.colors.background.primary,
   padding: `${props.theme.spacing(5)} ${props.theme.spacing(2)}`,
-  width: '100%',
-  ' @media (min-width: 600px)': {
+  width: `calc(100% - ${props.theme.spacing(2 * 2)})`,
+  height: `calc(100vh - ${props.theme.spacing(5 * 2)})`,
+  '@media (min-width: 600px)': {
+    background: 'none',
     marginBottom: 0,
     padding: 0,
   },
@@ -95,8 +98,12 @@ export const Title = styled('div')((props) => ({
   fontSize: '1.1rem',
   fontWeight: 500,
   padding: props.theme.spacing(4),
-  paddingTop: props.theme.spacing(5),
-  paddingLeft: 0,
+  paddingTop: props.theme.spacing(6),
+  paddingBottom: props.theme.spacing(3),
+  '@media (min-width: 600px)': {
+    padding: props.theme.spacing(4),
+    paddingLeft: 0,
+  },
 }));
 
 export const FirstTitle = styled(Title)(() => ({
@@ -119,11 +126,13 @@ export const SingleContainer = styled(FlexContainer)((props) => ({
 }));
 
 export const MultilineContainer = styled('div')((props) => ({
-  borderTop: `1px solid ${props.theme.colors.text.ordinary}`,
-  borderBottom: `1px solid ${props.theme.colors.text.ordinary}`,
   padding: props.theme.spacing(2),
+  paddingTop: 0,
   paddingLeft: props.theme.spacing(4),
   '@media (min-width: 600px)': {
+    paddingTop: props.theme.spacing(2),
+    borderTop: `1px solid ${props.theme.colors.text.ordinary}`,
+    borderBottom: `1px solid ${props.theme.colors.text.ordinary}`,
     paddingLeft: props.theme.spacing(8),
     paddingRight: props.theme.spacing(5),
   },
@@ -158,19 +167,26 @@ export const Button = styled(FlexContainer)((props) => ({
 }));
 
 export const EditButton = styled(Button)((props) => ({
-  border: `1px solid ${props.theme.colors.main.violet}`,
+  '@media (min-width: 600px)': {
+    border: `1px solid ${props.theme.colors.main.violet}`,
+    padding: props.theme.spacing(1.5),
+    paddingLeft: props.theme.spacing(3),
+    paddingRight: props.theme.spacing(3),
+    borderRadius: props.theme.borderRadius,
+    width: 'fit-content',
+    '&:hover': {
+      boxShadow: `0px 4px 10px ${alpha(props.theme.colors.main.violet, 0.2)}`,
+      transition: 'box-shadow 0.3s ease-out',
+    },
+  },
+}));
+
+export const DeleteButton = styled(EditButton)((props) => ({
   padding: props.theme.spacing(1.5),
   paddingLeft: props.theme.spacing(3),
   paddingRight: props.theme.spacing(3),
   borderRadius: props.theme.borderRadius,
   width: 'fit-content',
-  '&:hover': {
-    boxShadow: `0px 4px 10px ${alpha(props.theme.colors.main.violet, 0.2)}`,
-    transition: 'box-shadow 0.3s ease-out',
-  },
-}));
-
-export const DeleteButton = styled(EditButton)((props) => ({
   border: `1px solid ${props.theme.colors.expense}`,
   color: props.theme.colors.expense,
   '&:hover': {

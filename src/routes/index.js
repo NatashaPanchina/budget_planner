@@ -107,14 +107,6 @@ export const router = createBrowserRouter([
         element: <Settings />,
         children: [
           {
-            path: 'account',
-            element: <Account />,
-          },
-          {
-            path: 'devices',
-            element: <Devices />,
-          },
-          {
             path: 'security',
             element: <Security />,
           },
@@ -143,6 +135,14 @@ export const router = createBrowserRouter([
             element: <StorageUsage />,
           },
         ],
+      },
+      {
+        path: 'settings/account',
+        element: <Account />,
+      },
+      {
+        path: 'settings/devices',
+        element: <Devices />,
       },
     ],
   },

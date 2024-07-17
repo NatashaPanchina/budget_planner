@@ -63,7 +63,7 @@ function Account() {
       <FirstTitle>{t('SETTINGS.ACCOUNT_INFO.MY_ACCOUNT')}</FirstTitle>
       <SingleContainer>
         <FlexContainer>
-          <AvatarSvg />
+          <Svg as={AvatarSvg} />
           {header.profile ? header.profile.displayName : 'Anonymous'}
         </FlexContainer>
         <Button>
@@ -76,7 +76,7 @@ function Account() {
           logOut(dispatch, navigate);
         }}
       >
-        Sign out from account
+        {t('SETTINGS.ACCOUNT_INFO.SIGN_OUT')}
       </SignOutButton>
       <Title>{t('SETTINGS.ACCOUNT_INFO.ACCOUNT_INFORMATION')}</Title>
       <MultilineContainer>
