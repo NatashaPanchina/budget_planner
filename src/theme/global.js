@@ -212,7 +212,7 @@ export const Header = styled('div')((props) => ({
   backgroundColor: props.theme.colors.background.body,
   padding: props.theme.spacing(4),
   '@media (min-width: 768px)': {
-    top: props.theme.spacing(14),
+    top: props.theme.spacing(12),
   },
 }));
 

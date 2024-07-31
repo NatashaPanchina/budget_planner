@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../../../loading/Loading';
+import defaultAvatar from '../../../../assets/imgs/avatar-girl-1.png';
 import { ReactComponent as CameraSvg } from '../../../../assets/icons/shared/photo.svg';
-import { ReactComponent as AvatarSvg } from '../../../../assets/icons/shared/avatar.svg';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import {
@@ -26,6 +26,11 @@ import { alpha } from '@mui/material';
 
 const Svg = styled('svg')((props) => ({
   paddingRight: props.theme.spacing(2),
+}));
+
+const ProfilePicture = styled('img')((props) => ({
+  height: 60,
+  marginRight: props.theme.spacing(2),
 }));
 
 const UploadPhoto = styled('span')(() => ({
@@ -52,6 +57,7 @@ function Account() {
   const header = useSelector((state) => state.header);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [avatar] = useState('');
   const [displayName, setDisplayName] = useState('Anonymous');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -63,7 +69,14 @@ function Account() {
       <FirstTitle>{t('SETTINGS.ACCOUNT_INFO.MY_ACCOUNT')}</FirstTitle>
       <SingleContainer>
         <FlexContainer>
-          <Svg as={AvatarSvg} />
+          {header.profile.photoURL ? (
+            <ProfilePicture
+              alt="profile-picture"
+              src={header.profile.photoURL}
+            />
+          ) : (
+            <ProfilePicture alt="profile-picture" src={defaultAvatar} />
+          )}
           {header.profile ? header.profile.displayName : 'Anonymous'}
         </FlexContainer>
         <Button>

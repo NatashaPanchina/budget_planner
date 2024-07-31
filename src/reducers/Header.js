@@ -31,6 +31,7 @@ const initialState = {
   profile: {
     displayName: 'Anonymous',
     currency: 'USD',
+    photoURL: '',
     backupDate: Date.now(),
   },
 };

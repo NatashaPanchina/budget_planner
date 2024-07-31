@@ -11,7 +11,7 @@ export default function Root() {
     paddingTop: 0,
     paddingBottom: 14,
     '@media (min-width: 600px)': {
-      paddingTop: 14,
+      paddingTop: 12,
       paddingLeft: 20,
       paddingRight: 3,
     },
