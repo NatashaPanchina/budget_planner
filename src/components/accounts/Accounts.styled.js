@@ -170,6 +170,7 @@ export const CashListItem = styled('div')((props) => ({
   alignItems: 'start',
   marginTop: props.theme.spacing(3),
   marginBottom: props.theme.spacing(7),
+  minHeight: 236,
   '@media (min-width: 900px)': {
     justifyContent: 'start',
   },
@@ -193,6 +194,12 @@ export const Card = styled('div', {
   background: `url(${props.$cardBackground}) 0% 0% / cover no-repeat, linear-gradient(90deg, ${props.$from} 0%, ${props.$to} 100%)`,
   boxShadow: `0px 7px 20px ${alpha(props.$from, 0.4)}`,
   color: props.theme.colors.white,
+  '&:hover' : {
+    height: 230,
+    width: 351,
+    boxShadow: `0px 7px 20px ${alpha(props.$from, 0.6)}`,
+    transition: 'all 0.4s ease-out'
+  }
 }));
 
 export const CardView = styled(Card)((props) => ({
@@ -302,9 +309,6 @@ export const CommonInfoItem = styled('div', {
     margin: 0,
     padding: `${props.theme.spacing(6)} ${props.theme.spacing(4)}`,
     display: 'block',
-  },
-  '@media (min-width: 900px)': {
-    textAlign: 'left',
   },
 }));
 

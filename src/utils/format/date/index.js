@@ -24,8 +24,9 @@ export const getCurrentMonth = () => {
 
 export const getLastMonth = () => {
   let from = new Date();
-  from.setMonth(from.getMonth() - 1);
   from.setDate(1);
+  const fromMonth = from.getMonth() - 1;
+  from.setMonth(fromMonth);
   let to = new Date();
   to.setDate(0);
   return {

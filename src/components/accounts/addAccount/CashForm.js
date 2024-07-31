@@ -53,9 +53,7 @@ function CashForm({ accounts, categories, setOpenDialog }) {
   const { t } = useTranslation();
   const [description, setDescription] = useState('');
   const [currency, setCurrency] = useState(mainCurrency);
-  const [balance, setBalance] = useState(
-    toDecimal(dinero({ amount: 0, currency: currencies[currency] })),
-  );
+  const [balance, setBalance] = useState('0');
   const [selectedColor, setSelectedColor] = useState(colors.green[700]);
   const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');

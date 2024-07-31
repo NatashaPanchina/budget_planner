@@ -7,13 +7,9 @@ import { fetchCategoriesData, fetchAccountsData } from '../../actions/Actions';
 import ExpenseTransactionForm from './expense/ExpenseTransactionForm';
 import IncomeTransactionForm from './income/IncomeTransactionForm';
 
-import { ReactComponent as ExpenseIcon } from '../../assets/icons/shared/newExpense.svg';
-import { ReactComponent as IncomeIcon } from '../../assets/icons/shared/newIncome.svg';
-import { ReactComponent as TransferIcon } from '../../assets/icons/shared/newTransfer.svg';
-
 import TransferTransactionForm from './transfer/TransferTransactionForm';
-import { HeaderSvg, HeaderTitleLink } from './NewTransaction.styled';
-import { AddFormHeader, MobHeaderTitle } from '../../theme/global';
+import { Header, HeaderTitleLink } from './NewTransaction.styled';
+import { MobHeaderTitle } from '../../theme/global';
 import { getMobileTitle } from './utils';
 import Loading from '../loading/Loading';
 import { names } from '../../utils/constants/currencies';
@@ -111,7 +107,7 @@ function NewTransaction({ setOpenDialog, type }) {
 
   return (
     <>
-      <AddFormHeader>
+      <Header>
         <HeaderTitleLink
           $linkType="expense"
           $isActive={transactionType === 'expense'}
@@ -133,7 +129,7 @@ function NewTransaction({ setOpenDialog, type }) {
         >
           {t('NEW_TRANSACTION.TITLE.TRANSFER')}
         </HeaderTitleLink>
-      </AddFormHeader>
+      </Header>
       <MobHeaderTitle>{getMobileTitle(transactionType, t)}</MobHeaderTitle>
       {header.status === 'loading' ||
       accounts.status === 'loading' ||

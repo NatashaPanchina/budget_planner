@@ -30,10 +30,12 @@ export const FilterSvg = styled('svg')((props) => ({
     fill: props.theme.colors.text.darkest,
   },
   '@media (min-width: 900px)': {
-    marginRight: props.theme.spacing(3),
     '& path': {
       fill: props.theme.colors.main.violet,
     },
+  },
+  '@media (min-width: 1000px)': {
+    marginRight: props.theme.spacing(3),
   },
 }));
 

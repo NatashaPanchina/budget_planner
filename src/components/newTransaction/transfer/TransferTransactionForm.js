@@ -28,9 +28,7 @@ function TransferTransactionForm({ accounts, setOpenDialog }) {
   const transactionType = 'transfer';
   const [originAccount, setOriginAccount] = useState('');
   const [destAccount, setDestAccount] = useState('');
-  const [amount, setAmount] = useState(
-    toDecimal(dinero({ amount: 0, currency: currencies.USD })),
-  );
+  const [amount, setAmount] = useState('0');
   const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState([]);

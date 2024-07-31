@@ -11,6 +11,12 @@ import {
 } from '../../../theme/global';
 import { styled } from '@mui/material';
 
+export const Header = styled(AddFormHeader)(() => ({
+  '@media (min-width: 600px)': {
+    padding: 0,
+  },
+}));
+
 const TitleLink = styled('div', {
   shouldForwardProp: (prop) => prop !== '$isActive',
 })((props) => ({
@@ -42,7 +48,7 @@ function AddAccount({ accounts, categories, setOpenDialog }) {
       <MobHeaderTitle>
         {t(`ADD_ACCOUNT.${createLocaleAccountType(accountType)}`)}
       </MobHeaderTitle>
-      <AddFormHeader>
+      <Header>
         <AddFormHeaderTitles>
           <TitleLink
             $isActive={accountType === 'card' || accountType === 'all'}
@@ -57,7 +63,7 @@ function AddAccount({ accounts, categories, setOpenDialog }) {
             {t('ADD_ACCOUNT.CASH')}
           </TitleLink>
         </AddFormHeaderTitles>
-      </AddFormHeader>
+      </Header>
       <AccountForm
         accounts={accounts}
         categories={categories}

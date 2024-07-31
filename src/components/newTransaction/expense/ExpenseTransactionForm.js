@@ -42,9 +42,7 @@ function ExpenseTransactionForm({
   const [category, setCategory] = useState('');
   const [account, setAccount] = useState('');
   const [currency, setCurrency] = useState(mainCurrency);
-  const [amount, setAmount] = useState(
-    toDecimal(dinero({ amount: 0, currency: currencies[currency] })),
-  );
+  const [amount, setAmount] = useState('0');
   const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState([]);
