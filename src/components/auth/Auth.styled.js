@@ -47,6 +47,7 @@ export const LogoTitle = styled('svg')((props) => ({
 export const SignInContainer = styled('div')((props) => ({
   textAlign: 'center',
   width: `calc(100% - ${props.theme.spacing(2 * 2)})`,
+  minHeight: 448,
   padding: `${props.theme.spacing(5)} ${props.theme.spacing(2)}`,
   marginLeft: 'auto',
   marginRight: 'auto',
@@ -63,6 +64,7 @@ export const SignInContainer = styled('div')((props) => ({
     width: `calc(50% - ${props.theme.spacing(5 * 2)})`,
     maxWidth: 450,
     maxHeight: 470,
+    minHeight: 400,
   },
 }));
 
@@ -227,4 +229,10 @@ export const ErrorHelperText = styled('div', {
 })((props) => ({
   display: props.$isShowError ? 'block' : 'none',
   color: props.theme.colors.error,
+}));
+
+export const ProgressCotainer = styled(FlexContainer)(() => ({
+  height: 200,
+  width: '100%',
+  justifyContent: 'center',
 }));

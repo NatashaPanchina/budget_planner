@@ -11,6 +11,7 @@ import {
   LogoTitle,
   MainButton,
   OrdinaryText,
+  ProgressCotainer,
   ProviderSvg,
   SignInContainer,
   SignInTitle,
@@ -31,8 +32,10 @@ import {
   signUpWithGooglePopup,
   signUpWithPassword,
 } from './utils';
+import { CircularProgress } from '@mui/material';
 
 export default function Signup() {
+  const [status, setStatus] = useState('idle');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSignUpCorrect, setIsSignUpCorrect] = useState({
@@ -62,65 +65,77 @@ export default function Signup() {
       </LogoContainer>
       <SignInContainer>
         <SignInTitle>{t('SIGN_UP.SIGN_UP')}</SignInTitle>
-        <SignInWithAcc
-          onClick={() =>
-            signUpWithGooglePopup(
-              googleProvider,
-              dispatch,
-              navigate,
-              setIsSignUpCorrect,
-            )
-          }
-        >
-          {t('SIGN_UP.SIGN_UP_WITH_GOOGLE')}
-          <ProviderSvg as={GoogleIcon} />
-        </SignInWithAcc>
-        <OrdinaryText>{t('SIGN_UP.OR')}</OrdinaryText>
-        <TextInputField
-          margin="normal"
-          required
-          label={t('SIGN_UP.EMAIL_ADDRESS')}
-          autoComplete="off"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-        <TextInputField
-          type="password"
-          margin="normal"
-          required
-          label={t('SIGN_UP.PASSWORD')}
-          autoComplete="off"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        <ErrorHelperText $isShowError={!isSignUpCorrect.correct}>
-          {t(signUpHelperText)}
-        </ErrorHelperText>
-        <MainButton
-          onClick={() =>
-            signUpWithPassword(
-              email,
-              password,
-              dispatch,
-              navigate,
-              setIsSignUpCorrect,
-            )
-          }
-        >
-          {t('SIGN_UP.SIGN_UP_WITH_EMAIL')}
-        </MainButton>
-        <SignInWithoutAcc
-          onClick={() => signUpAnonym(auth, dispatch, navigate)}
-        >
-          {t('SIGN_UP.CONTINUE_WITHOUT_ACCOUNT')}
-        </SignInWithoutAcc>
+        {status === 'loading' ? (
+          <ProgressCotainer>
+            <CircularProgress />
+          </ProgressCotainer>
+        ) : (
+          <>
+            <SignInWithAcc
+              onClick={() =>
+                signUpWithGooglePopup(
+                  googleProvider,
+                  dispatch,
+                  navigate,
+                  setIsSignUpCorrect,
+                  setStatus,
+                )
+              }
+            >
+              {t('SIGN_UP.SIGN_UP_WITH_GOOGLE')}
+              <ProviderSvg as={GoogleIcon} />
+            </SignInWithAcc>
+            <OrdinaryText>{t('SIGN_UP.OR')}</OrdinaryText>
+            <TextInputField
+              margin="normal"
+              required
+              label={t('SIGN_UP.EMAIL_ADDRESS')}
+              autoComplete="off"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+            <TextInputField
+              type="password"
+              margin="normal"
+              required
+              label={t('SIGN_UP.PASSWORD')}
+              autoComplete="off"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+            <ErrorHelperText $isShowError={!isSignUpCorrect.correct}>
+              {t(signUpHelperText)}
+            </ErrorHelperText>
+            <MainButton
+              onClick={() =>
+                signUpWithPassword(
+                  email,
+                  password,
+                  dispatch,
+                  navigate,
+                  setIsSignUpCorrect,
+                  setStatus,
+                )
+              }
+            >
+              {t('SIGN_UP.SIGN_UP_WITH_EMAIL')}
+            </MainButton>
+            <SignInWithoutAcc
+              onClick={() => signUpAnonym(auth, dispatch, navigate)}
+            >
+              {t('SIGN_UP.CONTINUE_WITHOUT_ACCOUNT')}
+            </SignInWithoutAcc>
+          </>
+        )}
       </SignInContainer>
-      <FooterMessage>
-        {t('SIGN_UP.HAVE_AN_ACCOUNT')}{' '}
-        <FooterMessageLink to={pages.signin}>
-          {t('SIGN_UP.SIGN_IN')}
-        </FooterMessageLink>
-      </FooterMessage>
+      {status === 'loading' ? null : (
+        <FooterMessage>
+          {t('SIGN_UP.HAVE_AN_ACCOUNT')}{' '}
+          <FooterMessageLink to={pages.signin}>
+            {t('SIGN_UP.SIGN_IN')}
+          </FooterMessageLink>
+        </FooterMessage>
+      )}
     </Container>
   );
 }

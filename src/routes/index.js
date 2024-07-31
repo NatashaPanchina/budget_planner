@@ -127,10 +127,6 @@ export const router = createBrowserRouter([
             element: <Notifications />,
           },
           {
-            path: 'dataBackup',
-            element: <DataBackup />,
-          },
-          {
             path: 'storageUsage',
             element: <StorageUsage />,
           },
@@ -143,6 +139,10 @@ export const router = createBrowserRouter([
       {
         path: 'settings/devices',
         element: <Devices />,
+      },
+      {
+        path: 'settings/dataBackup',
+        element: <DataBackup />,
       },
     ],
   },
