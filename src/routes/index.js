@@ -105,32 +105,6 @@ export const router = createBrowserRouter([
       {
         path: 'settings',
         element: <Settings />,
-        children: [
-          {
-            path: 'security',
-            element: <Security />,
-          },
-          {
-            path: 'appearance',
-            element: <Appearance />,
-          },
-          {
-            path: 'language',
-            element: <Language />,
-          },
-          {
-            path: 'mainCurrency',
-            element: <MainCurrency />,
-          },
-          {
-            path: 'notifications',
-            element: <Notifications />,
-          },
-          {
-            path: 'storageUsage',
-            element: <StorageUsage />,
-          },
-        ],
       },
       {
         path: 'settings/account',
@@ -143,6 +117,30 @@ export const router = createBrowserRouter([
       {
         path: 'settings/dataBackup',
         element: <DataBackup />,
+      },
+      {
+        path: 'settings/security',
+        element: <Security />,
+      },
+      {
+        path: 'settings/appearance',
+        element: <Appearance />,
+      },
+      {
+        path: 'settings/language',
+        element: <Language />,
+      },
+      {
+        path: 'settings/mainCurrency',
+        element: <MainCurrency />,
+      },
+      {
+        path: 'settings/notifications',
+        element: <Notifications />,
+      },
+      {
+        path: 'settings/storageUsage',
+        element: <StorageUsage />,
       },
     ],
   },

@@ -1,16 +1,22 @@
 import { FormControlLabel, Radio, Switch, alpha, styled } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
+export const FlexContainer = styled('div')(() => ({
+  display: 'flex',
+  alignItems: 'center',
+}));
+
 export const MainOption = styled('div')((props) => ({
   display: 'flex',
   alignItems: 'center',
-  marginTop: props.theme.spacing(5),
   padding: props.theme.spacing(2),
+  paddingBottom: props.theme.spacing(4),
   color: props.theme.colors.text.darker,
   fontSize: '0.95rem',
   '@media (min-width: 600px)': {
     fontSize: '1rem',
     color: props.theme.colors.text.primary,
+    padding: props.theme.spacing(2),
   },
 }));
 
@@ -19,12 +25,13 @@ export const FirstMainOption = styled(MainOption)((props) => ({
 }));
 
 export const OptionsContainer = styled('div')((props) => ({
-  marginBottom: props.theme.spacing(5),
   padding: props.theme.spacing(2),
   color: props.theme.colors.text.primary,
   backgroundColor: props.theme.colors.background.primary,
   borderRadius: props.theme.borderRadius,
   '@media (min-width: 600px)': {
+    display: 'flex',
+    flexWrap: 'wrap',
     fontSize: '0.95rem',
     paddingLeft: props.theme.spacing(4),
     color: props.theme.colors.text.darker,
@@ -38,17 +45,38 @@ export const OptionsContainer = styled('div')((props) => ({
 export const OptionContainer = styled(NavLink)((props) => ({
   display: 'flex',
   alignItems: 'center',
-  paddingTop: props.theme.spacing(3),
-  paddingBottom: props.theme.spacing(3),
-  color: 'inherit',
-  fill: props.theme.colors.text.darker,
-  '@media (min-width: 600px)': {
-    paddingTop: props.theme.spacing(1.5),
-    paddingBottom: props.theme.spacing(2),
+  padding: props.theme.spacing(3),
+  paddingBottom: props.theme.spacing(4),
+  fill: props.theme.colors.main.gold,
+  color: props.theme.colors.text.primary,
+  '&:hover': {
+    boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
+    color: props.theme.colors.text.primary,
+    transition: 'all 0.3s ease-out',
   },
-  '&.active': {
-    fill: props.theme.colors.main.violet,
-    color: props.theme.colors.main.violet,
+  '@media (min-width: 600px)': {
+    flexWrap: 'wrap',
+    color: props.theme.colors.text.darker,
+    textAlign: 'center',
+    backgroundColor: props.theme.colors.background.primary,
+    marginBottom: props.theme.spacing(4),
+    marginRight: props.theme.spacing(3),
+    borderRadius: props.theme.borderRadius * 2,
+    width: `calc(50% - ${props.theme.spacing(3 * 2)})`,
+    padding: props.theme.spacing(3),
+  },
+  '@media (min-width: 768px)': {
+    width: `calc(33.33% - ${props.theme.spacing(3 * 2)})`,
+  },
+  '@media (min-width: 1000px)': {
+    width: `calc(25% - ${props.theme.spacing(5 * 2)})`,
+  },
+}));
+
+export const SvgContainer = styled(FlexContainer)(() => ({
+  '@media (min-width: 600px)': {
+    width: '100%',
+    justifyContent: 'center',
   },
 }));
 
@@ -59,13 +87,20 @@ export const OptionSvg = styled('svg')((props) => ({
     fill: 'inherit',
   },
   '@media (min-width: 600px)': {
-    display: 'none',
+    padding: 0,
+  },
+}));
+
+export const OptionDesc = styled('div')((props) => ({
+  '@media (min-width: 600px)': {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: props.theme.spacing(2),
   },
 }));
 
 export const MainContainer = styled('div')((props) => ({
   fontSize: '0.95rem',
-  marginTop: props.theme.spacing(5),
   marginBottom: props.theme.spacing(5),
   padding: `${props.theme.spacing(5)} ${props.theme.spacing(2)}`,
   height: `calc(100% - ${props.theme.spacing(5 * 2 + 5)})`,
@@ -108,11 +143,6 @@ export const Title = styled('div')((props) => ({
 
 export const FirstTitle = styled(Title)(() => ({
   paddingTop: 0,
-}));
-
-export const FlexContainer = styled('div')(() => ({
-  display: 'flex',
-  alignItems: 'center',
 }));
 
 export const SingleContainer = styled(FlexContainer)((props) => ({
@@ -259,5 +289,17 @@ export const CustomSwitch = styled(Switch)((props) => ({
     width: 16,
     height: 16,
     margin: 2,
+  },
+}));
+
+export const SettingInfoContainer = styled('div')((props) => ({
+  padding: props.theme.spacing(4),
+  backgroundColor: props.theme.colors.background.primary,
+  marginBottom: props.theme.spacing(4),
+  borderRadius: props.theme.borderRadius,
+  '@media (min-width: 600px)': {
+    paddingLeft: props.theme.spacing(8),
+    paddingRight: props.theme.spacing(5),
+    paddingTop: 0,
   },
 }));

@@ -16,8 +16,10 @@ import {
   FirstMainOption,
   MainOption,
   OptionContainer,
+  OptionDesc,
   OptionSvg,
   OptionsContainer,
+  SvgContainer,
 } from './Settings.styled';
 import { pages } from '../../utils/constants/pages';
 import { CancelSearchSvg, Header, SearchField } from '../../theme/global';
@@ -30,8 +32,8 @@ const SettingsOptions = styled('div')((props) => ({
     },
     paddingTop: props.theme.spacing(5),
     position: 'sticky',
-    top: props.theme.spacing(14),
-    height: `calc(100vh - ${props.theme.spacing(14 + 5)})`,
+    top: props.theme.spacing(12),
+    height: `calc(100vh - ${props.theme.spacing(12 + 5)})`,
     paddingBottom: 0,
   },
 }));
@@ -48,69 +50,87 @@ export default function Settings() {
   return (
     <>
       <Header>{t('SETTINGS.SETTINGS')}</Header>
-      <Grid item xs={12} sm={3} md={3} lg={3}>
+      <Grid item xs={12}>
+        <Search
+          placeholder={t('SETTINGS.SEARCH_SETTINGS')}
+          value={query}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: query ? (
+              <InputAdornment position="end" onClick={() => setQuery('')}>
+                <CancelSearchSvg as={CancelSearchIcon} />
+              </InputAdornment>
+            ) : null,
+          }}
+          onChange={(event) => setQuery(event.target.value)}
+          autoComplete="off"
+        />
         <SettingsOptions>
-          <Search
-            placeholder={t('SETTINGS.SEARCH_SETTINGS')}
-            value={query}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-              endAdornment: query ? (
-                <InputAdornment position="end" onClick={() => setQuery('')}>
-                  <CancelSearchSvg as={CancelSearchIcon} />
-                </InputAdornment>
-              ) : null,
-            }}
-            onChange={(event) => setQuery(event.target.value)}
-            autoComplete="off"
-          />
           <FirstMainOption>{t('SETTINGS.ACCOUNT_SETTINGS')}</FirstMainOption>
           <OptionsContainer>
             <OptionContainer to={pages.settings.account}>
-              <OptionSvg as={AccountSvg} />
-              {t('SETTINGS.ACCOUNT')}
+              <SvgContainer>
+                <OptionSvg as={AccountSvg} />
+              </SvgContainer>
+              <OptionDesc>{t('SETTINGS.ACCOUNT')}</OptionDesc>
             </OptionContainer>
             <OptionContainer to={pages.settings.devices}>
-              <OptionSvg as={DevicesSvg} />
-              {t('SETTINGS.DEVICES')}
+              <SvgContainer>
+                <OptionSvg as={DevicesSvg} />
+              </SvgContainer>
+              <OptionDesc>{t('SETTINGS.DEVICES')}</OptionDesc>
             </OptionContainer>
             <OptionContainer to={pages.settings.security}>
-              <OptionSvg as={SecuritySvg} />
-              {t('SETTINGS.SECURITY')}
+              <SvgContainer>
+                <OptionSvg as={SecuritySvg} />
+              </SvgContainer>
+              <OptionDesc>{t('SETTINGS.SECURITY')}</OptionDesc>
             </OptionContainer>
           </OptionsContainer>
           <MainOption>{t('SETTINGS.APP_SETTINGS')}</MainOption>
           <OptionsContainer>
             <OptionContainer to={pages.settings.appearance}>
-              <OptionSvg as={AppearanceSvg} />
-              {t('SETTINGS.APPEARANCE')}
+              <SvgContainer>
+                <OptionSvg as={AppearanceSvg} />
+              </SvgContainer>
+              <OptionDesc>{t('SETTINGS.APPEARANCE')}</OptionDesc>
             </OptionContainer>
             <OptionContainer to={pages.settings.language}>
-              <OptionSvg as={LanguageSvg} />
-              {t('SETTINGS.LANGUAGE')}
+              <SvgContainer>
+                <OptionSvg as={LanguageSvg} />
+              </SvgContainer>
+              <OptionDesc>{t('SETTINGS.LANGUAGE')}</OptionDesc>
             </OptionContainer>
             <OptionContainer to={pages.settings.mainCurrency}>
-              <OptionSvg as={CurrencySvg} />
-              {t('SETTINGS.MAIN_CURRENCY')}
+              <SvgContainer>
+                <OptionSvg as={CurrencySvg} />
+              </SvgContainer>
+              <OptionDesc>{t('SETTINGS.MAIN_CURRENCY')}</OptionDesc>
             </OptionContainer>
             <OptionContainer to={pages.settings.notifications}>
-              <OptionSvg as={NotificationsSvg} />
-              {t('SETTINGS.NOTIFICATIONS')}
+              <SvgContainer>
+                <OptionSvg as={NotificationsSvg} />
+              </SvgContainer>
+              <OptionDesc>{t('SETTINGS.NOTIFICATIONS')}</OptionDesc>
             </OptionContainer>
           </OptionsContainer>
           <MainOption>{t('SETTINGS.DATA_AND_STORAGE')}</MainOption>
           <OptionsContainer>
             <OptionContainer to={pages.settings.dataBackup}>
-              <OptionSvg as={DataBackupSvg} />
-              {t('SETTINGS.DATA_BACKUP')}
+              <SvgContainer>
+                <OptionSvg as={DataBackupSvg} />
+              </SvgContainer>
+              <OptionDesc>{t('SETTINGS.DATA_BACKUP')}</OptionDesc>
             </OptionContainer>
             <OptionContainer to={pages.settings.storageUsage}>
-              <OptionSvg as={DataSvg} />
-              {t('SETTINGS.DATA_USAGE')}
+              <SvgContainer>
+                <OptionSvg as={DataSvg} />
+              </SvgContainer>
+              <OptionDesc>{t('SETTINGS.DATA_USAGE')}</OptionDesc>
             </OptionContainer>
           </OptionsContainer>
           <MainOption>{t('SETTINGS.HELP')}</MainOption>
