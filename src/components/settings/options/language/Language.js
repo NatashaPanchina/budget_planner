@@ -3,14 +3,17 @@ import {
   BorderContainer,
   FirstTitle,
   LabelContainer,
-  MobContainer,
   RadioContainer,
+  SettingInfoContainer,
   TextContainer,
 } from '../../Settings.styled';
 import { useTranslation } from 'react-i18next';
-import { RadioGroup } from '@mui/material';
+import { Grid, RadioGroup } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeLanguage } from '../../../../actions/Actions';
+import { ReactComponent as BackIcon } from '../../../../assets/icons/shared/back.svg';
+import { BackLink, BackLinkSvg, Header } from '../../../../theme/global';
+import { pages } from '../../../../utils/constants/pages';
 
 export default function Language() {
   const { t } = useTranslation();
@@ -23,35 +26,43 @@ export default function Language() {
   }, [header.language]);
 
   return (
-    <MobContainer>
-      <FirstTitle>{t('SETTINGS.LANGUAGE_INFO.LANGUAGE')}</FirstTitle>
-      <TextContainer>
-        {t('SETTINGS.LANGUAGE_INFO.SELECT_LANGUAGE')}
-      </TextContainer>
-      <RadioGroup
-        value={language}
-        onChange={(event) => {
-          const newLanguage = event.target.value;
-          setLanguage(newLanguage);
-          localStorage.setItem('language', newLanguage);
-          dispatch(changeLanguage(newLanguage));
-        }}
-      >
-        <BorderContainer>
-          <LabelContainer
-            value="EN"
-            control={<RadioContainer />}
-            label="English"
-          />
-        </BorderContainer>
-        <BorderContainer>
-          <LabelContainer
-            value="RU"
-            control={<RadioContainer />}
-            label="Русский"
-          />
-        </BorderContainer>
-      </RadioGroup>
-    </MobContainer>
+    <Grid item xs={12}>
+      <Header>
+        <BackLink to={pages.settings.main}>
+          <BackLinkSvg as={BackIcon} />
+        </BackLink>
+        {t('SETTINGS.APP_SETTINGS')}
+      </Header>
+      <SettingInfoContainer>
+        <FirstTitle>{t('SETTINGS.LANGUAGE_INFO.LANGUAGE')}</FirstTitle>
+        <TextContainer>
+          {t('SETTINGS.LANGUAGE_INFO.SELECT_LANGUAGE')}
+        </TextContainer>
+        <RadioGroup
+          value={language}
+          onChange={(event) => {
+            const newLanguage = event.target.value;
+            setLanguage(newLanguage);
+            localStorage.setItem('language', newLanguage);
+            dispatch(changeLanguage(newLanguage));
+          }}
+        >
+          <BorderContainer>
+            <LabelContainer
+              value="EN"
+              control={<RadioContainer />}
+              label="English"
+            />
+          </BorderContainer>
+          <BorderContainer>
+            <LabelContainer
+              value="RU"
+              control={<RadioContainer />}
+              label="Русский"
+            />
+          </BorderContainer>
+        </RadioGroup>
+      </SettingInfoContainer>
+    </Grid>
   );
 }

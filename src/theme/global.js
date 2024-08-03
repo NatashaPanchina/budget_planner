@@ -207,12 +207,12 @@ export const Header = styled('div')((props) => ({
   top: 0,
   zIndex: 9,
   alignItems: 'center',
-  width: `calc(100% - ${props.theme.spacing(3 * 2)})`,
+  width: `calc(100% - ${props.theme.spacing(4 * 2)})`,
   justifyContent: 'center',
   backgroundColor: props.theme.colors.background.body,
   padding: props.theme.spacing(4),
   '@media (min-width: 768px)': {
-    top: props.theme.spacing(14),
+    top: props.theme.spacing(12),
   },
 }));
 

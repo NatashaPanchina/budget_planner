@@ -35,12 +35,10 @@ export const CommonInfoItem = styled('div')((props) => ({
     padding: `${props.theme.spacing(3)} ${props.theme.spacing(4)}`,
     display: 'block',
   },
-  '@media (min-width: 900px)': {
-    textAlign: 'left',
-  },
 }));
 
 export const CardViewContainer = styled(CardView)(() => ({
+  cursor: 'unset',
   marginBottom: 0,
   '@media (min-width: 600px)': {
     marginLeft: 0,

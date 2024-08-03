@@ -492,6 +492,7 @@
     "ACCOUNT_INFO": {
       "MY_ACCOUNT": "My account",
       "UPLOAD_PHOTO": "Upload a new photo",
+      "SIGN_OUT": "Sign out from account",
       "ACCOUNT_INFORMATION": "Account information",
       "EDIT": "Edit",
       "AUTH": "Authentification",
@@ -569,5 +570,11 @@
       "DELETING_DESCRIPTION": "Be careful. After deletion, you will lose access to all your data.",
       "DELETE_ALL": "Delete all my data"
     }
+  },
+  "ALERTS": {
+    "ARE_YOU_SURE": "Are you sure?",
+    "ARCHIVE": "Archive",
+    "DELETE": "Delete",
+    "CANCEL": "Cancel"
   }
 }

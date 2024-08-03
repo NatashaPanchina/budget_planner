@@ -1,4 +1,5 @@
-import { getAllData } from '../../../../../indexedDB/IndexedDB';
+import { updateHeaderProfile } from '../../../../../actions/Actions';
+import { getAllData, idbAddItem } from '../../../../../indexedDB/IndexedDB';
 import { setDataToFB } from '../../../../../utils/firestore';
 
 export const backUpData = async (uid, date) => {
@@ -22,5 +23,30 @@ export const backUpData = async (uid, date) => {
     );
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const backUp = async (
+  setStatus,
+  setBackUpDate,
+  dispatch,
+  header,
+  backUpDate,
+  uid,
+) => {
+  setStatus('loading');
+  try {
+    setBackUpDate(Date.now());
+    await backUpData(uid, backUpDate);
+    dispatch(
+      updateHeaderProfile({
+        ...header.profile,
+        backUpDate,
+      }),
+    );
+    await idbAddItem({ ...header.profile, backUpDate }, 'profile');
+    setStatus('success');
+  } catch (error) {
+    setStatus('failed');
   }
 };

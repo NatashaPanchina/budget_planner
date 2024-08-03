@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 
-import avatar from '../../../assets/imgs/profile_picture.png';
+import defaultAvatar from '../../../assets/imgs/avatar-girl-1.png';
 import { ReactComponent as LogoutIcon } from '../../../assets/icons/shared/logOut.svg';
 import { ReactComponent as ProfileIcon } from '../../../assets/icons/navigation/mobProfile.svg';
 import { ReactComponent as SettingsIcon } from '../../../assets/icons/navigation/mobSettings.svg';
@@ -115,7 +115,7 @@ const Email = styled('div')((props) => ({
   color: props.theme.colors.text.darker,
 }));
 
-function Menu({ username, setToggleMenu }) {
+function Menu({ username, email, avatar, setToggleMenu }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -128,10 +128,14 @@ function Menu({ username, setToggleMenu }) {
       </Title>
       <ProfileContainer>
         <Profile>
-          <ProfilePicture alt="profile-picture" src={avatar} />
+          {avatar ? (
+            <ProfilePicture alt="profile-picture" src={avatar} />
+          ) : (
+            <ProfilePicture alt="profile-picture" src={defaultAvatar} />
+          )}
           <div>
             <div>{username}</div>
-            <Email>panchinanata25@gmail.com</Email>
+            <Email>{email}</Email>
           </div>
         </Profile>
         <LogOut
@@ -249,6 +253,8 @@ function Menu({ username, setToggleMenu }) {
 
 Menu.propTypes = {
   username: PropTypes.string,
+  email: PropTypes.string,
+  avatar: PropTypes.string,
   setToggleMenu: PropTypes.func,
 };
 

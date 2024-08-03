@@ -9,13 +9,12 @@ import {
   changeLanguage,
   changeMode,
 } from '../../actions/Actions';
-
+import defaultAvatar from '../../assets/imgs/avatar-girl-1.png';
 import { ReactComponent as LogoCatIcon } from '../../assets/icons/navigation/logoCat.svg';
 import { ReactComponent as LogoTitleIcon } from '../../assets/icons/navigation/logoTitle.svg';
 import { ReactComponent as LightModeIcon } from '../../assets/icons/shared/lightMode.svg';
 import { ReactComponent as DarkModeIcon } from '../../assets/icons/shared/darkMode.svg';
 import { ReactComponent as LogoutIcon } from '../../assets/icons/shared/logOut.svg';
-import { ReactComponent as AvatarIcon } from '../../assets/icons/shared/avatar.svg';
 
 import {
   FlexContainer,
@@ -34,6 +33,7 @@ import {
   LanguagesMenu,
   SvgCurrency,
   SignIn,
+  ProfilePicture,
 } from './Header.styled';
 import { languages } from '../../utils/constants/languages';
 import { mode } from '../../utils/constants/mode';
@@ -153,7 +153,17 @@ export default function Header() {
               {displayName ? (
                 <>
                   <Profile>
-                    <Svg as={AvatarIcon} />
+                    {header.profile.photoURL ? (
+                      <ProfilePicture
+                        alt="profile-picture"
+                        src={header.profile.photoURL}
+                      />
+                    ) : (
+                      <ProfilePicture
+                        alt="profile-picture"
+                        src={defaultAvatar}
+                      />
+                    )}
                     <Username>{displayName}</Username>
                   </Profile>
                   <LogOut

@@ -22,8 +22,8 @@ export const NavigationContainer = styled(FlexContainer)((props) => ({
     display: 'block',
     width: 64,
     padding: 0,
-    height: `calc(100vh - ${props.theme.spacing(14)})`,
-    marginTop: props.theme.spacing(14),
+    height: `calc(100vh - ${props.theme.spacing(12)})`,
+    marginTop: props.theme.spacing(12),
     top: 0,
     left: 0,
     borderTop: 0,
@@ -226,6 +226,8 @@ export const Link = styled(NavLink)((props) => ({
     color: props.theme.colors.main.violet,
     fill: props.theme.colors.main.violet,
     borderRadius: props.theme.borderRadius,
+    backgroundColor: props.theme.colors.background.navigation,
+    transition: 'fill 0.3s ease-out'
   },
   '&.active': {
     color: props.theme.colors.main.violet,

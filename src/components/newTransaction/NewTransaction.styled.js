@@ -1,9 +1,20 @@
-import { AddButton, BackLink, BackLinkSvg } from '../../theme/global';
+import {
+  AddButton,
+  AddFormHeader,
+  BackLink,
+  BackLinkSvg,
+} from '../../theme/global';
 import { alpha, styled } from '@mui/material';
 
 export const FlexContainer = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
+}));
+
+export const Header = styled(AddFormHeader)(() => ({
+  '@media (min-width: 600px)': {
+    padding: 0,
+  },
 }));
 
 export const HeaderTitle = styled('div')(() => ({
@@ -12,7 +23,8 @@ export const HeaderTitle = styled('div')(() => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  fontSize: '0.875rem',
+  fontWeight: 500,
+  fontSize: '1.2rem',
   cursor: 'pointer',
 }));
 

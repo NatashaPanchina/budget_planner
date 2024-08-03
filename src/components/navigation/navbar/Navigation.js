@@ -36,7 +36,7 @@ import Menu from '../menu/Menu';
 import { useSelector } from 'react-redux';
 import NewTransaction from '../../newTransaction/NewTransaction';
 
-const animatedMenu = (style, username, setToggleMenu) => {
+const animatedMenu = (style, username, email, avatar, setToggleMenu) => {
   return (
     <animated.div
       style={{
@@ -49,7 +49,7 @@ const animatedMenu = (style, username, setToggleMenu) => {
         ...style,
       }}
     >
-      <Menu username={username} setToggleMenu={setToggleMenu} />
+      <Menu username={username} email={email} avatar={avatar} setToggleMenu={setToggleMenu} />
     </animated.div>
   );
 };
@@ -189,7 +189,9 @@ export default function Navigation() {
         const displayName = header.profile
           ? header.profile.displayName
           : 'Anonymous';
-        if (toggleMenu) return animatedMenu(style, displayName, setToggleMenu);
+        const email = header.profile.email ? header.profile.email : '';
+        const avatar = header.profile.photoURL;
+        if (toggleMenu) return animatedMenu(style, displayName, email, avatar, setToggleMenu);
       })}
     </>
   );

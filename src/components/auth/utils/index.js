@@ -63,8 +63,10 @@ export const signInWithPassword = async (
   navigate,
   dispatch,
   setIsSignInCorrect,
+  setStatus,
 ) => {
   try {
+    setStatus('loading');
     await signInWithEmailAndPassword(auth, email, password);
     if (auth.currentUser !== null) {
       const result = await getDataFromFB(auth.currentUser.uid);
@@ -83,6 +85,7 @@ export const signInWithPassword = async (
             lastLoginAt: auth.currentUser.metadata.lastLoginAt,
           }),
         );
+        setStatus('success');
         navigate(pages.transactions.main);
       });
     }
@@ -92,6 +95,7 @@ export const signInWithPassword = async (
       status: '',
       correct: false,
     };
+    setStatus(errorCode);
     switch (errorCode) {
       case 'auth/invalid-email':
         setIsSignInCorrect({
@@ -138,8 +142,10 @@ export const signInWithGooglePopup = async (
   navigate,
   dispatch,
   setIsSignInCorrect,
+  setStatus,
 ) => {
   try {
+    setStatus('loading');
     const response = await signInWithPopup(auth, googleProvider);
     if (response !== null) {
       const result = await getDataFromFB(auth.currentUser.uid);
@@ -157,6 +163,7 @@ export const signInWithGooglePopup = async (
             lastLoginAt: auth.currentUser.metadata.lastLoginAt,
           }),
         );
+        setStatus('success');
         navigate(pages.transactions.main);
       });
     }
@@ -166,6 +173,7 @@ export const signInWithGooglePopup = async (
       status: '',
       correct: false,
     };
+    setStatus(errorCode);
     switch (errorCode) {
       case 'auth/invalid-email':
         setIsSignInCorrect({
@@ -201,8 +209,10 @@ export const signUpWithPassword = async (
   dispatch,
   navigate,
   setIsSignUpCorrect,
+  setStatus,
 ) => {
   try {
+    setStatus('loading');
     await createUserWithEmailAndPassword(auth, email, password);
     sendEmailVerification(auth.currentUser);
     if (auth.currentUser !== null) {
@@ -222,6 +232,7 @@ export const signUpWithPassword = async (
       };
       dispatch(updateHeaderProfile(data));
       idbAddItem(data, 'profile');
+      setStatus('success');
       navigate(pages.enterName);
     }
   } catch (error) {
@@ -230,6 +241,7 @@ export const signUpWithPassword = async (
       status: '',
       correct: false,
     };
+    setStatus(errorCode);
     switch (errorCode) {
       case 'auth/invalid-email':
         setIsSignUpCorrect({
@@ -270,7 +282,9 @@ export const signUpWithGooglePopup = async (
   dispatch,
   navigate,
   setIsSignUpCorrect,
+  setStatus,
 ) => {
+  setStatus('loading');
   try {
     const response = await signInWithPopup(auth, googleProvider);
     if (response !== null) {
@@ -289,6 +303,7 @@ export const signUpWithGooglePopup = async (
       };
       dispatch(updateHeaderProfile(data));
       idbAddItem(data, 'profile');
+      setStatus('success');
       navigate(pages.enterName);
     }
   } catch (error) {
@@ -297,6 +312,7 @@ export const signUpWithGooglePopup = async (
       status: '',
       correct: false,
     };
+    setStatus(errorCode);
     switch (errorCode) {
       case 'auth/invalid-email':
         setIsSignUpCorrect({

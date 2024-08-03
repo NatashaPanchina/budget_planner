@@ -13,7 +13,7 @@ export const HeaderContainer = styled(FlexContainer)((props) => ({
   '@media (min-width: 600px)': {
     display: 'flex',
     width: '100%',
-    height: 56,
+    height: 48,
     marginTop: 0,
     position: 'fixed',
     zIndex: 300,
@@ -24,8 +24,8 @@ export const HeaderContainer = styled(FlexContainer)((props) => ({
 }));
 
 export const LogoContainer = styled(FlexContainer)((props) => ({
-  justifyContent: 'center',
-  height: 56,
+  justifyContent: 'left',
+  height: 48,
   background: 'none',
   '@media (min-width: 600px)': {
     width: 64,
@@ -40,18 +40,16 @@ export const LogoContainer = styled(FlexContainer)((props) => ({
 }));
 
 export const Logo = styled('svg')((props) => ({
-  height: 45,
-  width: 45,
-  marginRight: 'auto',
-  marginLeft: props.theme.spacing(2),
+  height: 36,
+  width: 36,
+  marginLeft: props.theme.spacing(3),
   '@media (min-width: 600px)': {
     display: 'block',
-    margin: 0,
   },
 }));
 
 export const LogoTitle = styled('svg')((props) => ({
-  width: 120,
+  width: 100,
   display: 'none',
   '@media (min-width: 1200px)': {
     display: 'block',
@@ -93,7 +91,7 @@ export const LanguagesMenu = styled(TextInputField)((props) => ({
       display: 'none',
     },
     '& .MuiInputBase-input': {
-      paddingLeft: 0,
+      padding: 0,
       paddingRight: '0px !important',
       display: 'flex',
       justifyContent: 'center',
@@ -128,22 +126,21 @@ export const Profile = styled(FlexContainer)((props) => ({
   display: 'none',
   '@media (min-width: 600px)': {
     display: 'flex',
-    paddingRight: props.theme.spacing(4),
+    paddingRight: props.theme.spacing(2),
     marginLeft: 'auto',
   },
 }));
 
-export const Username = styled('span')((props) => ({
+export const Username = styled('span')(() => ({
   display: 'none',
-  marginLeft: props.theme.spacing(2),
-  '@media (min-width: 768px)': {
+  '@media (min-width: 900px)': {
     display: 'flex',
   },
 }));
 
 export const LogOut = styled(FlexContainer)(() => ({
   display: 'none',
-  '@media (min-width: 900px)': {
+  '@media (min-width: 768px)': {
     display: 'flex',
   },
 }));
@@ -161,4 +158,9 @@ export const SignIn = styled(Link)((props) => ({
   color: props.theme.colors.main.violet,
   borderRadius: props.theme.borderRadius,
   marginLeft: 'auto',
+}));
+
+export const ProfilePicture = styled('img')((props) => ({
+  height: 40,
+  marginRight: props.theme.spacing(2),
 }));

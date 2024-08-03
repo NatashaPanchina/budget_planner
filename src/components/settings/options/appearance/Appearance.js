@@ -2,18 +2,21 @@ import React, { useEffect, useState } from 'react';
 import {
   FirstTitle,
   FlexContainer,
-  MobContainer,
+  SettingInfoContainer,
   Title,
 } from '../../Settings.styled';
 import { ReactComponent as LightModeSvg } from '../../../../assets/icons/shared/lightModeSettings.svg';
 import { ReactComponent as DarkModeSvg } from '../../../../assets/icons/shared/darkModeSettings.svg';
 import { ReactComponent as SystemModeSvg } from '../../../../assets/icons/shared/systemMode.svg';
-import { Slider, styled } from '@mui/material';
+import { ReactComponent as BackIcon } from '../../../../assets/icons/shared/back.svg';
+import { Grid, Slider, styled } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../../../loading/Loading';
 import { mode } from '../../../../utils/constants/mode';
 import { useTranslation } from 'react-i18next';
 import { marks, setMode, valuetext } from './utils';
+import { BackLink, BackLinkSvg, Header } from '../../../../theme/global';
+import { pages } from '../../../../utils/constants/pages';
 
 const Container = styled(FlexContainer)((props) => ({
   paddingLeft: props.theme.spacing(8),
@@ -102,47 +105,55 @@ export default function Appearance() {
   return header.status === 'loading' ? (
     <Loading />
   ) : (
-    <MobContainer>
-      <FirstTitle>{t('SETTINGS.APPEARANCE_INFO.APPEARANCE')}</FirstTitle>
-      <FirstTitle>{t('SETTINGS.APPEARANCE_INFO.MODE')}</FirstTitle>
-      <Container>
-        <ModeContainer
-          $isActive={activeMode === mode.light}
-          onClick={() => setMode(mode.light, setActiveMode, dispatch)}
-        >
-          <div>
-            <ModeSvg as={LightModeSvg} />
-          </div>
-          <div>{t('SETTINGS.APPEARANCE_INFO.LIGHT')}</div>
-        </ModeContainer>
-        <ModeContainer
-          $isActive={activeMode === mode.dark}
-          onClick={() => setMode(mode.dark, setActiveMode, dispatch)}
-        >
-          <div>
-            <ModeSvg as={DarkModeSvg} />
-          </div>
-          <div>{t('SETTINGS.APPEARANCE_INFO.DARK')}</div>
-        </ModeContainer>
-        <SystemModeContainer>
-          <div>
-            <SystemSvg as={SystemModeSvg} />
-          </div>
-          <div>{t('SETTINGS.APPEARANCE_INFO.SYSTEM')}</div>
-        </SystemModeContainer>
-      </Container>
-      <Title>{t('SETTINGS.APPEARANCE_INFO.FONT_SIZE')}</Title>
-      <Container>
-        <FontSlider
-          defaultValue={16}
-          step={1}
-          marks={marks}
-          min={12}
-          max={20}
-          valueLabelDisplay="auto"
-          getAriaValueText={valuetext}
-        />
-      </Container>
-    </MobContainer>
+    <Grid item xs={12}>
+      <Header>
+        <BackLink to={pages.settings.main}>
+          <BackLinkSvg as={BackIcon} />
+        </BackLink>
+        {t('SETTINGS.APP_SETTINGS')}
+      </Header>
+      <SettingInfoContainer>
+        <FirstTitle>{t('SETTINGS.APPEARANCE_INFO.APPEARANCE')}</FirstTitle>
+        <FirstTitle>{t('SETTINGS.APPEARANCE_INFO.MODE')}</FirstTitle>
+        <Container>
+          <ModeContainer
+            $isActive={activeMode === mode.light}
+            onClick={() => setMode(mode.light, setActiveMode, dispatch)}
+          >
+            <div>
+              <ModeSvg as={LightModeSvg} />
+            </div>
+            <div>{t('SETTINGS.APPEARANCE_INFO.LIGHT')}</div>
+          </ModeContainer>
+          <ModeContainer
+            $isActive={activeMode === mode.dark}
+            onClick={() => setMode(mode.dark, setActiveMode, dispatch)}
+          >
+            <div>
+              <ModeSvg as={DarkModeSvg} />
+            </div>
+            <div>{t('SETTINGS.APPEARANCE_INFO.DARK')}</div>
+          </ModeContainer>
+          <SystemModeContainer>
+            <div>
+              <SystemSvg as={SystemModeSvg} />
+            </div>
+            <div>{t('SETTINGS.APPEARANCE_INFO.SYSTEM')}</div>
+          </SystemModeContainer>
+        </Container>
+        <Title>{t('SETTINGS.APPEARANCE_INFO.FONT_SIZE')}</Title>
+        <Container>
+          <FontSlider
+            defaultValue={16}
+            step={1}
+            marks={marks}
+            min={12}
+            max={20}
+            valueLabelDisplay="auto"
+            getAriaValueText={valuetext}
+          />
+        </Container>
+      </SettingInfoContainer>
+    </Grid>
   );
 }
