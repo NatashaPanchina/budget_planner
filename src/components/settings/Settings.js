@@ -134,14 +134,17 @@ export default function Settings() {
             </OptionContainer>
           </OptionsContainer>
           <MainOption>{t('SETTINGS.HELP')}</MainOption>
+          <OptionsContainer>
+            <OptionContainer to={pages.settings.demo}>
+              <SvgContainer>
+                <OptionSvg as={DataSvg} />
+              </SvgContainer>
+              <OptionDesc>{t('SETTINGS.DEMO')}</OptionDesc>
+            </OptionContainer>
+          </OptionsContainer>
           <MainOption>{t('SETTINGS.LOG_OUT')}</MainOption>
         </SettingsOptions>
       </Grid>
-      {/* <Grid item xs={12} sm={9} md={9} lg={9}>
-        <MainContainer>
-          <Outlet />
-        </MainContainer>
-      </Grid> */}
     </>
   );
 }

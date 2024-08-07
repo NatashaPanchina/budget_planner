@@ -25,6 +25,8 @@ import {
   MobItemButtonSvg,
   SearchField,
   CancelSearchSvg,
+  NoResultsContainer,
+  NoResults,
 } from '../../../theme/global';
 import { pages } from '../../../utils/constants/pages';
 import { Dialog, Grid, InputAdornment, MenuItem, styled } from '@mui/material';
@@ -48,8 +50,8 @@ import Notes from '../../shared/Notes';
 
 const ArchivedCount = styled('div')((props) => ({
   fontSize: '0.875rem',
-  color: props.theme.colors.main.violet,
-  height: 60,
+  color: props.theme.colors.text.darker,
+  marginBottom: props.theme.spacing(2),
   display: 'flex',
   alignItems: 'center',
 }));
@@ -74,6 +76,10 @@ export default function CategoriesTrash() {
     });
     dispatch(deleteCategory(clickedCategory.id));
     idbDeleteItem(clickedCategory.id, 'categories');
+  };
+  const isEmpty = () => {
+    if (query === '' && searchData.length === 0) return true;
+    return false;
   };
 
   useEffect(() => {
@@ -122,7 +128,13 @@ export default function CategoriesTrash() {
           onChange={(event) => setQuery(event.target.value)}
           autoComplete="off"
         />
-        {searchData.length ? (
+        {isEmpty() ? (
+          <NoResultsContainer>
+            <NoResults>
+              <div>{t('CATEGORIES.NOTHING_HERE')}</div>
+            </NoResults>
+          </NoResultsContainer>
+        ) : searchData.length ? (
           <>
             <ArchivedCount>
               {searchData.length}{' '}
@@ -191,6 +203,7 @@ export default function CategoriesTrash() {
         <DeleteAlert
           setOpen={setOpenDelAlert}
           deleteCallback={deleteCallback}
+          type="CATEGORY"
         />
       </Dialog>
     </Grid>

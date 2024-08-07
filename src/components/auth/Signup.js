@@ -32,7 +32,8 @@ import {
   signUpWithGooglePopup,
   signUpWithPassword,
 } from './utils';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 export default function Signup() {
   const [status, setStatus] = useState('idle');
@@ -50,6 +51,12 @@ export default function Signup() {
   const googleProvider = new GoogleAuthProvider();
   googleProvider.setCustomParameters({ prompt: 'select_account' });
   const auth = getAuth();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   useEffect(() => {
     dispatch(fetchProfileData());
@@ -95,13 +102,27 @@ export default function Signup() {
               onChange={(event) => setEmail(event.target.value)}
             />
             <TextInputField
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               margin="normal"
               required
               label={t('SIGN_UP.PASSWORD')}
               autoComplete="off"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             <ErrorHelperText $isShowError={!isSignUpCorrect.correct}>
               {t(signUpHelperText)}

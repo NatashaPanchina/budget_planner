@@ -39,12 +39,13 @@ const DeleteButton = styled(Button)((props) => ({
   marginLeft: props.theme.spacing(3),
 }));
 
-function DeleteAlert({ setOpen, deleteCallback }) {
-  const {t} = useTranslation();
+function DeleteAlert({ setOpen, deleteCallback, type }) {
+  const { t } = useTranslation();
+  const newLocale = type ? type : 'TRANSACTION';
 
   return (
     <AlertContainer>
-      <TextContainer>{t('ALERTS.ARE_YOU_SURE')}</TextContainer>
+      <TextContainer>{t(`ALERTS.CONFIRM_DELETE.${newLocale}`)}</TextContainer>
       <ButtonsContainer>
         <Button onClick={() => setOpen(false)}>{t('ALERTS.CANCEL')}</Button>
         <DeleteButton
@@ -63,6 +64,7 @@ function DeleteAlert({ setOpen, deleteCallback }) {
 DeleteAlert.propTypes = {
   setOpen: PropTypes.func,
   deleteCallback: PropTypes.func,
+  type: PropTypes.string,
 };
 
 export default DeleteAlert;

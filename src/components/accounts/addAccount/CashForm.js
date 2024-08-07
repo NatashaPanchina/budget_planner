@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { dinero, toDecimal } from 'dinero.js';
 import { colors } from '../../../utils/constants/colors';
 import {
   NumericFormatCustom,
@@ -37,7 +36,7 @@ import {
   TextInputField,
 } from '../../../theme/global';
 import dayjs from 'dayjs';
-import { currencies, names } from '../../../utils/constants/currencies.js';
+import { names } from '../../../utils/constants/currencies.js';
 import { cashDoneEventHandler } from './utils/index.js';
 import CurrenciesItems from '../../transactions/utils/currencies/CurrenciesItems.js';
 import { isDateCorrect } from '../../../utils/format/date/index.js';
@@ -58,10 +57,10 @@ function CashForm({ accounts, categories, setOpenDialog }) {
   const [date, setDate] = useState(dayjs(new Date()));
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState(['']);
-
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
+  const [isDisplayCorrect, setIsDisplayCorrect] = useState(false);
   const [isDescription, setIsDescription] = useState(
     isDescriptionCorrect(description),
   );
@@ -89,8 +88,12 @@ function CashForm({ accounts, categories, setOpenDialog }) {
           setCurrency={setCurrency}
         />
         <NumberInputField
-          error={!isBalance}
-          helperText={isBalance ? '' : t('ADD_ACCOUNT.BALANCE_GREATER_ZERO')}
+          error={isDisplayCorrect && !isBalance}
+          helperText={
+            isDisplayCorrect && !isBalance
+              ? t('ADD_ACCOUNT.BALANCE_GREATER_ZERO')
+              : ''
+          }
           margin="normal"
           required
           label={t('ADD_ACCOUNT.BALANCE')}
@@ -114,8 +117,10 @@ function CashForm({ accounts, categories, setOpenDialog }) {
         }}
       />
       <TextInputField
-        error={!isDescription.correct}
-        helperText={isDescription.correct ? '' : t(descHelperText)}
+        error={isDisplayCorrect && !isDescription.correct}
+        helperText={
+          isDisplayCorrect && !isDescription.correct ? t(descHelperText) : ''
+        }
         margin="normal"
         required
         multiline
@@ -182,6 +187,7 @@ function CashForm({ accounts, categories, setOpenDialog }) {
       <AddFormButtonsContainer>
         <DoneButton
           onClick={() => {
+            setIsDisplayCorrect(true);
             if (!isBalance || !isDescription.correct || !isDate) return;
             if (!isDescriptionUnique(description, null, accounts)) {
               setIsDescription({

@@ -28,6 +28,7 @@ import EnterName from '../components/auth/entername/EnterName';
 import Signin from '../components/auth/Signin';
 import PrivateRoute from './PrivateRoute';
 import DeletingAccount from '../components/settings/options/account/DeletingAccount';
+import Demo from '../components/settings/options/demo/Demo';
 
 export const router = createBrowserRouter([
   {
@@ -141,6 +142,10 @@ export const router = createBrowserRouter([
       {
         path: 'settings/storageUsage',
         element: <StorageUsage />,
+      },
+      {
+        path: 'settings/demo',
+        element: <Demo />,
       },
     ],
   },

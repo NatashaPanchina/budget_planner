@@ -4,18 +4,18 @@ import {
   MobileExpenseLink,
   MobileIncomeLink,
   MobileLinkSvg,
-  MobileNavigationBackground,
   MobileTransferLink,
 } from './Navigation.styled';
 
 import { ReactComponent as ExpenseIcon } from '../../../assets/icons/navigation/mobExpense.svg';
 import { ReactComponent as IncomeIcon } from '../../../assets/icons/navigation/mobIncome.svg';
 import { ReactComponent as TransferIcon } from '../../../assets/icons/navigation/mobTransfer.svg';
+import { Backdrop } from '@mui/material';
 
 function MobNavigation({ setTransactionType, setOpenDialog }) {
   return (
     <>
-      <MobileNavigationBackground></MobileNavigationBackground>
+      <Backdrop open={true} />
       <MobileTransferLink
         onClick={() => {
           setTransactionType('transfer');

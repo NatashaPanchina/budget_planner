@@ -295,3 +295,38 @@ export const DeleteSvg = styled(EditButtonSvg)((props) => ({
     fill: props.theme.colors.expense,
   },
 }));
+
+export const Add = styled(FlexContainer)((props) => ({
+  justifyContent: 'center',
+  color: props.theme.colors.main.violet,
+  fill: props.theme.colors.main.violet,
+  marginTop: props.theme.spacing(5),
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  cursor: 'pointer',
+  width: 'fit-content',
+  '&:hover': {
+    color: props.theme.colors.main.purple,
+    fill: props.theme.colors.main.purple,
+  },
+  '@media (min-width: 600px)': {
+    fontSize: '1.2rem',
+    fontWeight: 500,
+  },
+}));
+
+export const AddText = styled('span')(() => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
+}));
+
+export const AddSvg = styled('svg')((props) => ({
+  fill: 'inherit',
+  marginRight: props.theme.spacing(2),
+  height: 20,
+  '& path': {
+    fill: 'inherit',
+  },
+}));

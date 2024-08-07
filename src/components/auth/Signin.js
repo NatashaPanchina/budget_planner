@@ -33,7 +33,8 @@ import {
   signUpAnonym,
 } from './utils';
 import { auth } from '../../configs/firebaseConfigs';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 export default function Signin() {
   const [status, setStatus] = useState('idle');
@@ -43,12 +44,19 @@ export default function Signin() {
     status: '',
     correct: true,
   });
+  const [showPassword, setShowPassword] = useState(false);
   const signInHelperText = `SIGN_IN.INVALID.${isSignInCorrect.status.toUpperCase()}`;
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const googleProvider = new GoogleAuthProvider();
   googleProvider.setCustomParameters({ prompt: 'select_account' });
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   useEffect(() => {
     //to init indexeddb
@@ -94,13 +102,27 @@ export default function Signin() {
               onChange={(event) => setEmail(event.target.value)}
             />
             <TextInputField
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               margin="normal"
               required
               label={t('SIGN_IN.PASSWORD')}
               autoComplete="off"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             <ErrorHelperText $isShowError={!isSignInCorrect.correct}>
               {t(signInHelperText)}

@@ -50,6 +50,7 @@ export const pages = {
     notifications: '/settings/notifications',
     dataBackup: '/settings/dataBackup',
     storageUsage: '/settings/storageUsage',
+    demo: '/settings/demo',
   },
   profile: '/settings/account',
   currency: 'settings/mainCurrency',

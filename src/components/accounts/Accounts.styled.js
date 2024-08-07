@@ -194,12 +194,12 @@ export const Card = styled('div', {
   background: `url(${props.$cardBackground}) 0% 0% / cover no-repeat, linear-gradient(90deg, ${props.$from} 0%, ${props.$to} 100%)`,
   boxShadow: `0px 7px 20px ${alpha(props.$from, 0.4)}`,
   color: props.theme.colors.white,
-  '&:hover' : {
+  '&:hover': {
     height: 230,
     width: 351,
     boxShadow: `0px 7px 20px ${alpha(props.$from, 0.6)}`,
-    transition: 'all 0.4s ease-out'
-  }
+    transition: 'all 0.4s ease-out',
+  },
 }));
 
 export const CardView = styled(Card)((props) => ({
@@ -346,5 +346,40 @@ export const InfoCardContainer = styled(FlexContainer)((props) => ({
   '@media (min-width: 600px)': {
     margin: 0,
     flexDirection: 'row',
+  },
+}));
+
+export const Add = styled(FlexContainer)((props) => ({
+  justifyContent: 'center',
+  color: props.theme.colors.main.violet,
+  fill: props.theme.colors.main.violet,
+  marginTop: props.theme.spacing(5),
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  cursor: 'pointer',
+  width: 'fit-content',
+  '&:hover': {
+    color: props.theme.colors.main.purple,
+    fill: props.theme.colors.main.purple,
+  },
+  '@media (min-width: 600px)': {
+    fontSize: '1.2rem',
+    fontWeight: 500,
+  },
+}));
+
+export const AddText = styled('span')(() => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
+}));
+
+export const AddSvg = styled('svg')((props) => ({
+  fill: 'inherit',
+  marginRight: props.theme.spacing(2),
+  height: 20,
+  '& path': {
+    fill: 'inherit',
   },
 }));

@@ -103,14 +103,6 @@ export const MobileNavigationContainer = styled('div')(() => ({
   },
 }));
 
-export const MobileNavigationBackground = styled(FlexContainer)((props) => ({
-  backgroundColor: props.theme.colors.black,
-  opacity: 0.7,
-  justifyContent: 'center',
-  width: '100%',
-  height: '100%',
-}));
-
 export const MobileNavigationLink = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
@@ -227,7 +219,7 @@ export const Link = styled(NavLink)((props) => ({
     fill: props.theme.colors.main.violet,
     borderRadius: props.theme.borderRadius,
     backgroundColor: props.theme.colors.background.navigation,
-    transition: 'fill 0.3s ease-out'
+    transition: 'fill 0.3s ease-out',
   },
   '&.active': {
     color: props.theme.colors.main.violet,

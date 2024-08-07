@@ -49,7 +49,12 @@ const animatedMenu = (style, username, email, avatar, setToggleMenu) => {
         ...style,
       }}
     >
-      <Menu username={username} email={email} avatar={avatar} setToggleMenu={setToggleMenu} />
+      <Menu
+        username={username}
+        email={email}
+        avatar={avatar}
+        setToggleMenu={setToggleMenu}
+      />
     </animated.div>
   );
 };
@@ -191,7 +196,8 @@ export default function Navigation() {
           : 'Anonymous';
         const email = header.profile.email ? header.profile.email : '';
         const avatar = header.profile.photoURL;
-        if (toggleMenu) return animatedMenu(style, displayName, email, avatar, setToggleMenu);
+        if (toggleMenu)
+          return animatedMenu(style, displayName, email, avatar, setToggleMenu);
       })}
     </>
   );

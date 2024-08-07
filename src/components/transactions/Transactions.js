@@ -30,12 +30,18 @@ import {
   MobileFilterButton,
   ToggleMenu,
   FilterMenuItem,
+  InfoDialog,
 } from '../../theme/global.js';
 import Loading from '../loading/Loading.js';
 import { names } from '../../utils/constants/currencies.js';
 import AllFilters from './filters/AllFilters.js';
 import { convertPeriod } from '../../utils/format/date/index.js';
-import { FlexContainer } from './Transactions.styled.js';
+import {
+  CalendarContainer,
+  FilterCalendarSvg,
+  FlexContainer,
+} from './Transactions.styled.js';
+import AddTransaction from './addTransaction/AddTransaction.js';
 
 export default function Transactions() {
   const filters = useSelector((state) => state.transactions.filters);
@@ -54,11 +60,8 @@ export default function Transactions() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [mobMenu, setMobMenu] = useState(false);
-  const formattedDate = convertPeriod(
-    filters.date.to,
-    filters.date.during,
-    language,
-  );
+  const formattedDate = convertPeriod(filters.date.to, 'month_year', language);
+  const [openAddDialog, setOpenAddDialog] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAccountsData());
@@ -147,7 +150,7 @@ export default function Transactions() {
             </ToggleMenu>
           </SortButtonsContainer>
           <FilterTooltip title={t('TRANSACTIONS.NEW_TRANSACTION')} arrow>
-            <AddButton>
+            <AddButton onClick={() => setOpenAddDialog(true)}>
               <FilterSvg as={AddIcon} />
               <FilterTitle>{t('TRANSACTIONS.NEW_TRANSACTION')}</FilterTitle>
             </AddButton>
@@ -157,6 +160,10 @@ export default function Transactions() {
           </MobileFilterButton>
         </FilterButtonsContainer>
       </Header>
+      <CalendarContainer>
+        <FilterCalendarSvg as={CalendarIcon} />
+        {formattedDate}
+      </CalendarContainer>
       <Drawer anchor="right" open={mobMenu} onClose={() => setMobMenu(false)}>
         <FilterMenuItem
           onClick={() => {
@@ -171,6 +178,7 @@ export default function Transactions() {
         <FilterMenuItem
           onClick={() => {
             setMobMenu(false);
+            setOpenAddDialog(true);
           }}
         >
           <FlexContainer>
@@ -207,6 +215,9 @@ export default function Transactions() {
           setOpenFilters={setOpenFilters}
         />
       </Drawer>
+      <InfoDialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
+        <AddTransaction setOpenAddDialog={setOpenAddDialog} />
+      </InfoDialog>
       <Grid item xs={12} sm={12} md={3} lg={3}>
         <AccountsSlider
           mainCurrency={mainCurrency}
