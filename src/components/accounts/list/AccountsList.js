@@ -12,6 +12,7 @@ import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/t
 import cardBackground from '../../../assets/icons/shared/cardBackground.svg';
 import { ReactComponent as SearchIcon } from '../../../assets/icons/shared/search.svg';
 import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared/cancelSearch.svg';
+import { ReactComponent as AddIcon } from '../../../assets/icons/shared/plus.svg';
 
 import {
   InfoDialog,
@@ -39,6 +40,9 @@ import {
   CommonInfoHeader,
   CalcInfoAmount,
   Stripe,
+  Add,
+  AddSvg,
+  AddText,
 } from '../Accounts.styled';
 import { Dialog, InputAdornment, MenuItem } from '@mui/material';
 import { useAccountsSearch } from '../../../hooks/useSearch';
@@ -63,6 +67,7 @@ function AccountsList({
   categories,
   transactions,
   mainCurrency,
+  setOpenAddDialog,
 }) {
   const filters = useSelector((state) => state.accounts.filters);
   const header = useSelector((state) => state.header);
@@ -81,6 +86,11 @@ function AccountsList({
   };
   const date = getCurrentMonth();
   const formattedDate = convertPeriod(date.from, date.during, header.language);
+  const isEmpty = () => {
+    if (accounts.length === 0) return true;
+    if (query === '' && searchData.length === 0) return true;
+    return false;
+  };
 
   return (
     <>
@@ -112,10 +122,14 @@ function AccountsList({
           transactions={transactions}
         />
       </InfoDialog>
-      {accounts.length === 0 ? (
+      {isEmpty() ? (
         <NoResultsContainer>
           <NoResults>
             <div>{t('ACCOUNTS.NO_ACCOUNTS')}</div>
+            <Add onClick={() => setOpenAddDialog(true)}>
+              <AddSvg as={AddIcon} />
+              <AddText>Add</AddText>
+            </Add>
           </NoResults>
         </NoResultsContainer>
       ) : searchData.length ? (
@@ -229,6 +243,7 @@ function AccountsList({
         <ArchiveAlert
           setOpen={setOpenDelAlert}
           archiveCallback={archiveCallback}
+          type="ACCOUNT"
         />
       </Dialog>
     </>
@@ -242,6 +257,7 @@ AccountsList.propTypes = {
   categories: PropTypes.array,
   transactions: PropTypes.array,
   mainCurrency: PropTypes.string,
+  setOpenAddDialog: PropTypes.func,
 };
 
 export default AccountsList;

@@ -33,6 +33,7 @@ function TransferTransactionForm({ accounts, setOpenDialog }) {
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState([]);
 
+  const [isDisplayCorrect, setIsDisplayCorrect] = useState(false);
   const isCash = isCashCorrect(amount);
   const isDate = isDateCorrect(date);
   const isAccount = Boolean(filteredAccounts.length);
@@ -49,8 +50,12 @@ function TransferTransactionForm({ accounts, setOpenDialog }) {
   return (
     <>
       <NumberInputField
-        error={!isCash}
-        helperText={isCash ? '' : t('NEW_TRANSACTION.AMOUNT_GREATER_ZERO')}
+        error={isDisplayCorrect && !isCash}
+        helperText={
+          isDisplayCorrect && !isCash
+            ? t('NEW_TRANSACTION.AMOUNT_GREATER_ZERO')
+            : ''
+        }
         margin="normal"
         required
         label={t('NEW_TRANSACTION.AMOUNT')}
@@ -68,6 +73,7 @@ function TransferTransactionForm({ accounts, setOpenDialog }) {
         setAccount={setOriginAccount}
         setOpenAccountDialog={() => null}
         fieldLabel="NEW_TRANSACTION.ORIGIN_ACCOUNT"
+        isDisplayCorrect={isDisplayCorrect}
       />
       <AccountsItems
         accounts={filteredAccounts}
@@ -75,6 +81,7 @@ function TransferTransactionForm({ accounts, setOpenDialog }) {
         setAccount={setOriginAccount}
         setOpenAccountDialog={() => null}
         fieldLabel="NEW_TRANSACTION.DESTINATION_ACCOUNT"
+        isDisplayCorrect={isDisplayCorrect}
       />
       <DateField
         slotProps={{
@@ -105,6 +112,7 @@ function TransferTransactionForm({ accounts, setOpenDialog }) {
       <AddFormButtonsContainer>
         <DoneButton
           onClick={() => {
+            setIsDisplayCorrect(true);
             if (!isCash || !isDate || !isAccount) return;
             setOpenDialog(false);
           }}

@@ -31,14 +31,17 @@ function AccountsItems({
   setAccount,
   setOpenAccountDialog,
   fieldLabel = 'INFO_TRANSACTION.ACCOUNT',
+  isDisplayCorrect,
 }) {
   const { t } = useTranslation();
 
   return (
     <TextInputField
-      error={accounts.length ? false : true}
+      error={isDisplayCorrect && !accounts.length ? true : false}
       helperText={
-        accounts.length ? '' : t('NEW_TRANSACTION.NO_ACCOUNT_SELECTED')
+        isDisplayCorrect && !accounts.length
+          ? t('NEW_TRANSACTION.NO_ACCOUNT_SELECTED')
+          : ''
       }
       margin="normal"
       required
@@ -112,6 +115,7 @@ AccountsItems.propTypes = {
   setAccount: PropTypes.func,
   setOpenAccountDialog: PropTypes.func,
   fieldLabel: PropTypes.string,
+  isDisplayCorrect: PropTypes.bool,
 };
 
 export default AccountsItems;

@@ -39,12 +39,13 @@ const DeleteButton = styled(Button)((props) => ({
   marginLeft: props.theme.spacing(3),
 }));
 
-function ArchiveAlert({ setOpen, archiveCallback }) {
-  const {t} = useTranslation();
+function ArchiveAlert({ setOpen, archiveCallback, type }) {
+  const { t } = useTranslation();
+  const newLocale = type ? type : 'ACCOUNT';
 
   return (
     <AlertContainer>
-      <TextContainer>{t('ALERTS.ARE_YOU_SURE')}</TextContainer>
+      <TextContainer>{t(`ALERTS.CONFIRM_ARCHIVE.${newLocale}`)}</TextContainer>
       <ButtonsContainer>
         <Button onClick={() => setOpen(false)}>{t('ALERTS.CANCEL')}</Button>
         <DeleteButton
@@ -63,6 +64,7 @@ function ArchiveAlert({ setOpen, archiveCallback }) {
 ArchiveAlert.propTypes = {
   setOpen: PropTypes.func,
   archiveCallback: PropTypes.func,
+  type: PropTypes.string,
 };
 
 export default ArchiveAlert;

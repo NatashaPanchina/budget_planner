@@ -260,6 +260,7 @@ export default function Accounts() {
           categories={categories.categories}
           transactions={transactions.transactions}
           mainCurrency={mainCurrency}
+          setOpenAddDialog={setOpenDialog}
         />
       </Grid>
     </>

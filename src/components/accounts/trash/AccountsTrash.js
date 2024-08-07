@@ -28,6 +28,8 @@ import {
   ToggleMenu,
   SearchField,
   CancelSearchSvg,
+  NoResults,
+  NoResultsContainer,
 } from '../../../theme/global';
 import {
   Card,
@@ -54,8 +56,7 @@ import Notes from '../../shared/Notes';
 
 const ArchivedCount = styled('div')((props) => ({
   fontSize: '0.875rem',
-  color: props.theme.colors.main.violet,
-  height: 50,
+  color: props.theme.colors.text.darker,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -85,6 +86,10 @@ export default function AccountsTrash() {
     });
     dispatch(deleteAccount(clickedAccount.id));
     idbDeleteItem(clickedAccount.id, 'accounts');
+  };
+  const isEmpty = () => {
+    if (query === '' && searchData.length === 0) return true;
+    return false;
   };
 
   useEffect(() => {
@@ -132,7 +137,13 @@ export default function AccountsTrash() {
           onChange={(event) => setQuery(event.target.value)}
           autoComplete="off"
         />
-        {searchData.length ? (
+        {isEmpty() ? (
+          <NoResultsContainer>
+            <NoResults>
+              <div>{t('ACCOUNTS.NOTHING_HERE')}</div>
+            </NoResults>
+          </NoResultsContainer>
+        ) : searchData.length ? (
           <>
             <ArchivedCount>
               {t(`ACCOUNTS_TRASH.${createLocaleAccountType(filterType)}_COUNT`)}
@@ -214,6 +225,7 @@ export default function AccountsTrash() {
           <DeleteAlert
             setOpen={setOpenDelAlert}
             deleteCallback={deleteCallback}
+            type="ACCOUNT"
           />
         </Dialog>
       </TrashContainer>

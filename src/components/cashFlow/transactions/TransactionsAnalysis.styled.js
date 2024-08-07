@@ -25,17 +25,31 @@ export const HeaderTitle = styled(FlexContainer)((props) => ({
 export const FilterSvg = styled('svg')((props) => ({
   height: 18,
   width: 18,
-  margin: 0,
+  marginRight: props.theme.spacing(3),
   '& path': {
-    fill: props.theme.colors.text.darkest,
+    fill: props.theme.colors.main.violet,
   },
-  '@media (min-width: 900px)': {
+  '@media (min-width: 600px)': {
     '& path': {
       fill: props.theme.colors.main.violet,
     },
   },
+  '@media (min-width: 768px)': {
+    margin: 0,
+  },
   '@media (min-width: 1000px)': {
     marginRight: props.theme.spacing(3),
+    '& path': {
+      fill: props.theme.colors.main.violet,
+    },
+  },
+}));
+
+export const ToggleSvg = styled('svg')((props) => ({
+  height: 18,
+  width: 18,
+  '& path': {
+    fill: props.theme.colors.text.darkest,
   },
 }));
 

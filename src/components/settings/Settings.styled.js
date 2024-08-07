@@ -223,6 +223,9 @@ export const DeleteButton = styled(EditButton)((props) => ({
     boxShadow: `0px 4px 10px ${alpha(props.theme.colors.expense, 0.2)}`,
     transition: 'box-shadow 0.3s ease-out',
   },
+  '@media (min-width: 600px)': {
+    border: `1px solid ${props.theme.colors.expense}`,
+  },
 }));
 
 export const TextContainer = styled('div')((props) => ({

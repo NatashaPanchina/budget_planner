@@ -62,6 +62,7 @@ function AddCategory({ setOpenDialog, type }) {
   const openColors = Boolean(anchorColorsEl);
   const openIcons = Boolean(anchorIconsEl);
 
+  const [isDisplayCorrect, setIsDisplayCorrect] = useState(false);
   const [isDescription, setIsDescription] = useState(
     isDescriptionCorrect(description),
   );
@@ -92,8 +93,10 @@ function AddCategory({ setOpenDialog, type }) {
         <MenuItem value="expense">{t(`INFO_CATEGORY.EXPENSE`)}</MenuItem>
       </TextInputField>
       <TextInputField
-        error={!isDescription.correct}
-        helperText={isDescription.correct ? '' : t(descHelperText)}
+        error={isDisplayCorrect && !isDescription.correct}
+        helperText={
+          isDisplayCorrect && !isDescription.correct ? t(descHelperText) : ''
+        }
         margin="normal"
         required
         multiline
@@ -192,6 +195,7 @@ function AddCategory({ setOpenDialog, type }) {
       <AddFormButtonsContainer>
         <DoneButton
           onClick={() => {
+            setIsDisplayCorrect(true);
             if (!isDate || !isDescription.correct) return;
             if (!isDescriptionUnique(description, null, categories)) {
               setIsDescription({

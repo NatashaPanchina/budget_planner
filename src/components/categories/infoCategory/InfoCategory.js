@@ -271,6 +271,7 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
         <ArchiveAlert
           setOpen={setOpenDelAlert}
           archiveCallback={archiveCallback}
+          type="CATEGORY"
         />
       </Dialog>
     </InfoContainer>

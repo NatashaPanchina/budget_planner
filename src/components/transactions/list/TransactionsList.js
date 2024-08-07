@@ -13,7 +13,7 @@ import { ReactComponent as CancelSearchIcon } from '../../../assets/icons/shared
 import { ReactComponent as ToggleEditIcon } from '../../../assets/icons/shared/toggleEdit.svg';
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/shared/delete.svg';
-
+import { ReactComponent as AddIcon } from '../../../assets/icons/shared/plus.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteClick } from './utils';
 import { pages } from '../../../utils/constants/pages';
@@ -39,6 +39,9 @@ import {
   DeleteButtonSvg,
   DeleteMenuItem,
   MobCount,
+  AddTransaction,
+  AddSvg,
+  AddText,
 } from '../Transactions.styled';
 import {
   CancelSearchSvg,
@@ -76,6 +79,11 @@ function TransactionsList({ transactions, accounts, categories }) {
   const [openDelAlert, setOpenDelAlert] = useState(false);
   const deleteCallback = () =>
     deleteClick(clickedTransaction, accounts, dispatch, mainCurrency);
+  const isEmpty = () => {
+    if (transactions.length === 0) return true;
+    if (query === '' && searchData.length === 0) return true;
+    return false;
+  };
 
   return (
     <>
@@ -133,10 +141,14 @@ function TransactionsList({ transactions, accounts, categories }) {
         />
       </InfoDialog>
       <MobCount>{searchData.length} transactions</MobCount>
-      {transactions.length === 0 ? (
+      {isEmpty() ? (
         <NoResultsContainer>
           <NoResults>
             <div>{t('TRANSACTIONS.NO_TRANSACTIONS')}</div>
+            <AddTransaction>
+              <AddSvg as={AddIcon} />
+              <AddText>Add</AddText>
+            </AddTransaction>
           </NoResults>
         </NoResultsContainer>
       ) : searchData.length ? (

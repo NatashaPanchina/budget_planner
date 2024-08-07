@@ -45,14 +45,17 @@ function CategoriesItems({
   category,
   setCategory,
   setOpenCategoryDialog,
+  isDisplayCorrect,
 }) {
   const { t } = useTranslation();
 
   return (
     <TextInputField
-      error={categories.length ? false : true}
+      error={isDisplayCorrect && !categories.length ? true : false}
       helperText={
-        categories.length ? '' : t('NEW_TRANSACTION.NO_CATEGORY_SELECTED')
+        isDisplayCorrect && !categories.length
+          ? t('NEW_TRANSACTION.NO_CATEGORY_SELECTED')
+          : ''
       }
       margin="normal"
       required
@@ -137,6 +140,7 @@ CategoriesItems.propTypes = {
   category: PropTypes.string,
   setCategory: PropTypes.func,
   setOpenCategoryDialog: PropTypes.func,
+  isDisplayCorrect: PropTypes.bool,
 };
 
 export default CategoriesItems;

@@ -62,11 +62,13 @@ import {
   CountTransaction,
   PieChartContainer,
   BarChartContainer,
+  ToggleSvg,
 } from './TransactionsAnalysis.styled.js';
-import { Grid } from '@mui/material';
+import { Drawer, Grid } from '@mui/material';
 import {
   FilterButton,
   FilterButtonsContainer,
+  FilterMenuItem,
   FilterTitle,
   MobileFilterButton,
   SortButtonsContainer,
@@ -84,10 +86,10 @@ function TransactionsAnalysis({
   const [period, setPeriod] = useState('month');
   const [date] = useState(getCurrentMonth());
   const [lastDate] = useState(getLastMonth());
-  const formattedDate = convertPeriod(date.from, date.during, language);
+  const formattedDate = convertPeriod(date.from, 'month_year', language);
   const formattedLastDate = convertPeriod(
     lastDate.from,
-    lastDate.during,
+    'month_year',
     language,
   );
   const [barDate] = useState(getCurrentMonth());
@@ -100,6 +102,7 @@ function TransactionsAnalysis({
   const [isBarChartDetailed, setIsBarChartDetailed] = useState(false);
   const [pieChartFilter, setPieChartFilter] = useState('expenses');
   const [tableFilter, setTableFilter] = useState('expenses');
+  const [mobMenu, setMobMenu] = useState(false);
   const notArchivedAccounts = filterArchivedAccounts(accounts);
   const filteredTransactions = filterByAccount(
     transactions,
@@ -155,11 +158,29 @@ function TransactionsAnalysis({
               <FilterTitle>{formattedDate}</FilterTitle>
             </FilterButton>
           </SortButtonsContainer>
-          <MobileFilterButton>
-            <FilterSvg as={ToggleMenuIcon} />
+          <MobileFilterButton onClick={() => setMobMenu(true)}>
+            <ToggleSvg as={ToggleMenuIcon} />
           </MobileFilterButton>
         </FilterButtonsContainer>
       </AnalysisHeader>
+      <Drawer anchor="right" open={mobMenu} onClose={() => setMobMenu(false)}>
+        <FilterMenuItem
+          onClick={() => {
+            setMobMenu(false);
+          }}
+        >
+          <FlexContainer>
+            <FilterSvg as={FilterIcon} />
+            {t('TRANSACTIONS.FILTER_KEY')}
+          </FlexContainer>
+        </FilterMenuItem>
+        <FilterMenuItem onClick={() => setMobMenu(false)}>
+          <FlexContainer>
+            <FilterSvg as={CalendarIcon} />
+            {formattedDate}
+          </FlexContainer>
+        </FilterMenuItem>
+      </Drawer>
       <PeriodsContainer>
         <PeriodLink
           $isActive={period === 'week'}

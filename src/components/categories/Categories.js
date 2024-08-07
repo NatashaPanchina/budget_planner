@@ -303,7 +303,10 @@ export default function Categories() {
             {t('CATEGORIES.INCOMES')}
           </CategoriesTitleLink>
         </CategoriesTitleContainer>
-        <CategoriesList categories={categories} />
+        <CategoriesList
+          categories={categories}
+          setOpenAddDialog={setOpenDialog}
+        />
       </Grid>
     </>
   );

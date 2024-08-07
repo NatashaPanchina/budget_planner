@@ -450,3 +450,58 @@ export const TransactionsSpan = styled('span')(() => ({
     display: 'flex',
   },
 }));
+
+export const AddTransaction = styled(FlexContainer)((props) => ({
+  justifyContent: 'center',
+  color: props.theme.colors.main.violet,
+  fill: props.theme.colors.main.violet,
+  marginTop: props.theme.spacing(5),
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  cursor: 'pointer',
+  width: 'fit-content',
+  '&:hover': {
+    color: props.theme.colors.main.purple,
+    fill: props.theme.colors.main.purple,
+  },
+  '@media (min-width: 600px)': {
+    fontSize: '1.2rem',
+    fontWeight: 500,
+  },
+}));
+
+export const AddText = styled('span')(() => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+  },
+}));
+
+export const AddSvg = styled('svg')((props) => ({
+  fill: 'inherit',
+  marginRight: props.theme.spacing(2),
+  height: 20,
+  '& path': {
+    fill: 'inherit',
+  },
+}));
+
+export const CalendarContainer = styled(FlexContainer)((props) => ({
+  color: props.theme.colors.text.darker,
+  marginBottom: props.theme.spacing(3),
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  '@media (min-width: 600px)': {
+    display: 'none',
+  },
+}));
+
+export const FilterCalendarSvg = styled('svg')((props) => ({
+  height: 18,
+  width: 18,
+  margin: 0,
+  marginRight: props.theme.spacing(2),
+  '& path': {
+    fill: props.theme.colors.main.gold,
+  },
+}));

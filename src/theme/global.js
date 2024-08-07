@@ -222,9 +222,7 @@ export const TrashHeader = styled(Header)(() => ({
 
 export const HeaderTitle = styled('div')((props) => ({
   fontSize: '1.3rem',
-  paddingRight: props.theme.spacing(4),
   '@media (min-width: 900px)': {
-    paddingRight: 0,
     marginRight: props.theme.spacing(14),
   },
 }));
@@ -912,10 +910,12 @@ export const ArchiveButtonSvg = styled('svg')((props) => ({
 export const NoResultsContainer = styled('div')((props) => ({
   justifyContent: 'center',
   padding: props.theme.spacing(4),
+  width: `calc(100% - ${props.theme.spacing(4 * 2)})`,
 }));
 
-export const NoResults = styled('div')(() => ({
+export const NoResults = styled('div')((props) => ({
   fontSize: '1.2rem',
+  color: props.theme.colors.text.darker,
   textAlign: 'center',
   '@media (min-width: 600px)': {
     fontSize: '0.9rem',

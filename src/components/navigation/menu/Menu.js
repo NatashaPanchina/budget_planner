@@ -217,7 +217,7 @@ function Menu({ username, email, avatar, setToggleMenu }) {
             <div>{t('MENU.SETTINGS')}</div>
           </div>
         </ItemLink>
-        <ItemLink to="/" onClick={() => setToggleMenu(false)}>
+        <ItemLink to={pages.settings.demo} onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={DemoIcon} />

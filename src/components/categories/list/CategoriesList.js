@@ -29,6 +29,9 @@ import {
   EditLinkContainer,
   DeleteMenuItem,
   DeleteSvg,
+  AddSvg,
+  Add,
+  AddText,
 } from '../Categories.styled.js';
 import { Dialog, InputAdornment, MenuItem } from '@mui/material';
 import { useCategoriesSearch } from '../../../hooks/useSearch.js';
@@ -43,7 +46,7 @@ import ArchiveAlert from '../../alerts/ArchiveAlert.js';
 import Notes from '../../shared/Notes.js';
 import FilterItems from '../../shared/FilterItems.js';
 
-function CategoriesList({ categories }) {
+function CategoriesList({ categories, setOpenAddDialog }) {
   const filters = useSelector((state) => state.categories.filters);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -57,6 +60,11 @@ function CategoriesList({ categories }) {
   const archiveCallback = () => {
     dispatch(archiveCategory(clickedCategory.id));
     idbAddItem({ ...clickedCategory, archived: true }, 'categories');
+  };
+  const isEmpty = () => {
+    if (categories.length === 0) return true;
+    if (query === '' && searchData.length === 0) return true;
+    return false;
   };
 
   return (
@@ -87,10 +95,14 @@ function CategoriesList({ categories }) {
           setOpenDialog={setOpenDialog}
         />
       </InfoDialog>
-      {categories.length === 0 ? (
+      {isEmpty() ? (
         <NoResultsContainer>
           <NoResults>
             <div>{t('CATEGORIES.NO_CATEGORIES')}</div>
+            <Add onClick={() => setOpenAddDialog(true)}>
+              <AddSvg as={AddIcon} />
+              <AddText>Add</AddText>
+            </Add>
           </NoResults>
         </NoResultsContainer>
       ) : searchData.length ? (
@@ -167,6 +179,7 @@ function CategoriesList({ categories }) {
         <ArchiveAlert
           setOpen={setOpenDelAlert}
           archiveCallback={archiveCallback}
+          type="CATEGORY"
         />
       </Dialog>
     </>
@@ -175,6 +188,7 @@ function CategoriesList({ categories }) {
 
 CategoriesList.propTypes = {
   categories: PropTypes.array,
+  setOpenAddDialog: PropTypes.func,
 };
 
 export default CategoriesList;

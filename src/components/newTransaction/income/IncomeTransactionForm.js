@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { dinero, toDecimal } from 'dinero.js';
 import { NumericFormatCustom, isCashCorrect } from '../../../utils/format/cash';
 import { ReactComponent as DoneIcon } from '../../../assets/icons/shared/checkMark.svg';
 import { ReactComponent as CancelIcon } from '../../../assets/icons/shared/cancel.svg';
@@ -19,7 +18,7 @@ import {
   TextInputField,
 } from '../../../theme/global.js';
 import dayjs from 'dayjs';
-import { currencies, names } from '../../../utils/constants/currencies.js';
+import { names } from '../../../utils/constants/currencies.js';
 import AddAccount from '../../accounts/addAccount/AddAccount.js';
 import AddCategory from '../../categories/addCategory/AddCategory.js';
 import { doneEventClick } from './utils/index.js';
@@ -49,6 +48,7 @@ function IncomeTransactionForm({
   const [openCategoryDialog, setOpenCategoryDialog] = useState(false);
   const [openAccountDialog, setOpenAccountDialog] = useState(false);
 
+  const [isDisplayCorrect, setIsDisplayCorrect] = useState(false);
   const isCash = isCashCorrect(amount);
   const isDate = isDateCorrect(date);
   const isCategory = Boolean(filteredCategories.length);
@@ -70,8 +70,12 @@ function IncomeTransactionForm({
           setCurrency={setCurrency}
         />
         <NumberInputField
-          error={!isCash}
-          helperText={isCash ? '' : t('NEW_TRANSACTION.AMOUNT_GREATER_ZERO')}
+          error={isDisplayCorrect && !isCash}
+          helperText={
+            isDisplayCorrect && !isCash
+              ? t('NEW_TRANSACTION.AMOUNT_GREATER_ZERO')
+              : ''
+          }
           margin="normal"
           required
           label={t('NEW_TRANSACTION.AMOUNT')}
@@ -90,12 +94,14 @@ function IncomeTransactionForm({
         category={category}
         setCategory={setCategory}
         setOpenCategoryDialog={setOpenCategoryDialog}
+        isDisplayCorrect={isDisplayCorrect}
       />
       <AccountsItems
         accounts={filteredAccounts}
         account={account}
         setAccount={setAccount}
         setOpenAccountDialog={setOpenAccountDialog}
+        isDisplayCorrect={isDisplayCorrect}
       />
       <DateField
         slotProps={{
@@ -126,6 +132,7 @@ function IncomeTransactionForm({
       <AddFormButtonsContainer>
         <DoneButton
           onClick={() => {
+            setIsDisplayCorrect(true);
             if (!isCash || !isDate || !isAccount || !isCategory) return;
             doneEventClick(
               currency,
