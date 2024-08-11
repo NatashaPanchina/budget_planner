@@ -579,6 +579,11 @@
       "DEMO": "Demo",
       "UPLOAD": "Upload",
       "DELETE": "Delete"
+    },
+    "DEMO_INFO": {
+      "YOU_CAN_UPLOAD": "You can upload the demo data to test the application. The data could be deleted any time.",
+      "LOADING": "Loading demo...",
+      "DELETING": "Deleting demo..."
     }
   },
   "ALERTS": {

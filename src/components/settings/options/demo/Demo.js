@@ -1,5 +1,5 @@
-import React from 'react';
-import { Grid } from '@mui/material';
+import React, { useState } from 'react';
+import { Backdrop, Grid } from '@mui/material';
 import { BackLink, BackLinkSvg, Header } from '../../../../theme/global';
 import { pages } from '../../../../utils/constants/pages';
 import { ReactComponent as BackIcon } from '../../../../assets/icons/shared/back.svg';
@@ -11,9 +11,20 @@ import {
   SettingInfoContainer,
   SingleContainer,
 } from '../../Settings.styled';
+import { deleteDemo, loadDemo } from './utils';
+import {
+  Description,
+  LoadingContainer,
+  ProgressContainer,
+} from './Demo.styled';
+import CircularProgressWithLabel from '../../../shared/CircularProgressWithLabel';
 
 export default function Demo() {
   const { t } = useTranslation();
+  const [status, setStatus] = useState('idle');
+  const [deletingStatus, setDeletingStatus] = useState('idle');
+  const [isOpenLoading, setIsOpenLoading] = useState(false);
+  const [isDeletingLoading, setIsDeletingLoading] = useState(false);
 
   return (
     <>
@@ -27,12 +38,53 @@ export default function Demo() {
         <SettingInfoContainer>
           <FirstTitle>{t('SETTINGS.HELP_INFO.DEMO')}</FirstTitle>
           <SingleContainer>
-            <EditButton>{t('SETTINGS.HELP_INFO.UPLOAD')}</EditButton>
+            {t('SETTINGS.DEMO_INFO.YOU_CAN_UPLOAD')}
           </SingleContainer>
           <SingleContainer>
-            <DeleteButton>{t('SETTINGS.HELP_INFO.DELETE')}</DeleteButton>
+            <EditButton
+              onClick={() => {
+                setIsOpenLoading(true);
+                loadDemo(setStatus);
+                setTimeout(() => {
+                  setIsOpenLoading(false);
+                }, 3000);
+              }}
+            >
+              {t('SETTINGS.HELP_INFO.UPLOAD')}
+            </EditButton>
+          </SingleContainer>
+          <SingleContainer>
+            <DeleteButton
+              onClick={() => {
+                setIsDeletingLoading(true);
+                deleteDemo(setDeletingStatus);
+                setTimeout(() => {
+                  setIsDeletingLoading(false);
+                }, 3000);
+              }}
+            >
+              {t('SETTINGS.HELP_INFO.DELETE')}
+            </DeleteButton>
           </SingleContainer>
         </SettingInfoContainer>
+        {isOpenLoading && status === 'success' ? (
+          <LoadingContainer>
+            <Backdrop open={true} />
+            <ProgressContainer>
+              <Description>{t('SETTINGS.DEMO_INFO.LOADING')}</Description>
+              <CircularProgressWithLabel />
+            </ProgressContainer>
+          </LoadingContainer>
+        ) : null}
+        {isDeletingLoading && deletingStatus === 'success' ? (
+          <LoadingContainer>
+            <Backdrop open={true} />
+            <ProgressContainer>
+              <Description>{t('SETTINGS.DEMO_INFO.DELETING')}</Description>
+              <CircularProgressWithLabel />
+            </ProgressContainer>
+          </LoadingContainer>
+        ) : null}
       </Grid>
     </>
   );
