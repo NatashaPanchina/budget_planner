@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Backdrop, Grid } from '@mui/material';
 import { BackLink, BackLinkSvg, Header } from '../../../../theme/global';
 import { pages } from '../../../../utils/constants/pages';
@@ -18,13 +18,30 @@ import {
   ProgressContainer,
 } from './Demo.styled';
 import CircularProgressWithLabel from '../../../shared/CircularProgressWithLabel';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProfileData } from '../../../../actions/Actions';
+import { names } from '../../../../utils/constants/currencies';
 
 export default function Demo() {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const header = useSelector((state) => state.header);
+  const [mainCurrency, setMainCurrency] = useState(names.USD);
   const [status, setStatus] = useState('idle');
   const [deletingStatus, setDeletingStatus] = useState('idle');
   const [isOpenLoading, setIsOpenLoading] = useState(false);
   const [isDeletingLoading, setIsDeletingLoading] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchProfileData());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (header.status === 'succeeded') {
+      if (!header.profile) return;
+      setMainCurrency(header.profile.currency);
+    }
+  }, [header.status, header.profile]);
 
   return (
     <>
@@ -44,7 +61,7 @@ export default function Demo() {
             <EditButton
               onClick={() => {
                 setIsOpenLoading(true);
-                loadDemo(setStatus);
+                loadDemo(setStatus, mainCurrency);
                 setTimeout(() => {
                   setIsOpenLoading(false);
                 }, 3000);

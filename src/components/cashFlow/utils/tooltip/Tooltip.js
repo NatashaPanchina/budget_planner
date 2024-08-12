@@ -36,7 +36,7 @@ function Tooltip({ id, formattedValue, value, totalAmount }) {
           cx="10"
           cy="10"
           r="10"
-          fill={`url(#${id.replaceAll(' ', '_')})`}
+          fill={`url(#${id.replaceAll(/[ ()]/g, '_')})`}
         ></circle>
       </TooltipSvg>
       {id}:<TooltipValue>{formattedValue}</TooltipValue>

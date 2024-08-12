@@ -10,6 +10,7 @@ import {
   addNewTransaction,
 } from '../../../../actions/Actions';
 import { convertCash } from '../../../../utils/rates';
+import { adjustmentsIds } from '../../../../utils/constants/balanceAdjustment';
 
 export const cardDoneHandler = async (
   description,
@@ -65,11 +66,11 @@ export const cardDoneHandler = async (
   idbAddItem(newAccount, 'accounts');
   //create a balance adjustment transaction
   let category = categories.find(
-    (category) => category.description === 'Balance adjustment',
+    (category) => category.id === adjustmentsIds.income,
   );
   if (!category) {
     const newCategory = {
-      id: uuidv4(),
+      id: adjustmentsIds.income,
       creationDate: Date.now(),
       visible: false,
       archived: false,
@@ -157,11 +158,11 @@ export const cashDoneEventHandler = async (
 
   //create a balance adjustment transaction
   let category = categories.find(
-    (category) => category.description === 'Balance adjustment',
+    (category) => category.id === adjustmentsIds.income,
   );
   if (!category) {
     const newCategory = {
-      id: uuidv4(),
+      id: adjustmentsIds.income,
       creationDate: Date.now(),
       visible: false,
       archived: false,

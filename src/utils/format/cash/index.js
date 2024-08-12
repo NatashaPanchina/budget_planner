@@ -34,6 +34,13 @@ export const getFormatProps = (currency) => {
         suffix: ` ${symbols.KZT}`,
         placeholder: '0,00',
       };
+    case names.BYN:
+      return {
+        thousandSeparator: ' ',
+        decimalSeparator: ',',
+        suffix: ` ${symbols.BYN}`,
+        placeholder: '0,00',
+      };
     default:
       return {
         placeholder: '0',
@@ -98,6 +105,13 @@ export const formatDineroOutput = (dineroObject, currency) => {
           currency: currency,
         });
       });
+    case names.BYN:
+      return toDecimal(dineroObject, ({ value }) => {
+        return Number(value).toLocaleString('br-BR', {
+          style: 'currency',
+          currency: currency,
+        });
+      });
     default:
       return '0.00';
   }
@@ -124,6 +138,11 @@ export const formatNumberOutput = (number, currency) => {
       });
     case names.KZT:
       return Number(number).toLocaleString('kk-KZ', {
+        style: 'currency',
+        currency: currency,
+      });
+    case names.BYN:
+      return Number(number).toLocaleString('br-BR', {
         style: 'currency',
         currency: currency,
       });
