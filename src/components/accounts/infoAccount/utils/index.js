@@ -10,6 +10,7 @@ import {
 import { idbAddItem } from '../../../../indexedDB/IndexedDB';
 import { convertCash } from '../../../../utils/rates';
 import { v4 as uuidv4 } from 'uuid';
+import { adjustmentsIds } from '../../../../utils/constants/balanceAdjustment';
 
 export const doneEventHandler = async (
   categories,
@@ -103,27 +104,55 @@ export const doneEventHandler = async (
   }
 
   const type = comparing === -1 ? 'income' : 'expense';
-  let category = categories.find(
-    (category) =>
-      category.description === 'Balance adjustment' && category.type === type,
-  );
-  if (!category) {
-    const newCategory = {
-      id: uuidv4(),
-      creationDate: Date.now(),
-      visible: false,
-      archived: false,
-      type,
-      description: 'Balance adjustment',
-      color: ['#45E9FF', '#4579FF'],
-      icon: 128736,
-      date: toStringDate(new Date()),
-      notes: '',
-      tags: [''],
-    };
-    category = newCategory;
-    dispatch(addNewCategory(newCategory));
-    idbAddItem(newCategory, 'categories');
+  let category = null;
+
+  if (type === 'income') {
+    category = categories.find(
+      (category) => category.id === adjustmentsIds.income,
+    );
+
+    if (!category) {
+      const newCategory = {
+        id: adjustmentsIds.income,
+        creationDate: Date.now(),
+        visible: false,
+        archived: false,
+        type: 'income',
+        description: 'Balance adjustment',
+        color: ['#45E9FF', '#4579FF'],
+        icon: 128736,
+        date: toStringDate(new Date()),
+        notes: '',
+        tags: [''],
+      };
+      category = newCategory;
+      dispatch(addNewCategory(newCategory));
+      idbAddItem(newCategory, 'categories');
+    }
+  }
+  if (type === 'expense') {
+    category = categories.find(
+      (category) => category.id === adjustmentsIds.expense,
+    );
+
+    if (!category) {
+      const newCategory = {
+        id: adjustmentsIds.expense,
+        creationDate: Date.now(),
+        visible: false,
+        archived: false,
+        type: 'expense',
+        description: 'Balance adjustment',
+        color: ['#45E9FF', '#4579FF'],
+        icon: 128736,
+        date: toStringDate(new Date()),
+        notes: '',
+        tags: [''],
+      };
+      category = newCategory;
+      dispatch(addNewCategory(newCategory));
+      idbAddItem(newCategory, 'categories');
+    }
   }
 
   transactionAmount =

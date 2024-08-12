@@ -27,8 +27,10 @@ export function createDescriptions(categories, currentDate, comparedDate) {
 export function createGradientColors(categories, currentDate, comparedDate) {
   let result = {};
   categories.forEach((category) => {
+    //eslint-disable-next-line
+    const desc = category.description.replaceAll(/[ \(\)]/g, '_');
     Object.assign(result, {
-      [category.description.replaceAll(' ', '_')]: category.color,
+      [desc]: category.color,
     });
   });
   const currentDateDesc = currentDate
@@ -55,7 +57,7 @@ export function renderGradients(gradientsColors) {
   for (let key in gradientsColors) {
     result.push(
       linearGradientDef(
-        key.replaceAll(' ', '_'),
+        key.replaceAll(/[ ()]/g, '_'),
         [
           { offset: 0, color: gradientsColors[key][0] },
           { offset: 100, color: gradientsColors[key][1] },
@@ -71,7 +73,7 @@ export function renderGradients(gradientsColors) {
 
 export function renderMatchs(descriptions, currentDate, comparedDate) {
   let result = descriptions.map((desc) => {
-    return { match: { id: desc }, id: desc.replaceAll(' ', '_') };
+    return { match: { id: desc }, id: desc.replaceAll(/[ ()]/g, '_') };
   });
   const currentDateMatch = currentDate
     ? convertPeriod(currentDate.from, currentDate.during, 'EN')

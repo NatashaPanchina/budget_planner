@@ -197,7 +197,6 @@ export const CommonInfoItem = styled('div')((props) => ({
     backgroundColor: props.theme.colors.background.primary,
   },
   '@media (min-width: 900px)': {
-    textAlign: 'left',
     borderRadius: props.theme.borderRadius,
     border: `1px solid ${props.theme.colors.border.item}`,
   },
