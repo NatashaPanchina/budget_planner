@@ -19,13 +19,17 @@ import {
 } from './Demo.styled';
 import CircularProgressWithLabel from '../../../shared/CircularProgressWithLabel';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProfileData } from '../../../../actions/Actions';
+import {
+  fetchProfileData,
+  fetchTransactionsData,
+} from '../../../../actions/Actions';
 import { names } from '../../../../utils/constants/currencies';
 
 export default function Demo() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const header = useSelector((state) => state.header);
+  const { transactions } = useSelector((state) => state.transactions);
   const [mainCurrency, setMainCurrency] = useState(names.USD);
   const [status, setStatus] = useState('idle');
   const [deletingStatus, setDeletingStatus] = useState('idle');
@@ -34,6 +38,7 @@ export default function Demo() {
 
   useEffect(() => {
     dispatch(fetchProfileData());
+    dispatch(fetchTransactionsData());
   }, [dispatch]);
 
   useEffect(() => {
@@ -74,7 +79,7 @@ export default function Demo() {
             <DeleteButton
               onClick={() => {
                 setIsDeletingLoading(true);
-                deleteDemo(setDeletingStatus);
+                deleteDemo(setDeletingStatus, transactions, mainCurrency);
                 setTimeout(() => {
                   setIsDeletingLoading(false);
                 }, 3000);

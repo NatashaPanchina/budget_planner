@@ -33,7 +33,7 @@ const idbLoad = (mainCurrency) => {
   });
 };
 
-const idbDelete = () => {
+const idbDelete = (transactionsIds) => {
   return new Promise((resolve, reject) => {
     idbOpen().then((idb) => {
       const promises = [];
@@ -54,6 +54,18 @@ const idbDelete = () => {
           );
         });
       }
+      transactionsIds.forEach((id) => {
+        promises.push(
+          new Promise((resolve, reject) => {
+            const objectStore = idb
+              .transaction('transactions', 'readwrite')
+              .objectStore('transactions');
+            const putRequest = objectStore.delete(id);
+            putRequest.onsuccess = () => resolve(id);
+            putRequest.onerror = () => reject('idbDeleteDemo Error');
+          }),
+        );
+      });
       Promise.all(promises).then(resolve, () => reject('idbDeleteDemo Error'));
     });
   });
@@ -69,10 +81,27 @@ export const loadDemo = async (setStatus, mainCurrency) => {
   }
 };
 
-export const deleteDemo = async (setDeletingStatus) => {
+export const deleteDemo = async (
+  setDeletingStatus,
+  transactions,
+  mainCurrency,
+) => {
   setDeletingStatus('loading');
   try {
-    await idbDelete();
+    const transactionsIds = transactions
+      .filter((transaction) => {
+        return (
+          data[mainCurrency].accounts.find(
+            (account) => account.id === transaction.account,
+          ) ||
+          data[mainCurrency].categories.find(
+            (category) => category.id === transaction.category,
+          )
+        );
+      })
+      .map((transaction) => transaction.id);
+    console.log(transactionsIds);
+    await idbDelete(transactionsIds);
     setDeletingStatus('success');
   } catch (er) {
     setDeletingStatus('failure');
