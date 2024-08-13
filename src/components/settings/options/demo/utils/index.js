@@ -24,7 +24,7 @@ const getPromises = (idb, mainCurrency) => {
   return promises;
 };
 
-const idbLoad = (mainCurrency) => {
+export const idbLoad = (mainCurrency) => {
   return new Promise((resolve, reject) => {
     idbOpen().then((idb) => {
       const promises = getPromises(idb, mainCurrency);

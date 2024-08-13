@@ -29,6 +29,7 @@ import Signin from '../components/auth/Signin';
 import PrivateRoute from './PrivateRoute';
 import DeletingAccount from '../components/settings/options/account/DeletingAccount';
 import Demo from '../components/settings/options/demo/Demo';
+import LoadDemo from '../components/auth/demo/LoadDemo';
 
 export const router = createBrowserRouter([
   {
@@ -160,6 +161,10 @@ export const router = createBrowserRouter([
   {
     path: '/enterName',
     element: <EnterName />,
+  },
+  {
+    path: '/loadingDemo',
+    element: <LoadDemo />,
   },
   {
     path: '/signin',

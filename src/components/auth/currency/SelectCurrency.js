@@ -29,7 +29,7 @@ const updateCurrency = async (currency, auth, navigate, dispatch) => {
   try {
     await idbUpdateItem(auth.currentUser.uid, data, 'profile');
     dispatch(updateMainCurrency(data.currency));
-    navigate(pages.transactions.main);
+    navigate(pages.loadingDemo);
   } catch (error) {
     console.log(error.message);
   }
@@ -60,7 +60,7 @@ export default function SelectCurrency() {
         <NextLinkContainer
           onClick={() => updateCurrency(currency, auth, navigate, dispatch)}
         >
-          {t('MAIN_CURRENCY.FINISH')}
+          {t('MAIN_CURRENCY.NEXT')}
         </NextLinkContainer>
       </SelectContainer>
     </Container>

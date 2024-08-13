@@ -4,6 +4,7 @@ export const pages = {
   signin: '/signin',
   enterName: '/enterName',
   selectMainCurrency: '/selectMainCurrency',
+  loadingDemo: '/loadingDemo',
   dashboard: '/dashboard',
   transactions: {
     main: '/transactions',
