@@ -17,6 +17,13 @@
   },
   "MAIN_CURRENCY": {
     "SELECT_MAIN_CURRENCY": "For now, please select your main currency. It will be used for all calculations and cash flows in the app.",
+    "NEXT": "Next"
+  },
+  "LOAD_DEMO": {
+    "DESCRIPTION": "You can upload the demo data to test the application. The data could be deleted any time.",
+    "LOAD?": "Load demo?",
+    "YES": "Yes",
+    "NO": "No",
     "FINISH": "Finish"
   },
   "SIGN_IN": {
