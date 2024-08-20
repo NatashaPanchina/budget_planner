@@ -195,8 +195,6 @@ export const Card = styled('div', {
   boxShadow: `0px 7px 20px ${alpha(props.$from, 0.4)}`,
   color: props.theme.colors.white,
   '&:hover': {
-    height: 230,
-    width: 351,
     boxShadow: `0px 7px 20px ${alpha(props.$from, 0.6)}`,
     transition: 'all 0.4s ease-out',
   },

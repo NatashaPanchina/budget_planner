@@ -167,3 +167,46 @@ export const isCashCorrect = (cash) => {
   if (numberCash <= 0) return false;
   return true;
 };
+
+const getAmountWithSymbol = (amount, currency) => {
+  switch (currency) {
+    case names.USD:
+      return `${symbols.USD} ${amount}`;
+    case names.EUR:
+      return `${symbols.EUR} ${amount}`;
+    case names.RUB:
+      return `${amount} ${symbols.RUB}`;
+    case names.KZT:
+      return `${amount} ${symbols.KZT}`;
+    case names.BYN:
+      return `${amount} ${symbols.BYN}`;
+    default:
+      return '0.00';
+  }
+};
+
+export const getDigitAmount = (dineroObj, mainCurrency) => {
+  const amount = toDecimal(dineroObj);
+
+  if (amount < 1000) return getAmountWithSymbol(amount, mainCurrency);
+  if (amount >= 1000000000) {
+    return getAmountWithSymbol(
+      Math.floor(amount / 1000000) + 'b',
+      mainCurrency,
+    );
+  }
+  if (amount >= 1000000) {
+    return getAmountWithSymbol(
+      Math.floor(amount / 1000000) + 'm',
+      mainCurrency,
+    );
+  }
+  if ((amount / 100) % 10 == 0) {
+    return getAmountWithSymbol(Math.floor(amount / 1000) + 'k', mainCurrency);
+  } else {
+    return getAmountWithSymbol(
+      Math.floor(amount / 100) / 10.0 + 'k',
+      mainCurrency,
+    );
+  }
+};

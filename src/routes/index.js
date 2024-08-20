@@ -30,6 +30,7 @@ import PrivateRoute from './PrivateRoute';
 import DeletingAccount from '../components/settings/options/account/DeletingAccount';
 import Demo from '../components/settings/options/demo/Demo';
 import LoadDemo from '../components/auth/demo/LoadDemo';
+import Goals from '../components/goals/Goals';
 
 export const router = createBrowserRouter([
   {
@@ -99,6 +100,10 @@ export const router = createBrowserRouter([
       {
         path: 'categories/trash/:filterType',
         element: <CategoriesTrash />,
+      },
+      {
+        path: '/goals',
+        element: <Goals />,
       },
       {
         path: 'analysis',

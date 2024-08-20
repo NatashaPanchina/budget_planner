@@ -151,7 +151,7 @@ export default function Navigation() {
           </CustomTooltip>
           <CustomTooltip title={t('NAVIGATION.GOALS')} arrow placement="right">
             <HiddenLinkContainer>
-              <Link to="/">
+              <Link to={pages.goals.main}>
                 <Svg as={BudgetIcon} />
                 <LinkTitle>{t('NAVIGATION.GOALS')}</LinkTitle>
               </Link>

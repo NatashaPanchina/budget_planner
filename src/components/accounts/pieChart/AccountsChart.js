@@ -7,6 +7,7 @@ import AccountsChartLegends from './AccountsChartLegends.js';
 import {
   formatDineroOutput,
   formatNumberOutput,
+  getDigitAmount,
 } from '../../../utils/format/cash/index.js';
 import {
   PieChartContainer,
@@ -32,7 +33,7 @@ export const renderTooltip = (id, balance) => {
           cx="10"
           cy="10"
           r="10"
-          fill={`url(#${id.replaceAll(' ', '_')})`}
+          fill={`url(#${id.replaceAll(/[ ()]/g, '_')})`}
         ></circle>
       </TooltipSvg>
       {id}:
@@ -46,7 +47,7 @@ export const renderTooltip = (id, balance) => {
 const renderGradientDefs = (accounts) => {
   return accounts.map((account) => {
     return linearGradientDef(
-      account.description.replaceAll(' ', ''),
+      account.description.replaceAll(/[ ()]/g, '_'),
       [
         { offset: 0, color: account.color[0] },
         { offset: 100, color: account.color[1] },
@@ -62,7 +63,7 @@ const renderMatchs = (accounts) => {
   return accounts.map((account) => {
     return {
       match: { id: account.description },
-      id: account.description.replaceAll(' ', ''),
+      id: account.description.replaceAll(/[ ()]/g, '_'),
     };
   });
 };
@@ -76,7 +77,7 @@ const CenteredBalance = function (totalBalance, mainCurrency) {
         textAnchor="middle"
         alignmentBaseline="middle"
       >
-        {formatDineroOutput(totalBalance, mainCurrency)}
+        {getDigitAmount(totalBalance, mainCurrency)}
       </CenterText>
     );
   };

@@ -58,7 +58,7 @@ import Loading from '../loading/Loading.js';
 import AddAccount from './addAccount/AddAccount.js';
 import { names } from '../../utils/constants/currencies.js';
 import AllFilters from './filters/AllFilters.js';
-import { formatDineroOutput } from '../../utils/format/cash/index.js';
+import { getDigitAmount } from '../../utils/format/cash/index.js';
 
 export default function Accounts() {
   const { status, accounts, filters } = useSelector((state) => state.accounts);
@@ -239,9 +239,7 @@ export default function Accounts() {
       <Grid item xs={12} sm={12} md={8} lg={8}>
         <MobTotalBalance>
           {t('ACCOUNTS.TOTAL_BALANCE')}:
-          <MobBalance>
-            {formatDineroOutput(totalBalance, mainCurrency)}
-          </MobBalance>
+          <MobBalance>{getDigitAmount(totalBalance, mainCurrency)}</MobBalance>
         </MobTotalBalance>
         <CashTitleContainer>
           <CashTitleLink to={pages.accounts.all}>

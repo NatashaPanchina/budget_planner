@@ -320,9 +320,10 @@
   },
   "NEW_TRANSACTION": {
     "TITLE": {
-      "EXPENSE": "New Expense",
-      "INCOME": "New Income",
-      "TRANSFER": "New Transfer"
+      "NEW": "New ",
+      "EXPENSE": "Expense",
+      "INCOME": "Income",
+      "TRANSFER": "Transfer"
     },
     "ORIGIN_ACCOUNT": "Origin Account",
     "DESTINATION_ACCOUNT": "Destination Account",

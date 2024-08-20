@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { dinero } from 'dinero.js';
-import { formatDineroOutput } from '../../../utils/format/cash';
+import { formatDineroOutput, getDigitAmount } from '../../../utils/format/cash';
 import { idbAddItem } from '../../../indexedDB/IndexedDB.js';
 import { ReactComponent as EditIcon } from '../../../assets/icons/shared/edit.svg';
 import { ReactComponent as TransferIcon } from '../../../assets/icons/shared/transfer.svg';
@@ -151,7 +151,7 @@ function AccountsList({
                   <CommonInfoHeader></CommonInfoHeader>
                   <div>
                     <CalcInfoAmount>
-                      {formatDineroOutput(expenses, mainCurrency)}
+                      {getDigitAmount(expenses, mainCurrency)}
                     </CalcInfoAmount>
                     <Stripe $type="expense" />
                   </div>
@@ -162,7 +162,7 @@ function AccountsList({
                   </CommonInfoHeader>
                   <div>
                     <CalcInfoAmount>
-                      {formatDineroOutput(income, mainCurrency)}
+                      {getDigitAmount(income, mainCurrency)}
                     </CalcInfoAmount>
                     <Stripe $type="income" />
                   </div>

@@ -320,9 +320,10 @@
   },
   "NEW_TRANSACTION": {
     "TITLE": {
-      "EXPENSE": "Новый расход",
-      "INCOME": "Новый доход",
-      "TRANSFER": "Новый перевод"
+      "NEW": "Новый ",
+      "EXPENSE": "Расход",
+      "INCOME": "Доход",
+      "TRANSFER": "Перевод"
     },
     "ORIGIN_ACCOUNT": "Отправитель",
     "DESTINATION_ACCOUNT": "Получатель",

@@ -9,10 +9,7 @@ import {
 } from '../utils/gradients';
 import { createData } from '../utils/charts';
 import { ChartsInfoContainer, Pie } from '../CashFlow.styled';
-import {
-  formatDineroOutput,
-  formatNumberOutput,
-} from '../../../utils/format/cash';
+import { formatNumberOutput, getDigitAmount } from '../../../utils/format/cash';
 import { styled } from '@mui/material';
 import { currencies, names } from '../../../utils/constants/currencies';
 import { useSelector } from 'react-redux';
@@ -36,7 +33,7 @@ const CenteredBalance = function (totalAmount, mainCurrency) {
         textAnchor="middle"
         alignmentBaseline="middle"
       >
-        {formatDineroOutput(totalAmount, mainCurrency)}
+        {getDigitAmount(totalAmount, mainCurrency)}
       </CenterText>
     );
   };

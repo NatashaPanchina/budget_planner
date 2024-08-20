@@ -8,9 +8,7 @@ import ExpenseTransactionForm from './expense/ExpenseTransactionForm';
 import IncomeTransactionForm from './income/IncomeTransactionForm';
 
 import TransferTransactionForm from './transfer/TransferTransactionForm';
-import { Header, HeaderTitleLink } from './NewTransaction.styled';
-import { MobHeaderTitle } from '../../theme/global';
-import { getMobileTitle } from './utils';
+import { Header, HeaderTitleLink, TitleSpan } from './NewTransaction.styled';
 import Loading from '../loading/Loading';
 import { names } from '../../utils/constants/currencies';
 
@@ -113,6 +111,7 @@ function NewTransaction({ setOpenDialog, type }) {
           $isActive={transactionType === 'expense'}
           onClick={() => setTransactionType('expense')}
         >
+          <TitleSpan>{t('NEW_TRANSACTION.TITLE.NEW')}</TitleSpan>
           {t('NEW_TRANSACTION.TITLE.EXPENSE')}
         </HeaderTitleLink>
         <HeaderTitleLink
@@ -120,6 +119,7 @@ function NewTransaction({ setOpenDialog, type }) {
           $isActive={transactionType === 'income'}
           onClick={() => setTransactionType('income')}
         >
+          <TitleSpan>{t('NEW_TRANSACTION.TITLE.NEW')}</TitleSpan>
           {t('NEW_TRANSACTION.TITLE.INCOME')}
         </HeaderTitleLink>
         <HeaderTitleLink
@@ -127,10 +127,11 @@ function NewTransaction({ setOpenDialog, type }) {
           $isActive={transactionType === 'transfer'}
           onClick={() => setTransactionType('transfer')}
         >
+          <TitleSpan>{t('NEW_TRANSACTION.TITLE.NEW')}</TitleSpan>
           {t('NEW_TRANSACTION.TITLE.TRANSFER')}
         </HeaderTitleLink>
       </Header>
-      <MobHeaderTitle>{getMobileTitle(transactionType, t)}</MobHeaderTitle>
+      {/* <MobHeaderTitle>{getMobileTitle(transactionType, t)}</MobHeaderTitle> */}
       {header.status === 'loading' ||
       accounts.status === 'loading' ||
       categories.status === 'loading' ? (

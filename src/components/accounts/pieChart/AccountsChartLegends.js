@@ -65,11 +65,11 @@ function AccountsChartLegends({ data, totalBalance, mainCurrency }) {
                 cx={7}
                 cy={7}
                 r={7}
-                fill={`url(#${value.description.replaceAll(' ', '_')})`}
+                fill={`url(#${value.description.replaceAll(/[ ()]/g, '_')})`}
               />
               <defs>
                 <linearGradient
-                  id={value.description.replaceAll(' ', '_')}
+                  id={value.description.replaceAll(/[ ()]/g, '_')}
                   x1="0"
                   y1="0"
                   x2="14"
