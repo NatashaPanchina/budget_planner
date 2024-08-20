@@ -12,6 +12,7 @@ export const FlexContainer = styled('div')(() => ({
 }));
 
 export const Header = styled(AddFormHeader)(() => ({
+  display: 'flex',
   '@media (min-width: 600px)': {
     padding: 0,
   },
@@ -56,8 +57,16 @@ export const HeaderTitleLink = styled(HeaderTitle, {
       : '',
   },
   borderBottom: props.$isActive
-    ? `2px solid ${props.theme.colors.main.violet}`
+    ? `2px solid ${props.theme.colors.main.gold}`
     : '',
+}));
+
+export const TitleSpan = styled('span')((props) => ({
+  display: 'none',
+  '@media (min-width: 600px)': {
+    display: 'flex',
+    marginRight: props.theme.spacing(2),
+  },
 }));
 
 export const Back = styled(BackLink)(() => ({

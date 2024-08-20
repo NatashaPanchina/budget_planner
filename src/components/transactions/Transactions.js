@@ -216,7 +216,7 @@ export default function Transactions() {
         />
       </Drawer>
       <InfoDialog open={openAddDialog} onClose={() => setOpenAddDialog(false)}>
-        <AddTransaction setOpenAddDialog={setOpenAddDialog} />
+        <AddTransaction setOpenDialog={setOpenAddDialog} />
       </InfoDialog>
       <Grid item xs={12} sm={12} md={3} lg={3}>
         <AccountsSlider

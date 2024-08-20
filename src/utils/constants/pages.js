@@ -37,6 +37,9 @@ export const pages = {
       incomes: '/categories/trash/incomes',
     },
   },
+  goals: {
+    main: '/goals',
+  },
   analysis: {
     main: '/analysis',
   },

@@ -9,6 +9,7 @@ import {
   dineroFromFloat,
   formatDineroOutput,
   formatNumberOutput,
+  getDigitAmount,
   isCashCorrect,
 } from '../../../utils/format/cash';
 import {
@@ -189,7 +190,7 @@ function InfoAccount({
             </CommonInfoHeader>
             <div>
               <CalcInfoAmount>
-                {formatDineroOutput(expenses, mainCurrency)}
+                {getDigitAmount(expenses, mainCurrency)}
               </CalcInfoAmount>
               <Stripe $type="expense" />
             </div>
@@ -200,7 +201,7 @@ function InfoAccount({
             </CommonInfoHeader>
             <div>
               <CalcInfoAmount>
-                {formatDineroOutput(income, mainCurrency)}
+                {getDigitAmount(income, mainCurrency)}
               </CalcInfoAmount>
               <Stripe $type="income" />
             </div>
