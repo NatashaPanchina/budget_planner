@@ -193,7 +193,7 @@ function Menu({ username, email, avatar, setToggleMenu }) {
             <div>{t('MENU.CATEGORIES')}</div>
           </div>
         </ItemLink>
-        <ItemLink to="/" onClick={() => setToggleMenu(false)}>
+        <ItemLink to={pages.goals.main} onClick={() => setToggleMenu(false)}>
           <div>
             <div>
               <Svg as={BudgetIcon} />
