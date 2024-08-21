@@ -31,6 +31,7 @@ import {
   IncomeSvg,
   ExpenseSvg,
   FlexContainer,
+  TrashLink,
 } from './Categories.styled.js';
 import {
   Header,
@@ -227,12 +228,12 @@ export default function Categories() {
           </FlexContainer>
         </FilterMenuItem>
         <FilterMenuItem onClick={() => setMobMenu(false)}>
-          <NavLink to={pages.categories.trash.main}>
+          <TrashLink to={pages.categories.trash.main}>
             <FlexContainer>
               <Trash as={TrashIcon} />
               {t('CATEGORIES.ARCHIVED')}
             </FlexContainer>
-          </NavLink>
+          </TrashLink>
         </FilterMenuItem>
       </Drawer>
       <Drawer

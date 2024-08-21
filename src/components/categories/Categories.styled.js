@@ -257,7 +257,6 @@ export const CategoriesDescription = styled(FlexContainer)(() => ({
 }));
 
 export const EditButtons = styled(FlexContainer)((props) => ({
-  display: 'none',
   position: 'absolute',
   top: props.theme.spacing(4),
   right: 0,
@@ -329,4 +328,9 @@ export const AddSvg = styled('svg')((props) => ({
   '& path': {
     fill: 'inherit',
   },
+}));
+
+export const TrashLink = styled(NavLink)(() => ({
+  display: 'flex',
+  width: '100%',
 }));

@@ -277,6 +277,16 @@ export const ToggleButtonSvg = styled(MobItemButtonSvg)(() => ({
   },
 }));
 
+export const TrashToggleSvg = styled(MobItemButtonSvg)(() => ({
+  height: 30,
+  width: 30,
+  padding: 0,
+  '@media (min-width: 900px)': {
+    display: 'flex',
+    position: 'static',
+  },
+}));
+
 export const CommonInfoContainer = styled('div')((props) => ({
   display: 'none',
   '@media (min-width: 600px)': {
@@ -380,4 +390,9 @@ export const AddSvg = styled('svg')((props) => ({
   '& path': {
     fill: 'inherit',
   },
+}));
+
+export const TrashLink = styled(NavLink)(() => ({
+  display: 'flex',
+  width: '100%',
 }));

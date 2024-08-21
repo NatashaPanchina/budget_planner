@@ -26,6 +26,7 @@ import {
   FlexContainer,
   MobTotalBalance,
   MobBalance,
+  TrashLink,
 } from './Accounts.styled.js';
 import {
   Header,
@@ -204,12 +205,12 @@ export default function Accounts() {
           </FlexContainer>
         </FilterMenuItem>
         <FilterMenuItem onClick={() => setMobMenu(false)}>
-          <NavLink to={pages.accounts.trash.main}>
+          <TrashLink to={pages.accounts.trash.main}>
             <FlexContainer>
               <Trash as={TrashIcon} />
               {t('ACCOUNTS.ARCHIVED')}
             </FlexContainer>
-          </NavLink>
+          </TrashLink>
         </FilterMenuItem>
       </Drawer>
       <Drawer

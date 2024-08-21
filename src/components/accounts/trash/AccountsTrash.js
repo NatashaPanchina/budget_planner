@@ -42,9 +42,9 @@ import {
   FlexContainer,
   CardButtonSvg,
   CashListItem,
-  ToggleButtonSvg,
   DeleteMenuItem,
   DeleteSvg,
+  TrashToggleSvg,
 } from '../Accounts.styled';
 import { pages } from '../../../utils/constants/pages';
 import { Dialog, Grid, InputAdornment, MenuItem, styled } from '@mui/material';
@@ -206,7 +206,7 @@ export default function AccountsTrash() {
                         </FlexContainer>
                       </DeleteMenuItem>
                     </ToggleMenu>
-                    <ToggleButtonSvg
+                    <TrashToggleSvg
                       as={ToggleEditIcon}
                       onClick={(event) => {
                         setClickedAccount(account);
