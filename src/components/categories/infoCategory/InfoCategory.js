@@ -48,8 +48,8 @@ import Colors from '../utils/color/Colors.js';
 function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [id, setId] = useState('');
-  const [creationDate, setCreationDate] = useState(Date.now());
   const [categoryType, setCategoryType] = useState('expense');
   const [prevDescription, setPrevDescription] = useState('');
   const [description, setDescription] = useState('');
@@ -71,24 +71,10 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
   const descHelperText = `ADD_CATEGORY.DESCRIPTION_CANT_BE.${isDescription.status.toUpperCase()}`;
 
   const archiveCallback = () => {
+    if (!selectedCategory) return;
     setOpenDialog(false);
-    dispatch(archiveCategory(clickedCategory));
-    idbAddItem(
-      {
-        id,
-        creationDate,
-        visible: true,
-        type: categoryType,
-        description,
-        color: selectedColor,
-        icon,
-        date,
-        notes,
-        tags,
-        archived: true,
-      },
-      'categories',
-    );
+    dispatch(archiveCategory(selectedCategory.is));
+    idbAddItem({ ...selectedCategory, archived: true }, 'categories');
   };
 
   useEffect(() => {
@@ -96,8 +82,8 @@ function InfoCategory({ clickedCategory, categories, setOpenDialog }) {
       (category) => category.id === clickedCategory,
     );
     if (!selectedCategory) return;
+    setSelectedCategory(selectedCategory);
     setId(selectedCategory.id);
-    setCreationDate(selectedCategory.creationDate);
     setCategoryType(selectedCategory.type);
     setPrevDescription(selectedCategory.description);
     setDescription(selectedCategory.description);

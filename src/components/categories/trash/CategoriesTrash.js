@@ -140,13 +140,13 @@ export default function CategoriesTrash() {
               {searchData.length}{' '}
               {t(createLocaleCategories('CATEGORIES_TRASH', searchData.length))}
             </ArchivedCount>
-            {searchData.map((category, index) => {
+            {searchData.map((category) => {
               return (
                 <CategoriesListItem key={category.id}>
                   <CategoriesDescription>
                     <CategorySvg
                       category={category}
-                      fillName={`category${index}`}
+                      fillName={`category${category.id}`}
                     />
                     {category.description}
                   </CategoriesDescription>
