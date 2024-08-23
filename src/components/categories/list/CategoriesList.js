@@ -58,6 +58,7 @@ function CategoriesList({ categories, setOpenAddDialog }) {
   const searchData = useCategoriesSearch(query, categories, false, filters);
   const [openDelAlert, setOpenDelAlert] = useState(false);
   const archiveCallback = () => {
+    if (!clickedCategory) return;
     dispatch(archiveCategory(clickedCategory.id));
     idbAddItem({ ...clickedCategory, archived: true }, 'categories');
   };
@@ -106,7 +107,7 @@ function CategoriesList({ categories, setOpenAddDialog }) {
           </NoResults>
         </NoResultsContainer>
       ) : searchData.length ? (
-        searchData.map((category, index) => {
+        searchData.map((category) => {
           return (
             <React.Fragment key={category.id}>
               <ListItemContainer>
@@ -119,7 +120,7 @@ function CategoriesList({ categories, setOpenAddDialog }) {
                   <CategoriesDescription>
                     <CategorySvg
                       category={category}
-                      fillName={`category${index}`}
+                      fillName={`category${category.id}`}
                     />
                     {category.description}
                   </CategoriesDescription>

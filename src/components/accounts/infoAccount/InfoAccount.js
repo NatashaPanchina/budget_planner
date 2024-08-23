@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { dinero, toDecimal, toSnapshot } from 'dinero.js';
+import { dinero, toDecimal } from 'dinero.js';
 import { colors } from '../../../utils/constants/colors.js';
 import {
   NumericFormatCustom,
-  dineroFromFloat,
   formatDineroOutput,
   formatNumberOutput,
   getDigitAmount,
@@ -67,7 +66,6 @@ import {
   convertPeriod,
   getCurrentMonth,
   isDateCorrect,
-  toStringDate,
 } from '../../../utils/format/date/index.js';
 import {
   isDescriptionCorrect,
@@ -90,6 +88,7 @@ function InfoAccount({
   const header = useSelector((state) => state.header);
   const mainCurrency = header.profile ? header.profile.currency : names.USD;
   const { t } = useTranslation();
+  const [selectedAccount, setSelectedAccount] = useState(null);
   const [id, setId] = useState('');
   const [creationDate, setCreationDate] = useState(Date.now());
   const [accountType, setAccountType] = useState('');
@@ -123,29 +122,10 @@ function InfoAccount({
   );
 
   const archiveCallback = () => {
+    if (!selectedAccount) return;
     setOpenDialog(false);
-    dispatch(archiveAccount(clickedAccount));
-    const newBalance = dineroFromFloat({
-      amount: balance,
-      currency: currencies[currency],
-      scale: 2,
-    });
-    idbAddItem(
-      {
-        id,
-        creationDate,
-        type: accountType,
-        description,
-        formatBalance: balance,
-        balance: toSnapshot(newBalance),
-        color: selectedColor,
-        date: toStringDate(new Date(date.format())),
-        notes,
-        tags,
-        archived: true,
-      },
-      'accounts',
-    );
+    dispatch(archiveAccount(selectedAccount.id));
+    idbAddItem({ ...selectedAccount, archived: true }, 'accounts');
   };
 
   useEffect(() => {
@@ -153,6 +133,7 @@ function InfoAccount({
       (account) => account.id === clickedAccount,
     );
     if (!selectedAccount) return;
+    setSelectedAccount(selectedAccount);
     const balance = selectedAccount.balance;
     setId(selectedAccount.id);
     setCreationDate(selectedAccount.creationDate);

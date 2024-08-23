@@ -194,9 +194,10 @@ export const Card = styled('div', {
   background: `url(${props.$cardBackground}) 0% 0% / cover no-repeat, linear-gradient(90deg, ${props.$from} 0%, ${props.$to} 100%)`,
   boxShadow: `0px 7px 20px ${alpha(props.$from, 0.4)}`,
   color: props.theme.colors.white,
+  transition: 'all 0.3s ease-out',
   '&:hover': {
     boxShadow: `0px 7px 20px ${alpha(props.$from, 0.6)}`,
-    transition: 'all 0.4s ease-out',
+    transform: 'scale(1.02)',
   },
 }));
 
@@ -268,6 +269,16 @@ export const ToggleButtonSvg = styled(MobItemButtonSvg)(() => ({
   position: 'absolute',
   top: 0,
   right: 0,
+  height: 30,
+  width: 30,
+  padding: 0,
+  '@media (min-width: 900px)': {
+    display: 'flex',
+    position: 'static',
+  },
+}));
+
+export const TrashToggleSvg = styled(MobItemButtonSvg)(() => ({
   height: 30,
   width: 30,
   padding: 0,
@@ -380,4 +391,9 @@ export const AddSvg = styled('svg')((props) => ({
   '& path': {
     fill: 'inherit',
   },
+}));
+
+export const TrashLink = styled(NavLink)(() => ({
+  display: 'flex',
+  width: '100%',
 }));

@@ -81,6 +81,7 @@ function AccountsList({
   const searchData = useAccountsSearch(query, accounts, false, filters);
   const [openDelAlert, setOpenDelAlert] = useState(false);
   const archiveCallback = () => {
+    if (!clickedAccount) return;
     dispatch(archiveAccount(clickedAccount.id));
     idbAddItem({ ...clickedAccount, archived: true }, 'accounts');
   };

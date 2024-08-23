@@ -250,6 +250,10 @@ export const CategoriesListItem = styled('div')((props) => ({
   color: props.theme.colors.text.primary,
   position: 'relative',
   cursor: 'pointer',
+  transition: 'all 0.3s ease-out',
+  '&:hover': {
+    transform: 'scale(1.02)',
+  },
 }));
 
 export const CategoriesDescription = styled(FlexContainer)(() => ({
@@ -257,7 +261,6 @@ export const CategoriesDescription = styled(FlexContainer)(() => ({
 }));
 
 export const EditButtons = styled(FlexContainer)((props) => ({
-  display: 'none',
   position: 'absolute',
   top: props.theme.spacing(4),
   right: 0,
@@ -329,4 +332,9 @@ export const AddSvg = styled('svg')((props) => ({
   '& path': {
     fill: 'inherit',
   },
+}));
+
+export const TrashLink = styled(NavLink)(() => ({
+  display: 'flex',
+  width: '100%',
 }));

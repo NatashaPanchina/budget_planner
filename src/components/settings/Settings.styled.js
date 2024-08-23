@@ -49,14 +49,14 @@ export const OptionContainer = styled(NavLink)((props) => ({
   paddingBottom: props.theme.spacing(4),
   fill: props.theme.colors.main.gold,
   color: props.theme.colors.text.primary,
+  transition: 'all 0.3s ease-out',
   '&:hover': {
     boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
     color: props.theme.colors.text.primary,
-    transition: 'all 0.3s ease-out',
+    transform: 'scale(1.05)',
   },
   '@media (min-width: 600px)': {
     flexWrap: 'wrap',
-    color: props.theme.colors.text.darker,
     textAlign: 'center',
     backgroundColor: props.theme.colors.background.primary,
     marginBottom: props.theme.spacing(4),
@@ -219,9 +219,9 @@ export const DeleteButton = styled(EditButton)((props) => ({
   width: 'fit-content',
   border: `1px solid ${props.theme.colors.expense}`,
   color: props.theme.colors.expense,
+  transition: 'box-shadow 0.3s ease-out',
   '&:hover': {
     boxShadow: `0px 4px 10px ${alpha(props.theme.colors.expense, 0.2)}`,
-    transition: 'box-shadow 0.3s ease-out',
   },
   '@media (min-width: 600px)': {
     border: `1px solid ${props.theme.colors.expense}`,
