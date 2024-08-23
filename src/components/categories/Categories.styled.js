@@ -250,6 +250,10 @@ export const CategoriesListItem = styled('div')((props) => ({
   color: props.theme.colors.text.primary,
   position: 'relative',
   cursor: 'pointer',
+  transition: 'all 0.3s ease-out',
+  '&:hover': {
+    transform: 'scale(1.02)',
+  },
 }));
 
 export const CategoriesDescription = styled(FlexContainer)(() => ({

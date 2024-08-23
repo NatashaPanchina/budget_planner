@@ -292,6 +292,10 @@ export const TransactionItem = styled('div')((props) => ({
   boxShadow: `0px 4px 10px ${props.theme.colors.boxShadow}`,
   borderRadius: props.theme.borderRadius,
   boxSizing: 'border-box',
+  transition: 'all 0.3s ease-out',
+  '&:hover': {
+    transform: 'scale(1.02)',
+  },
   '@media (min-width: 768px)': {
     gridTemplateAreas:
       '"category account amount date" "notes notes notes notes"',

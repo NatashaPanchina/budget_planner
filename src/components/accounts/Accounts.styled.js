@@ -194,9 +194,10 @@ export const Card = styled('div', {
   background: `url(${props.$cardBackground}) 0% 0% / cover no-repeat, linear-gradient(90deg, ${props.$from} 0%, ${props.$to} 100%)`,
   boxShadow: `0px 7px 20px ${alpha(props.$from, 0.4)}`,
   color: props.theme.colors.white,
+  transition: 'all 0.3s ease-out',
   '&:hover': {
     boxShadow: `0px 7px 20px ${alpha(props.$from, 0.6)}`,
-    transition: 'all 0.4s ease-out',
+    transform: 'scale(1.02)',
   },
 }));
 
