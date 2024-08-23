@@ -8,7 +8,6 @@ export const Svg = styled('svg')((props) => ({
 }));
 
 function AccountSvg({ account }) {
-  //console.log(account);
   if (!account) return null;
   return (
     <Svg
@@ -24,11 +23,11 @@ function AccountSvg({ account }) {
         width="34"
         height="23"
         rx="5"
-        fill={`url(#${account.description.replaceAll(' ', '_')})`}
+        fill={`url(#${account.id})`}
       ></rect>
       <defs>
         <linearGradient
-          id={account.description.replaceAll(' ', '_')}
+          id={account.id}
           x1="0"
           y1="0"
           x2="34"
